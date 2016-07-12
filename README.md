@@ -43,6 +43,7 @@ cp /path/to/openresty-packaging/rpm/*.patch ./
 cd ~/rpmbuild/SPECS
 cp /path/to/openresty-packaging/rpm/openresty.spec ./
 
+spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
 
 ```
@@ -83,6 +84,7 @@ cp /path/to/openresty-packaging/rpm/*.patch ./
 cd ~/rpmbuild/SPECS
 cp /path/to/openresty-packaging/rpm/openresty.spec ./
 
+spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
 ```
 

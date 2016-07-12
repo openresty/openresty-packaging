@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -10,8 +10,18 @@ Group:          System Environment/Daemons
 License:        BSD
 URL:            https://openresty.org/
 
+
+%define         orprefix            %{_usr}/local/openresty
+%define         openssl_version     1.0.2h
+%define         pcre_version        8.39
+%define         zlib_version        1.2.8
+
+
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
-Source1: 	openresty.init
+Source1:        openresty.init
+Source2:        https://www.openssl.org/source/openssl-%{openssl_version}.tar.gz
+Source3:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
+Source4:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 Patch0:         openresty-%{version}-resty_cli_find_bin.patch
 
@@ -24,9 +34,6 @@ Provides:       openresty-nginx
 # for /sbin/service
 Requires(post):     chkconfig
 Requires(preun):    chkconfig, initscripts
-
-
-%define orprefix    %{_usr}/local/openresty
 
 
 %description
@@ -53,7 +60,10 @@ a single box.
 Summary:        OpenResty command-line utility, resty
 Group:          Development/Tools
 Requires:       perl, openresty-nginx
+
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
+%endif
 
 
 %description resty
@@ -74,7 +84,10 @@ Summary:        OpenResty documentation tool, restydoc
 Group:          Development/Tools
 Requires:       perl
 Provides:       restydoc, restydoc-index, md2pod.pl
+
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
+%endif
 
 
 %description doc
@@ -90,17 +103,24 @@ services, and dynamic web gateways.
 
 %prep
 %setup -q
+%setup -q -b 2
+%setup -q -b 3
+%setup -q -b 4
 
 %patch0 -p1
 
 
 %build
 ./configure \
+    --with-zlib=../zlib-%{zlib_version} \
+    --with-openssl=../openssl-%{openssl_version} \
+    --with-pcre=../pcre-%{pcre_version} \
+    --with-pcre-opt="-DSUPPORT_UTF" \
+    --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \
     --with-ipv6 \
-    --with-pcre-jit \
     --with-stream \
     --with-stream_ssl_module \
     --with-http_stub_status_module \
