@@ -1,7 +1,7 @@
 Name:           openresty
 Version:        1.9.15.1
 Release:        2%{?dist}
-Summary:        Scalable web platform by extending NGINX with Lua
+Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
 
@@ -12,10 +12,14 @@ URL:            https://openresty.org/
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1: 	openresty.init
+
+Patch0:         openresty-%{version}-resty_cli_find_bin.patch
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc, make, pcre-devel, zlib-devel, openssl-devel, perl
-Requires:       perl, pcre, zlib, openssl
+Requires:       pcre, zlib, openssl
+Provides:       openresty-nginx
 
 # for /sbin/service
 Requires(post):     chkconfig
@@ -26,6 +30,9 @@ Requires(preun):    chkconfig, initscripts
 
 
 %description
+This package contains the core server for OpenResty. Built for production
+uses.
+
 OpenResty is a full-fledged web platform by integrating the standard Nginx
 core, LuaJIT, many carefully written Lua libraries, lots of high quality
 3rd-party Nginx modules, and most of their external dependencies. It is
@@ -41,8 +48,48 @@ web applications that are capable to handle 10K ~ 1000K+ connections in
 a single box.
 
 
+%package resty
+
+Summary:        OpenResty command-line utility, resty
+Group:          Development/Tools
+Requires:       perl, openresty-nginx
+
+
+%description resty
+This package contains the "resty" command-line utility for OpenResty, which
+runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
+scene.
+
+OpenResty is a full-fledged web platform by integrating the standard Nginx
+core, LuaJIT, many carefully written Lua libraries, lots of high quality
+3rd-party Nginx modules, and most of their external dependencies. It is
+designed to help developers easily build scalable web applications, web
+services, and dynamic web gateways.
+
+
+%package doc
+
+Summary:        OpenResty documentation tool, restydoc
+Group:          Development/Tools
+Requires:       perl
+Provides:       restydoc, restydoc-index, md2pod.pl
+
+
+%description doc
+This package contains the official OpenResty documentation index and
+the "restydoc" command-line utility for viewing it.
+
+OpenResty is a full-fledged web platform by integrating the standard Nginx
+core, LuaJIT, many carefully written Lua libraries, lots of high quality
+3rd-party Nginx modules, and most of their external dependencies. It is
+designed to help developers easily build scalable web applications, web
+services, and dynamic web gateways.
+
+
 %prep
 %setup -q
+
+%patch0 -p1
 
 
 %build
@@ -65,6 +112,9 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+
+rm -rf %{buildroot}%{orprefix}/luajit/share/man
+rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
@@ -97,18 +147,32 @@ fi
 %defattr(-,root,root,-)
 
 /etc/init.d/openresty
-/usr/bin/resty
-/usr/bin/restydoc
 /usr/bin/openresty
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/bin/*
+%config(noreplace) %{orprefix}/nginx/conf/*
+
+
+%files resty
+%defattr(-,root,root,-)
+
+/usr/bin/resty
+%{orprefix}/bin/resty
+
+
+%files doc
+%defattr(-,root,root,-)
+
+/usr/bin/restydoc
+%{orprefix}/bin/restydoc
+%{orprefix}/bin/restydoc-index
+%{orprefix}/bin/md2pod.pl
+%{orprefix}/bin/nginx-xml2pod
 %{orprefix}/pod/*
 %{orprefix}/resty.index
-%config(noreplace) %{orprefix}/nginx/conf/*
 
 
 %changelog
