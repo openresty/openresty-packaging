@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -123,8 +123,14 @@ services, and dynamic web gateways.
     --with-ipv6 \
     --with-stream \
     --with-stream_ssl_module \
+    --with-http_v2_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
     --with-http_stub_status_module \
     --with-http_realip_module \
+    --with-http_auth_request_module \
+    --with-http_sub_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT' \
     %{?_smp_mflags}
 
