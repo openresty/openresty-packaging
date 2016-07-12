@@ -1,0 +1,61 @@
+diff -urp openresty-1.9.15.1/bundle/resty-cli-0.12/bin/resty openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/resty
+--- openresty-1.9.15.1/bundle/resty-cli-0.12/bin/resty	2016-06-03 17:50:22.000000000 -0700
++++ openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/resty	2016-07-12 12:50:45.436818037 -0700
+@@ -65,9 +65,9 @@ if (!$nginx_path) {
+             $ext = '';
+         }
+     }
+-    $nginx_path = File::Spec->catfile($FindBin::Bin, "..", "nginx", "sbin", "nginx$ext");
++    $nginx_path = File::Spec->catfile($FindBin::RealBin, "..", "nginx", "sbin", "nginx$ext");
+     if (!-f $nginx_path) {
+-        $nginx_path = File::Spec->catfile($FindBin::Bin, "nginx$ext");
++        $nginx_path = File::Spec->catfile($FindBin::RealBin, "nginx$ext");
+         if (!-f $nginx_path) {
+             $nginx_path = "nginx";  # find in PATH
+         }
+diff -urp openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/restydoc
+--- openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc	2016-06-03 17:50:22.000000000 -0700
++++ openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/restydoc	2016-07-12 12:51:04.161322019 -0700
+@@ -43,10 +43,10 @@ if (!defined $pager) {
+     }
+ }
+ 
+-my $index_file = "$FindBin::Bin/../resty.index";
++my $index_file = "$FindBin::RealBin/../resty.index";
+ {
+     if (!-f $index_file) {
+-        my $f = "$FindBin::Bin/resty.index";
++        my $f = "$FindBin::RealBin/resty.index";
+         if (-f $f) {
+             $index_file = $f;
+         }
+@@ -179,7 +179,7 @@ if (!@dists) {
+     die "ERROR: $index_file is empty.\n";
+ }
+ 
+-my $poddir = "$FindBin::Bin/../pod";
++my $poddir = "$FindBin::RealBin/../pod";
+ 
+ if ($section_pat) {
+     $section_pat = lc $section_pat;
+diff -urp openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc-index openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/restydoc-index
+--- openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc-index	2016-06-03 17:50:22.000000000 -0700
++++ openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/restydoc-index	2016-07-12 12:51:13.478124001 -0700
+@@ -17,7 +17,7 @@ GetOptions(
+ ) or die "Usage: $0 [--outdir DIR] DIR\n";
+ 
+ if (!defined $outdir) {
+-    $outdir = "$FindBin::Bin/..";
++    $outdir = "$FindBin::RealBin/..";
+ 
+ } else {
+     $outdir = File::Spec->rel2abs($outdir);
+@@ -135,7 +135,7 @@ sub wanted {
+         #warn $name;
+         #warn "wanted: $File::Find::dir $File::Find::name $_\n";
+         $podfile = "$poddir/$name.pod";
+-        shell("$FindBin::Bin/md2pod.pl -o $podfile $mdfile");
++        shell("$FindBin::RealBin/md2pod.pl -o $podfile $mdfile");
+     }
+ 
+     my $dist_module = process_pod($podfile, $name);
