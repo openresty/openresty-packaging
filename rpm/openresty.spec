@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -53,6 +53,7 @@ a single box.
 Summary:        OpenResty command-line utility, resty
 Group:          Development/Tools
 Requires:       perl, openresty-nginx
+BuildArch:      noarch
 
 
 %description resty
@@ -73,6 +74,7 @@ Summary:        OpenResty documentation tool, restydoc
 Group:          Development/Tools
 Requires:       perl
 Provides:       restydoc, restydoc-index, md2pod.pl
+BuildArch:      noarch
 
 
 %description doc
