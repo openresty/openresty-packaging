@@ -41,11 +41,13 @@ cp /path/to/openresty-packaging/rpm/openresty.init ./
 cp /path/to/openresty-packaging/rpm/*.patch ./
 
 cd ~/rpmbuild/SPECS
-cp /path/to/openresty-packaging/rpm/openresty.spec ./
+cp /path/to/openresty-packaging/rpm/*.spec ./
 
 spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
 
+spectool -g -R perl-Test-Nginx.spec
+rpmbuild -ba perl-Test-Nginx.spec
 ```
 
 If success, binary rpm files are under `~/rpmbuild/RPMS/` while source rpm files are under
@@ -82,10 +84,13 @@ cp /path/to/openresty-packaging/rpm/openresty.init ./
 cp /path/to/openresty-packaging/rpm/*.patch ./
 
 cd ~/rpmbuild/SPECS
-cp /path/to/openresty-packaging/rpm/openresty.spec ./
+cp /path/to/openresty-packaging/rpm/*.spec ./
 
 spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
+
+spectool -g -R perl-Test-Nginx.spec
+rpmbuild -ba perl-Test-Nginx.spec
 ```
 
 See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) for more details.
