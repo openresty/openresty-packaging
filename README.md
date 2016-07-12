@@ -8,7 +8,7 @@ Table of Contents
 
 * [Name](#name)
 * [Fedora](#fedora)
-* [CentOS](#centos)
+* [CentOS/RHEL](#centosrhel)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 * [See Also](#see-also)
@@ -38,6 +38,7 @@ rpmdev-setuptree
 
 cd ~/rpmbuild/SOURCES/
 cp /path/to/openresty-packaging/rpm/openresty.init ./
+cp /path/to/openresty-packaging/rpm/*.patch ./
 
 cd ~/rpmbuild/SPECS
 cp /path/to/openresty-packaging/rpm/openresty.spec ./
@@ -51,10 +52,10 @@ If success, binary rpm files are under `~/rpmbuild/RPMS/` while source rpm files
 
 See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/How_to_create_an_RPM_package) for more details.
 
-CentOS
-======
+CentOS/RHEL
+===========
 
-For CentOS 7:
+For CentOS/RHEL 5+:
 
 ```bash
 # create the makerpm account for building rpms only:
@@ -76,6 +77,7 @@ echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
 
 cd ~/rpmbuild/SOURCES/
 cp /path/to/openresty-packaging/rpm/openresty.init ./
+cp /path/to/openresty-packaging/rpm/*.patch ./
 
 cd ~/rpmbuild/SPECS
 cp /path/to/openresty-packaging/rpm/openresty.spec ./
