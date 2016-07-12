@@ -60,6 +60,7 @@ For CentOS/RHEL 5+:
 ```bash
 # create the makerpm account for building rpms only:
 sudo useradd makerpm
+sudo groupadd mock
 sudo usermod -a -G mock makerpm
 sudo passwd makerpm
 
@@ -67,7 +68,7 @@ sudo passwd makerpm
 sudo yum install rpm-build redhat-rpm-config
 
 # install openresty's build requirements:
-sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
+sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
 
 # login as makerpm:
 sudo su - makerpm
