@@ -19,6 +19,7 @@ Fedora
 For Fedora 22+:
 
 ```bash
+# create the makerpm account for building rpms only:
 sudo useradd makerpm
 sudo usermod -a -G mock makerpm
 sudo passwd makerpm
@@ -29,6 +30,7 @@ sudo dnf install dnf install @development-tools fedora-packager rpmdevtools
 # install openresty's build requirements:
 sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
 
+# login as makerpm:
 sudo su - makerpm
 
 cd ~
@@ -47,17 +49,27 @@ rpmbuild -ba openresty.spec
 If success, binary rpm files are under `~/rpmbuild/RPMS/` while source rpm files are under
 `~/rpmbuld/SRPMS/`.
 
+See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/How_to_create_an_RPM_package) for more details.
+
 CentOS
 ======
 
 For CentOS 7:
 
 ```bash
+# create the makerpm account for building rpms only:
+sudo useradd makerpm
+sudo usermod -a -G mock makerpm
+sudo passwd makerpm
+
 # install rpm build tools:
 sudo yum install rpm-build redhat-rpm-config
 
 # install openresty's build requirements:
 sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
+
+# login as makerpm:
+sudo su - makerpm
 
 mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
@@ -70,6 +82,8 @@ cp /path/to/openresty-packaging/rpm/openresty.spec ./
 
 rpmbuild -ba openresty.spec
 ```
+
+See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) for more details.
 
 Author
 ======
