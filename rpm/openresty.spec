@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
