@@ -36,22 +36,15 @@ sudo su - makerpm
 cd ~
 rpmdev-setuptree
 
-cd ~/rpmbuild/SOURCES/
-cp /path/to/openresty-packaging/rpm/openresty.init ./
-cp /path/to/openresty-packaging/rpm/*.patch ./
+cp /path/to/openresty-packaging/rpm/SOURCES/* ~/rpmbuild/SOURCES/
 
 cd ~/rpmbuild/SPECS
-cp /path/to/openresty-packaging/rpm/*.spec ./
+cp /path/to/openresty-packaging/rpm/SPECS/*.spec ./
 
-spectool -g -R openresty.spec
-rpmbuild -ba openresty.spec
-
-rpmbuild -ba openresty-debug.spec
-
-rpmbuild -ba openresty-valgrind.spec
-
-spectool -g -R perl-Test-Nginx.spec
-rpmbuild -ba perl-Test-Nginx.spec
+for file in *.spec; do
+    spectool -g -R $file
+    rpmbuild -ba $file
+done
 ```
 
 If success, binary rpm files are under `~/rpmbuild/RPMS/` while source rpm files are under
@@ -83,22 +76,15 @@ sudo su - makerpm
 mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
 
-cd ~/rpmbuild/SOURCES/
-cp /path/to/openresty-packaging/rpm/openresty.init ./
-cp /path/to/openresty-packaging/rpm/*.patch ./
+cp /path/to/openresty-packaging/rpm/SOURCES/* ~/rpmbuild/SOURCES/
 
 cd ~/rpmbuild/SPECS
-cp /path/to/openresty-packaging/rpm/*.spec ./
+cp /path/to/openresty-packaging/rpm/SPECS/*.spec ./
 
-spectool -g -R openresty.spec
-rpmbuild -ba openresty.spec
-
-rpmbuild -ba openresty-debug.spec
-
-rpmbuild -ba openresty-valgrind.spec
-
-spectool -g -R perl-Test-Nginx.spec
-rpmbuild -ba perl-Test-Nginx.spec
+for file in *.spec; do
+    spectool -g -R $file
+    rpmbuild -ba $file
+done
 ```
 
 See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) for more details.
