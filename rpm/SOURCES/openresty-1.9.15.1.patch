@@ -87,7 +87,7 @@ diff -urp openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc-index openresty-
  
 +sub get_pod2man_cmd {
 +    my $help = `pod2man --help`;
-+    if ($help =~ /^ \s+ -u \b/x) {
++    if ($help =~ /^ \s+ -u \b/xm) {
 +        return "pod2man -u";
 +    }
 +    return "pod2man";
