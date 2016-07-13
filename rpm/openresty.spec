@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -11,7 +11,7 @@ License:        BSD
 URL:            https://openresty.org/
 
 
-%define         orprefix            %{_usr}/local/openresty
+%define         orprefix            %{_usr}/local/%{name}
 %define         openssl_version     1.0.2h
 %define         pcre_version        8.39
 %define         zlib_version        1.2.8
@@ -29,7 +29,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc, make, pcre-devel, zlib-devel, openssl-devel, perl
 Requires:       pcre, zlib, openssl
-Provides:       openresty-nginx
 
 # for /sbin/service
 Requires(post):     chkconfig
@@ -59,7 +58,7 @@ a single box.
 
 Summary:        OpenResty command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty-nginx
+Requires:       perl, openresty
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
@@ -131,6 +130,8 @@ services, and dynamic web gateways.
     --with-http_realip_module \
     --with-http_auth_request_module \
     --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_gunzip_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT' \
     %{?_smp_mflags}
 
@@ -147,10 +148,10 @@ rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
 ln -sf %{orprefix}/bin/restydoc %{buildroot}/usr/bin/
-ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/openresty
+ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 mkdir -p %{buildroot}/etc/init.d
-%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/openresty
+%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
 
 # to suppress the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -174,8 +175,8 @@ fi
 %files
 %defattr(-,root,root,-)
 
-/etc/init.d/openresty
-/usr/bin/openresty
+/etc/init.d/%{name}
+/usr/bin/%{name}
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
 %{orprefix}/nginx/html/*

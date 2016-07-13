@@ -46,6 +46,10 @@ cp /path/to/openresty-packaging/rpm/*.spec ./
 spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
 
+rpmbuild -ba openresty-debug.spec
+
+rpmbuild -ba openresty-valgrind.spec
+
 spectool -g -R perl-Test-Nginx.spec
 rpmbuild -ba perl-Test-Nginx.spec
 ```
@@ -88,6 +92,10 @@ cp /path/to/openresty-packaging/rpm/*.spec ./
 
 spectool -g -R openresty.spec
 rpmbuild -ba openresty.spec
+
+rpmbuild -ba openresty-debug.spec
+
+rpmbuild -ba openresty-valgrind.spec
 
 spectool -g -R perl-Test-Nginx.spec
 rpmbuild -ba perl-Test-Nginx.spec
