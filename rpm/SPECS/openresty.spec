@@ -153,7 +153,7 @@ ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 mkdir -p %{buildroot}/etc/init.d
 %{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
 
-# to suppress the check-rpath error
+# to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
 
