@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
 Version:        0.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
@@ -23,6 +23,7 @@ BuildRequires:  perl(Test::LongString)
 BuildRequires:  perl(Text::Diff)
 BuildRequires:  perl(Time::HiRes)
 BuildRequires:  perl(URI::Escape)
+BuildRequires:  perl(CPAN)
 Requires:       perl(Encode)
 Requires:       perl(ExtUtils::MakeMaker)
 Requires:       perl(File::Path) >= 2.06_05
