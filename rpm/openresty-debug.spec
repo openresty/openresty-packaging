@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.9.15.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -26,7 +26,6 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc, make, pcre-devel, zlib-devel, openssl-devel, perl
 Requires:       pcre, zlib, openssl
-Provides:       openresty-nginx
 
 
 %description
