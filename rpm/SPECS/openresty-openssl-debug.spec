@@ -1,7 +1,7 @@
-Name:               openresty-openssl
+Name:               openresty-openssl-debug
 Version:            1.0.2h
-Release:            3%{?dist}
-Summary:            OpenSSL library for OpenResty
+Release:            4%{?dist}
+Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
 
@@ -12,24 +12,24 @@ Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      gcc, make
+BuildRequires:      gcc, make, ElectricFence
+Requires:           ElectricFence
 
 
-%define openssl_prefix      %{_usr}/local/openresty/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
 
 %description
-This OpenSSL library build is specifically for OpenResty uses. It may contain
-custom patches from OpenResty.
+This is the debug version of the OpenSSL library build for OpenResty uses.
 
 
 %package devel
 
 Summary:            development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
-Requires:           openresty-openssl
+Requires:           openresty-openssl-debug
 
 %description devel
-Provides C header and static library for OpenResty's OpenSSL library.
+Provides C header and static library for the debug version of OpenResty's OpenSSL library.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -37,8 +37,8 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 %build
 ./config --prefix=%{openssl_prefix} \
-    no-threads \
-    shared -g
+    no-threads no-asm \
+    shared -d -DPURIFY
 
 make %{?_smp_mflags}
 

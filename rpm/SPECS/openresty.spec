@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        9%{?dist}
+Release:        13%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -12,23 +12,21 @@ URL:            https://openresty.org/
 
 
 %define         orprefix            %{_usr}/local/%{name}
-%define         openssl_version     1.0.2h
 %define         pcre_version        8.39
 %define         zlib_version        1.2.8
 
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1:        openresty.init
-Source2:        https://www.openssl.org/source/openssl-%{openssl_version}.tar.gz
-Source3:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
-Source4:        http://zlib.net/zlib-%{zlib_version}.tar.gz
+Source2:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
+Source3:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 Patch0:         openresty-%{version}-resty_cli_find_bin.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, pcre-devel, zlib-devel, openssl-devel, perl
-Requires:       pcre, zlib, openssl
+BuildRequires:  gcc, make, openresty-openssl-devel >= 1.0.2h-3, perl, systemtap-sdt-devel
+Requires:       openresty-openssl >= 1.0.2h-3
 
 # for /sbin/service
 Requires(post):     chkconfig
@@ -104,15 +102,15 @@ services, and dynamic web gateways.
 %setup -q
 %setup -q -b 2
 %setup -q -b 3
-%setup -q -b 4
 
 %patch0 -p1
 
 
 %build
 ./configure \
+    --with-cc-opt="-I%{orprefix}/openssl/include" \
+    --with-ld-opt="-L%{orprefix}/openssl/lib -Wl,-rpath,%{orprefix}/openssl/lib" \
     --with-zlib=../zlib-%{zlib_version} \
-    --with-openssl=../openssl-%{openssl_version} \
     --with-pcre=../pcre-%{pcre_version} \
     --with-pcre-opt="-DSUPPORT_UTF" \
     --with-pcre-jit \
@@ -133,6 +131,7 @@ services, and dynamic web gateways.
     --with-http_dav_module \
     --with-http_gunzip_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT' \
+    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -182,6 +181,7 @@ fi
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 

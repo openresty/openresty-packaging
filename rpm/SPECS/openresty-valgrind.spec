@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.9.15.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -12,20 +12,19 @@ URL:            https://openresty.org/
 
 
 %define         orprefix            %{_usr}/local/%{name}
-%define         openssl_version     1.0.2h
+%define         ssl_debug_prefix    %{_usr}/local/openresty-debug/openssl
 %define         pcre_version        8.39
 %define         zlib_version        1.2.8
 
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
-Source1:        https://www.openssl.org/source/openssl-%{openssl_version}.tar.gz
-Source2:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
-Source3:        http://zlib.net/zlib-%{zlib_version}.tar.gz
+Source1:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
+Source2:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, pcre-devel, zlib-devel, openssl-devel, perl, valgrind-devel
-Requires:       pcre, zlib, openssl, valgrind
+BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl, valgrind-devel
+Requires:       openresty-openssl-debug >= 1.0.2h-4, valgrind
 
 
 %description
@@ -55,17 +54,15 @@ a single box.
 
 %setup -q -b 1 -n "openresty-%{version}"
 %setup -q -b 2 -n "openresty-%{version}"
-%setup -q -b 3 -n "openresty-%{version}"
 
 
 %build
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt='-O0' \
+    --with-cc-opt="-I%{ssl_debug_prefix}/include -O0" \
+    --with-ld-opt="-L%{ssl_debug_prefix}/lib -Wl,-rpath,%{ssl_debug_prefix}/lib" \
     --with-zlib="../zlib-%{zlib_version}" \
-    --with-openssl="../openssl-%{openssl_version}" \
-    --with-openssl-opt="-DPURIFY" \
     --with-pcre="../pcre-%{pcre_version}" \
     --with-pcre-opt="-DSUPPORT_UTF" \
     --with-pcre-jit \
