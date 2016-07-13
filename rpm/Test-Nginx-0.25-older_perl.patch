@@ -1,0 +1,10 @@
+--- Test-Nginx-0.25/Makefile.PL	2015-06-17 00:43:55.000000000 -0700
++++ Test-Nginx-0.25-patched/Makefile.PL	2016-07-12 18:50:58.032916460 -0700
+@@ -21,7 +21,6 @@ requires        ('URI::Escape');
+ requires        ('IO::Select');
+ requires        ('File::Path');
+ requires        ('File::Temp');
+-requires        ('File::Path' => '2.06_05');
+ requires        ('List::MoreUtils');
+ requires        ('List::Util');
+ requires        ('Encode');

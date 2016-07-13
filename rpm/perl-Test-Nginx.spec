@@ -1,17 +1,18 @@
 Name:           perl-Test-Nginx
 Version:        0.25
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Test-Nginx/
 Source0:        http://www.cpan.org/authors/id/A/AG/AGENT/Test-Nginx-%{version}.tar.gz
+Patch0:         Test-Nginx-0.25-older_perl.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl >= 1:5.6.1
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(ExtUtils::MakeMaker)
-BuildRequires:  perl(File::Path) >= 2.06_05
+BuildRequires:  perl(File::Path)
 BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Filter::Util::Call)
 BuildRequires:  perl(HTTP::Response)
@@ -26,7 +27,7 @@ BuildRequires:  perl(URI::Escape)
 BuildRequires:  perl(CPAN)
 Requires:       perl(Encode)
 Requires:       perl(ExtUtils::MakeMaker)
-Requires:       perl(File::Path) >= 2.06_05
+Requires:       perl(File::Path)
 Requires:       perl(File::Temp)
 Requires:       perl(Filter::Util::Call)
 Requires:       perl(HTTP::Response)
@@ -46,6 +47,8 @@ development:
 
 %prep
 %setup -q -n Test-Nginx-%{version}
+
+%patch0 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
