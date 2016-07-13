@@ -59,3 +59,40 @@ diff -urp openresty-1.9.15.1/bundle/resty-cli-0.12/bin/restydoc-index openresty-
      }
  
      my $dist_module = process_pod($podfile, $name);
+--- openresty-1.9.15.1-patched/bundle/resty-cli-0.12/bin/restydoc	2016-07-12 12:51:04.161322019 -0700
++++ openresty-1.9.15.1-patched2/bundle/resty-cli-0.12/bin/restydoc	2016-07-13 16:29:31.227640004 -0700
+@@ -517,7 +517,8 @@ sub process_section_hit {
+     }
+ 
+     my $groff_cmd = get_groff_cmd();
+-    exec("pod2man -u -c '$full_dist_name' "
++    my $pod2man_cmd = get_pod2man_cmd();
++    exec("$pod2man_cmd -c '$full_dist_name' "
+           . " -r -s 7 -n '$module_name' "
+           . "$tmpfile | $groff_cmd | $pager");
+ }
+@@ -550,7 +551,8 @@ sub process_module_hit {
+     }
+ 
+     my $groff_cmd = get_groff_cmd();
+-    exec("pod2man -u -c '$full_dist_name' "
++    my $pod2man_cmd = get_pod2man_cmd();
++    exec("$pod2man_cmd -c '$full_dist_name' "
+           . "-r -s 7 -n '$name' "
+           . "$podfile | $groff_cmd | $pager");
+ }
+@@ -563,6 +565,14 @@ sub get_groff_cmd {
+     return "groff -Tascii -mandoc -Wbreak";
+ }
+ 
++sub get_pod2man_cmd {
++    my $help = `pod2man --help`;
++    if ($help =~ /^ \s+ -u \b/x) {
++        return "pod2man -u";
++    }
++    return "pod2man";
++}
++
+ sub shell {
+     my $cmd = shift;
+ 

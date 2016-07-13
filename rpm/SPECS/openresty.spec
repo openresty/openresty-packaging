@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -21,7 +21,7 @@ Source1:        openresty.init
 Source2:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
 Source3:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
-Patch0:         openresty-%{version}-resty_cli_find_bin.patch
+Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
