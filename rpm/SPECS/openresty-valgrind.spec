@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.9.15.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -23,7 +23,7 @@ Source2:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl, valgrind-devel
+BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl, valgrind-devel, systemtap-sdt-devel
 Requires:       openresty-openssl-debug >= 1.0.2h-4, valgrind
 
 
@@ -85,6 +85,7 @@ a single box.
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
+    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -124,6 +125,7 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 

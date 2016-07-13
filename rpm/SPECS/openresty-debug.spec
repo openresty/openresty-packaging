@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.9.15.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -22,7 +22,7 @@ Source2:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl
+BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl, systemtap-sdt-devel
 Requires:       openresty-openssl-debug >= 1.0.2h-4
 
 
@@ -83,6 +83,7 @@ a single box.
     --with-http_gunzip_module \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -122,6 +123,7 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 
