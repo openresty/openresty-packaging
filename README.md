@@ -7,11 +7,26 @@ Table of Contents
 =================
 
 * [Name](#name)
+* [Description](#description)
 * [Fedora](#fedora)
 * [CentOS/RHEL](#centosrhel)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 * [See Also](#see-also)
+
+Description
+===========
+
+This code repository holds the source for building the official OpenResty pre-built packages published below:
+
+https://openresty.org/en/linux-packages.html
+
+https://openresty.org/en/rpm-packages.html
+
+If you just want to use these pre-built (binary) packages and the corresponding package repositories, just
+following the instructions in these pages.
+
+If you want to hack on or customize these packages yourself, then please read on.
 
 Fedora
 ======
@@ -88,6 +103,8 @@ done
 ```
 
 See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) for more details.
+
+[Back to TOC](#table-of-contents)
 
 Author
 ======
