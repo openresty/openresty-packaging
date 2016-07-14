@@ -25,10 +25,10 @@ https://openresty.org/en/linux-packages.html
 
 https://openresty.org/en/rpm-packages.html
 
-If you just want to use these pre-built (binary) packages and the corresponding package repositories, just
-following the instructions in these pages.
+If you just want to use these pre-built (binary) packages and the corresponding package repositories, then
+simply follow the instructions in these pages instead.
 
-If you want to hack on or customize these packages yourself, then please read on.
+Otherwise, if you want to hack on or customize these packages yourself, for example, please read on.
 
 Supported Systems
 =================
