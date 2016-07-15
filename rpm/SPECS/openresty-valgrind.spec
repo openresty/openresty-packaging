@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.9.15.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -78,10 +78,18 @@ a single box.
     --without-mail_smtp_module \
     --with-http_stub_status_module \
     --with-http_realip_module \
+    --with-http_addition_module \
     --with-http_auth_request_module \
+    --with-http_secure_link_module \
+    --with-http_random_index_module \
+    --with-http_gzip_static_module \
     --with-http_sub_module \
     --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_mp4_module \
     --with-http_gunzip_module \
+    --with-threads \
+    --with-file-aio \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
@@ -130,5 +138,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Jul 14 2016 Yichun Zhang
+- enabled more nginx standard modules as well as threads and file aio.
 * Sun Jul 10 2016 makerpm
 - initial build for OpenResty 1.9.15.1.
