@@ -12,9 +12,6 @@ URL:            https://openresty.org/
 
 
 %define         orprefix            %{_usr}/local/%{name}
-%define         pcre_version        8.39
-%define         zlib_version        1.2.8
-
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1:        openresty.init
@@ -25,8 +22,13 @@ Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, openresty-openssl-devel >= 1.0.2h-3, perl, systemtap-sdt-devel
-Requires:       openresty-openssl >= 1.0.2h-3
+BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  openresty-zlib-devel >= 1.2.8
+BuildRequires:  openresty-openssl-devel >= 1.0.2h-5
+BuildRequires:  openresty-pcre-devel >= 8.3.9
+Requires:       openresty-zlib >= 1.2.8
+Requires:       openresty-openssl >= 1.0.2h-5
+Requires:       openresty-pcre >= 8.3.9
 
 # for /sbin/service
 Requires(post):     chkconfig
@@ -108,11 +110,8 @@ services, and dynamic web gateways.
 
 %build
 ./configure \
-    --with-cc-opt="-I%{orprefix}/openssl/include" \
-    --with-ld-opt="-L%{orprefix}/openssl/lib -Wl,-rpath,%{orprefix}/openssl/lib" \
-    --with-zlib=../zlib-%{zlib_version} \
-    --with-pcre=../pcre-%{pcre_version} \
-    --with-pcre-opt="-DSUPPORT_UTF" \
+    --with-cc-opt="-I%{orprefix}/include -I%{orprefix}/openssl/include" \
+    --with-ld-opt="-L%{orprefix}/%{_lib} -Wl,-rpath,%{orprefix}/%{_lib}" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -165,7 +164,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 
 %clean
-rm -rf %{buildroot}
+#rm -rf %{buildroot}
 
 
 %post
