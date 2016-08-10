@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.9.15.1
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -10,27 +10,31 @@ Group:          System Environment/Daemons
 License:        BSD
 URL:            https://openresty.org/
 
-
-%define         orprefix            %{_usr}/local/%{name}
-%define         pcre_version        8.39
-%define         zlib_version        1.2.8
-
-
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1:        openresty.init
-Source2:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
-Source3:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, openresty-openssl-devel >= 1.0.2h-3, perl, systemtap-sdt-devel
-Requires:       openresty-openssl >= 1.0.2h-3
+BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  openresty-zlib-devel >= 1.2.8
+BuildRequires:  openresty-openssl-devel >= 1.0.2h-5
+BuildRequires:  openresty-pcre-devel >= 8.39
+Requires:       openresty-zlib >= 1.2.8
+Requires:       openresty-openssl >= 1.0.2h-5
+Requires:       openresty-pcre >= 8.39
 
 # for /sbin/service
-Requires(post):     chkconfig
-Requires(preun):    chkconfig, initscripts
+Requires(post):  chkconfig
+Requires(preun): chkconfig, initscripts
+
+AutoReqProv:        no
+
+%define orprefix            %{_usr}/local/%{name}
+%define zlib_prefix         %{orprefix}/zlib
+%define pcre_prefix         %{orprefix}/pcre
+%define openssl_prefix      %{orprefix}/openssl
 
 
 %description
@@ -100,19 +104,14 @@ services, and dynamic web gateways.
 
 %prep
 %setup -q
-%setup -q -b 2
-%setup -q -b 3
 
 %patch0 -p1
 
 
 %build
 ./configure \
-    --with-cc-opt="-I%{orprefix}/openssl/include" \
-    --with-ld-opt="-L%{orprefix}/openssl/lib -Wl,-rpath,%{orprefix}/openssl/lib" \
-    --with-zlib=../zlib-%{zlib_version} \
-    --with-pcre=../pcre-%{pcre_version} \
-    --with-pcre-opt="-DSUPPORT_UTF" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \

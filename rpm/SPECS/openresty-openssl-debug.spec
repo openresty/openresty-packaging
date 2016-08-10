@@ -1,6 +1,6 @@
 Name:               openresty-openssl-debug
 Version:            1.0.2h
-Release:            5%{?dist}
+Release:            6%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -17,8 +17,14 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 BuildRequires:      gcc, make, ElectricFence
 Requires:           ElectricFence
 
+BuildRequires:      openresty-zlib-devel >= 1.2.8
+Requires:           openresty-zlib >= 1.2.8
+
+AutoReqProv:        no
 
 %define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define zlib_prefix         /usr/local/openresty/zlib
+
 
 %description
 This is the debug version of the OpenSSL library build for OpenResty uses.
@@ -26,12 +32,12 @@ This is the debug version of the OpenSSL library build for OpenResty uses.
 
 %package devel
 
-Summary:            development files for OpenResty's OpenSSL library
+Summary:            Debug version of development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
 Requires:           openresty-openssl-debug
 
 %description devel
-Provides C header and static library for the debug version of OpenResty's OpenSSL library.
+Provides C header and static library for the debug version of OpenResty's OpenSSL library. This is the debug version.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -40,9 +46,14 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 
 
 %build
-./config --prefix=%{openssl_prefix} \
+./config \
     no-threads no-asm \
-    shared -d -DPURIFY
+    shared zlib -d -DPURIFY \
+    --openssldir=%{openssl_prefix} \
+    --libdir=lib \
+    -I%{zlib_prefix}/include \
+    -L%{zlib_prefix}/lib \
+    -Wl,-rpath,%{zlib_prefix}/lib
 
 make %{?_smp_mflags}
 
@@ -53,8 +64,9 @@ make install_sw INSTALL_PREFIX=%{buildroot}
 chmod +w %{buildroot}%{openssl_prefix}/lib/*.so
 chmod +w %{buildroot}%{openssl_prefix}/lib/*/*.so
 
-rm -rf %{buildroot}%{openssl_prefix}/bin
-rm -rf %{buildroot}%{openssl_prefix}/ssl
+rm -rf %{buildroot}%{openssl_prefix}/bin/c_rehash
+rm -rf %{buildroot}%{openssl_prefix}/lib/pkgconfig
+rm -rf %{buildroot}%{openssl_prefix}/misc
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -67,15 +79,16 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%attr(0755,root,root) %{openssl_prefix}/bin/openssl
 %attr(0755,root,root) %{openssl_prefix}/lib/*.so*
 %attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
+%attr(0644,root,root) %{openssl_prefix}/openssl.cnf
 
 
 %files devel
 %defattr(-,root,root,-)
 
 %{openssl_prefix}/include/*
-%{openssl_prefix}/lib/pkgconfig/*
 %attr(0755,root,root) %{openssl_prefix}/lib/*.a
 
 

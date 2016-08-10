@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.9.15.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -10,20 +10,24 @@ Group:          System Environment/Daemons
 License:        BSD
 URL:            https://openresty.org/
 
-
-%define         orprefix            %{_usr}/local/%{name}
-%define         pcre_version        8.39
-%define         zlib_version        1.2.8
-
-
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
-Source1:        ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%{pcre_version}.tar.gz
-Source2:        http://zlib.net/zlib-%{zlib_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, openresty-openssl-debug-devel >= 1.0.2h-4, perl, systemtap-sdt-devel
-Requires:       openresty-openssl-debug >= 1.0.2h-4
+BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  openresty-zlib-devel >= 1.2.8
+BuildRequires:  openresty-openssl-debug-devel >= 1.0.2h-6
+BuildRequires:  openresty-pcre-devel >= 8.39
+Requires:       openresty-zlib >= 1.2.8
+Requires:       openresty-openssl-debug >= 1.0.2h-6
+Requires:       openresty-pcre >= 8.39
+
+AutoReqProv:        no
+
+%define orprefix            %{_usr}/local/%{name}
+%define openssl_prefix      %{orprefix}/openssl
+%define zlib_prefix         %{_usr}/local/openresty/zlib
+%define pcre_prefix         %{_usr}/local/openresty/pcre
 
 
 %description
@@ -48,22 +52,15 @@ a single box.
 
 
 %prep
-
 %setup -q -n "openresty-%{version}"
-
-%setup -q -b 1 -n "openresty-%{version}"
-%setup -q -b 2 -n "openresty-%{version}"
 
 
 %build
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt="-I%{orprefix}/openssl/include -O0" \
-    --with-ld-opt="-L%{orprefix}/openssl/lib -Wl,-rpath,%{orprefix}/openssl/lib" \
-    --with-zlib="../zlib-%{zlib_version}" \
-    --with-pcre="../pcre-%{pcre_version}" \
-    --with-pcre-opt="-DSUPPORT_UTF" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
