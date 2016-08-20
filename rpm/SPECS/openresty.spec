@@ -1,29 +1,29 @@
-Name:          openresty
-Version:       1.9.15.1
-Release:       16%{?dist}
-Summary:       OpenResty, scalable web platform by extending NGINX with Lua
+Name:           openresty
+Version:        1.9.15.1
+Release:        17%{?dist}
+Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
-Group:         System Environment/Daemons
+Group:          System Environment/Daemons
 
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
-License:       BSD
-URL:           https://openresty.org/
+License:        BSD
+URL:            https://openresty.org/
 
-Source0:       https://openresty.org/download/openresty-%{version}.tar.gz
-Source1:       openresty.init
+Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
+Source1:        openresty.init
 
-Patch0:        openresty-%{version}.patch
+Patch0:         openresty-%{version}.patch
 
-BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: gcc, make, perl, systemtap-sdt-devel
-BuildRequires: openresty-zlib-devel >= 1.2.8
-BuildRequires: openresty-openssl-devel >= 1.0.2h-5
-BuildRequires: openresty-pcre-devel >= 8.3.9
-Requires:      openresty-zlib >= 1.2.8
-Requires:      openresty-openssl >= 1.0.2h-5
-Requires:      openresty-pcre >= 8.3.9
+BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  openresty-zlib-devel >= 1.2.8
+BuildRequires:  openresty-openssl-devel >= 1.0.2h-5
+BuildRequires:  openresty-pcre-devel >= 8.3.9
+Requires:       openresty-zlib >= 1.2.8
+Requires:       openresty-openssl >= 1.0.2h-5
+Requires:       openresty-pcre >= 8.3.9
 
 # for /sbin/service
 Requires(post):  chkconfig
@@ -55,12 +55,12 @@ a single box.
 
 %package resty
 
-Summary:       OpenResty command-line utility, resty
-Group:         Development/Tools
-Requires:      perl, openresty
+Summary:        OpenResty command-line utility, resty
+Group:          Development/Tools
+Requires:       perl, openresty
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
-BuildArch:     noarch
+BuildArch:      noarch
 %endif
 
 
@@ -78,13 +78,13 @@ services, and dynamic web gateways.
 
 %package doc
 
-Summary:       OpenResty documentation tool, restydoc
-Group:         Development/Tools
-Requires:      perl
-Provides:      restydoc, restydoc-index, md2pod.pl
+Summary:        OpenResty documentation tool, restydoc
+Group:          Development/Tools
+Requires:       perl
+Provides:       restydoc, restydoc-index, md2pod.pl
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
-BuildArch:     noarch
+BuildArch:      noarch
 %endif
 
 
@@ -108,7 +108,7 @@ services, and dynamic web gateways.
 %build
 ./configure \
     --with-cc-opt="-I%{orprefix}/include -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
-    --with-ld-opt="-L%{orprefix}/%{_lib} -L%{zlib_prefix}/%{_lib} -L%{pcre_prefix}/%{_lib} -L%{openssl_prefix}/%{_lib} -Wl,-rpath,%{orprefix}/%{_lib} -Wl,-rpath,%{orprefix}/%{_lib} -Wl,-rpath,%{zlib_prefix}/%{_lib} -Wl,-rpath,%{pcre_prefix}/%{_lib} -Wl,-rpath,%{openssl_prefix}/%{_lib}" \
+    --with-ld-opt="-L%{orprefix}/lib -L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{orprefix}/lib -Wl,-rpath,%{orprefix}/lib -Wl,-rpath,%{zlib_prefix}/lib -Wl,-rpath,%{pcre_prefix}/lib -Wl,-rpath,%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -159,6 +159,8 @@ mkdir -p %{buildroot}/etc/init.d
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
+%clean
+rm -rf %{buildroot}
 
 %post
 /sbin/chkconfig --add %{name}

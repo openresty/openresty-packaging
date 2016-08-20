@@ -1,28 +1,28 @@
-Name:          openresty-openssl
-Version:       1.0.2h
-Release:       5%{?dist}
-Summary:       OpenSSL library for OpenResty
+Name:               openresty-openssl
+Version:            1.0.2h
+Release:            5%{?dist}
+Summary:            OpenSSL library for OpenResty
 
-Group:         Development/Libraries
+Group:              Development/Libraries
 
 # https://www.openssl.org/source/license.html
-License:       OpenSSL
-URL:           https://www.openssl.org/
-Source0:       https://www.openssl.org/source/openssl-%{version}.tar.gz
+License:            OpenSSL
+URL:                https://www.openssl.org/
+Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:        https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.0.2h-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.0.2h-sess_set_get_cb_yield.patch
 
-BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: gcc, make, 
-BuildRequires: openresty-zlib-devel >= 1.2.8
-Requires:      openresty-zlib >= 1.2.8
+BuildRequires:      gcc, make
+BuildRequires:      openresty-zlib-devel >= 1.2.8
+Requires:           openresty-zlib >= 1.2.8
 
 %define openssl_prefix /usr/local/openresty/openssl
-%define zlib_prefix /usr/local/openresty/zlib
+%define zlib_prefix    /usr/local/openresty/zlib
 
 # Do not check openresty files for provides, our internals are not for others.
-AutoReqProv:   no
+AutoReqProv:        no
 
 %description
 This OpenSSL library build is specifically for OpenResty uses. It may contain
@@ -31,9 +31,9 @@ custom patches from OpenResty.
 
 %package devel
 
-Summary:       Development files for OpenResty's OpenSSL library
-Group:         Development/Libraries
-Requires:      openresty-openssl
+Summary:            Development files for OpenResty's OpenSSL library
+Group:              Development/Libraries
+Requires:           openresty-openssl
 
 %description devel
 Provides C header and static library for OpenResty's OpenSSL library.
@@ -47,23 +47,22 @@ Provides C header and static library for OpenResty's OpenSSL library.
 ./config \
   no-threads shared zlib -g \
   --openssldir=%{openssl_prefix} \
+  --libdir=lib \
   -I%{zlib_prefix}/include \
-  -L%{zlib_prefix}/%{_lib} \
-  -Wl,-rpath,%{zlib_prefix}/%{_lib} \
-  -Wl,-rpath,%{openssl_prefix}/%{_lib}
+  -L%{zlib_prefix}/lib \
+  -Wl,-rpath,%{zlib_prefix}/lib \
+  -Wl,-rpath,%{openssl_prefix}/lib
 make %{?_smp_mflags}
 
 
 %install
 make install_sw INSTALL_PREFIX=%{buildroot}
 
-mv -f %{buildroot}%{openssl_prefix}/lib %{buildroot}%{openssl_prefix}/%{_lib}
-chmod 0755 %{buildroot}%{openssl_prefix}/%{_lib}/*.so*
-chmod 0755 %{buildroot}%{openssl_prefix}/%{_lib}/*/*.so*
+chmod 0755 %{buildroot}%{openssl_prefix}/lib/*.so*
+chmod 0755 %{buildroot}%{openssl_prefix}/lib/*/*.so*
 
 rm -rf %{buildroot}%{openssl_prefix}/bin/c_rehash
-rm -rf %{buildroot}%{openssl_prefix}/%{_lib}/*.a
-rm -rf %{buildroot}%{openssl_prefix}/%{_lib}/pkgconfig
+rm -rf %{buildroot}%{openssl_prefix}/lib/pkgconfig
 rm -rf %{buildroot}%{openssl_prefix}/misc
 rm -rf %{buildroot}%{openssl_prefix}/openssl.cnf
 
@@ -78,11 +77,12 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %attr(0755,root,root) %{openssl_prefix}/bin/openssl
-%attr(0755,root,root) %{openssl_prefix}/%{_lib}/*.so*
-%attr(0755,root,root) %{openssl_prefix}/%{_lib}/*/*.so*
+%attr(0755,root,root) %{openssl_prefix}/lib/*.so*
+%attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
 
 %files devel
 %defattr(-,root,root,-)
+%{openssl_prefix}/lib/*.a
 %{openssl_prefix}/include/*
 
 
