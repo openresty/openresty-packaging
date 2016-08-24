@@ -72,5 +72,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Aug 10 2016 makerpm
-- initial build for pcre 8.3.9
+* Wed Aug 23 2016 zxcvbn4038
+- initial build for pcre 8.39.

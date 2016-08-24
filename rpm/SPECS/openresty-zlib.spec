@@ -69,5 +69,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Aug 10 2016 makerpm
-- initial build for zlib 1.2.8 lib
+* Wed Aug 23 2016 zxcvbn4038
+- initial build for zlib 1.2.8.

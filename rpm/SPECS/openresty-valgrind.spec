@@ -137,6 +137,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Aug 23 2016 zxcvbn4038
+- use external packages openresty-zlib and openresty-pcre through dynamic linking.
 * Sun Jul 14 2016 Yichun Zhang
 - enabled more nginx standard modules as well as threads and file aio.
 * Sun Jul 10 2016 makerpm
