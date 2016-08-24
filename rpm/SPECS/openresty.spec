@@ -1,6 +1,6 @@
 Name:           openresty
-Version:        1.9.15.1
-Release:        17%{?dist}
+Version:        1.11.2.1
+Release:        2%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -13,7 +13,7 @@ URL:            https://openresty.org/
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1:        openresty.init
 
-Patch0:         openresty-%{version}.patch
+#Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -105,7 +105,7 @@ services, and dynamic web gateways.
 %prep
 %setup -q
 
-%patch0 -p1
+#%patch0 -p1
 
 
 %build
@@ -183,6 +183,8 @@ fi
 
 /etc/init.d/%{name}
 /usr/bin/%{name}
+%{orprefix}/bin/openresty
+%{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
 %{orprefix}/nginx/html/*
@@ -212,7 +214,9 @@ fi
 
 
 %changelog
-* Wed Aug 23 2016 zxcvbn4038
+* Wed Aug 24 2016 Yichun Zhang
+- bump OpenResty version to 1.11.2.1.
+* Tue Aug 23 2016 zxcvbn4038
 - use external packages openresty-zlib and openresty-pcre through dynamic linking.
 * Sun Jul 14 2016 Yichun Zhang
 - enabled more nginx standard modules as well as threads and file aio.

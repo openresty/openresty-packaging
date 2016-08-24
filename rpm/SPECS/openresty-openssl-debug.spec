@@ -93,5 +93,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Aug 23 2016 zxcvbn4038
+- use openresty-zlib instead of the system one.
 * Sun Jul 13 2016 makerpm
 - initial build for OpenSSL 1.0.2h.
