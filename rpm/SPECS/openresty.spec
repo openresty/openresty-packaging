@@ -214,6 +214,9 @@ fi
 
 
 %changelog
+* Fri Aug 26 2016 Yichun Zhang
+- use dual number mode in our luajit builds which should usually
+be faster for web application use cases.
 * Wed Aug 24 2016 Yichun Zhang
 - bump OpenResty version to 1.11.2.1.
 * Tue Aug 23 2016 zxcvbn4038
