@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -137,7 +137,7 @@ services, and dynamic web gateways.
     --with-http_gunzip_module \
     --with-threads \
     --with-file-aio \
-    --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     --with-dtrace-probes \
     %{?_smp_mflags}
 

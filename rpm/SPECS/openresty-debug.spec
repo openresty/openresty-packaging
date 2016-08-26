@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.11.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -87,7 +87,7 @@ a single box.
     --with-threads \
     --with-file-aio \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
     --with-dtrace-probes \
     %{?_smp_mflags}
 
