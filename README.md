@@ -88,6 +88,7 @@ sudo passwd makerpm
 
 # install rpm build tools:
 sudo yum install rpm-build redhat-rpm-config rpmdevtools
+sudo yum install gcc-c++
 
 # install openresty's build requirements:
 sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
