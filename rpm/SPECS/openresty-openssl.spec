@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.0.2h
-Release:            5%{?dist}
+Version:            1.0.2i
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -91,6 +91,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Sep 24 2016 Yichun Zhang (agentzh)
+- upgrade to OpenSSL 1.0.2i.
 * Tue Aug 23 2016 zxcvbn4038
 - use openresty-zlib instead of the system one.
 * Sun Jul 13 2016 makerpm
