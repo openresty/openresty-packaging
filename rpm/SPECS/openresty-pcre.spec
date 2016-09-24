@@ -39,6 +39,7 @@ Development files for Perl-compatible regular expression library for use by Open
 %build
 ./configure \
   --prefix=%{pcre_prefix} \
+  --disable-cpp \
   --enable-jit \
   --enable-utf \
   --enable-unicode-properties
