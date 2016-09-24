@@ -90,7 +90,8 @@ sudo passwd makerpm
 sudo yum install rpm-build redhat-rpm-config rpmdevtools
 
 # install openresty's build requirements:
-sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper libtool ElectricFence systemtap-sdt-devel valgrind-devel
+sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl \
+    perl-Data-Dumper libtool ElectricFence systemtap-sdt-devel valgrind-devel
 
 # login as makerpm:
 sudo su - makerpm
