@@ -11,6 +11,7 @@ Table of Contents
 * [Supported Systems](#supported-systems)
     * [Fedora](#fedora)
     * [CentOS/RHEL](#centosrhel)
+    * [Ubuntu](#ubuntu)
 * [TODO](#todo)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
@@ -114,10 +115,44 @@ See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) fo
 
 [Back to TOC](#table-of-contents)
 
+Ubuntu
+------
+
+For Ubuntu 14.04+:
+
+```bash
+sudo apt install dh-systemd systemtap-sdt-dev perl gpg curl make build-essential dh-make bzr-builddeb
+
+cd /path/to/openresty-packaging/deb/
+make zlib-build
+make pcre-build
+make openssl-build
+make openssl-debug-build
+make openresty-build
+make openresty-debug-build
+make openresty-valgrind-build
+```
+
+To generate degian source packages for uploading to Launchpad PPA servers, one can add the `OPTS=-S` argument, as in
+
+```bash
+make zlib-build OPTS=-S
+make pcre-build OPTS=-S
+```
+
+It is also possible to generate debian source packages for any other Ubuntu codenames. For example:
+
+```bash
+make zlib-build DISTRO=trusty
+make zlib-build OPTS=-S DISTRO=trusty
+```
+
+[Back to TOC](#table-of-contents)
+
 TODO
 ====
 
-* Add source for Debian/Ubuntu packaging.
+* Add source for Debian packaging.
 
 [Back to TOC](#table-of-contents)
 

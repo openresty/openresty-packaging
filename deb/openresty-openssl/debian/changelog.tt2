@@ -1,0 +1,11 @@
+openresty-openssl (1.0.2k-2~[% distro %]1) [% distro %]; urgency=low
+
+  * Skips tests in builds.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 30 Apr 2017 17:52:32 +0800
+
+openresty-openssl (1.0.2k-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 30 Apr 2017 17:52:32 +0800

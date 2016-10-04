@@ -1,0 +1,13 @@
+openresty*/[^d]*
+openresty*/d[^e]*
+openresty*/de[^b]*
+openresty*/*.*
+openresty*/debian/openresty*
+openresty*/debian/tmp/
+openresty*/debian/files
+openresty*/debian/debhelper-build-stamp
+openresty*/debian/.debhelper/
+upload
+go
+[a-z].txt
+*.upload

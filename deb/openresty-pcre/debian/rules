@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
+#DH_VERBOSE = 1
+
+# see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+# see FEATURE AREAS in dpkg-buildflags(1)
+#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# see ENVIRONMENT in dpkg-buildflags(1)
+# package maintainers to append CFLAGS
+#export DEB_CFLAGS_MAINT_APPEND  = -Wall -pedantic
+# package maintainers to append LDFLAGS
+#export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed
+
+
+export NO_PKG_MANGLE=1
+
+# main packaging script based on dh7 syntax
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_configure:
+	./configure \
+	  --prefix=/usr/local/openresty/pcre \
+	  --disable-cpp \
+	  --enable-jit \
+	  --enable-utf \
+	  --enable-unicode-properties
+
+override_dh_usrlocal:
+
+override_dh_install:
+	dh_install
+	rm -rf $DESTDIR/usr/local/openresty/pcre/bin
+	rm -rf $DESTDIR/usr/local/openresty/pcre/share
+	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*.la
+	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*pcrecpp*
+	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*pcreposix*
+	rm -rf $DESTDIR/usr/local/openresty/pcre/lib/pkgconfig
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-pcre-dbgsym

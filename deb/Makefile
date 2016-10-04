@@ -1,0 +1,173 @@
+### Makefile ---
+
+## Author: shell@xps13
+## Version: $Id: Makefile,v 0.0 2017/03/22 04:56:03 shell Exp $
+## Keywords:
+## X-URL:
+
+JOBS=8
+ZLIB_VER=1.2.11
+PCRE_VER=8.40
+SSL_VER=1.0.2k
+OR_VER=1.11.2.3
+OPTS=
+DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+
+.PHONY: build
+build: zlib-build pcre-build openssl-build \
+	openssl-debug-build openresty-build openresty-debug-build \
+	openresty-valgrind-build
+
+.PHONY: clean
+clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
+	openresty-clean openresty-debug-clean openresty-valgrind-clean
+
+.PHONY: zlib-download
+zlib-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
+	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
+
+.PHONY: zlib-build
+zlib-build: | zlib-clean zlib-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
+	cd openresty-zlib \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: zlib-clean
+zlib-clean:
+	cd openresty-zlib && debclean
+	find openresty-zlib -maxdepth 1 ! -name 'debian' ! -name 'openresty-zlib' -print | xargs rm -rf
+	rm -f openresty-zlib*.deb
+	rm -f openresty-zlib_*.*
+	#rm -f zlib-$(ZLIB_VER).tar.gz
+
+.PHONY: pcre-download
+pcre-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2'
+	cp pcre-$(PCRE_VER).tar.bz2 openresty-pcre_$(PCRE_VER).orig.tar.bz2
+
+.PHONY: pcre-build
+pcre-build: | pcre-clean pcre-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-pcre_$(PCRE_VER).orig.tar.bz2 --strip-components=1 -C openresty-pcre
+	cd openresty-pcre \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-pcre*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: pcre-clean
+pcre-clean:
+	cd openresty-pcre && debclean
+	find openresty-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-pcre' -print | xargs rm -rf
+	rm -f openresty-pcre*.deb
+	rm -f openresty-pcre_*.*
+	#rm -f pcre-$(PCRE_VER).tar.bz2
+
+.PHONY: openssl-download
+openssl-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
+	cp openssl-$(SSL_VER).tar.gz openresty-openssl_$(SSL_VER).orig.tar.gz
+	cp openssl-$(SSL_VER).tar.gz openresty-openssl-debug_$(SSL_VER).orig.tar.gz
+
+.PHONY: openssl-build
+openssl-build: | openssl-clean openssl-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl
+	cd openresty-openssl \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openssl-debug-build
+openssl-debug-build: | openssl-debug-clean openssl-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
+	cd openresty-openssl-debug \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild -sa $(OPTS) -j$(JOBS)
+	#for f in openresty-openssl-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openssl-clean
+openssl-clean:
+	cd openresty-openssl && debclean
+	find openresty-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl' -print | xargs rm -rf
+	rm -f openresty-openssl*.deb
+	rm -f openresty-openssl_*.*
+
+.PHONY: openssl-debug-clean
+openssl-debug-clean:
+	cd openresty-openssl-debug && debclean
+	find openresty-openssl-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl-debug' -print | xargs rm -rf
+	rm -f openresty-openssl*.deb
+	rm -f openresty-openssl-debug_*.*
+
+.PHONY: openresty-download
+openresty-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
+	cp openresty-$(OR_VER).tar.gz openresty_$(OR_VER).orig.tar.gz
+	cp openresty-$(OR_VER).tar.gz openresty-debug_$(OR_VER).orig.tar.gz
+	cp openresty-$(OR_VER).tar.gz openresty-valgrind_$(OR_VER).orig.tar.gz
+
+.PHONY: openresty-build
+openresty-build: | openresty-clean openresty-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
+	cd openresty \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openresty-clean
+openresty-clean:
+	cd openresty && debclean
+	find openresty -maxdepth 1 ! -name 'debian' ! -name 'openresty' -print | xargs rm -rf
+	rm -f openresty*.deb
+	rm -f openresty_*.*
+
+.PHONY: openresty-debug-build
+openresty-debug-build: | openresty-debug-clean openresty-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
+	cd openresty-debug \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild -sa $(OPTS) -j$(JOBS)
+	#for f in openresty-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openresty-debug-clean
+openresty-debug-clean:
+	cd openresty-debug && debclean
+	find openresty-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-debug' -print | xargs rm -rf
+	rm -f openresty-debug*.deb
+	rm -f openresty-debug_*.*
+
+.PHONY: openresty-valgrind-build
+openresty-valgrind-build: | openresty-valgrind-clean openresty-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
+	cd openresty-valgrind \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild -sa $(OPTS) -j$(JOBS)
+	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openresty-valgrind-clean
+openresty-valgrind-clean:
+	cd openresty-valgrind && debclean
+	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
+	rm -f openresty-valgrind*.deb
+	rm -f openresty-valgrind_*.*
+
+### Makefile ends here

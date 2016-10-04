@@ -1,0 +1,5 @@
+openresty-debug (1.11.2.3-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 01 May 2017 01:52:01 +0800

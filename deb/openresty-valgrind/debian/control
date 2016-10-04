@@ -1,0 +1,41 @@
+Source: openresty-valgrind
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
+ systemtap-sdt-dev, valgrind,
+ openresty-zlib-dev, openresty-openssl-debug-dev, openresty-pcre-dev,
+ perl, libfile-temp-perl
+Standards-Version: 3.9.8
+Homepage: http://openresty.org/
+
+Package: openresty-valgrind
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, valgrind,
+ openresty-zlib, openresty-openssl-debug, openresty-pcre
+Description: valgrind debug version of OpenResty core server
+ This package contains the debug version of the core server for OpenResty.
+ Built for development purposes only.
+ .
+ DO NOT USE THIS PACKAGE IN PRODUCTION!
+ .
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ .
+ By taking advantage of various well-designed Nginx modules (most of which
+ are developed by the OpenResty team themselves), OpenResty effectively
+ turns the nginx server into a powerful web app server, in which the web
+ developers can use the Lua programming language to script various existing
+ nginx C modules and Lua modules and construct extremely high-performance
+ web applications that are capable to handle 10K ~ 1000K+ connections in
+ a single box.
+
+Package: openresty-valgrind-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-valgrind
+Description: Debug symbols of OpenResty packages - valgrind debug version
+ Debug symbols of OpenResty packages
