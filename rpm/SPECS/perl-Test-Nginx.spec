@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
 Version:        0.25
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
@@ -45,7 +45,7 @@ Requires:       perl(Test::LongString)
 Requires:       perl(Text::Diff)
 Requires:       perl(Time::HiRes)
 Requires:       perl(URI::Escape)
-Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+#Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description
 This distribution provides two testing modules for Nginx C module
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-7
+- No longer require a particular perl version.
 * Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-6
 - Improve the dependency list.
 * Tue Jul 12 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-1
