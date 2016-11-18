@@ -1,6 +1,6 @@
 Name:           openresty
-Version:        1.11.2.1
-Release:        3%{?dist}
+Version:        1.11.2.2
+Release:        2%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -18,12 +18,12 @@ Source1:        openresty.init
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.8
-BuildRequires:  openresty-openssl-devel >= 1.0.2h-5
-BuildRequires:  openresty-pcre-devel >= 8.39
-Requires:       openresty-zlib >= 1.2.8
+BuildRequires:  openresty-zlib-devel >= 1.2.8-1
+BuildRequires:  openresty-openssl-devel >= 1.0.2j-1
+BuildRequires:  openresty-pcre-devel >= 8.39-3
+Requires:       openresty-zlib >= 1.2.8-1
 Requires:       openresty-openssl >= 1.0.2h-5
-Requires:       openresty-pcre >= 8.39
+Requires:       openresty-pcre >= 8.39-3
 
 # for /sbin/service
 Requires(post):  chkconfig
@@ -60,7 +60,7 @@ a single box.
 
 Summary:        OpenResty command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty
+Requires:       perl, openresty >= %{version}-%{release}
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
@@ -100,6 +100,22 @@ core, LuaJIT, many carefully written Lua libraries, lots of high quality
 3rd-party Nginx modules, and most of their external dependencies. It is
 designed to help developers easily build scalable web applications, web
 services, and dynamic web gateways.
+
+
+%package opm
+
+Summary:        OpenResty Package Manager
+Group:          Development/Tools
+Requires:       perl, openresty >= %{version}-%{release}
+Provides:       opm
+
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
+BuildArch:      noarch
+%endif
+
+
+%description opm
+This package provides the client side tool, opm, for OpenResty Pakcage Manager (OPM).
 
 
 %prep
@@ -154,6 +170,7 @@ rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
 ln -sf %{orprefix}/bin/restydoc %{buildroot}/usr/bin/
+ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 mkdir -p %{buildroot}/etc/init.d
@@ -213,7 +230,18 @@ fi
 %{orprefix}/resty.index
 
 
+%files opm
+%defattr(-,root,root,-)
+
+/usr/bin/opm
+%{orprefix}/bin/opm
+%{orprefix}/site/manifest/
+%{orprefix}/site/pod/
+
+
 %changelog
+* Thu Nov 17 2016 Yichun Zhang
+- upgraded OpenResty to 1.11.2.2.
 * Fri Aug 26 2016 Yichun Zhang
 - use dual number mode in our luajit builds which should usually
 be faster for web application use cases.
@@ -221,7 +249,7 @@ be faster for web application use cases.
 - bump OpenResty version to 1.11.2.1.
 * Tue Aug 23 2016 zxcvbn4038
 - use external packages openresty-zlib and openresty-pcre through dynamic linking.
-* Sun Jul 14 2016 Yichun Zhang
+* Thu Jul 14 2016 Yichun Zhang
 - enabled more nginx standard modules as well as threads and file aio.
 * Sun Jul 10 2016 makerpm
 - initial build for OpenResty 1.9.15.1.
