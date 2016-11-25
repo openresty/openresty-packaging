@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.2
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -106,8 +106,8 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty >= %{version}-%{release}
-Provides:       opm
+Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
+#BuildRequires:  perl(Digest::MD5)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
@@ -240,6 +240,8 @@ fi
 
 
 %changelog
+* Fri Nov 25 2016 Yichun Zhang
+- opm missing runtime dependency perl(Digest::MD5)
 * Thu Nov 17 2016 Yichun Zhang
 - upgraded OpenResty to 1.11.2.2.
 * Fri Aug 26 2016 Yichun Zhang
