@@ -78,6 +78,16 @@ core, LuaJIT, many carefully written Lua libraries, lots of high quality
 designed to help developers easily build scalable web applications, web
 services, and dynamic web gateways.
 
+%package devel
+
+Summary:        OpenResty development package.
+Group:          System Environment/Daemons
+Provides:       openresty-devel
+Requires:       openresty >= %{version}-%{release}
+
+%description devel
+This packages contains the required headers needed for building against
+OpenResty and Nginx.
 
 %package doc
 
@@ -218,6 +228,10 @@ fi
 /usr/bin/resty
 %{orprefix}/bin/resty
 
+%files devel
+%defattr(-,root,root,-)
+
+/usr/include/nginx/*.h
 
 %files doc
 %defattr(-,root,root,-)
