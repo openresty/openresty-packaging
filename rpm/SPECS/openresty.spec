@@ -81,9 +81,9 @@ services, and dynamic web gateways.
 %package devel
 
 Summary:        OpenResty development package.
-Group:          System Environment/Daemons
-Provides:       openresty-devel
+Group:          Development/Tools
 Requires:       openresty >= %{version}-%{release}
+Provides:       openresty-devel
 
 %description devel
 This packages contains the required headers needed for building against
@@ -230,6 +230,8 @@ fi
 
 %files devel
 %defattr(-,root,root,-)
+{or_prefix}/nginx/include
+{or_prefix}/nginx/objs
 
 /usr/include/nginx/*.h
 
