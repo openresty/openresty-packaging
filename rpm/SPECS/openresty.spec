@@ -230,10 +230,9 @@ fi
 
 %files devel
 %defattr(-,root,root,-)
-{or_prefix}/nginx/include
-{or_prefix}/nginx/objs
-
-/usr/include/nginx/*.h
+%{or_prefix}/nginx/include/
+%{or_prefix}/nginx/objs/ngx_auto_config.h
+%{or_prefix}/nginx/objs/ngx_auto_headers.h
 
 %files doc
 %defattr(-,root,root,-)
