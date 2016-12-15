@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -147,6 +147,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_auth_request_module \
     --with-http_secure_link_module \
     --with-http_random_index_module \
+    --with-http_geoip_module \
     --with-http_gzip_static_module \
     --with-http_sub_module \
     --with-http_dav_module \
@@ -244,6 +245,7 @@ fi
 %changelog
 * Wed Dec 14 2016 Yichun Zhang
 - opm missing runtime dependencies curl, tar, and gzip.
+- enabled http_geoip_module by default.
 * Fri Nov 25 2016 Yichun Zhang
 - opm missing runtime dependency perl(Digest::MD5)
 * Thu Nov 17 2016 Yichun Zhang

@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.11.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -78,6 +78,7 @@ a single box.
     --with-http_auth_request_module \
     --with-http_secure_link_module \
     --with-http_random_index_module \
+    --with-http_geoip_module \
     --with-http_gzip_static_module \
     --with-http_sub_module \
     --with-http_dav_module \
@@ -136,6 +137,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Dec 14 2016 Yichun Zhang
+- enabled http_geoip_module by default.
 * Thu Nov 17 2016 Yichun Zhang
 - upgraded OpenResty to 1.11.2.2.
 * Fri Aug 26 2016 Yichun Zhang
