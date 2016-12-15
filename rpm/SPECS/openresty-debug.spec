@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.11.2.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -18,9 +18,11 @@ BuildRequires:  gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.8-1
 BuildRequires:  openresty-openssl-debug-devel >= 1.0.2j-1
 BuildRequires:  openresty-pcre-devel >= 8.39-3
+BuildRequires:  GeoIP-devel
 Requires:       openresty-zlib >= 1.2.8-1
 Requires:       openresty-openssl-debug >= 1.0.2j-1
 Requires:       openresty-pcre >= 8.39-3
+Requires:       GeoIP
 
 AutoReqProv:        no
 

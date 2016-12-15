@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -21,9 +21,11 @@ BuildRequires:  gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.8-1
 BuildRequires:  openresty-openssl-devel >= 1.0.2j-1
 BuildRequires:  openresty-pcre-devel >= 8.39-3
+BuildRequires:  GeoIP-devel
 Requires:       openresty-zlib >= 1.2.8-1
 Requires:       openresty-openssl >= 1.0.2h-5
 Requires:       openresty-pcre >= 8.39-3
+Requires:       GeoIP
 
 # for /sbin/service
 Requires(post):  chkconfig
