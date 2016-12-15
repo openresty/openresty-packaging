@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.2
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -107,6 +107,7 @@ services, and dynamic web gateways.
 Summary:        OpenResty Package Manager
 Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -241,6 +242,8 @@ fi
 
 
 %changelog
+* Wed Dec 14 2016 Yichun Zhang
+- opm missing runtime dependencies curl, tar, and gzip.
 * Fri Nov 25 2016 Yichun Zhang
 - opm missing runtime dependency perl(Digest::MD5)
 * Thu Nov 17 2016 Yichun Zhang
