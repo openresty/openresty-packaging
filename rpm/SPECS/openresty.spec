@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -245,6 +245,8 @@ fi
 
 
 %changelog
+* Sat Dec 24 2016 Yichun Zhang
+- init script: explicity specify the runlevels 345.
 * Wed Dec 14 2016 Yichun Zhang
 - opm missing runtime dependencies curl, tar, and gzip.
 - enabled http_geoip_module by default.
