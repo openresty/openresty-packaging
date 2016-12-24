@@ -2,7 +2,7 @@
 #
 # openresty - this script starts and stops the nginx daemon of OpenResty
 #
-# chkconfig:   - 85 15
+# chkconfig:   345 85 15
 # description: OpenResty is a scalable web platform by extending
 #              NGINX with Lua
 # processname: openresty
