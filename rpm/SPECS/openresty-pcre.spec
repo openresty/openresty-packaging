@@ -1,6 +1,6 @@
 Name:               openresty-pcre
-Version:            8.39
-Release:            3%{?dist}
+Version:            8.40
+Release:            1%{?dist}
 Summary:            Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -73,6 +73,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Mar 19 2017 Yichun Zhang (agentzh)
+- upgraded PCRE to 8.40.
 * Sat Sep 24 2016 Yichun Zhang
 - disable the C++ support in build. thanks luto.
 * Tue Aug 23 2016 zxcvbn4038
