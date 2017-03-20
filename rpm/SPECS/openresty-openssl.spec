@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.0.2j
-Release:            3%{?dist}
+Version:            1.0.2k
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -91,6 +91,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Mar 19 2017 Yichun Zhang (agentzh)
+- upgraded OpenSSL to 1.0.2k.
 * Fri Nov 25 2016 Yichun Zhang (agentzh)
 - added perl to the BuildRequires list.
 * Tue Oct  4 2016 Yichun Zhang (agentzh)
