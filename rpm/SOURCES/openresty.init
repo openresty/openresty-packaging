@@ -73,7 +73,7 @@ configtest() {
 }
 
 rh_status() {
-    status $nginx
+    status -p "$pidfile" $nginx
 }
 
 rh_status_q() {
