@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
-Version:        1.11.2.2
-Release:        3%{?dist}
+Version:        1.11.2.3
+Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -18,13 +18,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
 Requires:       valgrind
 
-BuildRequires:  openresty-zlib-devel >= 1.2.8-1
-BuildRequires:  openresty-openssl-debug-devel >= 1.0.2j-1
-BuildRequires:  openresty-pcre-devel >= 8.39-3
+BuildRequires:  openresty-zlib-devel >= 1.2.11-1
+BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
+BuildRequires:  openresty-pcre-devel >= 8.40-1
 BuildRequires:  GeoIP-devel
-Requires:       openresty-zlib >= 1.2.8-1
-Requires:       openresty-openssl-debug >= 1.0.2j-1
-Requires:       openresty-pcre >= 8.39-3
+Requires:       openresty-zlib >= 1.2.11-1
+Requires:       openresty-openssl-debug >= 1.0.2k-1
+Requires:       openresty-pcre >= 8.40-1
 Requires:       GeoIP
 
 AutoReqProv:        no
@@ -143,6 +143,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 21 2017 Yichun Zhang (agentzh)
+- upgrade to the OpenResty 1.11.2.3 release: http://openresty.org/en/changelog-1011002.html
 * Wed Dec 14 2016 Yichun Zhang
 - enabled http_geoip_module by default.
 * Thu Nov 17 2016 Yichun Zhang
