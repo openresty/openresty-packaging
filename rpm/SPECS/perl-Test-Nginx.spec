@@ -1,12 +1,12 @@
 Name:           perl-Test-Nginx
-Version:        0.25
-Release:        7%{?dist}
+Version:        0.26
+Release:        1%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Test-Nginx/
 Source0:        http://www.cpan.org/authors/id/A/AG/AGENT/Test-Nginx-%{version}.tar.gz
-Patch0:         Test-Nginx-0.25-older_perl.patch
+#Patch0:         Test-Nginx-0.25-older_perl.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl >= 1:5.8.1
@@ -54,7 +54,7 @@ development:
 %prep
 %setup -q -n Test-Nginx-%{version}
 
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
@@ -83,6 +83,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Tue Apr 25 2017 Yichun Zhang (agentzh) 0.26-1
+- CPAN release 0.26: http://cpansearch.perl.org/src/AGENT/Test-Nginx-0.26/Changes
 * Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-7
 - No longer require a particular perl version.
 * Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-6

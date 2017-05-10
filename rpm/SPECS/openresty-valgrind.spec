@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.11.2.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -18,6 +18,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
 Requires:       valgrind
 
+BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-1
 BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1

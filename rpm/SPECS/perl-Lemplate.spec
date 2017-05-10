@@ -1,6 +1,6 @@
 Name:           perl-Lemplate
-Version:        0.07
-Release:        5%{?dist}
+Version:        0.11
+Release:        3%{?dist}
 Summary:        Lemplate Perl module
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -15,7 +15,10 @@ BuildRequires:  perl(Template)
 BuildRequires:  perl(Test::More)
 BuildRequires:  perl(IPC::Run3)
 BuildRequires:  perl(Filter::Util::Call)
-#Requires:       perl(File::Find::Rule)
+BuildRequires:  perl(CPAN)
+BuildRequires:  perl(File::Find::Rule)
+BuildRequires:  perl(Text::Glob)
+BuildRequires:  perl(Number::Compare)
 Requires:       perl(Template)
 #Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
@@ -49,13 +52,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc Changes Install LICENSE README
+%doc Changes Install README.md
 %{perl_vendorlib}/*
 %{_mandir}/man3/*
 /usr/bin/lemplate
 /usr/share/man/man1/lemplate.1.gz
 
 %changelog
+* Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.11-3
+- missing the a few more perl packages.
+* Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.11-2
+- missing the CPAN dependency.
+* Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.11-1
+- upgraded to CPAN release 0.11.
 * Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.07-5
 - No longer require a particular perl version.
 * Fri Jul 15 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.04-1
