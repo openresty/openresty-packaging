@@ -1,6 +1,6 @@
 Name:           perl-Lemplate
-Version:        0.11
-Release:        3%{?dist}
+Version:        0.12
+Release:        1%{?dist}
 Summary:        Lemplate Perl module
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -59,6 +59,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/man/man1/lemplate.1.gz
 
 %changelog
+* Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.12-1
+- upgraded to CPAN release 0.12.
 * Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.11-3
 - missing the a few more perl packages.
 * Tue May 9 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.11-2
