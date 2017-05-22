@@ -1,6 +1,6 @@
 Name:               openresty-openssl-debug
 Version:            1.0.2k
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -14,8 +14,7 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      gcc, make, ElectricFence, perl
-Requires:           ElectricFence
+BuildRequires:      gcc, make, perl
 
 BuildRequires:      openresty-zlib-devel >= 1.2.8
 Requires:           openresty-zlib >= 1.2.8
@@ -48,12 +47,14 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 %build
 ./config \
     no-threads no-asm \
-    shared zlib -d -DPURIFY \
+    shared zlib -g -O0 -DPURIFY \
     --openssldir=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
+
+sed -i 's/ -O3 / -O0 /g' Makefile
 
 make %{?_smp_mflags}
 
@@ -93,6 +94,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun May 21 2017 Yichun Zhang (agentzh) 1.0.2k-2
+- avoided the electric fence dependency.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
 - upgraded OpenSSL to 1.0.2k.
 * Fri Nov 25 2016 Yichun Zhang (agentzh)
