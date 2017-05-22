@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -22,11 +22,9 @@ BuildRequires:  gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-1
 BuildRequires:  openresty-openssl-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
-BuildRequires:  GeoIP-devel
 Requires:       openresty-zlib >= 1.2.11-1
 Requires:       openresty-openssl >= 1.0.2k-1
 Requires:       openresty-pcre >= 8.40-1
-Requires:       GeoIP
 
 # for /sbin/service
 Requires(post):  chkconfig
@@ -150,7 +148,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_auth_request_module \
     --with-http_secure_link_module \
     --with-http_random_index_module \
-    --with-http_geoip_module \
     --with-http_gzip_static_module \
     --with-http_sub_module \
     --with-http_dav_module \
@@ -246,6 +243,8 @@ fi
 
 
 %changelog
+* Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-10
+- removed the geoip nginx module since GeoIP is not available everywhere.
 * Fri Apr 21 2017 Yichun Zhang (agentzh)
 - upgrade to the OpenResty 1.11.2.3 release: http://openresty.org/en/changelog-1011002.html
 * Sat Dec 24 2016 Yichun Zhang
