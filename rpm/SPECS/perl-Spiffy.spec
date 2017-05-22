@@ -1,6 +1,6 @@
 Name:           perl-Spiffy
 Version:        0.46
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Spiffy Perl Interface Framework For You
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -10,7 +10,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl >= 1:v5.8.1
 BuildRequires:  perl(Test::More)
+BuildRequires:  perl(Filter::Util::Call)
 BuildRequires:  perl(ExtUtils::MakeMaker)
+Requires:       perl(Filter::Util::Call)
 
 %description
 "Spiffy" is a framework and methodology for doing object oriented (OO)
@@ -49,6 +51,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/*
 
 %changelog
+* Mon May 22 2017 Yichun Zhang (agentzh) <yichun@openresty.com> 0.46-3
+- added missing dependency, Filter::Util::Call.
 * Mon May 22 2017 Yichun Zhang (agentzh) <yichun@openresty.com> 0.46-2
 - added missing build dependency, Test::More.
 * Sun May 21 2017 Yichun Zhang (agentzh) <yichun@openresty.com> 0.46-1
