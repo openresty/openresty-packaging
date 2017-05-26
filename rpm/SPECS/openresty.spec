@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.3
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -85,7 +85,7 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty documentation tool, restydoc
 Group:          Development/Tools
-Requires:       perl, perl(Getopt::Std), perl(File::Spec), perl(FindBin), perl(Cwd), perl(File::Temp)
+Requires:       perl, perl(Getopt::Std), perl(File::Spec), perl(FindBin), perl(Cwd), perl(File::Temp), perl(Pod::Man), perl(Pod::Text), groff
 Provides:       restydoc, restydoc-index, md2pod.pl
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -245,6 +245,8 @@ fi
 
 
 %changelog
+* Thu May 25 2017 Yichun Zhang (agentzh) 1.11.2.3-12
+- added missing groff/pod2txt/pod2man dependencies for openresty-doc.
 * Thu May 25 2017 Yichun Zhang (agentzh) 1.11.2.3-11
 - added missing perl dependencies for openresty-opm, openresty-resty, and openresty-doc.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-10
