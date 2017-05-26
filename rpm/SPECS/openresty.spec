@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.3
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -62,6 +62,7 @@ a single box.
 Summary:        OpenResty command-line utility, resty
 Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}
+Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
@@ -84,7 +85,7 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty documentation tool, restydoc
 Group:          Development/Tools
-Requires:       perl
+Requires:       perl, perl(Getopt::Std), perl(File::Spec), perl(FindBin), perl(Cwd), perl(File::Temp)
 Provides:       restydoc, restydoc-index, md2pod.pl
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -110,6 +111,7 @@ Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
+Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
@@ -243,6 +245,8 @@ fi
 
 
 %changelog
+* Thu May 25 2017 Yichun Zhang (agentzh) 1.11.2.3-11
+- added missing perl dependencies for openresty-opm, openresty-resty, and openresty-doc.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-10
 - removed the geoip nginx module since GeoIP is not available everywhere.
 * Fri Apr 21 2017 Yichun Zhang (agentzh)
