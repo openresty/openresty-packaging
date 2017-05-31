@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.3
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -118,6 +118,7 @@ services, and dynamic web gateways.
 Summary:        OpenResty Package Manager
 Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       openresty-doc >= %{version}-%{release}, openresty-resty >= %{version}-%{release}
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
@@ -254,6 +255,8 @@ fi
 
 
 %changelog
+* Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14
+- bugfix: the openresty-opm subpackage did not depend on openresty-doc and openresty-resty.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14
 - centos 6 and opensuse do not have the groff-base package.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-13
