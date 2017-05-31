@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.11.2.3.1
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty+, extended version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -11,7 +11,8 @@ License:        BSD
 URL:            https://openresty.org/
 
 Source0:        openresty-plus-%{version}.tar.gz
-Source1:        openresty-plus.init
+#Source1:        openresty-plus.init
+Source1:        GeoLite2-Country.mmdb
 
 #Patch0:         openresty-%{version}.patch
 
@@ -27,8 +28,8 @@ Requires:       openresty-openssl >= 1.0.2k-1
 Requires:       openresty-pcre >= 8.40-1
 
 # for /sbin/service
-Requires(post):  chkconfig
-Requires(preun): chkconfig, initscripts
+#Requires(post):  chkconfig
+#Requires(preun): chkconfig, initscripts
 
 AutoReqProv:        no
 
@@ -172,7 +173,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 
 make %{?_smp_mflags}
 
-
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
@@ -186,8 +186,12 @@ ln -sf %{orprefix}/bin/restydoc %{buildroot}/usr/bin/
 ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
-mkdir -p %{buildroot}/etc/init.d
-%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
+# FIXME this is a hack; we should remove it in the final version.
+mkdir -p %{buildroot}/opt/mmdb/database
+cp %{SOURCE1} %{buildroot}/opt/mmdb/database/
+
+#mkdir -p %{buildroot}/etc/init.d
+#%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -211,7 +215,7 @@ fi
 %files
 %defattr(-,root,root,-)
 
-/etc/init.d/%{name}
+#/etc/init.d/%{name}
 /usr/bin/%{name}
 %{orprefix}/bin/openresty-plus
 %{orprefix}/site/lualib/
@@ -222,6 +226,7 @@ fi
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
 %{orprefix}/nginx/tapset/*
+%config /opt/mmdb/database/GeoLite2-Country.mmdb
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 
@@ -254,6 +259,10 @@ fi
 
 
 %changelog
+* Tue May 30 2017 Yichun Zhang 1.11.2.3.1-4
+- temporarily bundled the GeoLite2 database for internal use.
+* Tue May 30 2017 Yichun Zhang 1.11.2.3.1-3
+- removed the init script.
 * Sun May 28 2017 Yichun Zhang (agentzh) 1.11.2.3.1-2
 - fixed the init script.
 * Sun May 28 2017 Yichun Zhang (agentzh) 1.11.2.3.1-1
