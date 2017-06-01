@@ -1,13 +1,13 @@
 Name:           openresty-plus-valgrind
-Version:        1.11.2.3.1
+Version:        1.11.2.3.2
 Release:        1%{?dist}
-Summary:        The Valgrind debug version of OpenResty
+Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
 
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
-License:        BSD
+License:        Proprietary
 URL:            https://openresty.org/
 
 Source0:        openresty-plus-%{version}.tar.gz
@@ -34,7 +34,7 @@ AutoReqProv:        no
 
 
 %description
-This package contains a debug version of the core server for OpenResty for Valgrind.
+This package contains a debug version of the core server for OpenResty+ for Valgrind.
 Built for development purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
@@ -141,5 +141,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jun 1 2017 Yichun Zhang 1.11.2.3.2-1
+- bugfix: installed the Lua modules shipped with ngx_lua_ssl_module.
 * Sun May 28 2017 Yichun Zhang (agentzh) 1.11.2.3.1-1
 - initial packaging.

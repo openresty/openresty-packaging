@@ -1,13 +1,13 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.3.1
-Release:        2%{?dist}
+Version:        1.11.2.3.2
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
 
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
-License:        BSD
+License:        Proprietary
 URL:            https://openresty.org/
 
 Source0:        openresty-plus-%{version}.tar.gz
@@ -35,7 +35,7 @@ AutoReqProv:        no
 
 
 %description
-This package contains the debug version of the core server for OpenResty.
+This package contains the debug version of the core server for OpenResty+.
 Built for development purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
@@ -146,6 +146,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jun 1 2017 Yichun Zhang 1.11.2.3.2-1
+- bugfix: installed the Lua modules shipped with ngx_lua_ssl_module.
 * Tue May 30 2017 Yichun Zhang 1.11.2.3.1-2
 - temporarily bundled the GeoLite2 database for internal use.
 * Sun May 28 2017 Yichun Zhang (agentzh) 1.11.2.3.1-1
