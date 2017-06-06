@@ -1,0 +1,16 @@
+Source: liblemplate-perl
+Section: perl
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), perl, libipc-run3-perl, libfile-find-rule-perl,
+    libtemplate-perl, libtext-glob-perl, libnumber-compare-perl
+Standards-Version: 3.9.8
+Homepage: https://metacpan.org/release/Lemplate
+
+Package: liblemplate-perl
+Architecture: all
+Depends: ${misc:Depends}, ${perl:Depends}, perl, libfile-find-rule-perl, libtemplate-perl
+Description: OpenResty/Lua template framework implementing Perl's TT2 templating language
+ (no description was found)
+ .
+ This description was automagically extracted from the module by dh-make-perl.

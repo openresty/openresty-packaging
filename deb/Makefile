@@ -10,6 +10,7 @@ ZLIB_VER=1.2.11
 PCRE_VER=8.40
 SSL_VER=1.0.2k
 OR_VER=1.11.2.3
+LEMPLATE_VER=0.14
 OPTS=
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 
@@ -169,5 +170,28 @@ openresty-valgrind-clean:
 	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
 	rm -f openresty-valgrind*.deb
 	rm -f openresty-valgrind_*.*
+
+.PHONY: lemplate-download
+lemplate-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'http://search.cpan.org/CPAN/authors/id/A/AG/AGENT/Lemplate-$(LEMPLATE_VER).tar.gz'
+	cp Lemplate-$(LEMPLATE_VER).tar.gz liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz
+
+.PHONY: lemplate-clean
+lemplate-clean:
+	cd liblemplate-perl/ && debclean
+	find liblemplate-perl -maxdepth 1 ! -name 'debian' ! -name 'liblemplate-perl' -print | xargs rm -rf
+	rm -f liblemplate-perl*.deb
+	rm -f liblemplate-perl_*.*
+
+.PHONY: lemplate-build
+lemplate-build: | lemplate-clean lemplate-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
+	cd liblemplate-perl \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild -sa $(OPTS) -j$(JOBS)
+	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
 
 ### Makefile ends here
