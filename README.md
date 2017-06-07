@@ -121,7 +121,7 @@ Ubuntu
 For Ubuntu 14.04+:
 
 ```bash
-sudo apt-get install dh-systemd systemtap-sdt-dev perl gpg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
