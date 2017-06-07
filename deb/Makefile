@@ -192,7 +192,7 @@ lemplate-download:
 
 .PHONY: lemplate-clean
 lemplate-clean:
-	cd liblemplate-perl/ && debclean
+	-cd liblemplate-perl/ && debclean
 	find liblemplate-perl -maxdepth 1 ! -name 'debian' ! -name 'liblemplate-perl' -print | xargs rm -rf
 	rm -f liblemplate-perl*.deb
 	rm -f liblemplate-perl_*.*
@@ -216,14 +216,14 @@ test-nginx-download:
 
 .PHONY: test-nginx-clean
 test-nginx-clean:
-	cd libtest-nginx-perl/ && debclean
+	-cd libtest-nginx-perl/ && debclean
 	find libtest-nginx-perl -maxdepth 1 ! -name 'debian' ! -name 'libtest-nginx-perl' -print | xargs rm -rf
 	rm -f libtest-nginx-perl*.deb
 	rm -f libtest-nginx-perl_*.*
 
 .PHONY: test-nginx-build
 test-nginx-build: | test-nginx-clean test-nginx-download
-	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl
+	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
