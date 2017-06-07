@@ -78,7 +78,7 @@ See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/
 CentOS/RHEL
 -----------
 
-For CentOS/RHEL 5+:
+For CentOS/RHEL 6+:
 
 ```bash
 # create the makerpm account for building rpms only:
