@@ -13,7 +13,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/local/openresty/nginx/sbin/nginx
 NAME=nginx
-DESC=full-fledged web platform
+DESC="full-fledged web platform"
 
 if [ -r /etc/default/openresty ]; then
         . /etc/default/openresty
