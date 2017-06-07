@@ -18,11 +18,13 @@ DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
-	openresty-valgrind-build
+	openresty-valgrind-build \
+	lemplate-build test-nginx-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
-	openresty-clean openresty-debug-clean openresty-valgrind-clean
+	openresty-clean openresty-debug-clean openresty-valgrind-clean \
+	lemplate-clean test-nginx-clean
 
 .PHONY: zlib-download
 zlib-download:

@@ -121,7 +121,7 @@ Ubuntu
 For Ubuntu 14.04+:
 
 ```bash
-sudo apt install dh-systemd systemtap-sdt-dev perl gpg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install dh-systemd systemtap-sdt-dev perl gpg curl make build-essential dh-make bzr-builddeb
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
@@ -131,6 +131,8 @@ make openssl-debug-build
 make openresty-build
 make openresty-debug-build
 make openresty-valgrind-build
+make lemplate-build
+make test-nginx-build
 ```
 
 To generate degian source packages for uploading to Launchpad PPA servers, one can add the `OPTS=-S` argument, as in
