@@ -199,7 +199,7 @@ lemplate-clean:
 
 .PHONY: lemplate-build
 lemplate-build: | lemplate-clean lemplate-download
-	sudo apt -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
+	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
