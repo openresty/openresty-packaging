@@ -29,7 +29,7 @@ Package: openresty-opm
 Section: utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty (>= ${source:Upstream-Version}),
+ openresty (>= ${source:Upstream-Version}), openresty-resty (>= ${source:Upstream-Version}),
  curl, tar, gzip, libdigest-md5-perl, libencode-perl, libfile-spec-perl, libfile-temp-perl
 Description: OpenResty Package Manager (OPM)
  This package provides the client side tool, opm, for OpenResty Pakcage Manager

@@ -83,6 +83,7 @@ openssl-download:
 
 .PHONY: openssl-build
 openssl-build: | openssl-clean openssl-download
+	sudo apt-get -y -qq install openresty-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl
 	cd openresty-openssl \
@@ -93,6 +94,7 @@ openssl-build: | openssl-clean openssl-download
 
 .PHONY: openssl-debug-build
 openssl-debug-build: | openssl-debug-clean openssl-download
+	sudo apt-get -y -qq install openresty-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
 	cd openresty-openssl-debug \
@@ -125,6 +127,7 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
@@ -142,6 +145,7 @@ openresty-clean:
 
 .PHONY: openresty-debug-build
 openresty-debug-build: | openresty-debug-clean openresty-download
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
@@ -159,6 +163,7 @@ openresty-debug-clean:
 
 .PHONY: openresty-valgrind-build
 openresty-valgrind-build: | openresty-valgrind-clean openresty-download
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev valgrind
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
@@ -189,6 +194,7 @@ lemplate-clean:
 
 .PHONY: lemplate-build
 lemplate-build: | lemplate-clean lemplate-download
+	sudo apt -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
@@ -212,6 +218,7 @@ test-nginx-clean:
 
 .PHONY: test-nginx-build
 test-nginx-build: | test-nginx-clean test-nginx-download
+	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
