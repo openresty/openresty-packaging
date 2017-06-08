@@ -82,7 +82,6 @@ openssl-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
 	cp openssl-$(SSL_VER).tar.gz openresty-openssl_$(SSL_VER).orig.tar.gz
-	cp openssl-$(SSL_VER).tar.gz openresty-openssl-debug_$(SSL_VER).orig.tar.gz
 
 .PHONY: openssl-build
 openssl-build: | openssl-clean openssl-download
@@ -95,8 +94,14 @@ openssl-build: | openssl-clean openssl-download
 	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
+.PHONY: openssl-debug-download
+openssl-debug-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
+	cp openssl-$(SSL_VER).tar.gz openresty-openssl-debug_$(SSL_VER).orig.tar.gz
+
 .PHONY: openssl-debug-build
-openssl-debug-build: | openssl-debug-clean openssl-download
+openssl-debug-build: | openssl-debug-clean openssl-debug-download
 	sudo apt-get -y -qq install openresty-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
@@ -127,8 +132,6 @@ openresty-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
 	cp openresty-$(OR_VER).tar.gz openresty_$(OR_VER).orig.tar.gz
-	cp openresty-$(OR_VER).tar.gz openresty-debug_$(OR_VER).orig.tar.gz
-	cp openresty-$(OR_VER).tar.gz openresty-valgrind_$(OR_VER).orig.tar.gz
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
@@ -149,8 +152,14 @@ openresty-clean:
 	rm -f openresty*.deb
 	rm -f openresty_*.*
 
+.PHONY: openresty-debug-download
+openresty-debug-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
+	cp openresty-$(OR_VER).tar.gz openresty-debug_$(OR_VER).orig.tar.gz
+
 .PHONY: openresty-debug-build
-openresty-debug-build: | openresty-debug-clean openresty-download
+openresty-debug-build: | openresty-debug-clean openresty-debug-download
 	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
@@ -168,8 +177,14 @@ openresty-debug-clean:
 	rm -f openresty-debug*.deb
 	rm -f openresty-debug_*.*
 
+.PHONY: openresty-valgrind-download:
+openresty-valgrind-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
+	cp openresty-$(OR_VER).tar.gz openresty-valgrind_$(OR_VER).orig.tar.gz
+
 .PHONY: openresty-valgrind-build
-openresty-valgrind-build: | openresty-valgrind-clean openresty-download
+openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev valgrind
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
