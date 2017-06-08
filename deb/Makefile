@@ -177,7 +177,7 @@ openresty-debug-clean:
 	rm -f openresty-debug*.deb
 	rm -f openresty-debug_*.*
 
-.PHONY: openresty-valgrind-download:
+.PHONY: openresty-valgrind-download
 openresty-valgrind-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
