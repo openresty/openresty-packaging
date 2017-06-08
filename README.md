@@ -11,6 +11,7 @@ Table of Contents
 * [Supported Systems](#supported-systems)
     * [Fedora](#fedora)
     * [CentOS/RHEL](#centosrhel)
+    * [Amazon Linux](#amazon-linux)
     * [Ubuntu/Debian](#ubuntudebian)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
@@ -24,6 +25,8 @@ This code repository holds the source for building the official OpenResty pre-bu
 https://openresty.org/en/linux-packages.html
 
 https://openresty.org/en/rpm-packages.html
+
+https://openresty.org/en/deb-packages.html
 
 If you just want to use these pre-built (binary) packages and the corresponding package repositories, then
 simply follow the instructions in these pages instead.
@@ -111,6 +114,17 @@ done
 ```
 
 See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) for more details.
+
+[Back to TOC](#table-of-contents)
+
+Amazon Linux
+------------
+
+Similar to Fedora. Just make sure you have installed the following package to genreate those `*-debuginfo` packages automatically:
+
+```bash
+sudo yum install redhat-rpm-config
+```
 
 [Back to TOC](#table-of-contents)
 
