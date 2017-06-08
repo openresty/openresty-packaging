@@ -134,6 +134,12 @@ make lemplate-build
 make test-nginx-build
 ```
 
+Or to build everything from scratch, just run
+
+```bash
+make build
+```
+
 On Debian 7.x wheezy, you'll also need to enable the `wheezy-backports` apt source.
 
 To generate degian source packages for uploading to Launchpad PPA servers, one can add the `OPTS=-S` argument, as in
