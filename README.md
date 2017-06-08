@@ -1,7 +1,7 @@
 Name
 ====
 
-openresty-packaging - OpenResty packaging source and scripts for various Linux distributions.
+openresty-packaging - Official OpenResty packaging source and scripts for various Linux distributions.
 
 Table of Contents
 =================
