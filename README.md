@@ -11,8 +11,7 @@ Table of Contents
 * [Supported Systems](#supported-systems)
     * [Fedora](#fedora)
     * [CentOS/RHEL](#centosrhel)
-    * [Ubuntu](#ubuntu)
-* [TODO](#todo)
+    * [Ubuntu/Debian](#ubuntudebian)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 * [See Also](#see-also)
@@ -115,13 +114,13 @@ See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) fo
 
 [Back to TOC](#table-of-contents)
 
-Ubuntu
-------
+Ubuntu/Debian
+--------------
 
-For Ubuntu 14.04+:
+For Ubuntu 14.04+ and Debian 7.x+:
 
 ```bash
-sudo apt-get install dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
@@ -135,6 +134,8 @@ make lemplate-build
 make test-nginx-build
 ```
 
+On Debian 7.x wheezy, you'll also need to enable the `wheezy-backports` apt source.
+
 To generate degian source packages for uploading to Launchpad PPA servers, one can add the `OPTS=-S` argument, as in
 
 ```bash
@@ -142,7 +143,7 @@ make zlib-build OPTS=-S
 make pcre-build OPTS=-S
 ```
 
-It is also possible to generate debian source packages for any other Ubuntu codenames. For example:
+It is also possible to generate debian source packages for any other Ubuntu or Debian codenames. For example:
 
 ```bash
 make zlib-build DISTRO=trusty
@@ -150,11 +151,6 @@ make zlib-build OPTS=-S DISTRO=trusty
 ```
 
 [Back to TOC](#table-of-contents)
-
-TODO
-====
-
-* Add source for Debian packaging.
 
 [Back to TOC](#table-of-contents)
 

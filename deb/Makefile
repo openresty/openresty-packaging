@@ -5,6 +5,9 @@
 ## Keywords:
 ## X-URL:
 
+# you need to install the libtemplate-perl package first to get the tpage utility.
+# we use Perl TT2 templates to generate */debian/changelog files.
+
 JOBS=8
 ZLIB_VER=1.2.11
 PCRE_VER=8.40
