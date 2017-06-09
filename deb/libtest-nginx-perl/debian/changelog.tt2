@@ -1,0 +1,5 @@
+libtest-nginx-perl (0.26-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial Release.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Jun 2017 15:00:57 -0700

@@ -1,0 +1,5 @@
+openresty-pcre (8.40-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 30 Apr 2017 23:08:33 +0800

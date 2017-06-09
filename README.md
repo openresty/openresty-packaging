@@ -1,7 +1,7 @@
 Name
 ====
 
-openresty-packaging - OpenResty packaging source and scripts for various Linux distributions.
+openresty-packaging - Official OpenResty packaging source and scripts for various Linux distributions.
 
 Table of Contents
 =================
@@ -11,7 +11,8 @@ Table of Contents
 * [Supported Systems](#supported-systems)
     * [Fedora](#fedora)
     * [CentOS/RHEL](#centosrhel)
-* [TODO](#todo)
+    * [Amazon Linux](#amazon-linux)
+    * [Ubuntu/Debian](#ubuntudebian)
 * [Author](#author)
 * [Copyright and License](#copyright-and-license)
 * [See Also](#see-also)
@@ -24,6 +25,8 @@ This code repository holds the source for building the official OpenResty pre-bu
 https://openresty.org/en/linux-packages.html
 
 https://openresty.org/en/rpm-packages.html
+
+https://openresty.org/en/deb-packages.html
 
 If you just want to use these pre-built (binary) packages and the corresponding package repositories, then
 simply follow the instructions in these pages instead.
@@ -77,7 +80,7 @@ See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/
 CentOS/RHEL
 -----------
 
-For CentOS/RHEL 5+:
+For CentOS/RHEL 6+:
 
 ```bash
 # create the makerpm account for building rpms only:
@@ -114,10 +117,60 @@ See this [wiki page](https://wiki.centos.org/HowTos/SetupRpmBuildEnvironment) fo
 
 [Back to TOC](#table-of-contents)
 
-TODO
-====
+Amazon Linux
+------------
 
-* Add source for Debian/Ubuntu packaging.
+Similar to Fedora. Just make sure you have installed the following package to genreate those `*-debuginfo` packages automatically:
+
+```bash
+sudo yum install redhat-rpm-config
+```
+
+[Back to TOC](#table-of-contents)
+
+Ubuntu/Debian
+--------------
+
+For Ubuntu 14.04+ and Debian 7.x+:
+
+```bash
+sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
+
+cd /path/to/openresty-packaging/deb/
+make zlib-build
+make pcre-build
+make openssl-build
+make openssl-debug-build
+make openresty-build
+make openresty-debug-build
+make openresty-valgrind-build
+make lemplate-build
+make test-nginx-build
+```
+
+Or to build everything from scratch, just run
+
+```bash
+make build
+```
+
+On Debian 7.x wheezy, you'll also need to enable the `wheezy-backports` apt source.
+
+To generate degian source packages for uploading to Launchpad PPA servers, one can add the `OPTS=-S` argument, as in
+
+```bash
+make zlib-build OPTS=-S
+make pcre-build OPTS=-S
+```
+
+It is also possible to generate debian source packages for any other Ubuntu or Debian codenames. For example:
+
+```bash
+make zlib-build DISTRO=trusty
+make zlib-build OPTS=-S DISTRO=trusty
+```
+
+[Back to TOC](#table-of-contents)
 
 [Back to TOC](#table-of-contents)
 

@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export NJBS = `nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_configure:
+	./configure \
+	  --prefix="/usr/local/openresty-debug" \
+	  --with-debug \
+	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl/include -O0" \
+	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl/lib" \
+	  --with-pcre-jit \
+	  --without-http_rds_json_module \
+	  --without-http_rds_csv_module \
+	  --without-lua_rds_parser \
+	  --with-ipv6 \
+	  --with-stream \
+	  --with-stream_ssl_module \
+	  --with-http_v2_module \
+	  --without-mail_pop3_module \
+	  --without-mail_imap_module \
+	  --without-mail_smtp_module \
+	  --with-http_stub_status_module \
+	  --with-http_realip_module \
+	  --with-http_addition_module \
+	  --with-http_auth_request_module \
+	  --with-http_secure_link_module \
+	  --with-http_random_index_module \
+	  --with-http_gzip_static_module \
+	  --with-http_sub_module \
+	  --with-http_dav_module \
+	  --with-http_flv_module \
+	  --with-http_mp4_module \
+	  --with-http_gunzip_module \
+	  --with-threads \
+	  --with-file-aio \
+	  --with-poll_module \
+	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+	  --with-dtrace-probes \
+	  -j$(NJBS)
+
+override_dh_usrlocal:
+
+override_dh_auto_install:
+	dh_auto_install
+	rm -rf $(DESTDIR)/usr/local/openresty-debug/luajit/share/man
+	rm -rf $(DESTDIR)/usr/local/openresty-debug/luajit/lib/libluajit-5.1.a
+	mkdir -p $(DESTDIR)/usr/bin
+	cd $(DESTDIR)/usr/bin
+	ln -sf ../local/openresty-debug/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-debug
+	cd $(CURDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-debug-dbgsym

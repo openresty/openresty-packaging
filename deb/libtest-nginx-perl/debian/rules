@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export NJBS = `nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_configure:
+	perl Makefile.PL
+
+override_dh_usrlocal:

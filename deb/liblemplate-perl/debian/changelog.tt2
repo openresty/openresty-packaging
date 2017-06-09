@@ -1,0 +1,11 @@
+liblemplate-perl (0.14-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Fixed the repository link.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Jun 2017 12:57:55 -0700
+
+liblemplate-perl (0.13-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial Release.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Jun 2017 12:57:55 -0700

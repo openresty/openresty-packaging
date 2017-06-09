@@ -1,0 +1,2 @@
+usr/local/openresty/pcre/lib/*.a
+usr/local/openresty/pcre/include/*.h

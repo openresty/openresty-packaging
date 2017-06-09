@@ -1,0 +1,27 @@
+Source: openresty-zlib
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev
+Standards-Version: 3.9.8
+Homepage: http://zlib.net/
+
+Package: openresty-zlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The zlib compression library for use by Openresty ONLY
+ The zlib compression library for use by Openresty ONLY
+
+Package: openresty-zlib-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib
+Description: Provides C header and static library for OpenResty's zlib library
+ Provides C header and static library for OpenResty's zlib library.
+
+Package: openresty-zlib-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib
+Description: Debug symbols for OpenResty's zlib library
+ Debug symbols for OpenResty's zlib library

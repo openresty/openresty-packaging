@@ -1,0 +1,7 @@
+usr/bin/restydoc
+usr/local/openresty/bin/restydoc
+usr/local/openresty/bin/restydoc-index
+usr/local/openresty/bin/md2pod.pl
+usr/local/openresty/bin/nginx-xml2pod
+usr/local/openresty/pod/*
+usr/local/openresty/resty.index

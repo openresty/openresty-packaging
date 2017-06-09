@@ -1,0 +1,4 @@
+usr/local/openresty-debug/openssl/bin/openssl
+usr/local/openresty-debug/openssl/lib/*.so*
+usr/local/openresty-debug/openssl/lib/*/*.so*
+usr/local/openresty-debug/openssl/openssl.cnf
