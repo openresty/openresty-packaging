@@ -1,27 +1,30 @@
-# Stop dance for nginx
+# Stop dance for OpenResty
 # =======================
 #
-# ExecStop sends SIGSTOP (graceful stop) to the nginx process.
-# If, after 5s (--retry QUIT/5) nginx is still running, systemd takes control
+# ExecStop sends SIGSTOP (graceful stop) to the OpenResty process.
+# If, after 5s (--retry QUIT/5) OpenResty is still running, systemd takes control
 # and sends SIGTERM (fast shutdown) to the main process.
-# After another 5s (TimeoutStopSec=5), and if nginx is alive, systemd sends
+# After another 5s (TimeoutStopSec=5), and if OpenResty is alive, systemd sends
 # SIGKILL to all the remaining processes in the process group (KillMode=mixed).
 #
 # nginx signals reference doc:
 # http://nginx.org/en/docs/control.html
 #
 [Unit]
-Description=full-fledged web platform
+Description=OpenResty (full-fledged web platform)
 After=network.target
 
 [Service]
+#This is Default Prefix build in OpenResty official repo
+Environment=OPENRESTY_PREFIX=/usr/local/openresty/nginx/
+#User can set OPENRESTY_PREFIX=/usr/local/openresty.your/nginx/ in this file to
+#avoid polluting the OpenResty installation trees under /usr/local/openresty/
+#It's a traditional of debian
+EnvironmentFile=-/etc/default/openresty
 Type=forking
-PIDFile=/usr/local/openresty/nginx/logs/nginx.pid
-ExecStartPre=/usr/local/openresty/nginx/sbin/nginx -t -q -g 'daemon on; master_process on;'
-ExecStart=/usr/local/openresty/nginx/sbin/nginx -g 'daemon on; master_process on;'
-ExecReload=/usr/local/openresty/nginx/sbin/nginx -g 'daemon on; master_process on;' -s reload
-ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /usr/local/openresty/nginx/logs/nginx.pid
-TimeoutStopSec=5
+ExecStartPre=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -t -q -g 'daemon on; master_process on;'
+ExecStart=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;'
+ExecReload=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;' -s reload
 KillMode=mixed
 
 [Install]

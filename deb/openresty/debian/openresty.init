@@ -6,18 +6,21 @@
 # Required-Stop:     $local_fs $remote_fs $network $syslog $named
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: starts openresty
-# Description:       starts openresty using start-stop-daemon
+# Short-Description: starts OpenResty
+# Description:       starts OpenResty using start-stop-daemon
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/local/openresty/nginx/sbin/nginx
-NAME=nginx
-DESC="full-fledged web platform"
+DAEMON=/usr/bin/openresty
+NAME=openresty
+DESC="OpenResty (full-fledged web platform)"
 
 if [ -r /etc/default/openresty ]; then
         . /etc/default/openresty
 fi
+#Sync ths behavior as writtenE in systemd init
+OPENRESTY_PREFIX="${OPENRESTY_PREFIX:-/usr/local/openresty.app/nginx/}"
+DAEMON_OPTS=${DAEMON_OPTS} -p ${OPENRESTY_PREFIX}
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
@@ -26,7 +29,9 @@ test -x $DAEMON || exit 0
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
-PID=$(cat /usr/local/openresty/nginx/conf/nginx.conf | grep -Ev '^\s*#' | awk 'BEGIN { RS="[;{}]" } { if ($1 == "pid") print $2 }' | head -n1)
+# If the config file has errors, pid will return empty.
+# Nevertheless, because the program won't start with config file that has errors
+PID=$(${DAEMON} ${DAEMON_OPTS} -T 2>/dev/null |sed -rn 's/^pid\s+(.*?)\;/\1/p')
 if [ -z "$PID" ]; then
 	PID=/usr/local/openresty/nginx/logs/nginx.pid
 fi
