@@ -21,6 +21,7 @@ Environment=OPENRESTY_PREFIX=/usr/local/openresty/nginx/
 #avoid polluting the OpenResty installation trees under /usr/local/openresty/
 #It's a traditional of debian
 EnvironmentFile=-/etc/default/openresty
+#In the world of systemd, PIDFile is not very important, $MAINPID is set to the main process of the daemon
 Type=forking
 ExecStartPre=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -t -q -g 'daemon on; master_process on;'
 ExecStart=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;'
