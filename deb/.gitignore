@@ -2,7 +2,8 @@ openresty*/[^d]*
 openresty*/d[^e]*
 openresty*/de[^b]*
 openresty*/*.*
-openresty*/debian/openresty*
+openresty*/debian/*.log
+openresty*/debian/*.substvars
 openresty*/debian/changelog
 openresty*/debian/tmp/
 openresty*/debian/files
