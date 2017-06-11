@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.11.2.3.2
+Version:        1.11.2.3.3
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -261,6 +261,8 @@ fi
 
 
 %changelog
+* Fri Jun 9 2017 Yichun Zhang 1.11.2.3.3-1
+- upgraded to 1.11.2.3.3.
 * Thu Jun 1 2017 Yichun Zhang 1.11.2.3.2-1
 - bugfix: installed the Lua modules shipped with ngx_lua_ssl_module.
 * Tue May 30 2017 Yichun Zhang 1.11.2.3.1-4
