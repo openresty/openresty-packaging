@@ -11,16 +11,17 @@
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/openresty
-NAME=openresty
-DESC="OpenResty (full-fledged web platform)"
+DAEMON="/usr/bin/openresty"
+NAME=$(basename ${DAEMON}) #because $DAEMON maybe /usr/bin/openresty or  /usr/local/openresty/nginx/sbin/nginx
+STR_NAME="OpenResty"
+DESC="full-fledged web platform"
 
 if [ -r /etc/default/openresty ]; then
         . /etc/default/openresty
 fi
-#Sync ths behavior as writtenE in systemd init
-OPENRESTY_PREFIX="${OPENRESTY_PREFIX:-/usr/local/openresty.app/nginx/}"
-DAEMON_OPTS=${DAEMON_OPTS} -p ${OPENRESTY_PREFIX}
+#Sync ths behavior as systemd init
+OPENRESTY_PREFIX="${OPENRESTY_PREFIX:-/usr/local/openresty/nginx/}"
+DAEMON_OPTS="${DAEMON_OPTS} -p ${OPENRESTY_PREFIX}"
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
@@ -33,7 +34,7 @@ test -x $DAEMON || exit 0
 # Nevertheless, because the program won't start with config file that has errors
 PID=$(${DAEMON} ${DAEMON_OPTS} -T 2>/dev/null |sed -rn 's/^pid\s+(.*?)\;/\1/p')
 if [ -z "$PID" ]; then
-	PID=/usr/local/openresty/nginx/logs/nginx.pid
+	PID="`${DAEMON} -V  2>&1 |sed -rn 's/.*prefix=([a-zA-Z/_]+)\s.*/\1/p'`/logs/nginx.pid"
 fi
 
 start_nginx() {
@@ -51,7 +52,7 @@ start_nginx() {
 }
 
 test_config() {
-	$DAEMON -q -t -c $DAEMON_OPTS >/dev/null 2>&1
+	$DAEMON -q -t $DAEMON_OPTS >/dev/null 2>&1
 }
 
 stop_nginx() {
@@ -111,7 +112,7 @@ upgrade_nginx() {
 
 case "$1" in
 	start)
-		log_daemon_msg "Starting $DESC" "$NAME"
+		log_daemon_msg "Starting $DESC" "$STR_NAME"
 		start_nginx
 		case "$?" in
 			0|1) log_end_msg 0 ;;
@@ -119,7 +120,7 @@ case "$1" in
 		esac
 		;;
 	stop)
-		log_daemon_msg "Stopping $DESC" "$NAME"
+		log_daemon_msg "Stopping $DESC" "$STR_NAME"
 		stop_nginx
 		case "$?" in
 			0|1) log_end_msg 0 ;;
@@ -127,7 +128,7 @@ case "$1" in
 		esac
 		;;
 	restart)
-		log_daemon_msg "Restarting $DESC" "$NAME"
+		log_daemon_msg "Restarting $DESC" "$STR_NAME"
 
 		# Check configuration before stopping nginx
 		if ! test_config; then
@@ -152,7 +153,7 @@ case "$1" in
 		esac
 		;;
 	reload|force-reload)
-		log_daemon_msg "Reloading $DESC configuration" "$NAME"
+		log_daemon_msg "Reloading $DESC configuration" "$STR_NAME"
 
 		# Check configuration before stopping nginx
 		#
@@ -174,20 +175,20 @@ case "$1" in
 		log_end_msg $?
 		;;
 	status)
-		status_of_proc -p $PID "$DAEMON" "$NAME" && exit 0 || exit $?
+		status_of_proc -p $PID "$DAEMON" "$STR_NAME" && exit 0 || exit $?
 		;;
 	upgrade)
-		log_daemon_msg "Upgrading binary" "$NAME"
+		log_daemon_msg "Upgrading binary" "$STR_NAME"
 		upgrade_nginx
 		log_end_msg $?
 		;;
 	rotate)
-		log_daemon_msg "Re-opening $DESC log files" "$NAME"
+		log_daemon_msg "Re-opening $DESC log files" "$STR_NAME"
 		rotate_logs
 		log_end_msg $?
 		;;
 	*)
-		echo "Usage: $NAME {start|stop|restart|reload|force-reload|status|configtest|rotate|upgrade}" >&2
+		echo "Usage: $STR_NAME {start|stop|restart|reload|force-reload|status|configtest|rotate|upgrade}" >&2
 		exit 3
 		;;
 esac
