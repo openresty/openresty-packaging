@@ -1,14 +1,9 @@
 # Stop dance for OpenResty
 # =======================
 #
-# ExecStop sends SIGSTOP (graceful stop) to the OpenResty process.
-# If, after 5s (--retry QUIT/5) OpenResty is still running, systemd takes control
-# and sends SIGTERM (fast shutdown) to the main process.
-# After another 5s (TimeoutStopSec=5), and if OpenResty is alive, systemd sends
-# SIGKILL to all the remaining processes in the process group (KillMode=mixed).
-#
-# nginx signals reference doc:
-# http://nginx.org/en/docs/control.html
+# nginx systemd reference doc:
+# https://www.nginx.com/resources/wiki/start/topics/examples/systemd/
+# In the world of systemd, `PIDFile` is not very important, $MAINPID will be set to the main process of the daemon
 #
 [Unit]
 Description=OpenResty (full-fledged web platform)
@@ -18,11 +13,11 @@ After=network.target
 #This is Default Prefix build in OpenResty official repo
 Environment=OPENRESTY_PREFIX=/usr/local/openresty/nginx/
 #User can overwrite this environment via `systemctl edit openresty` to create a override file
-#In the world of systemd, PIDFile is not very important, $MAINPID will be set to the main process of the daemon
 Type=forking
 ExecStartPre=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -t -q -g 'daemon on; master_process on;'
 ExecStart=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;'
 ExecReload=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;' -s reload
+ExecStop=/usr/bin/openresty -p ${OPENRESTY_PREFIX} -g 'daemon on; master_process on;' -s stop
 KillMode=mixed
 
 [Install]
