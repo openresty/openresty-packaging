@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.3.2
+Version:        1.11.2.3.4
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -146,6 +146,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 12 2017 Yichun Zhang 1.11.2.3.4-1
+- upgraded to 1.11.2.3.4.
 * Thu Jun 1 2017 Yichun Zhang 1.11.2.3.2-1
 - bugfix: installed the Lua modules shipped with ngx_lua_ssl_module.
 * Tue May 30 2017 Yichun Zhang 1.11.2.3.1-2
