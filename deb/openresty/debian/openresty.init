@@ -46,7 +46,7 @@ start_nginx() {
 }
 
 test_config() {
-	$DAEMON -q -t -c $DAEMON_OPTS >/dev/null 2>&1
+	$DAEMON -q -t $DAEMON_OPTS >/dev/null 2>&1
 }
 
 stop_nginx() {
