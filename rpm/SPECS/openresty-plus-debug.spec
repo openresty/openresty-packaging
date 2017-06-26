@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.3.6
+Version:        1.11.2.3.8
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -69,6 +69,42 @@ a single box.
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \
+    --without-http_xss_module \
+    --without-http_form_input_module \
+    --without-http_srcache_module \
+    --without-http_lua_upstream_module \
+    --without-http_array_var_module \
+    --without-http_memc_module \
+    --without-http_redis2_module \
+    --without-http_redis_module \
+    --without-lua_redis_parser \
+    --without-lua_rds_parser \
+    --without-lua_resty_upstream_healthcheck \
+    --without-select_module \
+    --without-http_userid_module \
+    --without-http_autoindex_module \
+    --without-http_geo_module \
+    --without-http_split_clients_module \
+    --without-http_fastcgi_module \
+    --without-http_uwsgi_module \
+    --without-http_scgi_module \
+    --without-http_memcached_module \
+    --without-http_limit_conn_module \
+    --without-http_limit_req_module \
+    --without-http_empty_gif_module \
+    --without-http_browser_module \
+    --without-http_upstream_hash_module \
+    --without-http_upstream_ip_hash_module \
+    --without-http_upstream_least_conn_module \
+    --without-http_upstream_zone_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
+    --without-stream_limit_conn_module \
+    --without-stream_return_module \
+    --without-stream_upstream_hash_module \
+    --without-stream_upstream_least_conn_module \
+    --without-stream_upstream_zone_module \
     --with-ipv6 \
     --with-stream \
     --with-stream_ssl_module \
@@ -78,15 +114,7 @@ a single box.
     --without-mail_smtp_module \
     --with-http_stub_status_module \
     --with-http_realip_module \
-    --with-http_addition_module \
-    --with-http_auth_request_module \
-    --with-http_secure_link_module \
-    --with-http_random_index_module \
     --with-http_gzip_static_module \
-    --with-http_sub_module \
-    --with-http_dav_module \
-    --with-http_flv_module \
-    --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
     --with-file-aio \
@@ -146,6 +174,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-1
+- upgraded to 1.11.2.3.8.
+- removed components we do not need.
+* Sat Jun 24 2017 Yichun Zhang 1.11.2.3.7-1
+- upgraded to 1.11.2.3.7.
 * Sat Jun 17 2017 Yichun Zhang 1.11.2.3.6-1
 - upgraded to 1.11.2.3.6.
 * Wed Jun 14 2017 Yichun Zhang 1.11.2.3.5-1
