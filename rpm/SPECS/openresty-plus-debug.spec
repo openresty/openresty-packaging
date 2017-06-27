@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.3.8
-Release:        2%{?dist}
+Version:        1.11.2.3.9
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -138,6 +138,15 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
+pushd %{buildroot}
+
+for f in `find .%{orprefix}/lualib -type f -name '*.lua'`; do
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    rm -f $f
+done
+
+popd
+
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
 rm -rf %{buildroot}%{orprefix}/bin/resty
@@ -182,6 +191,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 26 2017 Yichun Zhang 1.11.2.3.9-1
+- upgraded to 1.11.2.3.9.
+- replaced lualib/*.lua with lualib/*.ljbc.
 * Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-2
 - excluded source code from the debuginfo package.
 * Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-1
