@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.11.2.3.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -39,6 +39,14 @@ AutoReqProv:        no
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty/openssl
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+%{nil}
 
 
 %description
@@ -289,6 +297,8 @@ fi
 
 
 %changelog
+* Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-2
+- excluded source code from the debuginfo package.
 * Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-1
 - upgraded to 1.11.2.3.8.
 * Mon Jun 26 2017 Yichun Zhang 1.11.2.3.7-2

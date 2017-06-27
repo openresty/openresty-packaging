@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.11.2.3.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -32,6 +32,14 @@ AutoReqProv:        no
 %define openssl_prefix      %{_usr}/local/openresty-debug/openssl
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+%{nil}
 
 
 %description
@@ -174,6 +182,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-2
+- excluded source code from the debuginfo package.
 * Mon Jun 26 2017 Yichun Zhang 1.11.2.3.8-1
 - upgraded to 1.11.2.3.8.
 - removed components we do not need.
