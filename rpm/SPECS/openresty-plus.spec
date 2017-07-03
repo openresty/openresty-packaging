@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.11.2.3.11
+Version:        1.11.2.3.12
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -257,6 +257,7 @@ fi
 
 #/etc/init.d/%{name}
 /usr/bin/%{name}
+%{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
@@ -295,6 +296,8 @@ fi
 
 
 %changelog
+* Sun Jul 2 2017 Yichun Zhang 1.11.2.3.12-1
+- upgraded to 1.11.2.3.12.
 * Sat Jul 1 2017 Yichun Zhang 1.11.2.3.11-1
 - upgraded to 1.11.2.3.11.
 * Fri Jun 30 2017 Yichun Zhang 1.11.2.3.10-1
