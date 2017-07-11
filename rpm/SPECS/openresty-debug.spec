@@ -1,6 +1,6 @@
 Name:           openresty-debug
-Version:        1.11.2.3
-Release:        3%{?dist}
+Version:        1.11.2.4
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -137,6 +137,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+- upgraded OpenResty to 1.11.2.4.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
 - removed the geoip nginx module since GeoIP is not available everywhere.
 * Fri Apr 21 2017 Yichun Zhang (agentzh)
