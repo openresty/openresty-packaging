@@ -8,7 +8,7 @@ Group:          System Environment/Daemons
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
 License:        Proprietary
-URL:            https://openresty.org/
+URL:            https://www.openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 #Source1:        openresty-plus.init

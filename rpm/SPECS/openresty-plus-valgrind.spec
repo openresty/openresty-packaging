@@ -1,5 +1,5 @@
 Name:           openresty-plus-valgrind
-Version:        1.11.2.3.2
+Version:        1.11.2.3.13
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
@@ -8,7 +8,7 @@ Group:          System Environment/Daemons
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
 License:        Proprietary
-URL:            https://openresty.org/
+URL:            https://www.openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 
@@ -31,6 +31,14 @@ AutoReqProv:        no
 %define openssl_prefix      %{_usr}/local/openresty-debug/openssl
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+%{nil}
 
 
 %description
@@ -68,6 +76,42 @@ a single box.
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \
+    --without-http_xss_module \
+    --without-http_form_input_module \
+    --without-http_srcache_module \
+    --without-http_lua_upstream_module \
+    --without-http_array_var_module \
+    --without-http_memc_module \
+    --without-http_redis2_module \
+    --without-http_redis_module \
+    --without-lua_redis_parser \
+    --without-lua_rds_parser \
+    --without-lua_resty_upstream_healthcheck \
+    --without-select_module \
+    --without-http_userid_module \
+    --without-http_autoindex_module \
+    --without-http_geo_module \
+    --without-http_split_clients_module \
+    --without-http_fastcgi_module \
+    --without-http_uwsgi_module \
+    --without-http_scgi_module \
+    --without-http_memcached_module \
+    --without-http_limit_conn_module \
+    --without-http_limit_req_module \
+    --without-http_empty_gif_module \
+    --without-http_browser_module \
+    --without-http_upstream_hash_module \
+    --without-http_upstream_ip_hash_module \
+    --without-http_upstream_least_conn_module \
+    --without-http_upstream_zone_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
+    --without-stream_limit_conn_module \
+    --without-stream_return_module \
+    --without-stream_upstream_hash_module \
+    --without-stream_upstream_least_conn_module \
+    --without-stream_upstream_zone_module \
     --with-ipv6 \
     --with-stream \
     --with-stream_ssl_module \
@@ -77,15 +121,7 @@ a single box.
     --without-mail_smtp_module \
     --with-http_stub_status_module \
     --with-http_realip_module \
-    --with-http_addition_module \
-    --with-http_auth_request_module \
-    --with-http_secure_link_module \
-    --with-http_random_index_module \
     --with-http_gzip_static_module \
-    --with-http_sub_module \
-    --with-http_dav_module \
-    --with-http_flv_module \
-    --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
     --with-file-aio \
@@ -101,6 +137,15 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+
+pushd %{buildroot}
+
+for f in `find .%{orprefix}/lualib -type f -name '*.lua'`; do
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    rm -f $f
+done
+
+popd
 
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
@@ -128,11 +173,11 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 /usr/bin/%{name}
+%{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
-%{orprefix}/libmaxminddb/*
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
@@ -141,6 +186,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jul 3 2017 Yichun Zhang 1.11.2.3.13-1
+- upgraded to 1.11.2.3.13.
 * Thu Jun 1 2017 Yichun Zhang 1.11.2.3.2-1
 - bugfix: installed the Lua modules shipped with ngx_lua_ssl_module.
 * Sun May 28 2017 Yichun Zhang (agentzh) 1.11.2.3.1-1
