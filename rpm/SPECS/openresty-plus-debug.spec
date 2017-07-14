@@ -15,7 +15,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-1
 BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
@@ -125,7 +125,6 @@ a single box.
     --with-file-aio \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
-    --with-dtrace-probes \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}

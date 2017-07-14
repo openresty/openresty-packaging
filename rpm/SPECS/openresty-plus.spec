@@ -18,7 +18,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-1
 BuildRequires:  openresty-openssl-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
@@ -203,7 +203,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-threads \
     --with-file-aio \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
-    --with-dtrace-probes \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}

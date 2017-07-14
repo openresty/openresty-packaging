@@ -14,7 +14,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
+BuildRequires:  gcc, make, perl, valgrind-devel
 Requires:       valgrind
 
 BuildRequires:  perl-File-Temp
@@ -128,7 +128,6 @@ a single box.
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
-    --with-dtrace-probes \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
