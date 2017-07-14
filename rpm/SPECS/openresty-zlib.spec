@@ -1,6 +1,6 @@
 Name:               openresty-zlib
 Version:            1.2.11
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            The zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -40,7 +40,9 @@ Provides C header and static library for OpenResty's zlib library.
 
 %build
 ./configure --prefix=%{zlib_prefix}
-make %{?_smp_mflags} CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g'
+make %{?_smp_mflags} CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
+    SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
+    > /dev/stderr
 
 
 %install
@@ -69,6 +71,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 14 2017 Yichun Zhang 1.2.11-3
+- we did not enable debuginfo in the shared library files.
 * Sat May 20 2017 Yichun Zhang 1.2.11-2
 - added debuginfo.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
