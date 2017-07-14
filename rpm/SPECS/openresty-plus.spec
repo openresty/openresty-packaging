@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.11.2.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -264,7 +264,6 @@ fi
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 
@@ -295,6 +294,8 @@ fi
 
 
 %changelog
+* Thu Jul 13 2017 Yichun Zhang 1.11.2.4.2-2
+- removed systemtap dtrace USDT probes to avoid any risk of GPL pollutions.
 * Wed Jul 12 2017 Yichun Zhang 1.11.2.4.2-1
 - upgraded to 1.11.2.4.2.
 * Wed Jul 12 2017 Yichun Zhang 1.11.2.4.1-1
