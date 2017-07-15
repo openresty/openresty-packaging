@@ -44,7 +44,7 @@ Development files for Perl-compatible regular expression library for use by Open
   --enable-utf \
   --enable-unicode-properties
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} V=1 > /dev/stderr
 
 
 %install

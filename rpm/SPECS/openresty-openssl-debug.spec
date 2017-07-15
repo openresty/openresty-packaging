@@ -16,8 +16,8 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 
 BuildRequires:      gcc, make, perl
 
-BuildRequires:      openresty-zlib-devel >= 1.2.8
-Requires:           openresty-zlib >= 1.2.8
+BuildRequires:      openresty-zlib-devel >= 1.2.11
+Requires:           openresty-zlib >= 1.2.11
 
 AutoReqProv:        no
 

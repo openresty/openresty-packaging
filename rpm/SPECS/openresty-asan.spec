@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.11.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -18,13 +18,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-devel >= 1.2.11-1
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
 BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.40-1
+BuildRequires:  openresty-pcre-asan-devel >= 8.40-3
 
-Requires:       openresty-zlib >= 1.2.11-2
+Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl-asan >= 1.0.2k-1
-Requires:       openresty-pcre-asan >= 8.40-1
+Requires:       openresty-pcre-asan >= 8.40-3
 
 AutoReqProv:        no
 
@@ -149,6 +149,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-3
+- switched to use openresty-zlib-asan, openresty-pcre-asan, and openresty-openssl-asan.
 * Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-2
 - fixed spec for CentOS 6 regarding missing build id issues.
 * Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-1

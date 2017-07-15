@@ -1,6 +1,6 @@
 Name:               openresty-zlib-asan
 Version:            1.2.11
-Release:            5%{?dist}
+Release:            6%{?dist}
 Summary:            Clang AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -45,7 +45,8 @@ Provides C header and static library for OpenResty's clang AddressSanitizer vers
 %build
 export ASAN_OPTIONS=detect_leaks=0
 
-./configure --prefix=%{zlib_prefix}
+CC="clang -fsanitize=address" ./configure --prefix=%{zlib_prefix}
+
 make %{?_smp_mflags} CC="clang -fsanitize=address" \
     CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
@@ -79,13 +80,15 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri May 21 2017 Yichun Zhang (agentzh) 1.2.11-5
+* Sat Jul 15 2017 Yichun Zhang (agentzh) 1.2.11-6
+- specify the correct CC environment before running ./configure too.
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-5
 - restored --version-script.
-* Fri May 21 2017 Yichun Zhang (agentzh) 1.2.11-4
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-4
 - removed linker option --version-script.
-* Fri May 21 2017 Yichun Zhang (agentzh) 1.2.11-3
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-3
 - fixed spec for CentOS 6 regarding missing build id issues.
-* Fri May 21 2017 Yichun Zhang (agentzh) 1.2.11-2
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-2
 - forgot to use clang -fsanitize=address to link shared libraries.
-* Fri May 21 2017 Yichun Zhang (agentzh) 1.2.11-1
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-1
 - initial build for zlib 1.2.11.

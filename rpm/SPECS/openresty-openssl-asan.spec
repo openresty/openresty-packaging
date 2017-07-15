@@ -16,8 +16,8 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 
 BuildRequires:      gcc, make, perl
 
-BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-1
-Requires:           openresty-zlib-asan >= 1.2.11-1
+BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-6
+Requires:           openresty-zlib-asan >= 1.2.11-6
 
 AutoReqProv:        no
 
@@ -61,8 +61,12 @@ export ASAN_OPTIONS=detect_leaks=0
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
 sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
+sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-make CC="clang -fsanitize=address" %{?_smp_mflags} > /dev/stderr
+make %{?_smp_mflags} \
+    LD_LIBRARY_PATH= \
+    CC="clang -fsanitize=address" \
+    > /dev/stderr
 
 
 %install
