@@ -1,7 +1,7 @@
 Name:           openresty-asan
 Version:        1.11.2.4
 Release:        2%{?dist}
-Summary:        The clang AddressSanitizer (ASAN) debug version of OpenResty
+Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
 
@@ -19,18 +19,19 @@ BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-1
-BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
-BuildRequires:  openresty-pcre-devel >= 8.40-1
-Requires:       openresty-zlib >= 1.2.11-1
-Requires:       openresty-openssl-debug >= 1.0.2k-1
-Requires:       openresty-pcre >= 8.40-1
+BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-1
+BuildRequires:  openresty-pcre-asan-devel >= 8.40-1
+
+Requires:       openresty-zlib >= 1.2.11-2
+Requires:       openresty-openssl-asan >= 1.0.2k-1
+Requires:       openresty-pcre-asan >= 8.40-1
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
-%define zlib_prefix         %{_usr}/local/openresty/zlib
-%define pcre_prefix         %{_usr}/local/openresty/pcre
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
+%define zlib_prefix         %{_usr}/local/openresty-asan/zlib
+%define pcre_prefix         %{_usr}/local/openresty-asan/pcre
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
@@ -38,7 +39,8 @@ AutoReqProv:        no
 
 
 %description
-This package contains a debug version of the core server for OpenResty with
+This package contains a clang AddressSanitizer version of the core server
+for OpenResty with
 clang's AddressSanitizer built in. Built for development purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
@@ -149,24 +151,5 @@ rm -rf %{buildroot}
 %changelog
 * Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-2
 - fixed spec for CentOS 6 regarding missing build id issues.
-* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
-- upgraded OpenResty to 1.11.2.4.
-* Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
-- removed the geoip nginx module since GeoIP is not available everywhere.
-* Fri Apr 21 2017 Yichun Zhang (agentzh)
-- upgrade to the OpenResty 1.11.2.3 release: http://openresty.org/en/changelog-1011002.html
-* Wed Dec 14 2016 Yichun Zhang
-- enabled http_geoip_module by default.
-* Thu Nov 17 2016 Yichun Zhang
-- upgraded OpenResty to 1.11.2.2.
-* Fri Aug 26 2016 Yichun Zhang
-- use dual number mode in our luajit builds which should usually
-be faster for web application use cases.
-* Wed Aug 24 2016 Yichun Zhang
-- bump OpenResty version to 1.11.2.1.
-* Tue Aug 23 2016 zxcvbn4038
-- use external packages openresty-zlib and openresty-pcre through dynamic linking.
-* Thu Jul 14 2016 Yichun Zhang
-- enabled more nginx standard modules as well as threads and file aio.
-* Sun Jul 10 2016 makerpm
-- initial build for OpenResty 1.9.15.1.
+* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+- initial build for OpenResty 1.11.2.4.
