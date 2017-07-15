@@ -1,7 +1,7 @@
-Name:               openresty-openssl-debug
+Name:               openresty-openssl-asan
 Version:            1.0.2k
 Release:            2%{?dist}
-Summary:            Debug version of the OpenSSL library for OpenResty
+Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
 
@@ -14,29 +14,33 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      gcc, make, perl
+BuildRequires:      gcc, make, perl, clang
 
-BuildRequires:      openresty-zlib-devel >= 1.2.11
-Requires:           openresty-zlib >= 1.2.11
+BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-6
+Requires:           openresty-zlib-asan >= 1.2.11-6
 
 AutoReqProv:        no
 
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
-%define zlib_prefix         /usr/local/openresty/zlib
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
+%define zlib_prefix         /usr/local/openresty-asan/zlib
+
+%if 0%{?el6}
+%undefine _missing_build_ids_terminate_build
+%endif
 
 
 %description
-This is the debug version of the OpenSSL library build for OpenResty uses.
+This is the clang AddressSanitizer version of the OpenSSL library build for OpenResty uses.
 
 
 %package devel
 
-Summary:            Debug version of development files for OpenResty's OpenSSL library
+Summary:            Clang AddressSanitizer version of development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
-Requires:           openresty-openssl-debug
+Requires:           openresty-openssl-asan
 
 %description devel
-Provides C header and static library for the debug version of OpenResty's OpenSSL library. This is the debug version.
+Provides C header and static library for the clang AddressSanitizer version of OpenResty's OpenSSL library. This is the clang AddressSanitizer version.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -45,18 +49,24 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 
 
 %build
+export ASAN_OPTIONS=detect_leaks=0
+
 ./config \
     no-threads no-asm \
-    shared zlib -g -O0 -DPURIFY \
+    shared zlib -g -O1 -DPURIFY \
     --openssldir=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
-sed -i 's/ -O3 / -O0 /g' Makefile
+sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
+sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} \
+    LD_LIBRARY_PATH= \
+    CC="clang -fsanitize=address" \
+    > /dev/stderr
 
 
 %install
@@ -94,18 +104,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Sun May 21 2017 Yichun Zhang (agentzh) 1.0.2k-2
-- avoided the electric fence dependency.
-* Sun Mar 19 2017 Yichun Zhang (agentzh)
-- upgraded OpenSSL to 1.0.2k.
-* Fri Nov 25 2016 Yichun Zhang (agentzh)
-- added perl to the BuildRequires list.
-* Tue Oct  4 2016 Yichun Zhang (agentzh)
-- fixed the rpath of libssl.so (we should have linked against
-our own libcrypto.so).
-* Sat Sep 24 2016 Yichun Zhang (agentzh)
-- upgrade to OpenSSL 1.0.2i.
-* Tue Aug 23 2016 zxcvbn4038
-- use openresty-zlib instead of the system one.
-* Sun Jul 13 2016 makerpm
-- initial build for OpenSSL 1.0.2h.
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.0.2k-2
+- bugfix: forgot to add clang to the build dep list.
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.0.2k-1
+- initial build for OpenSSL 1.0.2k.

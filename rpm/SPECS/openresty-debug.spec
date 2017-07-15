@@ -1,6 +1,6 @@
 Name:           openresty-debug
-Version:        1.11.2.3
-Release:        3%{?dist}
+Version:        1.11.2.4
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -16,10 +16,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.11-1
+BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
-Requires:       openresty-zlib >= 1.2.11-1
+Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl-debug >= 1.0.2k-1
 Requires:       openresty-pcre >= 8.40-1
 
@@ -137,6 +137,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+- upgraded OpenResty to 1.11.2.4.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
 - removed the geoip nginx module since GeoIP is not available everywhere.
 * Fri Apr 21 2017 Yichun Zhang (agentzh)

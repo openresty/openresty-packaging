@@ -15,8 +15,8 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
-BuildRequires:      openresty-zlib-devel >= 1.2.8
-Requires:           openresty-zlib >= 1.2.8
+BuildRequires:      openresty-zlib-devel >= 1.2.11
+Requires:           openresty-zlib >= 1.2.11
 
 AutoReqProv:        no
 

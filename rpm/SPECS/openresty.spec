@@ -1,6 +1,6 @@
 Name:           openresty
-Version:        1.11.2.3
-Release:        15%{?dist}
+Version:        1.11.2.4
+Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -19,10 +19,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.11-1
+BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
-Requires:       openresty-zlib >= 1.2.11-1
+Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl >= 1.0.2k-1
 Requires:       openresty-pcre >= 8.40-1
 
@@ -255,6 +255,8 @@ fi
 
 
 %changelog
+* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+- upgraded OpenResty to 1.11.2.4.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14
 - bugfix: the openresty-opm subpackage did not depend on openresty-doc and openresty-resty.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14

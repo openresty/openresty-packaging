@@ -1,7 +1,7 @@
-Name:           openresty-valgrind
+Name:           openresty-asan
 Version:        1.11.2.4
-Release:        1%{?dist}
-Summary:        The Valgrind debug version of OpenResty
+Release:        3%{?dist}
+Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
 
@@ -15,28 +15,33 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
-Requires:       valgrind
+BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
-BuildRequires:  openresty-pcre-devel >= 8.40-1
-Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl-debug >= 1.0.2k-1
-Requires:       openresty-pcre >= 8.40-1
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
+BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-1
+BuildRequires:  openresty-pcre-asan-devel >= 8.40-3
+
+Requires:       openresty-zlib-asan >= 1.2.11-6
+Requires:       openresty-openssl-asan >= 1.0.2k-1
+Requires:       openresty-pcre-asan >= 8.40-3
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
-%define zlib_prefix         %{_usr}/local/openresty/zlib
-%define pcre_prefix         %{_usr}/local/openresty/pcre
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
+%define zlib_prefix         %{_usr}/local/openresty-asan/zlib
+%define pcre_prefix         %{_usr}/local/openresty-asan/pcre
+
+%if 0%{?el6}
+%undefine _missing_build_ids_terminate_build
+%endif
 
 
 %description
-This package contains a debug version of the core server for OpenResty for Valgrind.
-Built for development purposes only.
+This package contains a clang AddressSanitizer version of the core server
+for OpenResty with
+clang's AddressSanitizer built in. Built for development purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
 
@@ -60,10 +65,13 @@ a single box.
 
 
 %build
+export ASAN_OPTIONS=detect_leaks=0
+
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
+    --with-cc="clang -fsanitize=address" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -91,7 +99,7 @@ a single box.
     --with-threads \
     --with-file-aio \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
     --with-no-pool-patch \
     --with-dtrace-probes \
     %{?_smp_mflags}
@@ -141,24 +149,9 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
-- upgraded OpenResty to 1.11.2.4.
-* Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
-- removed the geoip nginx module since GeoIP is not available everywhere.
-* Fri Apr 21 2017 Yichun Zhang (agentzh)
-- upgrade to the OpenResty 1.11.2.3 release: http://openresty.org/en/changelog-1011002.html
-* Wed Dec 14 2016 Yichun Zhang
-- enabled http_geoip_module by default.
-* Thu Nov 17 2016 Yichun Zhang
-- upgraded OpenResty to 1.11.2.2.
-* Fri Aug 26 2016 Yichun Zhang
-- use dual number mode in our luajit builds which should usually
-be faster for web application use cases.
-* Wed Aug 24 2016 Yichun Zhang
-- bump OpenResty version to 1.11.2.1.
-* Tue Aug 23 2016 zxcvbn4038
-- use external packages openresty-zlib and openresty-pcre through dynamic linking.
-* Thu Jul 14 2016 Yichun Zhang
-- enabled more nginx standard modules as well as threads and file aio.
-* Sun Jul 10 2016 makerpm
-- initial build for OpenResty 1.9.15.1.
+* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-3
+- switched to use openresty-zlib-asan, openresty-pcre-asan, and openresty-openssl-asan.
+* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-2
+- fixed spec for CentOS 6 regarding missing build id issues.
+* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+- initial build for OpenResty 1.11.2.4.
