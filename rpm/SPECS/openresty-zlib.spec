@@ -72,7 +72,7 @@ rm -rf %{buildroot}
 
 %changelog
 * Fri Jul 14 2017 Yichun Zhang 1.2.11-3
-- we did not enable debuginfo in the shared library files.
+- bugfix: we did not enable debuginfo in the shared library files.
 * Sat May 20 2017 Yichun Zhang 1.2.11-2
 - added debuginfo.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)

@@ -1,3 +1,9 @@
+openresty-zlib (1.2.11-3~[% distro %]1) [% distro %]; urgency=low
+
+  * bugfix: we did not enable debuginfo in the shared library files.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 15 Jul 2017 12:13:41 -0700
+
 openresty-zlib (1.2.11-2~[% distro %]1) [% distro %]; urgency=low
 
   * Initial release
