@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
-Version:        1.11.2.4.2
-Release:        2%{?dist}
+Version:        1.11.2.4.3
+Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -190,6 +190,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jul 15 2017 Yichun Zhang 1.11.2.4.3-1
+- upgraded openresty plus to 1.11.2.4.3.
 * Sat Jul 15 2017 Yichun Zhang 1.11.2.4.2-1
 - fixed spec for CentOS 6 regarding missing build id issues.
 * Sat Jul 15 2017 Yichun Zhang 1.11.2.4.2-1

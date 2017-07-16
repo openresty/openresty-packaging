@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.4.2
-Release:        2%{?dist}
+Version:        1.11.2.4.3
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -181,6 +181,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jul 15 2017 Yichun Zhang 1.11.2.4.3-1
+- upgraded openresty plus to 1.11.2.4.3.
 * Thu Jul 13 2017 Yichun Zhang 1.11.2.4.2-2
 - removed systemtap dtrace USDT probes to avoid any risk of GPL pollutions.
 * Wed Jul 12 2017 Yichun Zhang 1.11.2.4.2-1
