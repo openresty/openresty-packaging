@@ -240,15 +240,15 @@ export QA_RPATHS=$[ 0x0002 ]
 rm -rf %{buildroot}
 
 
-%post
-/sbin/chkconfig --add %{name}
+#%post
+#/sbin/chkconfig --add %{name}
 
 
-%preun
-if [ $1 = 0 ]; then
-    /sbin/service %{name} stop >/dev/null 2>&1
-    /sbin/chkconfig --del %{name}
-fi
+#%preun
+#if [ $1 = 0 ]; then
+    #/sbin/service %{name} stop >/dev/null 2>&1
+    #/sbin/chkconfig --del %{name}
+#fi
 
 
 %files
