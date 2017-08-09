@@ -67,7 +67,7 @@ a single box.
 
 %package resty
 
-Summary:        OpenResty command-line utility, resty
+Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
@@ -78,7 +78,7 @@ BuildArch:      noarch
 
 
 %description resty
-This package contains the "resty" command-line utility for OpenResty, which
+This package contains the "resty" command-line utility for OpenResty+, which
 runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
 scene.
 
@@ -91,7 +91,7 @@ services, and dynamic web gateways.
 
 %package doc
 
-Summary:        OpenResty documentation tool, restydoc
+Summary:        OpenResty+ documentation tool, restydoc
 Group:          Development/Tools
 Requires:       perl, perl(Getopt::Std), perl(File::Spec), perl(FindBin), perl(Cwd), perl(File::Temp), perl(Pod::Man), perl(Pod::Text)
 
@@ -111,7 +111,7 @@ BuildArch:      noarch
 
 
 %description doc
-This package contains the official OpenResty documentation index and
+This package contains the official OpenResty+ documentation index and
 the "restydoc" command-line utility for viewing it.
 
 OpenResty is a full-fledged web platform by integrating the standard Nginx
@@ -123,7 +123,7 @@ services, and dynamic web gateways.
 
 %package opm
 
-Summary:        OpenResty Package Manager
+Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
 Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
 Requires:       curl, tar, gzip
