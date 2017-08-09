@@ -23,3 +23,9 @@ upload
 go
 [a-z].txt
 *.upload
+openresty-plus/debian/openresty-plus-dbgsym/
+openresty-plus/debian/openresty-plus-opm/
+openresty-plus/debian/openresty-plus-resty/
+openresty-plus/debian/openresty-plus-restydoc/
+openresty-plus/debian/openresty-plus/
+upload-*

@@ -1,0 +1,5 @@
+openresty-plus (1.11.2.4.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 09 Aug 2017 14:17:26 -0700

@@ -1,0 +1,9 @@
+usr/bin/openresty-plus
+usr/local/openresty-plus/bin/openresty-plus
+usr/local/openresty-plus/site/lualib
+usr/local/openresty-plus/luajit/*
+usr/local/openresty-plus/lualib/*
+usr/local/openresty-plus/nginx/html/*
+usr/local/openresty-plus/nginx/sbin/*
+usr/local/openresty-plus/nginx/conf/*
+usr/local/openresty-plus/nginx/logs

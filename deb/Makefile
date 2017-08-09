@@ -13,6 +13,7 @@ ZLIB_VER=1.2.11
 PCRE_VER=8.40
 SSL_VER=1.0.2k
 OR_VER=1.11.2.4
+OR_PLUS_VER=1.11.2.4.6
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.26
 OPTS=
@@ -21,12 +22,13 @@ DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
-	openresty-valgrind-build \
+	openresty-valgrind-build openresty-plus-build \
 	lemplate-build test-nginx-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 	openresty-clean openresty-debug-clean openresty-valgrind-clean \
+	openresty-plus-clean \
 	lemplate-clean test-nginx-clean
 
 .PHONY: zlib-download
@@ -201,6 +203,31 @@ openresty-valgrind-clean:
 	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
 	rm -f openresty-valgrind*.deb
 	rm -f openresty-valgrind_*.*
+
+.PHONY: openresty-plus-build
+openresty-plus-build: | openresty-plus-clean openresty-plus-download
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
+	cd openresty-plus \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
+
+.PHONY: openresty-plus-clean
+openresty-plus-clean:
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev
+	cd openresty-plus && debclean
+	find openresty-plus -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus' -print | xargs rm -rf
+	rm -f openresty-plus*.deb
+	rm -f openresty-plus_*.*
+
+.PHONY: openresty-plus-download
+openresty-plus-download:
+	rm -f *.orig.tar.*
+	rsync -crlvpP nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
+	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus_$(OR_PLUS_VER).orig.tar.gz
 
 .PHONY: lemplate-download
 lemplate-download:
