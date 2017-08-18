@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.11.2.4
+Version:        1.11.2.5
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -224,6 +224,7 @@ fi
 %{orprefix}/nginx/sbin/*
 %{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
+%{orprefix}/COPYRIGHT
 
 
 %files resty
@@ -255,6 +256,8 @@ fi
 
 
 %changelog
+* Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
+- upgraded OpenResty to 1.11.2.5.
 * Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
 - upgraded OpenResty to 1.11.2.4.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14
