@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-for distro in artful yakkety xenial trusty zesty
+for distro in artful xenial trusty zesty
 do
     make $1-build OPTS=-S DISTRO=$distro
 done
