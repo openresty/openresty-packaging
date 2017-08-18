@@ -1,6 +1,6 @@
 Name:           openresty-asan
-Version:        1.11.2.4
-Release:        3%{?dist}
+Version:        1.11.2.5
+Release:        1%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -146,9 +146,12 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/sbin/*
 %{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
+%{orprefix}//COPYRIGHT
 
 
 %changelog
+* Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
+- upgraded OpenResty to 1.11.2.5.
 * Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-3
 - switched to use openresty-zlib-asan, openresty-pcre-asan, and openresty-openssl-asan.
 * Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-2

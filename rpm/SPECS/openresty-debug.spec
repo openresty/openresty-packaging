@@ -1,5 +1,5 @@
 Name:           openresty-debug
-Version:        1.11.2.4
+Version:        1.11.2.5
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty
 
@@ -134,9 +134,12 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/sbin/*
 %{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
+%{orprefix}/COPYRIGHT
 
 
 %changelog
+* Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
+- upgraded OpenResty to 1.11.2.5.
 * Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
 - upgraded OpenResty to 1.11.2.4.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
