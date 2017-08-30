@@ -22,9 +22,11 @@ BuildRequires:  gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-devel >= 1.0.2k-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
+BuildRequires:  gd-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl >= 1.0.2k-1
 Requires:       openresty-pcre >= 8.40-1
+Requires:       gd
 
 # for /sbin/service
 #Requires(post):  chkconfig
