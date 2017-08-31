@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
  openresty-zlib-dev, openresty-openssl-dev, openresty-pcre-dev,
- perl, libfile-temp-perl
+ perl, libfile-temp-perl, libgd-dev
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
@@ -44,7 +44,7 @@ Description: OpenResty Package Manager (OPM)
 Package: openresty-plus
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-zlib, openresty-openssl, openresty-pcre
+ openresty-zlib, openresty-openssl, openresty-pcre, libgd3
 Description: core server of OpenResty+ for production use
  This package contains the core server for OpenResty+, an enhanced version of
  OpenResty. Built for production uses.

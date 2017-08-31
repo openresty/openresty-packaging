@@ -20,9 +20,11 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
 BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-2
 BuildRequires:  openresty-pcre-asan-devel >= 8.40-3
+BuildRequires:  gd-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl-asan >= 1.0.2k-2
 Requires:       openresty-pcre-asan >= 8.40-3
+Requires:       gd
 
 AutoReqProv:        no
 
