@@ -55,7 +55,6 @@ override_dh_auto_install:
 	ln -sf ../local/openresty/bin/resty $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty/bin/restydoc $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty/bin/opm $(DESTDIR)/usr/bin
-	ln -sf ../local/openresty/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty
 	cd $(CURDIR)
 
 override_dh_strip:

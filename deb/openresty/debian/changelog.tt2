@@ -1,3 +1,12 @@
+openresty (1.11.2.5-2~[% distro %]1) [% distro %]; urgency=low
+
+  * /usr/local/openresty/nginx/conf/* was not treated as conffiles.
+
+  * added symlink /etc/openresty to point to directory
+    /usr/local/openresty/nginx/conf/.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 16 Sep 2017 11:53:26 -0700
+
 openresty (1.11.2.5-1~[% distro %]1) [% distro %]; urgency=low
 
   * upgraded OpenResty to 1.11.2.5.
