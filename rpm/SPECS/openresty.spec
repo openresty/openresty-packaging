@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.11.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -168,7 +168,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_gunzip_module \
     --with-threads \
     --with-file-aio \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
+    --with-luajit-xcflags='-DNGX_LUA_ABORT_AT_PANIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     --with-dtrace-probes \
     %{?_smp_mflags}
 
@@ -256,6 +256,8 @@ fi
 
 
 %changelog
+* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5-2
+- enabled -DNGX_LUA_ABORT_AT_PANIC by default.
 * Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
 - upgraded OpenResty to 1.11.2.5.
 * Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
