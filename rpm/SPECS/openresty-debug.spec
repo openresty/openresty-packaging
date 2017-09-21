@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.11.2.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -88,7 +88,7 @@ a single box.
     --with-threads \
     --with-file-aio \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+    --with-luajit-xcflags='-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
     --with-dtrace-probes \
     %{?_smp_mflags}
 
@@ -138,6 +138,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5-2
+- enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
 * Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
 - upgraded OpenResty to 1.11.2.5.
 * Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1

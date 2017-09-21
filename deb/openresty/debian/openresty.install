@@ -1,4 +1,3 @@
-usr/bin/openresty
 usr/local/openresty/bin/openresty
 usr/local/openresty/site/lualib
 usr/local/openresty/luajit/*

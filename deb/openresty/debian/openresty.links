@@ -1,0 +1,2 @@
+/usr/local/openresty/nginx/conf             /etc/openresty
+/usr/local/openresty/nginx/sbin/nginx       /usr/bin/openresty
