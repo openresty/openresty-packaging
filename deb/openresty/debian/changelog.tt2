@@ -1,3 +1,9 @@
+openresty (1.11.2.5-3~[% distro %]1) [% distro %]; urgency=low
+
+  * enabled -DNGX_LUA_ABORT_AT_PANIC by default.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 21 Sep 2017 11:53:26 -0700
+
 openresty (1.11.2.5-2~[% distro %]1) [% distro %]; urgency=low
 
   * /usr/local/openresty/nginx/conf/* was not treated as conffiles.
