@@ -88,7 +88,7 @@ a single box.
     --with-threads \
     --with-file-aio \
     --with-poll_module \
-    --with-luajit-xcflags='-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
     --with-dtrace-probes \
     %{?_smp_mflags}
 
