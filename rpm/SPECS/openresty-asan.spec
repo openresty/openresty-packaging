@@ -99,7 +99,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-threads \
     --with-file-aio \
     --with-poll_module \
-    --with-luajit-xcflags='-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
     --with-no-pool-patch \
     --with-dtrace-probes \
     %{?_smp_mflags}
