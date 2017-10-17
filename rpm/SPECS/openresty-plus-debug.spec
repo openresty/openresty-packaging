@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.11.2.5.7
+Version:        1.11.2.5.11
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -70,7 +70,7 @@ a single box.
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -183,6 +183,14 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Oct 17 2017 Yichun Zhang (agentzy) 1.11.2.5.11-1
+- upgraded openresty-plus to 1.11.2.5.11.
+* Mon Oct 16 2017 Yichun Zhang (agentzy) 1.11.2.5.10-1
+- upgraded openresty-plus to 1.11.2.5.10.
+* Wed Oct 4 2017 Yichun Zhang (agentzy) 1.11.2.5.9-1
+- upgraded openresty-plus to 1.11.2.5.9.
+* Fri Sep 29 2017 Yichun Zhang (agentzy) 1.11.2.5.8-1
+- upgraded openresty-plus to 1.11.2.5.8.
 * Fri Sep 29 2017 Yichun Zhang (agentzy) 1.11.2.5.7-1
 - upgraded openresty-plus to 1.11.2.5.7.
 * Wed Sep 27 2017 Yichun Zhang (agentzy) 1.11.2.5.6-1
