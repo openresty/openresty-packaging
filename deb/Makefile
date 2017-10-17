@@ -206,7 +206,7 @@ openresty-valgrind-clean:
 
 .PHONY: openresty-plus-build
 openresty-plus-build: | openresty-plus-clean openresty-plus-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev libgd-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
