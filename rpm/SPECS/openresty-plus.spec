@@ -1,6 +1,6 @@
 Name:           openresty-plus
-Version:        1.13.5.0.2
-Release:        1%{?dist}
+Version:        1.13.6.0.1
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -8,7 +8,7 @@ Group:          System Environment/Daemons
 # BSD License (two clause)
 # http://www.freebsd.org/copyright/freebsd-license.html
 License:        Proprietary
-URL:            https://www.openresty.com/
+URL:            https://openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 #Source1:        openresty-plus.init
@@ -71,7 +71,7 @@ a single box.
 
 Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty >= %{version}-%{release}
+Requires:       perl, openresty-plus >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -127,7 +127,7 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       perl, openresty-plus >= %{version}-%{release}, perl(Digest::MD5)
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
@@ -296,6 +296,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Oct 27 2017 Yichun Zhang (agentzy) 1.13.6.0.1-2
+- upgraded openresty-plus to 1.13.6.0.1.
+* Fri Oct 27 2017 Yichun Zhang (agentzy) 1.13.6.0.1-1
+- upgraded openresty-plus to 1.13.6.0.1.
 * Thu Oct 26 2017 Yichun Zhang (agentzy) 1.13.5.0.2-1
 - upgraded openresty-plus to 1.13.5.0.2.
 * Wed Oct 25 2017 Yichun Zhang (agentzy) 1.13.5.0.1-1
