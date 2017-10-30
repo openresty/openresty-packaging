@@ -1,6 +1,6 @@
 Name:           openresty-plus
-Version:        1.13.6.0.1
-Release:        2%{?dist}
+Version:        1.13.6.0.2
+Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -296,6 +296,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Oct 30 2017 Yichun Zhang (agentzy) 1.13.6.0.2-1
+- upgraded openresty-plus to 1.13.6.0.2.
 * Sat Oct 27 2017 Yichun Zhang (agentzy) 1.13.6.0.1-2
 - upgraded openresty-plus to 1.13.6.0.1.
 * Fri Oct 27 2017 Yichun Zhang (agentzy) 1.13.6.0.1-1
