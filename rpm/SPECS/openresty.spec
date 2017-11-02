@@ -256,11 +256,11 @@ fi
 
 
 %changelog
-* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5-2
+* Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC by default.
-* Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
+* Thu Aug 17 2017 Yichun Zhang (agentzh) 1.11.2.5-1
 - upgraded OpenResty to 1.11.2.5.
-* Tue Jul 11 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+* Tue Jul 11 2017 Yichun Zhang (agentzh) 1.11.2.4-1
 - upgraded OpenResty to 1.11.2.4.
 * Sat May 27 2017 Yichun Zhang (agentzh) 1.11.2.3-14
 - bugfix: the openresty-opm subpackage did not depend on openresty-doc and openresty-resty.
