@@ -150,13 +150,13 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5-2
+* Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
-* Thu Aug 17 2017 Yichun Zhang (agentzy) 1.11.2.5-1
+* Thu Aug 17 2017 Yichun Zhang (agentzh) 1.11.2.5-1
 - upgraded OpenResty to 1.11.2.5.
-* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-3
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.11.2.4-3
 - switched to use openresty-zlib-asan, openresty-pcre-asan, and openresty-openssl-asan.
-* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-2
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.11.2.4-2
 - fixed spec for CentOS 6 regarding missing build id issues.
-* Fri Jul 14 2017 Yichun Zhang (agentzy) 1.11.2.4-1
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 1.11.2.4-1
 - initial build for OpenResty 1.11.2.4.
