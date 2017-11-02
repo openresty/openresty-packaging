@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
-Version:        1.11.2.5.1
-Release:        2%{?dist}
+Version:        1.13.6.0.4
+Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -186,6 +186,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Nov 2 2017 Yichun Zhang (agentzh) 1.13.6.0.4-1
+- upgraded openresty-plus to 1.13.6.0.4.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5.1-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
 * Thu Aug 31 2017 Yichun Zhang 1.11.2.5.1-1
