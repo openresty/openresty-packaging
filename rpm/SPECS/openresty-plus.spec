@@ -192,7 +192,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --without-stream_upstream_hash_module \
     --without-stream_upstream_least_conn_module \
     --without-stream_upstream_zone_module \
-    --with-ipv6 \
     --with-stream_ssl_module \
     --with-http_v2_module \
     --without-mail_pop3_module \

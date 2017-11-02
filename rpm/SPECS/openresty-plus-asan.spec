@@ -120,7 +120,6 @@ export ASAN_OPTIONS=detect_leaks=0
     --without-stream_upstream_hash_module \
     --without-stream_upstream_least_conn_module \
     --without-stream_upstream_zone_module \
-    --with-ipv6 \
     --with-stream \
     --with-stream_ssl_module \
     --with-http_v2_module \
