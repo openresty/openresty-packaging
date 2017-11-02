@@ -77,7 +77,6 @@ export ASAN_OPTIONS=detect_leaks=0
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \
-    --with-ipv6 \
     --with-stream \
     --with-stream_ssl_module \
     --with-http_v2_module \
