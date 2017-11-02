@@ -186,7 +186,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5.1-2
+* Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5.1-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
 * Thu Aug 31 2017 Yichun Zhang 1.11.2.5.1-1
 - upgraded openresty plus to 1.11.2.5.1.

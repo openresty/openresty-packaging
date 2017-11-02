@@ -183,37 +183,37 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Oct 31 2017 Yichun Zhang (agentzy) 1.13.6.0.3-1
+* Tue Oct 31 2017 Yichun Zhang (agentzh) 1.13.6.0.3-1
 - upgraded openresty-plus to 1.13.6.0.3.
-* Mon Oct 30 2017 Yichun Zhang (agentzy) 1.13.6.0.2-1
+* Mon Oct 30 2017 Yichun Zhang (agentzh) 1.13.6.0.2-1
 - upgraded openresty-plus to 1.13.6.0.2.
-* Fri Oct 27 2017 Yichun Zhang (agentzy) 1.13.6.0.1-1
+* Fri Oct 27 2017 Yichun Zhang (agentzh) 1.13.6.0.1-1
 - upgraded openresty-plus to 1.13.6.0.1.
-* Thu Oct 26 2017 Yichun Zhang (agentzy) 1.13.5.0.2-1
+* Thu Oct 26 2017 Yichun Zhang (agentzh) 1.13.5.0.2-1
 - upgraded openresty-plus to 1.13.5.0.2.
-* Wed Oct 25 2017 Yichun Zhang (agentzy) 1.13.5.0.1-1
+* Wed Oct 25 2017 Yichun Zhang (agentzh) 1.13.5.0.1-1
 - upgraded openresty-plus to 1.13.5.0.1.
-* Tue Oct 17 2017 Yichun Zhang (agentzy) 1.11.2.5.11-1
+* Tue Oct 17 2017 Yichun Zhang (agentzh) 1.11.2.5.11-1
 - upgraded openresty-plus to 1.11.2.5.11.
-* Mon Oct 16 2017 Yichun Zhang (agentzy) 1.11.2.5.10-1
+* Mon Oct 16 2017 Yichun Zhang (agentzh) 1.11.2.5.10-1
 - upgraded openresty-plus to 1.11.2.5.10.
-* Wed Oct 4 2017 Yichun Zhang (agentzy) 1.11.2.5.9-1
+* Wed Oct 4 2017 Yichun Zhang (agentzh) 1.11.2.5.9-1
 - upgraded openresty-plus to 1.11.2.5.9.
-* Fri Sep 29 2017 Yichun Zhang (agentzy) 1.11.2.5.8-1
+* Fri Sep 29 2017 Yichun Zhang (agentzh) 1.11.2.5.8-1
 - upgraded openresty-plus to 1.11.2.5.8.
-* Fri Sep 29 2017 Yichun Zhang (agentzy) 1.11.2.5.7-1
+* Fri Sep 29 2017 Yichun Zhang (agentzh) 1.11.2.5.7-1
 - upgraded openresty-plus to 1.11.2.5.7.
-* Wed Sep 27 2017 Yichun Zhang (agentzy) 1.11.2.5.6-1
+* Wed Sep 27 2017 Yichun Zhang (agentzh) 1.11.2.5.6-1
 - upgraded openresty-plus to 1.11.2.5.6.
-* Tue Sep 26 2017 Yichun Zhang (agentzy) 1.11.2.5.5-1
+* Tue Sep 26 2017 Yichun Zhang (agentzh) 1.11.2.5.5-1
 - upgraded openresty-plus to 1.11.2.5.5.
-* Mon Sep 25 2017 Yichun Zhang (agentzy) 1.11.2.5.4-1
+* Mon Sep 25 2017 Yichun Zhang (agentzh) 1.11.2.5.4-1
 - upgraded openresty-plus to 1.11.2.5.4.
-* Fri Sep 22 2017 Yichun Zhang (agentzy) 1.11.2.5.3-1
+* Fri Sep 22 2017 Yichun Zhang (agentzh) 1.11.2.5.3-1
 - upgraded openresty-plus to 1.11.2.5.3.
-* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5.2-1
+* Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5.2-1
 - upgraded openresty-plus to 1.11.2.5.2.
-* Thu Sep 21 2017 Yichun Zhang (agentzy) 1.11.2.5.1-2
+* Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5.1-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
 * Thu Aug 31 2017 Yichun Zhang 1.11.2.5.1-1
 - upgraded openresty plus to 1.11.2.5.1.
