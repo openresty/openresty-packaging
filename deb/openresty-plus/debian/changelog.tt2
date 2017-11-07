@@ -1,3 +1,9 @@
+openresty-plus (1.13.6.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Upgraded openresty-plus to 1.13.6.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 7 Nov 2017 12:21:07 -0800
+
 openresty-plus (1.11.2.5.11-1~[% distro %]1) [% distro %]; urgency=low
 
   * Upgraded openresty-plus to 1.11.2.5.11.
