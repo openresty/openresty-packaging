@@ -1,3 +1,9 @@
+openresty-pcre (8.41-1~[% distro %]1) [% distro %]; urgency=low
+
+  * upgraded pcre to 8.41
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 2 Nov 2017 16:46:28 -0700
+
 openresty-pcre (8.40-1~[% distro %]1) [% distro %]; urgency=low
 
   * Initial release
