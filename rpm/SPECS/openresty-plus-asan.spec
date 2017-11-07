@@ -19,11 +19,11 @@ BuildRequires:  gcc, make, perl, valgrind-devel, clang
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
 BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-2
-BuildRequires:  openresty-pcre-asan-devel >= 8.40-3
+BuildRequires:  openresty-pcre-asan-devel >= 8.41-3
 BuildRequires:  gd-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl-asan >= 1.0.2k-2
-Requires:       openresty-pcre-asan >= 8.40-3
+Requires:       openresty-pcre-asan >= 8.41-3
 Requires:       gd
 
 AutoReqProv:        no
@@ -191,6 +191,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Nov 7 2017 Yichun Zhang (agentzh) 1.13.6.0.4-2
+- required openresty-pcre* 8.41-1.
 * Thu Nov 2 2017 Yichun Zhang (agentzh) 1.13.6.0.4-1
 - upgraded openresty-plus to 1.13.6.0.4.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2

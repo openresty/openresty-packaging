@@ -20,11 +20,11 @@ Requires:       valgrind
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
-BuildRequires:  openresty-pcre-devel >= 8.40-1
+BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl-debug >= 1.0.2k-1
-Requires:       openresty-pcre >= 8.40-1
+Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
 
 AutoReqProv:        no
@@ -185,6 +185,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Nov 7 2017 Yichun Zhang (agentzh) 1.13.6.0.4-2
+- required openresty-pcre* 8.41-1.
 * Thu Nov 2 2017 Yichun Zhang (agentzh) 1.13.6.0.4-1
 - upgraded openresty-plus to 1.13.6.0.4.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5.1-2
