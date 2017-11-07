@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.13.6.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
