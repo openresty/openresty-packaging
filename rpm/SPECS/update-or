@@ -1,0 +1,75 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+
+sub update_spec ($);
+
+my $version = shift or die "No version number specified.\n";
+
+for my $specfile (reverse sort glob 'openresty*.spec') {
+    if ($specfile =~ /^openresty(?:-(?:valgrind|asan|debug))?\.spec$/) {
+        update_spec $specfile;
+    }
+}
+
+sub update_spec ($) {
+    my $file = shift;
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    if ($src !~ /^Name: \s+ openresty\b/xsm) {
+        die "Bad file content in $file";
+    }
+
+    my $changes = 0;
+
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){3} ) $/Version:$1$version/xsm) {
+        my $old_ver = $2;
+        if ($old_ver ne $version) {
+            say "INFO: version got changed from $old_ver to $version";
+            $changes++;
+
+        } else {
+            say "INFO: $file is already up to date: $version";
+            return;
+        }
+
+    } else {
+        die "$file: Version line not found";
+    }
+
+    if ($src =~ s/^Release: (\s+) (\d+) ( \%\{\?dist\} )  $/Release:${1}1$3/xsm) {
+        my $old_rel = $2;
+        if ($old_rel ne '1') {
+            say "INFO: release number got changed from $old_rel to 1";
+            $changes++;
+        }
+
+    } else {
+        die "$file: Release line not found";
+    }
+
+    my $today = `date +'%a %b %e %Y'`;
+    chomp $today;
+    $today =~ s/\s\s+/ /g;
+    #warn "today: $today";
+
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded openresty to $version.\n/xsm) {
+        $changes++;
+
+    } else {
+        die "$file: \%changelog section not found";
+    }
+
+    if ($changes > 0) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated with $changes change(s).";
+    }
+}
