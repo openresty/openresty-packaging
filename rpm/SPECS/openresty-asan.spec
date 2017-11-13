@@ -1,6 +1,6 @@
 Name:           openresty-asan
-Version:        1.11.2.5
-Release:        2%{?dist}
+Version:        1.13.6.1
+Release:        1%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -149,6 +149,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Nov 12 2017 Yichun Zhang (agentzh) 1.13.6.1-1
+- upgraded openresty to 1.13.6.1.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2
 - enabled -DNGX_LUA_ABORT_AT_PANIC and -DNGX_LUA_USE_ASSERT by default.
 * Thu Aug 17 2017 Yichun Zhang (agentzh) 1.11.2.5-1
