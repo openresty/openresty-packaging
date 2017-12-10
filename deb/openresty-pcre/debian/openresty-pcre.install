@@ -1,1 +1,1 @@
-usr/local/openresty/pcre/lib/*.so*
+usr/lib/openresty/pcre/lib/*.so*

@@ -13,10 +13,21 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 override_dh_auto_configure:
 	./configure \
-	  --prefix="/usr/local/openresty-valgrind" \
+	  --prefix="/usr/lib/openresty-valgrind" \
+	  --with-cc-opt="-I/usr/lib/openresty/zlib/include -I/usr/lib/openresty/pcre/include -I/usr/lib/openresty-debug/openssl/include -O0" \
+	  --with-ld-opt="-L/usr/lib/openresty/zlib/lib -L/usr/lib/openresty/pcre/lib -L/usr/lib/openresty-debug/openssl/lib -Wl,-rpath,/usr/lib/openresty/zlib/lib:/usr/lib/openresty/pcre/lib:/usr/lib/openresty-debug/openssl/lib" \
+	  --conf-path=/etc/openresty-valgrind/nginx.conf \
+	  --http-log-path=/var/log/openresty-valgrind/access.log \
+	  --error-log-path=/var/log/openresty-valgrind/error.log \
+	  --lock-path=/run/lock/openresty-valgrind.lock \
+	  --pid-path=/run/openresty-valgrind.pid \
+	  --modules-path=/usr/lib/openresty-valgrind/modules \
+	  --http-client-body-temp-path=/var/lib/openresty-valgrind/body \
+	  --http-fastcgi-temp-path=/var/lib/openresty-valgrind/fastcgi \
+	  --http-proxy-temp-path=/var/lib/openresty-valgrind/proxy \
+	  --http-scgi-temp-path=/var/lib/openresty-valgrind/scgi \
+	  --http-uwsgi-temp-path=/var/lib/openresty-valgrind/uwsgi \
 	  --with-debug \
-	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl/include -O0" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl/lib" \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \

@@ -13,8 +13,20 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 override_dh_auto_configure:
 	./configure \
-	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl/include" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl/lib" \
+	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/lib/openresty/zlib/include -I/usr/lib/openresty/pcre/include -I/usr/lib/openresty/openssl/include" \
+	  --with-ld-opt="-L/usr/lib/openresty/zlib/lib -L/usr/lib/openresty/pcre/lib -L/usr/lib/openresty/openssl/lib -Wl,-rpath,/usr/lib/openresty/zlib/lib:/usr/lib/openresty/pcre/lib:/usr/lib/openresty/openssl/lib" \
+	  --prefix=/usr/lib/openresty \
+	  --conf-path=/etc/openresty/nginx.conf \
+	  --http-log-path=/var/log/openresty/access.log \
+	  --error-log-path=/var/log/openresty/error.log \
+	  --lock-path=/run/lock/openresty.lock \
+	  --pid-path=/run/openresty.pid \
+	  --modules-path=/usr/lib/openresty/modules \
+	  --http-client-body-temp-path=/var/lib/openresty/body \
+	  --http-fastcgi-temp-path=/var/lib/openresty/fastcgi \
+	  --http-proxy-temp-path=/var/lib/openresty/proxy \
+	  --http-scgi-temp-path=/var/lib/openresty/scgi \
+	  --http-uwsgi-temp-path=/var/lib/openresty/uwsgi \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
@@ -47,8 +59,8 @@ override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
-	rm -rf $(DESTDIR)/usr/local/openresty/luajit/share/man
-	rm -rf $(DESTDIR)/usr/local/openresty/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)/usr/lib/openresty/luajit/share/man
+	rm -rf $(DESTDIR)/usr/lib/openresty/luajit/lib/libluajit-5.1.a
 	mkdir -p $(DESTDIR)/usr/bin
 	cd $(DESTDIR)/usr/bin
 	cd $(CURDIR)

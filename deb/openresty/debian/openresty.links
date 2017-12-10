@@ -1,2 +1,2 @@
-/usr/local/openresty/nginx/conf             /etc/openresty
-/usr/local/openresty/nginx/sbin/nginx       /usr/bin/openresty
+/etc/openresty                              /usr/lib/openresty/nginx/conf
+/usr/lib/openresty/nginx/sbin/nginx         /usr/bin/openresty

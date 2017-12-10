@@ -1,2 +1,2 @@
-usr/local/openresty-debug/openssl/include/*
-usr/local/openresty-debug/openssl/lib/*.a
+usr/lib/openresty-debug/openssl/include/*
+usr/lib/openresty-debug/openssl/lib/*.a

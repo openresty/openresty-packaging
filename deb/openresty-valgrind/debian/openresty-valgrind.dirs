@@ -1,0 +1,3 @@
+etc/openresty-valgrind
+var/log/openresty-valgrind
+var/lib/openresty-valgrind

@@ -29,11 +29,11 @@ override_dh_auto_configure:
 	./config \
 	  no-threads no-asm \
 	  shared zlib -g -O0 -DPURIFY  \
-	  --openssldir=/usr/local/openresty-debug/openssl \
+	  --openssldir=/usr/lib/openresty-debug/openssl \
 	  --libdir=lib \
-	  -I/usr/local/openresty/zlib/include \
-	  -L/usr/local/openresty/zlib/lib \
-	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-debug/openssl/lib
+	  -I/usr/lib/openresty/zlib/include \
+	  -L/usr/lib/openresty/zlib/lib \
+	  -Wl,-rpath,/usr/lib/openresty/zlib/lib:/usr/lib/openresty-debug/openssl/lib
 	sed -i 's/ -O3 / -O0 /g' Makefile
 
 override_dh_usrlocal:
@@ -43,9 +43,9 @@ override_dh_auto_install:
 
 override_dh_install:
 	dh_install
-	rm -rf $DESTDIR/usr/local/openresty-debug/openssl/bin/c_rehash
-	rm -rf $DESTDIR/usr/local/openresty-debug/openssl/lib/pkgconfig
-	rm -rf $DESTDIR/usr/local/openresty-debug/openssl/misc
+	rm -rf $DESTDIR/usr/lib/openresty-debug/openssl/bin/c_rehash
+	rm -rf $DESTDIR/usr/lib/openresty-debug/openssl/lib/pkgconfig
+	rm -rf $DESTDIR/usr/lib/openresty-debug/openssl/misc
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-openssl-debug-dbgsym

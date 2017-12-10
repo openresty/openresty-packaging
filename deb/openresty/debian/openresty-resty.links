@@ -1,1 +1,1 @@
-/usr/local/openresty/bin/resty       /usr/bin/resty
+/usr/lib/openresty/bin/resty       /usr/bin/resty

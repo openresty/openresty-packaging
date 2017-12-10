@@ -8,7 +8,7 @@ export NO_PKG_MANGLE=1
 	+dh $@ --parallel --with autotools-dev
 
 override_dh_auto_configure:
-	./configure --prefix=/usr/local/openresty/zlib
+	./configure --prefix=/usr/lib/openresty/zlib
 
 override_dh_auto_build:
 	$(MAKE) CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
@@ -18,9 +18,9 @@ override_dh_usrlocal:
 
 override_dh_install:
 	dh_install
-	rm -rf $DESTDIR/usr/local/openresty/zlib/share
-	rm -f $DESTDIR/usr/local/openresty/zlib/lib/*.la
-	rm -rf $DESTDIR/usr/local/openresty/zlib/lib/pkgconfig
+	rm -rf $DESTDIR/usr/lib/openresty/zlib/share
+	rm -f $DESTDIR/usr/llib/openresty/zlib/lib/*.la
+	rm -rf $DESTDIR/usr/lib/openresty/zlib/lib/pkgconfig
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-zlib-dbgsym

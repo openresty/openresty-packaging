@@ -12,7 +12,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 %:
 	dh $@ --parallel
 
-override_dh_auto_configure:
-	perl Makefile.PL
+#override_dh_auto_configure:
+#	perl Makefile.PL
 
-override_dh_usrlocal:
+#override_dh_usrlocal:
