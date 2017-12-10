@@ -1,0 +1,3 @@
+etc/openresty-debug
+var/log/openresty-debug
+var/lib/openresty-debug

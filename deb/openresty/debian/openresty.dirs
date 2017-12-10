@@ -1,0 +1,3 @@
+etc/openresty
+var/log/openresty
+var/lib/openresty

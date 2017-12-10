@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/local/openresty/nginx/sbin/nginx
+DAEMON=/usr/lib/openresty/nginx/sbin/nginx
 NAME=nginx
 DESC="full-fledged web platform"
 
@@ -26,9 +26,9 @@ test -x $DAEMON || exit 0
 . /lib/init/vars.sh
 . /lib/lsb/init-functions
 
-PID=$(cat /usr/local/openresty/nginx/conf/nginx.conf | grep -Ev '^\s*#' | awk 'BEGIN { RS="[;{}]" } { if ($1 == "pid") print $2 }' | head -n1)
+PID=$(cat /etc/openresty/nginx.conf | grep -Ev '^\s*#' | awk 'BEGIN { RS="[;{}]" } { if ($1 == "pid") print $2 }' | head -n1)
 if [ -z "$PID" ]; then
-	PID=/usr/local/openresty/nginx/logs/nginx.pid
+	PID=/run/openresty.pid
 fi
 
 start_nginx() {
