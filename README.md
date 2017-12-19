@@ -48,7 +48,7 @@ sudo usermod -a -G mock makerpm
 sudo passwd makerpm
 
 # install rpm build tools:
-sudo dnf install dnf install @development-tools fedora-packager rpmdevtools
+sudo dnf install @development-tools fedora-packager rpmdevtools
 
 # install openresty's build requirements:
 sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
