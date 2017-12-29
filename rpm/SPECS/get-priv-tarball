@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -ex
+
+work="$PWD/work"
+
+if [ ! -d "$work" ]; then
+    mkdir $work || exit 1
+fi
+
+url=$1
+# $2 is -O
+outfile=$3
+cachefile="$work"/$outfile
+if [ -s $cachefile ]; then
+    cp $work/$outfile $outfile
+else
+    wget --header="Authorization: token 352a586ccede585992d3a78baaa7fd0efdd982fc" $1 -O $3
+    if [ $? == 0 ]; then
+        cp $3 "$work"/
+    fi
+fi

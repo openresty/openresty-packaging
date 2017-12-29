@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -ex
+
+specdir=`pwd`
+
+cd ../SOURCES/
+
+ver=$1
+if [ -z $ver ]; then
+    echo No lua-resty-ebpf version number specified > /dev/stderr
+    exit 1
+fi
+
+tarball=lua-resty-ebpf-$ver.tar.gz
+$specdir/get-priv-tarball "https://api.github.com/repos/orinc/lua-resty-ebpf/tarball/v$ver" -O $tarball
+tar -xzf $tarball
+mv orinc-lua-resty-ebpf-* lua-resty-ebpf-$ver
+rm -f $tarball
+tar czvf $tarball lua-resty-ebpf-$ver
+rm -rf lua-resty-ebpf-$ver
