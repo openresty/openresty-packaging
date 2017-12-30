@@ -1,0 +1,2989 @@
+From 33d983b5bb2929ae242606925e708092b1dfdd8f Mon Sep 17 00:00:00 2001
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date: Sat, 2 Sep 2017 11:01:22 +0100
+Subject: drivers/irqchip: gicv3: add workaround for Synquacer pre-ITS
+
+In their infinite wisdom, the Socionext engineers have decided
+that ITS device IDs should not be hardwired, but it should be
+left up to the software to assign them, by allowing it to
+redirect MSI doorbell writes via a separate hardware block
+that issues the doorbell write with a device ID that is
+derived from the memory address. This completely breaks any
+kind of isolation, or virtualization in general, for that
+matter, but add support for it nonetheless.
+
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ arch/arm64/Kconfig               |  8 +++++++
+ drivers/irqchip/irq-gic-v3-its.c | 48 +++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 51 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 0df64a6..c4361df 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -539,6 +539,14 @@ config QCOM_QDF2400_ERRATUM_0065
+ 
+ 	  If unsure, say Y.
+ 
++config SOCIONEXT_SYNQUACER_PREITS
++	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
++	default y
++	help
++	  Socionext Synquacer SoCs implement a separate h/w block to generate
++	  MSI doorbell writes with non-zero values for the device ID.
++
++	  If unsure, say Y.
+ endmenu
+ 
+ 
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+index e8d8934..0d372f1 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -46,6 +46,7 @@
+ #define ITS_FLAGS_CMDQ_NEEDS_FLUSHING		(1ULL << 0)
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_22375	(1ULL << 1)
+ #define ITS_FLAGS_WORKAROUND_CAVIUM_23144	(1ULL << 2)
++#define ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS	(1ULL << 3)
+ 
+ #define RDIST_FLAGS_PROPBASE_NEEDS_FLUSHING	(1 << 0)
+ 
+@@ -99,6 +100,10 @@ struct its_node {
+ 	struct its_collection	*collections;
+ 	struct list_head	its_device_list;
+ 	u64			flags;
++#ifdef CONFIG_SOCIONEXT_SYNQUACER_PREITS
++	u64			pre_its_base;
++	u64			pre_its_size;
++#endif
+ 	u32			ite_size;
+ 	u32			device_ids;
+ 	int			numa_node;
+@@ -1102,13 +1107,29 @@ static void its_irq_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
+ 	u64 addr;
+ 
+ 	its = its_dev->its;
+-	addr = its->phys_base + GITS_TRANSLATER;
++
++#ifdef CONFIG_SOCIONEXT_SYNQUACER_PREITS
++	if (its->flags & ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS)
++
++		/*
++		 * The Socionext Synquacer SoC has a so-called 'pre-ITS',
++		 * which maps 32-bit writes into a separate window of size
++		 * '4 << device_id_bits' onto writes to GITS_TRANSLATER with
++		 * device ID taken from bits [device_id_bits + 1:2] of the
++		 * window offset.
++		 */
++		addr = its->pre_its_base + (its_dev->device_id << 2);
++	else
++#endif
++		addr = its->phys_base + GITS_TRANSLATER;
+ 
+ 	msg->address_lo		= lower_32_bits(addr);
+ 	msg->address_hi		= upper_32_bits(addr);
+ 	msg->data		= its_get_event_id(d);
+ 
+-	iommu_dma_map_msi_msg(d->irq, msg);
++	if (!IS_ENABLED(CONFIG_SOCIONEXT_SYNQUACER_PREITS) ||
++	    !(its->flags & ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS))
++		iommu_dma_map_msi_msg(d->irq, msg);
+ }
+ 
+ static int its_irq_set_irqchip_state(struct irq_data *d,
+@@ -1666,6 +1687,11 @@ static int its_alloc_tables(struct its_node *its)
+ 		ids     = 0x14;                 /* 20 bits, 8MB */
+ 	}
+ 
++#ifdef CONFIG_SOCIONEXT_SYNQUACER_PREITS
++	if (its->flags & ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS)
++		ids = ilog2(its->pre_its_size) - 2;
++#endif
++
+ 	its->device_ids = ids;
+ 
+ 	for (i = 0; i < GITS_BASER_NR_REGS; i++) {
+@@ -2788,11 +2814,21 @@ static const struct gic_quirk its_quirks[] = {
+ 	}
+ };
+ 
+-static void its_enable_quirks(struct its_node *its)
++static void its_enable_quirks(struct its_node *its,
++			      struct fwnode_handle *handle)
+ {
+ 	u32 iidr = readl_relaxed(its->base + GITS_IIDR);
+ 
+ 	gic_enable_quirks(iidr, its_quirks, its);
++
++#ifdef CONFIG_SOCIONEXT_SYNQUACER_PREITS
++	if (!fwnode_property_read_u64_array(handle,
++					"socionext,synquacer-pre-its",
++					&its->pre_its_base, 2)) {
++		its->flags |= ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS;
++		pr_info("ITS: enabling workaround for Socionext Synquacer pre-ITS\n");
++	}
++#endif
+ }
+ 
+ static int its_init_domain(struct fwnode_handle *handle, struct its_node *its)
+@@ -2812,7 +2848,9 @@ static int its_init_domain(struct fwnode_handle *handle, struct its_node *its)
+ 
+ 	inner_domain->parent = its_parent;
+ 	irq_domain_update_bus_token(inner_domain, DOMAIN_BUS_NEXUS);
+-	inner_domain->flags |= IRQ_DOMAIN_FLAG_MSI_REMAP;
++
++	if (!(its->flags & ITS_FLAGS_WORKAROUND_SOCIONEXT_PREITS))
++		inner_domain->flags |= IRQ_DOMAIN_FLAG_MSI_REMAP;
+ 	info->ops = &its_msi_domain_ops;
+ 	info->data = its;
+ 	inner_domain->host_data = info;
+@@ -2966,7 +3004,7 @@ static int __init its_probe_one(struct resource *res,
+ 	}
+ 	its->cmd_write = its->cmd_base;
+ 
+-	its_enable_quirks(its);
++	its_enable_quirks(its, handle);
+ 
+ 	err = its_alloc_tables(its);
+ 	if (err)
+-- 
+cgit v1.1
+
+From 26e7bb47b0fb03a01be1e391a08c7375b45335a2 Mon Sep 17 00:00:00 2001
+From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Date: Mon, 21 Aug 2017 20:29:05 +0100
+Subject: pci: designware: add driver for DWC controller in ECAM shift mode
+
+Some implementations of the Synopsys Designware PCIe controller implement
+a so-called ECAM shift mode, which allows a static memory window to be
+configured that covers the configuration space of the entire bus range.
+
+If the firmware performs all the low level configuration that is required
+to expose this controller in a fully ECAM compatible manner, we can
+simply describe it as "pci-host-ecam-generic" and be done with it.
+However, it appears that in some cases (one of which is the Armada 80x0),
+the IP is synthesized with an ATU window size that does not allow the
+first bus to be mapped in a way that prevents the device on the
+downstream port from appearing more than once.
+
+So implement a driver that relies on the firmware to perform all low
+level initialization, and drives the controller in ECAM mode, but
+overrides the config space accessors to take the above quirk into
+account.
+
+Note that, unlike most drivers for this IP, this driver does not expose
+a fake bridge device at B/D/F 00:00.0. There is no point in doing so,
+given that this is not a true bridge, and does not require any windows
+to be configured in order for the downstream device to operate correctly.
+Omitting it also prevents the PCI resource allocation routines from
+handing out BAR space to it unnecessarily.
+
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Jingoo Han <jingoohan1@gmail.com>
+Cc: Joao Pinto <Joao.Pinto@synopsys.com>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ drivers/pci/dwc/Kconfig                | 11 +++++
+ drivers/pci/dwc/Makefile               |  1 +
+ drivers/pci/dwc/pcie-designware-ecam.c | 77 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 89 insertions(+)
+ create mode 100644 drivers/pci/dwc/pcie-designware-ecam.c
+
+diff --git a/drivers/pci/dwc/Kconfig b/drivers/pci/dwc/Kconfig
+index 22ec82f..19856b1 100644
+--- a/drivers/pci/dwc/Kconfig
++++ b/drivers/pci/dwc/Kconfig
+@@ -169,4 +169,15 @@ config PCIE_KIRIN
+ 	  Say Y here if you want PCIe controller support
+ 	  on HiSilicon Kirin series SoCs.
+ 
++config PCIE_DW_HOST_ECAM
++	bool "Synopsys DesignWare PCIe controller in ECAM mode"
++	depends on OF && PCI
++	select PCI_HOST_COMMON
++	select IRQ_DOMAIN
++	help
++	  Add support for Synopsys DesignWare PCIe controllers configured
++	  by the firmware into ECAM shift mode. In some cases, these are
++	  fully ECAM compliant, in which case the pci-host-generic driver
++	  may be used instead.
++
+ endmenu
+diff --git a/drivers/pci/dwc/Makefile b/drivers/pci/dwc/Makefile
+index c61be97..7d5a23e 100644
+--- a/drivers/pci/dwc/Makefile
++++ b/drivers/pci/dwc/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_PCIE_DW) += pcie-designware.o
+ obj-$(CONFIG_PCIE_DW_HOST) += pcie-designware-host.o
++obj-$(CONFIG_PCIE_DW_HOST_ECAM) += pcie-designware-ecam.o
+ obj-$(CONFIG_PCIE_DW_EP) += pcie-designware-ep.o
+ obj-$(CONFIG_PCIE_DW_PLAT) += pcie-designware-plat.o
+ ifneq ($(filter y,$(CONFIG_PCI_DRA7XX_HOST) $(CONFIG_PCI_DRA7XX_EP)),)
+diff --git a/drivers/pci/dwc/pcie-designware-ecam.c b/drivers/pci/dwc/pcie-designware-ecam.c
+new file mode 100644
+index 0000000..ede627d
+--- /dev/null
++++ b/drivers/pci/dwc/pcie-designware-ecam.c
+@@ -0,0 +1,77 @@
++/*
++ * Driver for mostly ECAM compatible Synopsys dw PCIe controllers
++ * configured by the firmware into RC mode
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ *
++ * Copyright (C) 2014 ARM Limited
++ * Copyright (C) 2017 Linaro Limited
++ *
++ * Authors: Will Deacon <will.deacon@arm.com>
++ *          Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ */
++
++#include <linux/kernel.h>
++#include <linux/init.h>
++#include <linux/of_address.h>
++#include <linux/of_pci.h>
++#include <linux/pci-ecam.h>
++#include <linux/platform_device.h>
++
++static int pci_dw_ecam_config_read(struct pci_bus *bus, u32 devfn, int where,
++				   int size, u32 *val)
++{
++	struct pci_config_window *cfg = bus->sysdata;
++
++	/*
++	 * The Synopsys dw PCIe controller in RC mode will not filter type 0
++	 * config TLPs sent to devices 1 and up on its downstream port,
++	 * resulting in devices appearing multiple times on bus 0 unless we
++	 * filter them here.
++	 */
++	if (bus->number == cfg->busr.start && PCI_SLOT(devfn) > 0) {
++		*val = 0xffffffff;
++		return PCIBIOS_DEVICE_NOT_FOUND;
++	}
++	return pci_generic_config_read(bus, devfn, where, size, val);
++}
++
++static int pci_dw_ecam_config_write(struct pci_bus *bus, u32 devfn, int where,
++				    int size, u32 val)
++{
++	struct pci_config_window *cfg = bus->sysdata;
++
++	if (bus->number == cfg->busr.start && PCI_SLOT(devfn) > 0)
++		return PCIBIOS_DEVICE_NOT_FOUND;
++
++	return pci_generic_config_write(bus, devfn, where, size, val);
++}
++
++static struct pci_ecam_ops pci_dw_ecam_bus_ops = {
++	.pci_ops.map_bus		= pci_ecam_map_bus,
++	.pci_ops.read			= pci_dw_ecam_config_read,
++	.pci_ops.write			= pci_dw_ecam_config_write,
++	.bus_shift			= 20,
++};
++
++static const struct of_device_id pci_dw_ecam_of_match[] = {
++	{ .compatible = "marvell,armada8k-pcie-ecam" },
++	{ .compatible = "socionext,synquacer-pcie-ecam" },
++	{ .compatible = "snps,dw-pcie-ecam" },
++	{ },
++};
++
++static int pci_dw_ecam_probe(struct platform_device *pdev)
++{
++	return pci_host_common_probe(pdev, &pci_dw_ecam_bus_ops);
++}
++
++static struct platform_driver pci_dw_ecam_driver = {
++	.driver.name			= "pcie-designware-ecam",
++	.driver.of_match_table		= pci_dw_ecam_of_match,
++	.driver.suppress_bind_attrs	= true,
++	.probe				= pci_dw_ecam_probe,
++};
++builtin_platform_driver(pci_dw_ecam_driver);
+-- 
+cgit v1.1
+
+From e3dff048a10f16aa0fd32438442ce39558bbdbef Mon Sep 17 00:00:00 2001
+From: Jassi Brar <jaswinder.singh@linaro.org>
+Date: Tue, 29 Aug 2017 22:45:59 +0530
+Subject: net: socionext: Add Synquacer NetSec driver
+
+This driver adds support for Socionext "netsec" IP Gigabit
+Ethernet + PHY IP used in the Synquacer SC2A11 SoC.
+
+Signed-off-by: Jassi Brar <jaswinder.singh@linaro.org>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ drivers/net/ethernet/Kconfig                       |   1 +
+ drivers/net/ethernet/Makefile                      |   1 +
+ drivers/net/ethernet/socionext/Kconfig             |  29 +
+ drivers/net/ethernet/socionext/Makefile            |   1 +
+ drivers/net/ethernet/socionext/netsec/Makefile     |   6 +
+ drivers/net/ethernet/socionext/netsec/netsec.h     | 408 ++++++++++++++
+ .../socionext/netsec/netsec_desc_ring_access.c     | 623 +++++++++++++++++++++
+ .../net/ethernet/socionext/netsec/netsec_ethtool.c |  78 +++
+ .../ethernet/socionext/netsec/netsec_gmac_access.c | 330 +++++++++++
+ .../net/ethernet/socionext/netsec/netsec_netdev.c  | 540 ++++++++++++++++++
+ .../ethernet/socionext/netsec/netsec_platform.c    | 435 ++++++++++++++
+ 11 files changed, 2452 insertions(+)
+ create mode 100644 drivers/net/ethernet/socionext/Kconfig
+ create mode 100644 drivers/net/ethernet/socionext/Makefile
+ create mode 100644 drivers/net/ethernet/socionext/netsec/Makefile
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec.h
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec_desc_ring_access.c
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec_ethtool.c
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec_gmac_access.c
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec_netdev.c
+ create mode 100644 drivers/net/ethernet/socionext/netsec/netsec_platform.c
+
+diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
+index c604213..d50519e 100644
+--- a/drivers/net/ethernet/Kconfig
++++ b/drivers/net/ethernet/Kconfig
+@@ -170,6 +170,7 @@ source "drivers/net/ethernet/sis/Kconfig"
+ source "drivers/net/ethernet/sfc/Kconfig"
+ source "drivers/net/ethernet/sgi/Kconfig"
+ source "drivers/net/ethernet/smsc/Kconfig"
++source "drivers/net/ethernet/socionext/Kconfig"
+ source "drivers/net/ethernet/stmicro/Kconfig"
+ source "drivers/net/ethernet/sun/Kconfig"
+ source "drivers/net/ethernet/tehuti/Kconfig"
+diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
+index a0a03d4..6ae1bb9 100644
+--- a/drivers/net/ethernet/Makefile
++++ b/drivers/net/ethernet/Makefile
+@@ -81,6 +81,7 @@ obj-$(CONFIG_SFC) += sfc/
+ obj-$(CONFIG_SFC_FALCON) += sfc/falcon/
+ obj-$(CONFIG_NET_VENDOR_SGI) += sgi/
+ obj-$(CONFIG_NET_VENDOR_SMSC) += smsc/
++obj-$(CONFIG_NET_VENDOR_SNI) += socionext/
+ obj-$(CONFIG_NET_VENDOR_STMICRO) += stmicro/
+ obj-$(CONFIG_NET_VENDOR_SUN) += sun/
+ obj-$(CONFIG_NET_VENDOR_TEHUTI) += tehuti/
+diff --git a/drivers/net/ethernet/socionext/Kconfig b/drivers/net/ethernet/socionext/Kconfig
+new file mode 100644
+index 0000000..a6dc195
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/Kconfig
+@@ -0,0 +1,29 @@
++#
++# Socionext Network device configuration
++#
++
++config NET_VENDOR_SNI
++	bool "Socionext devices"
++	default y
++	---help---
++	  If you have a network (Ethernet) card belonging to this class, say Y.
++
++	  Note that the answer to this question doesn't directly affect the
++	  the questions about Socionext cards. If you say Y, you will be asked
++	  for your specific card in the following questions.
++
++if NET_VENDOR_SNI
++
++config SNI_NETSEC
++	tristate "NETSEC Driver Support"
++	depends on OF
++	select PHYLIB
++	select MII
++help
++	  Enable to add support for the SocioNext NetSec Gigabit Ethernet
++	  controller + PHY, as found on the Synquacer SC2A11 SoC
++
++	  To compile this driver as a module, choose M here: the module will be
++	  called netsec.  If unsure, say N.
++
++endif # NET_VENDOR_SNI
+diff --git a/drivers/net/ethernet/socionext/Makefile b/drivers/net/ethernet/socionext/Makefile
+new file mode 100644
+index 0000000..9555899
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_SNI_NETSEC) += netsec/
+diff --git a/drivers/net/ethernet/socionext/netsec/Makefile b/drivers/net/ethernet/socionext/netsec/Makefile
+new file mode 100644
+index 0000000..18884ed
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/Makefile
+@@ -0,0 +1,6 @@
++obj-$(CONFIG_SNI_NETSEC) := netsec.o
++netsec-objs := netsec_desc_ring_access.o \
++		netsec_netdev.o \
++		netsec_ethtool.o \
++		netsec_platform.o \
++		netsec_gmac_access.o
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec.h b/drivers/net/ethernet/socionext/netsec/netsec.h
+new file mode 100644
+index 0000000..3b97661
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec.h
+@@ -0,0 +1,408 @@
++/**
++ * netsec.h
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++#ifndef NETSEC_INTERNAL_H
++#define NETSEC_INTERNAL_H
++
++#include <linux/netdevice.h>
++#include <linux/types.h>
++#include <linux/device.h>
++#include <linux/phy.h>
++#include <linux/ethtool.h>
++#include <linux/of_address.h>
++#include <linux/of_mdio.h>
++#include <linux/etherdevice.h>
++#include <net/sock.h>
++
++#define NETSEC_FLOW_CONTROL_START_THRESHOLD	36
++#define NETSEC_FLOW_CONTROL_STOP_THRESHOLD	48
++
++#define NETSEC_CLK_MHZ				1000000
++
++#define NETSEC_RX_PKT_BUF_LEN			1522
++#define NETSEC_RX_JUMBO_PKT_BUF_LEN		9022
++
++#define NETSEC_NETDEV_TX_PKT_SCAT_NUM_MAX	19
++
++#define DESC_NUM				128
++
++#define NETSEC_TX_SHIFT_OWN_FIELD		31
++#define NETSEC_TX_SHIFT_LD_FIELD		30
++#define NETSEC_TX_SHIFT_DRID_FIELD		24
++#define NETSEC_TX_SHIFT_PT_FIELD		21
++#define NETSEC_TX_SHIFT_TDRID_FIELD		16
++#define NETSEC_TX_SHIFT_CC_FIELD		15
++#define NETSEC_TX_SHIFT_FS_FIELD		9
++#define NETSEC_TX_LAST				8
++#define NETSEC_TX_SHIFT_CO			7
++#define NETSEC_TX_SHIFT_SO			6
++#define NETSEC_TX_SHIFT_TRS_FIELD		4
++
++#define NETSEC_RX_PKT_OWN_FIELD			31
++#define NETSEC_RX_PKT_LD_FIELD			30
++#define NETSEC_RX_PKT_SDRID_FIELD		24
++#define NETSEC_RX_PKT_FR_FIELD			23
++#define NETSEC_RX_PKT_ER_FIELD			21
++#define NETSEC_RX_PKT_ERR_FIELD			16
++#define NETSEC_RX_PKT_TDRID_FIELD		12
++#define NETSEC_RX_PKT_FS_FIELD			9
++#define NETSEC_RX_PKT_LS_FIELD			8
++#define NETSEC_RX_PKT_CO_FIELD			6
++
++#define NETSEC_RX_PKT_ERR_MASK			3
++
++#define NETSEC_MAX_TX_PKT_LEN			1518
++#define NETSEC_MAX_TX_JUMBO_PKT_LEN		9018
++
++enum netsec_rings {
++	NETSEC_RING_TX,
++	NETSEC_RING_RX
++};
++
++#define NETSEC_RING_GMAC			15
++#define NETSEC_RING_MAX				1
++
++#define NETSEC_TCP_SEG_LEN_MAX			1460
++#define NETSEC_TCP_JUMBO_SEG_LEN_MAX		8960
++
++#define NETSEC_RX_CKSUM_NOTAVAIL		0
++#define NETSEC_RX_CKSUM_OK			1
++#define NETSEC_RX_CKSUM_NG			2
++
++#define NETSEC_TOP_IRQ_REG_CODE_LOAD_END	BIT(20)
++#define NETSEC_IRQ_TRANSITION_COMPLETE		BIT(4)
++#define NETSEC_IRQ_RX				BIT(1)
++#define NETSEC_IRQ_TX				BIT(0)
++
++#define NETSEC_IRQ_EMPTY			BIT(17)
++#define NETSEC_IRQ_ERR				BIT(16)
++#define NETSEC_IRQ_PKT_CNT			BIT(15)
++#define NETSEC_IRQ_TIMEUP			BIT(14)
++#define NETSEC_IRQ_RCV				(NETSEC_IRQ_PKT_CNT | \
++						 NETSEC_IRQ_TIMEUP)
++
++#define NETSEC_IRQ_TX_DONE			BIT(15)
++#define NETSEC_IRQ_SND				(NETSEC_IRQ_TX_DONE | \
++						 NETSEC_IRQ_TIMEUP)
++
++#define NETSEC_MODE_TRANS_COMP_IRQ_N2T		BIT(20)
++#define NETSEC_MODE_TRANS_COMP_IRQ_T2N		BIT(19)
++
++#define NETSEC_DESC_MIN				2
++#define NETSEC_DESC_MAX				2047
++#define NETSEC_INT_PKTCNT_MAX			2047
++
++#define NETSEC_FLOW_START_TH_MAX		95
++#define NETSEC_FLOW_STOP_TH_MAX			95
++#define NETSEC_FLOW_PAUSE_TIME_MIN		5
++
++#define NETSEC_CLK_EN_REG_DOM_ALL		0x3f
++
++#define NETSEC_REG_TOP_STATUS			0x80
++#define NETSEC_REG_TOP_INTEN			0x81
++#define NETSEC_REG_INTEN_SET			0x8d
++#define NETSEC_REG_INTEN_CLR			0x8e
++#define NETSEC_REG_NRM_TX_STATUS		0x100
++#define NETSEC_REG_NRM_TX_INTEN			0x101
++#define NETSEC_REG_NRM_TX_INTEN_SET		0x10a
++#define NETSEC_REG_NRM_TX_INTEN_CLR		0x10b
++#define NETSEC_REG_NRM_RX_STATUS		0x110
++#define NETSEC_REG_NRM_RX_INTEN			0x111
++#define NETSEC_REG_NRM_RX_INTEN_SET		0x11a
++#define NETSEC_REG_NRM_RX_INTEN_CLR		0x11b
++#define NETSEC_REG_RESERVED_RX_DESC_START	0x122
++#define NETSEC_REG_RESERVED_TX_DESC_START	0x132
++#define NETSEC_REG_CLK_EN			0x40
++#define NETSEC_REG_SOFT_RST			0x41
++#define NETSEC_REG_PKT_CMD_BUF			0x34
++#define NETSEC_REG_PKT_CTRL			0x50
++#define NETSEC_REG_COM_INIT			0x48
++#define NETSEC_REG_DMA_TMR_CTRL			0x83
++#define NETSEC_REG_F_TAIKI_MC_VER		0x8b
++#define NETSEC_REG_F_TAIKI_VER			0x8c
++#define NETSEC_REG_DMA_HM_CTRL			0x85
++#define NETSEC_REG_DMA_MH_CTRL			0x88
++#define NETSEC_REG_ADDR_DIS_CORE		0x86
++#define NETSEC_REG_DMAC_HM_CMD_BUF		0x84
++#define NETSEC_REG_DMAC_MH_CMD_BUF		0x87
++#define NETSEC_REG_NRM_TX_PKTCNT		0x104
++#define NETSEC_REG_NRM_TX_DONE_TXINT_PKTCNT	0x106
++#define NETSEC_REG_NRM_RX_RXINT_PKTCNT		0x116
++#define NETSEC_REG_NRM_TX_TXINT_TMR		0x108
++#define NETSEC_REG_NRM_RX_RXINT_TMR		0x118
++#define NETSEC_REG_NRM_TX_DONE_PKTCNT		0x105
++#define NETSEC_REG_NRM_RX_PKTCNT		0x115
++#define NETSEC_REG_NRM_TX_TMR			0x107
++#define NETSEC_REG_NRM_RX_TMR			0x117
++#define NETSEC_REG_NRM_TX_DESC_START_UP		0x10d
++#define NETSEC_REG_NRM_TX_DESC_START_LW		0x102
++#define NETSEC_REG_NRM_RX_DESC_START_UP		0x11d
++#define NETSEC_REG_NRM_RX_DESC_START_LW		0x112
++#define NETSEC_REG_NRM_TX_CONFIG		0x10c
++#define NETSEC_REG_NRM_RX_CONFIG		0x11c
++#define MAC_REG_DATA				0x470
++#define MAC_REG_CMD				0x471
++#define MAC_REG_FLOW_TH				0x473
++#define MAC_REG_INTF_SEL			0x475
++#define MAC_REG_DESC_INIT			0x47f
++#define MAC_REG_DESC_SOFT_RST			0x481
++#define NETSEC_REG_MODE_TRANS_COMP_STATUS	0x140
++#define GMAC_REG_MCR				0x0000
++#define GMAC_REG_MFFR				0x0004
++#define GMAC_REG_GAR				0x0010
++#define GMAC_REG_GDR				0x0014
++#define GMAC_REG_FCR				0x0018
++#define GMAC_REG_BMR				0x1000
++#define GMAC_REG_RDLAR				0x100c
++#define GMAC_REG_TDLAR				0x1010
++#define GMAC_REG_OMR				0x1018
++
++#define NETSEC_PKT_CTRL_REG_MODE_NRM		BIT(28)
++#define NETSEC_PKT_CTRL_REG_EN_JUMBO		BIT(27)
++#define NETSEC_PKT_CTRL_REG_LOG_CHKSUM_ER	BIT(3)
++#define NETSEC_PKT_CTRL_REG_LOG_HD_INCOMPLETE	BIT(2)
++#define NETSEC_PKT_CTRL_REG_LOG_HD_ER		BIT(1)
++#define NETSEC_PKT_CTRL_REG_DRP_NO_MATCH	BIT(0)
++
++#define NETSEC_CLK_EN_REG_DOM_G			BIT(5)
++#define NETSEC_CLK_EN_REG_DOM_C			BIT(1)
++#define NETSEC_CLK_EN_REG_DOM_D			BIT(0)
++
++#define NETSEC_COM_INIT_REG_DB			BIT(2)
++#define NETSEC_COM_INIT_REG_CLS			BIT(1)
++#define NETSEC_COM_INIT_REG_ALL			(NETSEC_COM_INIT_REG_CLS | \
++						 NETSEC_COM_INIT_REG_DB)
++
++#define NETSEC_SOFT_RST_REG_RESET		0
++#define NETSEC_SOFT_RST_REG_RUN			BIT(31)
++
++#define NETSEC_DMA_CTRL_REG_STOP		1
++#define MH_CTRL__MODE_TRANS			BIT(20)
++
++#define NETSEC_GMAC_CMD_ST_READ			0
++#define NETSEC_GMAC_CMD_ST_WRITE		BIT(28)
++#define NETSEC_GMAC_CMD_ST_BUSY			BIT(31)
++
++#define NETSEC_GMAC_BMR_REG_COMMON		0x00412080
++#define NETSEC_GMAC_BMR_REG_RESET		0x00020181
++#define NETSEC_GMAC_BMR_REG_SWR			0x00000001
++
++#define NETSEC_GMAC_OMR_REG_ST			BIT(13)
++#define NETSEC_GMAC_OMR_REG_SR			BIT(1)
++
++#define NETSEC_GMAC_MCR_REG_IBN			BIT(30)
++#define NETSEC_GMAC_MCR_REG_CST			BIT(25)
++#define NETSEC_GMAC_MCR_REG_JE			BIT(20)
++#define NETSEC_MCR_PS				BIT(15)
++#define NETSEC_GMAC_MCR_REG_FES			BIT(14)
++#define NETSEC_GMAC_MCR_REG_FULL_DUPLEX_COMMON	0x0000280c
++#define NETSEC_GMAC_MCR_REG_HALF_DUPLEX_COMMON	0x0001a00c
++
++#define NETSEC_FCR_RFE				BIT(2)
++#define NETSEC_FCR_TFE				BIT(1)
++
++#define NETSEC_GMAC_GAR_REG_GW			BIT(1)
++#define NETSEC_GMAC_GAR_REG_GB			BIT(0)
++
++#define NETSEC_GMAC_GAR_REG_SHIFT_PA		11
++#define NETSEC_GMAC_GAR_REG_SHIFT_GR		6
++#define GMAC_REG_SHIFT_CR_GAR			2
++
++#define NETSEC_GMAC_GAR_REG_CR_25_35_MHZ	2
++#define NETSEC_GMAC_GAR_REG_CR_35_60_MHZ	3
++#define NETSEC_GMAC_GAR_REG_CR_60_100_MHZ	0
++#define NETSEC_GMAC_GAR_REG_CR_100_150_MHZ	1
++#define NETSEC_GMAC_GAR_REG_CR_150_250_MHZ	4
++#define NETSEC_GMAC_GAR_REG_CR_250_300_MHZ	5
++
++#define NETSEC_GMAC_RDLAR_REG_COMMON		0x18000
++#define NETSEC_GMAC_TDLAR_REG_COMMON		0x1c000
++
++#define NETSEC_REG_NETSEC_VER_F_TAIKI		0x50000
++
++#define NETSEC_REG_DESC_RING_CONFIG_CFG_UP	BIT(31)
++#define NETSEC_REG_DESC_RING_CONFIG_CH_RST	BIT(30)
++#define NETSEC_REG_DESC_TMR_MODE		4
++#define NETSEC_REG_DESC_ENDIAN			0
++
++#define NETSEC_MAC_DESC_SOFT_RST_SOFT_RST	1
++#define NETSEC_MAC_DESC_INIT_REG_INIT		1
++
++#define NETSEC_EEPROM_MAC_ADDRESS		0x00
++#define NETSEC_EEPROM_HM_ME_ADDRESS_H		0x08
++#define NETSEC_EEPROM_HM_ME_ADDRESS_L		0x0C
++#define NETSEC_EEPROM_HM_ME_SIZE		0x10
++#define NETSEC_EEPROM_MH_ME_ADDRESS_H		0x14
++#define NETSEC_EEPROM_MH_ME_ADDRESS_L		0x18
++#define NETSEC_EEPROM_MH_ME_SIZE		0x1C
++#define NETSEC_EEPROM_PKT_ME_ADDRESS		0x20
++#define NETSEC_EEPROM_PKT_ME_SIZE		0x24
++
++/* this is used to interpret a register layout */
++struct netsec_pkt_ctrlaram {
++	u8 log_chksum_er_flag:1;
++	u8 log_hd_imcomplete_flag:1;
++	u8 log_hd_er_flag:1;
++};
++
++struct netsec_param {
++	struct netsec_pkt_ctrlaram pkt_ctrlaram;
++	bool use_jumbo_pkt_flag;
++};
++
++struct netsec_mac_mode {
++	u16 flow_start_th;
++	u16 flow_stop_th;
++	u16 pause_time;
++	bool flow_ctrl_enable_flag;
++};
++
++struct netsec_desc_ring {
++	spinlock_t spinlock_desc; /* protect descriptor access */
++	phys_addr_t desc_phys;
++	struct netsec_frag_info *frag;
++	struct sk_buff **priv;
++	void *ring_vaddr;
++	enum netsec_rings id;
++	int len;
++	u16 tx_done_num;
++	u16 rx_num;
++	u16 head;
++	u16 tail;
++	bool running;
++	bool full;
++};
++
++struct netsec_frag_info {
++	dma_addr_t dma_addr;
++	void *addr;
++	u16 len;
++};
++
++struct netsec_priv {
++	struct netsec_desc_ring desc_ring[NETSEC_RING_MAX + 1];
++	struct ethtool_coalesce et_coalesce;
++	struct netsec_mac_mode mac_mode;
++	struct netsec_param param;
++	struct napi_struct napi;
++	phy_interface_t phy_interface;
++	spinlock_t tx_queue_lock; /* protect transmit queue */
++	struct netsec_frag_info tx_info[MAX_SKB_FRAGS];
++	struct net_device *ndev;
++	struct device_node *phy_np;
++	struct phy_device *phydev;
++	struct mii_bus *mii_bus;
++	void __iomem *ioaddr;
++	const void *eeprom_base;
++	struct device *dev;
++	struct clk *clk[3];
++	u32 rx_pkt_buf_len;
++	u32 msg_enable;
++	u32 freq;
++	int actual_link_speed;
++	int clock_count;
++	bool rx_cksum_offload_flag;
++	bool actual_duplex;
++	bool irq_registered;
++};
++
++struct netsec_tx_de {
++	u32 attr;
++	u32 data_buf_addr_up;
++	u32 data_buf_addr_lw;
++	u32 buf_len_info;
++};
++
++struct netsec_rx_de {
++	u32 attr;
++	u32 data_buf_addr_up;
++	u32 data_buf_addr_lw;
++	u32 buf_len_info;
++};
++
++struct netsec_tx_pkt_ctrl {
++	u16 tcp_seg_len;
++	bool tcp_seg_offload_flag;
++	bool cksum_offload_flag;
++};
++
++struct netsec_rx_pkt_info {
++	int rx_cksum_result;
++	int err_code;
++	bool is_fragmented;
++	bool err_flag;
++};
++
++struct netsec_skb_cb {
++	bool is_rx;
++};
++
++static inline void netsec_writel(struct netsec_priv *priv,
++				 u32 reg_addr, u32 val)
++{
++	writel_relaxed(val, priv->ioaddr + (reg_addr << 2));
++}
++
++static inline u32 netsec_readl(struct netsec_priv *priv, u32 reg_addr)
++{
++	return readl_relaxed(priv->ioaddr + (reg_addr << 2));
++}
++
++static inline void netsec_mark_skb_type(struct sk_buff *skb, bool is_rx)
++{
++	struct netsec_skb_cb *cb = (struct netsec_skb_cb *)skb->cb;
++
++	cb->is_rx = is_rx;
++}
++
++static inline bool skb_is_rx(struct sk_buff *skb)
++{
++	struct netsec_skb_cb *cb = (struct netsec_skb_cb *)skb->cb;
++
++	return cb->is_rx;
++}
++
++extern const struct net_device_ops netsec_netdev_ops;
++extern const struct ethtool_ops netsec_ethtool_ops;
++
++int netsec_start_gmac(struct netsec_priv *priv);
++int netsec_stop_gmac(struct netsec_priv *priv);
++int netsec_mii_register(struct netsec_priv *priv);
++void netsec_mii_unregister(struct netsec_priv *priv);
++int netsec_start_desc_ring(struct netsec_priv *priv, enum netsec_rings id);
++void netsec_stop_desc_ring(struct netsec_priv *priv, enum netsec_rings id);
++u16 netsec_get_rx_num(struct netsec_priv *priv);
++u16 netsec_get_tx_avail_num(struct netsec_priv *priv);
++int netsec_clean_tx_desc_ring(struct netsec_priv *priv);
++int netsec_clean_rx_desc_ring(struct netsec_priv *priv);
++int netsec_set_tx_pkt_data(struct netsec_priv *priv,
++			   const struct netsec_tx_pkt_ctrl *tx_ctrl,
++			   u8 count_frags, const struct netsec_frag_info *info,
++			   struct sk_buff *skb);
++int netsec_get_rx_pkt_data(struct netsec_priv *priv,
++			   struct netsec_rx_pkt_info *rxpi,
++			   struct netsec_frag_info *frag, u16 *len,
++			   struct sk_buff **skb);
++void netsec_ring_irq_enable(struct netsec_priv *priv,
++			    enum netsec_rings id, u32 i);
++void netsec_ring_irq_disable(struct netsec_priv *priv,
++			     enum netsec_rings id, u32 i);
++int netsec_alloc_desc_ring(struct netsec_priv *priv, enum netsec_rings id);
++void netsec_free_desc_ring(struct netsec_priv *priv,
++			   struct netsec_desc_ring *desc);
++int netsec_setup_rx_desc(struct netsec_priv *priv,
++			 struct netsec_desc_ring *desc);
++int netsec_netdev_napi_poll(struct napi_struct *napi_p, int budget);
++
++#endif /* NETSEC_INTERNAL_H */
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_desc_ring_access.c b/drivers/net/ethernet/socionext/netsec/netsec_desc_ring_access.c
+new file mode 100644
+index 0000000..a4e56cd
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec_desc_ring_access.c
+@@ -0,0 +1,623 @@
++/**
++ * drivers/net/ethernet/socionext/netsec/netsec_desc_ring_access.c
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++
++#include <linux/spinlock.h>
++#include <linux/dma-mapping.h>
++
++#include "netsec.h"
++
++static const u32 ads_irq_set[] = {
++	NETSEC_REG_NRM_TX_INTEN_SET,
++	NETSEC_REG_NRM_RX_INTEN_SET,
++};
++
++static const u32 desc_ring_irq_inten_clr_reg_addr[] = {
++	NETSEC_REG_NRM_TX_INTEN_CLR,
++	NETSEC_REG_NRM_RX_INTEN_CLR,
++};
++
++static const u32 int_tmr_reg_addr[] = {
++	NETSEC_REG_NRM_TX_TXINT_TMR,
++	NETSEC_REG_NRM_RX_RXINT_TMR,
++};
++
++static const u32 rx_pkt_cnt_reg_addr[] = {
++	0,
++	NETSEC_REG_NRM_RX_PKTCNT,
++};
++
++static const u32 tx_pkt_cnt_reg_addr[] = {
++	NETSEC_REG_NRM_TX_PKTCNT,
++	0,
++};
++
++static const u32 int_pkt_cnt_reg_addr[] = {
++	NETSEC_REG_NRM_TX_DONE_TXINT_PKTCNT,
++	NETSEC_REG_NRM_RX_RXINT_PKTCNT,
++};
++
++static const u32 tx_done_pkt_addr[] = {
++	NETSEC_REG_NRM_TX_DONE_PKTCNT,
++	0,
++};
++
++static const u32 netsec_desc_mask[] = {
++	[NETSEC_RING_TX] = NETSEC_GMAC_OMR_REG_ST,
++	[NETSEC_RING_RX] = NETSEC_GMAC_OMR_REG_SR
++};
++
++void netsec_ring_irq_enable(struct netsec_priv *priv,
++			    enum netsec_rings id, u32 irqf)
++{
++	netsec_writel(priv, ads_irq_set[id], irqf);
++}
++
++void netsec_ring_irq_disable(struct netsec_priv *priv,
++			     enum netsec_rings id, u32 irqf)
++{
++	netsec_writel(priv, desc_ring_irq_inten_clr_reg_addr[id], irqf);
++}
++
++static struct sk_buff *alloc_rx_pkt_buf(struct netsec_priv *priv,
++					struct netsec_frag_info *info)
++{
++	struct sk_buff *skb;
++
++	if (device_get_dma_attr(priv->dev) == DEV_DMA_COHERENT) {
++		skb = netdev_alloc_skb_ip_align(priv->ndev, info->len);
++	} else {
++		info->len = L1_CACHE_ALIGN(info->len);
++		skb = netdev_alloc_skb(priv->ndev, info->len);
++	}
++	if (!skb)
++		return NULL;
++
++	netsec_mark_skb_type(skb, NETSEC_RING_RX);
++	info->addr = skb->data;
++	info->dma_addr = dma_map_single(priv->dev, info->addr, info->len,
++					DMA_FROM_DEVICE);
++	if (dma_mapping_error(priv->dev, info->dma_addr)) {
++		dev_kfree_skb(skb);
++		return NULL;
++	}
++	return skb;
++}
++
++int netsec_alloc_desc_ring(struct netsec_priv *priv, enum netsec_rings id)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[id];
++	int ret = 0;
++
++	desc->id = id;
++	desc->len = sizeof(struct netsec_tx_de); /* rx and tx desc same size */
++
++	spin_lock_init(&desc->spinlock_desc);
++
++	desc->ring_vaddr = dma_zalloc_coherent(priv->dev, desc->len * DESC_NUM,
++					       &desc->desc_phys, GFP_KERNEL);
++	if (!desc->ring_vaddr) {
++		ret = -ENOMEM;
++		goto err;
++	}
++
++	desc->frag = kcalloc(DESC_NUM, sizeof(*desc->frag), GFP_KERNEL);
++	if (!desc->frag) {
++		ret = -ENOMEM;
++		goto err;
++	}
++
++	desc->priv = kcalloc(DESC_NUM, sizeof(struct sk_buff *), GFP_KERNEL);
++	if (!desc->priv) {
++		ret = -ENOMEM;
++		goto err;
++	}
++
++	return 0;
++
++err:
++	netsec_free_desc_ring(priv, desc);
++
++	return ret;
++}
++
++static void netsec_uninit_pkt_desc_ring(struct netsec_priv *priv,
++					struct netsec_desc_ring *desc)
++{
++	struct netsec_frag_info *frag;
++	u32 status;
++	u16 idx;
++
++	for (idx = 0; idx < DESC_NUM; idx++) {
++		frag = &desc->frag[idx];
++		if (!frag->addr)
++			continue;
++
++		status = *(u32 *)(desc->ring_vaddr + desc->len * idx);
++
++		dma_unmap_single(priv->dev, frag->dma_addr, frag->len,
++				 skb_is_rx(desc->priv[idx]) ? DMA_FROM_DEVICE :
++							      DMA_TO_DEVICE);
++		if ((status >> NETSEC_TX_LAST) & 1)
++			dev_kfree_skb(desc->priv[idx]);
++	}
++
++	memset(desc->frag, 0, sizeof(struct netsec_frag_info) * DESC_NUM);
++	memset(desc->priv, 0, sizeof(struct sk_buff *) * DESC_NUM);
++	memset(desc->ring_vaddr, 0, desc->len * DESC_NUM);
++}
++
++void netsec_free_desc_ring(struct netsec_priv *priv,
++			   struct netsec_desc_ring *desc)
++{
++	if (desc->ring_vaddr && desc->frag && desc->priv)
++		netsec_uninit_pkt_desc_ring(priv, desc);
++
++	if (desc->ring_vaddr) {
++		dma_free_coherent(priv->dev, desc->len * DESC_NUM,
++				  desc->ring_vaddr, desc->desc_phys);
++		desc->ring_vaddr = NULL;
++	}
++	kfree(desc->frag);
++	desc->frag = NULL;
++	kfree(desc->priv);
++	desc->priv = NULL;
++}
++
++static void netsec_set_rx_de(struct netsec_priv *priv,
++			     struct netsec_desc_ring *desc, u16 idx,
++			     const struct netsec_frag_info *info,
++			     struct sk_buff *skb)
++{
++	struct netsec_rx_de *de = desc->ring_vaddr + desc->len * idx;
++	u32 attr = (1 << NETSEC_RX_PKT_OWN_FIELD) |
++		   (1 << NETSEC_RX_PKT_FS_FIELD) |
++		   (1 << NETSEC_RX_PKT_LS_FIELD);
++
++	if (idx == DESC_NUM - 1)
++		attr |= (1 << NETSEC_RX_PKT_LD_FIELD);
++
++	de->data_buf_addr_up = upper_32_bits(info->dma_addr);
++	de->data_buf_addr_lw = lower_32_bits(info->dma_addr);
++	de->buf_len_info = info->len;
++	/* desc->attr makes the descriptor live, so it must be physically
++	 * written last after the rest of the descriptor body is already there
++	 */
++	dma_wmb();
++	de->attr = attr;
++
++	desc->frag[idx].dma_addr = info->dma_addr;
++	desc->frag[idx].addr = info->addr;
++	desc->frag[idx].len = info->len;
++
++	desc->priv[idx] = skb;
++}
++
++int netsec_setup_rx_desc(struct netsec_priv *priv,
++			 struct netsec_desc_ring *desc)
++{
++	struct netsec_frag_info info;
++	struct sk_buff *skb;
++	int n;
++
++	info.len = priv->rx_pkt_buf_len;
++
++	for (n = 0; n < DESC_NUM; n++) {
++		skb = alloc_rx_pkt_buf(priv, &info);
++		if (!skb) {
++			netsec_uninit_pkt_desc_ring(priv, desc);
++			return -ENOMEM;
++		}
++		netsec_set_rx_de(priv, desc, n, &info, skb);
++	}
++
++	return 0;
++}
++
++static void netsec_set_tx_desc_entry(struct netsec_priv *priv,
++				     struct netsec_desc_ring *desc,
++				     const struct netsec_tx_pkt_ctrl *tx_ctrl,
++				     bool first_flag, bool last_flag,
++				     const struct netsec_frag_info *frag,
++				     struct sk_buff *skb)
++{
++	struct netsec_tx_de *tx_desc_entry;
++	int idx = desc->head;
++	u32 attr;
++
++	tx_desc_entry = desc->ring_vaddr + (desc->len * idx);
++
++	attr = (1 << NETSEC_TX_SHIFT_OWN_FIELD) |
++	       (desc->id << NETSEC_TX_SHIFT_DRID_FIELD) |
++	       (1 << NETSEC_TX_SHIFT_PT_FIELD) |
++	       (NETSEC_RING_GMAC << NETSEC_TX_SHIFT_TDRID_FIELD) |
++	       (first_flag << NETSEC_TX_SHIFT_FS_FIELD) |
++	       (last_flag << NETSEC_TX_LAST) |
++	       (tx_ctrl->cksum_offload_flag << NETSEC_TX_SHIFT_CO) |
++	       (tx_ctrl->tcp_seg_offload_flag << NETSEC_TX_SHIFT_SO) |
++	       (1 << NETSEC_TX_SHIFT_TRS_FIELD);
++	if (idx == DESC_NUM - 1)
++		attr |= (1 << NETSEC_TX_SHIFT_LD_FIELD);
++
++	tx_desc_entry->data_buf_addr_up = upper_32_bits(frag->dma_addr);
++	tx_desc_entry->data_buf_addr_lw = lower_32_bits(frag->dma_addr);
++	tx_desc_entry->buf_len_info = (tx_ctrl->tcp_seg_len << 16) | frag->len;
++	/* desc->attr makes the descriptor live, so it must be physically
++	 * written last after the rest of the descriptor body is already there
++	 */
++	dma_wmb();
++	tx_desc_entry->attr = attr;
++
++	desc->frag[idx] = *frag;
++	desc->priv[idx] = skb;
++}
++
++static void netsec_get_rx_de(struct netsec_priv *priv,
++			     struct netsec_desc_ring *desc, u16 idx,
++			     struct netsec_rx_pkt_info *rxpi,
++			     struct netsec_frag_info *frag, u16 *len,
++			     struct sk_buff **skb)
++{
++	struct netsec_rx_de de = {};
++
++	*rxpi = (struct netsec_rx_pkt_info){};
++	memcpy(&de, desc->ring_vaddr + desc->len * idx, desc->len);
++
++	dev_dbg(priv->dev, "%08x\n", *(u32 *)&de);
++	*len = de.buf_len_info >> 16;
++
++	rxpi->is_fragmented = (de.attr >> NETSEC_RX_PKT_FR_FIELD) & 1;
++	rxpi->err_flag = (de.attr >> NETSEC_RX_PKT_ER_FIELD) & 1;
++	rxpi->rx_cksum_result = (de.attr >> NETSEC_RX_PKT_CO_FIELD) & 3;
++	rxpi->err_code = (de.attr >> NETSEC_RX_PKT_ERR_FIELD) &
++							NETSEC_RX_PKT_ERR_MASK;
++	*frag = desc->frag[idx];
++	*skb = desc->priv[idx];
++}
++
++static void netsec_inc_desc_head_idx(struct netsec_priv *priv,
++				     struct netsec_desc_ring *desc, u16 inc)
++{
++	u32 sum;
++
++	sum = desc->head + inc;
++
++	if (sum >= DESC_NUM)
++		sum -= DESC_NUM;
++
++	desc->head = sum;
++	desc->full = desc->head == desc->tail;
++}
++
++static void netsec_inc_desc_tail_idx(struct netsec_priv *priv,
++				     struct netsec_desc_ring *desc)
++{
++	u32 sum;
++
++	sum = desc->tail + 1;
++
++	if (sum >= DESC_NUM)
++		sum -= DESC_NUM;
++
++	desc->tail = sum;
++	desc->full = false;
++}
++
++static u16 netsec_get_tx_avail_num_sub(struct netsec_priv *priv,
++				       const struct netsec_desc_ring *desc)
++{
++	if (desc->full)
++		return 0;
++
++	if (desc->tail > desc->head)
++		return desc->tail - desc->head;
++
++	return DESC_NUM + desc->tail - desc->head;
++}
++
++static u16 netsec_get_tx_done_num_sub(struct netsec_priv *priv,
++				      struct netsec_desc_ring *desc)
++{
++	desc->tx_done_num += netsec_readl(priv, tx_done_pkt_addr[desc->id]);
++
++	return desc->tx_done_num;
++}
++
++static int netsec_set_irq_coalesce_param(struct netsec_priv *priv,
++					 enum netsec_rings id)
++{
++	int max_frames, tmr;
++
++	switch (id) {
++	case NETSEC_RING_TX:
++		max_frames = priv->et_coalesce.tx_max_coalesced_frames;
++		tmr = priv->et_coalesce.tx_coalesce_usecs;
++		break;
++	case NETSEC_RING_RX:
++		max_frames = priv->et_coalesce.rx_max_coalesced_frames;
++		tmr = priv->et_coalesce.rx_coalesce_usecs;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	netsec_writel(priv, int_pkt_cnt_reg_addr[id], max_frames);
++	netsec_writel(priv, int_tmr_reg_addr[id], ((tmr != 0) << 31) | tmr);
++
++	return 0;
++}
++
++int netsec_start_desc_ring(struct netsec_priv *priv, enum netsec_rings id)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[id];
++	int ret = 0;
++
++	spin_lock_bh(&desc->spinlock_desc);
++
++	if (desc->running) {
++		ret = -EBUSY;
++		goto err;
++	}
++
++	switch (desc->id) {
++	case NETSEC_RING_RX:
++		netsec_writel(priv, ads_irq_set[id], NETSEC_IRQ_RCV);
++		break;
++	case NETSEC_RING_TX:
++		netsec_writel(priv, ads_irq_set[id], NETSEC_IRQ_EMPTY);
++		break;
++	}
++
++	netsec_set_irq_coalesce_param(priv, desc->id);
++	desc->running = true;
++
++err:
++	spin_unlock_bh(&desc->spinlock_desc);
++
++	return ret;
++}
++
++void netsec_stop_desc_ring(struct netsec_priv *priv, enum netsec_rings id)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[id];
++
++	spin_lock_bh(&desc->spinlock_desc);
++	if (desc->running)
++		netsec_writel(priv, desc_ring_irq_inten_clr_reg_addr[id],
++			      NETSEC_IRQ_RCV | NETSEC_IRQ_EMPTY |
++			      NETSEC_IRQ_SND);
++
++	desc->running = false;
++	spin_unlock_bh(&desc->spinlock_desc);
++}
++
++u16 netsec_get_rx_num(struct netsec_priv *priv)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[NETSEC_RING_RX];
++	u32 result;
++
++	spin_lock(&desc->spinlock_desc);
++	if (desc->running) {
++		result = netsec_readl(priv,
++				      rx_pkt_cnt_reg_addr[NETSEC_RING_RX]);
++		desc->rx_num += result;
++		if (result)
++			netsec_inc_desc_head_idx(priv, desc, result);
++	}
++	spin_unlock(&desc->spinlock_desc);
++
++	return desc->rx_num;
++}
++
++u16 netsec_get_tx_avail_num(struct netsec_priv *priv)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[NETSEC_RING_TX];
++	u16 result;
++
++	spin_lock(&desc->spinlock_desc);
++
++	if (!desc->running) {
++		netif_err(priv, drv, priv->ndev,
++			  "%s: not running tx desc\n", __func__);
++		result = 0;
++		goto err;
++	}
++
++	result = netsec_get_tx_avail_num_sub(priv, desc);
++
++err:
++	spin_unlock(&desc->spinlock_desc);
++
++	return result;
++}
++
++int netsec_clean_tx_desc_ring(struct netsec_priv *priv)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[NETSEC_RING_TX];
++	unsigned int pkts = 0, bytes = 0;
++	struct netsec_frag_info *frag;
++	struct netsec_tx_de *entry;
++	bool is_last;
++
++	spin_lock(&desc->spinlock_desc);
++
++	netsec_get_tx_done_num_sub(priv, desc);
++
++	while ((desc->tail != desc->head || desc->full) && desc->tx_done_num) {
++		frag = &desc->frag[desc->tail];
++		entry = desc->ring_vaddr + desc->len * desc->tail;
++		is_last = (entry->attr >> NETSEC_TX_LAST) & 1;
++
++		dma_unmap_single(priv->dev, frag->dma_addr, frag->len,
++				 DMA_TO_DEVICE);
++		if (is_last) {
++			pkts++;
++			bytes += desc->priv[desc->tail]->len;
++			dev_kfree_skb(desc->priv[desc->tail]);
++		}
++		*frag = (struct netsec_frag_info){};
++		netsec_inc_desc_tail_idx(priv, desc);
++
++		if (is_last)
++			desc->tx_done_num--;
++	}
++
++	spin_unlock(&desc->spinlock_desc);
++
++	priv->ndev->stats.tx_packets += pkts;
++	priv->ndev->stats.tx_bytes += bytes;
++
++	netdev_completed_queue(priv->ndev, pkts, bytes);
++
++	return 0;
++}
++
++int netsec_clean_rx_desc_ring(struct netsec_priv *priv)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[NETSEC_RING_RX];
++
++	spin_lock(&desc->spinlock_desc);
++
++	while (desc->full || (desc->tail != desc->head)) {
++		netsec_set_rx_de(priv, desc, desc->tail,
++				 &desc->frag[desc->tail],
++				 desc->priv[desc->tail]);
++		desc->rx_num--;
++		netsec_inc_desc_tail_idx(priv, desc);
++	}
++
++	spin_unlock(&desc->spinlock_desc);
++
++	return 0;
++}
++
++int netsec_set_tx_pkt_data(struct netsec_priv *priv,
++			   const struct netsec_tx_pkt_ctrl *tx_ctrl,
++			   u8 count_frags, const struct netsec_frag_info *info,
++			   struct sk_buff *skb)
++{
++	struct netsec_desc_ring *desc;
++	u32 sum_len = 0;
++	unsigned int i;
++	int ret = 0;
++
++	if (tx_ctrl->tcp_seg_offload_flag && !tx_ctrl->cksum_offload_flag)
++		return -EINVAL;
++
++	if (tx_ctrl->tcp_seg_offload_flag) {
++		if (tx_ctrl->tcp_seg_len == 0)
++			return -EINVAL;
++
++		if (priv->param.use_jumbo_pkt_flag) {
++			if (tx_ctrl->tcp_seg_len > NETSEC_TCP_JUMBO_SEG_LEN_MAX)
++				return -EINVAL;
++		} else {
++			if (tx_ctrl->tcp_seg_len > NETSEC_TCP_SEG_LEN_MAX)
++				return -EINVAL;
++		}
++	} else {
++		if (tx_ctrl->tcp_seg_len)
++			return -EINVAL;
++	}
++
++	if (!count_frags)
++		return -ERANGE;
++
++	for (i = 0; i < count_frags; i++) {
++		if ((info[i].len == 0) || (info[i].len > 0xffff)) {
++			netif_err(priv, drv, priv->ndev,
++				  "%s: bad info len\n", __func__);
++			return -EINVAL;
++		}
++		sum_len += info[i].len;
++	}
++
++	if (!tx_ctrl->tcp_seg_offload_flag) {
++		if (priv->param.use_jumbo_pkt_flag) {
++			if (sum_len > NETSEC_MAX_TX_JUMBO_PKT_LEN)
++				return -EINVAL;
++		} else {
++			if (sum_len > NETSEC_MAX_TX_PKT_LEN)
++				return -EINVAL;
++		}
++	}
++
++	desc = &priv->desc_ring[NETSEC_RING_TX];
++	spin_lock(&desc->spinlock_desc);
++
++	if (!desc->running) {
++		ret = -ENODEV;
++		goto end;
++	}
++
++	dma_rmb(); /* we need to see a consistent view of pending tx count */
++	if (count_frags > netsec_get_tx_avail_num_sub(priv, desc)) {
++		ret = -EBUSY;
++		goto end;
++	}
++
++	for (i = 0; i < count_frags; i++) {
++		netsec_set_tx_desc_entry(priv, desc, tx_ctrl, i == 0,
++					 i == count_frags - 1, &info[i], skb);
++		netsec_inc_desc_head_idx(priv, desc, 1);
++	}
++
++	dma_wmb(); /* ensure the descriptor is flushed */
++	netsec_writel(priv, tx_pkt_cnt_reg_addr[NETSEC_RING_TX], 1);
++
++end:
++	spin_unlock(&desc->spinlock_desc);
++
++	return ret;
++}
++
++int netsec_get_rx_pkt_data(struct netsec_priv *priv,
++			   struct netsec_rx_pkt_info *rxpi,
++			   struct netsec_frag_info *frag, u16 *len,
++			   struct sk_buff **skb)
++{
++	struct netsec_desc_ring *desc = &priv->desc_ring[NETSEC_RING_RX];
++	struct netsec_frag_info info;
++	struct sk_buff *tmp_skb;
++	int ret = 0;
++
++	spin_lock(&desc->spinlock_desc);
++
++	if (desc->rx_num == 0) {
++		dev_err(priv->dev, "%s 0 len rx\n", __func__);
++		ret = -EINVAL;
++		goto err;
++	}
++
++	info.len = priv->rx_pkt_buf_len;
++	dma_rmb(); /* we need to ensure we only see current data in descriptor */
++	tmp_skb = alloc_rx_pkt_buf(priv, &info);
++	if (!tmp_skb) {
++		netsec_set_rx_de(priv, desc, desc->tail,
++				 &desc->frag[desc->tail],
++				 desc->priv[desc->tail]);
++		ret = -ENOMEM;
++	} else {
++		netsec_get_rx_de(priv, desc, desc->tail, rxpi, frag, len, skb);
++		netsec_set_rx_de(priv, desc, desc->tail, &info, tmp_skb);
++	}
++
++	netsec_inc_desc_tail_idx(priv, desc);
++	desc->rx_num--;
++
++err:
++	spin_unlock(&desc->spinlock_desc);
++
++	return ret;
++}
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_ethtool.c b/drivers/net/ethernet/socionext/netsec/netsec_ethtool.c
+new file mode 100644
+index 0000000..45830fe
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec_ethtool.c
+@@ -0,0 +1,78 @@
++/**
++ * drivers/net/ethernet/socionext/netsec/netsec_ethtool.c
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++
++#include "netsec.h"
++
++static void netsec_et_get_drvinfo(struct net_device *net_device,
++				  struct ethtool_drvinfo *info)
++{
++	strlcpy(info->driver, "netsec", sizeof(info->driver));
++	strlcpy(info->bus_info, dev_name(net_device->dev.parent),
++		sizeof(info->bus_info));
++}
++
++static int netsec_et_get_coalesce(struct net_device *net_device,
++				  struct ethtool_coalesce *et_coalesce)
++{
++	struct netsec_priv *priv = netdev_priv(net_device);
++
++	*et_coalesce = priv->et_coalesce;
++
++	return 0;
++}
++
++static int netsec_et_set_coalesce(struct net_device *net_device,
++				  struct ethtool_coalesce *et_coalesce)
++{
++	struct netsec_priv *priv = netdev_priv(net_device);
++
++	if (et_coalesce->rx_max_coalesced_frames > NETSEC_INT_PKTCNT_MAX)
++		return -EINVAL;
++	if (et_coalesce->tx_max_coalesced_frames > NETSEC_INT_PKTCNT_MAX)
++		return -EINVAL;
++	if (!et_coalesce->rx_max_coalesced_frames)
++		return -EINVAL;
++	if (!et_coalesce->tx_max_coalesced_frames)
++		return -EINVAL;
++
++	priv->et_coalesce = *et_coalesce;
++
++	return 0;
++}
++
++static u32 netsec_et_get_msglevel(struct net_device *dev)
++{
++	struct netsec_priv *priv = netdev_priv(dev);
++
++	return priv->msg_enable;
++}
++
++static void netsec_et_set_msglevel(struct net_device *dev, u32 datum)
++{
++	struct netsec_priv *priv = netdev_priv(dev);
++
++	priv->msg_enable = datum;
++}
++
++const struct ethtool_ops netsec_ethtool_ops = {
++	.get_drvinfo		= netsec_et_get_drvinfo,
++	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
++	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
++	.get_link		= ethtool_op_get_link,
++	.get_coalesce		= netsec_et_get_coalesce,
++	.set_coalesce		= netsec_et_set_coalesce,
++	.get_msglevel		= netsec_et_get_msglevel,
++	.set_msglevel		= netsec_et_set_msglevel,
++};
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_gmac_access.c b/drivers/net/ethernet/socionext/netsec/netsec_gmac_access.c
+new file mode 100644
+index 0000000..94e9b7f
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec_gmac_access.c
+@@ -0,0 +1,330 @@
++/**
++ * drivers/net/ethernet/socionext/netsec/netsec_gmac_access.c
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++#include "netsec.h"
++
++#define TIMEOUT_SPINS_MAC		1000
++#define TIMEOUT_SECONDARY_MS_MAC	100
++
++static u32 netsec_clk_type(u32 freq)
++{
++	if (freq < 35 * NETSEC_CLK_MHZ)
++		return NETSEC_GMAC_GAR_REG_CR_25_35_MHZ;
++	if (freq < 60 * NETSEC_CLK_MHZ)
++		return NETSEC_GMAC_GAR_REG_CR_35_60_MHZ;
++	if (freq < 100 * NETSEC_CLK_MHZ)
++		return NETSEC_GMAC_GAR_REG_CR_60_100_MHZ;
++	if (freq < 150 * NETSEC_CLK_MHZ)
++		return NETSEC_GMAC_GAR_REG_CR_100_150_MHZ;
++	if (freq < 250 * NETSEC_CLK_MHZ)
++		return NETSEC_GMAC_GAR_REG_CR_150_250_MHZ;
++
++	return NETSEC_GMAC_GAR_REG_CR_250_300_MHZ;
++}
++
++static int netsec_wait_while_busy(struct netsec_priv *priv, u32 addr, u32 mask)
++{
++	u32 timeout = TIMEOUT_SPINS_MAC;
++
++	while (--timeout && netsec_readl(priv, addr) & mask)
++		cpu_relax();
++	if (timeout)
++		return 0;
++
++	timeout = TIMEOUT_SECONDARY_MS_MAC;
++	while (--timeout && netsec_readl(priv, addr) & mask)
++		usleep_range(1000, 2000);
++
++	if (timeout)
++		return 0;
++
++	netdev_WARN(priv->ndev, "%s: timeout\n", __func__);
++
++	return -ETIMEDOUT;
++}
++
++static int netsec_mac_write(struct netsec_priv *priv, u32 addr, u32 value)
++{
++	netsec_writel(priv, MAC_REG_DATA, value);
++	netsec_writel(priv, MAC_REG_CMD, addr | NETSEC_GMAC_CMD_ST_WRITE);
++	return netsec_wait_while_busy(priv,
++				      MAC_REG_CMD, NETSEC_GMAC_CMD_ST_BUSY);
++}
++
++static int netsec_mac_read(struct netsec_priv *priv, u32 addr, u32 *read)
++{
++	int ret;
++
++	netsec_writel(priv, MAC_REG_CMD, addr | NETSEC_GMAC_CMD_ST_READ);
++	ret = netsec_wait_while_busy(priv,
++				     MAC_REG_CMD, NETSEC_GMAC_CMD_ST_BUSY);
++	if (ret)
++		return ret;
++
++	*read = netsec_readl(priv, MAC_REG_DATA);
++
++	return 0;
++}
++
++static int netsec_mac_wait_while_busy(struct netsec_priv *priv,
++				      u32 addr, u32 mask)
++{
++	u32 timeout = TIMEOUT_SPINS_MAC;
++	int ret, data;
++
++	do {
++		ret = netsec_mac_read(priv, addr, &data);
++		if (ret)
++			break;
++		cpu_relax();
++	} while (--timeout && (data & mask));
++
++	if (timeout)
++		return 0;
++
++	timeout = TIMEOUT_SECONDARY_MS_MAC;
++	do {
++		usleep_range(1000, 2000);
++
++		ret = netsec_mac_read(priv, addr, &data);
++		if (ret)
++			break;
++		cpu_relax();
++	} while (--timeout && (data & mask));
++
++	if (timeout && !ret)
++		return 0;
++
++	netdev_WARN(priv->ndev, "%s: timeout\n", __func__);
++
++	return -ETIMEDOUT;
++}
++
++static int netsec_mac_update_to_phy_state(struct netsec_priv *priv)
++{
++	struct phy_device *phydev = priv->ndev->phydev;
++	u32 value = 0;
++
++	value = phydev->duplex ? NETSEC_GMAC_MCR_REG_FULL_DUPLEX_COMMON :
++				 NETSEC_GMAC_MCR_REG_HALF_DUPLEX_COMMON;
++
++	if (phydev->speed != SPEED_1000)
++		value |= NETSEC_MCR_PS;
++
++	if ((priv->phy_interface != PHY_INTERFACE_MODE_GMII) &&
++	    (phydev->speed == SPEED_100))
++		value |= NETSEC_GMAC_MCR_REG_FES;
++
++	value |= NETSEC_GMAC_MCR_REG_CST | NETSEC_GMAC_MCR_REG_JE;
++
++	if (priv->phy_interface == PHY_INTERFACE_MODE_RGMII)
++		value |= NETSEC_GMAC_MCR_REG_IBN;
++
++	if (netsec_mac_write(priv, GMAC_REG_MCR, value))
++		return -ETIMEDOUT;
++
++	priv->actual_link_speed = phydev->speed;
++	priv->actual_duplex = phydev->duplex;
++
++	return 0;
++}
++
++/* NB netsec_start_gmac() only called from adjust_link */
++
++int netsec_start_gmac(struct netsec_priv *priv)
++{
++	struct phy_device *phydev = priv->ndev->phydev;
++	u32 value = 0;
++	int ret;
++
++	if (priv->desc_ring[NETSEC_RING_TX].running &&
++	    priv->desc_ring[NETSEC_RING_RX].running)
++		return 0;
++
++	if (!priv->desc_ring[NETSEC_RING_RX].running &&
++	    !priv->desc_ring[NETSEC_RING_TX].running) {
++		if (phydev->speed != SPEED_1000)
++			value = (NETSEC_GMAC_MCR_REG_CST |
++				 NETSEC_GMAC_MCR_REG_HALF_DUPLEX_COMMON);
++
++		if (netsec_mac_write(priv, GMAC_REG_MCR, value))
++			return -ETIMEDOUT;
++		if (netsec_mac_write(priv, GMAC_REG_BMR,
++				     NETSEC_GMAC_BMR_REG_RESET))
++			return -ETIMEDOUT;
++
++		/* Wait soft reset */
++		usleep_range(1000, 5000);
++
++		ret = netsec_mac_read(priv, GMAC_REG_BMR, &value);
++		if (ret)
++			return ret;
++		if (value & NETSEC_GMAC_BMR_REG_SWR)
++			return -EAGAIN;
++
++		netsec_writel(priv, MAC_REG_DESC_SOFT_RST, 1);
++		if (netsec_wait_while_busy(priv, MAC_REG_DESC_SOFT_RST, 1))
++			return -ETIMEDOUT;
++
++		netsec_writel(priv, MAC_REG_DESC_INIT, 1);
++		if (netsec_wait_while_busy(priv, MAC_REG_DESC_INIT, 1))
++			return -ETIMEDOUT;
++
++		if (netsec_mac_write(priv, GMAC_REG_BMR,
++				     NETSEC_GMAC_BMR_REG_COMMON))
++			return -ETIMEDOUT;
++		if (netsec_mac_write(priv, GMAC_REG_RDLAR,
++				     NETSEC_GMAC_RDLAR_REG_COMMON))
++			return -ETIMEDOUT;
++		if (netsec_mac_write(priv, GMAC_REG_TDLAR,
++				     NETSEC_GMAC_TDLAR_REG_COMMON))
++			return -ETIMEDOUT;
++		if (netsec_mac_write(priv, GMAC_REG_MFFR, 0x80000001))
++			return -ETIMEDOUT;
++
++		ret = netsec_mac_update_to_phy_state(priv);
++		if (ret)
++			return ret;
++
++		if (priv->mac_mode.flow_ctrl_enable_flag) {
++			netsec_writel(priv, MAC_REG_FLOW_TH,
++				      (priv->mac_mode.flow_stop_th << 16) |
++				      priv->mac_mode.flow_start_th);
++			if (netsec_mac_write(priv, GMAC_REG_FCR,
++					     (priv->mac_mode.pause_time << 16) |
++					     NETSEC_FCR_RFE | NETSEC_FCR_TFE))
++				return -ETIMEDOUT;
++		}
++	}
++
++	ret = netsec_mac_read(priv, GMAC_REG_OMR, &value);
++	if (ret)
++		return ret;
++
++	if (!priv->desc_ring[NETSEC_RING_RX].running) {
++		value |= NETSEC_GMAC_OMR_REG_SR;
++		netsec_start_desc_ring(priv, NETSEC_RING_RX);
++	}
++	if (!priv->desc_ring[NETSEC_RING_TX].running) {
++		value |= NETSEC_GMAC_OMR_REG_ST;
++		netsec_start_desc_ring(priv, NETSEC_RING_TX);
++	}
++
++	if (netsec_mac_write(priv, GMAC_REG_OMR, value))
++		return -ETIMEDOUT;
++
++	netsec_writel(priv, NETSEC_REG_INTEN_SET,
++		      NETSEC_IRQ_TX | NETSEC_IRQ_RX);
++
++	return 0;
++}
++
++int netsec_stop_gmac(struct netsec_priv *priv)
++{
++	u32 value;
++	int ret;
++
++	ret = netsec_mac_read(priv, GMAC_REG_OMR, &value);
++	if (ret)
++		return ret;
++
++	if (priv->desc_ring[NETSEC_RING_RX].running) {
++		value &= ~NETSEC_GMAC_OMR_REG_SR;
++		netsec_stop_desc_ring(priv, NETSEC_RING_RX);
++	}
++	if (priv->desc_ring[NETSEC_RING_TX].running) {
++		value &= ~NETSEC_GMAC_OMR_REG_ST;
++		netsec_stop_desc_ring(priv, NETSEC_RING_TX);
++	}
++
++	priv->actual_link_speed = 0;
++	priv->actual_duplex = false;
++
++	return netsec_mac_write(priv, GMAC_REG_OMR, value);
++}
++
++static int netsec_phy_write(struct mii_bus *bus,
++			    int phy_addr, int reg, u16 val)
++{
++	struct netsec_priv *priv = bus->priv;
++
++	if (netsec_mac_write(priv, GMAC_REG_GDR, val))
++		return -ETIMEDOUT;
++	if (netsec_mac_write(priv, GMAC_REG_GAR,
++			     phy_addr << NETSEC_GMAC_GAR_REG_SHIFT_PA |
++			     reg << NETSEC_GMAC_GAR_REG_SHIFT_GR |
++			     NETSEC_GMAC_GAR_REG_GW | NETSEC_GMAC_GAR_REG_GB |
++			     (netsec_clk_type(priv->freq) <<
++			      GMAC_REG_SHIFT_CR_GAR)))
++		return -ETIMEDOUT;
++
++	return netsec_mac_wait_while_busy(priv, GMAC_REG_GAR,
++					  NETSEC_GMAC_GAR_REG_GB);
++}
++
++static int netsec_phy_read(struct mii_bus *bus, int phy_addr, int reg_addr)
++{
++	struct netsec_priv *priv = bus->priv;
++	u32 data;
++	int ret;
++
++	if (netsec_mac_write(priv, GMAC_REG_GAR, NETSEC_GMAC_GAR_REG_GB |
++			     phy_addr << NETSEC_GMAC_GAR_REG_SHIFT_PA |
++			     reg_addr << NETSEC_GMAC_GAR_REG_SHIFT_GR |
++			     (netsec_clk_type(priv->freq) <<
++			      GMAC_REG_SHIFT_CR_GAR)))
++		return -ETIMEDOUT;
++
++	ret = netsec_mac_wait_while_busy(priv, GMAC_REG_GAR,
++					 NETSEC_GMAC_GAR_REG_GB);
++	if (ret)
++		return ret;
++
++	ret = netsec_mac_read(priv, GMAC_REG_GDR, &data);
++	if (ret)
++		return ret;
++
++	return data;
++}
++
++int netsec_mii_register(struct netsec_priv *priv)
++{
++	struct mii_bus *bus = devm_mdiobus_alloc(priv->dev);
++	int ret;
++
++	if (!bus)
++		return -ENOMEM;
++
++	snprintf(bus->id, MII_BUS_ID_SIZE, "%s", dev_name(priv->dev));
++	bus->priv = priv;
++	bus->name = "SNI NETSEC MDIO";
++	bus->read = netsec_phy_read;
++	bus->write = netsec_phy_write;
++	bus->parent = priv->dev;
++	priv->mii_bus = bus;
++
++	if (dev_of_node(priv->dev)) {
++		ret = of_mdiobus_register(bus, dev_of_node(priv->dev));
++	} else {
++		/* Mask out all PHYs from auto probing. */
++		bus->phy_mask = ~0;
++		ret = mdiobus_register(bus);
++	}
++	return ret;
++}
++
++void netsec_mii_unregister(struct netsec_priv *priv)
++{
++	mdiobus_unregister(priv->mii_bus);
++}
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_netdev.c b/drivers/net/ethernet/socionext/netsec/netsec_netdev.c
+new file mode 100644
+index 0000000..e99cf0e
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec_netdev.c
+@@ -0,0 +1,540 @@
++/**
++ * drivers/net/ethernet/socionext/netsec/netsec_netdev.c
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++
++#include <linux/ip.h>
++#include <linux/ipv6.h>
++#include <linux/tcp.h>
++#include <net/tcp.h>
++#include <net/ip6_checksum.h>
++#include <linux/pm_runtime.h>
++
++#include "netsec.h"
++
++#define WAIT_FW_RDY_TIMEOUT 50
++
++static const u32 desc_ring_irq_status_reg_addr[] = {
++	NETSEC_REG_NRM_TX_STATUS,
++	NETSEC_REG_NRM_RX_STATUS,
++};
++
++static const u32 desc_ads[] = {
++	NETSEC_REG_NRM_TX_CONFIG,
++	NETSEC_REG_NRM_RX_CONFIG,
++};
++
++static const u32 netsec_desc_start_reg_addr_up[] = {
++	NETSEC_REG_NRM_TX_DESC_START_UP,
++	NETSEC_REG_NRM_RX_DESC_START_UP,
++};
++
++static const u32 netsec_desc_start_reg_addr_lw[] = {
++	NETSEC_REG_NRM_TX_DESC_START_LW,
++	NETSEC_REG_NRM_RX_DESC_START_LW,
++};
++
++static u32 netsec_calc_pkt_ctrl_reg_param(const struct netsec_pkt_ctrlaram
++					*pkt_ctrlaram_p)
++{
++	u32 param = NETSEC_PKT_CTRL_REG_MODE_NRM;
++
++	if (pkt_ctrlaram_p->log_chksum_er_flag)
++		param |= NETSEC_PKT_CTRL_REG_LOG_CHKSUM_ER;
++
++	if (pkt_ctrlaram_p->log_hd_imcomplete_flag)
++		param |= NETSEC_PKT_CTRL_REG_LOG_HD_INCOMPLETE;
++
++	if (pkt_ctrlaram_p->log_hd_er_flag)
++		param |= NETSEC_PKT_CTRL_REG_LOG_HD_ER;
++
++	return param;
++}
++
++static int netsec_netdev_load_ucode_region(struct netsec_priv *priv, u32 reg,
++					   u32 addr_h, u32 addr_l, u32 size)
++{
++	u64 base = (u64)addr_h << 32 | addr_l;
++	__le32 *ucode;
++	u32 i;
++
++	ucode = memremap(base, size * sizeof(u32), MEMREMAP_WT);
++	if (!ucode)
++		return -ENOMEM;
++
++	for (i = 0; i < size; i++)
++		netsec_writel(priv, reg, le32_to_cpu(ucode[i]));
++
++	memunmap(ucode);
++	return 0;
++}
++
++static int netsec_netdev_load_microcode(struct netsec_priv *priv)
++{
++	int err;
++
++	err = netsec_netdev_load_ucode_region(
++		priv, NETSEC_REG_DMAC_HM_CMD_BUF,
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_HM_ME_ADDRESS_H),
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_HM_ME_ADDRESS_L),
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_HM_ME_SIZE));
++	if (err)
++		return err;
++
++	err = netsec_netdev_load_ucode_region(
++		priv, NETSEC_REG_DMAC_MH_CMD_BUF,
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_MH_ME_ADDRESS_H),
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_MH_ME_ADDRESS_L),
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_MH_ME_SIZE));
++	if (err)
++		return err;
++
++	err = netsec_netdev_load_ucode_region(
++		priv, NETSEC_REG_PKT_CMD_BUF,
++		0,
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_PKT_ME_ADDRESS),
++		le32_to_cpup(priv->eeprom_base + NETSEC_EEPROM_PKT_ME_SIZE));
++	if (err)
++		return err;
++
++	return 0;
++}
++
++static int netsec_init_hardware(struct netsec_priv *priv)
++{
++	u32 value;
++	int err;
++
++	/* set desc_start addr */
++	netsec_writel(priv, netsec_desc_start_reg_addr_up[NETSEC_RING_RX],
++		      upper_32_bits(priv->desc_ring[NETSEC_RING_RX].desc_phys));
++	netsec_writel(priv, netsec_desc_start_reg_addr_lw[NETSEC_RING_RX],
++		      lower_32_bits(priv->desc_ring[NETSEC_RING_RX].desc_phys));
++
++	netsec_writel(priv, netsec_desc_start_reg_addr_up[NETSEC_RING_TX],
++		      upper_32_bits(priv->desc_ring[NETSEC_RING_TX].desc_phys));
++	netsec_writel(priv, netsec_desc_start_reg_addr_lw[NETSEC_RING_TX],
++		      lower_32_bits(priv->desc_ring[NETSEC_RING_TX].desc_phys));
++
++	/* set normal tx desc ring config */
++	netsec_writel(priv, desc_ads[NETSEC_RING_TX],
++		      1 << NETSEC_REG_DESC_ENDIAN);
++	netsec_writel(priv, desc_ads[NETSEC_RING_RX],
++		      1 << NETSEC_REG_DESC_ENDIAN);
++
++	err = netsec_netdev_load_microcode(priv);
++	if (err) {
++		netif_err(priv, probe, priv->ndev,
++			  "%s: failed to load microcode (%d)\n", __func__, err);
++		return err;
++	}
++
++	/* start DMA engines */
++	netsec_writel(priv, NETSEC_REG_DMA_TMR_CTRL, priv->freq / 1000000 - 1);
++	netsec_writel(priv, NETSEC_REG_ADDR_DIS_CORE, 0);
++
++	usleep_range(1000, 2000);
++
++	if (!(netsec_readl(priv, NETSEC_REG_TOP_STATUS) &
++	      NETSEC_TOP_IRQ_REG_CODE_LOAD_END)) {
++		netif_err(priv, drv, priv->ndev, "microengine start failed\n");
++		return -ENXIO;
++	}
++	netsec_writel(priv, NETSEC_REG_TOP_STATUS,
++		      NETSEC_TOP_IRQ_REG_CODE_LOAD_END);
++
++	value = netsec_calc_pkt_ctrl_reg_param(&priv->param.pkt_ctrlaram);
++
++	if (priv->param.use_jumbo_pkt_flag)
++		value |= NETSEC_PKT_CTRL_REG_EN_JUMBO;
++
++	/* change to normal mode */
++	netsec_writel(priv, NETSEC_REG_DMA_MH_CTRL, MH_CTRL__MODE_TRANS);
++	netsec_writel(priv, NETSEC_REG_PKT_CTRL, value);
++
++	while ((netsec_readl(priv, NETSEC_REG_MODE_TRANS_COMP_STATUS) &
++		NETSEC_MODE_TRANS_COMP_IRQ_T2N) == 0)
++		cpu_relax();
++
++	return 0;
++}
++
++static void netsec_ring_irq_clr(struct netsec_priv *priv,
++				unsigned int id, u32 value)
++{
++	netsec_writel(priv, desc_ring_irq_status_reg_addr[id],
++		      value & (NETSEC_IRQ_EMPTY | NETSEC_IRQ_ERR));
++}
++
++static void netsec_napi_tx_processing(struct netsec_priv *priv)
++{
++	netsec_ring_irq_clr(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++	netsec_clean_tx_desc_ring(priv);
++
++	if (netif_queue_stopped(priv->ndev) &&
++	    netsec_get_tx_avail_num(priv) >= NETSEC_NETDEV_TX_PKT_SCAT_NUM_MAX)
++		netif_wake_queue(priv->ndev);
++}
++
++int netsec_netdev_napi_poll(struct napi_struct *napi_p, int budget)
++{
++	struct netsec_priv *priv = container_of(napi_p, struct netsec_priv,
++						napi);
++	struct net_device *ndev = priv->ndev;
++	struct netsec_rx_pkt_info rx_info;
++	int ret, done = 0, rx_num = 0;
++	struct netsec_frag_info frag;
++	struct sk_buff *skb;
++	u16 len;
++
++	netsec_napi_tx_processing(priv);
++
++	while (done < budget) {
++		if (!rx_num) {
++			rx_num = netsec_get_rx_num(priv);
++			if (!rx_num)
++				break;
++		}
++		done++;
++		rx_num--;
++		ret = netsec_get_rx_pkt_data(priv, &rx_info, &frag, &len, &skb);
++		if (unlikely(ret == -ENOMEM)) {
++			netif_err(priv, drv, priv->ndev,
++				  "%s: rx fail %d\n", __func__, ret);
++			ndev->stats.rx_dropped++;
++			continue;
++		}
++		dma_unmap_single(priv->dev, frag.dma_addr, frag.len,
++				 DMA_FROM_DEVICE);
++		skb_put(skb, len);
++		skb->protocol = eth_type_trans(skb, priv->ndev);
++
++		if (priv->rx_cksum_offload_flag &&
++		    rx_info.rx_cksum_result == NETSEC_RX_CKSUM_OK)
++			skb->ip_summed = CHECKSUM_UNNECESSARY;
++
++		if (napi_gro_receive(napi_p, skb) != GRO_DROP) {
++			ndev->stats.rx_packets++;
++			ndev->stats.rx_bytes += len;
++		}
++	}
++
++	if (done < budget && napi_complete_done(napi_p, done))
++		netsec_writel(priv, NETSEC_REG_INTEN_SET,
++			      NETSEC_IRQ_TX | NETSEC_IRQ_RX);
++	return done;
++}
++
++static netdev_tx_t netsec_netdev_start_xmit(struct sk_buff *skb,
++					    struct net_device *ndev)
++{
++	struct netsec_priv *priv = netdev_priv(ndev);
++	struct netsec_tx_pkt_ctrl tx_ctrl = {};
++	u16 pend_tx, tso_seg_len = 0;
++	skb_frag_t *frag;
++	int count_frags;
++	int ret, i;
++
++	netsec_ring_irq_clr(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++
++	count_frags = skb_shinfo(skb)->nr_frags + 1;
++
++	if (skb->ip_summed == CHECKSUM_PARTIAL) {
++		if ((skb->protocol == htons(ETH_P_IP) &&
++		     ip_hdr(skb)->protocol == IPPROTO_TCP) ||
++		    (skb->protocol == htons(ETH_P_IPV6) &&
++		     ipv6_hdr(skb)->nexthdr == IPPROTO_TCP))
++			tx_ctrl.cksum_offload_flag = true;
++		else
++			skb_checksum_help(skb);
++	}
++
++	if (skb_is_gso(skb))
++		tso_seg_len = skb_shinfo(skb)->gso_size;
++
++	if (tso_seg_len > 0) {
++		if (skb->protocol == htons(ETH_P_IP)) {
++			ip_hdr(skb)->tot_len = 0;
++			tcp_hdr(skb)->check =
++				~tcp_v4_check(0, ip_hdr(skb)->saddr,
++					      ip_hdr(skb)->daddr, 0);
++		} else {
++			ipv6_hdr(skb)->payload_len = 0;
++			tcp_hdr(skb)->check =
++				~csum_ipv6_magic(&ipv6_hdr(skb)->saddr,
++						 &ipv6_hdr(skb)->daddr,
++						 0, IPPROTO_TCP, 0);
++		}
++
++		tx_ctrl.tcp_seg_offload_flag = true;
++		tx_ctrl.tcp_seg_len = tso_seg_len;
++	}
++
++	priv->tx_info[0].dma_addr = dma_map_single(priv->dev, skb->data,
++						   skb_headlen(skb),
++						   DMA_TO_DEVICE);
++	if (dma_mapping_error(priv->dev, priv->tx_info[0].dma_addr)) {
++		netif_err(priv, drv, priv->ndev,
++			  "%s: DMA mapping failed\n", __func__);
++		return NETDEV_TX_OK;
++	}
++	priv->tx_info[0].addr = skb->data;
++	priv->tx_info[0].len = skb_headlen(skb);
++
++	for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
++		frag = &skb_shinfo(skb)->frags[i];
++		priv->tx_info[i + 1].dma_addr =
++			skb_frag_dma_map(priv->dev, frag, 0,
++					 skb_frag_size(frag), DMA_TO_DEVICE);
++		priv->tx_info[i + 1].addr = skb_frag_address(frag);
++		priv->tx_info[i + 1].len = frag->size;
++	}
++
++	netsec_mark_skb_type(skb, NETSEC_RING_TX);
++
++	ret = netsec_set_tx_pkt_data(priv, &tx_ctrl, count_frags,
++				     priv->tx_info, skb);
++	if (ret) {
++		netif_info(priv, drv, priv->ndev,
++			   "set tx pkt failed %d\n", ret);
++		for (i = 0; i < count_frags; i++)
++			dma_unmap_single(priv->dev, priv->tx_info[i].dma_addr,
++					 priv->tx_info[i].len, DMA_TO_DEVICE);
++		ndev->stats.tx_dropped++;
++
++		return NETDEV_TX_OK;
++	}
++
++	netdev_sent_queue(priv->ndev, skb->len);
++
++	spin_lock(&priv->tx_queue_lock);
++	pend_tx = netsec_get_tx_avail_num(priv);
++
++	if (pend_tx < NETSEC_NETDEV_TX_PKT_SCAT_NUM_MAX) {
++		netsec_ring_irq_enable(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++		netif_stop_queue(ndev);
++		goto err;
++	}
++	if (pend_tx <= DESC_NUM - 2) {
++		netsec_ring_irq_enable(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++		goto err;
++	}
++	netsec_ring_irq_disable(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++
++err:
++	spin_unlock(&priv->tx_queue_lock);
++
++	return NETDEV_TX_OK;
++}
++
++static int netsec_netdev_set_features(struct net_device *ndev,
++				      netdev_features_t features)
++{
++	struct netsec_priv *priv = netdev_priv(ndev);
++
++	priv->rx_cksum_offload_flag = !!(features & NETIF_F_RXCSUM);
++
++	return 0;
++}
++
++static void netsec_phy_adjust_link(struct net_device *ndev)
++{
++	struct netsec_priv *priv = netdev_priv(ndev);
++
++	if (priv->actual_link_speed == ndev->phydev->speed &&
++	    priv->actual_duplex == ndev->phydev->duplex)
++		return;
++
++	phy_print_status(ndev->phydev);
++
++	netsec_stop_gmac(priv);
++	netsec_start_gmac(priv);
++}
++
++static irqreturn_t netsec_irq_handler(int irq, void *dev_id)
++{
++	struct netsec_priv *priv = dev_id;
++	u32 status = netsec_readl(priv, NETSEC_REG_TOP_STATUS) &
++		     netsec_readl(priv, NETSEC_REG_TOP_INTEN);
++
++	if (!status)
++		return IRQ_NONE;
++
++	if (status & (NETSEC_IRQ_TX | NETSEC_IRQ_RX)) {
++		netsec_writel(priv, NETSEC_REG_INTEN_CLR,
++			      status & (NETSEC_IRQ_TX | NETSEC_IRQ_RX));
++		napi_schedule(&priv->napi);
++	}
++
++	return IRQ_HANDLED;
++}
++
++static void netsec_reset_hardware(struct netsec_priv *priv)
++{
++	/* stop DMA engines */
++	if (!netsec_readl(priv, NETSEC_REG_ADDR_DIS_CORE)) {
++		netsec_writel(priv, NETSEC_REG_DMA_HM_CTRL,
++			      NETSEC_DMA_CTRL_REG_STOP);
++		netsec_writel(priv, NETSEC_REG_DMA_MH_CTRL,
++			      NETSEC_DMA_CTRL_REG_STOP);
++
++		while (netsec_readl(priv, NETSEC_REG_DMA_HM_CTRL) &
++		       NETSEC_DMA_CTRL_REG_STOP)
++			cpu_relax();
++
++		while (netsec_readl(priv, NETSEC_REG_DMA_MH_CTRL) &
++		       NETSEC_DMA_CTRL_REG_STOP)
++			cpu_relax();
++	}
++
++	netsec_writel(priv, NETSEC_REG_SOFT_RST, NETSEC_SOFT_RST_REG_RESET);
++	netsec_writel(priv, NETSEC_REG_SOFT_RST, NETSEC_SOFT_RST_REG_RUN);
++	netsec_writel(priv, NETSEC_REG_COM_INIT, NETSEC_COM_INIT_REG_ALL);
++
++	while (netsec_readl(priv, NETSEC_REG_COM_INIT) != 0)
++		cpu_relax();
++}
++
++static int netsec_netdev_open(struct net_device *ndev)
++{
++	struct netsec_priv *priv = netdev_priv(ndev);
++	int ret, n;
++
++	pm_runtime_get_sync(priv->dev);
++
++	netsec_reset_hardware(priv);
++
++	for (n = 0; n <= NETSEC_RING_MAX; n++) {
++		ret = netsec_alloc_desc_ring(priv, n);
++		if (ret) {
++			netif_err(priv, probe, priv->ndev,
++				  "%s: alloc ring failed\n", __func__);
++			goto err;
++		}
++	}
++
++	ret = netsec_setup_rx_desc(priv, &priv->desc_ring[NETSEC_RING_RX]);
++	if (ret) {
++		netif_err(priv, probe, priv->ndev,
++			  "%s: fail setup ring\n", __func__);
++		goto err1;
++	}
++
++	ret = netsec_init_hardware(priv);
++	if (ret) {
++		netif_err(priv, probe, priv->ndev,
++			  "%s: netsec_init_hardware fail %d\n", __func__, ret);
++		goto err1;
++	}
++
++	ret = request_irq(priv->ndev->irq, netsec_irq_handler,
++			  IRQF_SHARED, "netsec", priv);
++	if (ret) {
++		netif_err(priv, drv, priv->ndev, "request_irq failed\n");
++		goto err1;
++	}
++	priv->irq_registered = true;
++
++	ret = netsec_clean_rx_desc_ring(priv);
++	if (ret) {
++		netif_err(priv, drv, priv->ndev,
++			  "%s: clean rx desc fail\n", __func__);
++		goto err2;
++	}
++
++	ret = netsec_clean_tx_desc_ring(priv);
++	if (ret) {
++		netif_err(priv, drv, priv->ndev,
++			  "%s: clean tx desc fail\n", __func__);
++		goto err2;
++	}
++
++	netsec_ring_irq_clr(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++
++	if (dev_of_node(priv->dev)) {
++		if (!of_phy_connect(priv->ndev, priv->phy_np,
++				    netsec_phy_adjust_link, 0,
++				    priv->phy_interface)) {
++			netif_err(priv, link, priv->ndev, "missing PHY\n");
++			goto err2;
++		}
++	} else {
++		ret = phy_connect_direct(priv->ndev, priv->phydev,
++					 netsec_phy_adjust_link,
++					 priv->phy_interface);
++		if (ret) {
++			netif_err(priv, link, priv->ndev,
++				  "phy_connect_direct() failed (%d)\n", ret);
++			goto err2;
++		}
++	}
++
++	phy_start_aneg(ndev->phydev);
++
++	netsec_ring_irq_disable(priv, NETSEC_RING_TX, NETSEC_IRQ_EMPTY);
++
++	netsec_start_gmac(priv);
++	napi_enable(&priv->napi);
++	netif_start_queue(ndev);
++
++	netsec_writel(priv, NETSEC_REG_INTEN_SET,
++		      NETSEC_IRQ_TX | NETSEC_IRQ_RX);
++
++	return 0;
++
++err2:
++	pm_runtime_put_sync(priv->dev);
++	free_irq(priv->ndev->irq, priv);
++	priv->irq_registered = false;
++err1:
++	for (n = 0; n <= NETSEC_RING_MAX; n++)
++		netsec_free_desc_ring(priv, &priv->desc_ring[n]);
++err:
++	pm_runtime_put_sync(priv->dev);
++
++	return ret;
++}
++
++static int netsec_netdev_stop(struct net_device *ndev)
++{
++	struct netsec_priv *priv = netdev_priv(ndev);
++	int n;
++
++	phy_stop(ndev->phydev);
++	phy_disconnect(ndev->phydev);
++
++	netif_stop_queue(priv->ndev);
++	napi_disable(&priv->napi);
++
++	netsec_writel(priv, NETSEC_REG_INTEN_CLR, ~0);
++	netsec_stop_gmac(priv);
++
++	pm_runtime_put_sync(priv->dev);
++
++	for (n = 0; n <= NETSEC_RING_MAX; n++)
++		netsec_free_desc_ring(priv, &priv->desc_ring[n]);
++
++	free_irq(priv->ndev->irq, priv);
++	priv->irq_registered = false;
++
++	return 0;
++}
++
++const struct net_device_ops netsec_netdev_ops = {
++	.ndo_open		= netsec_netdev_open,
++	.ndo_stop		= netsec_netdev_stop,
++	.ndo_start_xmit		= netsec_netdev_start_xmit,
++	.ndo_set_features	= netsec_netdev_set_features,
++	.ndo_set_mac_address    = eth_mac_addr,
++	.ndo_validate_addr	= eth_validate_addr,
++};
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_platform.c b/drivers/net/ethernet/socionext/netsec/netsec_platform.c
+new file mode 100644
+index 0000000..624f6a7
+--- /dev/null
++++ b/drivers/net/ethernet/socionext/netsec/netsec_platform.c
+@@ -0,0 +1,435 @@
++/**
++ * drivers/net/ethernet/socionext/netsec/netsec_platform.c
++ *
++ *  Copyright (C) 2013-2014 Fujitsu Semiconductor Limited.
++ *  Copyright (C) 2014-2017 Linaro Ltd. All rights reserved.
++ *     Andy Green <andy.green@linaro.org>
++ *     Jassi Brar <jaswinder.singh@linaro.org>
++ *     Ard Biesheuvel <ard.biesheuvel@linaro.org>
++ *
++ *  This program is free software; you can redistribute it and/or
++ *  modify it under the terms of the GNU General Public License
++ *  as published by the Free Software Foundation; either version 2
++ *  of the License, or (at your option) any later version.
++ */
++
++#include <linux/acpi.h>
++#include <linux/device.h>
++#include <linux/ctype.h>
++#include <linux/netdevice.h>
++#include <linux/types.h>
++#include <linux/bitops.h>
++#include <linux/dma-mapping.h>
++#include <linux/module.h>
++#include <linux/sizes.h>
++#include <linux/platform_device.h>
++#include <linux/clk.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/of_net.h>
++#include <linux/io.h>
++#include <linux/pm_runtime.h>
++
++#include "netsec.h"
++
++#define NETSEC_F_NETSEC_VER_MAJOR_NUM(x) (x & 0xffff0000)
++
++static int napi_weight = 64;
++static u16 pause_time = 256;
++
++static int netsec_of_probe(struct platform_device *pdev,
++			   struct netsec_priv *priv)
++{
++	int clk_count, ret, i;
++
++	priv->phy_np = of_parse_phandle(pdev->dev.of_node, "phy-handle", 0);
++	if (!priv->phy_np) {
++		dev_err(&pdev->dev, "missing required property 'phy-handle'\n");
++		return -EINVAL;
++	}
++
++	/* we require named clocks if there is more than one */
++	clk_count = of_property_count_strings(pdev->dev.of_node, "clock-names");
++	if (clk_count > 1) {
++		if (clk_count > ARRAY_SIZE(priv->clk)) {
++			dev_err(&pdev->dev, "too many clocks specified (%d)\n",
++				clk_count);
++			return -EINVAL;
++		}
++
++		for (i = 0; i < clk_count; i++) {
++			const char *clk_name;
++
++			ret = of_property_read_string_index(pdev->dev.of_node,
++							    "clock-names", i,
++							    &clk_name);
++			if (ret) {
++				dev_err(&pdev->dev,
++					"failed to parse 'clock-names'\n");
++				return ret;
++			}
++			priv->clk[i] = devm_clk_get(&pdev->dev, clk_name);
++			if (!strcmp(clk_name, "phy_refclk")) {
++				priv->freq = clk_get_rate(priv->clk[i]);
++				dev_dbg(&pdev->dev,
++					"found PHY refclock #%d freq %u\n",
++					i, priv->freq);
++			}
++		}
++		priv->clock_count = clk_count;
++	} else {
++		priv->clk[0] = devm_clk_get(&pdev->dev, NULL);
++		if (IS_ERR(priv->clk)) {
++			dev_err(&pdev->dev,
++				"missing required property 'clocks'\n");
++			return PTR_ERR(priv->clk);
++		}
++		priv->freq = clk_get_rate(priv->clk[0]);
++		priv->clock_count = 1;
++	}
++	return 0;
++}
++
++static int netsec_acpi_probe(struct platform_device *pdev,
++			     struct netsec_priv *priv, u32 *phy_addr)
++{
++	int ret;
++
++	if (!IS_ENABLED(CONFIG_ACPI))
++		return -ENODEV;
++
++	ret = device_property_read_u32(&pdev->dev, "phy-channel", phy_addr);
++	if (ret) {
++		dev_err(&pdev->dev,
++			"missing required property 'phy-channel'\n");
++		return ret;
++	}
++
++	ret = device_property_read_u32(&pdev->dev,
++				       "socionext,phy-clock-frequency",
++				       &priv->freq);
++	if (ret)
++		dev_err(&pdev->dev,
++			"missing required property 'socionext,phy-clock-frequency'\n");
++	return ret;
++}
++
++static int netsec_probe(struct platform_device *pdev)
++{
++	struct net_device *ndev;
++	struct netsec_priv *priv;
++	struct resource *mmio_res, *eeprom_res, *irq_res;
++	u8 *mac, macbuf[ETH_ALEN];
++	u32 hw_ver, phy_addr;
++	int ret;
++
++	mmio_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!mmio_res) {
++		dev_err(&pdev->dev, "No MMIO resource found.\n");
++		return -ENODEV;
++	}
++
++	eeprom_res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
++	if (!eeprom_res) {
++		dev_info(&pdev->dev, "No EEPROM resource found.\n");
++		return -ENODEV;
++	}
++
++	irq_res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
++	if (!irq_res) {
++		dev_err(&pdev->dev, "No IRQ resource found.\n");
++		return -ENODEV;
++	}
++
++	ndev = alloc_etherdev(sizeof(*priv));
++	if (!ndev)
++		return -ENOMEM;
++
++	priv = netdev_priv(ndev);
++	priv->ndev = ndev;
++	SET_NETDEV_DEV(ndev, &pdev->dev);
++	platform_set_drvdata(pdev, priv);
++	priv->dev = &pdev->dev;
++
++	priv->msg_enable = NETIF_MSG_TX_ERR | NETIF_MSG_HW | NETIF_MSG_DRV |
++			   NETIF_MSG_LINK | NETIF_MSG_PROBE;
++
++	ndev->irq = irq_res->start;
++
++	priv->phy_interface = device_get_phy_mode(&pdev->dev);
++	if (priv->phy_interface < 0) {
++		dev_err(&pdev->dev, "missing required property 'phy-mode'\n");
++		ret = -ENODEV;
++		goto free_ndev;
++	}
++
++	priv->ioaddr = devm_ioremap(&pdev->dev, mmio_res->start,
++				    resource_size(mmio_res));
++	if (!priv->ioaddr) {
++		dev_err(&pdev->dev, "devm_ioremap() failed\n");
++		ret = -ENXIO;
++		goto free_ndev;
++	}
++
++	priv->eeprom_base = devm_memremap(&pdev->dev, eeprom_res->start,
++					  resource_size(eeprom_res),
++					  MEMREMAP_WT);
++	if (!priv->eeprom_base) {
++		dev_err(&pdev->dev, "devm_memremap() failed for EEPROM\n");
++		ret = -ENXIO;
++		goto free_ndev;
++	}
++
++	mac = device_get_mac_address(&pdev->dev, macbuf, sizeof(macbuf));
++	if (mac)
++		ether_addr_copy(ndev->dev_addr, mac);
++
++	if (priv->eeprom_base &&
++	    (!mac || !is_valid_ether_addr(ndev->dev_addr))) {
++		const u8 *macp = priv->eeprom_base + NETSEC_EEPROM_MAC_ADDRESS;
++
++		ndev->dev_addr[0] = macp[3];
++		ndev->dev_addr[1] = macp[2];
++		ndev->dev_addr[2] = macp[1];
++		ndev->dev_addr[3] = macp[0];
++		ndev->dev_addr[4] = macp[7];
++		ndev->dev_addr[5] = macp[6];
++	}
++
++	if (!is_valid_ether_addr(ndev->dev_addr)) {
++		dev_warn(&pdev->dev, "No MAC address found, using random\n");
++		eth_hw_addr_random(ndev);
++	}
++
++	if (dev_of_node(&pdev->dev))
++		ret = netsec_of_probe(pdev, priv);
++	else
++		ret = netsec_acpi_probe(pdev, priv, &phy_addr);
++	if (ret)
++		goto free_ndev;
++
++	if (!priv->freq) {
++		dev_err(&pdev->dev, "missing PHY reference clock frequency\n");
++		ret = -ENODEV;
++		goto free_ndev;
++	}
++
++	/* disable by default */
++	priv->et_coalesce.rx_coalesce_usecs = 0;
++	priv->et_coalesce.rx_max_coalesced_frames = 1;
++	priv->et_coalesce.tx_coalesce_usecs = 0;
++	priv->et_coalesce.tx_max_coalesced_frames = 1;
++
++	ret = device_property_read_u32(&pdev->dev, "max-frame-size",
++				       &ndev->max_mtu);
++	if (ret < 0)
++		ndev->max_mtu = ETH_DATA_LEN;
++
++	priv->rx_pkt_buf_len = ndev->max_mtu + 22;
++	priv->param.use_jumbo_pkt_flag = (ndev->max_mtu > ETH_DATA_LEN);
++
++	pm_runtime_enable(&pdev->dev);
++	/* runtime_pm coverage just for probe, open/close also cover it */
++	pm_runtime_get_sync(&pdev->dev);
++
++	hw_ver = netsec_readl(priv, NETSEC_REG_F_TAIKI_VER);
++	/* this driver only supports F_TAIKI style NETSEC */
++	if (NETSEC_F_NETSEC_VER_MAJOR_NUM(hw_ver) !=
++	    NETSEC_F_NETSEC_VER_MAJOR_NUM(NETSEC_REG_NETSEC_VER_F_TAIKI)) {
++		ret = -ENODEV;
++		goto pm_disable;
++	}
++
++	dev_info(&pdev->dev, "hardware revision %d.%d\n",
++		 hw_ver >> 16, hw_ver & 0xffff);
++
++	priv->mac_mode.flow_start_th = NETSEC_FLOW_CONTROL_START_THRESHOLD;
++	priv->mac_mode.flow_stop_th = NETSEC_FLOW_CONTROL_STOP_THRESHOLD;
++	priv->mac_mode.pause_time = pause_time;
++	priv->mac_mode.flow_ctrl_enable_flag = false;
++
++	netif_napi_add(ndev, &priv->napi, netsec_netdev_napi_poll, napi_weight);
++
++	ndev->netdev_ops = &netsec_netdev_ops;
++	ndev->ethtool_ops = &netsec_ethtool_ops;
++	ndev->features = NETIF_F_SG | NETIF_F_IP_CSUM | NETIF_F_IPV6_CSUM |
++			 NETIF_F_TSO | NETIF_F_TSO6 | NETIF_F_GSO |
++			 NETIF_F_HIGHDMA | NETIF_F_RXCSUM;
++	ndev->hw_features = ndev->features;
++
++	priv->rx_cksum_offload_flag = true;
++	spin_lock_init(&priv->tx_queue_lock);
++
++	ret = netsec_mii_register(priv);
++	if (ret) {
++		dev_err(&pdev->dev, "mii bus registration failed (%d)\n", ret);
++		goto pm_disable;
++	}
++
++	if (!dev_of_node(&pdev->dev)) { /* ACPI */
++		priv->phydev = get_phy_device(priv->mii_bus, phy_addr, false);
++		if (IS_ERR(priv->phydev)) {
++			dev_err(&pdev->dev, "get_phy_device() failed (%ld)\n",
++				PTR_ERR(priv->phydev));
++			ret = PTR_ERR(priv->phydev);
++			goto unregister_mii;
++		}
++
++		ret = phy_device_register(priv->phydev);
++		if (ret) {
++			dev_err(&pdev->dev,
++				"phy_device_register() failed (%d)\n", ret);
++			phy_device_free(priv->phydev);
++			goto unregister_mii;
++		}
++	}
++
++	/* disable all other interrupt sources */
++	netsec_writel(priv, NETSEC_REG_INTEN_CLR, ~0);
++	netsec_writel(priv, NETSEC_REG_INTEN_SET,
++		      NETSEC_IRQ_TX | NETSEC_IRQ_RX);
++
++	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)))
++		dev_warn(&pdev->dev, "Failed to enable 64-bit DMA\n");
++
++	ret = register_netdev(ndev);
++	if (ret) {
++		netif_err(priv, probe, ndev, "register_netdev() failed\n");
++		goto unregister_mii;
++	}
++
++	pm_runtime_put_sync_suspend(&pdev->dev);
++
++	return 0;
++
++unregister_mii:
++	netsec_mii_unregister(priv);
++
++pm_disable:
++	pm_runtime_put_sync_suspend(&pdev->dev);
++	pm_runtime_disable(&pdev->dev);
++
++free_ndev:
++	free_netdev(ndev);
++
++	dev_err(&pdev->dev, "init failed\n");
++
++	return ret;
++}
++
++static int netsec_remove(struct platform_device *pdev)
++{
++	struct netsec_priv *priv = platform_get_drvdata(pdev);
++
++	unregister_netdev(priv->ndev);
++	if (!dev_of_node(&pdev->dev)) { /* ACPI */
++		phy_device_remove(priv->phydev);
++		phy_device_free(priv->phydev);
++	}
++	netsec_mii_unregister(priv);
++	pm_runtime_disable(&pdev->dev);
++	free_netdev(priv->ndev);
++
++	return 0;
++}
++
++#ifdef CONFIG_PM
++static int netsec_runtime_suspend(struct device *dev)
++{
++	struct netsec_priv *priv = dev_get_drvdata(dev);
++	int n;
++
++	netif_dbg(priv, drv, priv->ndev, "%s\n", __func__);
++
++	if (priv->irq_registered)
++		disable_irq(priv->ndev->irq);
++
++	netsec_writel(priv, NETSEC_REG_CLK_EN, 0);
++
++	for (n = priv->clock_count - 1; n >= 0; n--)
++		clk_disable_unprepare(priv->clk[n]);
++
++	return 0;
++}
++
++static int netsec_runtime_resume(struct device *dev)
++{
++	struct netsec_priv *priv = dev_get_drvdata(dev);
++	int n;
++
++	netif_dbg(priv, drv, priv->ndev, "%s\n", __func__);
++
++	/* first let the clocks back on */
++
++	for (n = 0; n < priv->clock_count; n++)
++		clk_prepare_enable(priv->clk[n]);
++
++	netsec_writel(priv, NETSEC_REG_CLK_EN, NETSEC_CLK_EN_REG_DOM_D |
++					       NETSEC_CLK_EN_REG_DOM_C |
++					       NETSEC_CLK_EN_REG_DOM_G);
++
++	if (priv->irq_registered)
++		enable_irq(priv->ndev->irq);
++
++	return 0;
++}
++
++static int netsec_pm_suspend(struct device *dev)
++{
++	struct netsec_priv *priv = dev_get_drvdata(dev);
++
++	netif_dbg(priv, drv, priv->ndev, "%s\n", __func__);
++
++	if (pm_runtime_status_suspended(dev))
++		return 0;
++
++	return netsec_runtime_suspend(dev);
++}
++
++static int netsec_pm_resume(struct device *dev)
++{
++	struct netsec_priv *priv = dev_get_drvdata(dev);
++
++	netif_dbg(priv, drv, priv->ndev, "%s\n", __func__);
++
++	if (pm_runtime_status_suspended(dev))
++		return 0;
++
++	return netsec_runtime_resume(dev);
++}
++#endif
++
++static const struct dev_pm_ops netsec_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(netsec_pm_suspend, netsec_pm_resume)
++	SET_RUNTIME_PM_OPS(netsec_runtime_suspend, netsec_runtime_resume, NULL)
++};
++
++static const struct of_device_id netsec_dt_ids[] = {
++	{ .compatible = "socionext,synquacer-netsec" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, netsec_dt_ids);
++
++#ifdef CONFIG_ACPI
++static const struct acpi_device_id netsec_acpi_ids[] = {
++	{ "SCX0001" },
++	{ }
++};
++MODULE_DEVICE_TABLE(acpi, netsec_acpi_ids);
++#endif
++
++static struct platform_driver netsec_driver = {
++	.probe				= netsec_probe,
++	.remove				= netsec_remove,
++	.driver.name			= "netsec",
++	.driver.of_match_table		= netsec_dt_ids,
++	.driver.acpi_match_table	= ACPI_PTR(netsec_acpi_ids),
++	.driver.pm			= &netsec_pm_ops,
++};
++module_platform_driver(netsec_driver);
++
++MODULE_AUTHOR("Andy Green <andy.green@linaro.org>");
++MODULE_AUTHOR("Jassi Brar <jaswinder.singh@linaro.org>");
++MODULE_AUTHOR("Ard Biesheuvel <ard.biesheuvel@linaro.org>");
++MODULE_DESCRIPTION("NETSEC Ethernet driver");
++MODULE_LICENSE("GPL");
+-- 
+cgit v1.1
+
+From 31a61532e7b859a797d36595ec5ab7485a9b24d5 Mon Sep 17 00:00:00 2001
+From: Jassi Brar <jassisinghbrar@gmail.com>
+Date: Wed, 30 Aug 2017 15:55:52 +0530
+Subject: dt-bindings: net: Add DT bindings for Socionext Netsec
+
+This patch adds documentation for Device-Tree bindings for the
+Socionext NetSec Controller driver.
+
+Signed-off-by: Jassi Brar <jaswinder.singh@linaro.org>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+---
+ .../devicetree/bindings/net/socionext-netsec.txt   | 43 ++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/net/socionext-netsec.txt
+
+diff --git a/Documentation/devicetree/bindings/net/socionext-netsec.txt b/Documentation/devicetree/bindings/net/socionext-netsec.txt
+new file mode 100644
+index 0000000..4695969
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/socionext-netsec.txt
+@@ -0,0 +1,43 @@
++* Socionext NetSec Ethernet Controller IP
++
++Required properties:
++- compatible: Should be "socionext,synquacer-netsec"
++- reg: Address and length of the control register area, followed by the
++       address and length of the EEPROM holding the MAC address and
++       microengine firmware
++- interrupts: Should contain ethernet controller interrupt
++- clocks: phandle to the PHY reference clock, and any other clocks to be
++          switched by runtime_pm
++- clock-names: Required only if more than a single clock is listed in 'clocks'.
++               The PHY reference clock must be named 'phy_refclk'
++- phy-mode: See ethernet.txt file in the same directory
++- phy-handle: phandle to select child phy
++
++Optional properties: (See ethernet.txt file in the same directory)
++- local-mac-address
++- mac-address
++- max-speed
++- max-frame-size
++
++Required properties for the child phy:
++- reg: phy address
++
++Example:
++	eth0: netsec@522D0000 {
++		compatible = "socionext,synquacer-netsec";
++		reg = <0 0x522D0000 0x0 0x10000>, <0 0x10000000 0x0 0x10000>;
++		interrupts = <GIC_SPI 176 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&clk_netsec>;
++		phy-mode = "rgmii";
++		max-speed = <1000>;
++		max-frame-size = <9000>;
++		phy-handle = <&ethphy0>;
++
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		ethphy0: ethernet-phy@1 {
++			compatible = "ethernet-phy-ieee802.3-c22";
++			reg = <1>;
++		};
++	};
+-- 
+cgit v1.1
+
+From d2fc584f8237746a84e6ec8690d8884f148fc449 Mon Sep 17 00:00:00 2001
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Tue, 10 Oct 2017 11:35:51 +0100
+Subject: [PATCH] add interrupt.h, sort alphabetically
+
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ drivers/net/ethernet/socionext/netsec/netsec_platform.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/net/ethernet/socionext/netsec/netsec_platform.c b/drivers/net/ethernet/socionext/netsec/netsec_platform.c
+index 624f6a7093f6..79072bae917d 100644
+--- a/drivers/net/ethernet/socionext/netsec/netsec_platform.c
++++ b/drivers/net/ethernet/socionext/netsec/netsec_platform.c
+@@ -14,21 +14,22 @@
+  */
+ 
+ #include <linux/acpi.h>
+-#include <linux/device.h>
+-#include <linux/ctype.h>
+-#include <linux/netdevice.h>
+-#include <linux/types.h>
+ #include <linux/bitops.h>
++#include <linux/clk.h>
++#include <linux/ctype.h>
++#include <linux/device.h>
+ #include <linux/dma-mapping.h>
++#include <linux/io.h>
++#include <linux/interrupt.h>
+ #include <linux/module.h>
+-#include <linux/sizes.h>
+-#include <linux/platform_device.h>
+-#include <linux/clk.h>
++#include <linux/netdevice.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
+ #include <linux/of_net.h>
+-#include <linux/io.h>
++#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
++#include <linux/sizes.h>
++#include <linux/types.h>
+ 
+ #include "netsec.h"
+ 
+-- 
+2.14.2
+

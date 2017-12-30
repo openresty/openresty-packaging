@@ -1,0 +1,29 @@
+From 487ff7b0e537506057960a0c2d9482d19f2acf4a Mon Sep 17 00:00:00 2001
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 26 Apr 2017 11:12:54 +0100
+Subject: [PATCH] Add option of 13 for FORCE_MAX_ZONEORDER
+
+This is a hack, but it's what the other distros currently use
+for aarch64 with 4K pages so we'll do the same while upstream
+decides what the best outcome is (which isn't this).
+
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ arch/arm64/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 3741859765cf..deec9511f1d3 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -751,6 +751,7 @@ config XEN
+ config FORCE_MAX_ZONEORDER
+ 	int
+ 	default "14" if (ARM64_64K_PAGES && TRANSPARENT_HUGEPAGE)
++	default "13" if (ARCH_THUNDER && !ARM64_64K_PAGES)
+ 	default "12" if (ARM64_16K_PAGES && TRANSPARENT_HUGEPAGE)
+ 	default "11"
+ 	help
+-- 
+2.12.2
+

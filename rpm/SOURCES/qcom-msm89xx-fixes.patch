@@ -1,0 +1,31 @@
+From 40cb129048e5d2456da8d9d6468f292da3071b91 Mon Sep 17 00:00:00 2001
+From: Rob Clark <robdclark@gmail.com>
+Date: Fri, 30 Jun 2017 16:40:23 -0400
+Subject: [PATCH 4/6] thermal: qcom: tsens: fix crash due to incorrect __init
+
+init_common() is called from probe, which can happen after the __init
+section is already unloaded in the case of -EPROBE_DEFER.  Causing a
+later probe to attempt to branch to hyperspace.
+
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Rob Clark <robdclark@gmail.com>
+Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/thermal/qcom/tsens-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/thermal/qcom/tsens-common.c b/drivers/thermal/qcom/tsens-common.c
+index b1449ad67fc0..22ad37c9808c 100644
+--- a/drivers/thermal/qcom/tsens-common.c
++++ b/drivers/thermal/qcom/tsens-common.c
+@@ -123,7 +123,7 @@ static const struct regmap_config tsens_config = {
+ 	.reg_stride	= 4,
+ };
+ 
+-int __init init_common(struct tsens_device *tmdev)
++int init_common(struct tsens_device *tmdev)
+ {
+ 	void __iomem *base;
+ 
+-- 
+2.13.0

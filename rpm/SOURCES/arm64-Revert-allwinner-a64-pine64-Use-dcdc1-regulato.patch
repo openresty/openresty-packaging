@@ -1,0 +1,41 @@
+From 90e388ca5d8bbee022f9ed5fc24137b31579fa6e Mon Sep 17 00:00:00 2001
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Wed, 22 Nov 2017 15:52:36 +0000
+Subject: [PATCH] Revert "arm64: allwinner: a64: pine64: Use dcdc1 regulator
+ for mmc0"
+
+This reverts commit 3f241bfa60bdc9c4fde63fa6664a8ce00fd668c6.
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+index d06e34b5d192..caf8b6fbe5e3 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dts
+@@ -61,6 +61,13 @@
+ 	chosen {
+ 		stdout-path = "serial0:115200n8";
+ 	};
++
++	reg_vcc3v3: vcc3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
+ };
+ 
+ &ehci0 {
+@@ -84,7 +91,7 @@
+ &mmc0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&mmc0_pins>;
+-	vmmc-supply = <&reg_dcdc1>;
++	vmmc-supply = <&reg_vcc3v3>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
+ 	cd-inverted;
+ 	disable-wp;
+-- 
+2.14.3
+

@@ -1,0 +1,64 @@
+From 0eadbb65c0026fb4eec89c54f6b48a0febd87f92 Mon Sep 17 00:00:00 2001
+From: Laura Abbott <labbott@redhat.com>
+Date: Fri, 9 Sep 2016 08:19:17 -0700
+Subject: [PATCH] iio: Use type header from kernel tree
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: Jonathan Cameron <jic23@kernel.org>
+To: Hartmut Knaack <knaack.h@gmx.de>
+To: Lars-Peter Clausen <lars@metafoo.de>
+To: Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+Cc: linux-iio@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+
+The iio tools have been updated as new event types have been added to
+the kernel. The tools currently use the standard system headers which
+means that the system may not have the newest defintitions. This leads
+to build failures when building newer tools on older hosts:
+
+gcc -Wall -g -D_GNU_SOURCE   -c -o iio_event_monitor.o
+iio_event_monitor.c
+iio_event_monitor.c:59:3: error: ‘IIO_UVINDEX’ undeclared here (not in a
+function)
+  [IIO_UVINDEX] = "uvindex",
+   ^~~~~~~~~~~
+iio_event_monitor.c:59:3: error: array index in initializer not of
+integer type
+iio_event_monitor.c:59:3: note: (near initialization for
+‘iio_chan_type_name_spec’)
+iio_event_monitor.c:97:3: error: ‘IIO_MOD_LIGHT_UV’ undeclared here (not
+in a function)
+  [IIO_MOD_LIGHT_UV] = "uv",
+   ^~~~~~~~~~~~~~~~
+iio_event_monitor.c:97:3: error: array index in initializer not of
+integer type
+iio_event_monitor.c:97:3: note: (near initialization for
+‘iio_modifier_names’)
+<builtin>: recipe for target 'iio_event_monitor.o' failed
+
+Switch to using the header from the kernel tree to ensure the newest
+defintions are always picked up.
+
+Signed-off-by: Laura Abbott <labbott@redhat.com>
+---
+ tools/iio/iio_event_monitor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/iio/iio_event_monitor.c b/tools/iio/iio_event_monitor.c
+index d9b7e0f..f02523d 100644
+--- a/tools/iio/iio_event_monitor.c
++++ b/tools/iio/iio_event_monitor.c
+@@ -26,7 +26,7 @@
+ #include <sys/ioctl.h>
+ #include "iio_utils.h"
+ #include <linux/iio/events.h>
+-#include <linux/iio/types.h>
++#include "../../include/uapi/linux/iio/types.h"
+ 
+ static const char * const iio_chan_type_name_spec[] = {
+ 	[IIO_VOLTAGE] = "voltage",
+-- 
+2.7.4
+

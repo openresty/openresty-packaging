@@ -1,0 +1,28 @@
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Thu, 3 May 2012 20:27:11 +0100
+Subject: [PATCH] ARM: tegra: usb no reset
+
+Patch for disconnect issues with storage attached to a
+ tegra-ehci controller
+---
+ drivers/usb/core/hub.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 43cb2f2e3b43..7f838ec11c81 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -4996,6 +4996,13 @@ static void hub_event(struct work_struct *work)
+ 			(u16) hub->change_bits[0],
+ 			(u16) hub->event_bits[0]);
+ 
++	/* Don't disconnect USB-SATA on TrimSlice */
++	if (strcmp(dev_name(hdev->bus->controller), "tegra-ehci.0") == 0) {
++		if ((hdev->state == 7) && (hub->change_bits[0] == 0) &&
++				(hub->event_bits[0] == 0x2))
++			hub->event_bits[0] = 0;
++	}
++
+ 	/* Lock the device, then check to see if we were
+ 	 * disconnected while waiting for the lock to succeed. */
+ 	usb_lock_device(hdev);

@@ -80,6 +80,58 @@ See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/
 CentOS/RHEL
 -----------
 
+For CentOS 7+ (ebpf support)
+
+```bash
+# create the makerpm account for building rpms only:
+sudo useradd makerpm
+sudo groupadd mock
+sudo usermod -a -G mock makerpm
+sudo passwd makerpm
+
+# install rpm build tools:
+sudo yum install rpm-build redhat-rpm-config rpmdevtools -y
+
+# install build requirements:
+sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl \
+    perl-Data-Dumper libtool ElectricFence systemtap-sdt-devel valgrind-devel
+
+# login as makerpm:
+sudo su - makerpm
+
+mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+echo '%_topdir %(echo $HOME)/rpmbuild' > ~/.rpmmacros
+
+cd ~/rpmbuild/SOURCES
+cp /path/to/openresty-plus-packaging/rpm/SOURCES/* ./
+
+cd ~/rpmbuild/SPECS
+cp /path/to/openresty-plus-packaging/rpm/SPECS/*.spec ./
+
+# please follow these steps:
+# build and install openresty-kernel-cross-headers in the building machine
+spectool -g -R openresty-kernel.spec
+yum-builddep openresty-kernel.spec
+rpmbuild -ba openresty-kernel.spec
+yum install ../RPMS/x86_64/openresty-kernel-cross-headers-4.14.8-200.el7.centos.x86_64.rpm
+
+# build and install it in the building machine
+spectool -g -R openresty-clang.spec
+yum-builddep openresty-clang.spec
+rpmbuild -ba openresty-clang.spec
+yum install ../RPMS/x86_64/openresty-clang-devel-5.0.0-1.el7.centos.x86_64.rpm
+
+# build bcc
+spectool -g -R openresty-bcc.spec
+yum-builddep openresty-bcc.spec
+rpmbuild -ba openresty-bcc.spec
+
+# build iproute2
+spectool -g -R openresty-iproute2.spec
+yum-builddep openresty-iproute2.spec
+rpmbuild -ba openresty-iproute2.spec
+```
+
 For CentOS/RHEL 6+:
 
 ```bash
@@ -206,4 +258,3 @@ See Also
 * [OpenResty official site](https://openresty.org/)
 
 [Back to TOC](#table-of-contents)
-

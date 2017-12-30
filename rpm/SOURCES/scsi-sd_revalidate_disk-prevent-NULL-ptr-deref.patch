@@ -1,0 +1,39 @@
+From 7afe9a8d7dca86a8f35250f21f5f0a62ea2fedf7 Mon Sep 17 00:00:00 2001
+From: "kernel-team@fedoraproject.org" <kernel-team@fedoraproject.org>
+Date: Fri, 10 Feb 2012 14:56:13 -0500
+Subject: [PATCH] scsi: sd_revalidate_disk prevent NULL ptr deref
+
+Bugzilla: 754518
+Upstream-status: Fedora mustard (might be worth dropping...)
+---
+ drivers/scsi/sd.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 3d22fc3..07aec76 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -2825,7 +2825,7 @@ static inline u32 logical_to_sectors(struct scsi_device *sdev, u32 blocks)
+ static int sd_revalidate_disk(struct gendisk *disk)
+ {
+ 	struct scsi_disk *sdkp = scsi_disk(disk);
+-	struct scsi_device *sdp = sdkp->device;
++	struct scsi_device *sdp;
+ 	struct request_queue *q = sdkp->disk->queue;
+ 	sector_t old_capacity = sdkp->capacity;
+ 	unsigned char *buffer;
+@@ -2833,6 +2833,11 @@ static int sd_revalidate_disk(struct gendisk *disk)
+ 	SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
+ 				      "sd_revalidate_disk\n"));
+ 
++	if (WARN_ONCE((!sdkp), "Invalid scsi_disk from %p\n", disk))
++		goto out;
++
++	sdp = sdkp->device;
++
+ 	/*
+ 	 * If the device is offline, don't try and read capacity or any
+ 	 * of the other niceties.
+-- 
+2.5.0
+

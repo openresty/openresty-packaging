@@ -1,0 +1,200 @@
+From patchwork Thu Aug 17 12:37:06 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: drm/i915: Boost GPU clocks if we miss the pageflip's vblank
+From: Chris Wilson <chris@chris-wilson.co.uk>
+X-Patchwork-Id: 172204
+Message-Id: <20170817123706.6777-1-chris@chris-wilson.co.uk>
+To: intel-gfx@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Date: Thu, 17 Aug 2017 13:37:06 +0100
+
+If we miss the current vblank because the gpu was busy, that may cause a
+jitter as the frame rate temporarily drops. We try to limit the impact
+of this by then boosting the GPU clock to deliver the frame as quickly
+as possible. Originally done in commit 6ad790c0f5ac ("drm/i915: Boost GPU
+frequency if we detect outstanding pageflips") but was never forward
+ported to atomic and finally dropped in commit fd3a40242e87 ("drm/i915:
+Rip out legacy page_flip completion/irq handling").
+
+References: https://bugs.freedesktop.org/show_bug.cgi?id=102199
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Tested-by: Lyude Paul <lyude@redhat.com>
+Reviewed-by: Radoslaw Szwichtenberg <radoslaw.szwichtenberg@intel.com>
+---
+ drivers/gpu/drm/i915/intel_display.c | 59 ++++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/i915/intel_drv.h     |  1 -
+ drivers/gpu/drm/i915/intel_pm.c      | 42 ++-----------------------
+ 3 files changed, 62 insertions(+), 40 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/intel_display.c b/drivers/gpu/drm/i915/intel_display.c
+index 0e93ec201fe3..7d5b19553637 100644
+--- a/drivers/gpu/drm/i915/intel_display.c
++++ b/drivers/gpu/drm/i915/intel_display.c
+@@ -12636,6 +12636,55 @@ static const struct drm_crtc_funcs intel_crtc_funcs = {
+ 	.set_crc_source = intel_crtc_set_crc_source,
+ };
+ 
++struct wait_rps_boost {
++	struct wait_queue_entry wait;
++
++	struct drm_crtc *crtc;
++	struct drm_i915_gem_request *request;
++};
++
++static int do_rps_boost(struct wait_queue_entry *_wait,
++			unsigned mode, int sync, void *key)
++{
++	struct wait_rps_boost *wait = container_of(_wait, typeof(*wait), wait);
++	struct drm_i915_gem_request *rq = wait->request;
++
++	gen6_rps_boost(rq, NULL);
++	i915_gem_request_put(rq);
++
++	drm_crtc_vblank_put(wait->crtc);
++
++	list_del(&wait->wait.entry);
++	kfree(wait);
++	return 1;
++}
++
++static void add_rps_boost_after_vblank(struct drm_crtc *crtc,
++				       struct dma_fence *fence)
++{
++	struct wait_rps_boost *wait;
++
++	if (!dma_fence_is_i915(fence))
++		return;
++
++	if (drm_crtc_vblank_get(crtc))
++		return;
++
++	wait = kmalloc(sizeof(*wait), GFP_KERNEL);
++	if (!wait) {
++		drm_crtc_vblank_put(crtc);
++		return;
++	}
++
++	wait->request = to_request(dma_fence_get(fence));
++	wait->crtc = crtc;
++
++	wait->wait.func = do_rps_boost;
++	wait->wait.flags = 0;
++
++	add_wait_queue(drm_crtc_vblank_waitqueue(crtc), &wait->wait);
++}
++
+ /**
+  * intel_prepare_plane_fb - Prepare fb for usage on plane
+  * @plane: drm plane to prepare for
+@@ -12733,12 +12782,22 @@ intel_prepare_plane_fb(struct drm_plane *plane,
+ 		return ret;
+ 
+ 	if (!new_state->fence) { /* implicit fencing */
++		struct dma_fence *fence;
++
+ 		ret = i915_sw_fence_await_reservation(&intel_state->commit_ready,
+ 						      obj->resv, NULL,
+ 						      false, I915_FENCE_TIMEOUT,
+ 						      GFP_KERNEL);
+ 		if (ret < 0)
+ 			return ret;
++
++		fence = reservation_object_get_excl_rcu(obj->resv);
++		if (fence) {
++			add_rps_boost_after_vblank(new_state->crtc, fence);
++			dma_fence_put(fence);
++		}
++	} else {
++		add_rps_boost_after_vblank(new_state->crtc, new_state->fence);
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/intel_drv.h b/drivers/gpu/drm/i915/intel_drv.h
+index fa47285918f4..e092354b4d63 100644
+--- a/drivers/gpu/drm/i915/intel_drv.h
++++ b/drivers/gpu/drm/i915/intel_drv.h
+@@ -1844,7 +1844,6 @@ void gen6_rps_reset_ei(struct drm_i915_private *dev_priv);
+ void gen6_rps_idle(struct drm_i915_private *dev_priv);
+ void gen6_rps_boost(struct drm_i915_gem_request *rq,
+ 		    struct intel_rps_client *rps);
+-void intel_queue_rps_boost_for_request(struct drm_i915_gem_request *req);
+ void g4x_wm_get_hw_state(struct drm_device *dev);
+ void vlv_wm_get_hw_state(struct drm_device *dev);
+ void ilk_wm_get_hw_state(struct drm_device *dev);
+diff --git a/drivers/gpu/drm/i915/intel_pm.c b/drivers/gpu/drm/i915/intel_pm.c
+index ed662937ec3c..c9fa2eb1903c 100644
+--- a/drivers/gpu/drm/i915/intel_pm.c
++++ b/drivers/gpu/drm/i915/intel_pm.c
+@@ -6169,6 +6169,7 @@ void gen6_rps_boost(struct drm_i915_gem_request *rq,
+ 		    struct intel_rps_client *rps)
+ {
+ 	struct drm_i915_private *i915 = rq->i915;
++	unsigned long flags;
+ 	bool boost;
+ 
+ 	/* This is intentionally racy! We peek at the state here, then
+@@ -6178,13 +6179,13 @@ void gen6_rps_boost(struct drm_i915_gem_request *rq,
+ 		return;
+ 
+ 	boost = false;
+-	spin_lock_irq(&rq->lock);
++	spin_lock_irqsave(&rq->lock, flags);
+ 	if (!rq->waitboost && !i915_gem_request_completed(rq)) {
+ 		atomic_inc(&i915->rps.num_waiters);
+ 		rq->waitboost = true;
+ 		boost = true;
+ 	}
+-	spin_unlock_irq(&rq->lock);
++	spin_unlock_irqrestore(&rq->lock, flags);
+ 	if (!boost)
+ 		return;
+ 
+@@ -9132,43 +9133,6 @@ int intel_freq_opcode(struct drm_i915_private *dev_priv, int val)
+ 		return DIV_ROUND_CLOSEST(val, GT_FREQUENCY_MULTIPLIER);
+ }
+ 
+-struct request_boost {
+-	struct work_struct work;
+-	struct drm_i915_gem_request *req;
+-};
+-
+-static void __intel_rps_boost_work(struct work_struct *work)
+-{
+-	struct request_boost *boost = container_of(work, struct request_boost, work);
+-	struct drm_i915_gem_request *req = boost->req;
+-
+-	if (!i915_gem_request_completed(req))
+-		gen6_rps_boost(req, NULL);
+-
+-	i915_gem_request_put(req);
+-	kfree(boost);
+-}
+-
+-void intel_queue_rps_boost_for_request(struct drm_i915_gem_request *req)
+-{
+-	struct request_boost *boost;
+-
+-	if (req == NULL || INTEL_GEN(req->i915) < 6)
+-		return;
+-
+-	if (i915_gem_request_completed(req))
+-		return;
+-
+-	boost = kmalloc(sizeof(*boost), GFP_ATOMIC);
+-	if (boost == NULL)
+-		return;
+-
+-	boost->req = i915_gem_request_get(req);
+-
+-	INIT_WORK(&boost->work, __intel_rps_boost_work);
+-	queue_work(req->i915->wq, &boost->work);
+-}
+-
+ void intel_pm_setup(struct drm_i915_private *dev_priv)
+ {
+ 	mutex_init(&dev_priv->rps.hw_lock);

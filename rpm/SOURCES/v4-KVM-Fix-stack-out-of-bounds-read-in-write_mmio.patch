@@ -1,0 +1,215 @@
+From patchwork Fri Dec 15 01:40:50 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: [v4] KVM: Fix stack-out-of-bounds read in write_mmio
+From: Wanpeng Li <kernellwp@gmail.com>
+X-Patchwork-Id: 10113513
+Message-Id: <1513302050-14253-1-git-send-email-wanpeng.li@hotmail.com>
+To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>,
+ Wanpeng Li <wanpeng.li@hotmail.com>, Marc Zyngier <marc.zyngier@arm.com>,
+ Christoffer Dall <christoffer.dall@linaro.org>
+Date: Thu, 14 Dec 2017 17:40:50 -0800
+
+From: Wanpeng Li <wanpeng.li@hotmail.com>
+
+Reported by syzkaller:
+
+  BUG: KASAN: stack-out-of-bounds in write_mmio+0x11e/0x270 [kvm]
+  Read of size 8 at addr ffff8803259df7f8 by task syz-executor/32298
+
+  CPU: 6 PID: 32298 Comm: syz-executor Tainted: G           OE    4.15.0-rc2+ #18
+  Hardware name: LENOVO ThinkCentre M8500t-N000/SHARKBAY, BIOS FBKTC1AUS 02/16/2016
+  Call Trace:
+   dump_stack+0xab/0xe1
+   print_address_description+0x6b/0x290
+   kasan_report+0x28a/0x370
+   write_mmio+0x11e/0x270 [kvm]
+   emulator_read_write_onepage+0x311/0x600 [kvm]
+   emulator_read_write+0xef/0x240 [kvm]
+   emulator_fix_hypercall+0x105/0x150 [kvm]
+   em_hypercall+0x2b/0x80 [kvm]
+   x86_emulate_insn+0x2b1/0x1640 [kvm]
+   x86_emulate_instruction+0x39a/0xb90 [kvm]
+   handle_exception+0x1b4/0x4d0 [kvm_intel]
+   vcpu_enter_guest+0x15a0/0x2640 [kvm]
+   kvm_arch_vcpu_ioctl_run+0x549/0x7d0 [kvm]
+   kvm_vcpu_ioctl+0x479/0x880 [kvm]
+   do_vfs_ioctl+0x142/0x9a0
+   SyS_ioctl+0x74/0x80
+   entry_SYSCALL_64_fastpath+0x23/0x9a
+
+The path of patched vmmcall will patch 3 bytes opcode 0F 01 C1(vmcall)
+to the guest memory, however, write_mmio tracepoint always prints 8 bytes
+through *(u64 *)val since kvm splits the mmio access into 8 bytes. This
+can result in stack-out-of-bounds read due to access the extra 5 bytes.
+This patch fixes it by just accessing the bytes which we operates on.
+
+Before patch:
+
+syz-executor-5567  [007] .... 51370.561696: kvm_mmio: mmio write len 3 gpa 0x10 val 0x1ffff10077c1010f
+
+After patch:
+
+syz-executor-13416 [002] .... 51302.299573: kvm_mmio: mmio write len 3 gpa 0x10 val 0xc1010f
+
+Reported-by: Dmitry Vyukov <dvyukov@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Radim Krčmář <rkrcmar@redhat.com>
+Cc: Marc Zyngier <marc.zyngier@arm.com>
+Cc: Christoffer Dall <christoffer.dall@linaro.org>
+Signed-off-by: Wanpeng Li <wanpeng.li@hotmail.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Marc Zyngier <marc.zyngier@arm.com>
+Tested-by: Marc Zyngier <marc.zyngier@arm.com>
+---
+v3 -> v4:
+ * fix the arm tracepoint
+v2 -> v3:
+ * fix sparse warning
+v1 -> v2:
+ * do the memcpy in kvm_mmio tracepoint
+
+ arch/x86/kvm/x86.c         | 8 ++++----
+ include/trace/events/kvm.h | 6 ++++--
+ virt/kvm/arm/mmio.c        | 6 +++---
+ 3 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 0f82e2c..c7071e7 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4456,7 +4456,7 @@ static int vcpu_mmio_read(struct kvm_vcpu *vcpu, gpa_t addr, int len, void *v)
+ 					 addr, n, v))
+ 		    && kvm_io_bus_read(vcpu, KVM_MMIO_BUS, addr, n, v))
+ 			break;
+-		trace_kvm_mmio(KVM_TRACE_MMIO_READ, n, addr, *(u64 *)v);
++		trace_kvm_mmio(KVM_TRACE_MMIO_READ, n, addr, v);
+ 		handled += n;
+ 		addr += n;
+ 		len -= n;
+@@ -4715,7 +4715,7 @@ static int read_prepare(struct kvm_vcpu *vcpu, void *val, int bytes)
+ {
+ 	if (vcpu->mmio_read_completed) {
+ 		trace_kvm_mmio(KVM_TRACE_MMIO_READ, bytes,
+-			       vcpu->mmio_fragments[0].gpa, *(u64 *)val);
++			       vcpu->mmio_fragments[0].gpa, val);
+ 		vcpu->mmio_read_completed = 0;
+ 		return 1;
+ 	}
+@@ -4737,14 +4737,14 @@ static int write_emulate(struct kvm_vcpu *vcpu, gpa_t gpa,
+ 
+ static int write_mmio(struct kvm_vcpu *vcpu, gpa_t gpa, int bytes, void *val)
+ {
+-	trace_kvm_mmio(KVM_TRACE_MMIO_WRITE, bytes, gpa, *(u64 *)val);
++	trace_kvm_mmio(KVM_TRACE_MMIO_WRITE, bytes, gpa, val);
+ 	return vcpu_mmio_write(vcpu, gpa, bytes, val);
+ }
+ 
+ static int read_exit_mmio(struct kvm_vcpu *vcpu, gpa_t gpa,
+ 			  void *val, int bytes)
+ {
+-	trace_kvm_mmio(KVM_TRACE_MMIO_READ_UNSATISFIED, bytes, gpa, 0);
++	trace_kvm_mmio(KVM_TRACE_MMIO_READ_UNSATISFIED, bytes, gpa, NULL);
+ 	return X86EMUL_IO_NEEDED;
+ }
+ 
+diff --git a/include/trace/events/kvm.h b/include/trace/events/kvm.h
+index e4b0b8e..dfd2170 100644
+--- a/include/trace/events/kvm.h
++++ b/include/trace/events/kvm.h
+@@ -211,7 +211,7 @@ TRACE_EVENT(kvm_ack_irq,
+ 	{ KVM_TRACE_MMIO_WRITE, "write" }
+ 
+ TRACE_EVENT(kvm_mmio,
+-	TP_PROTO(int type, int len, u64 gpa, u64 val),
++	TP_PROTO(int type, int len, u64 gpa, void *val),
+ 	TP_ARGS(type, len, gpa, val),
+ 
+ 	TP_STRUCT__entry(
+@@ -225,7 +225,9 @@ TRACE_EVENT(kvm_mmio,
+ 		__entry->type		= type;
+ 		__entry->len		= len;
+ 		__entry->gpa		= gpa;
+-		__entry->val		= val;
++		__entry->val = 0;
++		if (val)
++			memcpy(&__entry->val, val, min(8, len));
+ 	),
+ 
+ 	TP_printk("mmio %s len %u gpa 0x%llx val 0x%llx",
+diff --git a/virt/kvm/arm/mmio.c b/virt/kvm/arm/mmio.c
+index b6e715f..dac7ceb 100644
+--- a/virt/kvm/arm/mmio.c
++++ b/virt/kvm/arm/mmio.c
+@@ -112,7 +112,7 @@ int kvm_handle_mmio_return(struct kvm_vcpu *vcpu, struct kvm_run *run)
+ 		}
+ 
+ 		trace_kvm_mmio(KVM_TRACE_MMIO_READ, len, run->mmio.phys_addr,
+-			       data);
++			       &data);
+ 		data = vcpu_data_host_to_guest(vcpu, data, len);
+ 		vcpu_set_reg(vcpu, vcpu->arch.mmio_decode.rt, data);
+ 	}
+@@ -182,14 +182,14 @@ int io_mem_abort(struct kvm_vcpu *vcpu, struct kvm_run *run,
+ 		data = vcpu_data_guest_to_host(vcpu, vcpu_get_reg(vcpu, rt),
+ 					       len);
+ 
+-		trace_kvm_mmio(KVM_TRACE_MMIO_WRITE, len, fault_ipa, data);
++		trace_kvm_mmio(KVM_TRACE_MMIO_WRITE, len, fault_ipa, &data);
+ 		kvm_mmio_write_buf(data_buf, len, data);
+ 
+ 		ret = kvm_io_bus_write(vcpu, KVM_MMIO_BUS, fault_ipa, len,
+ 				       data_buf);
+ 	} else {
+ 		trace_kvm_mmio(KVM_TRACE_MMIO_READ_UNSATISFIED, len,
+-			       fault_ipa, 0);
++			       fault_ipa, NULL);
+ 
+ 		ret = kvm_io_bus_read(vcpu, KVM_MMIO_BUS, fault_ipa, len,
+ 				      data_buf);
+From patchwork Mon Dec 18 11:55:05 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [v4] KVM: Fix stack-out-of-bounds read in write_mmio
+From: Paolo Bonzini <pbonzini@redhat.com>
+X-Patchwork-Id: 10118879
+Message-Id: <17d27b8d-908b-a740-1d2d-e92a8507f25b@redhat.com>
+To: Marc Zyngier <marc.zyngier@arm.com>,
+ Wanpeng Li <kernellwp@gmail.com>, linux-kernel@vger.kernel.org,
+ kvm@vger.kernel.org
+Cc: =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
+ Wanpeng Li <wanpeng.li@hotmail.com>,
+ Christoffer Dall <christoffer.dall@linaro.org>
+Date: Mon, 18 Dec 2017 12:55:05 +0100
+
+On 15/12/2017 12:06, Marc Zyngier wrote:
+> Assuming you address the above:
+> 
+> Reviewed-by: Marc Zyngier <marc.zyngier@arm.com>
+> Tested-by: Marc Zyngier <marc.zyngier@arm.com>
+
+Done as follows:
+
+
+Thanks,
+
+Paolo
+
+diff --git a/include/trace/events/kvm.h b/include/trace/events/kvm.h
+index dfd21708694f..0a016bd14c2d 100644
+--- a/include/trace/events/kvm.h
++++ b/include/trace/events/kvm.h
+@@ -227,7 +227,8 @@
+ 		__entry->gpa		= gpa;
+ 		__entry->val = 0;
+ 		if (val)
+-			memcpy(&__entry->val, val, min(8, len));
++			memcpy(&__entry->val, val,
++			       min_t(u32, sizeof(__entry->val), len));
+ 	),
+ 
+ 	TP_printk("mmio %s len %u gpa 0x%llx val 0x%llx",

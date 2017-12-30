@@ -1,0 +1,24 @@
+From ea6e7d9d0fe3e448aef19b3943d4897ae0bef128 Mon Sep 17 00:00:00 2001
+From: Fedora Kernel Team <kernel-team@fedoraproject.org>
+Date: Thu, 3 Aug 2017 13:46:51 -0500
+Subject: [PATCH] Fix for module sig verification
+
+---
+ kernel/module_signing.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/module_signing.c b/kernel/module_signing.c
+index 937c844..d3d6f95 100644
+--- a/kernel/module_signing.c
++++ b/kernel/module_signing.c
+@@ -81,6 +81,6 @@ int mod_verify_sig(const void *mod, unsigned long *_modlen)
+ 	}
+
+ 	return verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
+-				      NULL, VERIFYING_MODULE_SIGNATURE,
++				      (void *)1UL, VERIFYING_MODULE_SIGNATURE,
+ 				      NULL, NULL);
+ }
+-- 
+2.13.3
+

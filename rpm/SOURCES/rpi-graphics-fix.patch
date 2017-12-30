@@ -1,0 +1,46 @@
+From 253696ccd613fbdaa5aba1de44c461a058e0a114 Mon Sep 17 00:00:00 2001
+From: Stefan Schake <stschake@gmail.com>
+Date: Fri, 10 Nov 2017 02:05:06 +0100
+Subject: drm/vc4: Account for interrupts in flight
+
+Synchronously disable the IRQ to make the following cancel_work_sync
+invocation effective.
+
+An interrupt in flight could enqueue further overflow mem work. As we
+free the binner BO immediately following vc4_irq_uninstall this caused
+a NULL pointer dereference in the work callback vc4_overflow_mem_work.
+
+Link: https://github.com/anholt/linux/issues/114
+Signed-off-by: Stefan Schake <stschake@gmail.com>
+Fixes: d5b1a78a772f ("drm/vc4: Add support for drawing 3D frames.")
+Signed-off-by: Eric Anholt <eric@anholt.net>
+Reviewed-by: Eric Anholt <eric@anholt.net>
+Link: https://patchwork.freedesktop.org/patch/msgid/1510275907-993-2-git-send-email-stschake@gmail.com
+
+diff --git a/drivers/gpu/drm/vc4/vc4_irq.c b/drivers/gpu/drm/vc4/vc4_irq.c
+index 7d7af3a..61b2e53 100644
+--- a/drivers/gpu/drm/vc4/vc4_irq.c
++++ b/drivers/gpu/drm/vc4/vc4_irq.c
+@@ -208,6 +208,9 @@ vc4_irq_postinstall(struct drm_device *dev)
+ {
+ 	struct vc4_dev *vc4 = to_vc4_dev(dev);
+ 
++	/* Undo the effects of a previous vc4_irq_uninstall. */
++	enable_irq(dev->irq);
++
+ 	/* Enable both the render done and out of memory interrupts. */
+ 	V3D_WRITE(V3D_INTENA, V3D_DRIVER_IRQS);
+ 
+@@ -225,6 +228,9 @@ vc4_irq_uninstall(struct drm_device *dev)
+ 	/* Clear any pending interrupts we might have left. */
+ 	V3D_WRITE(V3D_INTCTL, V3D_DRIVER_IRQS);
+ 
++	/* Finish any interrupt handler still in flight. */
++	disable_irq(dev->irq);
++
+ 	cancel_work_sync(&vc4->overflow_mem_work);
+ }
+ 
+-- 
+cgit v0.10.2
+

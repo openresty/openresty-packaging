@@ -1,0 +1,32 @@
+From: "kernel-team@fedoraproject.org" <kernel-team@fedoraproject.org>
+Date: Wed, 30 Jan 2013 10:55:31 -0500
+Subject: [PATCH] criu: no expert
+
+Bugzilla: N/A
+Upstream-status: Fedora mustard
+---
+ init/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/init/Kconfig b/init/Kconfig
+index 648bb79d6b73..860ca236975f 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1137,7 +1137,7 @@ config CGROUP_WRITEBACK
+ endif # CGROUPS
+ 
+ config CHECKPOINT_RESTORE
+-	bool "Checkpoint/restore support" if EXPERT
++	bool "Checkpoint/restore support"
+ 	select PROC_CHILDREN
+ 	default n
+ 	help
+@@ -1149,7 +1149,7 @@ config CHECKPOINT_RESTORE
+ 	  If unsure, say N here.
+ 
+ menuconfig NAMESPACES
+-	bool "Namespaces support" if EXPERT
++	bool "Namespaces support"
+ 	depends on MULTIUSER
+ 	default !EXPERT
+ 	help

@@ -1,0 +1,57 @@
+From a8a15723637c6dfbd5042b5c3453d31f5815f044 Mon Sep 17 00:00:00 2001
+From: "kernel-team@fedoraproject.org" <kernel-team@fedoraproject.org>
+Date: Thu, 29 Jul 2010 16:46:31 -0700
+Subject: [PATCH] silence fbcon logo
+
+Bugzilla: N/A
+Upstream-status: Fedora mustard
+---
+ drivers/video/fbdev/core/fbcon.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index afd3301ac40c..2e08ba0ade3e 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -634,13 +634,15 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
+ 		kfree(save);
+ 	}
+ 
+-	if (logo_lines > vc->vc_bottom) {
+-		logo_shown = FBCON_LOGO_CANSHOW;
+-		printk(KERN_INFO
+-		       "fbcon_init: disable boot-logo (boot-logo bigger than screen).\n");
+-	} else if (logo_shown != FBCON_LOGO_DONTSHOW) {
+-		logo_shown = FBCON_LOGO_DRAW;
+-		vc->vc_top = logo_lines;
++	if (logo_shown != FBCON_LOGO_DONTSHOW) {
++		if (logo_lines > vc->vc_bottom) {
++			logo_shown = FBCON_LOGO_CANSHOW;
++			printk(KERN_INFO
++			       "fbcon_init: disable boot-logo (boot-logo bigger than screen).\n");
++		} else {
++			logo_shown = FBCON_LOGO_DRAW;
++			vc->vc_top = logo_lines;
++		}
+ 	}
+ }
+ #endif /* MODULE */
+@@ -3671,4 +3671,15 @@ void __exit fb_console_exit(void)
+ 	do_unregister_con_driver(&fb_con);
+ 	console_unlock();
+ }	
++
++#else
++
++static int __init quiet_logo(char *str)
++{
++	logo_shown = FBCON_LOGO_DONTSHOW;
++	return 0;
++}
++
++early_param("quiet", quiet_logo);
++
+ #endif
+-- 
+2.7.4
+

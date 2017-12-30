@@ -1,0 +1,43 @@
+From patchwork Thu Oct  5 11:29:17 2017
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: [v2] drm/gem-cma-helper: Change the level of the allocation failure
+ message
+From: Boris Brezillon <boris.brezillon@free-electrons.com>
+X-Patchwork-Id: 180737
+Message-Id: <20171005112917.15949-1-boris.brezillon@free-electrons.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Cc: Boris Brezillon <boris.brezillon@free-electrons.com>
+Date: Thu,  5 Oct 2017 13:29:17 +0200
+
+drm_gem_cma_create() prints an error message when dma_alloc_wc() fails to
+allocate the amount of memory we requested. This can lead to annoying
+error messages when CMA is only one possible source of memory for the BO
+allocation. Turn this error message into a debug one.
+
+Signed-off-by: Boris Brezillon <boris.brezillon@free-electrons.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Reviewed-by: Eric Engestrom <eric.engestrom@imgtec.com>
+Reviewed-by: Eric Anholt <eric@anholt.net>
+---
+Changes in v2:
+- Remove __must_check attribute
+---
+ drivers/gpu/drm/drm_gem_cma_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_cma_helper.c b/drivers/gpu/drm/drm_gem_cma_helper.c
+index 373e33f22be4..020e7668dfab 100644
+--- a/drivers/gpu/drm/drm_gem_cma_helper.c
++++ b/drivers/gpu/drm/drm_gem_cma_helper.c
+@@ -112,7 +112,7 @@ struct drm_gem_cma_object *drm_gem_cma_create(struct drm_device *drm,
+ 	cma_obj->vaddr = dma_alloc_wc(drm->dev, size, &cma_obj->paddr,
+ 				      GFP_KERNEL | __GFP_NOWARN);
+ 	if (!cma_obj->vaddr) {
+-		dev_err(drm->dev, "failed to allocate buffer with size %zu\n",
++		dev_dbg(drm->dev, "failed to allocate buffer with size %zu\n",
+ 			size);
+ 		ret = -ENOMEM;
+ 		goto error;

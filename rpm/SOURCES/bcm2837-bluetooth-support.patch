@@ -1,0 +1,36 @@
+From 50252c318fe2fcfcbd0832fa835e7fd1fafd7d2d Mon Sep 17 00:00:00 2001
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Sun, 10 Sep 2017 19:30:02 +0100
+Subject: [PATCH 2/2] ARM: dts: bcm2837-rpi-3-b: Add bcm43438 serial slave
+
+Add BCM43438 (bluetooth) as a slave device of uart0 (pl011/ttyAMA0).
+This allows to automatically insert the bcm43438 to the bluetooth
+subsystem instead of relying on userspace helpers (hciattach).
+
+Overwrite chosen/stdout-path to use 8250 aux uart as console.
+
+Signed-off-by: Loic Poulain <loic.poulain@xxxxxxxxx>
+Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
+---
+ arch/arm/boot/dts/bcm2837-rpi-3-b.dts | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/arch/arm/boot/dts/bcm2837-rpi-3-b.dts b/arch/arm/boot/dts/bcm2837-rpi-3-b.dts
+index 20725ca487f3..e4488cb3067e 100644
+--- a/arch/arm/boot/dts/bcm2837-rpi-3-b.dts
++++ b/arch/arm/boot/dts/bcm2837-rpi-3-b.dts
+@@ -24,6 +29,11 @@
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart0_gpio32 &gpclk2_gpio43>;
+ 	status = "okay";
++
++	bluetooth {
++		compatible = "brcm,bcm43438-bt";
++		max-speed = <2000000>;
++	};
+ };
+ 
+ /* uart1 is mapped to the pin header */
+-- 
+2.13.5
+
