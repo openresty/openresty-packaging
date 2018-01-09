@@ -122,6 +122,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --without-stream_upstream_zone_module \
     --with-stream \
     --with-stream_ssl_module \
+    --with-stream_ssl_preread_module \
     --with-http_v2_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
