@@ -17,6 +17,11 @@ Source0:        https://github.com/iovisor/bcc/archive/v%{version}.tar.gz
 %define cmake cmake3
 %endif
 
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 ExclusiveArch: x86_64 ppc64 aarch64 ppc64le
 BuildRequires: bison %cmake flex make
 BuildRequires: gcc gcc-c++ python2-devel elfutils-libelf-devel-static
