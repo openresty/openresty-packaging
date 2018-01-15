@@ -1,5 +1,5 @@
 Name:           openresty-plus-asan
-Version:        1.13.6.1.14
+Version:        1.13.6.1.15
 Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
@@ -43,7 +43,13 @@ AutoReqProv:        no
   rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %description
@@ -192,6 +198,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Jan 14 2018 Yichun Zhang (agentzh) 1.13.6.1.15-1
+- upgraded openresty-plus to 1.13.6.1.15.
 * Thu Jan 4 2018 Yichun Zhang (agentzh) 1.13.6.1.14-1
 - upgraded openresty-plus to 1.13.6.1.14.
 * Thu Dec 28 2017 Yichun Zhang (agentzh) 1.13.6.1.13-1

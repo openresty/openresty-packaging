@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.13.6.1.14
+Version:        1.13.6.1.15
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -13,7 +13,6 @@ URL:            https://openresty.com/
 Source0:        openresty-plus-%{version}.tar.gz
 #Source1:        openresty-plus.init
 
-#Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -45,7 +44,13 @@ AutoReqProv:        no
   rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %description
@@ -144,8 +149,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %prep
 %setup -q -n "openresty-plus-%{version}"
 
-#%patch0 -p1
-
 
 %build
 ./configure \
@@ -232,7 +235,6 @@ ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 #mkdir -p %{buildroot}/etc/init.d
-#%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -242,21 +244,9 @@ export QA_RPATHS=$[ 0x0002 ]
 rm -rf %{buildroot}
 
 
-#%post
-#/sbin/chkconfig --add %{name}
-
-
-#%preun
-#if [ $1 = 0 ]; then
-    #/sbin/service %{name} stop >/dev/null 2>&1
-    #/sbin/chkconfig --del %{name}
-#fi
-
-
 %files
 %defattr(-,root,root,-)
 
-#/etc/init.d/%{name}
 /usr/bin/%{name}
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
@@ -296,6 +286,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Jan 14 2018 Yichun Zhang (agentzh) 1.13.6.1.15-1
+- upgraded openresty-plus to 1.13.6.1.15.
 * Thu Jan 4 2018 Yichun Zhang (agentzh) 1.13.6.1.14-1
 - upgraded openresty-plus to 1.13.6.1.14.
 * Thu Dec 28 2017 Yichun Zhang (agentzh) 1.13.6.1.13-1
