@@ -33,7 +33,7 @@ tools as well as libraries with equivalent functionality.
 
 %prep
 %setup -q -c -b 1
-mv cfe-%{version}.src llvm-%{version}.src/tools/clang
+mv ../cfe-%{version}.src llvm-%{version}.src/tools/clang
 
 %build
 mkdir -p build
