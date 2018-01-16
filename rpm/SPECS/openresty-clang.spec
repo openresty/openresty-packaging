@@ -18,6 +18,11 @@ Source1:        http://llvm.org/releases/%{version}/cfe-%{version}.src.tar.xz
 %define cmake cmake3
 %endif
 
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 BuildRequires: %cmake
 BuildRequires: libffi-devel
 BuildRequires: ncurses-devel
@@ -33,7 +38,7 @@ tools as well as libraries with equivalent functionality.
 
 %prep
 %setup -q -c -b 1
-mv ../cfe-%{version}.src llvm-%{version}.src/tools/clang
+mv %{_builddir}/cfe-%{version}.src llvm-%{version}.src/tools/clang
 
 %build
 mkdir -p build
