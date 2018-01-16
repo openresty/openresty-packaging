@@ -1,0 +1,38 @@
+From 690315729dd1cc6ea85551af0c61aa08a62a93f4 Mon Sep 17 00:00:00 2001
+From: Peter Jones <pjones@redhat.com>
+Date: Mon, 2 Oct 2017 18:18:30 -0400
+Subject: [PATCH 3/3] Make get_cert_list() use efi_status_to_str() to print
+ error messages.
+
+Signed-off-by: Peter Jones <pjones@redhat.com>
+---
+ certs/load_uefi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/certs/load_uefi.c b/certs/load_uefi.c
+index 9ef34c4..13a2826 100644
+--- a/certs/load_uefi.c
++++ b/certs/load_uefi.c
+@@ -51,7 +51,8 @@ static __init int get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+ 	}
+ 
+ 	if (status != EFI_BUFFER_TOO_SMALL) {
+-		pr_err("Couldn't get size: 0x%lx\n", status);
++		pr_err("Couldn't get size: %s (0x%lx)\n",
++		       efi_status_to_str(status), status);
+ 		return efi_status_to_err(status);
+ 	}
+ 
+@@ -64,7 +65,8 @@ static __init int get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+ 	status = efi.get_variable(name, guid, NULL, &lsize, db);
+ 	if (status != EFI_SUCCESS) {
+ 		kfree(db);
+-		pr_err("Error reading db var: 0x%lx\n", status);
++		pr_err("Error reading db var: %s (0x%lx)\n",
++		       efi_status_to_str(status), status);
+ 		return efi_status_to_err(status);
+ 	}
+ 
+-- 
+2.13.6
+

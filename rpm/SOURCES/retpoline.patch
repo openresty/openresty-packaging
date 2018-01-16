@@ -1,0 +1,1480 @@
+From 61dc0f555b5c761cdafb0ba5bd41ecf22d68a4c4 Mon Sep 17 00:00:00 2001
+From: Thomas Gleixner <tglx@linutronix.de>
+Date: Sun, 7 Jan 2018 22:48:01 +0100
+Subject: [PATCH] x86/cpu: Implement CPU vulnerabilites sysfs functions
+
+Implement the CPU vulnerabilty show functions for meltdown, spectre_v1 and
+spectre_v2.
+
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Will Deacon <will.deacon@arm.com>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: David Woodhouse <dwmw@amazon.co.uk>
+Link: https://lkml.kernel.org/r/20180107214913.177414879@linutronix.de
+---
+ arch/x86/Kconfig           |  1 +
+ arch/x86/kernel/cpu/bugs.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index cd5199de231e..e23d21ac745a 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -89,6 +89,7 @@ config X86
+ 	select GENERIC_CLOCKEVENTS_MIN_ADJUST
+ 	select GENERIC_CMOS_UPDATE
+ 	select GENERIC_CPU_AUTOPROBE
++	select GENERIC_CPU_VULNERABILITIES
+ 	select GENERIC_EARLY_IOREMAP
+ 	select GENERIC_FIND_FIRST_BIT
+ 	select GENERIC_IOMAP
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index ba0b2424c9b0..76ad6cb44b40 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -10,6 +10,7 @@
+  */
+ #include <linux/init.h>
+ #include <linux/utsname.h>
++#include <linux/cpu.h>
+ #include <asm/bugs.h>
+ #include <asm/processor.h>
+ #include <asm/processor-flags.h>
+@@ -60,3 +61,31 @@ void __init check_bugs(void)
+ 		set_memory_4k((unsigned long)__va(0), 1);
+ #endif
+ }
++
++#ifdef CONFIG_SYSFS
++ssize_t cpu_show_meltdown(struct device *dev,
++			  struct device_attribute *attr, char *buf)
++{
++	if (!boot_cpu_has_bug(X86_BUG_CPU_MELTDOWN))
++		return sprintf(buf, "Not affected\n");
++	if (boot_cpu_has(X86_FEATURE_PTI))
++		return sprintf(buf, "Mitigation: PTI\n");
++	return sprintf(buf, "Vulnerable\n");
++}
++
++ssize_t cpu_show_spectre_v1(struct device *dev,
++			    struct device_attribute *attr, char *buf)
++{
++	if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V1))
++		return sprintf(buf, "Not affected\n");
++	return sprintf(buf, "Vulnerable\n");
++}
++
++ssize_t cpu_show_spectre_v2(struct device *dev,
++			    struct device_attribute *attr, char *buf)
++{
++	if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V2))
++		return sprintf(buf, "Not affected\n");
++	return sprintf(buf, "Vulnerable\n");
++}
++#endif
+-- 
+2.14.3
+
+From d46717c610dcfa2cba5c87500c928993371ef1ad Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:07 +0000
+Subject: [PATCH 01/10] x86/retpoline: Add initial retpoline support
+
+Enable the use of -mindirect-branch=thunk-extern in newer GCC, and provide
+the corresponding thunks. Provide assembler macros for invoking the thunks
+in the same way that GCC does, from native and inline assembler.
+
+This adds X86_FEATURE_RETPOLINE and sets it by default on all CPUs. In
+some circumstances, IBRS microcode features may be used instead, and the
+retpoline can be disabled.
+
+On AMD CPUs if lfence is serialising, the retpoline can be dramatically
+simplified to a simple "lfence; jmp *\reg". A future patch, after it has
+been verified that lfence really is serialising in all circumstances, can
+enable this by setting the X86_FEATURE_RETPOLINE_AMD feature bit in addition
+to X86_FEATURE_RETPOLINE.
+
+Do not align the retpoline in the altinstr section, because there is no
+guarantee that it stays aligned when it's copied over the oldinstr during
+alternative patching.
+
+[ Andi Kleen: Rename the macros, add CONFIG_RETPOLINE option, export thunks]
+[ tglx: Put actual function CALL/JMP in front of the macros, convert to
+  	symbolic labels ]
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-2-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/Kconfig                      |  13 ++++
+ arch/x86/Makefile                     |  10 ++++
+ arch/x86/include/asm/asm-prototypes.h |  25 ++++++++
+ arch/x86/include/asm/cpufeatures.h    |   2 +
+ arch/x86/include/asm/nospec-branch.h  | 109 ++++++++++++++++++++++++++++++++++
+ arch/x86/kernel/cpu/common.c          |   4 ++
+ arch/x86/lib/Makefile                 |   1 +
+ arch/x86/lib/retpoline.S              |  48 +++++++++++++++
+ 8 files changed, 212 insertions(+)
+ create mode 100644 arch/x86/include/asm/nospec-branch.h
+ create mode 100644 arch/x86/lib/retpoline.S
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index e23d21ac745a..d1819161cc6c 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -429,6 +429,19 @@ config GOLDFISH
+        def_bool y
+        depends on X86_GOLDFISH
+
++config RETPOLINE
++	bool "Avoid speculative indirect branches in kernel"
++	default y
++	help
++	  Compile kernel with the retpoline compiler options to guard against
++	  kernel-to-user data leaks by avoiding speculative indirect
++	  branches. Requires a compiler with -mindirect-branch=thunk-extern
++	  support for full protection. The kernel may run slower.
++
++	  Without compiler support, at least indirect branches in assembler
++	  code are eliminated. Since this includes the syscall entry path,
++	  it is not entirely pointless.
++
+ config INTEL_RDT
+ 	bool "Intel Resource Director Technology support"
+ 	default n
+diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+index a20eacd9c7e9..974c61864978 100644
+--- a/arch/x86/Makefile
++++ b/arch/x86/Makefile
+@@ -235,6 +235,16 @@ KBUILD_CFLAGS += -Wno-sign-compare
+ #
+ KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
+
++# Avoid indirect branches in kernel to deal with Spectre
++ifdef CONFIG_RETPOLINE
++    RETPOLINE_CFLAGS += $(call cc-option,-mindirect-branch=thunk-extern -mindirect-branch-register)
++    ifneq ($(RETPOLINE_CFLAGS),)
++        KBUILD_CFLAGS += $(RETPOLINE_CFLAGS) -DRETPOLINE
++    else
++        $(warning CONFIG_RETPOLINE=y, but not supported by the compiler. Toolchain update recommended.)
++    endif
++endif
++
+ archscripts: scripts_basic
+ 	$(Q)$(MAKE) $(build)=arch/x86/tools relocs
+
+diff --git a/arch/x86/include/asm/asm-prototypes.h b/arch/x86/include/asm/asm-prototypes.h
+index ff700d81e91e..0927cdc4f946 100644
+--- a/arch/x86/include/asm/asm-prototypes.h
++++ b/arch/x86/include/asm/asm-prototypes.h
+@@ -11,7 +11,32 @@
+ #include <asm/pgtable.h>
+ #include <asm/special_insns.h>
+ #include <asm/preempt.h>
++#include <asm/asm.h>
+
+ #ifndef CONFIG_X86_CMPXCHG64
+ extern void cmpxchg8b_emu(void);
+ #endif
++
++#ifdef CONFIG_RETPOLINE
++#ifdef CONFIG_X86_32
++#define INDIRECT_THUNK(reg) extern asmlinkage void __x86_indirect_thunk_e ## reg(void);
++#else
++#define INDIRECT_THUNK(reg) extern asmlinkage void __x86_indirect_thunk_r ## reg(void);
++INDIRECT_THUNK(8)
++INDIRECT_THUNK(9)
++INDIRECT_THUNK(10)
++INDIRECT_THUNK(11)
++INDIRECT_THUNK(12)
++INDIRECT_THUNK(13)
++INDIRECT_THUNK(14)
++INDIRECT_THUNK(15)
++#endif
++INDIRECT_THUNK(ax)
++INDIRECT_THUNK(bx)
++INDIRECT_THUNK(cx)
++INDIRECT_THUNK(dx)
++INDIRECT_THUNK(si)
++INDIRECT_THUNK(di)
++INDIRECT_THUNK(bp)
++INDIRECT_THUNK(sp)
++#endif /* CONFIG_RETPOLINE */
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 1641c2f96363..f275447862f4 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -203,6 +203,8 @@
+ #define X86_FEATURE_PROC_FEEDBACK	( 7*32+ 9) /* AMD ProcFeedbackInterface */
+ #define X86_FEATURE_SME			( 7*32+10) /* AMD Secure Memory Encryption */
+ #define X86_FEATURE_PTI			( 7*32+11) /* Kernel Page Table Isolation enabled */
++#define X86_FEATURE_RETPOLINE		( 7*32+12) /* Generic Retpoline mitigation for Spectre variant 2 */
++#define X86_FEATURE_RETPOLINE_AMD	( 7*32+13) /* AMD Retpoline mitigation for Spectre variant 2 */
+ #define X86_FEATURE_INTEL_PPIN		( 7*32+14) /* Intel Processor Inventory Number */
+ #define X86_FEATURE_INTEL_PT		( 7*32+15) /* Intel Processor Trace */
+ #define X86_FEATURE_AVX512_4VNNIW	( 7*32+16) /* AVX-512 Neural Network Instructions */
+diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+new file mode 100644
+index 000000000000..7f58713b27c4
+--- /dev/null
++++ b/arch/x86/include/asm/nospec-branch.h
+@@ -0,0 +1,109 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef __NOSPEC_BRANCH_H__
++#define __NOSPEC_BRANCH_H__
++
++#include <asm/alternative.h>
++#include <asm/alternative-asm.h>
++#include <asm/cpufeatures.h>
++
++#ifdef __ASSEMBLY__
++
++/*
++ * These are the bare retpoline primitives for indirect jmp and call.
++ * Do not use these directly; they only exist to make the ALTERNATIVE
++ * invocation below less ugly.
++ */
++.macro RETPOLINE_JMP reg:req
++	call	.Ldo_rop_\@
++.Lspec_trap_\@:
++	pause
++	jmp	.Lspec_trap_\@
++.Ldo_rop_\@:
++	mov	\reg, (%_ASM_SP)
++	ret
++.endm
++
++/*
++ * This is a wrapper around RETPOLINE_JMP so the called function in reg
++ * returns to the instruction after the macro.
++ */
++.macro RETPOLINE_CALL reg:req
++	jmp	.Ldo_call_\@
++.Ldo_retpoline_jmp_\@:
++	RETPOLINE_JMP \reg
++.Ldo_call_\@:
++	call	.Ldo_retpoline_jmp_\@
++.endm
++
++/*
++ * JMP_NOSPEC and CALL_NOSPEC macros can be used instead of a simple
++ * indirect jmp/call which may be susceptible to the Spectre variant 2
++ * attack.
++ */
++.macro JMP_NOSPEC reg:req
++#ifdef CONFIG_RETPOLINE
++	ALTERNATIVE_2 __stringify(jmp *\reg),				\
++		__stringify(RETPOLINE_JMP \reg), X86_FEATURE_RETPOLINE,	\
++		__stringify(lfence; jmp *\reg), X86_FEATURE_RETPOLINE_AMD
++#else
++	jmp	*\reg
++#endif
++.endm
++
++.macro CALL_NOSPEC reg:req
++#ifdef CONFIG_RETPOLINE
++	ALTERNATIVE_2 __stringify(call *\reg),				\
++		__stringify(RETPOLINE_CALL \reg), X86_FEATURE_RETPOLINE,\
++		__stringify(lfence; call *\reg), X86_FEATURE_RETPOLINE_AMD
++#else
++	call	*\reg
++#endif
++.endm
++
++#else /* __ASSEMBLY__ */
++
++#if defined(CONFIG_X86_64) && defined(RETPOLINE)
++/*
++ * Since the inline asm uses the %V modifier which is only in newer GCC,
++ * the 64-bit one is dependent on RETPOLINE not CONFIG_RETPOLINE.
++ */
++# define CALL_NOSPEC ALTERNATIVE(				\
++	"call *%[thunk_target]\n",				\
++	"call __x86_indirect_thunk_%V[thunk_target]\n",		\
++	X86_FEATURE_RETPOLINE)
++# define THUNK_TARGET(addr) [thunk_target] "r" (addr)
++#elif defined(CONFIG_X86_32) && defined(CONFIG_RETPOLINE)
++/*
++ * For i386 we use the original ret-equivalent retpoline, because
++ * otherwise we'll run out of registers. We don't care about CET
++ * here, anyway.
++ */
++# define CALL_NOSPEC ALTERNATIVE(				\
++	"call	*%[thunk_target]\n",				\
++	""							\
++	"       jmp    do_call%=;\n"				\
++	"       .align 16\n"					\
++	"do_retpoline%=:\n"					\
++	"	call   do_rop%=;\n"				\
++	"spec_trap%=:\n"					\
++	"	pause;\n"					\
++	"       jmp    spec_trap%=;\n"				\
++	"       .align 16\n"					\
++	"do_rop%=:\n"						\
++	"	addl   $4, %%esp;\n"				\
++	"       pushl  %[thunk_target];\n"			\
++	"       ret;\n"						\
++	"       .align 16\n"					\
++	"do_call%=:\n"						\
++	"	call   do_retpoline%=;\n",			\
++	X86_FEATURE_RETPOLINE)
++
++# define THUNK_TARGET(addr) [thunk_target] "rm" (addr)
++#else /* No retpoline */
++# define CALL_NOSPEC "call *%[thunk_target]\n"
++# define THUNK_TARGET(addr) [thunk_target] "rm" (addr)
++#endif
++
++#endif /* __ASSEMBLY__ */
++#endif /* __NOSPEC_BRANCH_H__ */
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 372ba3fb400f..7a671d1ae3cb 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -905,6 +905,10 @@ static void __init early_identify_cpu(struct cpuinfo_x86 *c)
+ 	setup_force_cpu_bug(X86_BUG_SPECTRE_V1);
+ 	setup_force_cpu_bug(X86_BUG_SPECTRE_V2);
+
++#ifdef CONFIG_RETPOLINE
++	setup_force_cpu_cap(X86_FEATURE_RETPOLINE);
++#endif
++
+ 	fpu__init_system(c);
+
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/lib/Makefile b/arch/x86/lib/Makefile
+index 457f681ef379..d435c89875c1 100644
+--- a/arch/x86/lib/Makefile
++++ b/arch/x86/lib/Makefile
+@@ -26,6 +26,7 @@ lib-y += memcpy_$(BITS).o
+ lib-$(CONFIG_RWSEM_XCHGADD_ALGORITHM) += rwsem.o
+ lib-$(CONFIG_INSTRUCTION_DECODER) += insn.o inat.o
+ lib-$(CONFIG_RANDOMIZE_BASE) += kaslr.o
++lib-$(CONFIG_RETPOLINE) += retpoline.o
+
+ obj-y += msr.o msr-reg.o msr-reg-export.o hweight.o
+
+diff --git a/arch/x86/lib/retpoline.S b/arch/x86/lib/retpoline.S
+new file mode 100644
+index 000000000000..cb45c6cb465f
+--- /dev/null
++++ b/arch/x86/lib/retpoline.S
+@@ -0,0 +1,48 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#include <linux/stringify.h>
++#include <linux/linkage.h>
++#include <asm/dwarf2.h>
++#include <asm/cpufeatures.h>
++#include <asm/alternative-asm.h>
++#include <asm/export.h>
++#include <asm/nospec-branch.h>
++
++.macro THUNK reg
++	.section .text.__x86.indirect_thunk.\reg
++
++ENTRY(__x86_indirect_thunk_\reg)
++	CFI_STARTPROC
++	JMP_NOSPEC %\reg
++	CFI_ENDPROC
++ENDPROC(__x86_indirect_thunk_\reg)
++.endm
++
++/*
++ * Despite being an assembler file we can't just use .irp here
++ * because __KSYM_DEPS__ only uses the C preprocessor and would
++ * only see one instance of "__x86_indirect_thunk_\reg" rather
++ * than one per register with the correct names. So we do it
++ * the simple and nasty way...
++ */
++#define EXPORT_THUNK(reg) EXPORT_SYMBOL(__x86_indirect_thunk_ ## reg)
++#define GENERATE_THUNK(reg) THUNK reg ; EXPORT_THUNK(reg)
++
++GENERATE_THUNK(_ASM_AX)
++GENERATE_THUNK(_ASM_BX)
++GENERATE_THUNK(_ASM_CX)
++GENERATE_THUNK(_ASM_DX)
++GENERATE_THUNK(_ASM_SI)
++GENERATE_THUNK(_ASM_DI)
++GENERATE_THUNK(_ASM_BP)
++GENERATE_THUNK(_ASM_SP)
++#ifdef CONFIG_64BIT
++GENERATE_THUNK(r8)
++GENERATE_THUNK(r9)
++GENERATE_THUNK(r10)
++GENERATE_THUNK(r11)
++GENERATE_THUNK(r12)
++GENERATE_THUNK(r13)
++GENERATE_THUNK(r14)
++GENERATE_THUNK(r15)
++#endif
+-- 
+2.14.3
+
+From 59b6e22f92f9a86dbd0798db72adc97bdb831f86 Mon Sep 17 00:00:00 2001
+From: Andi Kleen <ak@linux.intel.com>
+Date: Tue, 9 Jan 2018 14:43:08 +0000
+Subject: [PATCH 02/10] x86/retpoline: Temporarily disable objtool when
+ CONFIG_RETPOLINE=y
+
+objtool's assembler currently cannot deal with the code generated by the
+retpoline compiler and throws hundreds of warnings, mostly because it sees
+calls that don't have a symbolic target.
+
+Exclude all the options that rely on objtool when RETPOLINE is active.
+
+This mainly means that the kernel has to fallback to use the frame pointer
+unwinder and livepatch is not supported.
+
+Josh is looking into resolving the issue.
+
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-3-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/Kconfig       | 4 ++--
+ arch/x86/Kconfig.debug | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index d1819161cc6c..abeac4b80b74 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -172,8 +172,8 @@ config X86
+ 	select HAVE_PERF_USER_STACK_DUMP
+ 	select HAVE_RCU_TABLE_FREE
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+-	select HAVE_RELIABLE_STACKTRACE		if X86_64 && UNWINDER_FRAME_POINTER && STACK_VALIDATION
+-	select HAVE_STACK_VALIDATION		if X86_64
++	select HAVE_RELIABLE_STACKTRACE		if X86_64 && UNWINDER_FRAME_POINTER && STACK_VALIDATION && !RETPOLINE
++	select HAVE_STACK_VALIDATION		if X86_64 && !RETPOLINE
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HAVE_UNSTABLE_SCHED_CLOCK
+ 	select HAVE_USER_RETURN_NOTIFIER
+diff --git a/arch/x86/Kconfig.debug b/arch/x86/Kconfig.debug
+index 6293a8768a91..9f3928d744bc 100644
+--- a/arch/x86/Kconfig.debug
++++ b/arch/x86/Kconfig.debug
+@@ -359,8 +359,8 @@ config PUNIT_ATOM_DEBUG
+
+ choice
+ 	prompt "Choose kernel unwinder"
+-	default UNWINDER_ORC if X86_64
+-	default UNWINDER_FRAME_POINTER if X86_32
++	default UNWINDER_ORC if X86_64 && !RETPOLINE
++	default UNWINDER_FRAME_POINTER if X86_32 || RETPOLINE
+ 	---help---
+ 	  This determines which method will be used for unwinding kernel stack
+ 	  traces for panics, oopses, bugs, warnings, perf, /proc/<pid>/stack,
+@@ -368,7 +368,7 @@ choice
+
+ config UNWINDER_ORC
+ 	bool "ORC unwinder"
+-	depends on X86_64
++	depends on X86_64 && !RETPOLINE
+ 	select STACK_VALIDATION
+ 	---help---
+ 	  This option enables the ORC (Oops Rewind Capability) unwinder for
+-- 
+2.14.3
+
+From 86d057614112971f7d5bbac45f67869adca79852 Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:09 +0000
+Subject: [PATCH 03/10] x86/spectre: Add boot time option to select Spectre v2
+ mitigation
+
+Add a spectre_v2= option to select the mitigation used for the indirect
+branch speculation vulnerability.
+
+Currently, the only option available is retpoline, in its various forms.
+This will be expanded to cover the new IBRS/IBPB microcode features.
+
+The RETPOLINE_AMD feature relies on a serializing LFENCE for speculation
+control. For AMD hardware, only set RETPOLINE_AMD if LFENCE is a
+serializing instruction, which is indicated by the LFENCE_RDTSC feature.
+
+[ tglx: Folded back the LFENCE/AMD fixes and reworked it so IBRS
+  	integration becomes simple ]
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-4-git-send-email-dwmw@amazon.co.uk
+---
+ Documentation/admin-guide/kernel-parameters.txt |  28 +++++
+ arch/x86/include/asm/nospec-branch.h            |  10 ++
+ arch/x86/kernel/cpu/bugs.c                      | 158 +++++++++++++++++++++++-
+ arch/x86/kernel/cpu/common.c                    |   4 -
+ 4 files changed, 195 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 905991745d26..8122b5f98ea1 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2599,6 +2599,11 @@
+ 	nosmt		[KNL,S390] Disable symmetric multithreading (SMT).
+ 			Equivalent to smt=1.
+
++	nospectre_v2	[X86] Disable all mitigations for the Spectre variant 2
++			(indirect branch prediction) vulnerability. System may
++			allow data leaks with this option, which is equivalent
++			to spectre_v2=off.
++
+ 	noxsave		[BUGS=X86] Disables x86 extended register state save
+ 			and restore using xsave. The kernel will fallback to
+ 			enabling legacy floating-point and sse state.
+@@ -3908,6 +3913,29 @@
+ 	sonypi.*=	[HW] Sony Programmable I/O Control Device driver
+ 			See Documentation/laptops/sonypi.txt
+
++	spectre_v2=	[X86] Control mitigation of Spectre variant 2
++			(indirect branch speculation) vulnerability.
++
++			on   - unconditionally enable
++			off  - unconditionally disable
++			auto - kernel detects whether your CPU model is
++			       vulnerable
++
++			Selecting 'on' will, and 'auto' may, choose a
++			mitigation method at run time according to the
++			CPU, the available microcode, the setting of the
++			CONFIG_RETPOLINE configuration option, and the
++			compiler with which the kernel was built.
++
++			Specific mitigations can also be selected manually:
++
++			retpoline	  - replace indirect branches
++			retpoline,generic - google's original retpoline
++			retpoline,amd     - AMD-specific minimal thunk
++
++			Not specifying this option is equivalent to
++			spectre_v2=auto.
++
+ 	spia_io_base=	[HW,MTD]
+ 	spia_fio_base=
+ 	spia_pedr=
+diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+index 7f58713b27c4..7d70ea977fbe 100644
+--- a/arch/x86/include/asm/nospec-branch.h
++++ b/arch/x86/include/asm/nospec-branch.h
+@@ -105,5 +105,15 @@
+ # define THUNK_TARGET(addr) [thunk_target] "rm" (addr)
+ #endif
+
++/* The Spectre V2 mitigation variants */
++enum spectre_v2_mitigation {
++	SPECTRE_V2_NONE,
++	SPECTRE_V2_RETPOLINE_MINIMAL,
++	SPECTRE_V2_RETPOLINE_MINIMAL_AMD,
++	SPECTRE_V2_RETPOLINE_GENERIC,
++	SPECTRE_V2_RETPOLINE_AMD,
++	SPECTRE_V2_IBRS,
++};
++
+ #endif /* __ASSEMBLY__ */
+ #endif /* __NOSPEC_BRANCH_H__ */
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 76ad6cb44b40..e4dc26185aa7 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -11,6 +11,9 @@
+ #include <linux/init.h>
+ #include <linux/utsname.h>
+ #include <linux/cpu.h>
++
++#include <asm/nospec-branch.h>
++#include <asm/cmdline.h>
+ #include <asm/bugs.h>
+ #include <asm/processor.h>
+ #include <asm/processor-flags.h>
+@@ -21,6 +24,8 @@
+ #include <asm/pgtable.h>
+ #include <asm/set_memory.h>
+
++static void __init spectre_v2_select_mitigation(void);
++
+ void __init check_bugs(void)
+ {
+ 	identify_boot_cpu();
+@@ -30,6 +35,9 @@ void __init check_bugs(void)
+ 		print_cpu_info(&boot_cpu_data);
+ 	}
+
++	/* Select the proper spectre mitigation before patching alternatives */
++	spectre_v2_select_mitigation();
++
+ #ifdef CONFIG_X86_32
+ 	/*
+ 	 * Check whether we are able to run this kernel safely on SMP.
+@@ -62,6 +70,153 @@ void __init check_bugs(void)
+ #endif
+ }
+
++/* The kernel command line selection */
++enum spectre_v2_mitigation_cmd {
++	SPECTRE_V2_CMD_NONE,
++	SPECTRE_V2_CMD_AUTO,
++	SPECTRE_V2_CMD_FORCE,
++	SPECTRE_V2_CMD_RETPOLINE,
++	SPECTRE_V2_CMD_RETPOLINE_GENERIC,
++	SPECTRE_V2_CMD_RETPOLINE_AMD,
++};
++
++static const char *spectre_v2_strings[] = {
++	[SPECTRE_V2_NONE]			= "Vulnerable",
++	[SPECTRE_V2_RETPOLINE_MINIMAL]		= "Vulnerable: Minimal generic ASM retpoline",
++	[SPECTRE_V2_RETPOLINE_MINIMAL_AMD]	= "Vulnerable: Minimal AMD ASM retpoline",
++	[SPECTRE_V2_RETPOLINE_GENERIC]		= "Mitigation: Full generic retpoline",
++	[SPECTRE_V2_RETPOLINE_AMD]		= "Mitigation: Full AMD retpoline",
++};
++
++#undef pr_fmt
++#define pr_fmt(fmt)     "Spectre V2 mitigation: " fmt
++
++static enum spectre_v2_mitigation spectre_v2_enabled = SPECTRE_V2_NONE;
++
++static void __init spec2_print_if_insecure(const char *reason)
++{
++	if (boot_cpu_has_bug(X86_BUG_SPECTRE_V2))
++		pr_info("%s\n", reason);
++}
++
++static void __init spec2_print_if_secure(const char *reason)
++{
++	if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V2))
++		pr_info("%s\n", reason);
++}
++
++static inline bool retp_compiler(void)
++{
++	return __is_defined(RETPOLINE);
++}
++
++static inline bool match_option(const char *arg, int arglen, const char *opt)
++{
++	int len = strlen(opt);
++
++	return len == arglen && !strncmp(arg, opt, len);
++}
++
++static enum spectre_v2_mitigation_cmd __init spectre_v2_parse_cmdline(void)
++{
++	char arg[20];
++	int ret;
++
++	ret = cmdline_find_option(boot_command_line, "spectre_v2", arg,
++				  sizeof(arg));
++	if (ret > 0)  {
++		if (match_option(arg, ret, "off")) {
++			goto disable;
++		} else if (match_option(arg, ret, "on")) {
++			spec2_print_if_secure("force enabled on command line.");
++			return SPECTRE_V2_CMD_FORCE;
++		} else if (match_option(arg, ret, "retpoline")) {
++			spec2_print_if_insecure("retpoline selected on command line.");
++			return SPECTRE_V2_CMD_RETPOLINE;
++		} else if (match_option(arg, ret, "retpoline,amd")) {
++			if (boot_cpu_data.x86_vendor != X86_VENDOR_AMD) {
++				pr_err("retpoline,amd selected but CPU is not AMD. Switching to AUTO select\n");
++				return SPECTRE_V2_CMD_AUTO;
++			}
++			spec2_print_if_insecure("AMD retpoline selected on command line.");
++			return SPECTRE_V2_CMD_RETPOLINE_AMD;
++		} else if (match_option(arg, ret, "retpoline,generic")) {
++			spec2_print_if_insecure("generic retpoline selected on command line.");
++			return SPECTRE_V2_CMD_RETPOLINE_GENERIC;
++		} else if (match_option(arg, ret, "auto")) {
++			return SPECTRE_V2_CMD_AUTO;
++		}
++	}
++
++	if (!cmdline_find_option_bool(boot_command_line, "nospectre_v2"))
++		return SPECTRE_V2_CMD_AUTO;
++disable:
++	spec2_print_if_insecure("disabled on command line.");
++	return SPECTRE_V2_CMD_NONE;
++}
++
++static void __init spectre_v2_select_mitigation(void)
++{
++	enum spectre_v2_mitigation_cmd cmd = spectre_v2_parse_cmdline();
++	enum spectre_v2_mitigation mode = SPECTRE_V2_NONE;
++
++	/*
++	 * If the CPU is not affected and the command line mode is NONE or AUTO
++	 * then nothing to do.
++	 */
++	if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V2) &&
++	    (cmd == SPECTRE_V2_CMD_NONE || cmd == SPECTRE_V2_CMD_AUTO))
++		return;
++
++	switch (cmd) {
++	case SPECTRE_V2_CMD_NONE:
++		return;
++
++	case SPECTRE_V2_CMD_FORCE:
++		/* FALLTRHU */
++	case SPECTRE_V2_CMD_AUTO:
++		goto retpoline_auto;
++
++	case SPECTRE_V2_CMD_RETPOLINE_AMD:
++		if (IS_ENABLED(CONFIG_RETPOLINE))
++			goto retpoline_amd;
++		break;
++	case SPECTRE_V2_CMD_RETPOLINE_GENERIC:
++		if (IS_ENABLED(CONFIG_RETPOLINE))
++			goto retpoline_generic;
++		break;
++	case SPECTRE_V2_CMD_RETPOLINE:
++		if (IS_ENABLED(CONFIG_RETPOLINE))
++			goto retpoline_auto;
++		break;
++	}
++	pr_err("kernel not compiled with retpoline; no mitigation available!");
++	return;
++
++retpoline_auto:
++	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD) {
++	retpoline_amd:
++		if (!boot_cpu_has(X86_FEATURE_LFENCE_RDTSC)) {
++			pr_err("LFENCE not serializing. Switching to generic retpoline\n");
++			goto retpoline_generic;
++		}
++		mode = retp_compiler() ? SPECTRE_V2_RETPOLINE_AMD :
++					 SPECTRE_V2_RETPOLINE_MINIMAL_AMD;
++		setup_force_cpu_cap(X86_FEATURE_RETPOLINE_AMD);
++		setup_force_cpu_cap(X86_FEATURE_RETPOLINE);
++	} else {
++	retpoline_generic:
++		mode = retp_compiler() ? SPECTRE_V2_RETPOLINE_GENERIC :
++					 SPECTRE_V2_RETPOLINE_MINIMAL;
++		setup_force_cpu_cap(X86_FEATURE_RETPOLINE);
++	}
++
++	spectre_v2_enabled = mode;
++	pr_info("%s\n", spectre_v2_strings[mode]);
++}
++
++#undef pr_fmt
++
+ #ifdef CONFIG_SYSFS
+ ssize_t cpu_show_meltdown(struct device *dev,
+ 			  struct device_attribute *attr, char *buf)
+@@ -86,6 +241,7 @@ ssize_t cpu_show_spectre_v2(struct device *dev,
+ {
+ 	if (!boot_cpu_has_bug(X86_BUG_SPECTRE_V2))
+ 		return sprintf(buf, "Not affected\n");
+-	return sprintf(buf, "Vulnerable\n");
++
++	return sprintf(buf, "%s\n", spectre_v2_strings[spectre_v2_enabled]);
+ }
+ #endif
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 7a671d1ae3cb..372ba3fb400f 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -905,10 +905,6 @@ static void __init early_identify_cpu(struct cpuinfo_x86 *c)
+ 	setup_force_cpu_bug(X86_BUG_SPECTRE_V1);
+ 	setup_force_cpu_bug(X86_BUG_SPECTRE_V2);
+
+-#ifdef CONFIG_RETPOLINE
+-	setup_force_cpu_cap(X86_FEATURE_RETPOLINE);
+-#endif
+-
+ 	fpu__init_system(c);
+
+ #ifdef CONFIG_X86_32
+-- 
+2.14.3
+
+From b3a96862283e68914d1f74f160ab980dacf811ee Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:10 +0000
+Subject: [PATCH 04/10] x86/retpoline/crypto: Convert crypto assembler indirect
+ jumps
+
+Convert all indirect jumps in crypto assembler code to use non-speculative
+sequences when CONFIG_RETPOLINE is enabled.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-5-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/crypto/aesni-intel_asm.S            | 5 +++--
+ arch/x86/crypto/camellia-aesni-avx-asm_64.S  | 3 ++-
+ arch/x86/crypto/camellia-aesni-avx2-asm_64.S | 3 ++-
+ arch/x86/crypto/crc32c-pcl-intel-asm_64.S    | 3 ++-
+ 4 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/arch/x86/crypto/aesni-intel_asm.S b/arch/x86/crypto/aesni-intel_asm.S
+index 16627fec80b2..3d09e3aca18d 100644
+--- a/arch/x86/crypto/aesni-intel_asm.S
++++ b/arch/x86/crypto/aesni-intel_asm.S
+@@ -32,6 +32,7 @@
+ #include <linux/linkage.h>
+ #include <asm/inst.h>
+ #include <asm/frame.h>
++#include <asm/nospec-branch.h>
+
+ /*
+  * The following macros are used to move an (un)aligned 16 byte value to/from
+@@ -2884,7 +2885,7 @@ ENTRY(aesni_xts_crypt8)
+ 	pxor INC, STATE4
+ 	movdqu IV, 0x30(OUTP)
+
+-	call *%r11
++	CALL_NOSPEC %r11
+
+ 	movdqu 0x00(OUTP), INC
+ 	pxor INC, STATE1
+@@ -2929,7 +2930,7 @@ ENTRY(aesni_xts_crypt8)
+ 	_aesni_gf128mul_x_ble()
+ 	movups IV, (IVP)
+
+-	call *%r11
++	CALL_NOSPEC %r11
+
+ 	movdqu 0x40(OUTP), INC
+ 	pxor INC, STATE1
+diff --git a/arch/x86/crypto/camellia-aesni-avx-asm_64.S b/arch/x86/crypto/camellia-aesni-avx-asm_64.S
+index f7c495e2863c..a14af6eb09cb 100644
+--- a/arch/x86/crypto/camellia-aesni-avx-asm_64.S
++++ b/arch/x86/crypto/camellia-aesni-avx-asm_64.S
+@@ -17,6 +17,7 @@
+
+ #include <linux/linkage.h>
+ #include <asm/frame.h>
++#include <asm/nospec-branch.h>
+
+ #define CAMELLIA_TABLE_BYTE_LEN 272
+
+@@ -1227,7 +1228,7 @@ camellia_xts_crypt_16way:
+ 	vpxor 14 * 16(%rax), %xmm15, %xmm14;
+ 	vpxor 15 * 16(%rax), %xmm15, %xmm15;
+
+-	call *%r9;
++	CALL_NOSPEC %r9;
+
+ 	addq $(16 * 16), %rsp;
+
+diff --git a/arch/x86/crypto/camellia-aesni-avx2-asm_64.S b/arch/x86/crypto/camellia-aesni-avx2-asm_64.S
+index eee5b3982cfd..b66bbfa62f50 100644
+--- a/arch/x86/crypto/camellia-aesni-avx2-asm_64.S
++++ b/arch/x86/crypto/camellia-aesni-avx2-asm_64.S
+@@ -12,6 +12,7 @@
+
+ #include <linux/linkage.h>
+ #include <asm/frame.h>
++#include <asm/nospec-branch.h>
+
+ #define CAMELLIA_TABLE_BYTE_LEN 272
+
+@@ -1343,7 +1344,7 @@ camellia_xts_crypt_32way:
+ 	vpxor 14 * 32(%rax), %ymm15, %ymm14;
+ 	vpxor 15 * 32(%rax), %ymm15, %ymm15;
+
+-	call *%r9;
++	CALL_NOSPEC %r9;
+
+ 	addq $(16 * 32), %rsp;
+
+diff --git a/arch/x86/crypto/crc32c-pcl-intel-asm_64.S b/arch/x86/crypto/crc32c-pcl-intel-asm_64.S
+index 7a7de27c6f41..d9b734d0c8cc 100644
+--- a/arch/x86/crypto/crc32c-pcl-intel-asm_64.S
++++ b/arch/x86/crypto/crc32c-pcl-intel-asm_64.S
+@@ -45,6 +45,7 @@
+
+ #include <asm/inst.h>
+ #include <linux/linkage.h>
++#include <asm/nospec-branch.h>
+
+ ## ISCSI CRC 32 Implementation with crc32 and pclmulqdq Instruction
+
+@@ -172,7 +173,7 @@ continue_block:
+ 	movzxw  (bufp, %rax, 2), len
+ 	lea	crc_array(%rip), bufp
+ 	lea     (bufp, len, 1), bufp
+-	jmp     *bufp
++	JMP_NOSPEC bufp
+
+ 	################################################################
+ 	## 2a) PROCESS FULL BLOCKS:
+-- 
+2.14.3
+
+From 2558106c7a47e16968a10fa66eea78a096fabfe6 Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:11 +0000
+Subject: [PATCH 05/10] x86/retpoline/entry: Convert entry assembler indirect
+ jumps
+
+Convert indirect jumps in core 32/64bit entry assembler code to use
+non-speculative sequences when CONFIG_RETPOLINE is enabled.
+
+Don't use CALL_NOSPEC in entry_SYSCALL_64_fastpath because the return
+address after the 'call' instruction must be *precisely* at the
+.Lentry_SYSCALL_64_after_fastpath label for stub_ptregs_64 to work,
+and the use of alternatives will mess that up unless we play horrid
+games to prepend with NOPs and make the variants the same length. It's
+not worth it; in the case where we ALTERNATIVE out the retpoline, the
+first instruction at __x86.indirect_thunk.rax is going to be a bare
+jmp *%rax anyway.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-6-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/entry/entry_32.S |  5 +++--
+ arch/x86/entry/entry_64.S | 12 +++++++++---
+ 2 files changed, 12 insertions(+), 5 deletions(-)
+
+diff --git a/arch/x86/entry/entry_32.S b/arch/x86/entry/entry_32.S
+index ace8f321a5a1..a1f28a54f23a 100644
+--- a/arch/x86/entry/entry_32.S
++++ b/arch/x86/entry/entry_32.S
+@@ -44,6 +44,7 @@
+ #include <asm/asm.h>
+ #include <asm/smap.h>
+ #include <asm/frame.h>
++#include <asm/nospec-branch.h>
+
+ 	.section .entry.text, "ax"
+
+@@ -290,7 +291,7 @@ ENTRY(ret_from_fork)
+
+ 	/* kernel thread */
+ 1:	movl	%edi, %eax
+-	call	*%ebx
++	CALL_NOSPEC %ebx
+ 	/*
+ 	 * A kernel thread is allowed to return here after successfully
+ 	 * calling do_execve().  Exit to userspace to complete the execve()
+@@ -919,7 +920,7 @@ common_exception:
+ 	movl	%ecx, %es
+ 	TRACE_IRQS_OFF
+ 	movl	%esp, %eax			# pt_regs pointer
+-	call	*%edi
++	CALL_NOSPEC %edi
+ 	jmp	ret_from_exception
+ END(common_exception)
+
+diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+index ed31d00dc5ee..59874bc1aed2 100644
+--- a/arch/x86/entry/entry_64.S
++++ b/arch/x86/entry/entry_64.S
+@@ -37,6 +37,7 @@
+ #include <asm/pgtable_types.h>
+ #include <asm/export.h>
+ #include <asm/frame.h>
++#include <asm/nospec-branch.h>
+ #include <linux/err.h>
+
+ #include "calling.h"
+@@ -187,7 +188,7 @@ ENTRY(entry_SYSCALL_64_trampoline)
+ 	 */
+ 	pushq	%rdi
+ 	movq	$entry_SYSCALL_64_stage2, %rdi
+-	jmp	*%rdi
++	JMP_NOSPEC %rdi
+ END(entry_SYSCALL_64_trampoline)
+
+ 	.popsection
+@@ -266,7 +267,12 @@ entry_SYSCALL_64_fastpath:
+ 	 * It might end up jumping to the slow path.  If it jumps, RAX
+ 	 * and all argument registers are clobbered.
+ 	 */
++#ifdef CONFIG_RETPOLINE
++	movq	sys_call_table(, %rax, 8), %rax
++	call	__x86_indirect_thunk_rax
++#else
+ 	call	*sys_call_table(, %rax, 8)
++#endif
+ .Lentry_SYSCALL_64_after_fastpath_call:
+
+ 	movq	%rax, RAX(%rsp)
+@@ -438,7 +444,7 @@ ENTRY(stub_ptregs_64)
+ 	jmp	entry_SYSCALL64_slow_path
+
+ 1:
+-	jmp	*%rax				/* Called from C */
++	JMP_NOSPEC %rax				/* Called from C */
+ END(stub_ptregs_64)
+
+ .macro ptregs_stub func
+@@ -517,7 +523,7 @@ ENTRY(ret_from_fork)
+ 1:
+ 	/* kernel thread */
+ 	movq	%r12, %rdi
+-	call	*%rbx
++	CALL_NOSPEC %rbx
+ 	/*
+ 	 * A kernel thread is allowed to return here after successfully
+ 	 * calling do_execve().  Exit to userspace to complete the execve()
+-- 
+2.14.3
+
+From 42f7c812022441ffba2d5ccca3acf6380201f19e Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:12 +0000
+Subject: [PATCH 06/10] x86/retpoline/ftrace: Convert ftrace assembler indirect
+ jumps
+
+Convert all indirect jumps in ftrace assembler code to use non-speculative
+sequences when CONFIG_RETPOLINE is enabled.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-7-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/kernel/ftrace_32.S | 6 ++++--
+ arch/x86/kernel/ftrace_64.S | 8 ++++----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/arch/x86/kernel/ftrace_32.S b/arch/x86/kernel/ftrace_32.S
+index b6c6468e10bc..4c8440de3355 100644
+--- a/arch/x86/kernel/ftrace_32.S
++++ b/arch/x86/kernel/ftrace_32.S
+@@ -8,6 +8,7 @@
+ #include <asm/segment.h>
+ #include <asm/export.h>
+ #include <asm/ftrace.h>
++#include <asm/nospec-branch.h>
+
+ #ifdef CC_USING_FENTRY
+ # define function_hook	__fentry__
+@@ -197,7 +198,8 @@ ftrace_stub:
+ 	movl	0x4(%ebp), %edx
+ 	subl	$MCOUNT_INSN_SIZE, %eax
+
+-	call	*ftrace_trace_function
++	movl	ftrace_trace_function, %ecx
++	CALL_NOSPEC %ecx
+
+ 	popl	%edx
+ 	popl	%ecx
+@@ -241,5 +243,5 @@ return_to_handler:
+ 	movl	%eax, %ecx
+ 	popl	%edx
+ 	popl	%eax
+-	jmp	*%ecx
++	JMP_NOSPEC %ecx
+ #endif
+diff --git a/arch/x86/kernel/ftrace_64.S b/arch/x86/kernel/ftrace_64.S
+index c832291d948a..7cb8ba08beb9 100644
+--- a/arch/x86/kernel/ftrace_64.S
++++ b/arch/x86/kernel/ftrace_64.S
+@@ -7,7 +7,7 @@
+ #include <asm/ptrace.h>
+ #include <asm/ftrace.h>
+ #include <asm/export.h>
+-
++#include <asm/nospec-branch.h>
+
+ 	.code64
+ 	.section .entry.text, "ax"
+@@ -286,8 +286,8 @@ trace:
+ 	 * ip and parent ip are used and the list function is called when
+ 	 * function tracing is enabled.
+ 	 */
+-	call   *ftrace_trace_function
+-
++	movq ftrace_trace_function, %r8
++	CALL_NOSPEC %r8
+ 	restore_mcount_regs
+
+ 	jmp fgraph_trace
+@@ -329,5 +329,5 @@ GLOBAL(return_to_handler)
+ 	movq 8(%rsp), %rdx
+ 	movq (%rsp), %rax
+ 	addq $24, %rsp
+-	jmp *%rdi
++	JMP_NOSPEC %rdi
+ #endif
+-- 
+2.14.3
+
+From f14fd95d2f3e611619756ea3c008aee3b4bd4978 Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:13 +0000
+Subject: [PATCH 07/10] x86/retpoline/hyperv: Convert assembler indirect jumps
+
+Convert all indirect jumps in hyperv inline asm code to use non-speculative
+sequences when CONFIG_RETPOLINE is enabled.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-8-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/include/asm/mshyperv.h | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/arch/x86/include/asm/mshyperv.h b/arch/x86/include/asm/mshyperv.h
+index 581bb54dd464..5119e4b555cc 100644
+--- a/arch/x86/include/asm/mshyperv.h
++++ b/arch/x86/include/asm/mshyperv.h
+@@ -7,6 +7,7 @@
+ #include <linux/nmi.h>
+ #include <asm/io.h>
+ #include <asm/hyperv.h>
++#include <asm/nospec-branch.h>
+
+ /*
+  * The below CPUID leaves are present if VersionAndFeatures.HypervisorPresent
+@@ -186,10 +187,11 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ 		return U64_MAX;
+
+ 	__asm__ __volatile__("mov %4, %%r8\n"
+-			     "call *%5"
++			     CALL_NOSPEC
+ 			     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+ 			       "+c" (control), "+d" (input_address)
+-			     :  "r" (output_address), "m" (hv_hypercall_pg)
++			     :  "r" (output_address),
++				THUNK_TARGET(hv_hypercall_pg)
+ 			     : "cc", "memory", "r8", "r9", "r10", "r11");
+ #else
+ 	u32 input_address_hi = upper_32_bits(input_address);
+@@ -200,13 +202,13 @@ static inline u64 hv_do_hypercall(u64 control, void *input, void *output)
+ 	if (!hv_hypercall_pg)
+ 		return U64_MAX;
+
+-	__asm__ __volatile__("call *%7"
++	__asm__ __volatile__(CALL_NOSPEC
+ 			     : "=A" (hv_status),
+ 			       "+c" (input_address_lo), ASM_CALL_CONSTRAINT
+ 			     : "A" (control),
+ 			       "b" (input_address_hi),
+ 			       "D"(output_address_hi), "S"(output_address_lo),
+-			       "m" (hv_hypercall_pg)
++			       THUNK_TARGET(hv_hypercall_pg)
+ 			     : "cc", "memory");
+ #endif /* !x86_64 */
+ 	return hv_status;
+@@ -227,10 +229,10 @@ static inline u64 hv_do_fast_hypercall8(u16 code, u64 input1)
+
+ #ifdef CONFIG_X86_64
+ 	{
+-		__asm__ __volatile__("call *%4"
++		__asm__ __volatile__(CALL_NOSPEC
+ 				     : "=a" (hv_status), ASM_CALL_CONSTRAINT,
+ 				       "+c" (control), "+d" (input1)
+-				     : "m" (hv_hypercall_pg)
++				     : THUNK_TARGET(hv_hypercall_pg)
+ 				     : "cc", "r8", "r9", "r10", "r11");
+ 	}
+ #else
+@@ -238,13 +240,13 @@ static inline u64 hv_do_fast_hypercall8(u16 code, u64 input1)
+ 		u32 input1_hi = upper_32_bits(input1);
+ 		u32 input1_lo = lower_32_bits(input1);
+
+-		__asm__ __volatile__ ("call *%5"
++		__asm__ __volatile__ (CALL_NOSPEC
+ 				      : "=A"(hv_status),
+ 					"+c"(input1_lo),
+ 					ASM_CALL_CONSTRAINT
+ 				      :	"A" (control),
+ 					"b" (input1_hi),
+-					"m" (hv_hypercall_pg)
++					THUNK_TARGET(hv_hypercall_pg)
+ 				      : "cc", "edi", "esi");
+ 	}
+ #endif
+-- 
+2.14.3
+
+From b569cb1e72bda00e7e6245519fe7d0d0ab13898e Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:14 +0000
+Subject: [PATCH 08/10] x86/retpoline/xen: Convert Xen hypercall indirect jumps
+
+Convert indirect call in Xen hypercall to use non-speculative sequence,
+when CONFIG_RETPOLINE is enabled.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Juergen Gross <jgross@suse.com>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-9-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/include/asm/xen/hypercall.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/arch/x86/include/asm/xen/hypercall.h b/arch/x86/include/asm/xen/hypercall.h
+index 7cb282e9e587..bfd882617613 100644
+--- a/arch/x86/include/asm/xen/hypercall.h
++++ b/arch/x86/include/asm/xen/hypercall.h
+@@ -44,6 +44,7 @@
+ #include <asm/page.h>
+ #include <asm/pgtable.h>
+ #include <asm/smap.h>
++#include <asm/nospec-branch.h>
+
+ #include <xen/interface/xen.h>
+ #include <xen/interface/sched.h>
+@@ -217,9 +218,9 @@ privcmd_call(unsigned call,
+ 	__HYPERCALL_5ARG(a1, a2, a3, a4, a5);
+
+ 	stac();
+-	asm volatile("call *%[call]"
++	asm volatile(CALL_NOSPEC
+ 		     : __HYPERCALL_5PARAM
+-		     : [call] "a" (&hypercall_page[call])
++		     : [thunk_target] "a" (&hypercall_page[call])
+ 		     : __HYPERCALL_CLOBBER5);
+ 	clac();
+
+-- 
+2.14.3
+
+From 96f71b3a482e918991d165eb7a6b42eb9a9ef735 Mon Sep 17 00:00:00 2001
+From: David Woodhouse <dwmw@amazon.co.uk>
+Date: Tue, 9 Jan 2018 14:43:15 +0000
+Subject: [PATCH 09/10] x86/retpoline/checksum32: Convert assembler indirect
+ jumps
+
+Convert all indirect jumps in 32bit checksum assembler code to use
+non-speculative sequences when CONFIG_RETPOLINE is enabled.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Andi Kleen <ak@linux.intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-10-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/lib/checksum_32.S | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/arch/x86/lib/checksum_32.S b/arch/x86/lib/checksum_32.S
+index 4d34bb548b41..46e71a74e612 100644
+--- a/arch/x86/lib/checksum_32.S
++++ b/arch/x86/lib/checksum_32.S
+@@ -29,7 +29,8 @@
+ #include <asm/errno.h>
+ #include <asm/asm.h>
+ #include <asm/export.h>
+-				
++#include <asm/nospec-branch.h>
++
+ /*
+  * computes a partial checksum, e.g. for TCP/UDP fragments
+  */
+@@ -156,7 +157,7 @@ ENTRY(csum_partial)
+ 	negl %ebx
+ 	lea 45f(%ebx,%ebx,2), %ebx
+ 	testl %esi, %esi
+-	jmp *%ebx
++	JMP_NOSPEC %ebx
+
+ 	# Handle 2-byte-aligned regions
+ 20:	addw (%esi), %ax
+@@ -439,7 +440,7 @@ ENTRY(csum_partial_copy_generic)
+ 	andl $-32,%edx
+ 	lea 3f(%ebx,%ebx), %ebx
+ 	testl %esi, %esi 
+-	jmp *%ebx
++	JMP_NOSPEC %ebx
+ 1:	addl $64,%esi
+ 	addl $64,%edi 
+ 	SRC(movb -32(%edx),%bl)	; SRC(movb (%edx),%bl)
+-- 
+2.14.3
+
+From 9080a45e302772c068f73bc24b3304a416fe2daf Mon Sep 17 00:00:00 2001
+From: Andi Kleen <ak@linux.intel.com>
+Date: Tue, 9 Jan 2018 14:43:16 +0000
+Subject: [PATCH 10/10] x86/retpoline/irq32: Convert assembler indirect jumps
+
+Convert all indirect jumps in 32bit irq inline asm code to use non
+speculative sequences.
+
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Arjan van de Ven <arjan@linux.intel.com>
+Acked-by: Ingo Molnar <mingo@kernel.org>
+Cc: gnomes@lxorguk.ukuu.org.uk
+Cc: Rik van Riel <riel@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Andy Lutomirski <luto@amacapital.net>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Kees Cook <keescook@google.com>
+Cc: Tim Chen <tim.c.chen@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linux-foundation.org>
+Cc: Paul Turner <pjt@google.com>
+Link: https://lkml.kernel.org/r/1515508997-6154-11-git-send-email-dwmw@amazon.co.uk
+---
+ arch/x86/kernel/irq_32.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/kernel/irq_32.c b/arch/x86/kernel/irq_32.c
+index a83b3346a0e1..c1bdbd3d3232 100644
+--- a/arch/x86/kernel/irq_32.c
++++ b/arch/x86/kernel/irq_32.c
+@@ -20,6 +20,7 @@
+ #include <linux/mm.h>
+
+ #include <asm/apic.h>
++#include <asm/nospec-branch.h>
+
+ #ifdef CONFIG_DEBUG_STACKOVERFLOW
+
+@@ -55,11 +56,11 @@ DEFINE_PER_CPU(struct irq_stack *, softirq_stack);
+ static void call_on_stack(void *func, void *stack)
+ {
+ 	asm volatile("xchgl	%%ebx,%%esp	\n"
+-		     "call	*%%edi		\n"
++		     CALL_NOSPEC
+ 		     "movl	%%ebx,%%esp	\n"
+ 		     : "=b" (stack)
+ 		     : "0" (stack),
+-		       "D"(func)
++		       [thunk_target] "D"(func)
+ 		     : "memory", "cc", "edx", "ecx", "eax");
+ }
+
+@@ -95,11 +96,11 @@ static inline int execute_on_irq_stack(int overflow, struct irq_desc *desc)
+ 		call_on_stack(print_stack_overflow, isp);
+
+ 	asm volatile("xchgl	%%ebx,%%esp	\n"
+-		     "call	*%%edi		\n"
++		     CALL_NOSPEC
+ 		     "movl	%%ebx,%%esp	\n"
+ 		     : "=a" (arg1), "=b" (isp)
+ 		     :  "0" (desc),   "1" (isp),
+-			"D" (desc->handle_irq)
++			[thunk_target] "D" (desc->handle_irq)
+ 		     : "memory", "cc", "ecx");
+ 	return 1;
+ }
+-- 
+2.14.3
+

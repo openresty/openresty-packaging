@@ -1,0 +1,109 @@
+From 493bdbfeefb1a4174aab92ee15eb55234e0f45e8 Mon Sep 17 00:00:00 2001
+From: Peter Jones <pjones@redhat.com>
+Date: Mon, 2 Oct 2017 18:25:29 -0400
+Subject: [PATCH 1/3] Make get_cert_list() not complain about cert lists that
+ aren't present.
+
+Signed-off-by: Peter Jones <pjones@redhat.com>
+---
+ certs/load_uefi.c | 37 ++++++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 15 deletions(-)
+
+diff --git a/certs/load_uefi.c b/certs/load_uefi.c
+index 3d88459..9ef34c4 100644
+--- a/certs/load_uefi.c
++++ b/certs/load_uefi.c
+@@ -35,8 +35,8 @@ static __init bool uefi_check_ignore_db(void)
+ /*
+  * Get a certificate list blob from the named EFI variable.
+  */
+-static __init void *get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+-				  unsigned long *size)
++static __init int get_cert_list(efi_char16_t *name, efi_guid_t *guid,
++				unsigned long *size, void **cert_list)
+ {
+ 	efi_status_t status;
+ 	unsigned long lsize = 4;
+@@ -44,26 +44,33 @@ static __init void *get_cert_list(efi_char16_t *name, efi_guid_t *guid,
+ 	void *db;
+ 
+ 	status = efi.get_variable(name, guid, NULL, &lsize, &tmpdb);
++	if (status == EFI_NOT_FOUND) {
++		*size = 0;
++		*cert_list = NULL;
++		return 0;
++	}
++
+ 	if (status != EFI_BUFFER_TOO_SMALL) {
+ 		pr_err("Couldn't get size: 0x%lx\n", status);
+-		return NULL;
++		return efi_status_to_err(status);
+ 	}
+ 
+ 	db = kmalloc(lsize, GFP_KERNEL);
+ 	if (!db) {
+ 		pr_err("Couldn't allocate memory for uefi cert list\n");
+-		return NULL;
++		return -ENOMEM;
+ 	}
+ 
+ 	status = efi.get_variable(name, guid, NULL, &lsize, db);
+ 	if (status != EFI_SUCCESS) {
+ 		kfree(db);
+ 		pr_err("Error reading db var: 0x%lx\n", status);
+-		return NULL;
++		return efi_status_to_err(status);
+ 	}
+ 
+ 	*size = lsize;
+-	return db;
++	*cert_list = db;
++	return 0;
+ }
+ 
+ /*
+@@ -152,10 +159,10 @@ static int __init load_uefi_certs(void)
+ 	 * an error if we can't get them.
+ 	 */
+ 	if (!uefi_check_ignore_db()) {
+-		db = get_cert_list(L"db", &secure_var, &dbsize);
+-		if (!db) {
++		rc = get_cert_list(L"db", &secure_var, &dbsize, &db);
++		if (rc < 0) {
+ 			pr_err("MODSIGN: Couldn't get UEFI db list\n");
+-		} else {
++		} else if (dbsize != 0) {
+ 			rc = parse_efi_signature_list("UEFI:db",
+ 						      db, dbsize, get_handler_for_db);
+ 			if (rc)
+@@ -164,10 +171,10 @@ static int __init load_uefi_certs(void)
+ 		}
+ 	}
+ 
+-	mok = get_cert_list(L"MokListRT", &mok_var, &moksize);
+-	if (!mok) {
++	rc = get_cert_list(L"MokListRT", &mok_var, &moksize, &mok);
++	if (rc < 0) {
+ 		pr_info("MODSIGN: Couldn't get UEFI MokListRT\n");
+-	} else {
++	} else if (moksize != 0) {
+ 		rc = parse_efi_signature_list("UEFI:MokListRT",
+ 					      mok, moksize, get_handler_for_db);
+ 		if (rc)
+@@ -175,10 +182,10 @@ static int __init load_uefi_certs(void)
+ 		kfree(mok);
+ 	}
+ 
+-	dbx = get_cert_list(L"dbx", &secure_var, &dbxsize);
+-	if (!dbx) {
++	rc = get_cert_list(L"dbx", &secure_var, &dbxsize, &dbx);
++	if (rc < 0) {
+ 		pr_info("MODSIGN: Couldn't get UEFI dbx list\n");
+-	} else {
++	} else if (dbxsize != 0) {
+ 		rc = parse_efi_signature_list("UEFI:dbx",
+ 					      dbx, dbxsize,
+ 					      get_handler_for_dbx);
+-- 
+2.13.6
+

@@ -1,0 +1,1351 @@
+From 1d115042dde79e3c0fcc18af548342b172e749e1 Mon Sep 17 00:00:00 2001
+From: Mark Rutland <mark.rutland@arm.com>
+Date: Thu, 7 Dec 2017 17:14:24 +0000
+Subject: [PATCH 01/19] asm-generic/barrier: add generic nospec helpers
+
+Under speculation, CPUs may mis-predict branches in bounds checks. Thus,
+memory accesses under a bounds check may be speculated even if the
+bounds check fails, providing a primitive for building a side channel.
+
+This patch adds helpers which can be used to inhibit the use of
+out-of-bounds pointers under speculation.
+
+A generic implementation is provided for compatibility, but does not
+guarantee safety under speculation. Architectures are expected to
+override these helpers as necessary.
+
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Cc: Daniel Willams <dan.j.williams@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ include/asm-generic/barrier.h | 68 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+
+diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+index fe297b599b0a..91c3071f49e5 100644
+--- a/include/asm-generic/barrier.h
++++ b/include/asm-generic/barrier.h
+@@ -54,6 +54,74 @@
+ #define read_barrier_depends()		do { } while (0)
+ #endif
+
++/*
++ * Inhibit subsequent speculative memory accesses.
++ *
++ * Architectures with a suitable memory barrier should provide an
++ * implementation. This is non-portable, and generic code should use
++ * nospec_ptr().
++ */
++#ifndef __nospec_barrier
++#define __nospec_barrier()		do { } while (0)
++#endif
++
++/**
++ * nospec_ptr() - Ensure a  pointer is bounded, even under speculation.
++ *
++ * @ptr: the pointer to test
++ * @lo: the lower valid bound for @ptr, inclusive
++ * @hi: the upper valid bound for @ptr, exclusive
++ *
++ * If @ptr falls in the interval [@lo, @i), returns @ptr, otherwise returns
++ * NULL.
++ *
++ * Architectures which do not provide __nospec_barrier() should override this
++ * to ensure that ptr falls in the [lo, hi) interval both under architectural
++ * execution and under speculation, preventing propagation of an out-of-bounds
++ * pointer to code which is speculatively executed.
++ */
++#ifndef nospec_ptr
++#define nospec_ptr(ptr, lo, hi)						\
++({									\
++	typeof (ptr) __ret;						\
++	typeof (ptr) __ptr = (ptr);					\
++	typeof (ptr) __lo = (lo);					\
++	typeof (ptr) __hi = (hi);					\
++									\
++	__ret = (__lo <= __ptr && __ptr < __hi) ? __ptr : NULL;		\
++									\
++	__nospec_barrier();						\
++									\
++	__ret;								\
++})
++#endif
++
++/**
++ * nospec_array_ptr - Generate a pointer to an array element, ensuring the
++ * pointer is bounded under speculation.
++ *
++ * @arr: the base of the array
++ * @idx: the index of the element
++ * @sz: the number of elements in the array
++ *
++ * If @idx falls in the interval [0, @sz), returns the pointer to @arr[@idx],
++ * otherwise returns NULL.
++ *
++ * This is a wrapper around nospec_ptr(), provided for convenience.
++ * Architectures should implement nospec_ptr() to ensure this is the case
++ * under speculation.
++ */
++#define nospec_array_ptr(arr, idx, sz)					\
++({									\
++	typeof(*(arr)) *__arr = (arr);					\
++	typeof(idx) __idx = (idx);					\
++	typeof(sz) __sz = (sz);						\
++									\
++	nospec_ptr(__arr + __idx, __arr, __arr + __sz);			\
++})
++
++#undef __nospec_barrier
++
+ #ifndef __smp_mb
+ #define __smp_mb()	mb()
+ #endif
+-- 
+2.14.3
+
+From 0a9659964052448903985b38f08b3912ab65f1a9 Mon Sep 17 00:00:00 2001
+From: Mark Rutland <mark.rutland@arm.com>
+Date: Wed, 3 Jan 2018 19:47:06 +0000
+Subject: [PATCH 02/19] Documentation: document nospec helpers
+
+Document the rationale and usage of the new nospec*() helpers.
+
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ Documentation/speculation.txt | 166 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 166 insertions(+)
+ create mode 100644 Documentation/speculation.txt
+
+diff --git a/Documentation/speculation.txt b/Documentation/speculation.txt
+new file mode 100644
+index 000000000000..748fcd4dcda4
+--- /dev/null
++++ b/Documentation/speculation.txt
+@@ -0,0 +1,166 @@
++This document explains potential effects of speculation, and how undesirable
++effects can be mitigated portably using common APIs.
++
++===========
++Speculation
++===========
++
++To improve performance and minimize average latencies, many contemporary CPUs
++employ speculative execution techniques such as branch prediction, performing
++work which may be discarded at a later stage.
++
++Typically speculative execution cannot be observed from architectural state,
++such as the contents of registers. However, in some cases it is possible to
++observe its impact on microarchitectural state, such as the presence or
++absence of data in caches. Such state may form side-channels which can be
++observed to extract secret information.
++
++For example, in the presence of branch prediction, it is possible for bounds
++checks to be ignored by code which is speculatively executed. Consider the
++following code:
++
++	int load_array(int *array, unsigned int idx) {
++		if (idx >= MAX_ARRAY_ELEMS)
++			return 0;
++		else
++			return array[idx];
++	}
++
++Which, on arm64, may be compiled to an assembly sequence such as:
++
++	CMP	<idx>, #MAX_ARRAY_ELEMS
++	B.LT	less
++	MOV	<returnval>, #0
++	RET
++  less:
++	LDR	<returnval>, [<array>, <idx>]
++	RET
++
++It is possible that a CPU mis-predicts the conditional branch, and
++speculatively loads array[idx], even if idx >= MAX_ARRAY_ELEMS. This value
++will subsequently be discarded, but the speculated load may affect
++microarchitectural state which can be subsequently measured.
++
++More complex sequences involving multiple dependent memory accesses may result
++in sensitive information being leaked. Consider the following code, building on
++the prior example:
++
++	int load_dependent_arrays(int *arr1, int *arr2, int idx) {
++		int val1, val2,
++
++		val1 = load_array(arr1, idx);
++		val2 = load_array(arr2, val1);
++
++		return val2;
++	}
++
++Under speculation, the first call to load_array() may return the value of an
++out-of-bounds address, while the second call will influence microarchitectural
++state dependent on this value. This may provide an arbitrary read primitive.
++
++====================================
++Mitigating speculation side-channels
++====================================
++
++The kernel provides a generic API to ensure that bounds checks are respected
++even under speculation. Architectures which are affected by speculation-based
++side-channels are expected to implement these primitives.
++
++The following helpers found in <asm/barrier.h> can be used to prevent
++information from being leaked via side-channels.
++
++* nospec_ptr(ptr, lo, hi)
++
++  Returns a sanitized pointer that is bounded by the [lo, hi) interval. When
++  ptr < lo, or ptr >= hi, NULL is returned. Prevents an out-of-bounds pointer
++  being propagated to code which is speculatively executed.
++
++  This is expected to be used by code which computes pointers to data
++  structures, where part of the address (such as an array index) may be
++  user-controlled.
++
++  This can be used to protect the earlier load_array() example:
++
++  int load_array(int *array, unsigned int idx)
++  {
++	int *elem;
++
++	if ((elem = nospec_ptr(array + idx, array, array + MAX_ARRAY_ELEMS)))
++		return *elem;
++	else
++		return 0;
++  }
++
++  This can also be used in situations where multiple fields on a structure are
++  accessed:
++
++	struct foo array[SIZE];
++	int a, b;
++
++	void do_thing(int idx)
++	{
++		struct foo *elem;
++
++		if ((elem = nospec_ptr(array + idx, array, array + SIZE)) {
++			a = elem->field_a;
++			b = elem->field_b;
++		}
++	}
++
++  It is imperative that the returned pointer is used. Pointers which are
++  generated separately are subject to a number of potential CPU and compiler
++  optimizations, and may still be used speculatively. For example, this means
++  that the following sequence is unsafe:
++
++	struct foo array[SIZE];
++	int a, b;
++
++	void do_thing(int idx)
++	{
++		if (nospec_ptr(array + idx, array, array + SIZE) != NULL) {
++			// unsafe as wrong pointer is used
++			a = array[idx].field_a;
++			b = array[idx].field_b;
++		}
++	}
++
++  Similarly, it is unsafe to compare the returned pointer with other pointers,
++  as this may permit the compiler to substitute one pointer with another,
++  permitting speculation. For example, the following sequence is unsafe:
++
++	struct foo array[SIZE];
++	int a, b;
++
++	void do_thing(int idx)
++	{
++		struct foo *elem = nospec_ptr(array + idx, array, array + size);
++
++		// unsafe due to pointer substitution
++		if (elem == &array[idx]) {
++			a = elem->field_a;
++			b = elem->field_b;
++		}
++	}
++
++* nospec_array_ptr(arr, idx, sz)
++
++  Returns a sanitized pointer to arr[idx] only if idx falls in the [0, sz)
++  interval. When idx < 0 or idx > sz, NULL is returned. Prevents an
++  out-of-bounds pointer being propagated to code which is speculatively
++  executed.
++
++  This is a convenience function which wraps nospec_ptr(), and has the same
++  caveats w.r.t. the use of the returned pointer.
++
++  For example, this may be used as follows:
++
++  int load_array(int *array, unsigned int idx)
++  {
++	int *elem;
++
++	if ((elem = nospec_array_ptr(array, idx, MAX_ARRAY_ELEMS)))
++		return *elem;
++	else
++		return 0;
++  }
++
+-- 
+2.14.3
+
+From 2b98026ffeeb0b4a06c80fe39bfebd5cef4a8fa6 Mon Sep 17 00:00:00 2001
+From: Mark Rutland <mark.rutland@arm.com>
+Date: Thu, 7 Dec 2017 17:15:01 +0000
+Subject: [PATCH 03/19] arm64: implement nospec_ptr()
+
+This patch implements nospec_ptr() for arm64, following the recommended
+architectural sequence.
+
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Will Deacon <will.deacon@arm.com>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ arch/arm64/include/asm/barrier.h | 55 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+
+diff --git a/arch/arm64/include/asm/barrier.h b/arch/arm64/include/asm/barrier.h
+index 77651c49ef44..b4819f6a0e5c 100644
+--- a/arch/arm64/include/asm/barrier.h
++++ b/arch/arm64/include/asm/barrier.h
+@@ -40,6 +40,61 @@
+ #define dma_rmb()	dmb(oshld)
+ #define dma_wmb()	dmb(oshst)
+
++#define __load_no_speculate_n(ptr, lo, hi, failval, cmpptr, w, sz)	\
++({									\
++	typeof(*ptr)	__nln_val;					\
++	typeof(*ptr)	__failval = 					\
++		(typeof(*ptr))(unsigned long)(failval);			\
++									\
++	asm volatile (							\
++	"	cmp	%[c], %[l]\n"					\
++	"	ccmp	%[c], %[h], 2, cs\n"				\
++	"	b.cs	1f\n"						\
++	"	ldr" #sz " %" #w "[v], %[p]\n"				\
++	"1:	csel	%" #w "[v], %" #w "[v], %" #w "[f], cc\n"	\
++	"	hint	#0x14 // CSDB\n"				\
++	: [v] "=&r" (__nln_val)						\
++	: [p] "m" (*(ptr)), [l] "r" (lo), [h] "r" (hi),			\
++	  [f] "rZ" (__failval), [c] "r" (cmpptr)			\
++	: "cc");							\
++									\
++	__nln_val;							\
++})
++
++#define __load_no_speculate(ptr, lo, hi, failval, cmpptr)		\
++({									\
++	typeof(*(ptr)) __nl_val;					\
++									\
++	switch (sizeof(__nl_val)) {					\
++	case 1:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, w, b);		\
++		break;							\
++	case 2:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, w, h);		\
++		break;							\
++	case 4:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, w, );		\
++		break;							\
++	case 8:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, x, );		\
++		break;							\
++	default:							\
++		BUILD_BUG();						\
++	}								\
++									\
++	__nl_val;							\
++})
++
++#define nospec_ptr(ptr, lo, hi)						\
++({									\
++	typeof(ptr) __np_ptr = (ptr);					\
++	__load_no_speculate(&__np_ptr, lo, hi, 0, __np_ptr);		\
++})
++
+ #define __smp_mb()	dmb(ish)
+ #define __smp_rmb()	dmb(ishld)
+ #define __smp_wmb()	dmb(ishst)
+-- 
+2.14.3
+
+From cedaed8d38108dc6b68c1418d9b942f64b2be488 Mon Sep 17 00:00:00 2001
+From: Mark Rutland <mark.rutland@arm.com>
+Date: Fri, 5 Jan 2018 16:44:36 +0000
+Subject: [PATCH 04/19] arm: implement nospec_ptr()
+
+This patch implements nospec_ptr() for arm, following the recommended
+architectural sequences for the arm and thumb instruction sets.
+
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ arch/arm/include/asm/barrier.h | 75 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+
+diff --git a/arch/arm/include/asm/barrier.h b/arch/arm/include/asm/barrier.h
+index 40f5c410fd8c..6384c90e4b72 100644
+--- a/arch/arm/include/asm/barrier.h
++++ b/arch/arm/include/asm/barrier.h
+@@ -37,6 +37,81 @@
+ #define dmb(x) __asm__ __volatile__ ("" : : : "memory")
+ #endif
+
++#ifdef CONFIG_THUMB2_KERNEL
++#define __load_no_speculate_n(ptr, lo, hi, failval, cmpptr, sz)	\
++({								\
++	typeof(*ptr) __nln_val;					\
++	typeof(*ptr) __failval =				\
++		(typeof(*ptr))(unsigned long)(failval);		\
++								\
++	asm volatile (						\
++	"	cmp	%[c], %[l]\n"				\
++	"	it	hs\n"					\
++	"	cmphs	%[h], %[c]\n"				\
++	"	blo	1f\n"					\
++	"	ld" #sz " %[v], %[p]\n"				\
++	"1:	it	lo\n"					\
++	"	movlo	%[v], %[f]\n"				\
++	"	.inst 0xf3af8014 @ CSDB\n"			\
++	: [v] "=&r" (__nln_val)					\
++	: [p] "m" (*(ptr)), [l] "r" (lo), [h] "r" (hi),		\
++	  [f] "r" (__failval), [c] "r" (cmpptr)			\
++	: "cc");						\
++								\
++	__nln_val;						\
++})
++#else
++#define __load_no_speculate_n(ptr, lo, hi, failval, cmpptr, sz)	\
++({								\
++	typeof(*ptr) __nln_val;					\
++	typeof(*ptr) __failval =				\
++		(typeof(*ptr))(unsigned long)(failval);		\
++								\
++	asm volatile (						\
++	"	cmp	%[c], %[l]\n"				\
++	"	cmphs	%[h], %[c]\n"				\
++	"	ldr" #sz "hi %[v], %[p]\n"			\
++	"	movls	%[v], %[f]\n"				\
++	"	.inst 0xe320f014 @ CSDB\n"			\
++	: [v] "=&r" (__nln_val)					\
++	: [p] "m" (*(ptr)), [l] "r" (lo), [h] "r" (hi),		\
++	  [f] "r" (__failval), [c] "r" (cmpptr)			\
++	: "cc");						\
++								\
++	__nln_val;						\
++})
++#endif
++
++#define __load_no_speculate(ptr, lo, hi, failval, cmpptr)		\
++({									\
++	typeof(*(ptr)) __nl_val;					\
++									\
++	switch (sizeof(__nl_val)) {					\
++	case 1:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, b);		\
++		break;							\
++	case 2:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, h);		\
++		break;							\
++	case 4:								\
++		__nl_val = __load_no_speculate_n(ptr, lo, hi, failval,	\
++						 cmpptr, );		\
++		break;							\
++	default:							\
++		BUILD_BUG();						\
++	}								\
++									\
++	__nl_val;							\
++})
++
++#define nospec_ptr(ptr, lo, hi)						\
++({									\
++	typeof(ptr) __np_ptr = (ptr);					\
++	__load_no_speculate(&__np_ptr, lo, hi, 0, __np_ptr);		\
++})
++
+ #ifdef CONFIG_ARM_HEAVY_MB
+ extern void (*soc_mb)(void);
+ extern void arm_heavy_mb(void);
+-- 
+2.14.3
+
+From d14a4150a2f74a068247cf3846405904e21a8d2c Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 14:51:58 -0800
+Subject: [PATCH 05/19] x86: implement nospec_barrier()
+
+The new speculative execution barrier, nospec_barrier(), ensures
+that any userspace controllable speculation doesn't cross the boundary.
+
+Any user observable speculative activity on this CPU thread before this
+point either completes, reaches a state it can no longer cause an
+observable activity, or is aborted before instructions after the barrier
+execute.
+
+In the x86 case nospec_barrier() resolves to an lfence if
+X86_FEATURE_LFENCE_RDTSC is present. Other architectures can define
+their variants.
+
+Note the expectation is that this barrier is never used directly, at
+least outside of architecture specific code. It is implied by the
+nospec_{array_ptr,ptr} macros.
+
+x86, for now, depends on the barrier for protection while other
+architectures place their speculation prevention in
+nospec_{ptr,array_ptr} when a barrier instruction is not available or
+too heavy-weight. In the x86 case lfence is not a fully serializing
+instruction so it is not as expensive as other barriers.
+
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Suggested-by: Arjan van de Ven <arjan@linux.intel.com>
+Suggested-by: Alan Cox <alan.cox@intel.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Alan Cox <alan@linux.intel.com>
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ arch/x86/include/asm/barrier.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/x86/include/asm/barrier.h b/arch/x86/include/asm/barrier.h
+index 7fb336210e1b..1148cd9f5ae7 100644
+--- a/arch/x86/include/asm/barrier.h
++++ b/arch/x86/include/asm/barrier.h
+@@ -24,6 +24,12 @@
+ #define wmb()	asm volatile("sfence" ::: "memory")
+ #endif
+
++/*
++ * CPUs without LFENCE don't really speculate much. Possibly fall back to IRET-to-self.
++ */
++#define __nospec_barrier() alternative("", "lfence", X86_FEATURE_LFENCE_RDTSC)
++#define nospec_barrier __nospec_barrier
++
+ #ifdef CONFIG_X86_PPRO_FENCE
+ #define dma_rmb()	rmb()
+ #else
+-- 
+2.14.3
+
+From d077f11b7fcb697af0c9419cc2273d179e6f51ad Mon Sep 17 00:00:00 2001
+From: Andi Kleen <ak@linux.intel.com>
+Date: Thu, 4 Jan 2018 13:36:20 -0800
+Subject: [PATCH 06/19] x86, barrier: stop speculation for failed access_ok
+
+When access_ok fails we should always stop speculating.
+Add the required barriers to the x86 access_ok macro.
+
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: x86@kernel.org
+Signed-off-by: Andi Kleen <ak@linux.intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ arch/x86/include/asm/uaccess.h | 17 +++++++++++++----
+ include/asm-generic/barrier.h  |  6 +++---
+ 2 files changed, 16 insertions(+), 7 deletions(-)
+
+diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+index 574dff4d2913..9b6f20cfaeb9 100644
+--- a/arch/x86/include/asm/uaccess.h
++++ b/arch/x86/include/asm/uaccess.h
+@@ -43,6 +43,8 @@ static inline void set_fs(mm_segment_t fs)
+ /*
+  * Test whether a block of memory is a valid user space address.
+  * Returns 0 if the range is valid, nonzero otherwise.
++ *
++ * We also disable speculation when a check fails.
+  */
+ static inline bool __chk_range_not_ok(unsigned long addr, unsigned long size, unsigned long limit)
+ {
+@@ -53,14 +55,19 @@ static inline bool __chk_range_not_ok(unsigned long addr, unsigned long size, un
+ 	 * important to subtract the size from the
+ 	 * limit, not add it to the address).
+ 	 */
+-	if (__builtin_constant_p(size))
+-		return unlikely(addr > limit - size);
++	if (__builtin_constant_p(size)) {
++		if (unlikely(addr > limit - size))
++			return true;
++		nospec_barrier();
++		return false;
++	}
+
+ 	/* Arbitrary sizes? Be careful about overflow */
+ 	addr += size;
+-	if (unlikely(addr < size))
++	if (unlikely(addr < size || addr > limit))
+ 		return true;
+-	return unlikely(addr > limit);
++	nospec_barrier();
++	return false;
+ }
+
+ #define __range_not_ok(addr, size, limit)				\
+@@ -94,6 +101,8 @@ static inline bool __chk_range_not_ok(unsigned long addr, unsigned long size, un
+  * Note that, depending on architecture, this function probably just
+  * checks that the pointer is in the user space range - after calling
+  * this function, memory access functions may still return -EFAULT.
++ *
++ * Stops speculation automatically
+  */
+ #define access_ok(type, addr, size)					\
+ ({									\
+diff --git a/include/asm-generic/barrier.h b/include/asm-generic/barrier.h
+index 91c3071f49e5..a11765eba860 100644
+--- a/include/asm-generic/barrier.h
++++ b/include/asm-generic/barrier.h
+@@ -59,7 +59,9 @@
+  *
+  * Architectures with a suitable memory barrier should provide an
+  * implementation. This is non-portable, and generic code should use
+- * nospec_ptr().
++ * nospec_{array_ptr,ptr}. Arch-specific code should define and use
++ * nospec_barrier() for usages where nospec_{array_ptr,ptr} is
++ * unsuitable.
+  */
+ #ifndef __nospec_barrier
+ #define __nospec_barrier()		do { } while (0)
+@@ -120,8 +122,6 @@
+ 	nospec_ptr(__arr + __idx, __arr, __arr + __sz);			\
+ })
+
+-#undef __nospec_barrier
+-
+ #ifndef __smp_mb
+ #define __smp_mb()	mb()
+ #endif
+-- 
+2.14.3
+
+From bb10d660be01a93f19d258260dd25444e14e5889 Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:53:55 -0800
+Subject: [PATCH 07/19] [media] uvcvideo: prevent bounds-check bypass via
+ speculative execution
+
+Static analysis reports that 'index' may be a user controlled value that
+is used as a data dependency to read 'pin' from the
+'selector->baSourceID' array. In order to avoid potential leaks of
+kernel memory values, block speculative execution of the instruction
+stream that could issue reads based on an invalid value of 'pin'.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/media/usb/uvc/uvc_v4l2.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+index 3e7e283a44a8..7442626dc20e 100644
+--- a/drivers/media/usb/uvc/uvc_v4l2.c
++++ b/drivers/media/usb/uvc/uvc_v4l2.c
+@@ -22,6 +22,7 @@
+ #include <linux/mm.h>
+ #include <linux/wait.h>
+ #include <linux/atomic.h>
++#include <linux/compiler.h>
+
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-ctrls.h>
+@@ -810,6 +811,7 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+ 	struct uvc_entity *iterm = NULL;
+ 	u32 index = input->index;
+ 	int pin = 0;
++	__u8 *elem;
+
+ 	if (selector == NULL ||
+ 	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
+@@ -820,8 +822,9 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
+ 				break;
+ 		}
+ 		pin = iterm->id;
+-	} else if (index < selector->bNrInPins) {
+-		pin = selector->baSourceID[index];
++	} else if ((elem = nospec_array_ptr(selector->baSourceID, index,
++					selector->bNrInPins))) {
++		pin = *elem;
+ 		list_for_each_entry(iterm, &chain->entities, chain) {
+ 			if (!UVC_ENTITY_IS_ITERM(iterm))
+ 				continue;
+-- 
+2.14.3
+
+From 8a4e4e1e674b9aaf0d2ca95c3fa5117ab5aa2987 Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:53:56 -0800
+Subject: [PATCH 08/19] carl9170: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'queue' may be a user controlled value that
+is used as a data dependency to read from the 'ar9170_qmap' array. In
+order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue reads
+based on an invalid result of 'ar9170_qmap[queue]'. In this case the
+value of 'ar9170_qmap[queue]' is immediately reused as an index to the
+'ar->edcf' array.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Christian Lamparter <chunkeey@googlemail.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/net/wireless/ath/carl9170/main.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/carl9170/main.c b/drivers/net/wireless/ath/carl9170/main.c
+index 988c8857d78c..0ff34cbe2b62 100644
+--- a/drivers/net/wireless/ath/carl9170/main.c
++++ b/drivers/net/wireless/ath/carl9170/main.c
+@@ -41,6 +41,7 @@
+ #include <linux/module.h>
+ #include <linux/etherdevice.h>
+ #include <linux/random.h>
++#include <linux/compiler.h>
+ #include <net/mac80211.h>
+ #include <net/cfg80211.h>
+ #include "hw.h"
+@@ -1384,11 +1385,12 @@ static int carl9170_op_conf_tx(struct ieee80211_hw *hw,
+ 			       const struct ieee80211_tx_queue_params *param)
+ {
+ 	struct ar9170 *ar = hw->priv;
++	const u8 *elem;
+ 	int ret;
+
+ 	mutex_lock(&ar->mutex);
+-	if (queue < ar->hw->queues) {
+-		memcpy(&ar->edcf[ar9170_qmap[queue]], param, sizeof(*param));
++	if ((elem = nospec_array_ptr(ar9170_qmap, queue, ar->hw->queues))) {
++		memcpy(&ar->edcf[*elem], param, sizeof(*param));
+ 		ret = carl9170_set_qos(ar);
+ 	} else {
+ 		ret = -EINVAL;
+-- 
+2.14.3
+
+From b2134ba6dc16b4e6a232e34179c3489c3e51ba89 Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:53:57 -0800
+Subject: [PATCH 09/19] p54: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'queue' may be a user controlled value that
+is used as a data dependency to read from the 'priv->qos_params' array.
+In order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue reads
+based on an invalid result of 'priv->qos_params[queue]'.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Christian Lamparter <chunkeey@googlemail.com>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/net/wireless/intersil/p54/main.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/wireless/intersil/p54/main.c b/drivers/net/wireless/intersil/p54/main.c
+index ab6d39e12069..85c9cbee35fc 100644
+--- a/drivers/net/wireless/intersil/p54/main.c
++++ b/drivers/net/wireless/intersil/p54/main.c
+@@ -20,6 +20,7 @@
+ #include <linux/firmware.h>
+ #include <linux/etherdevice.h>
+ #include <linux/module.h>
++#include <linux/compiler.h>
+
+ #include <net/mac80211.h>
+
+@@ -411,12 +412,13 @@ static int p54_conf_tx(struct ieee80211_hw *dev,
+ 		       const struct ieee80211_tx_queue_params *params)
+ {
+ 	struct p54_common *priv = dev->priv;
++	struct p54_edcf_queue_param *p54_q;
+ 	int ret;
+
+ 	mutex_lock(&priv->conf_mutex);
+-	if (queue < dev->queues) {
+-		P54_SET_QUEUE(priv->qos_params[queue], params->aifs,
+-			params->cw_min, params->cw_max, params->txop);
++	if ((p54_q = nospec_array_ptr(priv->qos_params, queue, dev->queues))) {
++		P54_SET_QUEUE(p54_q[0], params->aifs, params->cw_min,
++				params->cw_max, params->txop);
+ 		ret = p54_set_edcf(priv);
+ 	} else
+ 		ret = -EINVAL;
+-- 
+2.14.3
+
+From addb69e8d90a79887aa369398e73b9b64fb9e910 Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:53:58 -0800
+Subject: [PATCH 10/19] qla2xxx: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'handle' may be a user controlled value
+that is used as a data dependency to read 'sp' from the
+'req->outstanding_cmds' array.  In order to avoid potential leaks of
+kernel memory values, block speculative execution of the instruction
+stream that could issue reads based on an invalid value of 'sp'. In this
+case 'sp' is directly dereferenced later in the function.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: qla2xxx-upstream@qlogic.com
+Cc: "James E.J. Bottomley" <jejb@linux.vnet.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: linux-scsi@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/scsi/qla2xxx/qla_mr.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/scsi/qla2xxx/qla_mr.c b/drivers/scsi/qla2xxx/qla_mr.c
+index d5da3981cefe..128b41de3784 100644
+--- a/drivers/scsi/qla2xxx/qla_mr.c
++++ b/drivers/scsi/qla2xxx/qla_mr.c
+@@ -9,6 +9,7 @@
+ #include <linux/ktime.h>
+ #include <linux/pci.h>
+ #include <linux/ratelimit.h>
++#include <linux/compiler.h>
+ #include <linux/vmalloc.h>
+ #include <linux/bsg-lib.h>
+ #include <scsi/scsi_tcq.h>
+@@ -2275,7 +2276,7 @@ qlafx00_ioctl_iosb_entry(scsi_qla_host_t *vha, struct req_que *req,
+ static void
+ qlafx00_status_entry(scsi_qla_host_t *vha, struct rsp_que *rsp, void *pkt)
+ {
+-	srb_t		*sp;
++	srb_t		*sp, **elem;
+ 	fc_port_t	*fcport;
+ 	struct scsi_cmnd *cp;
+ 	struct sts_entry_fx00 *sts;
+@@ -2304,8 +2305,9 @@ qlafx00_status_entry(scsi_qla_host_t *vha, struct rsp_que *rsp, void *pkt)
+ 	req = ha->req_q_map[que];
+
+ 	/* Validate handle. */
+-	if (handle < req->num_outstanding_cmds)
+-		sp = req->outstanding_cmds[handle];
++	if ((elem = nospec_array_ptr(req->outstanding_cmds, handle,
++					req->num_outstanding_cmds)))
++		sp = *elem;
+ 	else
+ 		sp = NULL;
+
+@@ -2626,7 +2628,7 @@ static void
+ qlafx00_multistatus_entry(struct scsi_qla_host *vha,
+ 	struct rsp_que *rsp, void *pkt)
+ {
+-	srb_t		*sp;
++	srb_t		*sp, **elem;
+ 	struct multi_sts_entry_fx00 *stsmfx;
+ 	struct qla_hw_data *ha = vha->hw;
+ 	uint32_t handle, hindex, handle_count, i;
+@@ -2655,8 +2657,9 @@ qlafx00_multistatus_entry(struct scsi_qla_host *vha,
+ 		req = ha->req_q_map[que];
+
+ 		/* Validate handle. */
+-		if (handle < req->num_outstanding_cmds)
+-			sp = req->outstanding_cmds[handle];
++		if ((elem = nospec_array_ptr(req->outstanding_cmds, handle,
++						req->num_outstanding_cmds)))
++			sp = *elem;
+ 		else
+ 			sp = NULL;
+
+-- 
+2.14.3
+
+From 18e5e10139f6a04e00f6522c4b0091f167eb6c1d Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:00 -0800
+Subject: [PATCH 11/19] cw1200: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'queue' may be a user controlled value that
+is used as a data dependency to read 'txq_params' from the
+'priv->tx_queue_params.params' array.  In order to avoid potential leaks
+of kernel memory values, block speculative execution of the instruction
+stream that could issue reads based on an invalid value of 'txq_params'.
+In this case 'txq_params' is referenced later in the function.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Solomon Peachy <pizza@shaftnet.org>
+Cc: Kalle Valo <kvalo@codeaurora.org>
+Cc: linux-wireless@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/net/wireless/st/cw1200/sta.c | 10 ++++++----
+ drivers/net/wireless/st/cw1200/wsm.h |  4 +---
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/net/wireless/st/cw1200/sta.c b/drivers/net/wireless/st/cw1200/sta.c
+index 38678e9a0562..886942617f14 100644
+--- a/drivers/net/wireless/st/cw1200/sta.c
++++ b/drivers/net/wireless/st/cw1200/sta.c
+@@ -14,6 +14,7 @@
+ #include <linux/firmware.h>
+ #include <linux/module.h>
+ #include <linux/etherdevice.h>
++#include <linux/compiler.h>
+
+ #include "cw1200.h"
+ #include "sta.h"
+@@ -612,18 +613,19 @@ int cw1200_conf_tx(struct ieee80211_hw *dev, struct ieee80211_vif *vif,
+ 		   u16 queue, const struct ieee80211_tx_queue_params *params)
+ {
+ 	struct cw1200_common *priv = dev->priv;
++	struct wsm_set_tx_queue_params *txq_params;
+ 	int ret = 0;
+ 	/* To prevent re-applying PM request OID again and again*/
+ 	bool old_uapsd_flags;
+
+ 	mutex_lock(&priv->conf_mutex);
+
+-	if (queue < dev->queues) {
++	if ((txq_params = nospec_array_ptr(priv->tx_queue_params.params,
++					queue, dev->queues))) {
+ 		old_uapsd_flags = le16_to_cpu(priv->uapsd_info.uapsd_flags);
+
+-		WSM_TX_QUEUE_SET(&priv->tx_queue_params, queue, 0, 0, 0);
+-		ret = wsm_set_tx_queue_params(priv,
+-					      &priv->tx_queue_params.params[queue], queue);
++		WSM_TX_QUEUE_SET(txq_params, 0, 0, 0);
++		ret = wsm_set_tx_queue_params(priv, txq_params, queue);
+ 		if (ret) {
+ 			ret = -EINVAL;
+ 			goto out;
+diff --git a/drivers/net/wireless/st/cw1200/wsm.h b/drivers/net/wireless/st/cw1200/wsm.h
+index 48086e849515..8c8d9191e233 100644
+--- a/drivers/net/wireless/st/cw1200/wsm.h
++++ b/drivers/net/wireless/st/cw1200/wsm.h
+@@ -1099,10 +1099,8 @@ struct wsm_tx_queue_params {
+ };
+
+
+-#define WSM_TX_QUEUE_SET(queue_params, queue, ack_policy, allowed_time,\
+-		max_life_time)	\
++#define WSM_TX_QUEUE_SET(p, ack_policy, allowed_time, max_life_time)	\
+ do {							\
+-	struct wsm_set_tx_queue_params *p = &(queue_params)->params[queue]; \
+ 	p->ackPolicy = (ack_policy);				\
+ 	p->allowedMediumTime = (allowed_time);				\
+ 	p->maxTransmitLifetime = (max_life_time);			\
+-- 
+2.14.3
+
+From 0096694093529628e2a855812a5111358d1e952d Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:01 -0800
+Subject: [PATCH 12/19] Thermal/int340x: prevent bounds-check bypass via
+ speculative execution
+
+Static analysis reports that 'trip' may be a user controlled value that
+is used as a data dependency to read '*temp' from the 'd->aux_trips'
+array.  In order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue reads
+based on an invalid value of '*temp'.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Eduardo Valentin <edubezval@gmail.com>
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ drivers/thermal/int340x_thermal/int340x_thermal_zone.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/thermal/int340x_thermal/int340x_thermal_zone.c b/drivers/thermal/int340x_thermal/int340x_thermal_zone.c
+index 145a5c53ff5c..442a1d9bf7ad 100644
+--- a/drivers/thermal/int340x_thermal/int340x_thermal_zone.c
++++ b/drivers/thermal/int340x_thermal/int340x_thermal_zone.c
+@@ -17,6 +17,7 @@
+ #include <linux/init.h>
+ #include <linux/acpi.h>
+ #include <linux/thermal.h>
++#include <linux/compiler.h>
+ #include "int340x_thermal_zone.h"
+
+ static int int340x_thermal_get_zone_temp(struct thermal_zone_device *zone,
+@@ -52,20 +53,21 @@ static int int340x_thermal_get_trip_temp(struct thermal_zone_device *zone,
+ 					 int trip, int *temp)
+ {
+ 	struct int34x_thermal_zone *d = zone->devdata;
++	unsigned long *elem;
+ 	int i;
+
+ 	if (d->override_ops && d->override_ops->get_trip_temp)
+ 		return d->override_ops->get_trip_temp(zone, trip, temp);
+
+-	if (trip < d->aux_trip_nr)
+-		*temp = d->aux_trips[trip];
+-	else if (trip == d->crt_trip_id)
++	if ((elem = nospec_array_ptr(d->aux_trips, trip, d->aux_trip_nr))) {
++		*temp = *elem;
++	} else if (trip == d->crt_trip_id) {
+ 		*temp = d->crt_temp;
+-	else if (trip == d->psv_trip_id)
++	} else if (trip == d->psv_trip_id) {
+ 		*temp = d->psv_temp;
+-	else if (trip == d->hot_trip_id)
++	} else if (trip == d->hot_trip_id) {
+ 		*temp = d->hot_temp;
+-	else {
++	} else {
+ 		for (i = 0; i < INT340X_THERMAL_MAX_ACT_TRIP_COUNT; i++) {
+ 			if (d->act_trips[i].valid &&
+ 			    d->act_trips[i].id == trip) {
+-- 
+2.14.3
+
+From 2a5a165ff05df37c3f4d02ab70ddee1e9329401c Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:03 -0800
+Subject: [PATCH 13/19] ipv6: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'offset' may be a user controlled value
+that is used as a data dependency reading from a raw6_frag_vec buffer.
+In order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue further
+reads based on an invalid '*(rfv->c + offset)' value.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ net/ipv6/raw.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/net/ipv6/raw.c b/net/ipv6/raw.c
+index 761a473a07c5..384e3d59d148 100644
+--- a/net/ipv6/raw.c
++++ b/net/ipv6/raw.c
+@@ -33,6 +33,7 @@
+ #include <linux/skbuff.h>
+ #include <linux/compat.h>
+ #include <linux/uaccess.h>
++#include <linux/compiler.h>
+ #include <asm/ioctls.h>
+
+ #include <net/net_namespace.h>
+@@ -725,17 +726,17 @@ static int raw6_getfrag(void *from, char *to, int offset, int len, int odd,
+ 		       struct sk_buff *skb)
+ {
+ 	struct raw6_frag_vec *rfv = from;
++	char *rfv_buf;
+
+-	if (offset < rfv->hlen) {
++	if ((rfv_buf = nospec_array_ptr(rfv->c, offset, rfv->hlen))) {
+ 		int copy = min(rfv->hlen - offset, len);
+
+ 		if (skb->ip_summed == CHECKSUM_PARTIAL)
+-			memcpy(to, rfv->c + offset, copy);
++			memcpy(to, rfv_buf, copy);
+ 		else
+ 			skb->csum = csum_block_add(
+ 				skb->csum,
+-				csum_partial_copy_nocheck(rfv->c + offset,
+-							  to, copy, 0),
++				csum_partial_copy_nocheck(rfv_buf, to, copy, 0),
+ 				odd);
+
+ 		odd = 0;
+-- 
+2.14.3
+
+From f38cdd5d461ce686d201e41242fd626641e7253d Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:02 -0800
+Subject: [PATCH 14/19] ipv4: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'offset' may be a user controlled value
+that is used as a data dependency reading from a raw_frag_vec buffer.
+In order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue further
+reads based on an invalid '*(rfv->c + offset)' value.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>
+Cc: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ net/ipv4/raw.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/net/ipv4/raw.c b/net/ipv4/raw.c
+index 125c1eab3eaa..f72b20131a15 100644
+--- a/net/ipv4/raw.c
++++ b/net/ipv4/raw.c
+@@ -57,6 +57,7 @@
+ #include <linux/in_route.h>
+ #include <linux/route.h>
+ #include <linux/skbuff.h>
++#include <linux/compiler.h>
+ #include <linux/igmp.h>
+ #include <net/net_namespace.h>
+ #include <net/dst.h>
+@@ -472,17 +473,17 @@ static int raw_getfrag(void *from, char *to, int offset, int len, int odd,
+ 		       struct sk_buff *skb)
+ {
+ 	struct raw_frag_vec *rfv = from;
++	char *rfv_buf;
+
+-	if (offset < rfv->hlen) {
++	if ((rfv_buf = nospec_array_ptr(rfv->hdr.c, offset, rfv->hlen))) {
+ 		int copy = min(rfv->hlen - offset, len);
+
+ 		if (skb->ip_summed == CHECKSUM_PARTIAL)
+-			memcpy(to, rfv->hdr.c + offset, copy);
++			memcpy(to, rfv_buf, copy);
+ 		else
+ 			skb->csum = csum_block_add(
+ 				skb->csum,
+-				csum_partial_copy_nocheck(rfv->hdr.c + offset,
+-							  to, copy, 0),
++				csum_partial_copy_nocheck(rfv_buf, to, copy, 0),
+ 				odd);
+
+ 		odd = 0;
+-- 
+2.14.3
+
+From 07a715cb9cd9e4e8bac7204a2462803bfe7ae259 Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:04 -0800
+Subject: [PATCH 15/19] vfs, fdtable: prevent bounds-check bypass via
+ speculative execution
+
+Expectedly, static analysis reports that 'fd' is a user controlled value
+that is used as a data dependency to read from the 'fdt->fd' array.  In
+order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue reads
+based on an invalid 'file *' returned from __fcheck_files.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ include/linux/fdtable.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/fdtable.h b/include/linux/fdtable.h
+index 1c65817673db..4a147c5c2533 100644
+--- a/include/linux/fdtable.h
++++ b/include/linux/fdtable.h
+@@ -81,9 +81,10 @@ struct dentry;
+ static inline struct file *__fcheck_files(struct files_struct *files, unsigned int fd)
+ {
+ 	struct fdtable *fdt = rcu_dereference_raw(files->fdt);
++	struct file __rcu **fdp;
+
+-	if (fd < fdt->max_fds)
+-		return rcu_dereference_raw(fdt->fd[fd]);
++	if ((fdp = nospec_array_ptr(fdt->fd, fd, fdt->max_fds)))
++		return rcu_dereference_raw(*fdp);
+ 	return NULL;
+ }
+
+-- 
+2.14.3
+
+From e5ef1fdb08b0d2ae0af3f725a6c4a3394af538fe Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:05 -0800
+Subject: [PATCH 16/19] net: mpls: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'index' may be a user controlled value that
+is used as a data dependency reading 'rt' from the 'platform_label'
+array.  In order to avoid potential leaks of kernel memory values, block
+speculative execution of the instruction stream that could issue further
+reads based on an invalid 'rt' value.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric W. Biederman <ebiederm@xmission.com>
+Cc: netdev@vger.kernel.org
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ net/mpls/af_mpls.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/net/mpls/af_mpls.c b/net/mpls/af_mpls.c
+index 8ca9915befc8..ebcf0e246cfe 100644
+--- a/net/mpls/af_mpls.c
++++ b/net/mpls/af_mpls.c
+@@ -8,6 +8,7 @@
+ #include <linux/ipv6.h>
+ #include <linux/mpls.h>
+ #include <linux/netconf.h>
++#include <linux/compiler.h>
+ #include <linux/vmalloc.h>
+ #include <linux/percpu.h>
+ #include <net/ip.h>
+@@ -77,12 +78,13 @@ static void rtmsg_lfib(int event, u32 label, struct mpls_route *rt,
+ static struct mpls_route *mpls_route_input_rcu(struct net *net, unsigned index)
+ {
+ 	struct mpls_route *rt = NULL;
++	struct mpls_route __rcu **platform_label =
++		rcu_dereference(net->mpls.platform_label);
++	struct mpls_route __rcu **rtp;
+
+-	if (index < net->mpls.platform_labels) {
+-		struct mpls_route __rcu **platform_label =
+-			rcu_dereference(net->mpls.platform_label);
+-		rt = rcu_dereference(platform_label[index]);
+-	}
++	if ((rtp = nospec_array_ptr(platform_label, index,
++					net->mpls.platform_labels)))
++		rt = rcu_dereference(*rtp);
+ 	return rt;
+ }
+
+-- 
+2.14.3
+
+From 276b18c636de3afc89571198b22b518473ce2b2a Mon Sep 17 00:00:00 2001
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Wed, 3 Jan 2018 13:54:07 -0800
+Subject: [PATCH 17/19] udf: prevent bounds-check bypass via speculative
+ execution
+
+Static analysis reports that 'eahd->appAttrLocation' and
+'eahd->impAttrLocation' may be a user controlled values that are used as
+data dependencies for calculating source and destination buffers for
+memmove operations. In order to avoid potential leaks of kernel memory
+values, block speculative execution of the instruction stream that could
+issue further reads based on invalid 'aal' or 'ial' values.
+
+Based on an original patch by Elena Reshetova.
+
+Cc: Jan Kara <jack@suse.com>
+Signed-off-by: Elena Reshetova <elena.reshetova@intel.com>
+Signed-off-by: Dan Williams <dan.j.williams@intel.com>
+---
+ fs/udf/misc.c | 39 +++++++++++++++++++++------------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
+
+diff --git a/fs/udf/misc.c b/fs/udf/misc.c
+index 401e64cde1be..9403160822de 100644
+--- a/fs/udf/misc.c
++++ b/fs/udf/misc.c
+@@ -51,6 +51,8 @@ struct genericFormat *udf_add_extendedattr(struct inode *inode, uint32_t size,
+ 	int offset;
+ 	uint16_t crclen;
+ 	struct udf_inode_info *iinfo = UDF_I(inode);
++	uint8_t *ea_dst, *ea_src;
++	uint32_t aal, ial;
+
+ 	ea = iinfo->i_ext.i_data;
+ 	if (iinfo->i_lenEAttr) {
+@@ -100,33 +102,34 @@ struct genericFormat *udf_add_extendedattr(struct inode *inode, uint32_t size,
+
+ 		offset = iinfo->i_lenEAttr;
+ 		if (type < 2048) {
+-			if (le32_to_cpu(eahd->appAttrLocation) <
+-					iinfo->i_lenEAttr) {
+-				uint32_t aal =
+-					le32_to_cpu(eahd->appAttrLocation);
+-				memmove(&ea[offset - aal + size],
+-					&ea[aal], offset - aal);
++			aal = le32_to_cpu(eahd->appAttrLocation);
++			if ((ea_dst = nospec_array_ptr(ea, offset - aal + size,
++						       iinfo->i_lenEAttr)) &&
++			    (ea_src = nospec_array_ptr(ea, aal,
++						       iinfo->i_lenEAttr))) {
++				memmove(ea_dst, ea_src, offset - aal);
+ 				offset -= aal;
+ 				eahd->appAttrLocation =
+ 						cpu_to_le32(aal + size);
+ 			}
+-			if (le32_to_cpu(eahd->impAttrLocation) <
+-					iinfo->i_lenEAttr) {
+-				uint32_t ial =
+-					le32_to_cpu(eahd->impAttrLocation);
+-				memmove(&ea[offset - ial + size],
+-					&ea[ial], offset - ial);
++
++			ial = le32_to_cpu(eahd->impAttrLocation);
++			if ((ea_dst = nospec_array_ptr(ea, offset - ial + size,
++						       iinfo->i_lenEAttr)) &&
++			    (ea_src = nospec_array_ptr(ea, ial,
++						       iinfo->i_lenEAttr))) {
++				memmove(ea_dst, ea_src, offset - ial);
+ 				offset -= ial;
+ 				eahd->impAttrLocation =
+ 						cpu_to_le32(ial + size);
+ 			}
+ 		} else if (type < 65536) {
+-			if (le32_to_cpu(eahd->appAttrLocation) <
+-					iinfo->i_lenEAttr) {
+-				uint32_t aal =
+-					le32_to_cpu(eahd->appAttrLocation);
+-				memmove(&ea[offset - aal + size],
+-					&ea[aal], offset - aal);
++			aal = le32_to_cpu(eahd->appAttrLocation);
++			if ((ea_dst = nospec_array_ptr(ea, offset - aal + size,
++						       iinfo->i_lenEAttr)) &&
++			    (ea_src = nospec_array_ptr(ea, aal,
++						       iinfo->i_lenEAttr))) {
++				memmove(ea_dst, ea_src, offset - aal);
+ 				offset -= aal;
+ 				eahd->appAttrLocation =
+ 						cpu_to_le32(aal + size);
+-- 
+2.14.3

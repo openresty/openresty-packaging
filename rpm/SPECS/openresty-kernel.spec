@@ -59,7 +59,7 @@ Summary: The Linux kernel
 %if 0%{?released_kernel}
 
 # Do we have a -stable update to apply?
-%define stable_update 8
+%define stable_update 13
 # Set rpm version accordingly
 %if 0%{?stable_update}
 %define stablerev %{stable_update}
@@ -96,12 +96,12 @@ Summary: The Linux kernel
 # kernel-debug
 %define with_debug     %{?_without_debug:     0} %{?!_without_debug:     1}
 # kernel-headers
-%define with_headers   %{?_without_headers:   0} %{?!_without_headers:   1}
+%define with_headers   0
 %define with_cross_headers   %{?_without_cross_headers:   0} %{?!_without_cross_headers:   1}
 # perf
-%define with_perf      %{?_without_perf:      0} %{?!_without_perf:      1}
+%define with_perf      1
 # tools
-%define with_tools     %{?_without_tools:     0} %{?!_without_tools:     1}
+%define with_tools     0
 # kernel-debuginfo
 %define with_debuginfo %{?_without_debuginfo: 0} %{?!_without_debuginfo: 1}
 # kernel-bootwrapper (for creating zImages from kernel + initrd)
@@ -166,6 +166,8 @@ Summary: The Linux kernel
 %define KVERREL %{version}-%{release}.%{_target_cpu}
 %define hdrarch %_target_cpu
 %define asmarch %_target_cpu
+
+%define _prefix /usr/local/openresty-kernel
 
 %if 0%{!?nopatches:1}
 %define nopatches 0
@@ -385,8 +387,8 @@ Release: %{pkg_release}
 ExclusiveArch: %{all_x86} x86_64 ppc64 s390x %{arm} aarch64 ppc64le
 ExclusiveOS: Linux
 %ifnarch %{nobuildarches}
-Requires: openresty-kernel-core-uname-r = %{KVERREL}%{?variant}
-Requires: openresty-kernel-modules-uname-r = %{KVERREL}%{?variant}
+Requires: kernel-core-uname-r = %{KVERREL}%{?variant}
+Requires: kernel-modules-uname-r = %{KVERREL}%{?variant}
 %endif
 
 
@@ -430,7 +432,6 @@ BuildRequires: binutils-%{_build_arch}-linux-gnu, gcc-%{_build_arch}-linux-gnu
 
 Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
 
-Source10: perf-man-%{kversion}.tar.gz
 Source11: x509.genkey
 Source12: remove-binary-diff.pl
 Source15: merge.pl
@@ -485,7 +486,7 @@ Source2001: cpupower.config
 %if 0%{?stable_update}
 %if 0%{?stable_base}
 %define    stable_patch_00  patch-4.%{base_sublevel}.%{stable_base}.xz
-Source5000: %{stable_patch_00}
+Source5000: https://www.kernel.org/pub/linux/kernel/v4.x/%{stable_patch_00}
 %endif
 
 # non-released_kernel case
@@ -565,6 +566,11 @@ Patch205: MODSIGN-Import-certificates-from-UEFI-Secure-Boot.patch
 
 Patch206: MODSIGN-Support-not-importing-certs-from-db.patch
 
+# still secureboot, rhbz#1497559
+Patch207: 0001-Make-get_cert_list-not-complain-about-cert-lists-tha.patch
+Patch208: 0002-Add-efi_status_to_str-and-rework-efi_status_to_err.patch
+Patch209: 0003-Make-get_cert_list-use-efi_status_to_str-to-print-er.patch
+
 Patch210: disable-i8042-check-on-apple-mac.patch
 
 Patch211: drm-i915-hush-check-crtc-state.patch
@@ -621,10 +627,6 @@ Patch335: arm-exynos-fix-usb3.patch
 # rbhz 1519591 1520764
 Patch500: dccp-CVE-2017-8824-use-after-free-in-DCCP-code.patch
 
-# CVE-2017-17449
-# rhbz 1525762 1525763
-Patch503: netlink-Add-netns-check-on-taps.patch
-
 # CVE-2017-17450
 # rhbz 1525761 1525764
 Patch504: netfilter-xt_osf-Add-missing-permission-checks.patch
@@ -636,6 +638,14 @@ Patch505: netfilter-nfnetlink_cthelper-Add-missing-permission-.patch
 # rhbz 1525523
 # https://patchwork.kernel.org/patch/10104349/
 Patch506: e1000e-Fix-e1000_check_for_copper_link_ich8lan-return-value..patch
+
+# 550-600 Meltdown and Spectre Fixes
+Patch550: prevent-bounds-check-bypass-via-speculative-execution.patch
+Patch551: 0001-x86-cpufeatures-Add-X86_BUG_SPECTRE_V-12.patch
+Patch552: 0002-sysfs-cpu-Add-vulnerability-folder.patch
+Patch553: 0001-x86-cpu-AMD-Make-LFENCE-a-serializing-instruction.patch
+Patch554: 0002-x86-cpu-AMD-Use-LFENCE_RDTSC-in-preference-to-MFENCE.patch
+Patch555: retpoline.patch
 
 # 600 - Patches for improved Bay and Cherry Trail device support
 # Below patches are submitted upstream, awaiting review / merging
@@ -661,11 +671,13 @@ Patch627: qxl-fixes.patch
 # rhbz 1462175
 Patch628: HID-rmi-Check-that-a-device-is-a-RMI-device-before-c.patch
 
-# CVE-2017-17712 rhbz 1526427 1526933
-Patch629: net-ipv4-fix-for-a-race-condition-in-raw_sendmsg.patch
-
 # CVE-2017-17741 rhbz 1527112 1527113
 Patch630: v4-KVM-Fix-stack-out-of-bounds-read-in-write_mmio.patch
+
+Patch631: cgroup-for-4.15-fixes-cgroup-fix-css_task_iter-crash-on-CSS_TASK_ITER_PROC.patch
+
+# rhbz 1514969
+Patch633: 0001-platform-x86-dell-laptop-Filter-out-spurious-keyboar.patch
 
 # END OF PATCH DEFINITIONS
 
@@ -683,10 +695,10 @@ The kernel meta package
 # macros defined above.
 #
 %define kernel_reqprovconf \
-Provides: openresty-kernel = %{rpmversion}-%{pkg_release}\
-Provides: openresty-kernel-%{_target_cpu} = %{rpmversion}-%{pkg_release}%{?1:+%{1}}\
-Provides: openresty-kernel-drm-nouveau = 16\
-Provides: openresty-kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel = %{rpmversion}-%{pkg_release}\
+Provides: kernel-%{_target_cpu} = %{rpmversion}-%{pkg_release}%{?1:+%{1}}\
+Provides: kernel-drm-nouveau = 16\
+Provides: kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
 Requires(pre): %{kernel_prereq}\
 Requires(pre): %{initrd_prereq}\
 Requires(pre): linux-firmware >= 20150904-56.git6ebf5d57\
@@ -706,11 +718,8 @@ AutoProv: yes\
 %package headers
 Summary: Header files for the Linux kernel for use by glibc
 Group: Development/System
-Obsoletes: glibc-kernheaders < 3.0-46
-Provides: glibc-kernheaders = 3.0-46
 %if "0%{?variant}"
-Obsoletes: kernel-headers < %{rpmversion}-%{pkg_release}
-Provides: openresty-kernel-headers = %{rpmversion}-%{pkg_release}
+Obsoletes: openresty-kernel-headers < %{rpmversion}-%{pkg_release}
 %endif
 %description headers
 Kernel-headers includes the C header files that specify the interface
@@ -798,13 +807,13 @@ This package provides debug information for the perf python bindings.
 Summary: Assortment of tools for the Linux kernel
 Group: Development/System
 License: GPLv2
-Provides:  cpupowerutils = 1:009-0.6.p1
-Obsoletes: cpupowerutils < 1:009-0.6.p1
-Provides:  cpufreq-utils = 1:009-0.6.p1
-Provides:  cpufrequtils = 1:009-0.6.p1
-Obsoletes: cpufreq-utils < 1:009-0.6.p1
-Obsoletes: cpufrequtils < 1:009-0.6.p1
-Obsoletes: cpuspeed < 1:1.5-16
+Provides:  openresty-cpupowerutils = 1:009-0.6.p1
+Obsoletes: openresty-cpupowerutils < 1:009-0.6.p1
+Provides:  openresty-cpufreq-utils = 1:009-0.6.p1
+Provides:  openresty-cpufrequtils = 1:009-0.6.p1
+Obsoletes: openresty-cpufreq-utils < 1:009-0.6.p1
+Obsoletes: openresty-cpufrequtils < 1:009-0.6.p1
+Obsoletes: openresty-cpuspeed < 1:1.5-16
 Requires: openresty-kernel-tools-libs = %{version}-%{release}
 %define __requires_exclude ^%{_bindir}/python
 %description -n openresty-kernel-tools
@@ -824,8 +833,8 @@ Summary: Assortment of tools for the Linux kernel
 Group: Development/System
 License: GPLv2
 Requires: openresty-kernel-tools = %{version}-%{release}
-Provides:  cpupowerutils-devel = 1:009-0.6.p1
-Obsoletes: cpupowerutils-devel < 1:009-0.6.p1
+Provides:  openresty-cpupowerutils-devel = 1:009-0.6.p1
+Obsoletes: openresty-cpupowerutils-devel < 1:009-0.6.p1
 Requires: openresty-kernel-tools-libs = %{version}-%{release}
 Provides: openresty-kernel-tools-devel
 %description -n openresty-kernel-tools-libs-devel
@@ -875,9 +884,10 @@ This is required to use SystemTap with %{name}%{?1:-%{1}}-%{KVERREL}.\
 %package %{?1:%{1}-}devel\
 Summary: Development package for building kernel modules to match the %{?2:%{2} }kernel\
 Group: System Environment/Kernel\
-Provides: openresty-kernel%{?1:-%{1}}-devel-%{_target_cpu} = %{version}-%{release}\
-Provides: openresty-kernel-devel-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
-Provides: openresty-kernel-devel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-devel-%{_target_cpu} = %{version}-%{release}\
+Provides: kernel-devel-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
+Provides: kernel-devel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel-devel = %{version}-%{release}%{?1:+%{1}}\
 Provides: installonlypkg(kernel)\
 AutoReqProv: no\
 Requires(pre): findutils\
@@ -896,13 +906,13 @@ against the %{?2:%{2} }kernel package.\
 %package %{?1:%{1}-}modules-extra\
 Summary: Extra kernel modules to match the %{?2:%{2} }kernel\
 Group: System Environment/Kernel\
-Provides: openresty-kernel%{?1:-%{1}}-modules-extra-%{_target_cpu} = %{version}-%{release}\
-Provides: openresty-kernel%{?1:-%{1}}-modules-extra-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
-Provides: openresty-kernel%{?1:-%{1}}-modules-extra = %{version}-%{release}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-modules-extra-%{_target_cpu} = %{version}-%{release}\
+Provides: kernel%{?1:-%{1}}-modules-extra-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-modules-extra = %{version}-%{release}%{?1:+%{1}}\
 Provides: installonlypkg(kernel-module)\
-Provides: openresty-kernel%{?1:-%{1}}-modules-extra-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
-Requires: openresty-kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
-Requires: openresty-kernel%{?1:-%{1}}-modules-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-modules-extra-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Requires: kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Requires: kernel%{?1:-%{1}}-modules-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
 AutoReq: no\
 AutoProv: yes\
 %description %{?1:%{1}-}modules-extra\
@@ -917,12 +927,12 @@ This package provides less commonly used kernel modules for the %{?2:%{2} }kerne
 %package %{?1:%{1}-}modules\
 Summary: kernel modules to match the %{?2:%{2}-}core kernel\
 Group: System Environment/Kernel\
-Provides: openresty-kernel%{?1:-%{1}}-modules-%{_target_cpu} = %{version}-%{release}\
-Provides: openresty-kernel-modules-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
-Provides: openresty-kernel-modules = %{version}-%{release}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-modules-%{_target_cpu} = %{version}-%{release}\
+Provides: kernel-modules-%{_target_cpu} = %{version}-%{release}%{?1:+%{1}}\
+Provides: kernel-modules = %{version}-%{release}%{?1:+%{1}}\
 Provides: installonlypkg(kernel-module)\
-Provides: openresty-kernel%{?1:-%{1}}-modules-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
-Requires: openresty-kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel%{?1:-%{1}}-modules-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Requires: kernel-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
 AutoReq: no\
 AutoProv: yes\
 %description %{?1:%{1}-}modules\
@@ -937,8 +947,8 @@ This package provides commonly used kernel modules for the %{?2:%{2}-}core kerne
 %package %{1}\
 summary: kernel meta-package for the %{1} kernel\
 group: system environment/kernel\
-Requires: openresty-kernel-%{1}-core-uname-r = %{KVERREL}%{?variant}+%{1}\
-Requires: openresty-kernel-%{1}-modules-uname-r = %{KVERREL}%{?variant}+%{1}\
+Requires: kernel-%{1}-core-uname-r = %{KVERREL}%{?variant}+%{1}\
+Requires: kernel-%{1}-modules-uname-r = %{KVERREL}%{?variant}+%{1}\
 Provides: installonlypkg(kernel)\
 %description %{1}\
 The meta-package for the %{1} kernel\
@@ -953,7 +963,7 @@ The meta-package for the %{1} kernel\
 %package %{?1:%{1}-}core\
 Summary: %{variant_summary}\
 Group: System Environment/Kernel\
-Provides: openresty-kernel-%{?1:%{1}-}core-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
+Provides: kernel-%{?1:%{1}-}core-uname-r = %{KVERREL}%{?variant}%{?1:+%{1}}\
 Provides: installonlypkg(kernel)\
 %{expand:%%kernel_reqprovconf}\
 %if %{?1:1} %{!?1:0} \
@@ -1277,6 +1287,7 @@ git am %{patches}
 # Any further pre-build tree manipulations happen here.
 
 chmod +x scripts/checkpatch.pl
+chmod +x tools/objtool/sync-check.sh
 
 # This Prevents scripts/setlocalversion from mucking with our version numbers.
 touch .scmversion
@@ -1522,6 +1533,8 @@ BuildKernel() {
       cp -a --parents arch/%{asmarch}/include $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
     fi
 %ifarch aarch64
+    # Needed for systemtap
+    cp -a --parents arch/arm64/kernel/module.lds $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
     # arch/arm64/include/asm/xen references arch/arm
     cp -a --parents arch/arm/include/asm/xen $RPM_BUILD_ROOT/lib/modules/$KernelVer/build/
     # arch/arm64/include/asm/opcodes.h references arch/arm
@@ -1894,15 +1907,6 @@ rm -rf %{buildroot}%{_docdir}/perf-tip
 
 # python-perf extension
 %{perf_make} DESTDIR=$RPM_BUILD_ROOT install-python_ext
-
-# perf man pages (note: implicit rpm magic compresses them later)
-mkdir -p %{buildroot}/%{_mandir}/man1
-pushd %{buildroot}/%{_mandir}/man1
-tar -xf %{SOURCE10}
-%if !%{with_tools}
-    rm -f kvm_stat.1
-%endif
-popd
 %endif
 
 %if %{with_tools}
@@ -2104,8 +2108,7 @@ fi
 %dir %{_libexecdir}/perf-core
 %{_libexecdir}/perf-core/*
 %{_datadir}/perf-core/*
-%{_mandir}/man[1-8]/perf*
-%{_sysconfdir}/bash_completion.d/perf
+%{_prefix}/%{_sysconfdir}/bash_completion.d/perf
 %doc linux-%{KVERREL}/tools/perf/Documentation/examples.txt
 
 %files -n openresty-python-perf
@@ -2146,7 +2149,6 @@ fi
 %{_bindir}/lsgpio
 %{_bindir}/gpio-hammer
 %{_bindir}/gpio-event-mon
-%{_mandir}/man1/kvm_stat*
 %{_bindir}/kvm_stat
 %endif
 

@@ -1,0 +1,184 @@
+From a51d670818754ba7e3c289e14b09cf54e0435162 Mon Sep 17 00:00:00 2001
+From: Peter Jones <pjones@redhat.com>
+Date: Mon, 2 Oct 2017 18:22:13 -0400
+Subject: [PATCH 2/3] Add efi_status_to_str() and rework efi_status_to_err().
+
+This adds efi_status_to_str() for use when printing efi_status_t
+messages, and reworks efi_status_to_err() so that the two use a common
+list of errors.
+
+Signed-off-by: Peter Jones <pjones@redhat.com>
+---
+ drivers/firmware/efi/efi.c | 124 +++++++++++++++++++++++++++++++++------------
+ include/linux/efi.h        |   3 ++
+ 2 files changed, 96 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+index f70febf..588377b 100644
+--- a/drivers/firmware/efi/efi.c
++++ b/drivers/firmware/efi/efi.c
+@@ -31,6 +31,7 @@
+ #include <linux/acpi.h>
+ #include <linux/ucs2_string.h>
+ #include <linux/memblock.h>
++#include <linux/bsearch.h>
+ 
+ #include <asm/early_ioremap.h>
+ 
+@@ -864,40 +865,101 @@ int efi_mem_type(unsigned long phys_addr)
+ }
+ #endif
+ 
++struct efi_error_code {
++	efi_status_t status;
++	int errno;
++	char *description;
++};
++
++static struct efi_error_code efi_error_codes[] = {
++	{ EFI_SUCCESS, 0, "Success"},
++#if 0
++	{ EFI_LOAD_ERROR, "Load Error"},
++#endif
++	{ EFI_INVALID_PARAMETER, -EINVAL, "Invalid Parameter"},
++	{ EFI_UNSUPPORTED, -ENOSYS, "Unsupported"},
++	{ EFI_BAD_BUFFER_SIZE, -ENOSPC, "Bad Buffer Size"},
++	{ EFI_BUFFER_TOO_SMALL, -ENOSPC, "Buffer Too Small"},
++	{ EFI_NOT_READY, -EAGAIN, "Not Ready"},
++	{ EFI_DEVICE_ERROR, -EIO, "Device Error"},
++	{ EFI_WRITE_PROTECTED, -EROFS, "Write Protected"},
++	{ EFI_OUT_OF_RESOURCES, -ENOMEM, "Out of Resources"},
++#if 0
++	{ EFI_VOLUME_CORRUPTED, "Volume Corrupt"},
++	{ EFI_VOLUME_FULL, "Volume Full"},
++	{ EFI_NO_MEDIA, "No Media"},
++	{ EFI_MEDIA_CHANGED, "Media changed"},
++#endif
++	{ EFI_NOT_FOUND, -ENOENT, "Not Found"},
++#if 0
++	{ EFI_ACCESS_DENIED, "Access Denied"},
++	{ EFI_NO_RESPONSE, "No Response"},
++	{ EFI_NO_MAPPING, "No mapping"},
++	{ EFI_TIMEOUT, "Time out"},
++	{ EFI_NOT_STARTED, "Not started"},
++	{ EFI_ALREADY_STARTED, "Already started"},
++#endif
++	{ EFI_ABORTED, -EINTR, "Aborted"},
++#if 0
++	{ EFI_ICMP_ERROR, "ICMP Error"},
++	{ EFI_TFTP_ERROR, "TFTP Error"},
++	{ EFI_PROTOCOL_ERROR, "Protocol Error"},
++	{ EFI_INCOMPATIBLE_VERSION, "Incompatible Version"},
++#endif
++	{ EFI_SECURITY_VIOLATION, -EACCES, "Security Policy Violation"},
++#if 0
++	{ EFI_CRC_ERROR, "CRC Error"},
++	{ EFI_END_OF_MEDIA, "End of Media"},
++	{ EFI_END_OF_FILE, "End of File"},
++	{ EFI_INVALID_LANGUAGE, "Invalid Languages"},
++	{ EFI_COMPROMISED_DATA, "Compromised Data"},
++
++	// warnings
++	{ EFI_WARN_UNKOWN_GLYPH, "Warning Unknown Glyph"},
++	{ EFI_WARN_DELETE_FAILURE, "Warning Delete Failure"},
++	{ EFI_WARN_WRITE_FAILURE, "Warning Write Failure"},
++	{ EFI_WARN_BUFFER_TOO_SMALL, "Warning Buffer Too Small"},
++#endif
++};
++
++static int
++efi_status_cmp_bsearch(const void *key, const void *item)
++{
++	u64 status = (u64)(uintptr_t)key;
++	struct efi_error_code *code = (struct efi_error_code *)item;
++
++	if (status < code->status)
++		return -1;
++	if (status > code->status)
++		return 1;
++	return 0;
++}
++
+ int efi_status_to_err(efi_status_t status)
+ {
+-	int err;
+-
+-	switch (status) {
+-	case EFI_SUCCESS:
+-		err = 0;
+-		break;
+-	case EFI_INVALID_PARAMETER:
+-		err = -EINVAL;
+-		break;
+-	case EFI_OUT_OF_RESOURCES:
+-		err = -ENOSPC;
+-		break;
+-	case EFI_DEVICE_ERROR:
+-		err = -EIO;
+-		break;
+-	case EFI_WRITE_PROTECTED:
+-		err = -EROFS;
+-		break;
+-	case EFI_SECURITY_VIOLATION:
+-		err = -EACCES;
+-		break;
+-	case EFI_NOT_FOUND:
+-		err = -ENOENT;
+-		break;
+-	case EFI_ABORTED:
+-		err = -EINTR;
+-		break;
+-	default:
+-		err = -EINVAL;
+-	}
++	struct efi_error_code *found;
++	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
+ 
+-	return err;
++	found = bsearch((void *)(uintptr_t)status, efi_error_codes,
++			sizeof(struct efi_error_code), num,
++			efi_status_cmp_bsearch);
++	if (!found)
++		return -EINVAL;
++	return found->errno;
++}
++
++const char *
++efi_status_to_str(efi_status_t status)
++{
++	struct efi_error_code *found;
++	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
++
++	found = bsearch((void *)(uintptr_t)status, efi_error_codes,
++			sizeof(struct efi_error_code), num,
++			efi_status_cmp_bsearch);
++	if (!found)
++		return "Unknown error code";
++	return found->description;
+ }
+ 
+ bool efi_is_table_address(unsigned long phys_addr)
+diff --git a/include/linux/efi.h b/include/linux/efi.h
+index 946cd01..2b4421f 100644
+--- a/include/linux/efi.h
++++ b/include/linux/efi.h
+@@ -41,6 +41,8 @@
+ #define EFI_ABORTED		(21 | (1UL << (BITS_PER_LONG-1)))
+ #define EFI_SECURITY_VIOLATION	(26 | (1UL << (BITS_PER_LONG-1)))
+ 
++#define EFI_IS_ERROR(x)		((x) & (1UL << (BITS_PER_LONG-1)))
++
+ typedef unsigned long efi_status_t;
+ typedef u8 efi_bool_t;
+ typedef u16 efi_char16_t;		/* UNICODE character */
+@@ -1171,6 +1173,7 @@ static inline bool efi_is_table_address(unsigned long phys_addr)
+ #endif
+ 
+ extern int efi_status_to_err(efi_status_t status);
++extern const char *efi_status_to_str(efi_status_t status);
+ 
+ /*
+  * Variable Attributes
+-- 
+2.13.6
+
