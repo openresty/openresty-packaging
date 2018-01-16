@@ -9,6 +9,11 @@ Source0:            http://kernel.org/pub/linux/utils/net/iproute2/iproute2-%{ve
 %define _prefix     /usr/local/openresty-iproute2
 %define _sysconfdir %_prefix/etc
 
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 License:            GPLv2+ and Public Domain
 BuildRequires:      openresty-kernel-cross-headers >= 4.9
 BuildRequires:      bison
