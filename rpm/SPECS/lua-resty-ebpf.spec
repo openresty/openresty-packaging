@@ -34,7 +34,7 @@ Requires:       %{name}-data
 # 3. create an empty source file directory to satify the requirement
 %define __debug_install_post \
   %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}/"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug/"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}/"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \

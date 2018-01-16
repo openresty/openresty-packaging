@@ -15,7 +15,7 @@ BuildRequires:  gcc-c++ >= 4.8.5
 BuildRequires:  make
 BuildRequires:  openresty-bcc-devel >= 0.5.0-2
 # LuaJIT is required to compile Lua files into byte code
-BuildRequires:  openresty-plus-valgrind
+BuildRequires:  openresty-plus
 
 Requires:       openresty-bcc-devel >= 0.5.0-2
 Requires:       openresty-iproute2 >= 4.13.0-1
@@ -27,6 +27,7 @@ Requires:       %{name}-data
 
 %define orprefix                        %{_usr}/local/openresty-plus-valgrind
 %define lua_lib_dir                     %{orprefix}/site/lualib
+%define luajit                          %{_usr}/local/openresty-plus/luajit/bin/luajit
 
 # Remove source code from debuginfo package.
 # 1. generate the debuginfo meta
@@ -34,9 +35,16 @@ Requires:       %{name}-data
 # 3. create an empty source file directory to satify the requirement
 %define __debug_install_post \
   %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}/"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}/"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/lua-resty-ebpf-%{version}/"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %description
@@ -57,7 +65,7 @@ This package contains the C data files for %{name} package.
 
 %prep
 # The $PWD is rpmbuild/BUILD
-../SPECS/get-lua-resty-ebpf %{version}
+#../SPECS/get-lua-resty-ebpf %{version}
 %setup -q -n "lua-resty-ebpf-%{version}"
 
 %build
@@ -65,7 +73,7 @@ make CXXEXTRAFLAGS='-O0'
 # Create new file in install stage will cause check-buildroots to abort.
 # To avoid it, we move the compilation in build stage.
 for f in `find lib/resty/ebpf -type f -name '*.lua'`; do
-    %{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    %{luajit} -bg $f ${f%.lua}.ljbc
     rm $f
 done
 
@@ -96,3 +104,5 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 15 2018 Zexuan Luo 0.1.0-1
+- initial build for lua-resty-ebpf.
