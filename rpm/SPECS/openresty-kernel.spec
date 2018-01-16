@@ -1,3 +1,8 @@
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 # We have to override the new %%install behavior because, well... the kernel is special.
 %global __spec_install_pre %{___build_pre}
 
