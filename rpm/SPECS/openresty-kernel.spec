@@ -47,8 +47,9 @@ Summary: The Linux kernel
 # For non-released -rc kernels, this will be appended after the rcX and
 # gitX tags, so a 3 here would become part of release "0.rcX.gitX.3"
 #
-%global baserelease 200
-%global fedora_build %{baserelease}
+%global baserelease 900
+%global openresty_dist 1
+%global fedora_build %{baserelease}.%{openresty_dist}.openresty
 
 # base_sublevel is the kernel version we're starting with and patching
 # on top of -- for example, 3.1-rc7-git1 starts with a 3.0 base,
