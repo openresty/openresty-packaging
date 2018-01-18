@@ -37,10 +37,15 @@ languages. The compiler infrastructure includes mirror sets of programming
 tools as well as libraries with equivalent functionality.
 
 %prep
-%setup -q -c -b 1
-mv %{_builddir}/cfe-%{version}.src llvm-%{version}.src/tools/clang
+rm -rf %{name}-%{version}
+mkdir -p %{name}-%{version}
+cd %{name}-%{version}
+tar xf %{SOURCE0}
+tar xf %{SOURCE1}
+mv cfe-%{version}.src llvm-%{version}.src/tools/clang
 
 %build
+cd %{name}-%{version}
 mkdir -p build
 cd build
 
@@ -59,7 +64,7 @@ cd build
 make %{?_smp_mflags}
 
 %install
-cd build
+cd %{name}-%{version}/build
 make install DESTDIR=%{buildroot}
 
 %package devel
