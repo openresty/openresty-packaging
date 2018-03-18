@@ -135,7 +135,6 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
-    --with-file-aio \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
     --with-no-pool-patch \

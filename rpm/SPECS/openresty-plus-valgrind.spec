@@ -129,7 +129,6 @@ a single box.
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
-    --with-file-aio \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
