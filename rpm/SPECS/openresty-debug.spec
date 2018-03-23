@@ -68,6 +68,7 @@ a single box.
     --without-lua_rds_parser \
     --with-stream \
     --with-stream_ssl_module \
+    --with-stream_ssl_preread_module \
     --with-http_v2_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
