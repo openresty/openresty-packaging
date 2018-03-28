@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.13.6.1.22
+Version:        1.13.6.1.23
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -223,6 +223,10 @@ popd
 
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
+rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat}
+rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
+rm -rf %{buildroot}%{orprefix}/lmdb/include
+rm -rf %{buildroot}%{orprefix}/lmdb/share
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
@@ -249,6 +253,8 @@ rm -rf %{buildroot}
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
+%{orprefix}/lmdb/bin/mdb_dump
+%{orprefix}/lmdb/lib/liblmdb.so
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
@@ -282,6 +288,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 27 2018 Yichun Zhang (agentzh) 1.13.6.1.23-1
+- upgraded openresty-plus to 1.13.6.1.23.
 * Sun Mar 18 2018 Yichun Zhang (agentzh) 1.13.6.1.22-1
 - upgraded openresty-plus to 1.13.6.1.22.
 * Sun Mar 18 2018 Yichun Zhang (agentzh) 1.13.6.1.21-1
@@ -340,7 +348,7 @@ rm -rf %{buildroot}
 - upgraded openresty-plus to 1.13.6.0.3.
 * Mon Oct 30 2017 Yichun Zhang (agentzh) 1.13.6.0.2-1
 - upgraded openresty-plus to 1.13.6.0.2.
-* Sat Oct 27 2017 Yichun Zhang (agentzh) 1.13.6.0.1-2
+* Fri Oct 27 2017 Yichun Zhang (agentzh) 1.13.6.0.1-2
 - upgraded openresty-plus to 1.13.6.0.1.
 * Fri Oct 27 2017 Yichun Zhang (agentzh) 1.13.6.0.1-1
 - upgraded openresty-plus to 1.13.6.0.1.

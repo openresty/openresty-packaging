@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.13.6.1.22
+Version:        1.13.6.1.23
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -157,6 +157,10 @@ rm -rf %{buildroot}%{orprefix}/bin/nginx-xml2pod
 rm -rf %{buildroot}%{orprefix}/bin/opm
 rm -rf %{buildroot}%{orprefix}/pod/*
 rm -rf %{buildroot}%{orprefix}/resty.index
+rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat}
+rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
+rm -rf %{buildroot}%{orprefix}/lmdb/include
+rm -rf %{buildroot}%{orprefix}/lmdb/share
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
@@ -178,6 +182,8 @@ rm -rf %{buildroot}
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*
+%{orprefix}/lmdb/bin/mdb_dump
+%{orprefix}/lmdb/lib/liblmdb.so
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
@@ -185,6 +191,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 27 2018 Yichun Zhang (agentzh) 1.13.6.1.23-1
+- upgraded openresty-plus to 1.13.6.1.23.
 * Sun Mar 18 2018 Yichun Zhang (agentzh) 1.13.6.1.22-1
 - upgraded openresty-plus to 1.13.6.1.22.
 * Sun Mar 18 2018 Yichun Zhang (agentzh) 1.13.6.1.21-1
