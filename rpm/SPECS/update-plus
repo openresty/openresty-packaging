@@ -8,6 +8,10 @@ sub update_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
+if ($version !~ /^\d+(?:\.\d+){4}$/) {
+    die "Bad version number: $version";
+}
+
 for my $specfile (reverse sort glob 'openresty-plus*.spec') {
     update_spec $specfile;
 }
