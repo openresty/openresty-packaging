@@ -223,7 +223,7 @@ popd
 
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
-rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat}
+rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat,drop}
 rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share

@@ -157,7 +157,7 @@ rm -rf %{buildroot}%{orprefix}/bin/nginx-xml2pod
 rm -rf %{buildroot}%{orprefix}/bin/opm
 rm -rf %{buildroot}%{orprefix}/pod/*
 rm -rf %{buildroot}%{orprefix}/resty.index
-rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat}
+rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat,drop}
 rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
