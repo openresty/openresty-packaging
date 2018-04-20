@@ -1,5 +1,5 @@
 Name:               openresty-openssl
-Version:            1.0.2k
+Version:            1.0.2n
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -91,6 +91,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
+- upgraded openssl to 1.0.2n.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
 - upgraded OpenSSL to 1.0.2k.
 * Fri Nov 25 2016 Yichun Zhang (agentzh)

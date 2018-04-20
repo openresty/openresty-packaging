@@ -104,6 +104,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
+- upgraded openssl to 1.0.2n.
 * Fri Jul 14 2017 Yichun Zhang (agentzh) 1.0.2k-2
 - bugfix: forgot to add clang to the build dep list.
 * Fri Jul 14 2017 Yichun Zhang (agentzh) 1.0.2k-1

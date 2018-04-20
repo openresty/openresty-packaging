@@ -1,6 +1,6 @@
 Name:               openresty-openssl-debug
-Version:            1.0.2k
-Release:            2%{?dist}
+Version:            1.0.2n
+Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -94,6 +94,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
+- upgraded openssl to 1.0.2n.
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.0.2k-2
 - avoided the electric fence dependency.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
