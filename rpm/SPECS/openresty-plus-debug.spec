@@ -150,8 +150,6 @@ popd
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
 rm -rf %{buildroot}%{orprefix}/bin/resty
-rm -rf %{buildroot}%{orprefix}/bin/restydoc
-rm -rf %{buildroot}%{orprefix}/bin/restydoc-index
 rm -rf %{buildroot}%{orprefix}/bin/md2pod.pl
 rm -rf %{buildroot}%{orprefix}/bin/nginx-xml2pod
 rm -rf %{buildroot}%{orprefix}/bin/opm

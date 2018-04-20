@@ -230,7 +230,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/share
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
-ln -sf %{orprefix}/bin/restydoc %{buildroot}/usr/bin/
 ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
@@ -271,9 +270,6 @@ rm -rf %{buildroot}
 %files doc
 %defattr(-,root,root,-)
 
-/usr/bin/restydoc
-%{orprefix}/bin/restydoc
-%{orprefix}/bin/restydoc-index
 %{orprefix}/bin/md2pod.pl
 %{orprefix}/bin/nginx-xml2pod
 
