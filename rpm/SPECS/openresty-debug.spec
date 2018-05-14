@@ -1,5 +1,5 @@
 Name:           openresty-debug
-Version:        1.13.6.1
+Version:        1.13.6.2
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty
 
@@ -137,6 +137,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1
+- upgraded openresty to 1.13.6.2.
 * Sun Nov 12 2017 Yichun Zhang (agentzh) 1.13.6.1-1
 - upgraded openresty to 1.13.6.1.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2
