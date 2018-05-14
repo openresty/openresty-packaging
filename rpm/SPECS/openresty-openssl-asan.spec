@@ -10,7 +10,7 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.0.2h-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -23,6 +23,7 @@ AutoReqProv:        no
 
 %define openssl_prefix      %{_usr}/local/openresty-asan/openssl
 %define zlib_prefix         /usr/local/openresty-asan/zlib
+%global _default_patch_fuzz 1
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
@@ -53,8 +54,9 @@ export ASAN_OPTIONS=detect_leaks=0
 
 ./config \
     no-threads no-asm \
+    enable-ssl3 enable-ssl3-method \
     shared zlib -g -O1 -DPURIFY \
-    --openssldir=%{openssl_prefix} \
+    --prefix=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
     -L%{zlib_prefix}/lib \
@@ -70,7 +72,7 @@ make %{?_smp_mflags} \
 
 
 %install
-make install_sw INSTALL_PREFIX=%{buildroot}
+make install_sw DESTDIR=%{buildroot}
 
 chmod +w %{buildroot}%{openssl_prefix}/lib/*.so
 chmod +w %{buildroot}%{openssl_prefix}/lib/*/*.so
