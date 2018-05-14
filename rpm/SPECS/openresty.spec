@@ -20,10 +20,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-devel >= 1.0.2k-1
+BuildRequires:  openresty-openssl-devel >= 1.1.0h-1
 BuildRequires:  openresty-pcre-devel >= 8.40-1
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl >= 1.0.2k-1
+Requires:       openresty-openssl >= 1.1.0h-1
 Requires:       openresty-pcre >= 8.40-1
 
 # for /sbin/service

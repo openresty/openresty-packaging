@@ -1,6 +1,6 @@
 Name:               openresty-openssl-asan
-Version:            1.0.2k
-Release:            2%{?dist}
+Version:            1.1.0h
+Release:            1%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -104,6 +104,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
+- upgraded openresty-openssl to 1.1.0h.
 * Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
 - upgraded openssl to 1.0.2n.
 * Fri Jul 14 2017 Yichun Zhang (agentzh) 1.0.2k-2
