@@ -37,6 +37,11 @@ AutoReqProv:        no
 %undefine _missing_build_ids_terminate_build
 %endif
 
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %description
 This package contains a clang AddressSanitizer version of the core server

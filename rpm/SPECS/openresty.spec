@@ -37,6 +37,11 @@ AutoReqProv:        no
 %define pcre_prefix         %{orprefix}/pcre
 %define openssl_prefix      %{orprefix}/openssl
 
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %description
 This package contains the core server for OpenResty. Built for production

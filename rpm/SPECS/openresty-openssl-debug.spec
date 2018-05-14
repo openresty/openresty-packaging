@@ -85,7 +85,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{openssl_prefix}/bin/openssl
 %attr(0755,root,root) %{openssl_prefix}/lib/*.so*
 %attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
-%attr(0644,root,root) %{openssl_prefix}/openssl.cnf
 
 
 %files devel
