@@ -9,7 +9,7 @@ sub update_or_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-for my $specfile (reverse sort glob 'openresty-openssl*.spec') {
+for my $specfile (reverse sort glob 'openresty-pcre*.spec') {
     update_ssl_spec $specfile;
 }
 
@@ -20,13 +20,13 @@ sub update_ssl_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-openssl\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty-pcre\b/xsm) {
         die "Bad file content in $file";
     }
 
     my $changes = 0;
 
-    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} [a-z] ) $/Version:$1$version/xsm) {
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){1} ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
             say "INFO: $file: version got changed from $old_ver to $version";
@@ -57,7 +57,7 @@ sub update_ssl_spec ($) {
     $today =~ s/\s\s+/ /g;
     #warn "today: $today";
 
-    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded OpenSSL to $version.\n/xsm) {
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded PCRE to $version.\n/xsm) {
         $changes++;
 
     } else {
@@ -95,8 +95,8 @@ sub update_or_spec ($) {
     my $changes = 0;
     my $found;
 
-    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-openssl
-                    (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){2} [a-z] )
+    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-pcre
+                    (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){1} )
                     ( - \d+)?
                     $/push @old_vers, $2; "$1$version-1"/exsmg)
     {
