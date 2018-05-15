@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
 Version:        1.13.6.1.33
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -19,18 +19,18 @@ Requires:       valgrind
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-debug-devel = 1.0.2k, openresty-openssl-debug = 1.0.2k
+BuildRequires:  openresty-plus-openssl-debug-devel
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl-debug = 1.0.2k
+Requires:       openresty-plus-openssl-debug
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define openssl_prefix      %{_usr}/local/openresty-plus-debug/openssl
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 
