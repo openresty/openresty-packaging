@@ -1,0 +1,47 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+
+sub shell ($);
+
+my $dist = `rpm --eval '\%{dist}'`;
+chomp $dist;
+
+$ENV{PATH} = "/usr/bin/:$ENV{PATH}";
+
+for my $specfile (qw/openresty-plus-openssl.spec openresty-plus-openssl-debug.spec openresty-plus-openssl-asan.spec/) {
+    #next if $specfile =~ /^openresty-plus(?:-debug)?\.spec$/;
+    (my $name = $specfile) =~ s/\.spec$//;
+    open my $in, $specfile
+        or die "Cannot open $specfile for reading: $!\n";
+    my ($ver, $rel);
+    while (<$in>) {
+        if (/^Version: \s+ (\d+(?:\.\d+){2} [a-z]) $ /xsm) {
+            $ver = $1;
+
+        } elsif (/^Release: \s+ (\d+)\%\{\?dist\}$/xsm) {
+            $rel = $1;
+        }
+    }
+    close $in;
+
+    if (!defined $ver) {
+        die "$specfile: error: Version not found\n";
+    }
+
+    if (!defined $rel) {
+        die "$specfile: error: Release not found\n";
+    }
+
+    shell "make $name";
+    shell "ssh nuc 'cd ~/packaging && ./build.pl $name-$ver-$rel$dist.src.rpm proprietary'";
+}
+
+sub shell ($) {
+    my $cmd = shift;
+    warn "$cmd\n";
+    system($cmd) == 0
+        or die "Failed to run command \"$cmd\": $? exit code returned.\n";
+}

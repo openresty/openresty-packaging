@@ -8,7 +8,7 @@ sub update_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-if ($version !~ /^\d+(?:\.\d+){3}[a-z]$/) {
+if ($version !~ /^\d+(?:\.\d+){2}[a-z]$/) {
     die "Bad version number: $version";
 }
 
@@ -29,7 +29,7 @@ sub update_spec ($) {
 
     my $changes = 0;
 
-    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){3} [a-z] ) $/Version:$1$version/xsm) {
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} [a-z] ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
             say "INFO: version got changed from $old_ver to $version";
