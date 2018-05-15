@@ -1,6 +1,6 @@
 Name:               openresty-zlib-asan
 Version:            1.2.11
-Release:            8%{?dist}
+Release:            11%{?dist}
 Summary:            Clang AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -13,10 +13,6 @@ Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      libtool, clang
-
-%if 0%{?fedora} >= 27
-BuildRequires: compiler-rt
-%endif
 
 AutoReqProv:        no
 
