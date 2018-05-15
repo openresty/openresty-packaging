@@ -20,7 +20,7 @@ if [[ "$1" == *"ip-database"* ]]; then
     exit 1
 fi
 
-for distro in artful xenial trusty zesty
+for distro in bionic artful xenial trusty
 do
     make $1-build OPTS=-S DISTRO=$distro || exit 1
 done
