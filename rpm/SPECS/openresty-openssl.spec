@@ -1,6 +1,6 @@
 Name:               openresty-openssl
 Version:            1.1.0h
-Release:            1%{?dist}
+Release:            3%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -34,7 +34,7 @@ custom patches from OpenResty.
 
 Summary:            Development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
-Requires:           openresty-openssl
+Requires:           %{name} = %{version}-%{release}
 
 %description devel
 Provides C header and static library for OpenResty's OpenSSL library.

@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.13.6.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -15,7 +15,11 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel, compiler-rt
+BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
+
+%if 0%{?fedora} >= 27
+BuildRequires: compiler-rt
+%endif
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
