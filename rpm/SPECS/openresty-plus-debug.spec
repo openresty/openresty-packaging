@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.13.6.1.33
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -17,11 +17,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-debug-devel >= 1.0.2k-1
+BuildRequires:  openresty-openssl-debug-devel = 1.0.2k, openresty-openssl-debug = 1.0.2k
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl-debug >= 1.0.2k-1
+Requires:       openresty-openssl-debug = 1.0.2k
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
 
