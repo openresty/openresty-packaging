@@ -7,7 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 export NJBS = `nproc`
 
-DESTDIR = $(CURDIR)/debian/tmp
+DESTDIR = $(CURDIR)/debian/liblemplate-perl
 
 %:
 	dh $@ --parallel
@@ -16,3 +16,7 @@ override_dh_auto_configure:
 	perl Makefile.PL
 
 override_dh_usrlocal:
+
+override_dh_install:
+	dh_install
+	find $(DESTDIR)/usr/local/lib -name perllocal.pod -delete
