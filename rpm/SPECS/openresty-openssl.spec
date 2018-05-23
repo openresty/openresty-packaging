@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.0.2k
-Release:            1%{?dist}
+Version:            1.1.0h
+Release:            3%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -10,7 +10,7 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.0.2h-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -22,6 +22,7 @@ AutoReqProv:        no
 
 %define openssl_prefix      /usr/local/openresty/openssl
 %define zlib_prefix         /usr/local/openresty/zlib
+%global _default_patch_fuzz 1
 
 
 %description
@@ -33,10 +34,11 @@ custom patches from OpenResty.
 
 Summary:            Development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
-Requires:           openresty-openssl
+Requires:           %{name} = %{version}-%{release}
 
 %description devel
 Provides C header and static library for OpenResty's OpenSSL library.
+
 
 %prep
 %setup -q -n openssl-%{version}
@@ -47,7 +49,8 @@ Provides C header and static library for OpenResty's OpenSSL library.
 %build
 ./config \
     no-threads shared zlib -g \
-    --openssldir=%{openssl_prefix} \
+    enable-ssl3 enable-ssl3-method \
+    --prefix=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
     -L%{zlib_prefix}/lib \
@@ -57,7 +60,7 @@ make %{?_smp_mflags}
 
 
 %install
-make install_sw INSTALL_PREFIX=%{buildroot}
+make install_sw DESTDIR=%{buildroot}
 
 chmod 0755 %{buildroot}%{openssl_prefix}/lib/*.so*
 chmod 0755 %{buildroot}%{openssl_prefix}/lib/*/*.so*
@@ -80,7 +83,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{openssl_prefix}/bin/openssl
 %attr(0755,root,root) %{openssl_prefix}/lib/*.so*
 %attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
-%attr(0644,root,root) %{openssl_prefix}/openssl.cnf
 
 
 %files devel
@@ -91,6 +93,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
+- upgraded openresty-openssl to 1.1.0h.
+* Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
+- upgraded openssl to 1.0.2n.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
 - upgraded OpenSSL to 1.0.2k.
 * Fri Nov 25 2016 Yichun Zhang (agentzh)
@@ -100,7 +106,7 @@ rm -rf %{buildroot}
 our own libcrypto.so).
 * Sat Sep 24 2016 Yichun Zhang (agentzh)
 - upgrade to OpenSSL 1.0.2i.
-* Tue Aug 23 2016 zxcvbn4038
+* Tue Aug 23 2016 zxcvbn4038 1.0.2k
 - use openresty-zlib instead of the system one.
-* Sun Jul 13 2016 makerpm
+* Wed Jul 13 2016 makerpm 1.0.2h
 - initial build for OpenSSL 1.0.2h.

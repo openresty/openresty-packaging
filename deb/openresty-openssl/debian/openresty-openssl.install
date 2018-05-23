@@ -1,4 +1,3 @@
 usr/local/openresty/openssl/bin/openssl
 usr/local/openresty/openssl/lib/*.so*
 usr/local/openresty/openssl/lib/*/*.so*
-usr/local/openresty/openssl/openssl.cnf

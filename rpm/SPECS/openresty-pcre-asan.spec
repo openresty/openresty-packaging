@@ -1,7 +1,7 @@
-Name:               openresty-pcre
+Name:               openresty-pcre-asan
 Version:            8.42
-Release:            1%{?dist}
-Summary:            Perl-compatible regular expression library for OpenResty
+Release:            12%{?dist}
+Summary:            Clang AddressSanitizer version of the Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
 
@@ -11,15 +11,20 @@ Source0:            ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-%
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      libtool
+BuildRequires:      libtool, clang
 
 AutoReqProv:        no
 
-%define pcre_prefix     /usr/local/openresty/pcre
+%define pcre_prefix     /usr/local/openresty-asan/pcre
+
+%if 0%{?el6}
+%undefine _missing_build_ids_terminate_build
+%endif
 
 
 %description
-Perl-compatible regular expression library for use by OpenResty ONLY
+Perl-compatible regular expression library for use by OpenResty ONLY.
+This is the clang AddressSanitizer version.
 
 
 %package devel
@@ -29,7 +34,8 @@ Requires:           %{name} = %{version}-%{release}
 
 
 %description devel
-Development files for Perl-compatible regular expression library for use by OpenResty ONLY
+Development files for Perl-compatible regular expression library for use by OpenResty ONLY.
+This is the clang AddressSanitizer version.
 
 
 %prep
@@ -37,6 +43,10 @@ Development files for Perl-compatible regular expression library for use by Open
 
 
 %build
+export CC="clang -fsanitize=address"
+export CFLAGS="-O1 -fno-omit-frame-pointer -g"
+export ASAN_OPTIONS=detect_leaks=0
+
 ./configure \
   --prefix=%{pcre_prefix} \
   --disable-cpp \
@@ -77,9 +87,9 @@ rm -rf %{buildroot}
 - upgraded openresty-pcre to 8.42.
 * Thu Nov 2 2017 Yichun Zhang (agentzh)
 - upgraded PCRE to 8.41.
-* Sun Mar 19 2017 Yichun Zhang (agentzh)
-- upgraded PCRE to 8.40.
-* Sat Sep 24 2016 Yichun Zhang
-- disable the C++ support in build. thanks luto.
-* Tue Aug 23 2016 zxcvbn4038
-- initial build for pcre 8.39.
+* Sat Jul 15 2017 Yichun Zhang (agentzh) 8.40-3
+- fixed changelog dates.
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 8.40-2
+- fixed spec for CentOS 6 regarding missing build id issues.
+* Fri Jul 14 2017 Yichun Zhang (agentzh) 8.40-1
+- initial build for PCRE 8.40.

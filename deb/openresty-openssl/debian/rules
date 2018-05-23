@@ -28,7 +28,8 @@ export QA_RPATHS=$[ 0x0002 ]
 override_dh_auto_configure:
 	./config \
 	  no-threads shared zlib -g \
-	  --openssldir=/usr/local/openresty/openssl \
+	  enable-ssl3 enable-ssl3-method \
+	  --prefix=/usr/local/openresty/openssl \
 	  --libdir=lib \
 	  -I/usr/local/openresty/zlib/include \
 	  -L/usr/local/openresty/zlib/lib \
@@ -37,13 +38,13 @@ override_dh_auto_configure:
 override_dh_usrlocal:
 
 override_dh_auto_install:
-	make install_sw INSTALL_PREFIX=$(CURDIR)/debian/tmp
+	make install_sw DESTDIR=$(CURDIR)/debian/tmp
 
 override_dh_install:
 	dh_install
-	rm -rf $DESTDIR/usr/local/openresty/openssl/bin/c_rehash
-	rm -rf $DESTDIR/usr/local/openresty/openssl/lib/pkgconfig
-	rm -rf $DESTDIR/usr/local/openresty/openssl/misc
+	rm -rf $(DESTDIR)/usr/local/openresty/openssl/bin/c_rehash
+	rm -rf $(DESTDIR)/usr/local/openresty/openssl/lib/pkgconfig
+	rm -rf $(DESTDIR)/usr/local/openresty/openssl/misc
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-openssl-dbgsym

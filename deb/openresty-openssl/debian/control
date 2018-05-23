@@ -16,13 +16,13 @@ Description: OpenSSL library for use by OpenResty ONLY
 Package: openresty-openssl-dev
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl (>= 1.1.0h)
 Description: Development files for OpenResty's OpenSSL library
  Provides C header and static library for OpenResty's OpenSSL library.
 
 Package: openresty-openssl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl (>= 1.1.0h)
 Description: Debug symbols for OpenResty's OpenSSL library
  Debug symbols for OpenResty's OpenSSL library.

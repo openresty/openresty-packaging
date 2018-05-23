@@ -1,16 +1,22 @@
-liblemplate-perl (0.15-1~[% distro %]1) [% distro %]; urgency=low
+liblemplate-perl (0.15-2~[% distro %]1) [% distro %]; urgency=high
+
+  * Updated for newer Perl and fixed bug in perllocal.pod.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 15 Jun 2017 12:57:55 -0700
+
+liblemplate-perl (0.15-1~[% distro %]1) [% distro %]; urgency=high
 
   * Upgraded to CPAN release 0.15.
 
  -- OpenResty Admin <admin@openresty.com>  Thu, 15 Jun 2017 12:57:55 -0700
 
-liblemplate-perl (0.14-1~[% distro %]1) [% distro %]; urgency=low
+liblemplate-perl (0.14-1~[% distro %]1) [% distro %]; urgency=high
 
   * Fixed the repository link.
 
  -- OpenResty Admin <admin@openresty.com>  Tue, 6 Jun 2017 12:57:55 -0700
 
-liblemplate-perl (0.13-1~[% distro %]1) [% distro %]; urgency=low
+liblemplate-perl (0.13-1~[% distro %]1) [% distro %]; urgency=high
 
   * Initial Release.
 

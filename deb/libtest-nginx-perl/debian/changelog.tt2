@@ -1,4 +1,16 @@
-libtest-nginx-perl (0.26-1~[% distro %]1) [% distro %]; urgency=low
+libtest-nginx-perl (0.26-3~[% distro %]1) [% distro %]; urgency=high
+
+  * Excluded perllocal.pod.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 15 May 2018 20:00:57 -0700
+
+libtest-nginx-perl (0.26-2~[% distro %]1) [% distro %]; urgency=high
+
+  * Rebuilt with new Perl.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 15 May 2018 15:00:57 -0700
+
+libtest-nginx-perl (0.26-1~[% distro %]1) [% distro %]; urgency=high
 
   * Initial Release.
 

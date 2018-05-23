@@ -15,7 +15,7 @@ Description: Debug version of the OpenSSL library for OpenResty
 Package: openresty-openssl-debug-dev
 Section: libdevel
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl-debug
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl-debug (>= 1.1.0h)
 Description: Development files for OpenResty's OpenSSL library - debug version
  Provides C header and static library for OpenResty's debug version of OpenSSL
  library.
@@ -23,6 +23,6 @@ Description: Development files for OpenResty's OpenSSL library - debug version
 Package: openresty-openssl-debug-dbgsym
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl-debug
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl-debug (>= 1.1.0h)
 Description: Debug symbols for OpenResty's OpenSSL library - debug version
  Debug symbols for OpenResty's debug version of OpenSSL library.

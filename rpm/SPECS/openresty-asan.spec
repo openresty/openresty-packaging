@@ -1,6 +1,6 @@
 Name:           openresty-asan
-Version:        1.13.6.1
-Release:        1%{?dist}
+Version:        1.13.6.2
+Release:        5%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -19,12 +19,12 @@ BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl-asan-devel >= 1.0.2k-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.40-3
+BuildRequires:  openresty-openssl-asan-devel >= 1.1.0h-1
+BuildRequires:  openresty-pcre-asan-devel >= 8.42-1
 
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl-asan >= 1.0.2k-1
-Requires:       openresty-pcre-asan >= 8.40-3
+Requires:       openresty-openssl-asan >= 1.1.0h-1
+Requires:       openresty-pcre-asan >= 8.42-1
 
 AutoReqProv:        no
 
@@ -35,6 +35,11 @@ AutoReqProv:        no
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
 %endif
 
 
@@ -149,6 +154,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1
+- upgraded openresty to 1.13.6.2.
 * Sun Nov 12 2017 Yichun Zhang (agentzh) 1.13.6.1-1
 - upgraded openresty to 1.13.6.1.
 * Thu Sep 21 2017 Yichun Zhang (agentzh) 1.11.2.5-2
