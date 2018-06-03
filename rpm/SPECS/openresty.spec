@@ -174,6 +174,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-threads \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     --with-dtrace-probes \
+    --with-http_image_filter_module=dynamic \
+    --with-http_geoip_module=dynamic \
+    --with-http_xslt_module=dynamic \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -225,6 +228,7 @@ fi
 %{orprefix}/lualib/*
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
+%{orprefix}/nginx/modules/*
 %{orprefix}/nginx/sbin/*
 %{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
@@ -260,6 +264,8 @@ fi
 
 
 %changelog
+* Sun Jun 03 2018 Ed Whitehead (edrw-bt) 1.13.6.2-2
+- added image filter, xslt filter, and geo ip modules as dynamic nginx modules
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1
 - upgraded openresty to 1.13.6.2.
 * Sun Nov 12 2017 Yichun Zhang (agentzh) 1.13.6.1-1
