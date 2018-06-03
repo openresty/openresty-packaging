@@ -136,7 +136,7 @@ Ubuntu/Debian
 For Ubuntu 14.04+ and Debian 7.x+:
 
 ```bash
-sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb libgd-dev libgeoip-dev libxslt1-dev
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
