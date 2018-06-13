@@ -1,12 +1,12 @@
 Name:           openresty-gdb
 Version:        8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
 Group:          Development/Debuggers
 URL:            https://www.gnu.org/home.en.html
-Source0:        https://ftp.gnu.org/gnu/gdb/gdb-8.1.tar.xz
+Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
 
 AutoReqProv:    no
 
@@ -20,7 +20,7 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel
 BuildRequires: make
-BuildRequires: gcc-c++
+BuildRequires: gcc gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.6.5-1

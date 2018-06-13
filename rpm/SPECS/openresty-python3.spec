@@ -1,12 +1,12 @@
 Name:           openresty-python3
 Version:        3.6.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
 License:        PSFL
 URL:            https://www.python.org/
-Source0:        https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz
+Source0:        https://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 
 AutoReqProv:    no
 
@@ -22,7 +22,7 @@ AutoReqProv:    no
 %endif
 
 BuildRequires: glibc-devel
-BuildRequires: gcc-c++
+BuildRequires: gcc
 BuildRequires: make
 
 
@@ -65,14 +65,14 @@ make \
 %{_prefix}/bin/*
 %{_prefix}/lib/*
 %exclude %{_prefix}/share/*
-%exclude %{_prefix}/lib/python3.6/config-3.6m-x86_64-linux-gnu
+%exclude %{_prefix}/lib/python*/config-*-x86_64-linux-gnu
 
 
 %files devel
 %defattr(-, root, root)
 
 %{_prefix}/include/*
-%{_prefix}/lib/python3.6/config-3.6m-x86_64-linux-gnu
+%{_prefix}/lib/python*/config-*-x86_64-linux-gnu
 
 
 %changelog
