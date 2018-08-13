@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        8.1.1
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -24,8 +24,10 @@ BuildRequires: gcc gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.6.5-1
+BuildRequires: xz-devel, ncurses-devel
 
 Requires: openresty-python3 >= 3.6.5-1
+Requires: xz-libs, gmp, mpfr, glibc, libstdc++, expat, ncurses-libs
 
 
 %description
