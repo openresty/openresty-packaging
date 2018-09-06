@@ -1,6 +1,6 @@
 Name:           openresty-gdb
-Version:        8.1.1
-Release:        4%{?dist}
+Version:        8.2
+Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
