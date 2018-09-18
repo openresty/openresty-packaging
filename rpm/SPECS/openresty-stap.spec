@@ -35,10 +35,12 @@ BuildRequires: pkgconfig(avahi-client)
 BuildRequires: m4
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
+BuildRequires: python-setuptools
 
 Requires: xz-libs
 Requires: kernel-devel-uname-r
 Requires: gcc make
+Requires: openresty-stap-runtime = %{version}-%{release}
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
@@ -104,6 +106,19 @@ install -c -m 755 stap-prep %{buildroot}%{stap_prefix}/bin/stap-prep
 
 install -D -m 644 macros.systemtap %{buildroot}%{_rpmmacrodir}/macros.systemtap
 
+# remove useless files
+rm -rf %{buildroot}%{stap_prefix}/share/man
+rm -rf %{buildroot}%{stap_prefix}/share/systemtap/examples
+rm -rf %{buildroot}%{stap_prefix}/share/locale
+rm -rf %{buildroot}%{stap_prefix}/lib64/python2.7
+rm -f %{buildroot}%{stap_prefix}/bin/stap-server
+rm -f %{buildroot}%{stap_prefix}/bin/stapbpf
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-env
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-gen-cert
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-serverd
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-sign-module
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-start-server
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-stop-server
 
 %clean
 rm -rf %{buildroot}
