@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.13.6.2.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -32,6 +32,9 @@ AutoReqProv:        no
 %define openssl_prefix      %{_usr}/local/%{name}/openssl
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
+
+# alas. clang does not really support -Og
+%define asan_cc_opts      -O1 -fno-omit-frame-pointer -fno-inline
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
@@ -84,7 +87,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --prefix="%{orprefix}" \
     --with-debug \
     --with-cc="clang -fsanitize=address" \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{asan_cc_opts}" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -136,7 +139,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND %{asan_cc_opts}' \
     --with-no-pool-patch \
     %{?_smp_mflags} 1>&2
 
@@ -198,6 +201,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Sep 19 2018 Yichun Zhang (agentzh) 1.13.6.2.25-2
+- use gcc options -O1 -fno-omit-frame-pointer -fno-inline instead of -O1.
 * Mon Sep 17 2018 Yichun Zhang (agentzh) 1.13.6.2.25-1
 - upgraded openresty-plus to 1.13.6.2.25.
 * Wed Sep 5 2018 Yichun Zhang (agentzh) 1.13.6.2.24-1

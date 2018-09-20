@@ -32,6 +32,12 @@ AutoReqProv:        no
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 
+%if 0%{?el6}
+%define debug_cc_opts      -O1 -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
+%else
+%define debug_cc_opts      -Og -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
+%endif
+
 # Remove source code from debuginfo package.
 %define __debug_install_post \
   %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
@@ -76,7 +82,7 @@ a single box.
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -fno-inline -Og -D_FORTIFY_SOURCE=2" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{debug_cc_opts}" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -128,7 +134,7 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -fno-inline -Og -D_FORTIFY_SOURCE=2' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT %{debug_cc_opts}' \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
@@ -190,7 +196,7 @@ rm -rf %{buildroot}
 
 %changelog
 * Wed Sep 19 2018 Yichun Zhang (agentzh) 1.13.6.2.25-2
-- use gcc options -fno-inline -Og -D_FORTIFY_SOURCE=2 instead of -O0.
+- use gcc options -Og -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once instead of -O0.
 * Mon Sep 17 2018 Yichun Zhang (agentzh) 1.13.6.2.25-1
 - upgraded openresty-plus to 1.13.6.2.25.
 * Wed Sep 5 2018 Yichun Zhang (agentzh) 1.13.6.2.24-1
