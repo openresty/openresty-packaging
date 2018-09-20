@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.13.6.2.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -76,7 +76,7 @@ a single box.
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -fno-inline -Og -D_FORTIFY_SOURCE=2" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -128,7 +128,7 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -fno-inline -Og -D_FORTIFY_SOURCE=2' \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
@@ -189,6 +189,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Sep 19 2018 Yichun Zhang (agentzh) 1.13.6.2.25-2
+- use gcc options -fno-inline -Og -D_FORTIFY_SOURCE=2 instead of -O0.
 * Mon Sep 17 2018 Yichun Zhang (agentzh) 1.13.6.2.25-1
 - upgraded openresty-plus to 1.13.6.2.25.
 * Wed Sep 5 2018 Yichun Zhang (agentzh) 1.13.6.2.24-1
