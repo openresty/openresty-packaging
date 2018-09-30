@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.13.6.2.25
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -87,7 +87,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --prefix="%{orprefix}" \
     --with-debug \
     --with-cc="clang -fsanitize=address" \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{asan_cc_opts}" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{asan_cc_opts} -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -139,7 +139,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND %{asan_cc_opts}' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND %{asan_cc_opts} -g3' \
     --with-no-pool-patch \
     %{?_smp_mflags} 1>&2
 

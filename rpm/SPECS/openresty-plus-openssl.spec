@@ -1,6 +1,6 @@
 Name:               openresty-plus-openssl
 Version:            1.0.2n
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            OpenSSL library for OpenResty Plus
 
 Group:              Development/Libraries
@@ -47,7 +47,7 @@ Provides C header and static library for OpenResty Plus's OpenSSL library.
 
 %build
 ./config \
-    no-threads shared zlib -g \
+    no-threads shared zlib -g3 \
     --openssldir=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \

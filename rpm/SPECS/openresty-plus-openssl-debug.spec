@@ -1,6 +1,6 @@
 Name:               openresty-plus-openssl-debug
 Version:            1.0.2n
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty Plus
 
 Group:              Development/Libraries
@@ -48,7 +48,7 @@ Provides C header and static library for the debug version of OpenResty Plus's O
 %build
 ./config \
     no-threads no-asm \
-    shared zlib -g -O0 -DPURIFY \
+    shared zlib -g3 -O0 -DPURIFY \
     --openssldir=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \

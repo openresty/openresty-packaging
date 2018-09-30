@@ -55,7 +55,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./config \
     no-threads no-asm \
     enable-ssl3 enable-ssl3-method \
-    shared zlib -g -O1 -DPURIFY \
+    shared zlib -g3 -O1 -DPURIFY \
     --prefix=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \

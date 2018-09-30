@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.13.6.2.25
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -153,7 +153,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %build
 ./configure \
     --prefix="%{orprefix}" \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
@@ -203,7 +203,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3' \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
