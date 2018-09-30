@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -12,6 +12,7 @@ AutoReqProv:    no
 
 
 %define _prefix /usr/local/openresty-gdb
+%define py_prefix /usr/local/openresty-python3
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
@@ -23,15 +24,15 @@ BuildRequires: make
 BuildRequires: gcc gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
-BuildRequires: openresty-python3-devel >= 3.6.5-1
+BuildRequires: openresty-python3-devel >= 3.7.0-2
 BuildRequires: xz-devel, ncurses-devel
 
-Requires: openresty-python3 >= 3.6.5-1
+Requires: openresty-python3 >= 3.7.0-2
 Requires: xz-libs, gmp, mpfr, glibc, libstdc++, expat, ncurses-libs
 
 
 %description
-This is OpenResty's gdb package
+This is OpenResty's gdb package.
 
 
 %prep
@@ -39,12 +40,9 @@ This is OpenResty's gdb package
 
 
 %build
-PY_PREFIX=/usr/local/openresty-python3
-GDB_PREFIX=%{_prefix}
-
-LDFLAGS="-L$PY_PREFIX/lib -Wl,-rpath,$PY_PREFIX/lib" \
-    ./configure --with-python=$PY_PREFIX/bin/python3 \
-    --prefix=$GDB_PREFIX --without-guile
+LDFLAGS="-L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
+    ./configure --with-python=%{py_prefix}/bin/python3 \
+    --prefix=%{_prefix} --without-guile
 
 make %{?_smp_mflags}
 
