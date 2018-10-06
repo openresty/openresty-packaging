@@ -40,7 +40,7 @@ This is OpenResty's gdb package.
 
 
 %build
-LDFLAGS="-L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
+CXXFLAGS="-g3 -O2" CFLAGS="-g3 -O2" LDFLAGS="-L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
     ./configure --with-python=%{py_prefix}/bin/python3 \
     --prefix=%{_prefix} --without-guile
 

@@ -50,7 +50,8 @@ into other programs, and to make binary distributions for Python libraries.
 %build
 export PYTHONPATH=
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
-    LDFLAGS="-L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib"
+    LDFLAGS="-L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
+    CFLAGS="-g3"
 make %{?_smp_mflags}
 
 

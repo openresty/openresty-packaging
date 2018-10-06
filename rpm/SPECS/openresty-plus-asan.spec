@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
-Version:        1.13.6.2.25
-Release:        3%{?dist}
+Version:        1.13.6.2.26
+Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -201,6 +201,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Oct 6 2018 Yichun Zhang (agentzh) 1.13.6.2.26-1
+- upgraded openresty-plus to 1.13.6.2.26.
 * Wed Sep 19 2018 Yichun Zhang (agentzh) 1.13.6.2.25-2
 - use gcc options -O1 -fno-omit-frame-pointer -fno-inline instead of -O1.
 * Mon Sep 17 2018 Yichun Zhang (agentzh) 1.13.6.2.25-1
