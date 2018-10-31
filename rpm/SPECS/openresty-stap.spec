@@ -1,5 +1,5 @@
 Name:           openresty-stap
-Version:        3.3.0.8
+Version:        3.3.0.9
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
