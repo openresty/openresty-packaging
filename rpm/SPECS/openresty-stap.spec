@@ -119,6 +119,7 @@ rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-serverd
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-sign-module
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-start-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-stop-server
+rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/python/stap-resolve-module-function.py*
 
 %clean
 rm -rf %{buildroot}
