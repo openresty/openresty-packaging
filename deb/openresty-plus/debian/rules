@@ -79,7 +79,6 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
 	mkdir -p $(DESTDIR)/usr/bin
 	cd $(DESTDIR)/usr/bin
-	ln -sf ../local/openresty-plus/bin/resty $(DESTDIR)/usr/bin
 	#ln -sf ../local/openresty-plus/bin/restydoc $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty-plus/bin/opm $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty-plus/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-plus

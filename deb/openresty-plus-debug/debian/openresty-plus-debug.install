@@ -1,0 +1,11 @@
+usr/bin/openresty-plus-debug
+usr/local/openresty-plus-debug/bin/openresty-plus
+usr/local/openresty-plus-debug/site/lualib
+usr/local/openresty-plus-debug/luajit/*
+usr/local/openresty-plus-debug/lualib/*
+usr/local/openresty-plus-debug/lmdb/*
+usr/local/openresty-plus-debug/nginx/html/*
+usr/local/openresty-plus-debug/nginx/sbin/*
+usr/local/openresty-plus-debug/nginx/tapset/*
+usr/local/openresty-plus-debug/nginx/conf/*
+usr/local/openresty-plus-debug/nginx/logs

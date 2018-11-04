@@ -24,12 +24,13 @@ DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
 	openresty-valgrind-build openresty-plus-build \
-	lemplate-build test-nginx-build
+	lemplate-build test-nginx-build \
+	openresty-plus-debug-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 	openresty-clean openresty-debug-clean openresty-valgrind-clean \
-	openresty-plus-clean \
+	openresty-plus-clean openresty-plus-debug-clean \
 	lemplate-clean test-nginx-clean
 
 .PHONY: zlib-download
@@ -104,6 +105,31 @@ plus-openssl-clean:
 	find openresty-plus-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl' -print | xargs rm -rf
 	rm -f openresty-plus-openssl*.deb
 	rm -f openresty-plus-openssl_*.*
+
+.PHONY: plus-openssl-debug-download
+plus-openssl-debug-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
+	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-plus-openssl-debug_$(PLUS_SSL_VER).orig.tar.gz
+
+.PHONY: plus-openssl-debug-build
+plus-openssl-debug-build: | plus-openssl-debug-clean plus-openssl-debug-download
+	sudo apt-get -y -qq install openresty-zlib-dev
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-plus-openssl-debug_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl-debug
+	cd openresty-plus-openssl-debug \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: plus-openssl-debug-clean
+plus-openssl-debug-clean:
+	sudo apt-get -y -qq install openresty-zlib-dev
+	cd openresty-plus-openssl-debug && debclean
+	find openresty-plus-openssl-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl-debug' -print | xargs rm -rf
+	rm -f openresty-plus-openssl-debug*.deb
+	rm -f openresty-plus-openssl-debug_*.*
 
 .PHONY: openssl-download
 openssl-download:
@@ -302,5 +328,30 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 		&& debuild -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openresty-plus-debug-build
+openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev libgd-dev
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
+	cd openresty-plus-debug \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
+
+.PHONY: openresty-plus-debug-clean
+openresty-plus-debug-clean:
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev
+	cd openresty-plus-debug && debclean
+	find openresty-plus-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-debug' -print | xargs rm -rf
+	rm -f openresty-plus-debug*.deb
+	rm -f openresty-plus-debug_*.*
+
+.PHONY: openresty-plus-debug-download
+openresty-plus-debug-download:
+	rm -f *.orig.tar.*
+	rsync -crlvpP nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
+	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz
 
 ### Makefile ends here

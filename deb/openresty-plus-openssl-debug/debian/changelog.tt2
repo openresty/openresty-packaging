@@ -1,0 +1,11 @@
+openresty-plus-openssl-debug (1.0.2k-3~[% distro %]1) [% distro %]; urgency=low
+
+  * Fixed installation prefix
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Nov 2018 20:44:53 -0800
+
+openresty-plus-openssl-debug (1.0.2k-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 3 Nov 2018 15:17:31 -0700
