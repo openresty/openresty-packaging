@@ -1,0 +1,5 @@
+openresty-plus-openssl (1.0.2k-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 3 Nov 2018 15:17:31 -0700

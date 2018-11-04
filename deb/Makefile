@@ -12,6 +12,7 @@ JOBS=8
 ZLIB_VER=1.2.11
 PCRE_VER=8.42
 SSL_VER=1.1.0h
+PLUS_SSL_VER=1.0.2k
 OR_VER=1.13.6.1
 OR_PLUS_VER=1.13.6.2.26
 LEMPLATE_VER=0.15
@@ -78,6 +79,31 @@ pcre-clean:
 	rm -f openresty-pcre*.deb
 	rm -f openresty-pcre_*.*
 	#rm -f pcre-$(PCRE_VER).tar.bz2
+
+.PHONY: plus-openssl-download
+plus-openssl-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
+	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-plus-openssl_$(PLUS_SSL_VER).orig.tar.gz
+
+.PHONY: plus-openssl-build
+plus-openssl-build: | plus-openssl-clean plus-openssl-download
+	sudo apt-get -y -qq install openresty-zlib-dev
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-plus-openssl_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl
+	cd openresty-plus-openssl \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: plus-openssl-clean
+plus-openssl-clean:
+	sudo apt-get -y -qq install openresty-zlib-dev
+	cd openresty-plus-openssl && debclean
+	find openresty-plus-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl' -print | xargs rm -rf
+	rm -f openresty-plus-openssl*.deb
+	rm -f openresty-plus-openssl_*.*
 
 .PHONY: openssl-download
 openssl-download:
