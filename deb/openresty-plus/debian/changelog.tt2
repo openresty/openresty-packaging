@@ -1,3 +1,9 @@
+openresty-plus (1.13.6.2.27-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.13.6.2.27.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 5 Nov 2018 22:01:51 -0800
+
 openresty-plus (1.13.6.2.26-2~[% distro %]1) [% distro %]; urgency=high
 
   * fixed the lmdb packaging.
