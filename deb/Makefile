@@ -17,6 +17,8 @@ OR_VER=1.13.6.1
 OR_PLUS_VER=1.13.6.2.28
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.26
+ELFUTILS_VER=0.173
+STAP_VER=3.3.0.11
 OPTS=
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 
@@ -344,5 +346,34 @@ openresty-plus-debug-download:
 	rm -f *.orig.tar.*
 	rsync -crlvpP nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
 	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz
+
+.PHONY: stap-download
+stap-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://sourceware.org/elfutils/ftp/$(ELFUTILS_VER)/elfutils-$(ELFUTILS_VER).tar.bz2'
+	cp elfutils-$(ELFUTILS_VER).tar.bz2 openresty-stap-elfutils_$(ELFUTILS_VER).orig.tar.bz2
+	rsync -crlvpP nuc:~/work/systemtap-plus-$(STAP_VER).tar.gz .
+	cp systemtap-plus-$(STAP_VER).tar.gz openresty-stap-$(STAP_VER).orig.tar.gz
+
+.PHONY: stap-build
+stap-build: | stap-clean stap-download
+	sudo apt-get -y -qq install libnss3-dev libnspr4-dev libnss3-tools libavahi-client-dev m4
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	mkdir openresty-stap-elfutils
+	tar xf openresty-stap-elfutils_$(ELFUTILS_VER).orig.tar.bz2 --strip-components=1 -C openresty-stap-elfutils
+	tar xf openresty-stap-$(STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
+	cd openresty-stap \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: stap-clean
+stap-clean:
+	cd openresty-stap && debclean
+	find openresty-stap -maxdepth 1 ! -name 'debian' ! -name 'openresty-stap' -print | xargs rm -rf
+	rm -f openresty-stap*.deb
+	rm -f openresty-stap_*.*
+	rm -rf openresty-stap-elfutils
 
 ### Makefile ends here

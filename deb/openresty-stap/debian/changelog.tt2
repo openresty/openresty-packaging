@@ -1,0 +1,5 @@
+openresty-stap (3.3.0.11-1~[% distro %]1) [% distro %]; urgency=low
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 3 Nov 2018 18:48:30 -0700
