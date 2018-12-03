@@ -165,6 +165,8 @@ rm -rf %{buildroot}%{orprefix}/lmdb/bin/mdb_{copy,load,stat,drop}
 rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
+rm -rf %{buildroot}%{orprefix}/tcc/share
+rm -rf %{buildroot}%{orprefix}/tcc/lib/tcc/libtcc1.a
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
@@ -191,6 +193,9 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/tcc/bin/tcc
+%{orprefix}/tcc/lib/*
+%{orprefix}/tcc/include/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 
 

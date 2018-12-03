@@ -54,6 +54,12 @@ override_dh_auto_install:
 	dh_auto_install
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/luajit/share/man
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/lib/*.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/include
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/share
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/tcc/share
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/tcc/lib/tcc/libtcc1.a
 	mkdir -p $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty-plus-debug/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-plus-debug
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \

@@ -8,3 +8,4 @@ usr/local/openresty-plus/nginx/sbin/*
 usr/local/openresty-plus/nginx/conf/*
 usr/local/openresty-plus/nginx/logs
 usr/local/openresty-plus/lmdb/*
+usr/local/openresty-plus/tcc/*
