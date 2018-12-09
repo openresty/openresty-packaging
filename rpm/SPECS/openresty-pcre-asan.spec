@@ -1,6 +1,6 @@
 Name:               openresty-pcre-asan
 Version:            8.42
-Release:            12%{?dist}
+Release:            13%{?dist}
 Summary:            Clang AddressSanitizer version of the Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -19,6 +19,10 @@ AutoReqProv:        no
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
+%endif
+
+%if 0%{?fedora} >= 28
+BuildRequires:      compiler-rt
 %endif
 
 

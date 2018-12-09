@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.13.6.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -12,6 +12,7 @@ URL:            https://openresty.org/
 
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
+Patch0:         nginx-1.13.6-rm_glibc_crypt_r_workaround.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -42,6 +43,10 @@ AutoReqProv:        no
 %undefine _debuginfo_subpackages
 %endif
 
+%if 0%{?fedora} >= 28
+BuildRequires:      compiler-rt
+%endif
+
 
 %description
 This package contains a clang AddressSanitizer version of the core server
@@ -67,6 +72,7 @@ a single box.
 
 %prep
 %setup -q -n "openresty-%{version}"
+%patch0 -p1
 
 
 %build

@@ -1,0 +1,28 @@
+commit 1ef5c9ce6f03907dad1677d25f108d2bf59a5c15
+Author: Maxim Dounin <mdounin@mdounin.ru>
+Date:   Wed May 23 16:38:16 2018 +0300
+
+    Removed glibc crypt_r() bug workaround (ticket #1469).
+    
+    The bug in question was fixed in glibc 2.3.2 and is no longer expected
+    to manifest itself on real servers.  On the other hand, the workaround
+    causes compilation problems on various systems.  Previously, we've
+    already fixed the code to compile with musl libc (fd6fd02f6a4d), and
+    now it is broken on Fedora 28 where glibc's crypt library was replaced
+    by libxcrypt.  So the workaround was removed.
+
+diff --git a/bundle/nginx-1.13.6/src/os/unix/ngx_user.c b/bundle/nginx-1.13.6/src/os/unix/ngx_user.c
+index 7ebe2b57..b3d81d07 100644
+--- a/bundle/nginx-1.13.6/src/os/unix/ngx_user.c
++++ b/bundle/nginx-1.13.6/src/os/unix/ngx_user.c
+@@ -21,10 +21,6 @@ ngx_libc_crypt(ngx_pool_t *pool, u_char *key, u_char *salt, u_char **encrypted)
+     struct crypt_data   cd;
+ 
+     cd.initialized = 0;
+-#ifdef __GLIBC__
+-    /* work around the glibc bug */
+-    cd.current_salt[0] = ~salt[0];
+-#endif
+ 
+     value = crypt_r((char *) key, (char *) salt, &cd);
+ 
