@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.13.6.2
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -41,6 +41,10 @@ AutoReqProv:        no
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?fedora} >= 28
+BuildRequires:      compiler-rt
 %endif
 
 
