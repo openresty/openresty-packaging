@@ -1,6 +1,6 @@
 Name:           perl-Lemplate
 Version:        0.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lemplate Perl module
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -20,6 +20,7 @@ BuildRequires:  perl(File::Find::Rule)
 BuildRequires:  perl(Text::Glob)
 BuildRequires:  perl(Number::Compare)
 Requires:       perl(Template)
+AutoReqProv:    no
 #Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description
