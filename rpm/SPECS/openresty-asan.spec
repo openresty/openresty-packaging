@@ -12,6 +12,7 @@ URL:            https://openresty.org/
 
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
+Patch0:         nginx-1.13.6-rm_glibc_crypt_r_workaround.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -67,6 +68,7 @@ a single box.
 
 %prep
 %setup -q -n "openresty-%{version}"
+%patch0 -p1
 
 
 %build

@@ -13,6 +13,7 @@ URL:            https://openresty.org/
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 Source1:        openresty.init
 
+Patch0:         nginx-1.13.6-rm_glibc_crypt_r_workaround.patch
 #Patch0:         openresty-%{version}.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -140,7 +141,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %prep
 %setup -q -n "openresty-%{version}"
 
-#%patch0 -p1
+%patch0 -p1
 
 
 %build
