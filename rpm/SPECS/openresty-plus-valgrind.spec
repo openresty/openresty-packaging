@@ -1,5 +1,5 @@
 Name:           openresty-plus-valgrind
-Version:        1.13.6.2.32
+Version:        1.13.6.2.33
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
@@ -197,6 +197,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Dec 11 2018 Yichun Zhang (agentzh) 1.13.6.2.33-1
+- upgraded openresty-plus to 1.13.6.2.33.
 * Mon Dec 10 2018 Yichun Zhang (agentzh) 1.13.6.2.32-1
 - upgraded openresty-plus to 1.13.6.2.32.
 * Sun Dec 9 2018 Yichun Zhang (agentzh) 1.13.6.2.31-1
