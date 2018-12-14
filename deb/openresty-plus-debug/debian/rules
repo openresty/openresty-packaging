@@ -44,7 +44,7 @@ override_dh_auto_configure:
 	  --with-http_gunzip_module \
 	  --with-threads \
 	  --with-poll_module \
-	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -Og -g3' \
+	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -Og -g3 -DLUAJIT_ENABLE_GC64' \
 	  --with-dtrace-probes \
 	  -j$(NJBS)
 
@@ -59,7 +59,6 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/tcc/share
-	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/tcc/lib/tcc/libtcc1.a
 	mkdir -p $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty-plus-debug/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-plus-debug
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \

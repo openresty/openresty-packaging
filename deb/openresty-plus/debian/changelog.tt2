@@ -1,3 +1,11 @@
+openresty-plus (1.13.6.2.33-2~[% distro %]1) [% distro %]; urgency=high
+
+  * we incorrectly exclude libtcc1.a which is needed by the libtcc runtime.
+
+  * we enable GC64 mode in the bundled LuaJIT.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 11 Dec 2018 20:04:04 -0800
+
 openresty-plus (1.13.6.2.33-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.13.6.2.33.

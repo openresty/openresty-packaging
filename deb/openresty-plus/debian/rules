@@ -68,7 +68,7 @@ override_dh_auto_configure:
 	  --with-http_gzip_static_module \
 	  --with-http_gunzip_module \
 	  --with-threads \
-	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3' \
+	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
 	  -j$(NJBS)
 
 override_dh_usrlocal:
@@ -82,7 +82,6 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/lib/tcc/libtcc1.a
 	mkdir -p  $(DESTDIR)/usr/bin
 	#ln -sf ../local/openresty-plus/bin/restydoc $(DESTDIR)/usr/bin
 	ln -sf ../local/openresty-plus/bin/opm $(DESTDIR)/usr/bin
