@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.13.6.2.33
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -74,6 +74,30 @@ web applications that are capable to handle 10K ~ 1000K+ connections in
 a single box.
 
 
+%package resty
+
+Summary:        OpenResty+ command-line utility, resty (debug version)
+Group:          Development/Tools
+Requires:       perl, openresty-plus-debug >= %{version}-%{release}
+Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
+
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
+BuildArch:      noarch
+%endif
+
+
+%description resty
+This package contains the "resty" command-line utility for OpenResty+, which
+runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
+scene.
+
+OpenResty is a full-fledged web platform by integrating the standard Nginx
+core, LuaJIT, many carefully written Lua libraries, lots of high quality
+3rd-party Nginx modules, and most of their external dependencies. It is
+designed to help developers easily build scalable web applications, web
+services, and dynamic web gateways.
+
+
 %prep
 %setup -q -n "openresty-plus-%{version}"
 
@@ -134,7 +158,7 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT %{debug_cc_opts} -g3' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT %{debug_cc_opts} -g3 -DLUAJIT_ENABLE_GC64' \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
@@ -155,7 +179,6 @@ popd
 
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
 rm -rf %{buildroot}%{orprefix}/luajit/lib/libluajit-5.1.a
-rm -rf %{buildroot}%{orprefix}/bin/resty
 rm -rf %{buildroot}%{orprefix}/bin/md2pod.pl
 rm -rf %{buildroot}%{orprefix}/bin/nginx-xml2pod
 rm -rf %{buildroot}%{orprefix}/bin/opm
@@ -166,7 +189,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
 rm -rf %{buildroot}%{orprefix}/tcc/share
-rm -rf %{buildroot}%{orprefix}/tcc/lib/tcc/libtcc1.a
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
@@ -197,6 +219,12 @@ rm -rf %{buildroot}
 %{orprefix}/tcc/lib/*
 %{orprefix}/tcc/include/*
 %config(noreplace) %{orprefix}/nginx/conf/*
+
+
+%files resty
+%defattr(-,root,root,-)
+
+%{orprefix}/bin/resty
 
 
 %changelog

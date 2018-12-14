@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.13.6.2.33
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -203,7 +203,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     %{?_smp_mflags} 1>&2
 
 make %{?_smp_mflags}
@@ -228,7 +228,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
 rm -rf %{buildroot}%{orprefix}/tcc/share
-rm -rf %{buildroot}%{orprefix}/tcc/lib/tcc/libtcc1.a
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/

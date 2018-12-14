@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
 Version:        1.13.6.2.33
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -130,7 +130,7 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0 -g3' \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0 -g3 -DLUAJIT_ENABLE_GC64' \
     --with-no-pool-patch \
     %{?_smp_mflags} 1>&2
 
@@ -163,7 +163,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/lib/*.a
 rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
 rm -rf %{buildroot}%{orprefix}/tcc/share
-rm -rf %{buildroot}%{orprefix}/tcc/lib/tcc/libtcc1.a
 
 mkdir -p %{buildroot}/usr/bin
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
