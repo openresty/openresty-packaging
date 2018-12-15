@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
-Version:        1.13.6.2.33
-Release:        2%{?dist}
+Version:        1.13.6.2.34
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -228,6 +228,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Dec 14 2018 Yichun Zhang (agentzh) 1.13.6.2.34-1
+- upgraded openresty-plus to 1.13.6.2.34.
 * Tue Dec 11 2018 Yichun Zhang (agentzh) 1.13.6.2.33-1
 - upgraded openresty-plus to 1.13.6.2.33.
 * Mon Dec 10 2018 Yichun Zhang (agentzh) 1.13.6.2.32-1
