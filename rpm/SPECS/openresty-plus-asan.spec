@@ -21,10 +21,12 @@ BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
 BuildRequires:  openresty-plus-openssl-asan-devel
 BuildRequires:  openresty-pcre-asan-devel >= 8.41-1
 BuildRequires:  gd-devel
+BuildRequires:  glibc-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-plus-openssl-asan
 Requires:       openresty-pcre-asan >= 8.41-1
 Requires:       gd
+Requires:       glibc-devel
 
 AutoReqProv:        no
 

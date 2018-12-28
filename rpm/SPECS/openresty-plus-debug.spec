@@ -20,10 +20,12 @@ BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-plus-openssl-debug-devel
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
+BuildRequires:  glibc-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl-debug
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
+Requires:       glibc-devel
 
 AutoReqProv:        no
 

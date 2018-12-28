@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
  openresty-zlib-dev, openresty-plus-openssl-dev (>= 1.0.2k), openresty-pcre-dev (>= 8.42),
- perl, libfile-temp-perl, libgd-dev
+ perl, libfile-temp-perl, libgd-dev, libc6-dev
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
