@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.0.0.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -36,11 +36,13 @@ BuildRequires: m4
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
 BuildRequires: python-setuptools
+BuildRequires: avahi-devel
 
 Requires: xz-libs
 Requires: kernel-devel-uname-r
 Requires: gcc make
 Requires: openresty-stap-runtime = %{version}-%{release}
+Requires: avahi-libs
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
