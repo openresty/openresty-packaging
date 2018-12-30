@@ -13,7 +13,7 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
 }
 
 for my $specfile (reverse sort glob 'openresty-plus*.spec') {
-    if ($specfile !~ /openssl/) {
+    if ($specfile !~ /openssl/ && $specfile !~ /hyperscan/) {
         update_spec $specfile;
     }
 }

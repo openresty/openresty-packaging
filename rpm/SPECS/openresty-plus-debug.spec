@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
-Version:        1.13.6.2.42
-Release:        2%{?dist}
+Version:        1.13.6.2.43
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -21,6 +21,7 @@ BuildRequires:  openresty-plus-openssl-debug-devel
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
+BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl-debug
 Requires:       openresty-pcre >= 8.41-1
@@ -227,6 +228,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Dec 30 2018 Yichun Zhang (agentzh) 1.13.6.2.43-1
+- upgraded openresty-plus to 1.13.6.2.43.
 * Thu Dec 27 2018 Yichun Zhang (agentzh) 1.13.6.2.42-1
 - upgraded openresty-plus to 1.13.6.2.42.
 * Mon Dec 24 2018 Yichun Zhang (agentzh) 1.13.6.2.41-1

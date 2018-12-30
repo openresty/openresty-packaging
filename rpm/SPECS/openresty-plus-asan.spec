@@ -1,5 +1,5 @@
 Name:           openresty-plus-asan
-Version:        1.13.6.2.42
+Version:        1.13.6.2.43
 Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
@@ -22,6 +22,7 @@ BuildRequires:  openresty-plus-openssl-asan-devel
 BuildRequires:  openresty-pcre-asan-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
+BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-plus-openssl-asan
 Requires:       openresty-pcre-asan >= 8.41-1
@@ -207,6 +208,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Dec 30 2018 Yichun Zhang (agentzh) 1.13.6.2.43-1
+- upgraded openresty-plus to 1.13.6.2.43.
 * Thu Dec 27 2018 Yichun Zhang (agentzh) 1.13.6.2.42-1
 - upgraded openresty-plus to 1.13.6.2.42.
 * Mon Dec 24 2018 Yichun Zhang (agentzh) 1.13.6.2.41-1
