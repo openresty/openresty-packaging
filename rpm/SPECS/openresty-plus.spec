@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.13.6.2.42
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -231,10 +231,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
 rm -rf %{buildroot}%{orprefix}/tcc/share
 
-mkdir -p %{buildroot}/usr/bin
-ln -sf %{orprefix}/bin/resty %{buildroot}/usr/bin/
-ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
-ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 #mkdir -p %{buildroot}/etc/init.d
 
@@ -249,7 +245,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
-/usr/bin/%{name}
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
 %{orprefix}/site/lualib/
@@ -269,7 +264,6 @@ rm -rf %{buildroot}
 %files resty
 %defattr(-,root,root,-)
 
-/usr/bin/resty
 %{orprefix}/bin/resty
 
 
@@ -283,7 +277,6 @@ rm -rf %{buildroot}
 %files opm
 %defattr(-,root,root,-)
 
-/usr/bin/opm
 %{orprefix}/bin/opm
 %{orprefix}/site/manifest/
 %{orprefix}/site/pod/

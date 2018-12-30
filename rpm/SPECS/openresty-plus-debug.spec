@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.13.6.2.42
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -192,8 +192,6 @@ rm -rf %{buildroot}%{orprefix}/lmdb/include
 rm -rf %{buildroot}%{orprefix}/lmdb/share
 rm -rf %{buildroot}%{orprefix}/tcc/share
 
-mkdir -p %{buildroot}/usr/bin
-ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 # to suppress the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -206,7 +204,6 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
-/usr/bin/%{name}
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
 %{orprefix}/site/lualib/

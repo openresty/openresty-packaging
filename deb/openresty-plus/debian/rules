@@ -82,10 +82,6 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
-	mkdir -p  $(DESTDIR)/usr/bin
-	#ln -sf ../local/openresty-plus/bin/restydoc $(DESTDIR)/usr/bin
-	ln -sf ../local/openresty-plus/bin/opm $(DESTDIR)/usr/bin
-	ln -sf ../local/openresty-plus/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-plus
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
