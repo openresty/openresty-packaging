@@ -19,7 +19,8 @@ LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.26
 ELFUTILS_VER=0.173
 STAP_VER=4.0.0.1
-OPTS=
+HYPERSCAN_VER=5.0.0
+OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 
 .PHONY: build
@@ -27,13 +28,13 @@ build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
 	openresty-valgrind-build openresty-plus-build \
 	lemplate-build test-nginx-build \
-	openresty-plus-debug-build
+	openresty-plus-debug-build hyperscan-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 	openresty-clean openresty-debug-clean openresty-valgrind-clean \
 	openresty-plus-clean openresty-plus-debug-clean \
-	lemplate-clean test-nginx-clean
+	lemplate-clean test-nginx-clean hyperscan-clean
 
 .PHONY: zlib-download
 zlib-download:
@@ -161,7 +162,7 @@ openssl-debug-build: | openssl-debug-clean openssl-debug-download
 	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
 	cd openresty-openssl-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -216,7 +217,7 @@ openresty-debug-build: | openresty-debug-clean openresty-debug-download
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -240,7 +241,7 @@ openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -295,7 +296,7 @@ lemplate-build: | lemplate-clean lemplate-download
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -319,7 +320,7 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -375,5 +376,29 @@ stap-clean:
 	rm -f openresty-stap*.deb
 	rm -f openresty-stap_*.*
 	rm -rf openresty-stap-elfutils
+
+.PHONY: hyperscan-download
+hyperscan-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://github.com/intel/hyperscan/archive/v$(HYPERSCAN_VER).tar.gz'
+	cp v$(HYPERSCAN_VER).tar.gz openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz
+
+.PHONY: hyperscan-build
+hyperscan-build: | hyperscan-clean hyperscan-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	sudo apt-get -y -qq install cmake ragel libboost-dev python libsqlite3-dev
+	tar xf openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz --strip-components=1 -C openresty-plus-hyperscan
+	cd openresty-plus-hyperscan \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: hyperscan-clean
+hyperscan-clean:
+	cd openresty-plus-hyperscan && debclean
+	find openresty-plus-hyperscan -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-hyperscan' -print | xargs rm -rf
+	rm -f openresty-plus-hyperscan*.deb
+	rm -f openresty-plus-hyperscan_*.*
 
 ### Makefile ends here

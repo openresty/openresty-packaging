@@ -1,0 +1,5 @@
+openresty-plus-hyperscan (5.0.0-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Initial release
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 22 Dec 2018 23:08:33 +0800

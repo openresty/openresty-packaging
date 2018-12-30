@@ -1,0 +1,52 @@
+Source: openresty-plus-hyperscan
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>=9),
+               cmake (>=2.8.11),
+               ragel (>=6.8),
+               libboost-dev (>=1.57),
+               python (>=2.7),
+               po-debconf,
+               libsqlite3-dev,
+               pkg-config
+Standards-Version: 5.0.0
+Homepage: https://www.hyperscan.io
+
+Package: openresty-plus-hyperscan
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Pre-Depends: debconf, libstdc++6
+Description: High-performance regular expression matching library for OpenResty Plus
+ Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
+ follows the regular expression syntax of the commonly-used libpcre
+ library, but is a standalone library with its own C API.
+
+Package: openresty-plus-hyperscan-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-hyperscan
+Description: Libraries and header files for the hyperscan library of OpenResty Plus
+ Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
+ follows the regular expression syntax of the commonly-used libpcre
+ library, but is a standalone library with its own C API.
+ .
+ This package provides the libraries, include files and other resources
+ needed for developing Hyperscan applications.
+
+Package: openresty-plus-hyperscan-runtime
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Runtime for the hyperscan library of OpenResty Plus
+ Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
+ follows the regular expression syntax of the commonly-used libpcre
+ library, but is a standalone library with its own C API.
+
+Package: openresty-plus-hyperscan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-hyperscan
+Description: Debug symbols for Runtime for the hyperscan library of OpenResty Plus
+ Debug symbols for Runtime for the hyperscan library of OpenResty Plus

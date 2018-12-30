@@ -1,0 +1,3 @@
+usr/local/openresty-plus/lualib/libhs.so
+usr/local/openresty-plus-debug/lualib/libhs.so
+usr/local/openresty-plus/hyperscan/lib/x86_64-linux-gnu/libhs.so*
