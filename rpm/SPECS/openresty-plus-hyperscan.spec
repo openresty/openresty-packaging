@@ -73,7 +73,7 @@ This package provides the runtime for Hyperscan.
 
 ln -sf ../boost_%{boost_version}/boost include/boost
 
-%cmake -DCMAKE_INSTALL_PREFIX:PATH=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
+cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
 make %{?_smp_mflags}
 
 %install
