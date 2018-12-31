@@ -254,7 +254,7 @@ openresty-valgrind-clean:
 
 .PHONY: openresty-plus-build
 openresty-plus-build: | openresty-plus-clean openresty-plus-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-dev libgd-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-dev libgd-dev openresty-plus-hyperscan-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
@@ -326,7 +326,7 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 
 .PHONY: openresty-plus-debug-build
 openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev libgd-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev libgd-dev openresty-plus-hyperscan-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
 	cd openresty-plus-debug \

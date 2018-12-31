@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
  systemtap-sdt-dev,
  openresty-zlib-dev, openresty-plus-openssl-debug-dev (>= 1.0.2k),
  openresty-pcre-dev (>= 8.42),
- perl, libfile-temp-perl, libc6-dev
+ perl, libfile-temp-perl, libc6-dev, openresty-plus-hyperscan-dev
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
