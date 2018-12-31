@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.13.6.2.43
+Version:        1.13.6.2.44
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -111,6 +111,7 @@ services, and dynamic web gateways.
     --with-debug \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{debug_cc_opts} -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+    --with-lua_resty_hyperscan \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -228,6 +229,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Dec 30 2018 Yichun Zhang (agentzh) 1.13.6.2.44-1
+- upgraded openresty-plus to 1.13.6.2.44.
 * Sun Dec 30 2018 Yichun Zhang (agentzh) 1.13.6.2.43-1
 - upgraded openresty-plus to 1.13.6.2.43.
 * Thu Dec 27 2018 Yichun Zhang (agentzh) 1.13.6.2.42-1
