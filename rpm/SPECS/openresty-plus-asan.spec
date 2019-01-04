@@ -1,5 +1,5 @@
 Name:           openresty-plus-asan
-Version:        1.13.6.2.47
+Version:        1.13.6.2.48
 Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
@@ -209,6 +209,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jan 4 2019 Yichun Zhang (agentzh) 1.13.6.2.48-1
+- upgraded openresty-plus to 1.13.6.2.48.
 * Thu Jan 3 2019 Yichun Zhang (agentzh) 1.13.6.2.47-1
 - upgraded openresty-plus to 1.13.6.2.47.
 * Tue Jan 1 2019 Yichun Zhang (agentzh) 1.13.6.2.46-1

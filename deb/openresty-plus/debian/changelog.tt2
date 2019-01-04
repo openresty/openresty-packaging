@@ -1,3 +1,9 @@
+openresty-plus (1.13.6.2.48-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.13.6.2.48.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 4 Jan 2019 15:06:12 -0800
+
 openresty-plus (1.13.6.2.47-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.13.6.2.47.
