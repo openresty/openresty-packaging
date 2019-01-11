@@ -22,6 +22,7 @@ STAP_VER=4.0.0.1
 HYPERSCAN_VER=5.0.0
 OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
@@ -92,7 +93,7 @@ plus-openssl-download:
 
 .PHONY: plus-openssl-build
 plus-openssl-build: | plus-openssl-clean plus-openssl-download
-	sudo apt-get -y -qq install openresty-zlib-dev
+	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-openssl_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl
 	cd openresty-plus-openssl \
@@ -116,7 +117,7 @@ plus-openssl-debug-download:
 
 .PHONY: plus-openssl-debug-build
 plus-openssl-debug-build: | plus-openssl-debug-clean plus-openssl-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev
+	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-openssl-debug_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl-debug
 	cd openresty-plus-openssl-debug \
@@ -140,7 +141,7 @@ openssl-download:
 
 .PHONY: openssl-build
 openssl-build: | openssl-clean openssl-download
-	sudo apt-get -y -qq install openresty-zlib-dev
+	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl
 	cd openresty-openssl \
@@ -157,7 +158,7 @@ openssl-debug-download:
 
 .PHONY: openssl-debug-build
 openssl-debug-build: | openssl-debug-clean openssl-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev
+	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
 	cd openresty-openssl-debug \
@@ -188,7 +189,7 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
@@ -212,7 +213,7 @@ openresty-debug-download:
 
 .PHONY: openresty-debug-build
 openresty-debug-build: | openresty-debug-clean openresty-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
@@ -236,7 +237,7 @@ openresty-valgrind-download:
 
 .PHONY: openresty-valgrind-build
 openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev valgrind
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev valgrind $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
@@ -254,7 +255,7 @@ openresty-valgrind-clean:
 
 .PHONY: openresty-plus-build
 openresty-plus-build: | openresty-plus-clean openresty-plus-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-dev libgd-dev openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
@@ -291,7 +292,7 @@ lemplate-clean:
 
 .PHONY: lemplate-build
 lemplate-build: | lemplate-clean lemplate-download
-	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
+	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
@@ -315,7 +316,7 @@ test-nginx-clean:
 
 .PHONY: test-nginx-build
 test-nginx-build: | test-nginx-clean test-nginx-download
-	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl
+	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
@@ -326,7 +327,7 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 
 .PHONY: openresty-plus-debug-build
 openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev libgd-dev openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl-debug-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
 	cd openresty-plus-debug \
@@ -358,7 +359,7 @@ stap-download:
 
 .PHONY: stap-build
 stap-build: | stap-clean stap-download
-	sudo apt-get -y -qq install libnss3-dev libnspr4-dev libnss3-tools libavahi-client-dev m4
+	sudo apt-get -y -qq install libnss3-dev libnspr4-dev libnss3-tools libavahi-client-dev m4 $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	mkdir openresty-stap-elfutils
 	tar xf openresty-stap-elfutils_$(ELFUTILS_VER).orig.tar.bz2 --strip-components=1 -C openresty-stap-elfutils
@@ -386,7 +387,7 @@ hyperscan-download:
 .PHONY: hyperscan-build
 hyperscan-build: | hyperscan-clean hyperscan-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	sudo apt-get -y -qq install cmake ragel libboost-dev python libsqlite3-dev
+	sudo apt-get -y -qq install cmake ragel libboost-dev python libsqlite3-dev $(deb_toolchain_pkgs)
 	tar xf openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz --strip-components=1 -C openresty-plus-hyperscan
 	cd openresty-plus-hyperscan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
