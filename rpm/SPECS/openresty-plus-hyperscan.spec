@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -26,7 +26,7 @@ BuildRequires:  python
 BuildRequires:  sqlite-devel >= 3.0
 BuildRequires:  gcc
 
-Requires:       libstdc++
+Requires:       libstdc++, glibc
 
 AutoReqProv:    no
 
@@ -45,6 +45,7 @@ library, but is a standalone library with its own C API.
 %package devel
 Summary: Libraries and header files for the hyperscan library of OpenResty Plus
 Requires: %{name}%{?_isa} = %{version}-%{release}
+AutoReqProv:    no
 
 %description devel
 Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
@@ -56,6 +57,8 @@ needed for developing Hyperscan applications.
 
 %package runtime
 Summary: Runtime for the hyperscan library of OpenResty Plus
+Requires: glibc
+AutoReqProv:    no
 
 %description runtime
 Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
