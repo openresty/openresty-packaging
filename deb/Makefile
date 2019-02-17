@@ -355,7 +355,7 @@ stap-download:
 	wget -nH --cut-dirs=100 --mirror 'https://sourceware.org/elfutils/ftp/$(ELFUTILS_VER)/elfutils-$(ELFUTILS_VER).tar.bz2'
 	cp elfutils-$(ELFUTILS_VER).tar.bz2 openresty-stap-elfutils_$(ELFUTILS_VER).orig.tar.bz2
 	rsync -crlvpP nuc:~/work/systemtap-plus-$(STAP_VER).tar.gz .
-	cp systemtap-plus-$(STAP_VER).tar.gz openresty-stap-$(STAP_VER).orig.tar.gz
+	cp systemtap-plus-$(STAP_VER).tar.gz openresty-stap_$(STAP_VER).orig.tar.gz
 
 .PHONY: stap-build
 stap-build: | stap-clean stap-download
@@ -363,7 +363,7 @@ stap-build: | stap-clean stap-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	mkdir openresty-stap-elfutils
 	tar xf openresty-stap-elfutils_$(ELFUTILS_VER).orig.tar.bz2 --strip-components=1 -C openresty-stap-elfutils
-	tar xf openresty-stap-$(STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
+	tar xf openresty-stap_$(STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
 	cd openresty-stap \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
