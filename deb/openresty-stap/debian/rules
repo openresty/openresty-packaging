@@ -17,6 +17,8 @@ override_dh_auto_configure:
 	./configure --with-elfutils=../openresty-stap-elfutils \
         --prefix=$(stap_prefix) \
         --disable-docs --disable-publican \
+        --without-python2-probes \
+        --without-python3-probes \
         --disable-refdocs
 
 override_dh_usrlocal:
