@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.0.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -88,6 +88,8 @@ along with the optional dtrace-compatibility preprocessor to process related
 ./configure --with-elfutils=../elfutils-%{elfutils_version} \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
+        --without-python2-probes \
+        --without-python3-probes \
         --disable-refdocs
 
 make %{?_smp_mflags}
