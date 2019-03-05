@@ -1,6 +1,6 @@
 Name:               openresty-openssl-debug
-Version:            1.1.0h
-Release:            3%{?dist}
+Version:            1.1.0j
+Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -11,6 +11,7 @@ URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
 Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -43,6 +44,7 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 %setup -q -n openssl-%{version}
 
 %patch0 -p1
+%patch1 -p1
 
 
 %build
