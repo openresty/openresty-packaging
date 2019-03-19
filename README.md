@@ -51,7 +51,8 @@ sudo passwd makerpm
 sudo dnf install @development-tools fedora-packager rpmdevtools
 
 # install openresty's build requirements:
-sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl perl-Data-Dumper
+sudo dnf install openssl-devel zlib-devel pcre-devel gcc make perl \
+    perl-Data-Dumper gd-devel libxslt-devel GeoIP-devel
 
 # login as makerpm:
 sudo su - makerpm
@@ -94,7 +95,8 @@ sudo yum install rpm-build redhat-rpm-config rpmdevtools
 
 # install openresty's build requirements:
 sudo yum install openssl-devel zlib-devel pcre-devel gcc make perl \
-    perl-Data-Dumper libtool ElectricFence systemtap-sdt-devel valgrind-devel
+    perl-Data-Dumper libtool ElectricFence systemtap-sdt-devel valgrind-devel \
+    gd-devel libxslt-devel GeoIP-devel
 
 # login as makerpm:
 sudo su - makerpm
@@ -134,7 +136,7 @@ Ubuntu/Debian
 For Ubuntu 14.04+ and Debian 7.x+:
 
 ```bash
-sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb libgd-dev libgeoip-dev libxslt1-dev
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
@@ -206,4 +208,3 @@ See Also
 * [OpenResty official site](https://openresty.org/)
 
 [Back to TOC](#table-of-contents)
-
