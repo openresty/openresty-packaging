@@ -1,5 +1,5 @@
 Name:           openresty-stap
-Version:        4.0.0.5
+Version:        4.0.0.6
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -7,9 +7,9 @@ License:        GPLv2+
 URL:            http://sourceware.org/systemtap/
 Provides:       openresty-stap
 
-Source0: systemtap-plus-%{version}.tar.gz
+Source0:        systemtap-plus-%{version}.tar.gz
 
-AutoReqProv: no
+AutoReqProv:    no
 
 %define _rpmmacrodir %{_rpmconfigdir}/macros.d
 
@@ -18,13 +18,23 @@ AutoReqProv: no
 
 %define stap_prefix %{_usr}/local/%{name}
 
+%define eu_prefix %{_usr}/local/openresty-elfutils
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/systemtap-plus-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
 
-%define elfutils_version 0.173
-Source1: https://sourceware.org/elfutils/ftp/%{elfutils_version}/elfutils-%{elfutils_version}.tar.bz2
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gcc-c++
@@ -37,12 +47,14 @@ BuildRequires: zlib-devel
 BuildRequires: xz-devel
 BuildRequires: python-setuptools
 BuildRequires: avahi-devel
+BuildRequires: openresty-elfutils-devel
 
 Requires: xz-libs
 Requires: kernel-devel-uname-r
 Requires: gcc make
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: avahi-libs
+Requires: openresty-elfutils
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
@@ -80,23 +92,24 @@ along with the optional dtrace-compatibility preprocessor to process related
 
 
 %prep
-%setup -D -q -n elfutils-%{elfutils_version} -b 1
 %setup -q -n systemtap-plus-%{version}
 
 
 %build
-./configure --with-elfutils=../elfutils-%{elfutils_version} \
+./configure \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
         --without-python2-probes \
         --without-python3-probes \
-        --disable-refdocs
+        --disable-refdocs \
+        CFLAGS='-I%{eu_prefix}/include -g3 -O2' \
+        CXXFLAGS='-I%{eu_prefix}/include -g3 -O2' \
+        LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
 make %{?_smp_mflags}
 
 
 %install
-rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
 # Because "make install" may install staprun with whatever mode, the
@@ -137,8 +150,6 @@ rm -rf %{buildroot}
 %dir %{stap_prefix}/share/systemtap
 %{stap_prefix}/share/systemtap/runtime
 %{stap_prefix}/share/systemtap/tapset
-%dir %{stap_prefix}/lib/systemtap
-%{stap_prefix}/lib/systemtap/lib*.so*
 
 
 %files runtime
