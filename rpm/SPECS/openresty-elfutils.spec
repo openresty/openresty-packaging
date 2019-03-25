@@ -17,6 +17,8 @@ AutoReqProv: no
 
 %define eu_prefix %{_usr}/local/%{name}
 
+%define yajl_prefix      %{_usr}/local/openresty-yajl
+
 # Remove source code from debuginfo package.
 %define __debug_install_post \
   %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
@@ -44,11 +46,11 @@ BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
-BuildRequires: yajl-devel
+BuildRequires: openresty-yajl-devel
 
 Requires: glibc >= 2.7
 Requires: libstdc++
-Requires: yajl
+Requires: openresty-yajl
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
@@ -78,9 +80,10 @@ OpenResty's fork of elfutils.
 %build
 autoreconf -vif
 
-./configure LIBS='-Wl,-rpath,%{eu_prefix}/lib -lyajl' \
+./configure \
     --prefix=%{eu_prefix} \
-    CFLAGS="-g3 -O2" \
+    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} -L%{yajl_prefix}/%{_lib} -lyajl' \
+    CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 
 make %{?_smp_mflags}
