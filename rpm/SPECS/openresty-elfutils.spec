@@ -1,5 +1,5 @@
 Name:           openresty-elfutils
-Version:        0.176.3
+Version:        0.176.5
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -44,9 +44,11 @@ BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
+BuildRequires: yajl-devel
 
 Requires: glibc >= 2.7
 Requires: libstdc++
+Requires: yajl
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
@@ -76,7 +78,7 @@ OpenResty's fork of elfutils.
 %build
 autoreconf -vif
 
-./configure LIBS='-Wl,-rpath,%{eu_prefix}/lib' \
+./configure LIBS='-Wl,-rpath,%{eu_prefix}/lib -lyajl' \
     --prefix=%{eu_prefix} \
     CFLAGS="-g3 -O2" \
     --enable-maintainer-mode
