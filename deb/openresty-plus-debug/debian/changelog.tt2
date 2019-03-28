@@ -1,3 +1,9 @@
+openresty-plus-debug (1.13.6.2.57-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.13.6.2.57.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 27 Mar 2019 22:23:44 -0700
+
 openresty-plus-debug (1.13.6.2.56-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.13.6.2.56.
