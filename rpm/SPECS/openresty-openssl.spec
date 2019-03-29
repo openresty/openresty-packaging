@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.1.0k
-Release:            2%{?dist}
+Version:            1.1.1c
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -10,7 +10,7 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
 Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -61,7 +61,6 @@ Provides C header and static library for OpenResty's OpenSSL library.
 %patch0 -p1
 %patch1 -p1
 
-
 %build
 ./config \
     no-threads shared zlib -g \
@@ -109,6 +108,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Aug 16 2019 Arcadiy Ivaov (arcivanov) 1.1.1c-1
+- upgraded openresty-openssl to 1.1.1c.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
 - upgraded openresty-openssl to 1.1.0h.
 * Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
