@@ -19,10 +19,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-debug-devel >= 1.1.0h-1
+BuildRequires:  openresty-openssl-debug-devel >= 1.1.1b-1
 BuildRequires:  openresty-pcre-devel >= 8.42-1
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl-debug >= 1.1.0h-1
+Requires:       openresty-openssl-debug >= 1.1.1b-1
 Requires:       openresty-pcre >= 8.42-1
 
 AutoReqProv:        no
