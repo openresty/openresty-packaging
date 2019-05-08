@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.0.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -50,7 +50,6 @@ BuildRequires: avahi-devel
 BuildRequires: openresty-elfutils-devel
 
 Requires: xz-libs
-Requires: kernel-devel-uname-r
 Requires: gcc make
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: avahi-libs
