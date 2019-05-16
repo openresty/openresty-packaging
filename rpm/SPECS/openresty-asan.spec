@@ -42,9 +42,9 @@ AutoReqProv:        no
 %undefine _debuginfo_subpackages
 %endif
 
-%if 0%{?fedora} >= 28
-BuildRequires:      compiler-rt
-%endif
+#%if 0%{?fedora} >= 28
+#BuildRequires:      compiler-rt
+#%endif
 
 
 %description
