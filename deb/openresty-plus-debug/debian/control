@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
  systemtap-sdt-dev,
- openresty-zlib-dev, openresty-plus-openssl-debug-dev (>= 1.0.2k),
+ openresty-zlib-dev, openresty-openssl-debug-dev (>= 1.1.0j),
  openresty-pcre-dev (>= 8.42),
  perl, libfile-temp-perl, libc6-dev, openresty-plus-hyperscan-dev
 Standards-Version: 3.9.8
@@ -13,7 +13,7 @@ Homepage: https://openresty.com/
 Package: openresty-plus-debug
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-zlib, openresty-plus-openssl-debug (>= 1.0.2k), openresty-pcre (>= 8.42)
+ openresty-zlib, openresty-openssl-debug (>= 1.1.0j), openresty-pcre (>= 8.42)
 Description: debug version of OpenResty+ core server
  This package contains the core server for OpenResty+, an enhanced version of
  OpenResty. Built for production uses.

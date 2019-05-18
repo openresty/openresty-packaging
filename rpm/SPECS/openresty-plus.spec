@@ -19,13 +19,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-plus-openssl-devel
+BuildRequires:  openresty-openssl-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-plus-openssl
+Requires:       openresty-openssl >= 1.1.0j
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
 Requires:       glibc-devel
@@ -39,7 +39,7 @@ AutoReqProv:        no
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
-%define openssl_prefix      %{_usr}/local/%{name}/openssl
+%define openssl_prefix      %{_usr}/local/openresty/openssl
 
 # Remove source code from debuginfo package.
 %define __debug_install_post \

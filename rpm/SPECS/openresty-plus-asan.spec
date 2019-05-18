@@ -18,13 +18,13 @@ BuildRequires:  gcc, make, perl, valgrind-devel, clang
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-plus-openssl-asan-devel
+BuildRequires:  openresty-openssl-asan-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-asan-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-plus-openssl-asan
+Requires:       openresty-openssl-asan >= 1.1.0j
 Requires:       openresty-pcre-asan >= 8.41-1
 Requires:       gd
 Requires:       glibc-devel
@@ -32,7 +32,7 @@ Requires:       glibc-devel
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/%{name}/openssl
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
 
