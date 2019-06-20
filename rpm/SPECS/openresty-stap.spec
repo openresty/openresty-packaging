@@ -1,6 +1,6 @@
 Name:           openresty-stap
-Version:        4.0.0.8
-Release:        2%{?dist}
+Version:        4.2.0.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -172,6 +172,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Wed Jun 19 2019 Yichun Zhang (agentzh) 4.2.0.1-1
+- upgraded openresty-stap to 4.2.0.1.
 * Tue Sep 18 2018 Yichun Zhang 3.3.0.3
 - upgraded to 3.3.0.3.
 * Mon Aug 27 2018 Ming Wen 3.3.0.2

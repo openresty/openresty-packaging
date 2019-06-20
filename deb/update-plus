@@ -8,6 +8,10 @@ sub update_changelog ($$);
 
 my $version = shift or die "No version number specified.\n";
 
+if ($version !~ /^\d+(?:\.\d+){4}$/) {
+    die "ERROR: Bad version number: $version";
+}
+
 {
     my $file = "Makefile";
     open my $in, $file
