@@ -357,6 +357,9 @@ stap-download:
 	rsync -crlvpP nuc:~/work/systemtap-plus-$(STAP_VER).tar.gz .
 	cp systemtap-plus-$(STAP_VER).tar.gz openresty-stap_$(STAP_VER).orig.tar.gz
 
+.PHONY: openresty-stap-build
+openresty-stap-build: stap-build
+
 .PHONY: stap-build
 stap-build: | stap-clean stap-download
 	sudo apt-get -y -qq install libnss3-dev libnspr4-dev libnss3-tools libavahi-client-dev m4 $(deb_toolchain_pkgs)
