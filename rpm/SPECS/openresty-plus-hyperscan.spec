@@ -88,7 +88,14 @@ This package provides the runtime for Hyperscan.
 
 %build
 
-ln -sf ../boost_%{boost_version}/boost include/boost
+#ls ../
+#ls ../boost
+if [ ! -e "../boost_%{boost_version}/boost" ]; then
+    echo "No bost directory found" > /dev/stderr
+    exit 1
+fi
+
+ln -sf $PWD/../boost_%{boost_version}/boost include/boost
 
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
 make %{?_smp_mflags}
