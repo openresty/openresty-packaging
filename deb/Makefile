@@ -387,6 +387,9 @@ hyperscan-download:
 	wget -nH --cut-dirs=100 --mirror 'https://github.com/intel/hyperscan/archive/v$(HYPERSCAN_VER).tar.gz'
 	cp v$(HYPERSCAN_VER).tar.gz openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz
 
+.PHONY: openresty-plus-hyperscan-build
+openresty-plus-hyperscan-build: hyperscan-build
+
 .PHONY: hyperscan-build
 hyperscan-build: | hyperscan-clean hyperscan-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
