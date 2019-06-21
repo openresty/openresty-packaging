@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -8,8 +8,8 @@ Summary:        Hyperscan for OpenResty Plus
 
 License:        BSD
 URL:            https://www.hyperscan.io
-Source0:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
-Source1:        https://dl.bintray.com/boostorg/release/%{boost_version2}/source/boost_%{boost_version}.tar.bz2
+Source0:        https://dl.bintray.com/boostorg/release/%{boost_version2}/source/boost_%{boost_version}.tar.bz2
+Source1:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
 
 Patch0:         hyperscan-g3-flag.patch
 
@@ -82,9 +82,9 @@ library, but is a standalone library with its own C API.
 This package provides the runtime for Hyperscan.
 
 %prep
-%setup -q -n hyperscan-%{version}
+%setup -q -n boost_%{boost_version}
+%setup -T -b 1 -q -n hyperscan-%{version}
 %patch0 -p1
-%setup -D -T -a 1 -q -n hyperscan-%{version}
 
 %build
 
