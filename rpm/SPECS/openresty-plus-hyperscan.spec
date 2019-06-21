@@ -8,8 +8,8 @@ Summary:        Hyperscan for OpenResty Plus
 
 License:        BSD
 URL:            https://www.hyperscan.io
-Source0:        https://dl.bintray.com/boostorg/release/%{boost_version2}/source/boost_%{boost_version}.tar.bz2
-Source1:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
+Source0:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
+Source1:        https://dl.bintray.com/boostorg/release/%{boost_version2}/source/boost_%{boost_version}.tar.bz2
 
 Patch0:         hyperscan-g3-flag.patch
 
@@ -36,6 +36,7 @@ ExclusiveArch: x86_64
 %define _missing_doc_files_terminate_build 0
 
 %define hyperscan_prefix      /usr/local/openresty-plus/hyperscan
+
 
 %description
 Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
@@ -74,6 +75,7 @@ AutoReqProv:    no
 %undefine _debuginfo_subpackages
 %endif
 
+
 %description runtime
 Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
 follows the regular expression syntax of the commonly-used libpcre
@@ -81,24 +83,18 @@ library, but is a standalone library with its own C API.
 
 This package provides the runtime for Hyperscan.
 
+
 %prep
-%setup -q -n boost_%{boost_version}
-%setup -T -b 1 -q -n hyperscan-%{version}
+%setup -q -b 1 -n hyperscan-%{version}
 %patch0 -p1
+
 
 %build
 
-#ls ../
-#ls ../boost
-if [ ! -e "../boost_%{boost_version}/boost" ]; then
-    echo "No bost directory found" > /dev/stderr
-    exit 1
-fi
-
-ln -sf $PWD/../boost_%{boost_version}/boost include/boost
+mv $PWD/../boost_%{boost_version}/boost include/boost
 
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
-make %{?_smp_mflags}
+make %{?_smp_mflags} > /dev/stderr  # to always show output
 
 %install
 make install DESTDIR=%{buildroot}
@@ -113,20 +109,28 @@ ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openr
 
 rm -rf %{buildroot}%{hyperscan_prefix}/share/doc
 
+
+%clean
+rm -rf %{buildroot}
+
+
 %files
 /usr/local/openresty-plus/lualib/libhs.so
 /usr/local/openresty-plus-debug/lualib/libhs.so
 %{hyperscan_prefix}/%{_lib}/*.so*
 %exclude %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
 
+
 %files devel
 %{hyperscan_prefix}/include/hs/*
 %{hyperscan_prefix}/%{_lib}/pkgconfig/libhs.pc
+
 
 %files runtime
 /usr/local/openresty-plus/lualib/libhs_runtime.so
 /usr/local/openresty-plus-debug/lualib/libhs_runtime.so
 %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
+
 
 %changelog
 * Sat Dec 22 2018 Ming Wen 5.0.0-1
