@@ -19,6 +19,8 @@ LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.26
 ELFUTILS_VER=0.173
 STAP_VER=4.2.0.2
+BOOST_VER=1_69_0
+BOOST_VER2=1.69.0
 HYPERSCAN_VER=5.0.0
 OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
@@ -384,8 +386,14 @@ stap-clean:
 .PHONY: hyperscan-download
 hyperscan-download:
 	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://github.com/intel/hyperscan/archive/v$(HYPERSCAN_VER).tar.gz'
-	cp v$(HYPERSCAN_VER).tar.gz openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz
+	wget -nH --cut-dirs=100 --mirror 'https://github.com/intel/hyperscan/archive/v$(HYPERSCAN_VER).tar.gz' -O hyperscan-$(HYPERSCAN_VER).tar.gz
+	wget -nH --cut-dirs=100 --mirror 'https://dl.bintray.com/boostorg/release/$(BOOST_VER2)/source/boost_$(BOOST_VER).tar.bz2'
+	tar -xof boost_$(BOOST_VER).tar.bz2
+	tar -xof hyperscan-$(HYPERSCAN_VER).tar.gz
+	cd boost_$(BOOST_VER) && rm -rf doc libs status more tools
+	rm -rf hyperscan-$(HYPERSCAN_VER)/include/boost hyperscan-$(HYPERSCAN_VER)/tools/*
+	mv boost_$(BOOST_VER)/boost hyperscan-$(HYPERSCAN_VER)/include/
+	tar -czf openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz hyperscan-$(HYPERSCAN_VER)
 
 .PHONY: openresty-plus-hyperscan-build
 openresty-plus-hyperscan-build: hyperscan-build
@@ -393,7 +401,7 @@ openresty-plus-hyperscan-build: hyperscan-build
 .PHONY: hyperscan-build
 hyperscan-build: | hyperscan-clean hyperscan-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	sudo apt-get -y -qq install cmake ragel libboost-dev python libsqlite3-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install cmake ragel python libsqlite3-dev $(deb_toolchain_pkgs)
 	tar xf openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz --strip-components=1 -C openresty-plus-hyperscan
 	cd openresty-plus-hyperscan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -406,6 +414,8 @@ hyperscan-clean:
 	cd openresty-plus-hyperscan && debclean
 	find openresty-plus-hyperscan -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-hyperscan' -print | xargs rm -rf
 	rm -f openresty-plus-hyperscan*.deb
+	rm -rf boost_*
+	rm -rf hyperscan*
 	rm -f openresty-plus-hyperscan_*.*
 
 ### Makefile ends here

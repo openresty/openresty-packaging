@@ -1,3 +1,9 @@
+openresty-plus-hyperscan (5.0.0-2~[% distro %]1) [% distro %]; urgency=high
+
+  * Bundle Boost 1.69.0 ourselves.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 21 Jun 2019 23:08:33 -0700
+
 openresty-plus-hyperscan (5.0.0-1~[% distro %]1) [% distro %]; urgency=high
 
   * Initial release
