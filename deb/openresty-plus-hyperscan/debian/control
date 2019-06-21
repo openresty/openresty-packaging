@@ -7,7 +7,6 @@ Build-Depends: debhelper (>=9),
                ragel (>=6.8),
                python (>=2.7),
                po-debconf,
-               libsqlite3-dev,
                pkg-config
 Standards-Version: 5.0.0
 Homepage: https://www.hyperscan.io

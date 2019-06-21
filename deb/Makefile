@@ -415,5 +415,7 @@ hyperscan-clean:
 	find openresty-plus-hyperscan -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-hyperscan' -print | xargs rm -rf
 	rm -f openresty-plus-hyperscan*.deb
 	rm -f openresty-plus-hyperscan_*.*
+	rm -rf boost_*
+	rm -rf hyperscan-[0-9]*
 
 ### Makefile ends here

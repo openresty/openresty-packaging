@@ -21,14 +21,18 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	rm -rf $(DESTDIR)/usr/share/doc
+	if [ -d $(DESTDIR)/$(hyperscan_prefix)/lib/x86_64-linux-gnu/ ]; then \
+		mv $(DESTDIR)/$(hyperscan_prefix)/lib/x86_64-linux-gnu/* $(DESTDIR)/$(hyperscan_prefix)/lib/ || exit 1; \
+		rm -rf $(DESTDIR)/$(hyperscan_prefix)/lib/x86_64-linux-gnu/ || exit 1; \
+	fi
 
 	mkdir -p $(DESTDIR)/usr/local/openresty-plus/lualib/
-	ln -sf $(hyperscan_prefix)/lib/x86_64-linux-gnu/libhs.so $(DESTDIR)/usr/local/openresty-plus/lualib/
-	ln -sf $(hyperscan_prefix)/lib/x86_64-linux-gnu/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs.so $(DESTDIR)/usr/local/openresty-plus/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus/lualib/
 
 	mkdir -p $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
-	ln -sf $(hyperscan_prefix)/lib/x86_64-linux-gnu/libhs.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
-	ln -sf $(hyperscan_prefix)/lib/x86_64-linux-gnu/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
 
 override_dh_install:
 	dh_install

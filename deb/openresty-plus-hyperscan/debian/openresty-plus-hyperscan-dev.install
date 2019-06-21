@@ -1,2 +1,2 @@
 usr/local/openresty-plus/hyperscan/include/hs/*
-usr/local/openresty-plus/hyperscan/lib/x86_64-linux-gnu/pkgconfig/libhs.pc
+usr/local/openresty-plus/hyperscan/lib/pkgconfig/libhs.pc
