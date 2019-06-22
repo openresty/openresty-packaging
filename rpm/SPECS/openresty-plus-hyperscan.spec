@@ -9,7 +9,7 @@ Summary:        Hyperscan for OpenResty Plus
 License:        BSD
 URL:            https://www.hyperscan.io
 Source0:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
-Source1:        https://dl.bintray.com/boostorg/release/%{boost_version2}/source/boost_%{boost_version}.tar.bz2
+Source1:        https://openresty.org/download/boost_%{boost_version}.tar.gz
 
 Patch0:         hyperscan-g3-flag.patch
 

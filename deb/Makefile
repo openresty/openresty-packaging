@@ -387,8 +387,8 @@ stap-clean:
 hyperscan-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://github.com/intel/hyperscan/archive/v$(HYPERSCAN_VER).tar.gz' -O hyperscan-$(HYPERSCAN_VER).tar.gz
-	wget -nH --cut-dirs=100 --mirror 'https://dl.bintray.com/boostorg/release/$(BOOST_VER2)/source/boost_$(BOOST_VER).tar.bz2'
-	tar -xof boost_$(BOOST_VER).tar.bz2
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/boost_$(BOOST_VER).tar.gz'
+	tar -xof boost_$(BOOST_VER).tar.gz
 	tar -xof hyperscan-$(HYPERSCAN_VER).tar.gz
 	cd boost_$(BOOST_VER) && rm -rf doc libs status more tools
 	rm -rf hyperscan-$(HYPERSCAN_VER)/include/boost hyperscan-$(HYPERSCAN_VER)/tools/*
