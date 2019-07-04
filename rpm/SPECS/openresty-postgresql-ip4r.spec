@@ -52,3 +52,7 @@ rm -fr $RPM_BUILD_ROOT
 %{pgprefix}/share/extension/%{ext}*.sql
 %{pgprefix}/share/extension/%{ext}.control
 %{pgprefix}/lib/%{ext}.so
+
+%changelog
+* Thu Jul 4 2018 Yichun Zhang 2.4.1
+- initial build for postgresql ip4r.
