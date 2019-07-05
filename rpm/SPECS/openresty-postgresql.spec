@@ -10,7 +10,6 @@ License:    PostgreSQL License
 URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql.init
-Source2:    profile.orpg.sh
 
 BuildRequires:  libxml2-devel libxslt-devel uuid-devel readline-devel openssl-devel
 Requires:       libxml2 libxslt readline uuid openssl
@@ -68,7 +67,6 @@ rm -rf ${RPM_BUILD_ROOT}/%{pgprefix}/share/man \
 install -d $RPM_BUILD_ROOT/etc/profile.d
 install -d $RPM_BUILD_ROOT/etc/init.d
 %{__install} -p -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/etc/init.d/openresty-postgresql
-%{__install} -p -m 0644 %{SOURCE2} $RPM_BUILD_ROOT/etc/profile.d/openresty-postgresql.sh
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -108,7 +106,6 @@ fi
 %{pgprefix}/*
 %exclude %{pgprefix}/include/*
 %exclude %{pgprefix}/lib/*.a
-/etc/profile.d/openresty-postgresql.sh
 /etc/init.d/openresty-postgresql
 
 
