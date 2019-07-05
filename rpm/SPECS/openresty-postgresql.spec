@@ -44,6 +44,8 @@ Provides C header and static library for the openresty-postgresql package.
 
 %prep
 %setup -q -n postgresql-%{version}
+
+%build
 ./configure --prefix=%{pgprefix} \
             --with-libxml \
             --with-blocksize=32 \
@@ -55,7 +57,6 @@ Provides C header and static library for the openresty-postgresql package.
             CFLAGS="-march=core2 -O2 -g3" \
             LDFLAGS="-Wl,-rpath,%{pgprefix}/lib"
 
-%build
 make %{?_smp_mflags}
 
 %install
