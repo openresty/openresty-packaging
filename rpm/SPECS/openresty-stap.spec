@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.2.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -39,21 +39,15 @@ AutoReqProv:    no
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gcc-c++
 BuildRequires: gettext-devel
-BuildRequires: nss-devel avahi-devel
-BuildRequires: pkgconfig(nss)
-BuildRequires: pkgconfig(avahi-client)
 BuildRequires: m4
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
-BuildRequires: python-setuptools
-BuildRequires: avahi-devel
-BuildRequires: openresty-elfutils-devel
+BuildRequires: openresty-elfutils-devel >= 0.176.6
 
 Requires: xz-libs
-Requires: gcc make
+Requires: make
 Requires: openresty-stap-runtime = %{version}-%{release}
-Requires: avahi-libs
-Requires: openresty-elfutils
+Requires: openresty-elfutils >= 0.176.6
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
@@ -80,6 +74,7 @@ using a local or remote systemtap-devel installation.
 Summary: Static probe support tools (OpenResty's fork of SystemTap)
 Group: Development/System
 License: GPLv2+ and Public Domain
+AutoReqProv:    no
 URL: http://sourceware.org/systemtap/
 
 
@@ -98,6 +93,10 @@ along with the optional dtrace-compatibility preprocessor to process related
 ./configure \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
+        --without-nss \
+        --without-openssl \
+        --without-avahi \
+        --without-bpf \
         --without-python2-probes \
         --without-python3-probes \
         --disable-refdocs \
@@ -120,7 +119,7 @@ chmod 755 %{buildroot}%{stap_prefix}/bin/staprun
 #install the useful stap-prep script
 install -c -m 755 stap-prep %{buildroot}%{stap_prefix}/bin/stap-prep
 
-install -D -m 644 macros.systemtap %{buildroot}%{_rpmmacrodir}/macros.systemtap
+#install -D -m 644 macros.systemtap %{buildroot}%{_rpmmacrodir}/macros.systemtap
 
 # remove useless files
 rm -rf %{buildroot}%{stap_prefix}/share/man
@@ -156,10 +155,8 @@ rm -rf %{buildroot}
 %attr(4110,root,stapusr) %{stap_prefix}/bin/staprun
 %{stap_prefix}/bin/stapsh
 %{stap_prefix}/bin/stap-merge
-%{stap_prefix}/bin/stap-report
 %dir %{stap_prefix}/libexec/systemtap
 %{stap_prefix}/libexec/systemtap/stapio
-%{stap_prefix}/libexec/systemtap/stap-authorize-cert
 
 
 %files sdt-devel
@@ -167,7 +164,6 @@ rm -rf %{buildroot}
 %{stap_prefix}/bin/dtrace
 %{stap_prefix}/include/sys/sdt.h
 %{stap_prefix}/include/sys/sdt-config.h
-%{_rpmmacrodir}/macros.systemtap
 
 # ------------------------------------------------------------------------
 
