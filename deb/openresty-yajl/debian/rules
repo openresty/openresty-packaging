@@ -11,6 +11,8 @@ DESTDIR = $(CURDIR)/debian/tmp
 %:
 	dh $@ --parallel --with autotools-dev,systemd
 
+override_dh_auto_test:
+
 override_dh_usrlocal:
 
 override_dh_auto_configure:
@@ -27,8 +29,8 @@ override_dh_auto_install:
 		&& cd build \
 		&& make install DESTDIR=$(DESTDIR)
 
-override_dh_auto_clean:
-	dh_auto_clean
+override_dh_clean:
+	dh_clean
 	rm -rf $(DESTDIR)
 
 override_dh_strip:

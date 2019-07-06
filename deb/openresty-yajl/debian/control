@@ -29,6 +29,6 @@ Description: Libraries, includes, etc to develop with YAJL
 Package: openresty-yajl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (= 2.1.0.2)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= 2.1.0.2)
 Description: Debug symbols for the openresty-yajl package
  Debug symbols (or debuginfo) for the openresty-yajl package.
