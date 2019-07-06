@@ -76,7 +76,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING ChangeLog README TODO
 %{yajl_prefix}/bin/json_reformat
 %{yajl_prefix}/bin/json_verify
 %{yajl_prefix}/%{_lib}/libyajl.so.2
@@ -84,7 +83,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root,-)
-%doc COPYING
 %dir %{yajl_prefix}/include/yajl
 %{yajl_prefix}/include/yajl/yajl_common.h
 %{yajl_prefix}/include/yajl/yajl_gen.h

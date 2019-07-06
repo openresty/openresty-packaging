@@ -39,7 +39,7 @@ BuildRequires: gcc >= 4.1.2-33
 BuildRequires: glibc >= 2.7
 BuildRequires: bison >= 1.875
 BuildRequires: flex >= 2.5.4a
-BuildRequires: bzip2
+BuildRequires: bzip2-libs
 BuildRequires: m4
 BuildRequires: gettext
 BuildRequires: zlib-devel
@@ -104,14 +104,17 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{eu_prefix}/bin/*
 %{eu_prefix}/share/*
-%{eu_prefix}/lib/*
-%exclude %{eu_prefix}/lib/pkgconfig/*
+%{eu_prefix}/lib/*.so.*
+%{eu_prefix}/lib/*.so
+%{eu_prefix}/lib/elfutils/*
 
 
 %files devel
 %defattr(-,root,root)
 %{eu_prefix}/include/*
 %{eu_prefix}/lib/pkgconfig/*
+%{eu_prefix}/lib/pkgconfig
+%{eu_prefix}/lib/*.a
 
 
 # ------------------------------------------------------------------------
