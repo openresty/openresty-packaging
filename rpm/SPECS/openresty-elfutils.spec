@@ -46,6 +46,7 @@ BuildRequires: zlib-devel
 BuildRequires: bzip2-devel
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
+BuildRequires: autoconf
 BuildRequires: openresty-yajl-devel
 
 Requires: glibc >= 2.7
