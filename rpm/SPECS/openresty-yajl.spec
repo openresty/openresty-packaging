@@ -58,6 +58,7 @@ necessary for developing against the YAJL library
 # NB, we are not using upstream's 'configure'/'make'
 # wrapper, instead we use cmake directly to better
 # align with Fedora standards
+rm -rf build
 mkdir build
 cd build
 %cmake -DCMAKE_INSTALL_PREFIX=%{yajl_prefix} ..
