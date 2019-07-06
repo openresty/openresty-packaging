@@ -60,3 +60,6 @@ openresty-zlib/debian/openresty-zlib-dev/
 openresty-yajl/debian/openresty-yajl-dbgsym/
 openresty-yajl/debian/openresty-yajl-dev/
 openresty-yajl/debian/openresty-yajl/
+openresty-elfutils/debian/openresty-elfutils-dbgsym/
+openresty-elfutils/debian/openresty-elfutils-dev/
+openresty-elfutils/debian/openresty-elfutils/

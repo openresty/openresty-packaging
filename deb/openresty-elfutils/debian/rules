@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	autoreconf -vif \
+		&& ./configure \
+    --prefix=/usr/local/openresty-elfutils \
+    LIBS='-Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib64 -L/usr/local/openresty-yajl/lib64 -lyajl' \
+    CFLAGS="-I/usr/local/openresty-yajl/include -g3 -O2" \
+    --enable-maintainer-mode \
+		&& sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib64 #' \
+    `find . -name Makefile` \
+		&& make -j$(nproc)
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-elfutils/share/man
+
+override_dh_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-elfutils-dbgsym

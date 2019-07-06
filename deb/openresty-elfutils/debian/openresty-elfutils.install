@@ -1,0 +1,5 @@
+usr/local/openresty-elfutils/bin/*
+usr/local/openresty-elfutils/share/*
+usr/local/openresty-elfutils/lib/*.so.*
+usr/local/openresty-elfutils/lib/*.so
+usr/local/openresty-elfutils/lib/elfutils/*

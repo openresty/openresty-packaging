@@ -1,0 +1,4 @@
+usr/local/openresty-elfutils/include/*
+usr/local/openresty-elfutils/lib/pkgconfig/*
+usr/local/openresty-elfutils/lib/pkgconfig
+usr/local/openresty-elfutils/lib/*.a
