@@ -54,3 +54,9 @@ openresty-stap/debian/openresty-stap-dbgsym/
 openresty-stap/debian/openresty-stap-runtime/
 openresty-stap/debian/openresty-stap-sdt-dev/
 openresty-stap/debian/openresty-stap/
+openresty-zlib/debian/openresty-zlib-dbgsym/
+openresty-zlib/debian/openresty-zlib/
+openresty-zlib/debian/openresty-zlib-dev/
+openresty-yajl/debian/openresty-yajl-dbgsym/
+openresty-yajl/debian/openresty-yajl-dev/
+openresty-yajl/debian/openresty-yajl/

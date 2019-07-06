@@ -1,0 +1,34 @@
+Source: openresty-yajl
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), cmake
+Standards-Version: 3.9.8
+Homepage: http://lloyd.github.com/yajl/
+
+Package: openresty-yajl
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Yet Another JSON Library (YAJL) or OpenResty
+ Yet Another JSON Library. YAJL is a small event-driven
+ (SAX-style) JSON parser written in ANSI C, and a small
+ validating JSON generator.
+
+Package: openresty-yajl-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (= 2.1.0.2)
+Description: Libraries, includes, etc to develop with YAJL
+ Yet Another JSON Library. YAJL is a small event-driven
+ (SAX-style) JSON parser written in ANSI C, and a small
+ validating JSON generator.
+ This sub-package provides the libraries and includes
+ necessary for developing against the YAJL library
+
+Package: openresty-yajl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (= 2.1.0.2)
+Description: Debug symbols for the openresty-yajl package
+ Debug symbols (or debuginfo) for the openresty-yajl package.

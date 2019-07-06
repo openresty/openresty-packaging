@@ -418,4 +418,6 @@ hyperscan-clean:
 	rm -rf boost_*
 	rm -rf hyperscan-[0-9]*
 
+include *.mk
+
 ### Makefile ends here

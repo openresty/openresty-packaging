@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	rm -rf build \
+		&& mkdir build \
+		&& cd build \
+		&& cmake -DCMAKE_C_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_CXX_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_Fortran_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DBUILD_SHARED_LIBS:BOOL=ON -DLIB_SUFFIX=64 -DCMAKE_INSTALL_PREFIX=/usr/local/openresty-yajl .. \
+		&& make VERBOSE=1 -j$(nproc)
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& cd build \
+		&& make install DESTDIR=$(DESTDIR)
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-yajl-dbgsym

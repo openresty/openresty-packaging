@@ -1,0 +1,10 @@
+39af6eb42999852bdd3ea00ad120a36d  COPYING
+82090dc44b5da981b6b39729bbd01b30  usr/local/openresty-yajl/include/yajl/yajl_common.h
+8f921b055a62fa6c954d912604ce10f7  usr/local/openresty-yajl/include/yajl/yajl_gen.h
+44da84fb6a45eeb84a9cd49f14aaa54c  usr/local/openresty-yajl/include/yajl/yajl_parse.h
+7d06af8c8a82bb871ebded652cf0f2b0  usr/local/openresty-yajl/include/yajl/yajl_tree.h
+a59da28fe9616a6db4c2311a29ade4a2  usr/local/openresty-yajl/include/yajl/yajl_version.h
+0c30a96ba455914a8b083e691fb7f3b6  usr/local/openresty-yajl/lib64/libyajl_s.a
+c1a9e09128292c26e65049ea77142e38  usr/local/openresty-yajl/share/pkgconfig/yajl.pc
+991baae5a5a26ae14d498c9c9ec71b1b  usr/share/doc/openresty-yajl-dev/changelog.Debian.gz
+4f642f6b5995ade4c8b11f8b200da0ca  usr/share/doc/openresty-yajl-dev/copyright

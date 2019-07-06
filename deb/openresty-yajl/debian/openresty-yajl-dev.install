@@ -1,0 +1,10 @@
+COPYING
+usr/local/openresty-yajl/include/yajl/
+usr/local/openresty-yajl/include/yajl/yajl_common.h
+usr/local/openresty-yajl/include/yajl/yajl_gen.h
+usr/local/openresty-yajl/include/yajl/yajl_parse.h
+usr/local/openresty-yajl/include/yajl/yajl_tree.h
+usr/local/openresty-yajl/include/yajl/yajl_version.h
+usr/local/openresty-yajl/lib64/libyajl.so
+usr/local/openresty-yajl/share/pkgconfig/yajl.pc
+usr/local/openresty-yajl/lib64/libyajl_s.a
