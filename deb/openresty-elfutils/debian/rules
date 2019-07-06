@@ -22,7 +22,7 @@ override_dh_auto_build:
 		&& ./configure \
     --prefix=/usr/local/openresty-elfutils \
     LIBS='-Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib64 -L/usr/local/openresty-yajl/lib64 -lyajl' \
-    CFLAGS="-I/usr/local/openresty-yajl/include -g3 -O2" \
+    CFLAGS="-Wa,-mrelax-relocations=no -Wa,--nocompress-debug-sections -I/usr/local/openresty-yajl/include -g3 -O2" \
     --enable-maintainer-mode \
 		&& sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib64 #' \
     `find . -name Makefile` \
