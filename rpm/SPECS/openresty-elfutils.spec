@@ -1,5 +1,5 @@
 Name:           openresty-elfutils
-Version:        0.176.5
+Version:        0.176.6
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -49,6 +49,7 @@ BuildRequires: gcc-c++
 BuildRequires: autoconf
 BuildRequires: openresty-yajl-devel
 BuildRequires: gawk
+BuildRequires: sed
 
 Requires: glibc >= 2.7
 Requires: libstdc++
@@ -88,6 +89,9 @@ autoreconf -vif
     CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 
+sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} #' \
+    `find . -name Makefile`
+
 make %{?_smp_mflags}
 
 
@@ -122,5 +126,7 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Sat Jul 6 2019 Yichun Zhang (agentzh) 0.176.6-1
+- upgraded elfutils-plus to 0.176.6.
 * Wed Mar 20 2018 Yichun Zhang 0.176.1
 - upgraded to 0.176.1
