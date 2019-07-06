@@ -2,14 +2,14 @@ Source: openresty-elfutils
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc (>= 4.1.2), libc6 (>= 2.7), bison (>= 1.875), flex (>= 2.5.4a), libbz2-dev, m4, gettext, zlib1g-dev, libbz2-dev, liblzma-dev, g++, autoconf, openresty-yajl-dev, gawk, sed
+Build-Depends: debhelper (>= 9), gcc (>= 4.1.2), libc6 (>= 2.7), bison (>= 1.875), flex (>= 2.5.4a), m4, gettext, zlib1g-dev, libbz2-dev, liblzma-dev, g++, autoconf, openresty-yajl-dev, gawk, sed
 Standards-Version: 3.9.8
 Homepage: http://sourceware.org/systemtap/
 
 Package: openresty-elfutils
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, libc6 (>= 2.7), libstdc++6, openresty-yajl
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc6 (>= 2.7), libstdc++6, openresty-yajl, libbz2-dev, liblzma5
 Description: OpenResty's fork of SystemTap
  OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
  Developers can write instrumentation scripts to collect data on
@@ -26,6 +26,6 @@ Description: devel files for OpenResty's fork of elfutils
 Package: openresty-elfutils-dbgsym
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elfutils (>= 0.176.6)
+Depends: ${misc:Depends}, openresty-elfutils (>= 0.176.6)
 Description: Debug symbols for the openresty-elfutils package
  Debug symbols (or debuginfo) for the openresty-elfutils package.
