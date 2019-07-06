@@ -48,6 +48,7 @@ BuildRequires: xz-devel
 BuildRequires: gcc-c++
 BuildRequires: autoconf
 BuildRequires: openresty-yajl-devel
+BuildRequires: gawk
 
 Requires: glibc >= 2.7
 Requires: libstdc++
