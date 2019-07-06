@@ -10,7 +10,7 @@ openresty-yajl-download:
 
 openresty-yajl-clean:
 	cd openresty-yajl && debclean
-	find openresty-yajl -maxdepth 1 ! -name 'debian' ! -name 'openresty-yajl' -print | xargs rm -rf
+	-find openresty-yajl -maxdepth 1 ! -name 'debian' ! -name 'openresty-yajl' -print | xargs rm -rf
 	rm -f openresty-yajl*.deb
 	rm -f openresty-yajl_*.*
 

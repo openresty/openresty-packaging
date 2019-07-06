@@ -10,7 +10,7 @@ openresty-elfutils-download:
 
 openresty-elfutils-clean:
 	cd openresty-elfutils && debclean
-	find openresty-elfutils -maxdepth 1 ! -name 'debian' ! -name 'openresty-elfutils' -print | xargs rm -rf
+	-find openresty-elfutils -maxdepth 1 ! -name 'debian' ! -name 'openresty-elfutils' -print | xargs rm -rf
 	rm -f openresty-elfutils*.deb
 	rm -f openresty-elfutils_*.*
 

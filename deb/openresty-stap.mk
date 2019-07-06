@@ -10,7 +10,7 @@ openresty-stap-download:
 
 openresty-stap-clean:
 	cd openresty-stap && debclean
-	find openresty-stap -maxdepth 1 ! -name 'debian' ! -name 'openresty-stap' -print | xargs rm -rf
+	-find openresty-stap -maxdepth 1 ! -name 'debian' ! -name 'openresty-stap' -print | xargs rm -rf
 	rm -f openresty-stap*.deb
 	rm -f openresty-stap_*.*
 
