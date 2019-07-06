@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.176.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -39,7 +39,6 @@ BuildRequires: gcc >= 4.1.2-33
 BuildRequires: glibc >= 2.7
 BuildRequires: bison >= 1.875
 BuildRequires: flex >= 2.5.4a
-BuildRequires: bzip2-libs
 BuildRequires: m4
 BuildRequires: gettext
 BuildRequires: zlib-devel
@@ -54,6 +53,8 @@ BuildRequires: sed
 Requires: glibc >= 2.7
 Requires: libstdc++
 Requires: openresty-yajl
+Requires: bzip2-libs
+Requires: xz-libs
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.

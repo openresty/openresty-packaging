@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.2.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -42,12 +42,15 @@ BuildRequires: gettext-devel
 BuildRequires: m4
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
-BuildRequires: openresty-elfutils-devel >= 0.176.6
+BuildRequires: bzip2-devel
+BuildRequires: openresty-elfutils-devel >= 0.176.6-3
 
+Requires: bzip2-libs
 Requires: xz-libs
+Requires: zlib
 Requires: make
 Requires: openresty-stap-runtime = %{version}-%{release}
-Requires: openresty-elfutils >= 0.176.6
+Requires: openresty-elfutils >= 0.176.6-3
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
