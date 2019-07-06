@@ -1,3 +1,9 @@
+openresty-yajl (2.1.0.2-2~[% distro %]1) [% distro %]; urgency=high
+
+  * Fixed the dependency requirement in  the openresty-yajl-dev package.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 4 Jul 2019 00:00:00 -0700
+
 openresty-yajl (2.1.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * Initial build.

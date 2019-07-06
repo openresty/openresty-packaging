@@ -1,7 +1,3 @@
-COPYING
-ChangeLog
-README
-TODO
 usr/local/openresty-yajl/bin/json_reformat
 usr/local/openresty-yajl/bin/json_verify
 usr/local/openresty-yajl/lib64/libyajl.so.2

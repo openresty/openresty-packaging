@@ -1,4 +1,3 @@
-COPYING
 usr/local/openresty-yajl/include/yajl/
 usr/local/openresty-yajl/include/yajl/yajl_common.h
 usr/local/openresty-yajl/include/yajl/yajl_gen.h
