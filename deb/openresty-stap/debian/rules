@@ -1,40 +1,59 @@
 #!/usr/bin/make -f
-DPKG_EXPORT_BUILDFLAGS = 1
-stap_prefix = /usr/local/openresty-stap
 
+DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
-export NJBS = `nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools-dev
+	dh $@ --parallel --with autotools-dev,systemd
 
-override_dh_auto_configure:
-	./configure --with-elfutils=../openresty-stap-elfutils \
-        --prefix=$(stap_prefix) \
-        --disable-docs --disable-publican \
-        --without-python2-probes \
-        --without-python3-probes \
-        --disable-refdocs
+override_dh_auto_test:
 
 override_dh_usrlocal:
 
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./configure \
+        --prefix=/usr/local/openresty-stap \
+        --disable-docs --disable-publican \
+        --without-nss \
+        --without-openssl \
+        --without-avahi \
+        --without-bpf \
+        --without-python2-probes \
+        --without-python3-probes \
+        --disable-refdocs \
+        CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
+        CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
+        LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib' \
+		&& make -j$(nproc)
+
 override_dh_auto_install:
-	dh_auto_install
-	# Install stap-prep
-	install -D stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep
+	make install DESTDIR=$(DESTDIR) \
+		&& chmod 755 $(DESTDIR)/usr/local/openresty-stap/bin/staprun \
+		&& install -c -m 755 stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/man \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/systemtap/examples \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/locale \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/lib64/python2.7 \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-server \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapbpf \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-env \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-gen-cert \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-serverd \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-sign-module \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-start-server \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-stop-server \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/python/stap-resolve-module-function.py*
 
-	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/man
-	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/systemtap/examples
-	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/locale
-	rm -rf $(DESTDIR)/usr/local/openresty-stap/lib64/python2.7
-
-override_dh_install:
-	dh_install
+override_dh_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-stap-dbgsym

@@ -4,5 +4,3 @@ usr/local/openresty-stap/bin/stap-report
 usr/local/openresty-stap/share/systemtap/
 usr/local/openresty-stap/share/systemtap/runtime
 usr/local/openresty-stap/share/systemtap/tapset
-usr/local/openresty-stap/lib/systemtap/
-usr/local/openresty-stap/lib/systemtap/lib*.so*
