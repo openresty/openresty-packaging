@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.176.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -86,7 +86,7 @@ autoreconf -vif
 ./configure \
     --prefix=%{eu_prefix} \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} -L%{yajl_prefix}/%{_lib} -lyajl' \
-    CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
+    CFLAGS="-Wa,-mrelax-relocations=no -Wa,--nocompress-debug-sections -I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} #' \
