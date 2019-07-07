@@ -1,18 +1,18 @@
 Name:       openresty-postgresql
 Version:    9.6.14
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
 
-Group:      Applications/System
+Group:      Productivity/Database
 License:    PostgreSQL License
 URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql.init
 
-BuildRequires:  libxml2-devel libxslt-devel uuid-devel readline-devel openssl-devel
-Requires:       libxml2 libxslt readline uuid openssl
+BuildRequires:  libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
+Requires:       libxml2, libxslt, readline, uuid, openssl
 
 %description
 PostgreSQL is the world's most advanced open source database.
@@ -54,8 +54,8 @@ Provides C header and static library for the openresty-postgresql package.
             --with-libxslt \
             --with-openssl \
             --with-ossp-uuid \
-            CFLAGS="-march=core2 -O2 -g3" \
-            LDFLAGS="-Wl,-rpath,%{pgprefix}/lib"
+            CFLAGS="-O2 -g3" \
+            LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib"
 
 make %{?_smp_mflags}
 
@@ -83,8 +83,6 @@ if [ $1 = 0 ]; then
    /sbin/chkconfig --del openresty-postgresql
 fi
 
-%postun
-
 %clean
 rm -fr $RPM_BUILD_ROOT
 
@@ -104,9 +102,11 @@ fi
 
 %files
 %defattr(-, root, root)
-%{pgprefix}/*
-%exclude %{pgprefix}/include/*
-%exclude %{pgprefix}/lib/*.a
+%{pgprefix}/bin/*
+%{pgprefix}/lib/*.so
+%{pgprefix}/lib/*.so.*
+%{pgprefix}/lib/pgxs/*
+%{pgprefix}/share/*
 /etc/init.d/openresty-postgresql
 
 
@@ -114,3 +114,4 @@ fi
 %defattr(-,root,root,-)
 %{pgprefix}/include/*
 %{pgprefix}/lib/*.a
+%{pgprefix}/lib/pkgconfig/*
