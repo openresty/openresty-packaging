@@ -1,5 +1,5 @@
 Name:           openresty-python3
-Version:        3.7.2
+Version:        3.7.3
 Release:        1%{?dist}
 Summary:        python3 for OpenResty
 
@@ -23,10 +23,12 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel
 BuildRequires: gcc
+BuildRequires: openssl-devel
 BuildRequires: make
 BuildRequires: libffi-devel
 
 Requires: libffi
+Requires: openssl
 
 
 %description
@@ -50,6 +52,7 @@ into other programs, and to make binary distributions for Python libraries.
 %build
 export PYTHONPATH=
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
+    --without-ensurepip \
     LDFLAGS="-L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
     CFLAGS="-g3"
 make %{?_smp_mflags}
@@ -63,20 +66,23 @@ make \
 
 find %{buildroot} -type f -print0 | xargs -0 chmod u+w
 
+rm -rf %{buildroot}%{_prefix}/share
+
+
 %files
 %defattr(-, root, root)
 
 %{_prefix}/bin/*
-%{_prefix}/lib/*
-%exclude %{_prefix}/share/*
-%exclude %{_prefix}/lib/python*/config-*-x86_64-linux-gnu
+%{_prefix}/lib/*.so
+%{_prefix}/lib/*.so.*
+%{_prefix}/lib/python*/*
 
 
 %files devel
 %defattr(-, root, root)
 
 %{_prefix}/include/*
-%{_prefix}/lib/python*/config-*-x86_64-linux-gnu
+%{_prefix}/lib/pkgconfig/*
 
 
 %changelog
