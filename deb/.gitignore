@@ -63,3 +63,6 @@ openresty-yajl/debian/openresty-yajl/
 openresty-elfutils/debian/openresty-elfutils-dbgsym/
 openresty-elfutils/debian/openresty-elfutils-dev/
 openresty-elfutils/debian/openresty-elfutils/
+openresty-gdb/debian/openresty-gdb-dbgsym/
+openresty-gdb/debian/openresty-gdb/
+/note.txt
