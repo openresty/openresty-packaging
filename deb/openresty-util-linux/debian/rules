@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./configure \
+    --prefix=/usr/local/openresty-util-linux --disable-libuuid --disable-libblkid \
+    --disable-libmount --disable-libsmartcols --disable-libfdisk\
+    --disable-fdisks --disable-mount --disable-losetup \
+    --disable-zramctl --disable-fsck --disable-partx \
+    --disable-uuidd --disable-mountpoint --disable-fallocate \
+    --disable-unshare --disable-nsenter --disable-setpriv \
+    --disable-eject --disable-agetty --disable-cramfs \
+    --disable-bfs --disable-minix --disable-fdformat \
+    --disable-hwclock --disable-wdctl --disable-cal \
+    --disable-logger --without-python --disable-pylibmount \
+    --disable-lslogins --disable-switch_root --disable-pivot_root \
+    --disable-lsmem --disable-chmem --disable-ipcrm \
+    --disable-ipcs --disable-rfkill --disable-kill \
+    --disable-last --disable-utmpdump --disable-mesg \
+    --disable-raw --disable-rename --disable-login \
+    --disable-nologin --disable-sulogin --disable-su \
+    --disable-runuser --disable-ul --disable-more \
+    --disable-setterm --disable-schedutils --disable-wall \
+		&& make script -j`nproc`
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)/usr/local/openresty-util-linux/bin/ \
+		&& mv ./script $(DESTDIR)/usr/local/openresty-util-linux/bin/script
+
+override_dh_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-util-linux-dbgsym

@@ -65,4 +65,6 @@ openresty-elfutils/debian/openresty-elfutils-dev/
 openresty-elfutils/debian/openresty-elfutils/
 openresty-gdb/debian/openresty-gdb-dbgsym/
 openresty-gdb/debian/openresty-gdb/
+openresty-util-linux/debian/openresty-util-linux-dbgsym/
+openresty-util-linux/debian/openresty-util-linux/
 /note.txt

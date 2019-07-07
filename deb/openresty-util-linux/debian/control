@@ -1,0 +1,21 @@
+Source: openresty-util-linux
+Section: admin
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gettext, libselinux-dev, ncurses-dev, pkg-config
+Standards-Version: 3.9.8
+Homepage: https://github.com/karelzak/util-linux
+
+Package: openresty-util-linux
+Architecture: any
+Section: admin
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of util-linux
+ OpenResty's fork of util-linux for script tool.
+
+Package: openresty-util-linux-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-util-linux (>= 2.34)
+Description: Debug symbols for the openresty-util-linux package
+ Debug symbols (or debuginfo) for the openresty-util-linux package.
