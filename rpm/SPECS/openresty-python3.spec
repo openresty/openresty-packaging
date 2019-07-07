@@ -25,9 +25,7 @@ BuildRequires: glibc-devel
 BuildRequires: gcc
 BuildRequires: openssl-devel
 BuildRequires: make
-BuildRequires: libffi-devel
 
-Requires: libffi
 Requires: openssl
 
 
@@ -50,11 +48,14 @@ into other programs, and to make binary distributions for Python libraries.
 
 
 %build
+
 export PYTHONPATH=
+
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    LDFLAGS="-L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
+    LDFLAGS="-L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
     CFLAGS="-g3"
+
 make %{?_smp_mflags}
 
 
@@ -67,11 +68,14 @@ make \
 find %{buildroot} -type f -print0 | xargs -0 chmod u+w
 
 rm -rf %{buildroot}%{_prefix}/share
+( find %{buildroot}%{_prefix}/lib -type d -name 'test' -exec rm -rf "{}" \; || exit 0 )
+( find %{buildroot}%{_prefix}/lib -type d -name 'tests' -exec rm -rf "{}" \; || exit 0 )
+( find %{buildroot}%{_prefix}/lib -type d -name 'unittest' -exec rm -rf "{}" \; || exit 0 )
+#( find %{buildroot}%{_prefix}/lib -type d -name '__pycache__' -exec rm -r "{}" \; || exit 0 )
 
 
 %files
 %defattr(-, root, root)
-
 %{_prefix}/bin/*
 %{_prefix}/lib/*.so
 %{_prefix}/lib/*.so.*
@@ -80,9 +84,12 @@ rm -rf %{buildroot}%{_prefix}/share
 
 %files devel
 %defattr(-, root, root)
-
 %{_prefix}/include/*
 %{_prefix}/lib/pkgconfig/*
+
+
+%clean
+rm -rf %{buildroot}
 
 
 %changelog
