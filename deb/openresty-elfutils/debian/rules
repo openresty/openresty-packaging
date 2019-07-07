@@ -26,7 +26,7 @@ override_dh_auto_build:
     --enable-maintainer-mode \
 		&& sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib64 #' \
     `find . -name Makefile` \
-		&& make -j$(nproc)
+		&& make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \

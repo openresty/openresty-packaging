@@ -1,0 +1,21 @@
+Source: openresty-gdb
+Section: debug
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), libc6-dev, make, gcc, g++, texinfo, libmpfr-dev, openresty-python3-dev (>= 3.7.3), liblzma-dev, ncurses-dev
+Standards-Version: 3.9.8
+Homepage: https://www.gnu.org/home.en.html
+
+Package: openresty-gdb
+Architecture: any
+Section: debug
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.7.3), libc6, libstdc++6
+Description: gdb for OpenResty
+ This is OpenResty's gdb package.
+
+Package: openresty-gdb-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-gdb (>= 8.3)
+Description: Debug symbols for the openresty-gdb package
+ Debug symbols (or debuginfo) for the openresty-gdb package.

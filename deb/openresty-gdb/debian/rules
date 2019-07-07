@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	CXXFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
+    CFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
+    LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
+    ./configure --with-python=/usr/local/openresty-python3/bin/python3 \
+    --prefix=/usr/local/openresty-gdb --without-guile \
+		&& make -j`nproc`
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& ln -sf /usr/lib/debug $(DESTDIR)//usr/local/openresty-gdb/lib/ \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/include/ \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/lib/*.a \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/lib/*.la \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/share/man/ \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/share/info/
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-gdb-dbgsym

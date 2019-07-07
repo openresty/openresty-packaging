@@ -31,7 +31,7 @@ override_dh_auto_build:
         CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
         CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
         LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib' \
-		&& make -j$(nproc)
+		&& make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
