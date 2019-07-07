@@ -1,5 +1,5 @@
 Name:           openresty-gdb
-Version:        8.2.1
+Version:        8.3
 Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
@@ -24,10 +24,10 @@ BuildRequires: make
 BuildRequires: gcc gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
-BuildRequires: openresty-python3-devel >= 3.7.0-2
+BuildRequires: openresty-python3-devel >= 3.7.3
 BuildRequires: xz-devel, ncurses-devel
 
-Requires: openresty-python3 >= 3.7.0-2
+Requires: openresty-python3 >= 3.7.3
 Requires: xz-libs, gmp, mpfr, glibc, libstdc++, expat, ncurses-libs
 
 
