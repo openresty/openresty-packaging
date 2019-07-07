@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./configure --prefix=/usr/local/openresty/postgresql \
+            --with-libxml \
+            --with-blocksize=32 \
+            --with-segsize=2 \
+            --with-wal-blocksize=64 \
+            --with-libxslt \
+            --with-openssl \
+            --with-ossp-uuid \
+            CFLAGS="-O2 -g3" \
+            LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty/postgresql/lib" \
+		&& make -j`nproc`
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& make install-world DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)//usr/local/openresty/postgresql/share/man \
+    $(DESTDIR)//usr/local/openresty/postgresql/share/doc \
+		&& install -d $(DESTDIR)/etc/profile.d \
+		&& install -d $(DESTDIR)/etc/init.d \
+
+override_dh_auto_clean:
+	dh_clean
+	rm -fr $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-postgresql-dbgsym

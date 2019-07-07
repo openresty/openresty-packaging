@@ -1,0 +1,3 @@
+usr/local/openresty/postgresql/include/*
+usr/local/openresty/postgresql/lib/*.a
+usr/local/openresty/postgresql/lib/pkgconfig/*

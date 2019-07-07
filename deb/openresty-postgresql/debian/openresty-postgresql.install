@@ -1,0 +1,5 @@
+usr/local/openresty/postgresql/lib/*.so
+usr/local/openresty/postgresql/lib/*.so.*
+usr/local/openresty/postgresql/lib/pgxs/*
+usr/local/openresty/postgresql/bin/*
+usr/local/openresty/postgresql/share/*

@@ -68,3 +68,7 @@ openresty-gdb/debian/openresty-gdb/
 openresty-util-linux/debian/openresty-util-linux-dbgsym/
 openresty-util-linux/debian/openresty-util-linux/
 /note.txt
+openresty-postgresql/debian/openresty-postgresql-dbgsym/
+openresty-postgresql/debian/openresty-postgresql-dev/
+openresty-postgresql/debian/openresty-postgresql/
+*.debhelper
