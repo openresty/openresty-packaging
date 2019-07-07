@@ -1,0 +1,30 @@
+Source: openresty-python3
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), libc6-dev, gcc, libssl-dev, make
+Standards-Version: 3.9.8
+Homepage: https://www.python.org/
+
+Package: openresty-python3
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, libssl1.0.0
+Description: python3 for OpenResty
+ This is OpenResty's python3 package
+
+Package: openresty-python3-dev
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.7.3)
+Description: Libraries and header files needed for Python development
+ This package contains the header files and configuration needed to compile
+ Python extension modules (typically written in C or C++), to embed Python
+ into other programs, and to make binary distributions for Python libraries.
+
+Package: openresty-python3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-python3 (>= 3.7.3)
+Description: Debug symbols for the openresty-python3 package
+ Debug symbols (or debuginfo) for the openresty-python3 package.

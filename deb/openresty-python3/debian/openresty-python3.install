@@ -1,0 +1,4 @@
+usr/local/openresty-python3/bin/*
+usr/local/openresty-python3/lib/*.so
+usr/local/openresty-python3/lib/*.so.*
+usr/local/openresty-python3/lib/python*/*
