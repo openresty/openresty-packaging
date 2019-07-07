@@ -21,7 +21,7 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel
 BuildRequires: make
-BuildRequires: gcc gcc-c++
+BuildRequires: gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.7.3
@@ -42,7 +42,7 @@ This is OpenResty's gdb package.
 %build
 CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     CFLAGS="-g3 -O2 -I%{py_prefix}/include" \
-    LDFLAGS="-L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
+    LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
     ./configure --with-python=%{py_prefix}/bin/python3 \
     --prefix=%{_prefix} --without-guile
 
@@ -53,6 +53,12 @@ make %{?_smp_mflags}
 make install DESTDIR=%{buildroot}
 ln -sf /usr/lib/debug %{buildroot}/%{_prefix}/lib/
 
+rm -rf %{buildroot}%{_prefix}/include/
+rm -rf %{buildroot}%{_prefix}/lib/*.a
+rm -rf %{buildroot}%{_prefix}/lib/*.la
+rm -rf %{buildroot}%{_prefix}/share/man/
+rm -rf %{buildroot}%{_prefix}/share/info/
+
 
 %files
 %defattr(-,root,root)
@@ -60,11 +66,6 @@ ln -sf /usr/lib/debug %{buildroot}/%{_prefix}/lib/
 %{_prefix}/bin/
 %{_prefix}/lib/
 %{_prefix}/share/
-%exclude %{_prefix}/share/man/
-%exclude %{_prefix}/share/info/
-%exclude %{_prefix}/include/
-%exclude %{_prefix}/lib/*.a
-%exclude %{_prefix}/lib/*.la
 
 
 %changelog
