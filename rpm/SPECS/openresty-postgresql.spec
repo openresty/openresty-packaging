@@ -14,6 +14,8 @@ Source1:    openresty-postgresql.init
 BuildRequires:  libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
 Requires:       libxml2, libxslt, readline, uuid, openssl
 
+AutoReqProv:        no
+
 %description
 PostgreSQL is the world's most advanced open source database.
 
@@ -54,6 +56,7 @@ Provides C header and static library for the openresty-postgresql package.
             --with-libxslt \
             --with-openssl \
             --with-ossp-uuid \
+            CC='ccache gcc' \
             CFLAGS="-O2 -g3" \
             LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib"
 
@@ -62,12 +65,17 @@ make %{?_smp_mflags}
 %install
 make install DESTDIR=${RPM_BUILD_ROOT}
 make install-world DESTDIR=${RPM_BUILD_ROOT}
+
 rm -rf ${RPM_BUILD_ROOT}/%{pgprefix}/share/man \
     ${RPM_BUILD_ROOT}/%{pgprefix}/share/doc
 #install -d $RPM_BUILD_ROOT/etc/ld.so.conf.d
-install -d $RPM_BUILD_ROOT/etc/profile.d
+#install -d $RPM_BUILD_ROOT/etc/profile.d
 install -d $RPM_BUILD_ROOT/etc/init.d
 %{__install} -p -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/etc/init.d/openresty-postgresql
+
+# for some reasons that we don't know, centos 6's rpmbuild --rebuild command
+# would install some .o files...
+find ${RPM_BUILD_ROOT}/%{pgprefix}/lib -name '*.o' -delete
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -108,6 +116,8 @@ fi
 %{pgprefix}/lib/pgxs/*
 %{pgprefix}/share/*
 /etc/init.d/openresty-postgresql
+%exclude %{pgprefix}/lib/*/*.o
+%exclude %{pgprefix}/lib/st[a-zA-Z0-9]*
 
 
 %files devel
