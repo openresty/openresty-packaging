@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.14
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
@@ -11,7 +11,7 @@ URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql.init
 
-BuildRequires:  libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
+BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
 Requires:       libxml2, libxslt, readline, uuid, openssl
 
 AutoReqProv:        no
@@ -48,6 +48,11 @@ Provides C header and static library for the openresty-postgresql package.
 %setup -q -n postgresql-%{version}
 
 %build
+export GCC_COLORS="error=01;31:warning=01;35:note=01;36:range1=32:range2=34:locus=01:\
+quote=01:fixit-insert=32:fixit-delete=31:\
+diff-filename=01:diff-hunk=32:diff-delete=31:diff-insert=32:\
+type-diff=01;32"
+
 ./configure --prefix=%{pgprefix} \
             --with-libxml \
             --with-blocksize=32 \
@@ -72,10 +77,6 @@ rm -rf ${RPM_BUILD_ROOT}/%{pgprefix}/share/man \
 #install -d $RPM_BUILD_ROOT/etc/profile.d
 install -d $RPM_BUILD_ROOT/etc/init.d
 %{__install} -p -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/etc/init.d/openresty-postgresql
-
-# for some reasons that we don't know, centos 6's rpmbuild --rebuild command
-# would install some .o files...
-find ${RPM_BUILD_ROOT}/%{pgprefix}/lib -name '*.o' -delete
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
