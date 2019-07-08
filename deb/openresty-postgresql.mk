@@ -19,7 +19,7 @@ openresty-postgresql-clean:
 
 .PHONY: openresty-postgresql-build
 openresty-postgresql-build: openresty-postgresql-clean openresty-postgresql-download
-	sudo apt-get -y -q install libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev libssl-dev
+	sudo apt-get -y -q install libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev libssl-dev ccache
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql_9.6.14.orig.tar.gz --strip-components=1 -C openresty-postgresql
 	cd openresty-postgresql \
