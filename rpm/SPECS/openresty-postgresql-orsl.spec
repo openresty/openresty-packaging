@@ -6,7 +6,7 @@ Name:       openresty-postgresql-%{ext}
 Version:    0.01
 Release:    1%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
-Group:      Applications/System
+Group:      Productivity/Database
 License:    BSD
 URL:        https://github.com/
 Source0:    postgres-orsl-%{version}.tar.gz
