@@ -74,3 +74,5 @@ openresty-postgresql/debian/openresty-postgresql/
 *.debhelper
 openresty-postgresql-ip4r/debian/openresty-postgresql-ip4r-dbgsym/
 openresty-postgresql-ip4r/debian/openresty-postgresql-ip4r/
+openresty-postgresql-orsl/debian/openresty-postgresql-orsl-dbgsym/
+openresty-postgresql-orsl/debian/openresty-postgresql-orsl/
