@@ -14,7 +14,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, perl, valgrind-devel
+BuildRequires:  ccache, gcc, make, perl, valgrind-devel
 Requires:       valgrind
 
 BuildRequires:  perl-File-Temp
@@ -83,6 +83,7 @@ a single box.
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0 -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64

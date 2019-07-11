@@ -17,7 +17,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  gcc, make, perl
+BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-devel >= 8.41-1
@@ -158,6 +158,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %build
 ./configure \
     --prefix="%{orprefix}" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64
