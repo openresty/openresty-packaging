@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.15.8.1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -23,7 +23,9 @@ BuildRequires:  openresty-openssl-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel, texinfo
+%ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel
+%endif
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl >= 1.1.0j
 Requires:       openresty-pcre >= 8.41-1
@@ -158,7 +160,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --prefix="%{orprefix}" \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+%ifarch x86_64
     --with-lua_resty_hyperscan \
+%endif
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
