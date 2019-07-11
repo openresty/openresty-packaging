@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -22,7 +22,7 @@ AutoReqProv:    no
 %endif
 
 BuildRequires: glibc-devel
-BuildRequires: gcc
+BuildRequires: ccache, gcc
 BuildRequires: openssl-devel
 BuildRequires: make
 
@@ -53,6 +53,7 @@ export PYTHONPATH=
 
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
     --without-ensurepip \
+    CC='ccache gcc -fdiagnostics-color=always' \
     LDFLAGS="-L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
     CFLAGS="-g3"
 

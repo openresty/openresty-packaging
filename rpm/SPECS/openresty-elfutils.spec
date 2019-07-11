@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.176.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -35,7 +35,7 @@ AutoReqProv: no
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: gcc >= 4.1.2-33
+BuildRequires: ccache, gcc >= 4.1.2-33
 BuildRequires: glibc >= 2.7
 BuildRequires: bison >= 1.875
 BuildRequires: flex >= 2.5.4a
@@ -87,6 +87,7 @@ autoreconf -vif
 ./configure \
     --prefix=%{eu_prefix} \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} -L%{yajl_prefix}/%{_lib} -lyajl' \
+    CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 

@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        8.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -21,7 +21,7 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel
 BuildRequires: make
-BuildRequires: gcc, gcc-c++
+BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.7.3
@@ -43,6 +43,8 @@ This is OpenResty's gdb package.
 CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     CFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
+    CC='ccache gcc -fdiagnostics-color=always' \
+    CXX='ccache g++ -fdiagnostics-color=always' \
     ./configure --with-python=%{py_prefix}/bin/python3 \
     --prefix=%{_prefix} --without-guile
 

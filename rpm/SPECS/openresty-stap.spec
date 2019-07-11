@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.2.0.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -37,7 +37,7 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: gcc-c++
+BuildRequires: ccache, gcc-c++
 BuildRequires: gettext-devel
 BuildRequires: m4
 BuildRequires: zlib-devel
@@ -103,6 +103,8 @@ along with the optional dtrace-compatibility preprocessor to process related
         --without-python2-probes \
         --without-python3-probes \
         --disable-refdocs \
+        CC='ccache gcc -fdiagnostics-color=always' \
+        CXX='ccache g++ -fdiagnostics-color=always' \
         CFLAGS='-I%{eu_prefix}/include -g3 -O2' \
         CXXFLAGS='-I%{eu_prefix}/include -g3 -O2' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
