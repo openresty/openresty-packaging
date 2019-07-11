@@ -1,6 +1,6 @@
 Name: openresty-yajl
 Version: 2.1.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
@@ -14,7 +14,7 @@ URL: http://lloyd.github.com/yajl/
 Source0: yajl-plus-%{version}.tar.gz
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: cmake
+BuildRequires: ccache, cmake, gcc, make
 AutoReqProv:        no
 
 %package devel
@@ -61,6 +61,7 @@ necessary for developing against the YAJL library
 rm -rf build
 mkdir build
 cd build
+export CC='ccache gcc -fdiagnostics-color=always'
 %cmake -DCMAKE_INSTALL_PREFIX=%{yajl_prefix} ..
 make VERBOSE=1 %{?_smp_mflags}
 
