@@ -22,7 +22,7 @@ BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
-BuildRequires:  glibc-devel
+BuildRequires:  glibc-devel, texinfo
 BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl >= 1.1.0j
