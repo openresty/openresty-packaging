@@ -1,6 +1,6 @@
 Name:           openresty-debug
-Version:        1.13.6.2
-Release:        1%{?dist}
+Version:        1.15.8.1
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -12,12 +12,10 @@ URL:            https://openresty.org/
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
-Patch0:         nginx-1.13.6-rm_glibc_crypt_r_workaround.patch
-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-debug-devel >= 1.1.0h-1
 BuildRequires:  openresty-pcre-devel >= 8.42-1
@@ -62,12 +60,11 @@ a single box.
 %prep
 %setup -q -n "openresty-%{version}"
 
-%patch0 -p1
-
 
 %build
 ./configure \
     --prefix="%{orprefix}" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-debug \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
@@ -146,6 +143,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
+- upgraded openresty to 1.15.8.1.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1
 - upgraded openresty to 1.13.6.2.
 * Sun Nov 12 2017 Yichun Zhang (agentzh) 1.13.6.1-1
