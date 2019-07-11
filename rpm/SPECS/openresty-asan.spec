@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.15.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -36,6 +36,15 @@ AutoReqProv:        no
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
 %endif
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages

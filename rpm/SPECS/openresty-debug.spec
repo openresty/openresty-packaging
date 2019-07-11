@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.15.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -29,6 +29,15 @@ AutoReqProv:        no
 %define openssl_prefix      %{orprefix}/openssl
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
