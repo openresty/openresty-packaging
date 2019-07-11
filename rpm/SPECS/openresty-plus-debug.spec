@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
-Version:        1.15.8.1.7
-Release:        2%{?dist}
+Version:        1.15.8.1.8
+Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -234,6 +234,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jul 11 2019 Yichun Zhang (agentzh) 1.15.8.1.8-1
+- upgraded openresty-plus to 1.15.8.1.8.
 * Mon Jul 1 2019 Yichun Zhang (agentzh) 1.15.8.1.7-1
 - upgraded openresty-plus to 1.15.8.1.7.
 * Wed Jun 26 2019 Yichun Zhang (agentzh) 1.15.8.1.6-1
