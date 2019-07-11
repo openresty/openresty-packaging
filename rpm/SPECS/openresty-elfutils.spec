@@ -87,7 +87,7 @@ autoreconf -vif
 ./configure \
     --prefix=%{eu_prefix} \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} -L%{yajl_prefix}/%{_lib} -lyajl' \
-    CFLAGS="-Wa,-mrelax-relocations=no -Wa,--nocompress-debug-sections -I%{yajl_prefix}/include -g3 -O2" \
+    CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} #' \
