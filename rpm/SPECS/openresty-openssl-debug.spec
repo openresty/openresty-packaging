@@ -1,5 +1,5 @@
 Name:               openresty-openssl-debug
-Version:            1.1.0j
+Version:            1.1.0k
 Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
@@ -60,7 +60,7 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 
 sed -i 's/ -O3 / -O0 /g' Makefile
 
-make %{?_smp_mflags}
+make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
 
 
 %install

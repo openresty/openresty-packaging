@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.15.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -15,7 +15,7 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  gcc, make, perl, systemtap-sdt-devel
+BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl-debug-devel >= 1.1.0h-1
 BuildRequires:  openresty-pcre-devel >= 8.42-1
@@ -64,6 +64,7 @@ a single box.
 %build
 ./configure \
     --prefix="%{orprefix}" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-debug \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \

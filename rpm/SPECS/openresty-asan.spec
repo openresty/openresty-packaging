@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.15.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -15,7 +15,7 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  make, perl, systemtap-sdt-devel, clang, valgrind-devel
+BuildRequires:  ccache, make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
@@ -79,7 +79,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="clang -fsanitize=address" \
+    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics" \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
