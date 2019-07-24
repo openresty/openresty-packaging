@@ -11,7 +11,7 @@ Architecture: any
 Section: admin
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: OpenResty's fork of util-linux
- OpenResty's fork of util-linux for script tool.
+ OpenResty's fork of util-linux for script and scriptreplay tools.
 
 Package: openresty-util-linux-dbgsym
 Section: debug

@@ -9,7 +9,7 @@ openresty-util-linux-download:
 	rm -rf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	mkdir -p openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	tar -xf util-linux-2.34.tar.xz --strip-components=1 -C openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
-	tar czf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
+	tar -czf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 
 openresty-util-linux-clean:
 	cd openresty-util-linux && debclean
