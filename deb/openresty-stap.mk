@@ -6,7 +6,7 @@ OPENRESTY_STAP_VER := 4.2.0.3
 .PHONY: openresty-stap-download
 openresty-stap-download:
 	rsync -av nuc:~/work/systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz .
-	rsync -av systemtap-plus-4.2.0.2.tar.gz openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz
+	rsync -av systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz
 
 openresty-stap-clean:
 	cd openresty-stap && debclean
@@ -18,7 +18,7 @@ openresty-stap-clean:
 openresty-stap-build: openresty-stap-clean openresty-stap-download
 	sudo apt-get -y -q install g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-stap_4.2.0.2.orig.tar.gz --strip-components=1 -C openresty-stap
+	tar xf openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
 	cd openresty-stap \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
