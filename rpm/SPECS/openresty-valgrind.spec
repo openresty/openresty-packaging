@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
-Version:        1.15.8.1
-Release:        3%{?dist}
+Version:        1.15.8.2
+Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -156,6 +156,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
+- upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
 - upgraded openresty to 1.15.8.1.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1
