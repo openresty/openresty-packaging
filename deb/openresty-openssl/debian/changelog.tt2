@@ -1,3 +1,9 @@
+openresty-openssl (1.1.0k-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openssl to 1.1.0k.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 29 Aug 2019 17:41:56 -0700
+
 openresty-openssl (1.1.0j-1~[% distro %]1) [% distro %]; urgency=high
 
   * fixed -dev package dependency requirement on the main package.
