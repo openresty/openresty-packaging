@@ -30,13 +30,15 @@ build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
 	openresty-valgrind-build openresty-plus-build \
 	lemplate-build test-nginx-build \
-	openresty-plus-debug-build hyperscan-build
+	openresty-plus-debug-build hyperscan-build \
+	openresty-saas-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 	openresty-clean openresty-debug-clean openresty-valgrind-clean \
 	openresty-plus-clean openresty-plus-debug-clean \
-	lemplate-clean test-nginx-clean hyperscan-clean
+	lemplate-clean test-nginx-clean hyperscan-clean \
+	openresty-saas-clean
 
 .PHONY: zlib-download
 zlib-download:

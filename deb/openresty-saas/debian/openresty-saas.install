@@ -1,0 +1,9 @@
+opt/openresty-saas/bin/resty
+opt/openresty-saas/site/lualib/
+opt/openresty-saas/luajit/*
+opt/openresty-saas/lualib/*
+opt/openresty-saas/nginx/html/*
+opt/openresty-saas/nginx/logs/
+opt/openresty-saas/nginx/sbin/*
+opt/openresty-saas/nginx/conf/*
+opt/openresty-saas/COPYRIGHT
