@@ -38,6 +38,7 @@ zlib-download:
 .PHONY: zlib-build
 zlib-build: | zlib-clean zlib-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	sudo apt-get -qq -y install autotools-dev
 	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
 	cd openresty-zlib \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
