@@ -1,6 +1,6 @@
 Name:               openresty-pcre
 Version:            8.43
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -42,6 +42,7 @@ export CC="ccache gcc -fdiagnostics-color=always"
 
 ./configure \
   --prefix=%{pcre_prefix} \
+  --libdir=%{pcre_prefix}/lib \
   --disable-cpp \
   --enable-jit \
   --enable-utf \

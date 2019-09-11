@@ -1,6 +1,6 @@
 Name:           perl-Lemplate
 Version:        0.15
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Lemplate Perl module
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -8,7 +8,7 @@ URL:            http://search.cpan.org/dist/Lemplate/
 Source0:        http://www.cpan.org/authors/id/A/AG/AGENT/Lemplate-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
-BuildRequires:  perl >= 1:v5.8.1
+BuildRequires:  perl >= 5.8.1
 BuildRequires:  perl(ExtUtils::MakeMaker)
 #BuildRequires:  perl(File::Find::Rule)
 BuildRequires:  perl(Template)
@@ -22,6 +22,8 @@ BuildRequires:  perl(Number::Compare)
 Requires:       perl(Template)
 AutoReqProv:    no
 #Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+
+Provides:       perl(Lemplate)
 
 %description
 Lemplate parses TT2 templates using the TT2 Perl framework, but with a

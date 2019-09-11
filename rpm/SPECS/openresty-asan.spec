@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.15.8.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -51,6 +51,12 @@ AutoReqProv:        no
 %undefine _debuginfo_subpackages
 %endif
 
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+
 #%if 0%{?fedora} >= 28
 #BuildRequires:      compiler-rt
 #%endif
@@ -88,7 +94,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics" \
+    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \

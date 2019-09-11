@@ -1,6 +1,6 @@
 Name:           openresty-debug
 Version:        1.15.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -40,6 +40,11 @@ AutoReqProv:        no
 %{nil}
 
 %if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
