@@ -20,6 +20,8 @@ BuildRequires:      ccache, gcc, make, perl, clang
 BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-6
 Requires:           openresty-zlib-asan >= 1.2.11-6
 
+Conflicts:          openresty-openssl111-asan
+
 AutoReqProv:        no
 
 %define openssl_prefix      %{_usr}/local/openresty-asan/openssl

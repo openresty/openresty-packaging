@@ -20,6 +20,8 @@ BuildRequires:      gcc, make, perl
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
+Conflicts:          openresty-openssl111-debug
+
 AutoReqProv:        no
 
 %define openssl_prefix      %{_usr}/local/openresty-debug/openssl
