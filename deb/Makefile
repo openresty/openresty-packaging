@@ -275,7 +275,7 @@ openresty-plus-clean:
 .PHONY: openresty-plus-download
 openresty-plus-download:
 	rm -f *.orig.tar.*
-	rsync -av nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
 	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus_$(OR_PLUS_VER).orig.tar.gz
 
 .PHONY: lemplate-download
@@ -347,7 +347,7 @@ openresty-plus-debug-clean:
 .PHONY: openresty-plus-debug-download
 openresty-plus-debug-download:
 	rm -f *.orig.tar.*
-	rsync -av nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
 	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz
 
 .PHONY: hyperscan-download
