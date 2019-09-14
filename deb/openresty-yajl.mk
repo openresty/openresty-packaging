@@ -5,7 +5,7 @@ OPENRESTY_YAJL_VER := 2.1.0.2
 
 .PHONY: openresty-yajl-download
 openresty-yajl-download:
-	rsync -av nuc:~/work/yajl-plus-$(OPENRESTY_YAJL_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/yajl-plus-$(OPENRESTY_YAJL_VER).tar.gz .
 	rsync -av yajl-plus-2.1.0.2.tar.gz openresty-yajl_$(OPENRESTY_YAJL_VER).orig.tar.gz
 
 openresty-yajl-clean:

@@ -5,7 +5,7 @@ OPENRESTY_ELFUTILS_VER := 0.176.6
 
 .PHONY: openresty-elfutils-download
 openresty-elfutils-download:
-	rsync -av nuc:~/work/elfutils-plus-$(OPENRESTY_ELFUTILS_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/elfutils-plus-$(OPENRESTY_ELFUTILS_VER).tar.gz .
 	rsync -av elfutils-plus-0.176.6.tar.gz openresty-elfutils_$(OPENRESTY_ELFUTILS_VER).orig.tar.gz
 
 openresty-elfutils-clean:

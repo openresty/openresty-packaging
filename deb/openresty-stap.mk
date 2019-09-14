@@ -5,7 +5,7 @@ OPENRESTY_STAP_VER := 4.2.0.7
 
 .PHONY: openresty-stap-download
 openresty-stap-download:
-	rsync -av nuc:~/work/systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz .
 	rsync -av systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz
 
 openresty-stap-clean:
