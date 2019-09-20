@@ -1,3 +1,9 @@
+openresty-plus (1.15.8.2.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.15.8.2.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 20 Sep 2019 00:53:28 -0700
+
 openresty-plus (1.15.8.2.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.15.8.2.2.
