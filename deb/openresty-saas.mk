@@ -5,7 +5,7 @@ OPENRESTY_SAAS_VER := 1.15.8.2.3
 
 .PHONY: openresty-saas-download
 openresty-saas-download:
-	rsync nuc:~/work/openresty-plus-$(OPENRESTY_SAAS_VER).tar.gz ./
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OPENRESTY_SAAS_VER).tar.gz ./
 	rm -rf openresty-saas_$(OPENRESTY_SAAS_VER)
 	mkdir -p openresty-saas_$(OPENRESTY_SAAS_VER)
 	tar -xf openresty-plus-$(OPENRESTY_SAAS_VER).tar.gz --strip-components=1 -C openresty-saas_$(OPENRESTY_SAAS_VER)
