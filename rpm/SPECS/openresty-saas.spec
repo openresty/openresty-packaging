@@ -11,12 +11,15 @@ Version:    1.15.8.2.3
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
-License:    Proprietary
-URL:        http://www.openresty.com
-Source0:    %{or_plus_name}-%{version}.tar.gz
-BuildRoot:	%{buildroot}
+Group:      System Environment/Daemons
 
-AutoReqProv:    no
+License:    Proprietary
+URL:        http://openresty.com
+Source0:    %{or_plus_name}-%{version}.tar.gz
+
+
+BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
@@ -29,6 +32,17 @@ Requires:       openresty-openssl >= 1.1.0k
 Requires:       openresty-pcre >= 8.43
 Requires:       glibc-devel
 
+AutoReqProv:    no
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{or_plus_name}-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
@@ -39,7 +53,8 @@ OpenResty Plus for SaaS product clients.
 
 
 %prep
-%setup -qn %{or_plus_name}-%{version}
+%setup -q -n %{or_plus_name}-%{version}
+
 
 %build
 ./configure \
@@ -99,11 +114,14 @@ popd
 rm -rf %{buildroot}%{saas_or_prefix}/luajit/share/man
 rm -rf %{buildroot}%{saas_or_prefix}/luajit/lib/libluajit-5.1.a
 rm -rf %{buildroot}%{saas_or_prefix}/pod/*
-rm -f %{buildroot}%{saas_or_prefix}/resty.index
-rm -f %{buildroot}%{saas_or_prefix}/bin/md2pod.pl
-rm -f %{buildroot}%{saas_or_prefix}/bin/nginx-xml2pod
-rm -f %{buildroot}%{saas_or_prefix}/bin/openresty-plus
-rm -f %{buildroot}%{saas_or_prefix}/bin/opm
+rm -rf %{buildroot}%{saas_or_prefix}/resty.index
+rm -rf %{buildroot}%{saas_or_prefix}/bin/md2pod.pl
+rm -rf %{buildroot}%{saas_or_prefix}/bin/nginx-xml2pod
+rm -rf %{buildroot}%{saas_or_prefix}/bin/openresty-plus
+rm -rf %{buildroot}%{saas_or_prefix}/bin/opm
+
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
 
 %clean
 rm -rf %{buildroot}

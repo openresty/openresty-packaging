@@ -6,19 +6,14 @@ include /usr/share/dpkg/default.mk
 
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
 
-override_dh_auto_test:
-
-override_dh_usrlocal:
-
 override_dh_auto_configure:
-
-override_dh_auto_build:
 	./configure \
     --prefix="/opt/openresty-saas" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
@@ -56,8 +51,9 @@ override_dh_auto_build:
     --without-http_lua_metrics \
     --without-lmdb \
     --without-tcc \
-    -j`nproc` \
-		&& make -j`nproc`
+    -j$(JOBS)
+
+override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
@@ -73,10 +69,6 @@ override_dh_auto_install:
 		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
-
-override_dh_auto_clean:
-	dh_clean
-	rm -rf $(DESTDIR)
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-saas-dbgsym
