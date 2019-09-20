@@ -3,6 +3,8 @@
 
 OPENRESTY_SAAS_VER := 1.15.8.2.3
 
+deb_toolchain_pkgs=debhelper devscripts
+
 .PHONY: openresty-saas-download
 openresty-saas-download:
 	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OPENRESTY_SAAS_VER).tar.gz ./
@@ -19,7 +21,7 @@ openresty-saas-clean:
 
 .PHONY: openresty-saas-build
 openresty-saas-build: openresty-saas-clean openresty-saas-download
-	sudo apt-get -y -q install ccache gcc make perl openresty-zlib-dev openresty-openssl-dev openresty-pcre-dev libgd-dev libc-dev texinfo
+	sudo apt-get -y -q install ccache gcc make perl openresty-zlib-dev openresty-openssl-dev openresty-pcre-dev libgd-dev libc-dev texinfo $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-saas_$(OPENRESTY_SAAS_VER).orig.tar.gz --strip-components=1 -C openresty-saas
 	cd openresty-saas \
