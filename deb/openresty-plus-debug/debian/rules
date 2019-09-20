@@ -17,6 +17,7 @@ override_dh_auto_configure:
 	./configure \
 	  --prefix="/usr/local/openresty-plus-debug" \
 	  --with-debug \
+	  --with-cc='ccache gcc' \
 	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl/include -Og -g3" \
 	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl/lib" \
 	  --with-lua_resty_hyperscan \

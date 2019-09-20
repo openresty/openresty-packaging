@@ -2,7 +2,7 @@ Source: openresty-plus
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
+Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
  openresty-zlib-dev, openresty-openssl-dev (>= 1.1.0j), openresty-pcre-dev (>= 8.42),
  perl, libfile-temp-perl, libgd-dev, libc6-dev, openresty-plus-hyperscan-dev
 Standards-Version: 3.9.8
