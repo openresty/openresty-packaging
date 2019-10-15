@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -15,6 +15,15 @@ AutoReqProv:    no
 
 %global __os_install_post     %{nil}
 
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/Python-%{version}"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
@@ -53,7 +62,7 @@ export PYTHONPATH=
 
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    CC='ccache gcc -fdiagnostics-color=always' \
+    CC='ccache gcc -g3 -fdiagnostics-color=always' \
     LDFLAGS="-L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
     CFLAGS="-g3"
 
