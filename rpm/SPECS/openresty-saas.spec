@@ -8,7 +8,7 @@
 
 Name:       openresty-saas
 Version:    1.15.8.2.3
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -74,7 +74,6 @@ OpenResty Plus for SaaS product clients.
     --without-lua_resty_shdict_simple \
     --without-lua_resty_cookie \
     --without-pgmoon \
-    --without-lua_resty_ini \
     --without-lua_resty_balancer \
     --without-lua_resty_utf8_escape \
     --without-lua_resty_charset \
