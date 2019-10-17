@@ -31,7 +31,6 @@ override_dh_auto_configure:
     --without-lua_resty_shdict_simple \
     --without-lua_resty_cookie \
     --without-pgmoon \
-    --without-lua_resty_ini \
     --without-lua_resty_balancer \
     --without-lua_resty_utf8_escape \
     --without-lua_resty_charset \

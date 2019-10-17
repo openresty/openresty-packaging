@@ -1,4 +1,4 @@
-openresty-saas (1.15.8.2.3-2~[% distro %]1) [% distro %]; urgency=high
+openresty-saas (1.15.8.2.3-3~[% distro %]1) [% distro %]; urgency=high
 
   * initial packaging
 

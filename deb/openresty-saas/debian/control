@@ -14,6 +14,6 @@ Description: OpenResty Plus for SaaS product clients.
 Package: openresty-saas-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-saas (>= 1.15.8.2.2)
+Depends: ${misc:Depends}, openresty-saas (>= 1.15.8.2.3)
 Description: Debug symbols for the openresty-saas package
  Debug symbols (or debuginfo) for the openresty-saas package.
