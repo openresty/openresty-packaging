@@ -114,7 +114,6 @@ rm -rf %{buildroot}
 %{eu_prefix}/share/*
 %{eu_prefix}/lib/*.so.*
 %{eu_prefix}/lib/*.so
-%{eu_prefix}/lib/elfutils/*
 
 
 %files devel
