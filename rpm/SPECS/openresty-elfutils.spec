@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
-Version:        0.176.6
-Release:        4%{?dist}
+Version:        0.177.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
