@@ -58,13 +58,13 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	rm -rf $(DESTDIR)/opt/openresty-saas/luajit/share/man
-	rm -rf $(DESTDIR)/opt/openresty-saas/luajit/lib/libluajit-5.1.a
+	rm -f $(DESTDIR)/opt/openresty-saas/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)/opt/openresty-saas/pod/*
-	rm -rf $(DESTDIR)/opt/openresty-saas/resty.index
-	rm -rf $(DESTDIR)/opt/openresty-saas/bin/md2pod.pl
-	rm -rf $(DESTDIR)/opt/openresty-saas/bin/nginx-xml2pod
-	rm -rf $(DESTDIR)/opt/openresty-saas/bin/openresty-plus
-	rm -rf $(DESTDIR)/opt/openresty-saas/bin/opm
+	rm -f $(DESTDIR)/opt/openresty-saas/resty.index
+	rm -f $(DESTDIR)/opt/openresty-saas/bin/md2pod.pl
+	rm -f $(DESTDIR)/opt/openresty-saas/bin/nginx-xml2pod
+	rm -f $(DESTDIR)/opt/openresty-saas/bin/openresty-plus
+	rm -f $(DESTDIR)/opt/openresty-saas/bin/opm
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \

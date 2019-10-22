@@ -112,13 +112,13 @@ done
 popd
 
 rm -rf %{buildroot}%{saas_or_prefix}/luajit/share/man
-rm -rf %{buildroot}%{saas_or_prefix}/luajit/lib/libluajit-5.1.a
+rm -f %{buildroot}%{saas_or_prefix}/luajit/lib/libluajit-5.1.a
 rm -rf %{buildroot}%{saas_or_prefix}/pod/*
-rm -rf %{buildroot}%{saas_or_prefix}/resty.index
-rm -rf %{buildroot}%{saas_or_prefix}/bin/md2pod.pl
-rm -rf %{buildroot}%{saas_or_prefix}/bin/nginx-xml2pod
-rm -rf %{buildroot}%{saas_or_prefix}/bin/openresty-plus
-rm -rf %{buildroot}%{saas_or_prefix}/bin/opm
+rm -f %{buildroot}%{saas_or_prefix}/resty.index
+rm -f %{buildroot}%{saas_or_prefix}/bin/md2pod.pl
+rm -f %{buildroot}%{saas_or_prefix}/bin/nginx-xml2pod
+rm -f %{buildroot}%{saas_or_prefix}/bin/openresty-plus
+rm -f %{buildroot}%{saas_or_prefix}/bin/opm
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
