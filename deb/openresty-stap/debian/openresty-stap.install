@@ -1,6 +1,4 @@
 usr/local/openresty-stap/bin/stap
-usr/local/openresty-stap/bin/stap-prep
-usr/local/openresty-stap/bin/stap-report
 usr/local/openresty-stap/share/systemtap/
 usr/local/openresty-stap/share/systemtap/runtime
 usr/local/openresty-stap/share/systemtap/tapset

@@ -43,6 +43,9 @@ override_dh_auto_install:
 		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/lib64/python2.7 \
 		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-server \
 		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapbpf \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapsh \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \
+		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-report \
 		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-env \
 		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-gen-cert \
 		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-serverd \

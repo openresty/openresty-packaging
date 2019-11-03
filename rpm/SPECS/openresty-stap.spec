@@ -133,6 +133,9 @@ rm -rf %{buildroot}%{stap_prefix}/share/locale
 rm -rf %{buildroot}%{stap_prefix}/lib64/python2.7
 rm -f %{buildroot}%{stap_prefix}/bin/stap-server
 rm -f %{buildroot}%{stap_prefix}/bin/stapbpf
+rm -f %{buildroot}%{stap_prefix}/bin/stap-prep
+rm -f %{buildroot}%{stap_prefix}/bin/stap-report
+rm -f %{buildroot}%{stap_prefix}/bin/stapsh
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-env
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-gen-cert
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-serverd
@@ -148,8 +151,6 @@ rm -rf %{buildroot}
 
 %files
 %{stap_prefix}/bin/stap
-%{stap_prefix}/bin/stap-prep
-%{stap_prefix}/bin/stap-report
 %dir %{stap_prefix}/share/systemtap
 %{stap_prefix}/share/systemtap/runtime
 %{stap_prefix}/share/systemtap/tapset
@@ -158,7 +159,6 @@ rm -rf %{buildroot}
 %files runtime
 %defattr(-,root,root)
 %attr(4110,root,stapusr) %{stap_prefix}/bin/staprun
-%{stap_prefix}/bin/stapsh
 %{stap_prefix}/bin/stap-merge
 %dir %{stap_prefix}/libexec/systemtap
 %{stap_prefix}/libexec/systemtap/stapio
