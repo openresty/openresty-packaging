@@ -1,0 +1,32 @@
+Source: openresty-binutils
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.1.2), bison (>= 1.875), flex (>= 2.5.4a), m4, texinfo, g++, gawk, sed, zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: https://sourceware.org/binutils
+
+Package: openresty-binutils
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libstdc++6
+Description: OpenResty's fork of binutils.
+ OpenResty's fork of Binutils.
+ Binutils is a collection of binary utilities, including ar (for
+ creating, modifying and extracting from archives), as (a family of GNU
+ assemblers), gprof (for displaying call graph profile data), ld (the
+ GNU linker), nm (for listing symbols from object files), objcopy (for
+ copying and translating object files), objdump (for displaying
+ information from object files), ranlib (for generating an index for
+ the contents of an archive), readelf (for displaying detailed
+ information about binary files), size (for listing the section sizes
+ of an object or archive file), strings (for listing printable strings
+ from files), strip (for discarding symbols), and addr2line (for
+ converting addresses to file and line).
+
+Package: openresty-binutils-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-binutils (>= 2.33.1.1)
+Description: Debug symbols for the openresty-binutils package
+ Debug symbols (or debuginfo) for the openresty-binutils package.
