@@ -35,18 +35,7 @@ AutoReqProv: no
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: ccache, gcc >= 4.1.2-33
-BuildRequires: glibc >= 2.7
-BuildRequires: bison >= 1.875
-BuildRequires: flex >= 2.5.4a
-BuildRequires: m4
-BuildRequires: texinfo
-BuildRequires: gcc-c++
-BuildRequires: gawk
-BuildRequires: sed
-BuildRequires: zlib-devel
-
-Requires: glibc >= 2.7
-Requires: libstdc++
+BuildRequires: texinfo >= 4.0, gettext, flex, bison, zlib-devel
 
 %description
 OpenResty's fork of Binutils.

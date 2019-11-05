@@ -23,7 +23,7 @@ openresty-binutils-clean:
 
 .PHONY: openresty-binutils-build
 openresty-binutils-build: openresty-binutils-clean openresty-binutils-download
-	sudo apt-get -y -q install ccache gcc bison flex m4 texinfo g++ gawk sed zlib1g-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -q install ccache gcc texinfo gettext flex bison zlib1g-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-binutils_$(OPENRESTY_BINUTILS_VER).orig.tar.gz --strip-components=1 -C openresty-binutils
 	cd openresty-binutils \

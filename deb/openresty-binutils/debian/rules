@@ -24,17 +24,18 @@ override_dh_auto_build:
     --disable-ar --disable-gprof --disable-dlltool --disable-ranlib --disable-windmc \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
-    --disable-libdecnumber --disable-sim --disable-nm --disable-readline \
-    --disable-libquadmath \
+    --disable-libdecnumber --disable-sim --disable-readline \
+    --disable-libquadmath CFLAGS='-Wno-error -g3 -O2' \
 		&& make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/man \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/info \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/include \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/lib \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/locale \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/lib \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/include \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/x86_64-pc-linux-gnu \
 		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/ar \
 		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/elfedit \
 		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/ranlib

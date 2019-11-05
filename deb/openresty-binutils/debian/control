@@ -2,14 +2,14 @@ Source: openresty-binutils
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.1.2), bison (>= 1.875), flex (>= 2.5.4a), m4, texinfo, g++, gawk, sed, zlib1g-dev
+Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.1.2), texinfo (>= 4.0), gettext, flex, bison, zlib1g-dev
 Standards-Version: 3.9.8
 Homepage: https://sourceware.org/binutils
 
 Package: openresty-binutils
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, libstdc++6
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: OpenResty's fork of binutils.
  OpenResty's fork of Binutils.
  Binutils is a collection of binary utilities, including ar (for
