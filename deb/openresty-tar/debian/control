@@ -1,0 +1,30 @@
+Source: openresty-tar
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.1.2), autoconf, automake, gzip, texinfo, gettext, libacl1-dev, gawk
+Standards-Version: 3.9.8
+Homepage: http://www.gnu.org/software/tar/
+
+Package: openresty-tar
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, info, libacl1
+Description: OpenResty's fork of tar.
+ OpenResty's fork of tar.
+ The GNU tar program saves many files together in one archive and can
+ restore individual files (or all of the files) from that archive. Tar
+ can also be used to add supplemental files to an archive and to update
+ or list files in the archive. Tar includes multivolume support,
+ automatic archive compression/decompression, the ability to perform
+ remote archives, and the ability to perform incremental and full
+ backups.
+ If you want to use tar for remote backups, you also need to install
+ the rmt package on the remote box.
+
+Package: openresty-tar-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}
+Description: Debug symbols for the openresty-tar package
+ Debug symbols (or debuginfo) for the openresty-tar package.
