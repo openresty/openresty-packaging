@@ -31,6 +31,9 @@ override_dh_auto_build:
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/man \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/info \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/include \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/lib \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/locale \
 		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/ar \
 		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/elfedit \
