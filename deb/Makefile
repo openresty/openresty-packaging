@@ -32,6 +32,7 @@ build: zlib-build pcre-build openssl-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build
+	openresty-plzip-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
@@ -40,6 +41,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 	lemplate-clean test-nginx-clean hyperscan-clean \
 	openresty-saas-clean openresty-binutils-clean \
 	openresty-tar-clean
+	openresty-plzip-clean
 
 .PHONY: zlib-download
 zlib-download:

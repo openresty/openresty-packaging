@@ -1,0 +1,24 @@
+Source: openresty-plzip
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.1.2), g++
+Standards-Version: 3.9.8
+Homepage: http://www.nongnu.org/lzip/lzip.html
+
+Package: openresty-plzip
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libstdc++6
+Description: OpenResty's fork of plzip.
+ Lzip compresses data using LZMA (Lempel-Ziv-Markov chain-Algorithm). It
+ supports integrity checking using CRC (Cyclic Redundancy Check). To archive
+ multiple files, tar can be used with lzip. Please note, that the lzip file
+ format (.lz) is not compatible with the lzma file format (.lzma).
+
+Package: openresty-plzip-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-plzip (>= 1.8)
+Description: Debug symbols for the openresty-plzip package
+ Debug symbols (or debuginfo) for the openresty-plzip package.
