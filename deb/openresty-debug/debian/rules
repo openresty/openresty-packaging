@@ -17,6 +17,7 @@ override_dh_auto_configure:
 	  --with-debug \
 	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl/include -O0" \
 	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl/lib" \
+	  --with-compat \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \

@@ -82,6 +82,7 @@ a single box.
     --with-debug \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+	  --with-compat \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \

@@ -187,6 +187,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+	  --with-compat \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
