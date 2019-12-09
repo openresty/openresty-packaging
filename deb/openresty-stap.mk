@@ -16,8 +16,8 @@ openresty-stap-clean:
 
 .PHONY: openresty-stap-build
 openresty-stap-build: openresty-stap-clean openresty-stap-download
-	sudo apt-get -y -q install g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev
-	sudo apt-get -y -q upgrade g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev
+	sudo apt-get -y -q install g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl
+	sudo apt-get -y -q upgrade g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
 	cd openresty-stap \
