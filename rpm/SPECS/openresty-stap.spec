@@ -116,6 +116,7 @@ cd ..
 make %{?_smp_mflags}
 
 %install
+mkdir -p %{buildroot}%{stap_prefix}/share/systemtap/
 install -c -m 644 tapset/tapset-deps.data %{buildroot}%{stap_prefix}/share/systemtap/
 rm tapset/tapset-deps.data
 

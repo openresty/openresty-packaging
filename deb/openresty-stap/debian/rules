@@ -35,6 +35,7 @@ override_dh_auto_build:
 		&& make -j`nproc`
 
 override_dh_auto_install:
+	mkdir -p $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
 	install -c -m 644 tapset/tapset-deps.data $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
 	rm tapset/tapset-deps.data
 	make install DESTDIR=$(DESTDIR) \
