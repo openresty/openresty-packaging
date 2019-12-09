@@ -37,7 +37,7 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++
+BuildRequires: ccache, gcc-c++, perl-JSON-XS
 BuildRequires: gettext-devel
 BuildRequires: m4
 BuildRequires: zlib-devel
@@ -93,6 +93,10 @@ along with the optional dtrace-compatibility preprocessor to process related
 
 
 %build
+cd tapset/
+perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
+cd ..
+
 ./configure \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
@@ -111,12 +115,8 @@ along with the optional dtrace-compatibility preprocessor to process related
 
 make %{?_smp_mflags}
 
-cd tapset/
-perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
-cd ..
-
 %install
-install -c -m 644 tapset/tapset-deps.data %{stap_prefix}/share/systemtap/
+install -c -m 644 tapset/tapset-deps.data %{buildroot}%{stap_prefix}/share/systemtap/
 rm tapset/tapset-deps.data
 
 make install DESTDIR=%{buildroot}
