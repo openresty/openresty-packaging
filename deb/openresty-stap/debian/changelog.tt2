@@ -1,3 +1,9 @@
+openresty-stap (4.2.0.15-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded systemtap-plus to 4.2.0.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 8 Dec 2019 21:27:37 -0800
+
 openresty-stap (4.2.0.14-2~[% distro %]1) [% distro %]; urgency=high
 
   * installed parse-stp-deps.pl to PREFIX/bin/.
