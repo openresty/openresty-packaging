@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd tapset && perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
+	cd tapset && arch=`uname -m` perl ../util/parse-tapset-deps.pl $arch/*.stp *.{stp,stpm} linux/$arch/*.stp linux/*.{stp,stpm}
 	./configure \
         --prefix=/usr/local/openresty-stap \
         --disable-docs --disable-publican \
