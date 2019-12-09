@@ -38,6 +38,8 @@ override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
 	install -c -m 644 tapset/tapset-deps.data $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
 	rm tapset/tapset-deps.data
+	mkdir -p $(DESTDIR)/usr/local/openresty-stap/bin/
+	install -c -m 755 util/parse-stp-deps.pl $(DESTDIR)/usr/local/openresty-stap/bin/
 	make install DESTDIR=$(DESTDIR) \
 		&& chmod 755 $(DESTDIR)/usr/local/openresty-stap/bin/staprun \
 		&& install -c -m 755 stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \

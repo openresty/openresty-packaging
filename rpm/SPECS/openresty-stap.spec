@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.2.0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -48,7 +48,7 @@ BuildRequires: openresty-elfutils-devel >= 0.177.3-1
 Requires: bzip2-libs
 Requires: xz-libs
 Requires: zlib
-Requires: make
+Requires: make, perl, perl-JSON-XS
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: openresty-elfutils >= 0.177.3-1
 
@@ -119,6 +119,8 @@ make %{?_smp_mflags}
 mkdir -p %{buildroot}%{stap_prefix}/share/systemtap/
 install -c -m 644 tapset/tapset-deps.data %{buildroot}%{stap_prefix}/share/systemtap/
 rm tapset/tapset-deps.data
+mkdir -p %{buildroot}%{stap_prefix}/bin/
+install -c -m 755 util/parse-stp-deps.pl %{buildroot}%{stap_prefix}/bin/
 
 make install DESTDIR=%{buildroot}
 
@@ -158,6 +160,7 @@ rm -rf %{buildroot}
 
 %files
 %{stap_prefix}/bin/stap
+%{stap_prefix}/bin/parse-stp-deps.pl
 %dir %{stap_prefix}/share/systemtap
 %{stap_prefix}/share/systemtap/runtime
 %{stap_prefix}/share/systemtap/tapset

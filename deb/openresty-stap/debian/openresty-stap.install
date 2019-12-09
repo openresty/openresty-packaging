@@ -1,4 +1,5 @@
 usr/local/openresty-stap/bin/stap
+usr/local/openresty-stap/bin/parse-stp-deps.pl
 usr/local/openresty-stap/share/systemtap/
 usr/local/openresty-stap/share/systemtap/tapset-deps.data
 usr/local/openresty-stap/share/systemtap/runtime

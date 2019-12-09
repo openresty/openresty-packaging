@@ -2,7 +2,7 @@ Source: openresty-stap
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), g++, gettext, m4, zlib1g-dev, liblzma-dev, libbz2-dev, openresty-elfutils-dev (>= 0.177.3), libjson-xs-perl
+Build-Depends: debhelper (>= 9), g++, gettext, m4, zlib1g-dev, liblzma-dev, libbz2-dev, openresty-elfutils-dev (>= 0.177.3), perl, libjson-xs-perl
 Standards-Version: 3.9.8
 Homepage: http://sourceware.org/systemtap/
 
@@ -28,7 +28,7 @@ Description: Programmable system-wide instrumentation system - runtime (OpenRest
 Package: openresty-stap
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, libbz2-dev, liblzma5, zlib1g, make, openresty-stap-runtime (>= 4.2.0.2), openresty-elfutils (>= 0.177.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, libbz2-dev, liblzma5, zlib1g, make, openresty-stap-runtime (>= 4.2.0.2), openresty-elfutils (>= 0.177.3), libjson-xs-perl, perl
 Description: OpenResty's fork of SystemTap
  OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
  Developers can write instrumentation scripts to collect data on
