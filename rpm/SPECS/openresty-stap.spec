@@ -1,5 +1,5 @@
 Name:           openresty-stap
-Version:        4.2.0.13
+Version:        4.2.0.14
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -111,8 +111,14 @@ along with the optional dtrace-compatibility preprocessor to process related
 
 make %{?_smp_mflags}
 
+cd tapset/
+perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
+cd ..
 
 %install
+install -c -m 644 tapset/tapset-deps.data %{stap_prefix}/share/systemtap/
+rm tapset/tapset-deps.data
+
 make install DESTDIR=%{buildroot}
 
 # Because "make install" may install staprun with whatever mode, the
@@ -154,6 +160,7 @@ rm -rf %{buildroot}
 %dir %{stap_prefix}/share/systemtap
 %{stap_prefix}/share/systemtap/runtime
 %{stap_prefix}/share/systemtap/tapset
+%{stap_prefix}/share/systemtap/tapset-deps.data
 
 
 %files runtime
