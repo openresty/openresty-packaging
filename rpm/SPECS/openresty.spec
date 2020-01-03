@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.15.8.2
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -211,6 +211,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     %{?_smp_mflags}
 
@@ -296,7 +297,6 @@ fi
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 %{orprefix}/COPYRIGHT
 

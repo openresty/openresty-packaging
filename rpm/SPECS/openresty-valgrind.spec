@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.15.8.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -110,6 +110,7 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
+    --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
     %{?_smp_mflags}
@@ -154,7 +155,6 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 %{orprefix}/COPYRIGHT
 
