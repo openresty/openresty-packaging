@@ -108,7 +108,6 @@ a single box.
     --with-threads \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
-    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}

@@ -112,7 +112,6 @@ a single box.
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
-    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
