@@ -1,6 +1,6 @@
-Name:               openresty-openssl
-Version:            1.1.0k
-Release:            3%{?dist}
+Name:               openresty-openssl111
+Version:            1.1.1d
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -10,7 +10,7 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
 Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -19,7 +19,7 @@ BuildRequires:      gcc, make, perl
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
-Conflicts:          openresty-openssl111
+Conflicts:          openresty-openssl
 
 AutoReqProv:        no
 
@@ -68,7 +68,6 @@ Provides C header and static library for OpenResty's OpenSSL library.
 %patch0 -p1
 %patch1 -p1
 
-
 %build
 ./config \
     no-threads shared zlib -g \
@@ -116,6 +115,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Sep 11 2019 Arcadiy Ivanov (arcivanov) 1.1.1d-1
+- upgraded openresty-openssl111 to 1.1.1d.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
 - upgraded openresty-openssl to 1.1.0h.
 * Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1

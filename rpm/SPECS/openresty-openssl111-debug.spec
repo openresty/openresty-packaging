@@ -1,7 +1,7 @@
-Name:               openresty-openssl
-Version:            1.1.0k
-Release:            3%{?dist}
-Summary:            OpenSSL library for OpenResty
+Name:               openresty-openssl111-debug
+Version:            1.1.1d
+Release:            1%{?dist}
+Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
 
@@ -10,20 +10,21 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
 Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
+
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
-Conflicts:          openresty-openssl111
+Conflicts:          openresty-openssl-debug
 
 AutoReqProv:        no
 
-%define openssl_prefix      /usr/local/openresty/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
 %define zlib_prefix         /usr/local/openresty/zlib
 %global _default_patch_fuzz 1
 
@@ -48,19 +49,18 @@ AutoReqProv:        no
 
 
 %description
-This OpenSSL library build is specifically for OpenResty uses. It may contain
-custom patches from OpenResty.
+This is the debug version of the OpenSSL library build for OpenResty uses.
 
 
 %package devel
 
-Summary:            Development files for OpenResty's OpenSSL library
+Summary:            Debug version of development files for OpenResty's OpenSSL library
 Group:              Development/Libraries
 Requires:           %{name} = %{version}-%{release}
 
-%description devel
-Provides C header and static library for OpenResty's OpenSSL library.
 
+%description devel
+Provides C header and static library for the debug version of OpenResty's OpenSSL library. This is the debug version.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -71,13 +71,16 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 %build
 ./config \
-    no-threads shared zlib -g \
+    no-threads no-asm \
     enable-ssl3 enable-ssl3-method \
+    shared zlib -g -O0 -DPURIFY \
     --prefix=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
+
+sed -i 's/ -O3 / -O0 /g' Makefile
 
 make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
 
@@ -85,8 +88,8 @@ make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
 %install
 make install_sw DESTDIR=%{buildroot}
 
-chmod 0755 %{buildroot}%{openssl_prefix}/lib/*.so*
-chmod 0755 %{buildroot}%{openssl_prefix}/lib/*/*.so*
+chmod +w %{buildroot}%{openssl_prefix}/lib/*.so
+chmod +w %{buildroot}%{openssl_prefix}/lib/*/*.so
 
 rm -rf %{buildroot}%{openssl_prefix}/bin/c_rehash
 rm -rf %{buildroot}%{openssl_prefix}/lib/pkgconfig
@@ -112,14 +115,18 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %{openssl_prefix}/include/*
-%{openssl_prefix}/lib/*.a
+%attr(0755,root,root) %{openssl_prefix}/lib/*.a
 
 
 %changelog
+* Fri Sep 11 2019 Arcadiy Ivanov (arcivanov) 1.1.1d-1
+- upgraded openresty-openssl111 to 1.1.1d.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
 - upgraded openresty-openssl to 1.1.0h.
 * Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
 - upgraded openssl to 1.0.2n.
+* Sun May 21 2017 Yichun Zhang (agentzh) 1.0.2k-2
+- avoided the electric fence dependency.
 * Sun Mar 19 2017 Yichun Zhang (agentzh)
 - upgraded OpenSSL to 1.0.2k.
 * Fri Nov 25 2016 Yichun Zhang (agentzh)
@@ -129,7 +136,7 @@ rm -rf %{buildroot}
 our own libcrypto.so).
 * Sat Sep 24 2016 Yichun Zhang (agentzh)
 - upgrade to OpenSSL 1.0.2i.
-* Tue Aug 23 2016 zxcvbn4038 1.0.2k
+* Tue Aug 23 2016 zxcvbn4038
 - use openresty-zlib instead of the system one.
-* Wed Jul 13 2016 makerpm 1.0.2h
+* Wed Jul 13 2016 makerpm
 - initial build for OpenSSL 1.0.2h.
