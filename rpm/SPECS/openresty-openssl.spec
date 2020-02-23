@@ -1,6 +1,6 @@
 Name:               openresty-openssl
 Version:            1.1.0k
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -35,6 +35,11 @@ AutoReqProv:        no
 %{nil}
 
 %if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

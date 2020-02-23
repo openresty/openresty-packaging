@@ -1,6 +1,6 @@
 Name:           perl-Test-Base
 Version:        0.88
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        Data Driven Testing Framework
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -20,6 +20,7 @@ Requires:       perl(Filter::Util::Call)
 Requires:       perl(Spiffy)
 Requires:       perl(Test::Deep)
 Requires:       perl(Test::More)
+Provides:       perl(Test::Base)
 
 %description
 Testing is usually the ugly part of Perl module authoring. Perl gives you a

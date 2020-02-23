@@ -1,6 +1,6 @@
 Name:           openresty-asan
-Version:        1.15.8.1
-Release:        3%{?dist}
+Version:        1.15.8.2
+Release:        4%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -51,6 +51,12 @@ AutoReqProv:        no
 %undefine _debuginfo_subpackages
 %endif
 
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+
 #%if 0%{?fedora} >= 28
 #BuildRequires:      compiler-rt
 #%endif
@@ -88,7 +94,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics" \
+    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
@@ -116,9 +122,9 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
+    --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
     --with-no-pool-patch \
-    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -161,12 +167,13 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 %{orprefix}//COPYRIGHT
 
 
 %changelog
+* Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
+- upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
 - upgraded openresty to 1.15.8.1.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1

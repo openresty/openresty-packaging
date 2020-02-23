@@ -10,10 +10,10 @@
 
 JOBS=8
 ZLIB_VER=1.2.11
-PCRE_VER=8.42
+PCRE_VER=8.43
 SSL_VER=1.1.0k
 PLUS_SSL_VER=1.0.2k
-OR_VER=1.15.8.1
+OR_VER=1.15.8.2
 OR_PLUS_VER=1.15.8.2.5
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.26
@@ -52,6 +52,7 @@ zlib-download:
 .PHONY: zlib-build
 zlib-build: | zlib-clean zlib-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	sudo apt-get -qq -y install autotools-dev
 	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
 	cd openresty-zlib \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -195,7 +196,7 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev $(deb_toolchain_pkgs) systemtap-sdt-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \

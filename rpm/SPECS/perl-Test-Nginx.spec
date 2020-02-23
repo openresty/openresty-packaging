@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
 Version:        0.26
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
@@ -9,7 +9,7 @@ Source0:        http://www.cpan.org/authors/id/A/AG/AGENT/Test-Nginx-%{version}.
 #Patch0:         Test-Nginx-0.25-older_perl.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
-BuildRequires:  perl >= 1:5.8.1
+BuildRequires:  perl >= 5.8.1
 BuildRequires:  perl(Encode)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Path)
@@ -46,6 +46,9 @@ Requires:       perl(Text::Diff)
 Requires:       perl(Time::HiRes)
 Requires:       perl(URI::Escape)
 #Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+
+Provides:       perl(Test::Nginx)
+
 
 %description
 This distribution provides two testing modules for Nginx C module

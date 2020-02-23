@@ -1,6 +1,6 @@
 Name:           openresty
-Version:        1.15.8.1
-Release:        3%{?dist}
+Version:        1.15.8.2
+Release:        7%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -11,7 +11,13 @@ License:        BSD
 URL:            https://openresty.org/
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
-Source1:        openresty.init
+
+%if 0%{?amzn} >= 2 || 0%{?suse_version} || 0%{?fedora} || 0%{?rhel} >= 7
+%define         use_systemd   1
+%endif
+
+Source1:        openresty.service
+Source2:        openresty.init
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -24,9 +30,31 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl >= 1.1.0h-1
 Requires:       openresty-pcre >= 8.42-1
 
+
+%if 0%{?suse_version}
+
+# for /sbin/service
+Requires(post):  insserv-compat
+Requires(preun): insserv-compat
+
+BuildRequires:  systemd
+
+%else
+
+%if 0%{?use_systemd}
+
+BuildRequires:  systemd
+Requires:       systemd
+
+%else
+
 # for /sbin/service
 Requires(post):  chkconfig
 Requires(preun): chkconfig, initscripts
+
+%endif
+
+%endif
 
 AutoReqProv:        no
 
@@ -45,6 +73,11 @@ AutoReqProv:        no
 %{nil}
 
 %if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
@@ -178,8 +211,8 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
-    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -198,8 +231,17 @@ ln -sf %{orprefix}/bin/restydoc %{buildroot}/usr/bin/
 ln -sf %{orprefix}/bin/opm %{buildroot}/usr/bin/
 ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
+%if 0%{?use_systemd}
+
+mkdir -p %{buildroot}%{_unitdir}
+%{__install} -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
+
+%else
+
 mkdir -p %{buildroot}/etc/init.d
-%{__install} -p -m 0755 %{SOURCE1} %{buildroot}/etc/init.d/%{name}
+%{__install} -p -m 0755 %{SOURCE2} %{buildroot}/etc/init.d/%{name}
+
+%endif
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -210,20 +252,43 @@ rm -rf %{buildroot}
 
 
 %post
+
+%if 0%{?use_systemd}
+%systemd_post openresty.service
+%else
+%if ! 0%{?suse_version}
 /sbin/chkconfig --add %{name}
+%endif
+%endif
 
 
 %preun
+%if 0%{?use_systemd}
+%systemd_preun openresty.service
+%else
+%if ! 0%{?suse_version}
 if [ $1 = 0 ]; then
     /sbin/service %{name} stop >/dev/null 2>&1
     /sbin/chkconfig --del %{name}
 fi
+%endif
+%endif
+
+
+%if 0%{?use_systemd}
+%postun
+%systemd_postun_with_restart openresty.service
+%endif
 
 
 %files
 %defattr(-,root,root,-)
 
+%if 0%{?use_systemd}
+%{_unitdir}/%{name}.service
+%else
 /etc/init.d/%{name}
+%endif
 /usr/bin/%{name}
 %{orprefix}/bin/openresty
 %{orprefix}/site/lualib/
@@ -232,7 +297,6 @@ fi
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 %{orprefix}/COPYRIGHT
 
@@ -266,6 +330,8 @@ fi
 
 
 %changelog
+* Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
+- upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
 - upgraded openresty to 1.15.8.1.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1

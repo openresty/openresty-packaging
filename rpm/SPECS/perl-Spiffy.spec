@@ -1,6 +1,6 @@
 Name:           perl-Spiffy
 Version:        0.46
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Spiffy Perl Interface Framework For You
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -13,6 +13,7 @@ BuildRequires:  perl(Test::More)
 BuildRequires:  perl(Filter::Util::Call)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 Requires:       perl(Filter::Util::Call)
+Provides:       perl(Spiffy)
 
 %description
 "Spiffy" is a framework and methodology for doing object oriented (OO)

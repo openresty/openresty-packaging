@@ -1,5 +1,5 @@
 Name:           openresty-debug
-Version:        1.15.8.1
+Version:        1.15.8.2
 Release:        3%{?dist}
 Summary:        The debug version of OpenResty
 
@@ -40,6 +40,11 @@ AutoReqProv:        no
 %{nil}
 
 %if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
@@ -102,8 +107,8 @@ a single box.
     --with-http_gunzip_module \
     --with-threads \
     --with-poll_module \
+    --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
-    --with-dtrace-probes \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
@@ -146,12 +151,13 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
-%{orprefix}/nginx/tapset/*
 %config(noreplace) %{orprefix}/nginx/conf/*
 %{orprefix}/COPYRIGHT
 
 
 %changelog
+* Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
+- upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
 - upgraded openresty to 1.15.8.1.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.13.6.2-1

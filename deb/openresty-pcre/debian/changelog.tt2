@@ -1,3 +1,9 @@
+openresty-pcre (8.43-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 8.43.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 29 Aug 2019 22:51:58 -0700
+
 openresty-pcre (8.42-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 8.42.
