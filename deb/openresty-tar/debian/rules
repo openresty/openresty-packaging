@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	CC='ccache gcc -fdiagnostics-color=always' \
+	CC='ccache gcc' \
 CFLAGS='-g3 -O2' \
     ./configure \
     --prefix=/usr/local/openresty-tar \

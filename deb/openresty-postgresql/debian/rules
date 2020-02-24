@@ -26,7 +26,7 @@ override_dh_auto_build:
             --with-libxslt \
             --with-openssl \
             --with-ossp-uuid \
-            CC="ccache gcc -fdiagnostics-color=always" \
+            CC="ccache gcc" \
             CFLAGS="-O2 -g3" \
             LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty/postgresql/lib" \
 		&& make -j`nproc`

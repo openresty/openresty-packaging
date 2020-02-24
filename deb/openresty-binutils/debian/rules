@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	CC='ccache gcc -fdiagnostics-color=always' \
+	CC='ccache gcc' \
     ./configure \
     --prefix=/usr/local/openresty-binutils --disable-ld --disable-gas --disable-gold \
     --disable-ar --disable-gprof --disable-dlltool --disable-ranlib --disable-windmc \
