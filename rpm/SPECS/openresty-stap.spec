@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.3.0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -37,7 +37,7 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++, perl-JSON-XS
+BuildRequires: ccache, gcc-c++, perl-JSON-XS, openresty-python3
 BuildRequires: gettext-devel
 BuildRequires: m4
 BuildRequires: zlib-devel
@@ -97,6 +97,7 @@ cd tapset/
 perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
 cd ..
 
+export PATH=/usr/local/openresty-python3/bin:$PATH
 ./configure \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
