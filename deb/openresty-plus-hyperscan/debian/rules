@@ -13,6 +13,8 @@ DESTDIR = $(CURDIR)/debian/tmp
 	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_configure:
+	CC='ccache gcc' \
+	CXX='ccache g++' \
 	cmake -DCMAKE_INSTALL_PREFIX:PATH=$(hyperscan_prefix) \
 		-DBUILD_SHARED_LIBS=true .
 

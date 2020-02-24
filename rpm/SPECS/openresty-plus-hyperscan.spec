@@ -93,7 +93,9 @@ This package provides the runtime for Hyperscan.
 
 mv $PWD/../boost_%{boost_version}/boost include/boost
 
-cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
+export CC='ccache gcc'
+export CXX='ccache g++'
+%cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
 make -j9 > /dev/stderr  # to always show output
 
 %install
