@@ -99,7 +99,7 @@ mv $PWD/../boost_%{boost_version}/boost include/boost
 
 export CC='ccache gcc'
 export CXX='ccache g++'
-%cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
+cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
 make -j9 > /dev/stderr  # to always show output
 
 %install
