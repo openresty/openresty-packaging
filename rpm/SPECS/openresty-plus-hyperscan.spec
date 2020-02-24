@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -18,7 +18,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  pcre-devel
-BuildRequires:  python
+BuildRequires:  python3
 
 # we cannot specify the ragel dep for CentOS 6 does not have this package.
 #BuildRequires:  ragel
