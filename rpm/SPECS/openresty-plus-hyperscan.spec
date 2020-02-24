@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -94,7 +94,7 @@ This package provides the runtime for Hyperscan.
 mv $PWD/../boost_%{boost_version}/boost include/boost
 
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
-make %{?_smp_mflags} > /dev/stderr  # to always show output
+make -j9 > /dev/stderr  # to always show output
 
 %install
 make install DESTDIR=%{buildroot}
