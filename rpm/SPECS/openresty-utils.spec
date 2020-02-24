@@ -1,6 +1,6 @@
 Name:           openresty-utils
-Version:        0.04
-Release:        2%{?dist}
+Version:        0.06
+Release:        1%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -49,6 +49,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{prefix}/bin/crc32_fast
+%{prefix}/bin/start-stop-daemon
 
 
 %changelog
