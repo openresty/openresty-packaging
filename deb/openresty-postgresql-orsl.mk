@@ -5,7 +5,7 @@ OPENRESTY_POSTGRESQL_ORSL_VER := 0.01
 
 .PHONY: openresty-postgresql-orsl-download
 openresty-postgresql-orsl-download:
-	rsync nuc:~/work/postgres-orsl-0.01.tar.gz ./
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/postgres-orsl-0.01.tar.gz ./
 	rm -rf openresty-postgresql-orsl_$(OPENRESTY_POSTGRESQL_ORSL_VER)
 	mkdir -p openresty-postgresql-orsl_$(OPENRESTY_POSTGRESQL_ORSL_VER)
 	tar -xf postgres-orsl-0.01.tar.gz --strip-components=1 -C openresty-postgresql-orsl_$(OPENRESTY_POSTGRESQL_ORSL_VER)
