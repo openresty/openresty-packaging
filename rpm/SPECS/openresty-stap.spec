@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.3.0.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -30,7 +30,7 @@ AutoReqProv:    no
 %{nil}
 
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

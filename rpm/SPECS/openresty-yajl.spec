@@ -1,7 +1,7 @@
-Name: openresty-yajl
-Version: 2.1.0.2
-Release: 2%{?dist}
-Summary: Yet Another JSON Library (YAJL) or OpenResty
+Name:       openresty-yajl
+Version:    2.1.0.2
+Release:    3%{?dist}
+Summary:    Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
 License: ISC
@@ -32,7 +32,7 @@ AutoReqProv:        no
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

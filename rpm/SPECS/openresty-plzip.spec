@@ -1,6 +1,6 @@
 Name:           openresty-plzip
 Version:        1.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of plzip.
 
 Group:          Development/System
@@ -20,7 +20,7 @@ URL:            http://www.nongnu.org/lzip/lzip.html
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

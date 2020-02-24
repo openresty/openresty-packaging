@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.33.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -28,6 +28,11 @@ AutoReqProv: no
 %{nil}
 
 %if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

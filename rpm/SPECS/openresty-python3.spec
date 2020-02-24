@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -25,7 +25,7 @@ AutoReqProv:    no
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

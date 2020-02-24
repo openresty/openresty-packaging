@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.14
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
@@ -38,7 +38,7 @@ Provides C header and static library for the openresty-postgresql package.
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif

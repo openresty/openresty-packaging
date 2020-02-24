@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        8.3
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -14,7 +14,7 @@ AutoReqProv:    no
 %define _prefix /usr/local/openresty-gdb
 %define py_prefix /usr/local/openresty-python3
 
-%if 0%{?fedora} >= 27
+%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
