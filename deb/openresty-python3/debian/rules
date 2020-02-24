@@ -28,7 +28,7 @@ override_dh_auto_build:
     --without-ensurepip \
     LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
     CFLAGS="-g3" \
-		&& make -j`nproc`
+		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	make \
