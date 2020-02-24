@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
 Version:        2.34
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -64,14 +64,14 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
     --disable-runuser --disable-ul --disable-more \
     --disable-setterm --disable-schedutils --disable-wall
 
-make script scriptreplay %{?_smp_mflags}
+make script scriptreplay dmesg %{?_smp_mflags}
 
 
 %install
 
 # only need script and scriptreplay tools
 mkdir -p %{buildroot}%{util_linux_prefix}/bin/
-mv ./script ./scriptreplay %{buildroot}%{util_linux_prefix}/bin/
+mv ./script ./scriptreplay ./dmesg %{buildroot}%{util_linux_prefix}/bin/
 
 
 %clean
@@ -83,6 +83,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{util_linux_prefix}/bin/script
 %{util_linux_prefix}/bin/scriptreplay
+%{util_linux_prefix}/bin/dmesg
 
 # ------------------------------------------------------------------------
 

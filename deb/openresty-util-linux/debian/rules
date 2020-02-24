@@ -37,11 +37,11 @@ override_dh_auto_build:
     --disable-nologin --disable-sulogin --disable-su \
     --disable-runuser --disable-ul --disable-more \
     --disable-setterm --disable-schedutils --disable-wall \
-		&& make script scriptreplay -j`nproc`
+		&& make script scriptreplay dmesg -j`nproc`
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-util-linux/bin/ \
-		&& mv ./script ./scriptreplay $(DESTDIR)/usr/local/openresty-util-linux/bin/
+		&& mv ./script ./scriptreplay ./dmesg $(DESTDIR)/usr/local/openresty-util-linux/bin/
 
 override_dh_auto_clean:
 	dh_clean
