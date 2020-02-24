@@ -18,7 +18,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc-c++
 BuildRequires:  cmake
 BuildRequires:  pcre-devel
+%if 0%{?rhel} <= 6
+BuildRequires:  python
+%else
 BuildRequires:  python3
+%endif
 
 # we cannot specify the ragel dep for CentOS 6 does not have this package.
 #BuildRequires:  ragel
