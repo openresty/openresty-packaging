@@ -3,7 +3,6 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
- systemtap-sdt-dev,
  openresty-zlib-dev, openresty-openssl-debug-dev (>= 1.1.0j),
  openresty-pcre-dev (>= 8.42),
  perl, libfile-temp-perl, libc6-dev, openresty-plus-hyperscan-dev
