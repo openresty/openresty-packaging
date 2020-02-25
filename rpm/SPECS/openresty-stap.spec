@@ -101,6 +101,7 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
 ./configure \
         --prefix=%{stap_prefix} \
         --disable-docs --disable-publican \
+        --with-python3 \
         --without-nss \
         --without-openssl \
         --without-avahi \
