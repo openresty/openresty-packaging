@@ -119,12 +119,14 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
 make %{?_smp_mflags} > /dev/null
 
 %install
+
 mkdir -p %{buildroot}%{stap_prefix}/share/systemtap/
 install -c -m 644 tapset/tapset-deps.data %{buildroot}%{stap_prefix}/share/systemtap/
 rm tapset/tapset-deps.data
 mkdir -p %{buildroot}%{stap_prefix}/bin/
 install -c -m 755 util/parse-stp-deps.pl %{buildroot}%{stap_prefix}/bin/
 
+export PATH=/usr/local/openresty-python3/bin:$PATH
 make install DESTDIR=%{buildroot} > /dev/null
 
 # Because "make install" may install staprun with whatever mode, the
