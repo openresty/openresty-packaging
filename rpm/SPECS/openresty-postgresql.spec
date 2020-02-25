@@ -73,6 +73,10 @@ make install-world DESTDIR=${RPM_BUILD_ROOT}
 
 rm -rf ${RPM_BUILD_ROOT}/%{pgprefix}/share/man \
     ${RPM_BUILD_ROOT}/%{pgprefix}/share/doc
+
+rm -f ${RPM_BUILD_ROOT}/%{pgprefix}/lib/*/*.o \
+    ${RPM_BUILD_ROOT}/%{pgprefix}/lib/st[a-zA-Z0-9]*
+
 #install -d $RPM_BUILD_ROOT/etc/ld.so.conf.d
 #install -d $RPM_BUILD_ROOT/etc/profile.d
 install -d $RPM_BUILD_ROOT/etc/init.d
@@ -117,8 +121,6 @@ fi
 %{pgprefix}/lib/pgxs/*
 %{pgprefix}/share/*
 /etc/init.d/openresty-postgresql
-%exclude %{pgprefix}/lib/*/*.o
-%exclude %{pgprefix}/lib/st[a-zA-Z0-9]*
 
 
 %files devel
