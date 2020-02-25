@@ -64,7 +64,7 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
     --disable-runuser --disable-ul --disable-more \
     --disable-setterm --disable-schedutils --disable-wall
 
-make script scriptreplay dmesg %{?_smp_mflags}
+make script scriptreplay dmesg %{?_smp_mflags} > /dev/null
 
 
 %install
