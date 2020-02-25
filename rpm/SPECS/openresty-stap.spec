@@ -39,7 +39,7 @@ AutoReqProv:    no
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: ccache, gcc-c++, perl-JSON-XS, openresty-python3
 BuildRequires: gettext-devel
-BuildRequires: m4
+BuildRequires: m4, sed
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
 BuildRequires: bzip2-devel
@@ -129,8 +129,8 @@ install -c -m 755 util/parse-stp-deps.pl %{buildroot}%{stap_prefix}/bin/
 export PATH=/usr/local/openresty-python3/bin:$PATH
 make install DESTDIR=%{buildroot} > /dev/null
 
-#sed -i 's/^#!.*python*/#!\/usr\/local\/openresty-python3\/bin\/python3/' \
-    #%{buildroot}%{stap_prefix}/bin/dtrace
+sed -i 's/^#!.*python*/#!\/usr\/local\/openresty-python3\/bin\/python3/' \
+    %{buildroot}%{stap_prefix}/bin/dtrace
 
 # Because "make install" may install staprun with whatever mode, the
 # post-processing programs rpmbuild runs won't be able to read it.
