@@ -32,7 +32,7 @@ override_dh_auto_build:
         CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
         CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
         LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib' \
-		&& make -j`nproc`
+		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
@@ -40,7 +40,7 @@ override_dh_auto_install:
 	rm tapset/tapset-deps.data
 	mkdir -p $(DESTDIR)/usr/local/openresty-stap/bin/
 	install -c -m 755 util/parse-stp-deps.pl $(DESTDIR)/usr/local/openresty-stap/bin/
-	make install DESTDIR=$(DESTDIR) \
+	make install DESTDIR=$(DESTDIR) > /dev/null \
 		&& chmod 755 $(DESTDIR)/usr/local/openresty-stap/bin/staprun \
 		&& install -c -m 755 stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/man \
