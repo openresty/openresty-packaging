@@ -19,7 +19,7 @@ openresty-python3-clean:
 
 .PHONY: openresty-python3-build
 openresty-python3-build: openresty-python3-clean openresty-python3-download
-	sudo apt-get -y -q install libc6-dev gcc libssl-dev make openresty-openssl
+	sudo apt-get -y -q install libc6-dev gcc libssl-dev make openresty-openssl-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz --strip-components=1 -C openresty-python3
 	cd openresty-python3 \
