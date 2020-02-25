@@ -8,7 +8,7 @@ openresty-python3-download:
 	wget -nH --cut-dirs=100 --mirror 'https://www.python.org/ftp/python/$(OPENRESTY_PYTHON3_VER)/Python-$(OPENRESTY_PYTHON3_VER).tar.xz'
 	rm -rf openresty-python3_$(OPENRESTY_PYTHON3_VER)
 	mkdir -p openresty-python3_$(OPENRESTY_PYTHON3_VER)
-	tar -xf Python-3.7.3.tar.xz --strip-components=1 -C openresty-python3_$(OPENRESTY_PYTHON3_VER)
+	tar -xf Python-$(OPENRESTY_PYTHON3_VER).tar.xz --strip-components=1 -C openresty-python3_$(OPENRESTY_PYTHON3_VER)
 	tar czf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz openresty-python3_$(OPENRESTY_PYTHON3_VER)
 
 openresty-python3-clean:
@@ -19,9 +19,9 @@ openresty-python3-clean:
 
 .PHONY: openresty-python3-build
 openresty-python3-build: openresty-python3-clean openresty-python3-download
-	sudo apt-get -y -q install libc6-dev gcc libssl-dev make
+	sudo apt-get -y -q install libc6-dev gcc libssl-dev make openresty-openssl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-python3_3.7.3.orig.tar.gz --strip-components=1 -C openresty-python3
+	tar xf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz --strip-components=1 -C openresty-python3
 	cd openresty-python3 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)

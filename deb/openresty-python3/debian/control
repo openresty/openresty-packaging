@@ -2,14 +2,14 @@ Source: openresty-python3
 Section: interpreters
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), libc6-dev, gcc, libssl-dev, make
+Build-Depends: debhelper (>= 9), libc6-dev, gcc, openresty-openssl-dev, make
 Standards-Version: 3.9.8
 Homepage: https://www.python.org/
 
 Package: openresty-python3
 Architecture: any
 Section: interpreters
-Depends: ${shlibs:Depends}, ${misc:Depends}, libssl1.0.0
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl
 Description: python3 for OpenResty
  This is OpenResty's python3 package
 

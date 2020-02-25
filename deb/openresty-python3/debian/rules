@@ -26,8 +26,8 @@ override_dh_auto_build:
 	export PYTHONPATH= \
 		&& ./configure --prefix=/usr/local/openresty-python3 --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
-    CFLAGS="-g3" \
+    LDFLAGS="-L. -L/usr/local/openresty/openssl/lib -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib:/usr/local/openresty/openssl/lib" \
+    CFLAGS="-g3 -I/usr/local/openresty/openssl/include" \
 		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
