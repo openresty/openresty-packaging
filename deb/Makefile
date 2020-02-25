@@ -196,7 +196,7 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev $(deb_toolchain_pkgs) systemtap-sdt-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
