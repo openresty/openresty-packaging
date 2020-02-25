@@ -94,7 +94,7 @@ autoreconf -vif
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} #' \
     `find . -name Makefile`
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} > /dev/null
 
 
 %install
