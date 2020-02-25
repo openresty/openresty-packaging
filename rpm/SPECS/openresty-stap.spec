@@ -79,6 +79,7 @@ Group: Development/System
 License: GPLv2+ and Public Domain
 AutoReqProv:    no
 URL: http://sourceware.org/systemtap/
+Requires: openresty-python3
 
 
 %description sdt-devel

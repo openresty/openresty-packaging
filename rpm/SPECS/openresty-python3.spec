@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.3
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -30,12 +30,13 @@ AutoReqProv:    no
 %undefine _debuginfo_subpackages
 %endif
 
-BuildRequires: glibc-devel
+BuildRequires: glibc-devel, libuuid-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-openssl-devel
 BuildRequires: make
 
 Requires: openresty-openssl
+Requires: libuuid
 
 
 %description
