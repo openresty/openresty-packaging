@@ -23,10 +23,10 @@ override_dh_auto_build:
     LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
     ./configure --with-python=/usr/local/openresty-python3/bin/python3 \
     --prefix=/usr/local/openresty-gdb --without-guile \
-		&& make -j`nproc`
+		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) \
+	make install DESTDIR=$(DESTDIR) > /dev/null \
 		&& ln -sf /usr/lib/debug $(DESTDIR)//usr/local/openresty-gdb/lib/ \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/include/ \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-gdb/lib/*.a \

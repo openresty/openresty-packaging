@@ -58,11 +58,11 @@ CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     ./configure --with-python=%{py_prefix}/bin/python3 \
     --prefix=%{_prefix} --without-guile
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} > /dev/null
 
 
 %install
-make install DESTDIR=%{buildroot}
+make install DESTDIR=%{buildroot} > /dev/null
 ln -sf /usr/lib/debug %{buildroot}/%{_prefix}/lib/
 
 rm -rf %{buildroot}%{_prefix}/include/
