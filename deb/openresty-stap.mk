@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_STAP_VER := 4.3.0.7
+OPENRESTY_STAP_VER := 4.3.0.8
 
 .PHONY: openresty-stap-download
 openresty-stap-download:
@@ -16,8 +16,8 @@ openresty-stap-clean:
 
 .PHONY: openresty-stap-build
 openresty-stap-build: openresty-stap-clean openresty-stap-download
-	sudo apt-get -y -q install g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl
-	sudo apt-get -y -q upgrade g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl
+	sudo apt-get -y -q install g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl libjson-maybexs-perl
+	sudo apt-get -y -q upgrade g++ gettext m4 zlib1g-dev liblzma-dev libbz2-dev openresty-elfutils-dev libjson-xs-perl libjson-maybexs-perl
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz --strip-components=1 -C openresty-stap
 	cd openresty-stap \

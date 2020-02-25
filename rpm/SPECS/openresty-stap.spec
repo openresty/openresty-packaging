@@ -1,5 +1,5 @@
 Name:           openresty-stap
-Version:        4.3.0.7
+Version:        4.3.0.8
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -37,7 +37,7 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++, perl-JSON-XS, openresty-python3
+BuildRequires: ccache, gcc-c++, perl-JSON-MaybeXS, openresty-python3
 BuildRequires: gettext-devel
 BuildRequires: m4, sed
 BuildRequires: zlib-devel
@@ -48,7 +48,7 @@ BuildRequires: openresty-elfutils-devel >= 0.177.3-1
 Requires: bzip2-libs
 Requires: xz-libs
 Requires: zlib
-Requires: make, perl, perl-JSON-XS
+Requires: make, perl, perl-JSON-MaybeXS
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: openresty-elfutils >= 0.177.3-1
 
