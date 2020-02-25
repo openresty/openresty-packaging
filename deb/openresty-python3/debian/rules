@@ -34,7 +34,7 @@ override_dh_auto_install:
 	make \
     DESTDIR=$(DESTDIR) \
     INSTALL="install -p" \
-    install \
+    install > /dev/null \
 		&& find $(DESTDIR) -type f -print0 | xargs -0 chmod u+w \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/share \
 		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'test' -exec rm -rf "{}" \; || exit 0 ) \

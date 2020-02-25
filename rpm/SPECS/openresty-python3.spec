@@ -73,7 +73,7 @@ make %{?_smp_mflags} > /dev/null
 make \
     DESTDIR=%{buildroot} \
     INSTALL="install -p" \
-    install
+    install > /dev/null
 
 find %{buildroot} -type f -print0 | xargs -0 chmod u+w
 
