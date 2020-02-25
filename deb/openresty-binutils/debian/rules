@@ -26,10 +26,10 @@ override_dh_auto_build:
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
     --disable-libdecnumber --disable-sim --disable-readline \
     --disable-libquadmath CFLAGS='-Wno-error -g3 -O2' \
-		&& make -j`nproc`
+		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) \
+	make install DESTDIR=$(DESTDIR) > /dev/null \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/man \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/info \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/locale \
