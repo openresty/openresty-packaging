@@ -29,10 +29,10 @@ override_dh_auto_build:
             CC="ccache gcc" \
             CFLAGS="-O2 -g3" \
             LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty/postgresql/lib" \
-		&& make -j`nproc`
+		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) \
+	make install DESTDIR=$(DESTDIR) > /dev/null \
 		&& make install-world DESTDIR=$(DESTDIR) \
 		&& rm -rf $(DESTDIR)//usr/local/openresty/postgresql/share/man \
     $(DESTDIR)//usr/local/openresty/postgresql/share/doc \
