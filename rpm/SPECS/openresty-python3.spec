@@ -66,7 +66,7 @@ export PYTHONPATH=
     LDFLAGS="-L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib" \
     CFLAGS="-g3"
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} > /dev/null
 
 
 %install
