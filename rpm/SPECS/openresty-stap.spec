@@ -114,7 +114,7 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
         CXXFLAGS='-I%{eu_prefix}/include -g3 -O2' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} > /dev/null
 
 %install
 mkdir -p %{buildroot}%{stap_prefix}/share/systemtap/
@@ -123,7 +123,7 @@ rm tapset/tapset-deps.data
 mkdir -p %{buildroot}%{stap_prefix}/bin/
 install -c -m 755 util/parse-stp-deps.pl %{buildroot}%{stap_prefix}/bin/
 
-make install DESTDIR=%{buildroot}
+make install DESTDIR=%{buildroot} > /dev/null
 
 # Because "make install" may install staprun with whatever mode, the
 # post-processing programs rpmbuild runs won't be able to read it.
