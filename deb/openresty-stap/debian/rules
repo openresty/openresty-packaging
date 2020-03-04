@@ -19,7 +19,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	cd tapset && perl ../util/parse-tapset-deps.pl `uname -m`/*.stp *.stp *.stpm linux/`uname -m`/*.stp linux/*.stp linux/*.stpm
-	export PATH=/usr/local/openresty-python3/bin:$PATH; \
+	export PATH=/usr/local/openresty-python3/bin:$$PATH; \
 	./configure \
         --prefix=/usr/local/openresty-stap \
         --disable-docs --disable-publican \
