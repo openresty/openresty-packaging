@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -21,7 +21,7 @@ BuildRequires:  pcre-devel
 %if 0%{?rhel} <= 6
 BuildRequires:  python
 %else
-BuildRequires:  python3
+BuildRequires:  openresty-python3
 %endif
 
 # we cannot specify the ragel dep for CentOS 6 does not have this package.
@@ -97,6 +97,7 @@ This package provides the runtime for Hyperscan.
 
 mv $PWD/../boost_%{boost_version}/boost include/boost
 
+export PATH=/usr/local/openresty-python3/bin:$PATH
 export CC='ccache gcc'
 export CXX='ccache g++'
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
