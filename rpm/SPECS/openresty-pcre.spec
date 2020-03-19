@@ -1,6 +1,6 @@
 Name:               openresty-pcre
-Version:            8.43
-Release:            2%{?dist}
+Version:            8.44
+Release:            1%{?dist}
 Summary:            Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
