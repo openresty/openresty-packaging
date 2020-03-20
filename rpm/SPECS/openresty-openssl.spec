@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.1.0k
-Release:            3%{?dist}
+Version:            1.1.0l
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
