@@ -1,5 +1,5 @@
 Name:               openresty-openssl111-debug
-Version:            1.1.1e
+Version:            1.1.1d
 Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
@@ -10,7 +10,8 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1e-sess_set_get_cb_yield.patch
+#Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1e-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
 #Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
