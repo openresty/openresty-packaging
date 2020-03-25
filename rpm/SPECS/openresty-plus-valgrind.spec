@@ -12,6 +12,8 @@ URL:            https://www.openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 
+%bcond_without	lua_ldap
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  ccache, gcc, make, perl, valgrind-devel
@@ -23,6 +25,13 @@ BuildRequires:  openresty-openssl-debug-devel >= 1.1.0j
 BuildRequires:  openresty-pcre-devel >= 8.41-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
+%if %{with lua_ldap}
+%if 0%{?suse_version}
+BuildRequires:  openldap2-devel
+%else
+BuildRequires:  openldap-devel
+%endif
+%endif
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
@@ -31,6 +40,13 @@ Requires:       openresty-openssl-debug >= 1.1.0j
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
 Requires:       glibc-devel
+%if %{with lua_ldap}
+%if 0%{?suse_version}
+Requires:       openldap2
+%else
+Requires:       openldap
+%endif
+%endif
 
 AutoReqProv:        no
 
@@ -90,6 +106,9 @@ a single box.
     --with-lua_resty_hyperscan \
 %endif
     --with-pcre-jit \
+%if %{with lua_ldap}
+    --with-lua_ldap \
+%endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \

@@ -23,6 +23,8 @@ upload
 go
 [a-z].txt
 *.upload
+openresty-plus/debian/control
+openresty-plus/debian/rules
 openresty-plus/debian/openresty-plus-dbgsym/
 openresty-plus/debian/openresty-plus-opm/
 openresty-plus/debian/openresty-plus-resty/
@@ -34,6 +36,8 @@ saved/
 openresty-openssl/debian/openresty-openssl-dbgsym/
 openresty-openssl/debian/openresty-openssl-dev/
 openresty-openssl/debian/openresty-openssl/
+openresty-plus-debug/debian/control
+openresty-plus-debug/debian/rules
 openresty-plus-debug/debian/openresty-plus-debug-dbgsym/
 openresty-plus-debug/debian/openresty-plus-debug-resty/
 openresty-plus-debug/debian/openresty-plus-debug/

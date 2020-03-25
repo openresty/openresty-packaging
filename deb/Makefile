@@ -22,6 +22,7 @@ BOOST_VER2=1.69.0
 HYPERSCAN_VER=5.0.0
 OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+WITH_LUA_LDAP=1
 deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
@@ -262,11 +263,16 @@ openresty-valgrind-clean:
 
 .PHONY: openresty-plus-build
 openresty-plus-build: | openresty-plus-clean openresty-plus-download
+ifeq ($(WITH_LUA_LDAP), 1)
+	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+endif
 	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
@@ -334,11 +340,16 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 
 .PHONY: openresty-plus-debug-build
 openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
+ifeq ($(WITH_LUA_LDAP), 1)
+	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+endif
 	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
 	cd openresty-plus-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi

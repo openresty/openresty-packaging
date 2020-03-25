@@ -96,8 +96,9 @@ mv $PWD/../boost_%{boost_version}/boost include/boost
 export PATH=/usr/local/openresty-python3/bin:$PATH
 export CC='ccache gcc'
 export CXX='ccache g++'
+export JOBS=${JOBS:-9}
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
-make -j9 > /dev/stderr  # to always show output
+make -j${JOBS} > /dev/stderr  # to always show output
 
 %install
 make install DESTDIR=%{buildroot}
