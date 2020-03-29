@@ -17,6 +17,7 @@ openresty-elfutils-clean:
 .PHONY: openresty-elfutils-build
 openresty-elfutils-build: openresty-elfutils-clean openresty-elfutils-download
 	sudo apt-get -y -q install gcc libc6 bison flex m4 gettext zlib1g-dev libbz2-dev liblzma-dev g++ autoconf openresty-yajl-dev gawk sed
+	sudo apt-get -y -q upgrade gcc libc6 bison flex m4 gettext zlib1g-dev libbz2-dev liblzma-dev g++ autoconf openresty-yajl-dev gawk sed
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-elfutils_$(OPENRESTY_ELFUTILS_VER).orig.tar.gz --strip-components=1 -C openresty-elfutils
 	cd openresty-elfutils \
