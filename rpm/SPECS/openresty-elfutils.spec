@@ -1,5 +1,5 @@
 Name:           openresty-elfutils
-Version:        0.177.5
+Version:        0.177.6
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -46,13 +46,13 @@ BuildRequires: bzip2-devel
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
 BuildRequires: autoconf
-BuildRequires: openresty-yajl-devel
+BuildRequires: openresty-yajl-devel >= 2.1.0.3-1
 BuildRequires: gawk
 BuildRequires: sed
 
 Requires: glibc >= 2.7
 Requires: libstdc++
-Requires: openresty-yajl
+Requires: openresty-yajl >= 2.1.0.3-1
 Requires: bzip2-libs
 Requires: xz-libs
 
