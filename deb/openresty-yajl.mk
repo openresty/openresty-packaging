@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_YAJL_VER := 2.1.0.2
+OPENRESTY_YAJL_VER := 2.1.0.3
 
 .PHONY: openresty-yajl-download
 openresty-yajl-download:
