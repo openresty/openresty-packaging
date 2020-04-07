@@ -37,7 +37,10 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++, perl-JSON-MaybeXS, openresty-python3
+BuildRequires: ccache, gcc-c++, openresty-python3
+%if 0%{?amzn} != 1
+BuildRequires: perl-JSON-MaybeXS
+%endif
 BuildRequires: gettext-devel
 BuildRequires: m4, sed
 BuildRequires: zlib-devel
@@ -48,7 +51,10 @@ BuildRequires: openresty-elfutils-devel >= 0.177.3-1
 Requires: bzip2-libs
 Requires: xz-libs
 Requires: zlib
-Requires: make, perl, perl-JSON-MaybeXS
+Requires: make, perl
+%if 0%{?amzn} != 1
+Requires: perl-JSON-MaybeXS
+%endif
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: openresty-elfutils >= 0.177.3-1
 
