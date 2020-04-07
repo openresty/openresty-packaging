@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.3.0.10
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
