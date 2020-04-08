@@ -8,6 +8,8 @@ URL:            https://firejail.wordpress.com/
 
 Source0:        https://github.com/netblue30/firejail/archive/%version.tar.gz
 
+BuildRequires:  gcc make ccache
+
 AutoReqProv: no
 
 %define firejail_prefix %{_usr}/local/%{name}
