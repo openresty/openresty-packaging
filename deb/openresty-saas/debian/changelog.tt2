@@ -1,3 +1,9 @@
+openresty-saas (1.15.8.2.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * bumpe version to 1.15.8.2.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 04 Sep 2019 00:00:00 -0700
+
 openresty-saas (1.15.8.2.3-3~[% distro %]1) [% distro %]; urgency=high
 
   * initial packaging
