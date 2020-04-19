@@ -17,7 +17,7 @@ override_dh_auto_configure:
 	./configure \
     --prefix="/opt/openresty-saas" \
     --with-cc='ccache gcc' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl/include -g3" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl/include -g3 -O3" \
     --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl/lib" \
     --with-pcre-jit \
     --with-http_ssl_module \
@@ -26,7 +26,7 @@ override_dh_auto_configure:
     --with-http_v2_module \
     --with-threads \
     --with-lua_resty_dmi \
-    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O2 -g3 -DLUAJIT_ENABLE_GC64" \
+    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O3 -g3 -DLUAJIT_ENABLE_GC64" \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
     --without-lua_resty_cookie \

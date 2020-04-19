@@ -8,7 +8,7 @@
 
 Name:       openresty-saas
 Version:    1.15.8.2.8
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -60,7 +60,7 @@ OpenResty Plus for SaaS product clients.
 ./configure \
     --prefix="%{saas_or_prefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --with-http_ssl_module \
@@ -69,7 +69,7 @@ OpenResty Plus for SaaS product clients.
     --with-http_v2_module \
     --with-threads \
     --with-lua_resty_dmi \
-    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O2 -g3 -DLUAJIT_ENABLE_GC64" \
+    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O3 -g3 -DLUAJIT_ENABLE_GC64" \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
     --without-lua_resty_cookie \
