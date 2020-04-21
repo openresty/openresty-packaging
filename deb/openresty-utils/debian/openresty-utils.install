@@ -1,2 +1,4 @@
 usr/local/openresty-utils/bin/crc32_fast
 usr/local/openresty-utils/bin/start-stop-daemon
+usr/local/openresty-utils/bin/flush-page-cache
+usr/local/openresty-utils/bin/read-pagemap

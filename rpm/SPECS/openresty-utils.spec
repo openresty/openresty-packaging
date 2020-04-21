@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.06
+Version:        0.07
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -50,6 +50,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{prefix}/bin/crc32_fast
 %{prefix}/bin/start-stop-daemon
+%{prefix}/bin/flush-page-cache
+%{prefix}/bin/read-pagemap
 
 
 %changelog
