@@ -20,7 +20,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	make -j`nproc` \
 		CC='ccache gcc' \
-		CFLAGS="-O3 -g3"
+		CFLAGS="-O3 -g3 -std=gnu99"
 
 override_dh_auto_install:
 	make install \
