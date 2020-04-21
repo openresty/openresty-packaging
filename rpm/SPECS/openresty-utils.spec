@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.07
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -37,7 +37,7 @@ OpenResty Utils
 %build
 make %{?_smp_mflags} \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="-O3 -g3"
+    CFLAGS="-O3 -g3 -std=gnu99"
 
 %install
 make install \
