@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0700027..a5b2af1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -191,7 +191,7 @@ else()
+         set (EXEC_ARGS ${CC_ARG1} -c -Q --help=target -march=native -mtune=native)
+         execute_process(COMMAND ${CMAKE_C_COMPILER} ${EXEC_ARGS}
+             OUTPUT_VARIABLE _GCC_OUTPUT)
+-        string(REGEX REPLACE ".*march=[ \t]*([^ \n]*)[ \n].*" "\\1"
++        string(REGEX REPLACE ".*\n[ \t]*-march=[ \t]*([^ \t\n]*)[ \t]*\n.*" "\\1"
+             GNUCC_ARCH "${_GCC_OUTPUT}")
+ 
+         # test the parsed flag
