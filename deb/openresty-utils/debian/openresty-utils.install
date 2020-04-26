@@ -3,3 +3,4 @@ usr/local/openresty-utils/bin/start-stop-daemon
 usr/local/openresty-utils/bin/flush-page-cache
 usr/local/openresty-utils/bin/read-pagemap
 usr/local/openresty-utils/bin/extract-vmlinux
+usr/local/openresty-utils/bin/mincore

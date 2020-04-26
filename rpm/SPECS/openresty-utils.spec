@@ -53,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/flush-page-cache
 %{prefix}/bin/read-pagemap
 %{prefix}/bin/extract-vmlinux
+%{prefix}/bin/mincore
 
 
 %changelog
