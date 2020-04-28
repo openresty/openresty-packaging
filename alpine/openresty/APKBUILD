@@ -30,6 +30,12 @@ _openssl_prefix="$_orprefix/openssl"
 
 
 build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+
     ./configure \
         --prefix="$_orprefix" \
         --with-cc='ccache gcc -fdiagnostics-color=always -g3' \

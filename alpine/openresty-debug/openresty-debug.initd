@@ -2,13 +2,13 @@
 
 # init.d file for alpine linux.
 
-description="OpenResty web application server"
+description="OpenResty web application server (Debug version)"
 extra_commands="checkconfig"
 extra_started_commands="reload reopen upgrade"
 
-name=openresty
+name=openresty-debug
 
-command="/usr/local/$name/bin/$name" command_args="-c $cfgfile -p $app_prefix/"
+command="/usr/local/$name/bin/openresty" command_args="-c $cfgfile -p $app_prefix/"
 command_background="yes"
 required_files="$cfgfile"
 

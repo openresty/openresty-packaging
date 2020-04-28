@@ -1,9 +1,9 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
-pkgname="openresty-openssl"
+pkgname="openresty-openssl-debug"
 pkgver="1.1.0l"
-pkgrel=2
-pkgdesc="OpenSSL library for OpenResty"
+pkgrel=0
+pkgdesc="Debug version of the OpenSSL library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
 license="OpenSSL"
@@ -18,7 +18,7 @@ source="https://www.openssl.org/source/old/1.1.0/openssl-$pkgver.tar.gz
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
 
-_ssl_prefix="/usr/local/openresty/openssl"
+_ssl_prefix="/usr/local/openresty-debug/openssl"
 _zlib_prefix="/usr/local/openresty/zlib"
 
 build() {
@@ -29,13 +29,15 @@ build() {
     export LDFLAGS=
 
     ./config \
-        no-threads shared zlib -g \
-        enable-ssl3 enable-ssl3-method \
+        no-threads shared zlib no-asm -g \
+        enable-ssl3 enable-ssl3-method -O0 \
         --prefix="$_ssl_prefix" \
         --libdir=lib \
         -I$_zlib_prefix/include \
         -L$_zlib_prefix/lib \
         -Wl,"-rpath,$_zlib_prefix/lib:$_ssl_prefix/lib"
+
+    sed -i 's/ -O3 / -O0 /g' Makefile
 
     make CC='ccache gcc -fdiagnostics-color=always -g3' -j$JOBS
 }
