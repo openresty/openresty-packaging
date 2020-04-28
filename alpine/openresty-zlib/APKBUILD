@@ -8,7 +8,7 @@ url="http://www.zlib.net/"
 arch="all"
 license="zlib and Boost"
 #depends=""
-makedepends="libtool"
+makedepends=""
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="http://www.zlib.net/zlib-$pkgver.tar.xz"
@@ -20,7 +20,8 @@ _zlib_prefix=/usr/local/openresty/zlib
 build() {
     CHOST="$CHOST" ./configure --prefix="$_zlib_prefix"
     make -j$JOBS CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
-        SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3'
+        SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+        CC='ccache gcc -fdiagnostics-color=always'
 }
 
 check() {
@@ -32,59 +33,6 @@ package() {
     rm -rf $pkgdir/$_zlib_prefix/share
     rm -f  $pkgdir/$_zlib_prefix/lib/*.la
     rm -rf $pkgdir/$_zlib_prefix/lib/pkgconfig
-}
-
-doc() {
-    local gzip=$(command -v pigz || echo gzip)
-    depends="$depends_doc"
-    pkgdesc="$pkgdesc (documentation)"
-    install_if="docs $pkgname=$pkgver-r$pkgrel"
-
-    local i
-    for i in doc man info html sgml licenses gtk-doc ri help; do
-        if [ -d "$pkgdir$_zlib_prefix/share/$i" ]; then
-            mkdir -p "$subpkgdir$_zlib_prefix/share"
-            mv "$pkgdir$_zlib_prefix/share/$i" "$subpkgdir$_zlib_prefix/share/"
-        fi
-    done
-
-    # compress man pages
-    local mandir="$subpkgdir"$_zlib_prefix/share/man
-    [ -d "$mandir" ] && find "$mandir" -type l \
-        -a \( -name \*.[0-8n] -o -name \*.[0-8][a-z]* \) \
-        -a \! \( -name '*.gz' -o -name '*.bz2' -o -name '*.xz' \) \
-        | while read symlink; do
-
-        ln -s $(readlink $symlink).gz "$symlink".gz
-        rm -f "$symlink"
-    done
-    [ -d "$mandir" ] && find "$mandir" -type f \
-        -a \( -name \*.[0-8n] -o -name \*.[0-8][a-z]* \) \
-        -a \! \( -name '*.gz' -o -name '*.bz2' -o -name '*.xz' \) \
-        -exec stat -c "%i %n" \{\} \+ | while read inode name; do
-
-        # Skip hardlinks removed in last iteration.
-        [ -f "$name" ] || continue
-
-        local islink=0
-        find "$mandir" -type f -links +1 \
-            -a \( -name \*.[0-8n] -o -name \*.[0-8][a-z]* \) \
-            -a \! \( -name '*.gz' -o -name '*.bz2' -o -name '*.xz' \) \
-            -exec stat -c "%i %n" \{\} \+ | while read linode lname; do
-            if [ "$linode" = "$inode" -a "$lname" != "$name" ]; then
-                islink=1
-                rm -f "$lname"
-                ln -s "${name##*/}".gz "$lname".gz
-            fi
-        done
-
-        [ $islink -eq 0 ] && $gzip -n -9 "$name"
-    done
-
-    rm -f "$subpkgdir$_zlib_prefix/share/info/dir"
-
-    # remove if empty, ignore error (not empty)
-    rmdir "$pkgdir$_zlib_prefix/share" "$pkgdir$_zlib_prefix" 2>/dev/null || :
 }
 
 sha512sums="b7f50ada138c7f93eb7eb1631efccd1d9f03a5e77b6c13c8b757017b2d462e19d2d3e01c50fad60a4ae1bc86d431f6f94c72c11ff410c25121e571953017cb67  zlib-1.2.11.tar.xz"

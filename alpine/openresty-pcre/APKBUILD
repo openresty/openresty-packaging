@@ -8,7 +8,7 @@ url="http://www.pcre.org/"
 arch="all"
 license="BSD"
 #depends=""
-makedepends="ccache libtool"
+makedepends="ccache"
 subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-dbg"
 source="https://ftp.pcre.org/pub/pcre/pcre-$pkgver.tar.bz2"
 builddir="$srcdir/pcre-$pkgver/"
@@ -40,9 +40,9 @@ check() {
 
 package() {
     make install DESTDIR="$pkgdir"
-    rm -rf $pkgdir/$_pcre_prefix/bin
-    rm -f  $pkgdir/$_pcre_prefix/lib/*pcrecpp*
-    rm -f  $pkgdir/$_pcre_prefix/lib/*pcreposix*
+    rm -rf $pkgdir$_pcre_prefix/bin
+    rm -f  $pkgdir$_pcre_prefix/lib/*pcrecpp*
+    rm -f  $pkgdir$_pcre_prefix/lib/*pcreposix*
 }
 
 doc() {
