@@ -172,7 +172,39 @@ make zlib-build OPTS=-S DISTRO=trusty
 
 [Back to TOC](#table-of-contents)
 
-[Back to TOC](#table-of-contents)
+Alpine
+-------
+
+```bash
+sudo apk add alpine-sdk
+
+mkdir -p ~/.abuild
+echo "JOBS="`nproc` >> ~/.abuild/abuild.conf
+
+cd /path/to/openresty-packaging/alpine/
+
+cd openresty-zlib
+abuild -r
+cd ..
+
+cd openresty-pcre
+abuild -r
+cd ..
+
+cd openresty-openssl
+abuild -r
+cd ..
+
+cd openresty
+abuild -r
+cd ..
+
+cd lemplate
+abuild -r
+cd ..
+
+# and etc...
+```
 
 Author
 ======
