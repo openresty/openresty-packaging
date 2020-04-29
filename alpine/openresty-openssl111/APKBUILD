@@ -12,7 +12,7 @@ makedepends="perl openresty-zlib-dev ccache linux-headers"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
-    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
+    openssl-1.1.1c-sess_set_get_cb_yield.patch
     "
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
