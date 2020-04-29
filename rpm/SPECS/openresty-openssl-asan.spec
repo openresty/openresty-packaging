@@ -1,6 +1,6 @@
 Name:               openresty-openssl-asan
-Version:            1.1.0k
-Release:            4%{?dist}
+Version:            1.1.0l
+Release:            1%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries

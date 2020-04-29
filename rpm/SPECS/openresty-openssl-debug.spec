@@ -1,6 +1,6 @@
 Name:               openresty-openssl-debug
-Version:            1.1.0k
-Release:            3%{?dist}
+Version:            1.1.0l
+Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries

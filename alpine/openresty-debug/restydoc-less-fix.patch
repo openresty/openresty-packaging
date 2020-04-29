@@ -1,0 +1,11 @@
+--- openresty-1.15.8.3/bundle/resty-cli-0.24/bin/restydoc
++++ openresty-1.15.8.3-new/bundle/resty-cli-0.24/bin/restydoc
+@@ -40,7 +40,7 @@
+     if ($^O eq 'MSWin32') {
+         $pager = 'more';
+     } else {
+-        $pager = 'less -nR';
++        $pager = 'less -R';
+     }
+ }
+ 

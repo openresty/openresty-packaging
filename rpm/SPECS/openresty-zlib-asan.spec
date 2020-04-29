@@ -48,8 +48,8 @@ export ASAN_OPTIONS=detect_leaks=0
 CC="clang -fsanitize=address" ./configure --prefix=%{zlib_prefix}
 
 make %{?_smp_mflags} CC="clang -fsanitize=address" \
-    CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
-    SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
+    CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     LDSHARED='clang -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
     > /dev/stderr
 

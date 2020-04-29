@@ -1,0 +1,42 @@
+# Contributor: Yichun Zhang <admin@openresty.com>
+# Maintainer: Yichun Zhang <admin@openresty.com>
+pkgname="openresty-zlib"
+pkgver="1.2.11"
+pkgrel=3
+pkgdesc="The zlib compression library for OpenResty"
+url="http://www.zlib.net/"
+arch="all"
+license="zlib and Boost"
+#depends=""
+makedepends=""
+#install=""
+subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
+source="http://www.zlib.net/zlib-$pkgver.tar.xz"
+options="!tracedeps !fhs"
+builddir="$srcdir/zlib-$pkgver/"
+
+_zlib_prefix=/usr/local/openresty/zlib
+
+build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+
+    ./configure --prefix="$_zlib_prefix"
+    make -j$JOBS CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+        SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+        CC='ccache gcc -fdiagnostics-color=always'
+}
+
+check() {
+	:
+}
+
+package() {
+    make install DESTDIR="$pkgdir"
+    rm -rf $pkgdir/$_zlib_prefix/share
+}
+
+sha512sums="b7f50ada138c7f93eb7eb1631efccd1d9f03a5e77b6c13c8b757017b2d462e19d2d3e01c50fad60a4ae1bc86d431f6f94c72c11ff410c25121e571953017cb67  zlib-1.2.11.tar.xz"

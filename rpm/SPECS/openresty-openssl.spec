@@ -1,6 +1,6 @@
 Name:               openresty-openssl
-Version:            1.1.0k
-Release:            3%{?dist}
+Version:            1.1.0l
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -8,7 +8,7 @@ Group:              Development/Libraries
 # https://www.openssl.org/source/license.html
 License:            OpenSSL
 URL:                https://www.openssl.org/
-Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
+Source0:            https://www.openssl.org/source/old/1.1.0/openssl-%{version}.tar.gz
 
 Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
 Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch

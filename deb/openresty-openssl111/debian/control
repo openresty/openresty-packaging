@@ -1,0 +1,28 @@
+Source: openresty-openssl111
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev, openresty-zlib-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openssl.org/
+
+Package: openresty-openssl111
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib
+Description: OpenSSL 1.1.1 library for use by OpenResty ONLY
+ This OpenSSL 1.1.1 library build is specifically for OpenResty uses. It contains
+ custom patches from OpenResty.
+
+Package: openresty-openssl111-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl (>= 1.1.1d)
+Description: Development files for OpenResty's OpenSSL 1.1.1 library
+ Provides C header and static library for OpenResty's OpenSSL library.
+
+Package: openresty-openssl111-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl (>= 1.1.1d)
+Description: Debug symbols for OpenResty's OpenSSL 1.1.1 library
+ Debug symbols for OpenResty's OpenSSL 1.1.1 library.

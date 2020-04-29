@@ -1,0 +1,104 @@
+# Contributor: Yichun Zhang <admin@openresty.com>
+# Maintainer: Yichun Zhang <admin@openresty.com>
+pkgname="openresty-debug"
+pkgver="1.15.8.3"
+pkgrel=0
+pkgdesc="The debug version of OpenResty"
+url="https://openresty.org/"
+arch="all"
+license="BSD"
+depends="openresty-openssl-debug openresty-pcre openresty-zlib"
+makedepends="ccache perl openresty-openssl-debug-dev openresty-pcre-dev openresty-zlib-dev"
+install="$pkgname.pre-install $pkgname.post-install"
+subpackages="$pkgname-static $pkgname-dbg"
+source="
+    https://openresty.org/download/openresty-$pkgver.tar.gz
+	$pkgname.initd
+	$pkgname.confd
+    restydoc-less-fix.patch
+	"
+builddir="$srcdir/openresty-$pkgver/"
+options="!tracedeps !fhs"
+
+_orprefix="/usr/local/$pkgname"
+_zlib_prefix="/usr/local/openresty/zlib"
+_pcre_prefix="/usr/local/openresty/pcre"
+_openssl_prefix="$_orprefix/openssl"
+
+
+build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+
+    ./configure \
+        --prefix="$_orprefix" \
+        --with-cc='ccache gcc -fdiagnostics-color=always' \
+        --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I$_zlib_prefix/include -I$_pcre_prefix/include -I$_openssl_prefix/include -O0 -g3" \
+        --with-ld-opt="-L$_zlib_prefix/lib -L$_pcre_prefix/lib -L$_openssl_prefix/lib -Wl,-rpath,$_zlib_prefix/lib:$_pcre_prefix/lib:$_openssl_prefix/lib" \
+        --with-debug \
+        --with-pcre-jit \
+        --without-http_rds_json_module \
+        --without-http_rds_csv_module \
+        --without-lua_rds_parser \
+        --with-stream \
+        --with-stream_ssl_module \
+        --with-stream_ssl_preread_module \
+        --with-http_v2_module \
+        --without-mail_pop3_module \
+        --without-mail_imap_module \
+        --without-mail_smtp_module \
+        --with-http_stub_status_module \
+        --with-http_realip_module \
+        --with-http_addition_module \
+        --with-http_auth_request_module \
+        --with-http_secure_link_module \
+        --with-http_random_index_module \
+        --with-http_gzip_static_module \
+        --with-http_sub_module \
+        --with-http_dav_module \
+        --with-http_flv_module \
+        --with-http_mp4_module \
+        --with-http_gunzip_module \
+        --with-threads \
+        --with-compat \
+        --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -O0' \
+        -j$JOBS
+
+    make -j$JOBS
+}
+
+check() {
+	:
+}
+
+package() {
+    make install DESTDIR="$pkgdir"
+
+    rm -rf $pkgdir$_orprefix/luajit/share/man
+
+    mkdir -p "$pkgdir/usr/bin"
+
+    rm -f $pkgdir$_orprefix/bin/resty
+    rm -f $pkgdir$_orprefix/bin/restydoc
+    rm -f $pkgdir$_orprefix/bin/restydoc-index
+    rm -f $pkgdir$_orprefix/bin/md2pod.pl
+    rm -f $pkgdir$_orprefix/bin/nginx-xml2pod
+    rm -f $pkgdir$_orprefix/bin/opm
+    rm -rf $pkgdir$_orprefix/pod/*
+    rm -f $pkgdir$_orprefix/resty.index
+
+    ln -sf $_orprefix/nginx/sbin/nginx $pkgdir/usr/bin/$pkgname
+
+	install -m755 -D "$srcdir"/$pkgname.initd \
+		"$pkgdir"/etc/init.d/$pkgname
+	install -m644 -D "$srcdir"/$pkgname.confd \
+		"$pkgdir"/etc/conf.d/$pkgname
+}
+
+sha512sums="c895b9c0c14ea65d8604d9a74366b75f6332eb0f668e55cf28a23b14db5658044028e6cc72b19939bf1900f3297d2d95f0c0b74f830d92d4bc4a379224c1d8f9  openresty-1.15.8.3.tar.gz
+d173f4f02e99006fba81868cacccbaa86560ea0477149b33e8906d6ac5dc1138f7aba6daf0acbbdab14165723bc021533485e9dc34ad8d60c9f7aa48ab068e55  openresty-debug.initd
+b7a47806c5ad68946fcf2932c3c2d156298264bed92e817f2f5f74e23d16ed0fd2cba2a1a1ddfc26f3fa777dbf5029aa7307a426496dc44f0a7ec7ae94c299ab  openresty-debug.confd
+222910b3b27f6cc5e8b31b6bff36cc6d955213ed6b28276d38f15a4b3ae828996649260313ec3d1e349976e7976414dd467689e99bf3c72c13fb48b163d6c696  restydoc-less-fix.patch"

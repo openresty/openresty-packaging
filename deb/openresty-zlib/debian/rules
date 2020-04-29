@@ -11,8 +11,8 @@ override_dh_auto_configure:
 	./configure --prefix=/usr/local/openresty/zlib
 
 override_dh_auto_build:
-	$(MAKE) CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
-		SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g'
+	$(MAKE) CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+		SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3'
 
 override_dh_usrlocal:
 

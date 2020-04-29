@@ -1,3 +1,9 @@
+openresty-openssl (1.1.0l-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openssl to 1.1.0l.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 19 Mar 2020 22:18:57 -0700
+
 openresty-openssl (1.1.0k-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openssl to 1.1.0k.

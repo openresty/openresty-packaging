@@ -1,0 +1,4 @@
+# Configuration for /etc/init.d/openresty-debug
+
+cfgfile=/usr/local/openresty-debug/nginx/conf/nginx.conf
+app_prefix=/usr/local/openresty-debug/nginx
