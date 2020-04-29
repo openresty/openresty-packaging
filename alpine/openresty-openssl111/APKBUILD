@@ -1,9 +1,9 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
-pkgname="openresty-openssl-debug"
-pkgver="1.1.0l"
-pkgrel=1
-pkgdesc="Debug version of the OpenSSL library for OpenResty"
+pkgname="openresty-openssl111"
+pkgver="1.1.1d"
+pkgrel=0
+pkgdesc="OpenSSL 1.1.1 library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
 license="OpenSSL"
@@ -11,14 +11,13 @@ depends="openresty-zlib"
 makedepends="perl openresty-zlib-dev ccache linux-headers"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
-source="https://www.openssl.org/source/old/1.1.0/openssl-$pkgver.tar.gz
-    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
-    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
+    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
     "
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
 
-_ssl_prefix="/usr/local/openresty-debug/openssl"
+_ssl_prefix="/usr/local/openresty/openssl"
 _zlib_prefix="/usr/local/openresty/zlib"
 
 build() {
@@ -29,15 +28,13 @@ build() {
     export LDFLAGS=
 
     ./config \
-        no-threads shared zlib no-asm -g \
-        enable-ssl3 enable-ssl3-method -O0 -DPURIFY \
+        no-threads shared zlib -g \
+        enable-ssl3 enable-ssl3-method \
         --prefix="$_ssl_prefix" \
         --libdir=lib \
         -I$_zlib_prefix/include \
         -L$_zlib_prefix/lib \
         -Wl,"-rpath,$_zlib_prefix/lib:$_ssl_prefix/lib"
-
-    sed -i 's/ -O3 / -O0 /g' Makefile
 
     make CC='ccache gcc -fdiagnostics-color=always -g3' -j$JOBS
 }
@@ -57,6 +54,5 @@ package() {
     rm -rf $pkgdir/$_ssl_prefix/misc
 }
 
-sha512sums="81b74149f40ea7d9f7e235820a4f977844653ad1e2b302e65e712c12193f47542fe7e3385fd1e25e3dd074e4e6d04199836cbc492656f5a7692edab5e234f4ad  openssl-1.1.0l.tar.gz
-ab0b0d82db9075a42ebb2c13fef598a92ba34701aa8d6e572041dcaf7e5ba21dc0991e5f4ef47aff6de22cc786c18e30d64e97201b40d9f45a88a4587d05461b  openssl-1.1.0j-parallel_build_fix.patch
-5b79725ae768b1ba3079fcb81e084da946dd0ff5613f6b8ac4ad0a3bf16d41db094f431c9ba94d278c926c16edfb71890060bad6df066fc88ae95b297ca03753  openssl-1.1.0d-sess_set_get_cb_yield.patch"
+sha512sums="2bc9f528c27fe644308eb7603c992bac8740e9f0c3601a130af30c9ffebbf7e0f5c28b76a00bbb478bad40fbe89b4223a58d604001e1713da71ff4b7fe6a08a7  openssl-1.1.1d.tar.gz
+a473d789b4dd0c81434db613f70e45a32472941b3a5e3b0e28f1068ff0690a020288a6913b2dac1c5a7e169eca1f983f6d082b009aa0952db5c168c09518ec17  openssl-1.1.1c-sess_set_get_cb_yield.patch"
