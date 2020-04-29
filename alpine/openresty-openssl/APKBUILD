@@ -55,6 +55,38 @@ package() {
     rm -rf $pkgdir/$_ssl_prefix/misc
 }
 
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
 sha512sums="81b74149f40ea7d9f7e235820a4f977844653ad1e2b302e65e712c12193f47542fe7e3385fd1e25e3dd074e4e6d04199836cbc492656f5a7692edab5e234f4ad  openssl-1.1.0l.tar.gz
 ab0b0d82db9075a42ebb2c13fef598a92ba34701aa8d6e572041dcaf7e5ba21dc0991e5f4ef47aff6de22cc786c18e30d64e97201b40d9f45a88a4587d05461b  openssl-1.1.0j-parallel_build_fix.patch
 5b79725ae768b1ba3079fcb81e084da946dd0ff5613f6b8ac4ad0a3bf16d41db094f431c9ba94d278c926c16edfb71890060bad6df066fc88ae95b297ca03753  openssl-1.1.0d-sess_set_get_cb_yield.patch"

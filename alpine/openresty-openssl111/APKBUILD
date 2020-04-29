@@ -54,5 +54,37 @@ package() {
     rm -rf $pkgdir/$_ssl_prefix/misc
 }
 
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
 sha512sums="2bc9f528c27fe644308eb7603c992bac8740e9f0c3601a130af30c9ffebbf7e0f5c28b76a00bbb478bad40fbe89b4223a58d604001e1713da71ff4b7fe6a08a7  openssl-1.1.1d.tar.gz
 a473d789b4dd0c81434db613f70e45a32472941b3a5e3b0e28f1068ff0690a020288a6913b2dac1c5a7e169eca1f983f6d082b009aa0952db5c168c09518ec17  openssl-1.1.1c-sess_set_get_cb_yield.patch"
