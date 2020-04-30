@@ -2,7 +2,7 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-debug"
 pkgver="1.15.8.3"
-pkgrel=0
+pkgrel=1
 pkgdesc="The debug version of OpenResty"
 url="https://openresty.org/"
 arch="all"
