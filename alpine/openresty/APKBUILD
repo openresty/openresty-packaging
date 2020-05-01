@@ -2,7 +2,7 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty"
 pkgver="1.15.8.3"
-pkgrel=2
+pkgrel=3
 pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
 arch="all"
@@ -11,8 +11,8 @@ depends="openresty-openssl openresty-pcre openresty-zlib libgcc"
 makedepends="ccache perl openresty-openssl-dev openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
-    $pkgname-static $pkgname-restydoc $pkgname-dbg
-    $pkgname-resty $pkgname-opm
+    $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
+    $pkgname-resty:resty:noarch $pkgname-opm:opm:noarch
     "
 source="
     https://openresty.org/download/$pkgname-$pkgver.tar.gz
