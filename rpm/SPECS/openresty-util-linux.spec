@@ -1,12 +1,12 @@
 Name:           openresty-util-linux
-Version:        2.34
-Release:        4%{?dist}
+Version:        2.35.1.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
 URL:            https://github.com/karelzak/util-linux
 
-Source0:        https://www.kernel.org/pub/linux/utils/util-linux/v%{version}/util-linux-%{version}.tar.xz
+Source0:        util-linux-%{version}.tar.xz
 
 AutoReqProv: no
 

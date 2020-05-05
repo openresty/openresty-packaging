@@ -1,11 +1,11 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_UTIL_LINUX_VER := 2.34
+OPENRESTY_UTIL_LINUX_VER := 2.35.1.1
 
 .PHONY: openresty-util-linux-download
 openresty-util-linux-download:
-	wget -nH --cut-dirs=100 --mirror 'https://www.kernel.org/pub/linux/utils/util-linux/v$(OPENRESTY_UTIL_LINUX_VER)/util-linux-$(OPENRESTY_UTIL_LINUX_VER).tar.xz'
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/util-linux-$(OPENRESTY_UTIL_LINUX_VER).tar.gz .
 	rm -rf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	mkdir -p openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	tar -xf util-linux-$(OPENRESTY_UTIL_LINUX_VER).tar.xz --strip-components=1 -C openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
