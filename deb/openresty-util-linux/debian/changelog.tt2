@@ -1,3 +1,9 @@
+openresty-util-linux (2.35.1.1-1~[% distro %]) [% distro %]; urgency=high
+
+  * script: enforce a large default window size.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 19 Feb 2020 21:33:40 +0800
+
 openresty-util-linux (2.34-4~[% distro %]) [% distro %]; urgency=high
 
   * add the dmesg tool.
