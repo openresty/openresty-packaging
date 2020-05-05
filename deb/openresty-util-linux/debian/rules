@@ -38,7 +38,7 @@ override_dh_auto_build:
     --disable-runuser --disable-ul --disable-more \
     --disable-setterm --disable-schedutils --disable-wall \
     --disable-irqtop --disable-lsirq
-		&& make script scriptreplay dmesg -j`nproc` > /dev/null
+	make script scriptreplay dmesg -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-util-linux/bin/ \
