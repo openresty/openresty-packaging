@@ -6,7 +6,7 @@ Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
 URL:            https://github.com/karelzak/util-linux
 
-Source0:        util-linux-%{version}.tar.xz
+Source0:        util-linux-%{version}.tar.gz
 
 AutoReqProv: no
 
