@@ -4,3 +4,5 @@ usr/local/openresty-utils/bin/flush-page-cache
 usr/local/openresty-utils/bin/read-pagemap
 usr/local/openresty-utils/bin/extract-vmlinux
 usr/local/openresty-utils/bin/mincore
+usr/local/openresty-utils/bin/read-umem
+usr/local/openresty-utils/bin/shm-warmup
