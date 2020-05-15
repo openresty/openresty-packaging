@@ -12,7 +12,7 @@ openresty-python3-download:
 	tar czf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz openresty-python3_$(OPENRESTY_PYTHON3_VER)
 
 openresty-python3-clean:
-	cd openresty-python3 && debclean
+	-cd openresty-python3 && debclean
 	-find openresty-python3 -maxdepth 1 ! -name 'debian' ! -name 'openresty-python3' -print | xargs rm -rf
 	rm -rf openresty-python3*.deb
 	rm -rf openresty-python3_*.*
