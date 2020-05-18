@@ -13,6 +13,7 @@
 [Unit]
 Description=full-fledged web platform
 After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
 
 [Service]
 Type=forking
