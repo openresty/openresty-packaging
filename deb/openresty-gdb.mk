@@ -12,7 +12,7 @@ openresty-gdb-download:
 	tar czf openresty-gdb_$(OPENRESTY_GDB_VER).orig.tar.gz openresty-gdb_$(OPENRESTY_GDB_VER)
 
 openresty-gdb-clean:
-	cd openresty-gdb && debclean
+	-cd openresty-gdb && debclean
 	-find openresty-gdb -maxdepth 1 ! -name 'debian' ! -name 'openresty-gdb' -print | xargs rm -rf
 	rm -rf openresty-gdb*.deb
 	rm -rf openresty-gdb_*.*
