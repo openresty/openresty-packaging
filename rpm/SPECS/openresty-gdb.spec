@@ -1,6 +1,6 @@
 Name:           openresty-gdb
-Version:        8.3
-Release:        4%{?dist}
+Version:        9.2
+Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -34,10 +34,10 @@ BuildRequires: make
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
-BuildRequires: openresty-python3-devel >= 3.7.3
+BuildRequires: openresty-python3-devel >= 3.7.7
 BuildRequires: xz-devel, ncurses-devel
 
-Requires: openresty-python3 >= 3.7.3
+Requires: openresty-python3 >= 3.7.7
 Requires: xz-libs, gmp, mpfr, glibc, libstdc++, expat, ncurses-libs
 
 
@@ -50,18 +50,24 @@ This is OpenResty's gdb package.
 
 
 %build
+
+mkdir -p build
+cd build/
+
 CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     CFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
     CC='ccache gcc -fdiagnostics-color=always' \
     CXX='ccache g++ -fdiagnostics-color=always' \
-    ./configure --with-python=%{py_prefix}/bin/python3 \
+    ../configure --with-python=%{py_prefix}/bin/python3 \
     --prefix=%{_prefix} --without-guile
 
 make %{?_smp_mflags} > /dev/null
 
 
 %install
+
+cd build/
 make install DESTDIR=%{buildroot} > /dev/null
 ln -sf /usr/lib/debug %{buildroot}/%{_prefix}/lib/
 

@@ -1,3 +1,9 @@
+openresty-python3 (3.7.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded python to 3.7.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 24 Feb 2020 22:34:37 -0700
+
 openresty-python3 (3.7.3-3~[% distro %]1) [% distro %]; urgency=high
 
   * enable ctypes module.

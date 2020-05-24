@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_GDB_VER := 8.3
+OPENRESTY_GDB_VER := 9.2
 
 .PHONY: openresty-gdb-download
 openresty-gdb-download:
