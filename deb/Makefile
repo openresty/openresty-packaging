@@ -69,6 +69,31 @@ zlib-clean:
 	rm -f openresty-zlib_*.*
 	#rm -f zlib-$(ZLIB_VER).tar.gz
 
+.PHONY: saas-zlib-download
+saas-zlib-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
+	cp zlib-$(ZLIB_VER).tar.gz openresty-saas-zlib_$(ZLIB_VER).orig.tar.gz
+
+.PHONY: saas-zlib-build
+saas-zlib-build: | saas-zlib-clean saas-zlib-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	sudo apt-get -qq -y install autotools-dev
+	tar xf openresty-saas-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-saas-zlib
+	cd openresty-saas-zlib \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: saas-zlib-clean
+saas-zlib-clean:
+	cd openresty-saas-zlib && debclean
+	find openresty-saas-zlib -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-zlib' -print | xargs rm -rf
+	rm -f openresty-saas-zlib*.deb
+	rm -f openresty-saas-zlib_*.*
+	#rm -f zlib-$(ZLIB_VER).tar.gz
+
 .PHONY: pcre-download
 pcre-download:
 	rm -f *.orig.tar.*
@@ -91,6 +116,30 @@ pcre-clean:
 	find openresty-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-pcre' -print | xargs rm -rf
 	rm -f openresty-pcre*.deb
 	rm -f openresty-pcre_*.*
+	#rm -f pcre-$(PCRE_VER).tar.bz2
+
+.PHONY: saas-pcre-download
+saas-pcre-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2'
+	cp pcre-$(PCRE_VER).tar.bz2 openresty-saas-pcre_$(PCRE_VER).orig.tar.bz2
+
+.PHONY: saas-pcre-build
+saas-pcre-build: | saas-pcre-clean saas-pcre-download
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-saas-pcre_$(PCRE_VER).orig.tar.bz2 --strip-components=1 -C openresty-saas-pcre
+	cd openresty-saas-pcre \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-saas-pcre*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: saas-pcre-clean
+saas-pcre-clean:
+	cd openresty-saas-pcre && debclean
+	find openresty-saas-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-pcre' -print | xargs rm -rf
+	rm -f openresty-saas-pcre*.deb
+	rm -f openresty-saas-pcre_*.*
 	#rm -f pcre-$(PCRE_VER).tar.bz2
 
 .PHONY: plus-openssl-download
@@ -116,6 +165,30 @@ plus-openssl-clean:
 	find openresty-plus-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl' -print | xargs rm -rf
 	rm -f openresty-plus-openssl*.deb
 	rm -f openresty-plus-openssl_*.*
+
+.PHONY: saas-openssl-download
+saas-openssl-download:
+	rm -f *.orig.tar.*
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
+	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-saas-openssl_$(PLUS_SSL_VER).orig.tar.gz
+
+.PHONY: saas-openssl-build
+saas-openssl-build: | saas-openssl-clean saas-openssl-download
+	sudo apt-get -y -qq install openresty-saas-zlib-dev $(deb_toolchain_pkgs)
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-saas-openssl_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl
+	cd openresty-saas-openssl \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: saas-openssl-clean
+saas-openssl-clean:
+	cd openresty-saas-openssl && debclean
+	find openresty-saas-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-openssl' -print | xargs rm -rf
+	rm -f openresty-saas-openssl*.deb
+	rm -f openresty-saas-openssl_*.*
 
 .PHONY: plus-openssl-debug-download
 plus-openssl-debug-download:

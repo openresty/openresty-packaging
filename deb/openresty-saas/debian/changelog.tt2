@@ -1,3 +1,9 @@
+openresty-saas (1.15.8.2.8-3~[% distro %]1) [% distro %]; urgency=high
+
+  * used separately packaged share lib packages.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 25 May 2020 00:00:00 +0800
+
 openresty-saas (1.15.8.2.8-2~[% distro %]1) [% distro %]; urgency=high
 
   * used -O3 to compile.

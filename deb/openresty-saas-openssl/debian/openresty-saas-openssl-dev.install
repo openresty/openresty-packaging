@@ -1,0 +1,2 @@
+opt/openresty-saas/openssl/include/*
+opt/openresty-saas/openssl/lib/*.a

@@ -2,18 +2,18 @@ Source: openresty-saas
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-zlib-dev (>= 1.2.11), openresty-openssl-dev (>= 1.1.0k), openresty-pcre-dev (>= 8.43), libc-dev, texinfo
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-saas-zlib-dev (>= 1.2.11), openresty-saas-openssl-dev (>= 1.1.0l), openresty-saas-pcre-dev (>= 8.44), libc-dev, texinfo
 Standards-Version: 3.9.8
 Homepage: http://www.openresty.com
 
 Package: openresty-saas
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib (>= 1.2.11), openresty-openssl (>= 1.1.0k), openresty-pcre (>= 8.43), libc-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib (>= 1.2.11), openresty-saas-openssl (>= 1.1.0l), openresty-saas-pcre (>= 8.44), libc-dev
 Description: OpenResty Plus for SaaS product clients.
 
 Package: openresty-saas-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-saas (>= 1.15.8.2.3)
+Depends: ${misc:Depends}, openresty-saas (>= 1.15.8.2.8)
 Description: Debug symbols for the openresty-saas package
  Debug symbols (or debuginfo) for the openresty-saas package.

@@ -1,0 +1,27 @@
+Source: openresty-saas-zlib
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev
+Standards-Version: 3.9.8
+Homepage: http://zlib.net/
+
+Package: openresty-saas-zlib
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The zlib compression library for Openresty SaaS ONLY
+ The zlib compression library for Openresty SaaS ONLY
+
+Package: openresty-saas-zlib-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib
+Description: Provides C header and static library for OpenResty SaaS's zlib library
+ Provides C header and static library for OpenResty SaaS's zlib library.
+
+Package: openresty-saas-zlib-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib
+Description: Debug symbols for OpenResty SaaS's zlib library
+ Debug symbols for OpenResty SaaS's zlib library

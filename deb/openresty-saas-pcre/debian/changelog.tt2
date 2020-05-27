@@ -1,0 +1,5 @@
+openresty-saas-pcre (8.44-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 8.44.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 19 Mar 2020 23:23:20 -0700

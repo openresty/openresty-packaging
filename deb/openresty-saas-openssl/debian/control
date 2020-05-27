@@ -1,0 +1,28 @@
+Source: openresty-saas-openssl
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev, openresty-saas-zlib-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openssl.org/
+
+Package: openresty-saas-openssl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib
+Description: OpenSSL library for OpenResty SaaS ONLY
+ This OpenSSL library is built specifically for OpenResty SaaS uses. It contains
+ custom patches from OpenResty.
+
+Package: openresty-saas-openssl-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-openssl (>= 1.1.0h)
+Description: Development files for OpenResty SaaS's OpenSSL library
+ Provides C header and static library for OpenResty SaaS's OpenSSL library.
+
+Package: openresty-saas-openssl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-openssl (>= 1.1.0h)
+Description: Debug symbols for OpenResty SaaS's OpenSSL library
+ Debug symbols for OpenResty SaaS's OpenSSL library.

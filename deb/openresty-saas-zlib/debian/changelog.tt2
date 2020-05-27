@@ -1,0 +1,5 @@
+openresty-saas-zlib (1.2.11-1~[% distro %]1) [% distro %]; urgency=low
+
+  * bugfix: we did not enable debuginfo in the shared library files.
+
+ -- OpenResty Admin <admin@openresty.com>  Web, 27 May 2020 00:00:00 +0800

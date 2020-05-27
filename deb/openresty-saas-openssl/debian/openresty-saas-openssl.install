@@ -1,0 +1,3 @@
+opt/openresty-saas/openssl/bin/openssl
+opt/openresty-saas/openssl/lib/*.so*
+opt/openresty-saas/openssl/lib/*/*.so*

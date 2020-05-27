@@ -1,0 +1,26 @@
+#!/usr/bin/make -f
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+
+%:
+	+dh $@ --parallel --with autotools-dev
+
+override_dh_auto_configure:
+	./configure --prefix=/opt/openresty-saas/zlib
+
+override_dh_auto_build:
+	$(MAKE) CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+		SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3'
+
+override_dh_usrlocal:
+
+override_dh_install:
+	dh_install
+	rm -rf $DESTDIR/opt/openresty-saas/zlib/share
+	rm -f $DESTDIR/opt/openresty-saas/zlib/lib/*.la
+	rm -rf $DESTDIR/opt/openresty-saas/zlib/lib/pkgconfig
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-saas-zlib-dbgsym
