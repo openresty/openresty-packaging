@@ -1,0 +1,22 @@
+Source: openresty-python3-cython
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, openresty-python3-dev
+Standards-Version: 3.9.8
+Homepage: http://www.cython.org
+
+Package: openresty-python3-cython
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3
+Description: OpenResty's fork of Cython
+ OpenResty's fork of cython.
+ This is a development version of Pyrex, a language for writing Python extension modules.
+
+Package: openresty-python3-cython-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-python3-cython (>= 0.28.5)
+Description: Debug symbols for the openresty-python3-cython package
+ Debug symbols (or debuginfo) for the openresty-python3-cython package.

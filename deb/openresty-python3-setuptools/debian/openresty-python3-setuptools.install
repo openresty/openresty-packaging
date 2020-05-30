@@ -1,0 +1,6 @@
+usr/local/openresty-python3/lib/python3.7/site-packages/easy_install.*
+usr/local/openresty-python3/lib/python3.7/site-packages/pkg_resources/
+usr/local/openresty-python3/lib/python3.7/site-packages/setuptools*/
+usr/local/openresty-python3/lib/python3.7/site-packages/__pycache__/*
+usr/local/openresty-python3/bin/easy_install
+usr/local/openresty-python3/bin/easy_install-3.*
