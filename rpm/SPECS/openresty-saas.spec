@@ -6,8 +6,8 @@
 
 
 Name:       openresty-saas
-Version:    1.15.8.2.8
-Release:    3%{?dist}
+Version:    1.15.8.2.9
+Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
