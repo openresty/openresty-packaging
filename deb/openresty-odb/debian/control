@@ -1,0 +1,28 @@
+Source: openresty-odb
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, g++, openresty-saas-pcre-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-odb
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-pcre
+Description: OpenResty Debugger based on ptrace
+ OpenResty Debugger based on ptrace
+
+Package: openresty-odb-dev
+Architecture: any
+Section: devel
+Depends: ${misc:Depends}, openresty-odb (>= 0.04)
+Description: Development files for openresty-odb
+ Development files for OpenResty Debugger based on ptrace.
+
+Package: openresty-odb-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-odb (>= 0.04)
+Description: Debug symbols for openresty-odb
+ Debug symbols for OpenResty Debugger based on ptrace.
