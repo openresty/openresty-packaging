@@ -142,41 +142,17 @@ saas-pcre-clean:
 	rm -f openresty-saas-pcre_*.*
 	#rm -f pcre-$(PCRE_VER).tar.bz2
 
-.PHONY: plus-openssl-download
-plus-openssl-download:
-	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
-	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-plus-openssl_$(PLUS_SSL_VER).orig.tar.gz
-
-.PHONY: plus-openssl-build
-plus-openssl-build: | plus-openssl-clean plus-openssl-download
-	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus-openssl_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl
-	cd openresty-plus-openssl \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload ]; then ./upload || exit 1; fi
-
-.PHONY: plus-openssl-clean
-plus-openssl-clean:
-	cd openresty-plus-openssl && debclean
-	find openresty-plus-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl' -print | xargs rm -rf
-	rm -f openresty-plus-openssl*.deb
-	rm -f openresty-plus-openssl_*.*
-
 .PHONY: saas-openssl-download
 saas-openssl-download:
 	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
-	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-saas-openssl_$(PLUS_SSL_VER).orig.tar.gz
+	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
+	cp openssl-$(SSL_VER).tar.gz openresty-saas-openssl_$(SSL_VER).orig.tar.gz
 
 .PHONY: saas-openssl-build
 saas-openssl-build: | saas-openssl-clean saas-openssl-download
 	sudo apt-get -y -qq install openresty-saas-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-saas-openssl_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl
+	tar xf openresty-saas-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl
 	cd openresty-saas-openssl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
@@ -189,30 +165,6 @@ saas-openssl-clean:
 	find openresty-saas-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-openssl' -print | xargs rm -rf
 	rm -f openresty-saas-openssl*.deb
 	rm -f openresty-saas-openssl_*.*
-
-.PHONY: plus-openssl-debug-download
-plus-openssl-debug-download:
-	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(PLUS_SSL_VER).tar.gz'
-	cp openssl-$(PLUS_SSL_VER).tar.gz openresty-plus-openssl-debug_$(PLUS_SSL_VER).orig.tar.gz
-
-.PHONY: plus-openssl-debug-build
-plus-openssl-debug-build: | plus-openssl-debug-clean plus-openssl-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus-openssl-debug_$(PLUS_SSL_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl-debug
-	cd openresty-plus-openssl-debug \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload ]; then ./upload || exit 1; fi
-
-.PHONY: plus-openssl-debug-clean
-plus-openssl-debug-clean:
-	cd openresty-plus-openssl-debug && debclean
-	find openresty-plus-openssl-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl-debug' -print | xargs rm -rf
-	rm -f openresty-plus-openssl-debug*.deb
-	rm -f openresty-plus-openssl-debug_*.*
 
 .PHONY: openssl-download
 openssl-download:
