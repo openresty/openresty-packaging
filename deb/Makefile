@@ -88,7 +88,7 @@ saas-zlib-build: | saas-zlib-clean saas-zlib-download
 
 .PHONY: saas-zlib-clean
 saas-zlib-clean:
-	cd openresty-saas-zlib && debclean
+	-cd openresty-saas-zlib && debclean
 	find openresty-saas-zlib -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-zlib' -print | xargs rm -rf
 	rm -f openresty-saas-zlib*.deb
 	rm -f openresty-saas-zlib_*.*
@@ -136,7 +136,7 @@ saas-pcre-build: | saas-pcre-clean saas-pcre-download
 
 .PHONY: saas-pcre-clean
 saas-pcre-clean:
-	cd openresty-saas-pcre && debclean
+	-cd openresty-saas-pcre && debclean
 	find openresty-saas-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-pcre' -print | xargs rm -rf
 	rm -f openresty-saas-pcre*.deb
 	rm -f openresty-saas-pcre_*.*
@@ -162,7 +162,7 @@ saas-openssl-build: | saas-openssl-clean saas-openssl-download
 
 .PHONY: saas-openssl-clean
 saas-openssl-clean:
-	cd openresty-saas-openssl && debclean
+	-cd openresty-saas-openssl && debclean
 	find openresty-saas-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-openssl' -print | xargs rm -rf
 	rm -f openresty-saas-openssl*.deb
 	rm -f openresty-saas-openssl_*.*
@@ -252,7 +252,7 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 .PHONY: openssl111-clean
 openssl111-clean:
 	sudo apt-get -y -qq install openresty-zlib-dev
-	cd openresty-openssl111 && debclean
+	-cd openresty-openssl111 && debclean
 	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
 	rm -f openresty-openssl111*.deb
 	rm -f openresty-openssl111_*.*

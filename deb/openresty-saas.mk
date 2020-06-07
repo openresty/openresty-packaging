@@ -14,7 +14,7 @@ openresty-saas-download:
 	tar -czf openresty-saas_$(OPENRESTY_SAAS_VER).orig.tar.gz openresty-saas_$(OPENRESTY_SAAS_VER)
 
 openresty-saas-clean:
-	cd openresty-saas && debclean
+	-cd openresty-saas && debclean
 	-find openresty-saas -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas' -print | xargs rm -rf
 	rm -rf openresty-saas*.deb
 	rm -rf openresty-saas_*.*
