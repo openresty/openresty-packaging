@@ -1,3 +1,9 @@
+openresty-saas (1.15.8.2.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded plus to 1.15.8.2.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 25 May 2020 00:00:00 +0800
+
 openresty-saas (1.15.8.2.8-3~[% distro %]1) [% distro %]; urgency=high
 
   * used separately packaged share lib packages.
