@@ -151,6 +151,7 @@ saas-openssl-download:
 .PHONY: saas-openssl-build
 saas-openssl-build: | saas-openssl-clean saas-openssl-download
 	sudo apt-get -y -qq install openresty-saas-zlib-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install --only-upgrade openresty-saas-zlib-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-saas-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl
 	cd openresty-saas-openssl \
