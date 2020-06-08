@@ -1,6 +1,6 @@
 Name:           openresty-odb
 Version:        0.04
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Debugger based on ptrace
 Group:          Development/System
 License:        Proprietary
@@ -11,9 +11,8 @@ Source0:        odb-%{version}.tar.gz
 
 AutoReqProv:    no
 
-%define _unpackaged_files_terminate_build 0
+#%define _unpackaged_files_terminate_build 0
 %define _missing_doc_files_terminate_build 0
-%define debug_package %{nil}
 
 %define prefix /usr/local/openresty-odb
 %define pcre_prefix /opt/openresty-saas/pcre
