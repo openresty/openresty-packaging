@@ -1,6 +1,6 @@
 Name:           openresty-odb
-Version:        0.04
-Release:        2%{?dist}
+Version:        0.05
+Release:        1%{?dist}
 Summary:        OpenResty Debugger based on ptrace
 Group:          Development/System
 License:        Proprietary
@@ -80,6 +80,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 8 2020 Yichun Zhang (agentzh) 0.05-1
+- upgraded odb to 0.05.
 * Mon Jun 8 2020 Jiahao Wang 0.04-1
 - upgraded odb to 0.04-1.
 * Sun Jun 7 2020 Jiahao Wang 0.03-1
