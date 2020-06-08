@@ -1,5 +1,5 @@
 Name:           openresty-stap
-Version:        4.3.0.24
+Version:        4.3.0.25
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -194,6 +194,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Sun Jun 7 2020 Yichun Zhang (agentzh) 4.3.0.25-1
+- upgraded openresty-stap to 4.3.0.25.
 * Sat Jun 6 2020 Yichun Zhang (agentzh) 4.3.0.24-1
 - upgraded openresty-stap to 4.3.0.24.
 * Mon May 11 2020 Yichun Zhang (agentzh) 4.3.0.23-1
