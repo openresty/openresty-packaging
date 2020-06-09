@@ -29,7 +29,6 @@ BuildRequires:  glibc-devel, texinfo
 Requires:       openresty-saas-zlib >= 1.2.11-1
 Requires:       openresty-saas-openssl >= 1.1.0l
 Requires:       openresty-saas-pcre >= 8.44
-Requires:       glibc-devel
 
 AutoReqProv:    no
 

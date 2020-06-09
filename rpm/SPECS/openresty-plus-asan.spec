@@ -38,7 +38,6 @@ Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl-asan >= 1.1.0j
 Requires:       openresty-pcre-asan >= 8.41-1
 Requires:       gd
-Requires:       glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2

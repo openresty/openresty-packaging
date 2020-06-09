@@ -39,7 +39,6 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl-debug >= 1.1.0j
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
-Requires:       glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2

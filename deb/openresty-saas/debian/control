@@ -8,7 +8,7 @@ Homepage: http://www.openresty.com
 
 Package: openresty-saas
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib (>= 1.2.11), openresty-saas-openssl (>= 1.1.0l), openresty-saas-pcre (>= 8.44), libc-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib (>= 1.2.11), openresty-saas-openssl (>= 1.1.0l), openresty-saas-pcre (>= 8.44)
 Description: OpenResty Plus for SaaS product clients.
 
 Package: openresty-saas-dbgsym
