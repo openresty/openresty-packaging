@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
 Version:        1.15.8.2.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
