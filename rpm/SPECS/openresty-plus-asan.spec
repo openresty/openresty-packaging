@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.15.8.2.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -38,6 +38,8 @@ Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl-asan >= 1.1.0j
 Requires:       openresty-pcre-asan >= 8.41-1
 Requires:       gd
+# needed by tcc
+Requires:       glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2

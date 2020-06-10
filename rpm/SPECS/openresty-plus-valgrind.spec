@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
 Version:        1.15.8.2.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -39,6 +39,8 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl-debug >= 1.1.0j
 Requires:       openresty-pcre >= 8.41-1
 Requires:       gd
+# needed by tcc
+Requires:       glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2

@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
  openresty-zlib-dev, openresty-openssl-dev (>= 1.1.0j), openresty-pcre-dev (>= 8.42),
- perl, libfile-temp-perl, libgd-dev, libc6-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
+ perl, libfile-temp-perl, libgd-dev, libc-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
  libldap-2.4-2, libldap2-dev[% END %]
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
@@ -29,7 +29,7 @@ Description: resty command-line utility for OpenResty+
 Package: openresty-plus-opm
 Section: utils
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},
+Depends: ${shlibs:Depends}, ${misc:Depends}
  openresty-plus (>= ${source:Upstream-Version}), openresty-plus-resty (>= ${source:Upstream-Version}),
  curl, tar, gzip, libdigest-md5-perl, libencode-perl, libfile-spec-perl, libfile-temp-perl
 Description: OpenResty Package Manager (OPM)
@@ -44,7 +44,7 @@ Description: OpenResty Package Manager (OPM)
 
 Package: openresty-plus
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
  openresty-zlib, openresty-openssl (>= 1.1.0j), openresty-pcre (>= 8.42), libgd3[% IF with_lua_ldap %],
   libldap-2.4-2[% END %]
 Description: core server of OpenResty+ for production use

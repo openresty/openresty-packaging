@@ -1,3 +1,9 @@
+openresty-plus (1.15.8.2.9-2~[% distro %]1) [% distro %]; urgency=high
+
+  * added libc-dev dependency as required by tcc.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 6 Jun 2020 02:10:01 -0700
+
 openresty-plus (1.15.8.2.9-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.15.8.2.9.

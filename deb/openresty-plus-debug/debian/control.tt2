@@ -4,15 +4,15 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
  openresty-zlib-dev, openresty-openssl-debug-dev (>= 1.1.0j),
- openresty-pcre-dev (>= 8.42),[% IF with_lua_ldap %]
- libldap-2.4-2, libldap2-dev,[% END %]
- perl, libfile-temp-perl, libc6-dev, openresty-plus-hyperscan-dev
+ openresty-pcre-dev (>= 8.42), [% IF with_lua_ldap %]
+ libldap-2.4-2, libldap2-dev, [% END %]
+ perl, libfile-temp-perl, libc-dev, openresty-plus-hyperscan-dev
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
 Package: openresty-plus-debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends},[% IF with_lua_ldap %]
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev, [% IF with_lua_ldap %]
  libldap-2.4-2,[% END %]
  openresty-zlib, openresty-openssl-debug (>= 1.1.0j), openresty-pcre (>= 8.42)
 Description: debug version of OpenResty+ core server
