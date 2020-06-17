@@ -16,13 +16,13 @@ Description: OpenResty Debugger based on ptrace
 Package: openresty-odb-dev
 Architecture: any
 Section: devel
-Depends: ${misc:Depends}, openresty-odb (>= 0.04)
+Depends: ${misc:Depends}, openresty-odb (>= ${source:Version})
 Description: Development files for openresty-odb
  Development files for OpenResty Debugger based on ptrace.
 
 Package: openresty-odb-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-odb (>= 0.04)
+Depends: ${misc:Depends}, openresty-odb (>= ${source:Version})
 Description: Debug symbols for openresty-odb
  Debug symbols for OpenResty Debugger based on ptrace.

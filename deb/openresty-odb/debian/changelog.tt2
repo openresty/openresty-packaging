@@ -1,3 +1,9 @@
+openresty-odb (0.07-1~[% distro %]1) [% distro %]; urgency=high
+
+  * added the two missing .h files and upgraded odb to 0.07.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 17 Jun 2020 18:00:04 +0800
+
 openresty-odb (0.06-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded odb to 0.06.

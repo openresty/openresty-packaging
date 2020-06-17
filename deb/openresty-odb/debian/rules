@@ -26,11 +26,7 @@ override_dh_auto_build:
 		libodb-runtime.so
 
 override_dh_auto_install:
-	mkdir -p $(DESTDIR)/$(PREFIX)/lib/ \
-		&& mkdir -p $(DESTDIR)/$(PREFIX)/include/ \
-		&& install -c -m 755 libodb-runtime.so $(DESTDIR)/$(PREFIX)/lib/ \
-		&& install -c -m 644 odb-runtime.h $(DESTDIR)/$(PREFIX)/include/ \
-		&& install -c -m 644 odb-stat.h $(DESTDIR)/$(PREFIX)/include/
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 
 override_dh_auto_clean:
 	dh_clean

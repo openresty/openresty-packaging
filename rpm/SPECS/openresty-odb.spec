@@ -1,5 +1,5 @@
 Name:           openresty-odb
-Version:        0.06
+Version:        0.07
 Release:        1%{?dist}
 Summary:        OpenResty Debugger based on ptrace
 Group:          Development/System
@@ -56,12 +56,7 @@ make %{?_smp_mflags} \
     libodb-runtime.so
 
 %install
-
-mkdir -p %{buildroot}%{prefix}/lib/
-mkdir -p %{buildroot}%{prefix}/include/
-install -c -m 755 libodb-runtime.so %{buildroot}%{prefix}/lib/
-install -c -m 644 odb-runtime.h %{buildroot}%{prefix}/include/
-install -c -m 644 odb-stat.h %{buildroot}%{prefix}/include/
+make install DESTDIR=%{buildroot} PREFIX=%{prefix}
 
 %clean
 rm -rf %{buildroot}
@@ -77,6 +72,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{prefix}/include/odb-stat.h
 %{prefix}/include/odb-runtime.h
+%{prefix}/include/or-pcre.h
+%{prefix}/include/or-utils.h
 
 
 %changelog
