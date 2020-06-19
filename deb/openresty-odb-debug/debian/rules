@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-odb-debug
+PCRE_PREFIX = /opt/openresty-saas/pcre
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	make -j$(JOBS) \
+		CXX='ccache g++' \
+		PCRE=$(PCRE_PREFIX) \
+		CXXFLAGS="-DDDEBUG=1 -std=gnu++11 -g3 -Werror -Wall -O2 -I$(PCRE_PREFIX)/include" \
+		libodb-runtime.so
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-odb-debug-dbgsym
