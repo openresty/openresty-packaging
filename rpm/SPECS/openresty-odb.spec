@@ -1,5 +1,5 @@
 Name:           openresty-odb
-Version:        0.11
+Version:        0.12
 Release:        1%{?dist}
 Summary:        OpenResty Debugger based on ptrace
 Group:          Development/System
@@ -77,6 +77,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun 22 2020 Yichun Zhang (agentzh) 0.12-1
+- upgraded odb to 0.12.
 * Mon Jun 22 2020 Yichun Zhang (agentzh) 0.11-1
 - upgraded odb to 0.11.
 * Mon Jun 22 2020 Yichun Zhang (agentzh) 0.10-1
