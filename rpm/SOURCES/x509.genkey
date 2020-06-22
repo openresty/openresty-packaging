@@ -1,13 +1,13 @@
 [ req ]
-default_bits = 3072
+default_bits = 4096
 distinguished_name = req_distinguished_name
 prompt = no
 x509_extensions = myexts
 
 [ req_distinguished_name ]
-O = CentOS
-CN = CentOS Linux kernel signing key
-emailAddress = security@centos.org
+O = Fedora
+CN = Fedora kernel signing key
+emailAddress = kernel-team@fedoraproject.org
 
 [ myexts ]
 basicConstraints=critical,CA:FALSE

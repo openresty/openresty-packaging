@@ -9,6 +9,6 @@
 # modifications to the overrides below.  If something should be removed across
 # all arches, remove it in the default instead of per-arch.
 
-driverdirs="atm auxdisplay bcma bluetooth firewire fmc infiniband isdn leds media memstick mfd mmc mtd mwave nfc ntb pcmcia platform power ssb staging tty uio uwb w1"
+driverdirs="atm auxdisplay bcma bluetooth firewire fmc fpga infiniband isdn leds media memstick mfd mmc mtd nfc ntb pcmcia platform power ssb soundwire staging tty uio uwb w1"
 
-singlemods="ntb_netdev iscsi_ibft iscsi_boot_sysfs megaraid pmcraid qedi qla1280 9pnet_rdma rpcrdma nvmet-rdma nvme-rdma hid-picolcd hid-prodikeys hwa-hc hwpoison-inject hid-sensor-hub hid-sensor-magn-3d hid-sensor-incl-3d hid-sensor-gyro-3d hid-sensor-iio-common hid-sensor-accel-3d hid-sensor-trigger hid-sensor-als hid-sensor-rotation hid-sensor-temperature hid-sensor-humidity target_core_user sbp_target cxgbit iw_cxgb3 iw_cxgb4 cxgb3i cxgb3i cxgb3i_ddp cxgb4i chcr parport_serial"
+singlemods="ntb_netdev iscsi_ibft iscsi_boot_sysfs megaraid pmcraid qedi qla1280 9pnet_rdma rpcrdma nvmet-rdma nvme-rdma hid-picolcd hid-prodikeys hwa-hc hwpoison-inject hid-sensor-hub hid-sensor-magn-3d hid-sensor-incl-3d hid-sensor-gyro-3d hid-sensor-iio-common hid-sensor-accel-3d hid-sensor-trigger hid-sensor-als hid-sensor-rotation hid-sensor-temperature hid-sensor-humidity target_core_user sbp_target cxgbit iw_cxgb3 iw_cxgb4 cxgb3i cxgb3i cxgb3i_ddp cxgb4i chcr chtls parport_serial regmap-sdw hid-asus"

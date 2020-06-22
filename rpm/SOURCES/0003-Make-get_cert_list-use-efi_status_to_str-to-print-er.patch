@@ -1,4 +1,4 @@
-From 690315729dd1cc6ea85551af0c61aa08a62a93f4 Mon Sep 17 00:00:00 2001
+From 520e902d864930e2d4f329983d9ae9781a24231f Mon Sep 17 00:00:00 2001
 From: Peter Jones <pjones@redhat.com>
 Date: Mon, 2 Oct 2017 18:18:30 -0400
 Subject: [PATCH 3/3] Make get_cert_list() use efi_status_to_str() to print
@@ -6,13 +6,13 @@ Subject: [PATCH 3/3] Make get_cert_list() use efi_status_to_str() to print
 
 Signed-off-by: Peter Jones <pjones@redhat.com>
 ---
- certs/load_uefi.c | 6 ++++--
+ security/integrity/platform_certs/load_uefi.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/certs/load_uefi.c b/certs/load_uefi.c
-index 9ef34c4..13a2826 100644
---- a/certs/load_uefi.c
-+++ b/certs/load_uefi.c
+diff --git a/security/integrity/platform_certs/load_uefi.c b/security/integrity/platform_certs/load_uefi.c
+index 9ef34c44fd1..13a2826715d 100644
+--- a/security/integrity/platform_certs/load_uefi.c
++++ b/security/integrity/platform_certs/load_uefi.c
 @@ -51,7 +51,8 @@ static __init int get_cert_list(efi_char16_t *name, efi_guid_t *guid,
  	}
  
@@ -34,5 +34,5 @@ index 9ef34c4..13a2826 100644
  	}
  
 -- 
-2.13.6
+2.15.0
 

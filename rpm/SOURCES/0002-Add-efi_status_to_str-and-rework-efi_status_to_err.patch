@@ -1,4 +1,4 @@
-From a51d670818754ba7e3c289e14b09cf54e0435162 Mon Sep 17 00:00:00 2001
+From c8218e9b3c38fcd36a2d06eec09952a0c6cee9e0 Mon Sep 17 00:00:00 2001
 From: Peter Jones <pjones@redhat.com>
 Date: Mon, 2 Oct 2017 18:22:13 -0400
 Subject: [PATCH 2/3] Add efi_status_to_str() and rework efi_status_to_err().
@@ -9,12 +9,33 @@ list of errors.
 
 Signed-off-by: Peter Jones <pjones@redhat.com>
 ---
- drivers/firmware/efi/efi.c | 124 +++++++++++++++++++++++++++++++++------------
  include/linux/efi.h        |   3 ++
- 2 files changed, 96 insertions(+), 31 deletions(-)
+ drivers/firmware/efi/efi.c | 122 ++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 95 insertions(+), 30 deletions(-)
 
+diff --git a/include/linux/efi.h b/include/linux/efi.h
+index 18b16bf5ce1..436b3c93c3d 100644
+--- a/include/linux/efi.h
++++ b/include/linux/efi.h
+@@ -42,6 +42,8 @@
+ #define EFI_ABORTED		(21 | (1UL << (BITS_PER_LONG-1)))
+ #define EFI_SECURITY_VIOLATION	(26 | (1UL << (BITS_PER_LONG-1)))
+ 
++#define EFI_IS_ERROR(x)		((x) & (1UL << (BITS_PER_LONG-1)))
++
+ typedef unsigned long efi_status_t;
+ typedef u8 efi_bool_t;
+ typedef u16 efi_char16_t;		/* UNICODE character */
+@@ -1183,6 +1185,7 @@ static inline void efi_set_secure_boot(enum efi_secureboot_mode mode) {}
+ #endif
+ 
+ extern int efi_status_to_err(efi_status_t status);
++extern const char *efi_status_to_str(efi_status_t status);
+ 
+ /*
+  * Variable Attributes
 diff --git a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
-index f70febf..588377b 100644
+index 557a47829d0..e8f9c7d84e9 100644
 --- a/drivers/firmware/efi/efi.c
 +++ b/drivers/firmware/efi/efi.c
 @@ -31,6 +31,7 @@
@@ -25,20 +46,20 @@ index f70febf..588377b 100644
  
  #include <asm/early_ioremap.h>
  
-@@ -864,40 +865,101 @@ int efi_mem_type(unsigned long phys_addr)
+@@ -865,40 +866,101 @@ int efi_mem_type(unsigned long phys_addr)
  }
  #endif
  
 +struct efi_error_code {
 +	efi_status_t status;
 +	int errno;
-+	char *description;
++	const char *description;
 +};
 +
-+static struct efi_error_code efi_error_codes[] = {
++static const struct efi_error_code efi_error_codes[] = {
 +	{ EFI_SUCCESS, 0, "Success"},
 +#if 0
-+	{ EFI_LOAD_ERROR, "Load Error"},
++	{ EFI_LOAD_ERROR, -EPICK_AN_ERRNO, "Load Error"},
 +#endif
 +	{ EFI_INVALID_PARAMETER, -EINVAL, "Invalid Parameter"},
 +	{ EFI_UNSUPPORTED, -ENOSYS, "Unsupported"},
@@ -49,40 +70,40 @@ index f70febf..588377b 100644
 +	{ EFI_WRITE_PROTECTED, -EROFS, "Write Protected"},
 +	{ EFI_OUT_OF_RESOURCES, -ENOMEM, "Out of Resources"},
 +#if 0
-+	{ EFI_VOLUME_CORRUPTED, "Volume Corrupt"},
-+	{ EFI_VOLUME_FULL, "Volume Full"},
-+	{ EFI_NO_MEDIA, "No Media"},
-+	{ EFI_MEDIA_CHANGED, "Media changed"},
++	{ EFI_VOLUME_CORRUPTED, -EPICK_AN_ERRNO, "Volume Corrupt"},
++	{ EFI_VOLUME_FULL, -EPICK_AN_ERRNO, "Volume Full"},
++	{ EFI_NO_MEDIA, -EPICK_AN_ERRNO, "No Media"},
++	{ EFI_MEDIA_CHANGED, -EPICK_AN_ERRNO, "Media changed"},
 +#endif
 +	{ EFI_NOT_FOUND, -ENOENT, "Not Found"},
 +#if 0
-+	{ EFI_ACCESS_DENIED, "Access Denied"},
-+	{ EFI_NO_RESPONSE, "No Response"},
-+	{ EFI_NO_MAPPING, "No mapping"},
-+	{ EFI_TIMEOUT, "Time out"},
-+	{ EFI_NOT_STARTED, "Not started"},
-+	{ EFI_ALREADY_STARTED, "Already started"},
++	{ EFI_ACCESS_DENIED, -EPICK_AN_ERRNO, "Access Denied"},
++	{ EFI_NO_RESPONSE, -EPICK_AN_ERRNO, "No Response"},
++	{ EFI_NO_MAPPING, -EPICK_AN_ERRNO, "No mapping"},
++	{ EFI_TIMEOUT, -EPICK_AN_ERRNO, "Time out"},
++	{ EFI_NOT_STARTED, -EPICK_AN_ERRNO, "Not started"},
++	{ EFI_ALREADY_STARTED, -EPICK_AN_ERRNO, "Already started"},
 +#endif
 +	{ EFI_ABORTED, -EINTR, "Aborted"},
 +#if 0
-+	{ EFI_ICMP_ERROR, "ICMP Error"},
-+	{ EFI_TFTP_ERROR, "TFTP Error"},
-+	{ EFI_PROTOCOL_ERROR, "Protocol Error"},
-+	{ EFI_INCOMPATIBLE_VERSION, "Incompatible Version"},
++	{ EFI_ICMP_ERROR, -EPICK_AN_ERRNO, "ICMP Error"},
++	{ EFI_TFTP_ERROR, -EPICK_AN_ERRNO, "TFTP Error"},
++	{ EFI_PROTOCOL_ERROR, -EPICK_AN_ERRNO, "Protocol Error"},
++	{ EFI_INCOMPATIBLE_VERSION, -EPICK_AN_ERRNO, "Incompatible Version"},
 +#endif
 +	{ EFI_SECURITY_VIOLATION, -EACCES, "Security Policy Violation"},
 +#if 0
-+	{ EFI_CRC_ERROR, "CRC Error"},
-+	{ EFI_END_OF_MEDIA, "End of Media"},
-+	{ EFI_END_OF_FILE, "End of File"},
-+	{ EFI_INVALID_LANGUAGE, "Invalid Languages"},
-+	{ EFI_COMPROMISED_DATA, "Compromised Data"},
++	{ EFI_CRC_ERROR, -EPICK_AN_ERRNO, "CRC Error"},
++	{ EFI_END_OF_MEDIA, -EPICK_AN_ERRNO, "End of Media"},
++	{ EFI_END_OF_FILE, -EPICK_AN_ERRNO, "End of File"},
++	{ EFI_INVALID_LANGUAGE, -EPICK_AN_ERRNO, "Invalid Languages"},
++	{ EFI_COMPROMISED_DATA, -EPICK_AN_ERRNO, "Compromised Data"},
 +
 +	// warnings
-+	{ EFI_WARN_UNKOWN_GLYPH, "Warning Unknown Glyph"},
-+	{ EFI_WARN_DELETE_FAILURE, "Warning Delete Failure"},
-+	{ EFI_WARN_WRITE_FAILURE, "Warning Write Failure"},
-+	{ EFI_WARN_BUFFER_TOO_SMALL, "Warning Buffer Too Small"},
++	{ EFI_WARN_UNKOWN_GLYPH, -EPICK_AN_ERRNO, "Warning Unknown Glyph"},
++	{ EFI_WARN_DELETE_FAILURE, -EPICK_AN_ERRNO, "Warning Delete Failure"},
++	{ EFI_WARN_WRITE_FAILURE, -EPICK_AN_ERRNO, "Warning Write Failure"},
++	{ EFI_WARN_BUFFER_TOO_SMALL, -EPICK_AN_ERRNO, "Warning Buffer Too Small"},
 +#endif
 +};
 +
@@ -102,7 +123,9 @@ index f70febf..588377b 100644
  int efi_status_to_err(efi_status_t status)
  {
 -	int err;
--
++	struct efi_error_code *found;
++	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
+ 
 -	switch (status) {
 -	case EFI_SUCCESS:
 -		err = 0;
@@ -131,10 +154,6 @@ index f70febf..588377b 100644
 -	default:
 -		err = -EINVAL;
 -	}
-+	struct efi_error_code *found;
-+	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
- 
--	return err;
 +	found = bsearch((void *)(uintptr_t)status, efi_error_codes,
 +			sizeof(struct efi_error_code), num,
 +			efi_status_cmp_bsearch);
@@ -142,7 +161,8 @@ index f70febf..588377b 100644
 +		return -EINVAL;
 +	return found->errno;
 +}
-+
+ 
+-	return err;
 +const char *
 +efi_status_to_str(efi_status_t status)
 +{
@@ -158,27 +178,6 @@ index f70febf..588377b 100644
  }
  
  bool efi_is_table_address(unsigned long phys_addr)
-diff --git a/include/linux/efi.h b/include/linux/efi.h
-index 946cd01..2b4421f 100644
---- a/include/linux/efi.h
-+++ b/include/linux/efi.h
-@@ -41,6 +41,8 @@
- #define EFI_ABORTED		(21 | (1UL << (BITS_PER_LONG-1)))
- #define EFI_SECURITY_VIOLATION	(26 | (1UL << (BITS_PER_LONG-1)))
- 
-+#define EFI_IS_ERROR(x)		((x) & (1UL << (BITS_PER_LONG-1)))
-+
- typedef unsigned long efi_status_t;
- typedef u8 efi_bool_t;
- typedef u16 efi_char16_t;		/* UNICODE character */
-@@ -1171,6 +1173,7 @@ static inline bool efi_is_table_address(unsigned long phys_addr)
- #endif
- 
- extern int efi_status_to_err(efi_status_t status);
-+extern const char *efi_status_to_str(efi_status_t status);
- 
- /*
-  * Variable Attributes
 -- 
-2.13.6
+2.15.0
 

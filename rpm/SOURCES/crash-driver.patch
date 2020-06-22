@@ -284,10 +284,10 @@ diff --git a/drivers/char/Makefile b/drivers/char/Makefile
 index 6e6c244..29cc9c8 100644
 --- a/drivers/char/Makefile
 +++ b/drivers/char/Makefile
-@@ -60,3 +60,5 @@ js-rtc-y = rtc.o
- obj-$(CONFIG_TILE_SROM)		+= tile-srom.o
+@@ -58,3 +58,5 @@ js-rtc-y = rtc.o
  obj-$(CONFIG_XILLYBUS)		+= xillybus/
  obj-$(CONFIG_POWERNV_OP_PANEL)	+= powernv-op-panel.o
+ obj-$(CONFIG_ADI)		+= adi.o
 +
 +obj-$(CONFIG_CRASH)            += crash.o
 diff --git a/drivers/char/crash.c b/drivers/char/crash.c
@@ -326,7 +326,7 @@ index 0000000..085378a
 +#include <linux/miscdevice.h>
 +#include <linux/init.h>
 +#include <asm/io.h>
-+#include <asm/uaccess.h>
++#include <linux/uaccess.h>
 +#include <asm/types.h>
 +#include <asm/crash-driver.h>
 +
