@@ -1,3 +1,9 @@
+openresty-odb (0.13-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded odb to 0.13.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 23 Jun 2020 21:28:57 -0700
+
 openresty-odb (0.12-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded odb to 0.12.
