@@ -1,3 +1,9 @@
+openresty-elfutils (0.177.10-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded elfutils-plus to 0.177.10.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 29 Jun 2020 17:53:30 -0700
+
 openresty-elfutils (0.177.9-2~[% distro %]1) [% distro %]; urgency=high
 
   * fixed the runtime dep list to avoid libbz2-dev.
