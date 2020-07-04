@@ -15,8 +15,8 @@ override_dh_auto_configure:
 	./configure \
 	  --prefix="/usr/local/openresty-valgrind" \
 	  --with-debug \
-	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl/include -O0" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl/lib" \
+	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl111/include -O0" \
+	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl111/lib" \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
@@ -44,7 +44,6 @@ override_dh_auto_configure:
 	  --with-poll_module \
 	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
 	  --with-no-pool-patch \
-	  --with-dtrace-probes \
 	  -j$(NJBS)
 
 override_dh_usrlocal:
