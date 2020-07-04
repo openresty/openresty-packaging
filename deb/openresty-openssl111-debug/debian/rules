@@ -30,11 +30,11 @@ override_dh_auto_configure:
 	  no-threads no-asm \
 	  enable-ssl3 enable-ssl3-method \
 	  shared zlib -g3 -O0 -DPURIFY  \
-	  --prefix=/usr/local/openresty-debug/openssl \
+	  --prefix=/usr/local/openresty-debug/openssl111 \
 	  --libdir=lib \
 	  -I/usr/local/openresty/zlib/include \
 	  -L/usr/local/openresty/zlib/lib \
-	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-debug/openssl/lib
+	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-debug/openssl111/lib
 	#sed -i 's/ -O3 / -O0 /g' Makefile
 
 override_dh_usrlocal:
@@ -44,9 +44,9 @@ override_dh_auto_install:
 
 override_dh_install:
 	dh_install
-	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl/bin/c_rehash
-	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl/lib/pkgconfig
-	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl/misc
+	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl111/bin/c_rehash
+	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl111/lib/pkgconfig
+	rm -rf $(DESTDIR)/usr/local/openresty-debug/openssl111/misc
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-openssl111-debug-dbgsym
