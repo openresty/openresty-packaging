@@ -5,6 +5,5 @@ usr/local/openresty-valgrind/luajit/*
 usr/local/openresty-valgrind/lualib/*
 usr/local/openresty-valgrind/nginx/html/*
 usr/local/openresty-valgrind/nginx/sbin/*
-usr/local/openresty-valgrind/nginx/tapset/*
 usr/local/openresty-valgrind/nginx/conf/*
 usr/local/openresty-valgrind/nginx/logs
