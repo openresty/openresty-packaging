@@ -1,5 +1,5 @@
 Name:           openresty-asan
-Version:        1.15.8.3
+Version:        1.17.8.1
 Release:        1%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
@@ -19,11 +19,11 @@ BuildRequires:  ccache, make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl-asan-devel >= 1.1.0l-1
+BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1g-1
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
 
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl-asan >= 1.1.0l-1
+Requires:       openresty-openssl111-asan >= 1.1.1g-1
 Requires:       openresty-pcre-asan >= 8.44-1
 
 AutoReqProv:        no
@@ -172,6 +172,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 3 2020 Yichun Zhang (agentzh) 1.17.8.1-1
+- upgraded openresty to 1.17.8.1.
 * Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
 - upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1
