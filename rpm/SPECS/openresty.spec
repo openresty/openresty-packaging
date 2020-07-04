@@ -61,7 +61,7 @@ AutoReqProv:        no
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{orprefix}/zlib
 %define pcre_prefix         %{orprefix}/pcre
-%define openssl_prefix      %{orprefix}/openssl
+%define openssl_prefix      %{orprefix}/openssl111
 
 # Remove source code from debuginfo package.
 %define __debug_install_post \

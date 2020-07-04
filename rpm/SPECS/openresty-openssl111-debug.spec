@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-debug
 Version:            1.1.1g
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -23,7 +23,7 @@ Requires:           openresty-zlib >= 1.2.11
 
 AutoReqProv:        no
 
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
 %define zlib_prefix         /usr/local/openresty/zlib
 %global _default_patch_fuzz 1
 

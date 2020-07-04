@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-asan
 Version:            1.1.1g
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -23,7 +23,7 @@ Requires:           openresty-zlib-asan >= 1.2.11-6
 
 AutoReqProv:        no
 
-%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl111
 %define zlib_prefix         /usr/local/openresty-asan/zlib
 %global _default_patch_fuzz 1
 
