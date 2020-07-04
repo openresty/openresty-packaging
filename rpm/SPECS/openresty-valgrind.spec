@@ -20,16 +20,16 @@ Requires:       valgrind
 
 BuildRequires:  ccache, perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1g-1
+BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1g-2
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111-debug >= 1.1.1g-1
+Requires:       openresty-openssl111-debug >= 1.1.1g-2
 Requires:       openresty-pcre >= 8.44-1
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 
