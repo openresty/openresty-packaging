@@ -1,8 +1,8 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl111"
-pkgver="1.1.1d"
-pkgrel=0
+pkgver="1.1.1g"
+pkgrel=1
 pkgdesc="OpenSSL 1.1.1 library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
@@ -12,12 +12,12 @@ makedepends="perl openresty-zlib-dev ccache linux-headers"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
-    openssl-1.1.1c-sess_set_get_cb_yield.patch
+    openssl-1.1.1f-sess_set_get_cb_yield.patch
     "
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
 
-_ssl_prefix="/usr/local/openresty/openssl"
+_ssl_prefix="/usr/local/openresty/openssl111"
 _zlib_prefix="/usr/local/openresty/zlib"
 
 build() {
@@ -86,5 +86,5 @@ static() {
     default_static
 }
 
-sha512sums="2bc9f528c27fe644308eb7603c992bac8740e9f0c3601a130af30c9ffebbf7e0f5c28b76a00bbb478bad40fbe89b4223a58d604001e1713da71ff4b7fe6a08a7  openssl-1.1.1d.tar.gz
-a473d789b4dd0c81434db613f70e45a32472941b3a5e3b0e28f1068ff0690a020288a6913b2dac1c5a7e169eca1f983f6d082b009aa0952db5c168c09518ec17  openssl-1.1.1c-sess_set_get_cb_yield.patch"
+sha512sums="01e3d0b1bceeed8fb066f542ef5480862001556e0f612e017442330bbd7e5faee228b2de3513d7fc347446b7f217e27de1003dc9d7214d5833b97593f3ec25ab  openssl-1.1.1g.tar.gz
+2b675a74ce048293fa5c80e65b665405005395c9dbd2edbd17b619dd255161ef28c92f7c1a2841dceb79b9ddacbe93313e90e0cac37c86498ea37ea1f9c4719a  openssl-1.1.1f-sess_set_get_cb_yield.patch"

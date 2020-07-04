@@ -1,14 +1,14 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty"
-pkgver="1.15.8.3"
-pkgrel=3
+pkgver="1.17.8.1"
+pkgrel=1
 pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
 arch="all"
 license="BSD"
-depends="openresty-openssl openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl-dev openresty-pcre-dev openresty-zlib-dev"
+depends="openresty-openssl111>=1.1.1g-r0 openresty-pcre openresty-zlib libgcc"
+makedepends="ccache perl openresty-openssl111-dev>=1.1.1g-r0 openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
     $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
@@ -18,7 +18,6 @@ source="
     https://openresty.org/download/$pkgname-$pkgver.tar.gz
 	$pkgname.initd
 	$pkgname.confd
-    restydoc-less-fix.patch
 	"
 builddir="$srcdir/$pkgname-$pkgver/"
 options="!tracedeps !fhs"
@@ -26,7 +25,7 @@ options="!tracedeps !fhs"
 _orprefix="/usr/local/$pkgname"
 _zlib_prefix="$_orprefix/zlib"
 _pcre_prefix="$_orprefix/pcre"
-_openssl_prefix="$_orprefix/openssl"
+_openssl_prefix="$_orprefix/openssl111"
 
 
 build() {
@@ -170,7 +169,6 @@ static() {
     default_static
 }
 
-sha512sums="c895b9c0c14ea65d8604d9a74366b75f6332eb0f668e55cf28a23b14db5658044028e6cc72b19939bf1900f3297d2d95f0c0b74f830d92d4bc4a379224c1d8f9  openresty-1.15.8.3.tar.gz
+sha512sums="32d360ef80d7c1c944a1f34745565e58637b55dc324d352d6ac2442f30282b57369fa0f82c24d7dece4d34dfbf25a1eac47e69c237862339a008bec031bee3ec  openresty-1.17.8.1.tar.gz
 c7d2d89634410a7beb1e8d4cb7e168d0a2b067c37889fa67018afa940dcf99b5e05db4b1a1fcad7939fd70a896f2c90854631308ef11a307f4064e7eef329d99  openresty.initd
-20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd
-222910b3b27f6cc5e8b31b6bff36cc6d955213ed6b28276d38f15a4b3ae828996649260313ec3d1e349976e7976414dd467689e99bf3c72c13fb48b163d6c696  restydoc-less-fix.patch"
+20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd"
