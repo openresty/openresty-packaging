@@ -4,6 +4,5 @@ usr/local/openresty/luajit/*
 usr/local/openresty/lualib/*
 usr/local/openresty/nginx/html/*
 usr/local/openresty/nginx/sbin/*
-usr/local/openresty/nginx/tapset/*
 usr/local/openresty/nginx/conf/*
 usr/local/openresty/nginx/logs

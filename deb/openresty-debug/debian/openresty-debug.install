@@ -5,6 +5,5 @@ usr/local/openresty-debug/luajit/*
 usr/local/openresty-debug/lualib/*
 usr/local/openresty-debug/nginx/html/*
 usr/local/openresty-debug/nginx/sbin/*
-usr/local/openresty-debug/nginx/tapset/*
 usr/local/openresty-debug/nginx/conf/*
 usr/local/openresty-debug/nginx/logs
