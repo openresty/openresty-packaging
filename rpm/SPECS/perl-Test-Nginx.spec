@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
-Version:        0.26
-Release:        2%{?dist}
+Version:        0.27
+Release:        1%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
