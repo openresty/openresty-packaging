@@ -1,6 +1,6 @@
 Name:           perl-Test-Base
-Version:        0.88
-Release:        5%{?dist}
+Version:        0.89
+Release:        1%{?dist}
 Summary:        Data Driven Testing Framework
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -12,12 +12,12 @@ BuildRequires:  perl >= 1:v5.8.1
 BuildRequires:  perl(Algorithm::Diff)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Filter::Util::Call)
-BuildRequires:  perl(Spiffy)
+BuildRequires:  perl-Spiffy
 BuildRequires:  perl(Test::Deep)
 BuildRequires:  perl(Text::Diff)
 BuildRequires:  perl(Test::More)
 Requires:       perl(Filter::Util::Call)
-Requires:       perl(Spiffy)
+Requires:       perl-Spiffy
 Requires:       perl(Test::Deep)
 Requires:       perl(Test::More)
 Provides:       perl(Test::Base)
