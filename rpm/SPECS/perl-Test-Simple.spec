@@ -1,6 +1,6 @@
 Name:           perl-Test-Simple
 Version:        1.302175
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Basic utilities for writing tests
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -21,6 +21,10 @@ Requires:       perl(Scalar::Util) >= 1.13
 Requires:       perl(Storable)
 Requires:       perl(utf8)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Provides:       perl(Test::Tester)
+Provides:       perl(Test::More)
+Provides:       perl(Test::Simple)
+Provides:       perl(Test::Builder)
 AutoReqProv:    no
 
 %description
