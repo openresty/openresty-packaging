@@ -5,7 +5,8 @@ Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9)
 Build-Depends-Indep: perl, libencode-perl, libfile-path-perl, libfile-temp-perl,
     libhttp-message-perl, liblist-moreutils-perl, libwww-perl, libtest-base-perl,
-    libtest-longstring-perl, libtext-diff-perl, libtime-hires-perl, liburi-perl
+    libtest-longstring-perl, libtext-diff-perl, libtime-hires-perl, liburi-perl,
+    libipc-run-perl
 Standards-Version: 3.9.8
 Homepage: https://metacpan.org/release/Test-Nginx
 
@@ -14,5 +15,6 @@ Architecture: all
 Depends: ${misc:Depends}, ${perl:Depends},
     perl, libencode-perl, libfile-path-perl, libfile-temp-perl,
     libhttp-message-perl, liblist-moreutils-perl, libwww-perl, libtest-base-perl,
-    libtest-longstring-perl, libtext-diff-perl, libtime-hires-perl, liburi-perl
+    libtest-longstring-perl, libtext-diff-perl, libtime-hires-perl, liburi-perl,
+    libipc-run-perl
 Description: Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
