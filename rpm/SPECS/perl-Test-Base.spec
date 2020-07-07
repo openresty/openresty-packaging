@@ -21,6 +21,7 @@ Requires:       perl-Spiffy
 Requires:       perl(Test::Deep)
 Requires:       perl(Test::More)
 Provides:       perl(Test::Base)
+AutoReqProv:    no
 
 %description
 Testing is usually the ugly part of Perl module authoring. Perl gives you a

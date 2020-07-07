@@ -9,7 +9,7 @@ Source0:        http://www.cpan.org/authors/id/S/SA/SANKO/Readonly-%{version}.ta
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  perl >= 0:5.005
-BuildRequires:  perl(Module::Build)
+BuildRequires:  perl(Module::Build::Tiny)
 BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 

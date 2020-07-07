@@ -1,6 +1,6 @@
 Name:           perl-IPC-Run
 Version:        20200505.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        System() and background procs w/ piping, redirs, ptys (Unix, Win32)
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,6 +17,7 @@ Requires:       perl(IO::Pty) >= 1.08
 Requires:       perl(Readonly)
 Requires:       perl(Test::More) >= 0.47
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+AutoReqProv:    no
 
 %description
 IPC::Run allows you to run and interact with child processes using files,

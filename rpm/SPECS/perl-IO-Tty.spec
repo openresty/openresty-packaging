@@ -1,6 +1,6 @@
 Name:           perl-IO-Tty
 Version:        1.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Low-level allocate a pseudo-Tty, import constants
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -10,6 +10,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::More)
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+AutoReqProv:    no
 
 %description
 IO::Tty is used internally by IO::Pty to create a pseudo-tty. You wouldn't
