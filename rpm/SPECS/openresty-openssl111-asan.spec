@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-asan
 Version:            1.1.1g
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -80,6 +80,9 @@ export ASAN_OPTIONS=detect_leaks=0
 
 ./config \
     no-threads no-asm \
+    enable-camellia enable-seed enable-rfc3779 \
+    enable-cms enable-md2 enable-rc5 \
+    enable-weak-ssl-ciphers \
     enable-ssl3 enable-ssl3-method \
     shared zlib -g3 -O1 -DPURIFY \
     --prefix=%{openssl_prefix} \

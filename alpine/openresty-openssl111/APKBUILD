@@ -29,6 +29,9 @@ build() {
 
     ./config \
         no-threads shared zlib -g \
+        enable-camellia enable-seed enable-rfc3779 \
+        enable-cms enable-md2 enable-rc5 \
+        enable-weak-ssl-ciphers \
         enable-ssl3 enable-ssl3-method \
         --prefix="$_ssl_prefix" \
         --libdir=lib \

@@ -28,6 +28,9 @@ export QA_RPATHS=$[ 0x0002 ]
 override_dh_auto_configure:
 	./config \
 	  no-threads shared zlib -g3 \
+	  enable-camellia enable-seed enable-rfc3779 \
+	  enable-cms enable-md2 enable-rc5 \
+	  enable-weak-ssl-ciphers \
 	  enable-ssl3 enable-ssl3-method \
 	  --prefix=/usr/local/openresty/openssl111 \
 	  --libdir=lib \
