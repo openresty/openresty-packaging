@@ -19,11 +19,11 @@ BuildRequires:  ccache, make, perl, systemtap-sdt-devel, clang, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1g-2
+BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1g-3
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
 
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl111-asan >= 1.1.1g-2
+Requires:       openresty-openssl111-asan >= 1.1.1g-3
 Requires:       openresty-pcre-asan >= 8.44-1
 
 AutoReqProv:        no
