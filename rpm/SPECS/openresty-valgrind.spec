@@ -15,7 +15,7 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, perl, valgrind, systemtap-sdt-devel
+BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
 Requires:       valgrind
 
 BuildRequires:  ccache, perl-File-Temp
