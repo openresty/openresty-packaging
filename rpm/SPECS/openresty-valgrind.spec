@@ -1,6 +1,6 @@
 Name:           openresty-valgrind
 Version:        1.17.8.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
 Group:          System Environment/Daemons
@@ -15,7 +15,7 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
+BuildRequires:  gcc, make, perl, valgrind, systemtap-sdt-devel
 Requires:       valgrind
 
 BuildRequires:  ccache, perl-File-Temp
