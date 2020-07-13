@@ -1,6 +1,6 @@
 Name:           openresty
-Version:        1.17.8.1
-Release:        2%{?dist}
+Version:        1.17.8.2
+Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -330,6 +330,8 @@ fi
 
 
 %changelog
+* Mon Jul 13 2020 Yichun Zhang (agentzh) 1.17.8.2-1
+- upgraded openresty to 1.17.8.2.
 * Fri Jul 3 2020 Yichun Zhang (agentzh) 1.17.8.1-1
 - upgraded openresty to 1.17.8.1.
 * Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1

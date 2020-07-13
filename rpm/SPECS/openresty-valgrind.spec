@@ -1,5 +1,5 @@
 Name:           openresty-valgrind
-Version:        1.17.8.1
+Version:        1.17.8.2
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
@@ -160,6 +160,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jul 13 2020 Yichun Zhang (agentzh) 1.17.8.2-1
+- upgraded openresty to 1.17.8.2.
 * Fri Jul 3 2020 Yichun Zhang (agentzh) 1.17.8.1-1
 - upgraded openresty to 1.17.8.1.
 * Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
