@@ -17,8 +17,6 @@ override_dh_auto_configure:
 
 override_dh_usrlocal:
 
-override_dh_auto_test:
-
 override_dh_install:
 	dh_install
 	find $(DESTDIR)/usr/local/lib -name perllocal.pod -delete
