@@ -1,11 +1,10 @@
 Name:           openresty-odb-debug
 Version:        0.15
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty Debugger based on ptrace
 Group:          Development/System
 License:        Proprietary
 URL:            https://www.openresty.com/
-Provides:       openresty-odb
 
 Source0:        odb-%{version}.tar.gz
 
