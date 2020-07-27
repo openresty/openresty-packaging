@@ -56,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/mincore
 %{prefix}/bin/read-umem
 %{prefix}/bin/shm-warmup
+%{prefix}/bin/shared-pages
 
 
 %changelog
