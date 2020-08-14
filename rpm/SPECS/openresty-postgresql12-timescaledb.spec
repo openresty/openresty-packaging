@@ -9,7 +9,7 @@ Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
 License:    BSD
 URL:        https://github.com/timescale/timescaledb
-Source0:    %{ext}-%{version}.tar.gz
+Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 
 BuildRequires:  openresty-postgresql12-devel >= 12.3
 Requires:       openresty-postgresql12 >= 12.3
