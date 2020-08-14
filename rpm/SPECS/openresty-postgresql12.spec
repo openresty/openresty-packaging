@@ -65,11 +65,12 @@ type-diff=01;32"
             CFLAGS="-O2 -g3" \
             LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib"
 
-make %{?_smp_mflags}
+make %{?_smp_mflags} MAKELEVEL=0
 
 %install
-make install DESTDIR=${RPM_BUILD_ROOT}
-make install-world DESTDIR=${RPM_BUILD_ROOT}
+make install DESTDIR=${RPM_BUILD_ROOT} MAKELEVEL=0
+
+make install-world DESTDIR=${RPM_BUILD_ROOT} MAKELEVEL=0
 
 rm -rf ${RPM_BUILD_ROOT}/%{pgprefix}/share/man \
     ${RPM_BUILD_ROOT}/%{pgprefix}/share/doc
