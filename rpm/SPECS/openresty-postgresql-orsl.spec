@@ -3,8 +3,8 @@
 %define ext orsl
 
 Name:       openresty-postgresql-%{ext}
-Version:    0.01
-Release:    2%{?dist}
+Version:    0.02
+Release:    1%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
 Group:      Productivity/Database
 License:    BSD
@@ -51,5 +51,7 @@ rm -fr $RPM_BUILD_ROOT
 %{pgprefix}/lib/%{ext}.so
 
 %changelog
+* Thu Aug 13 2020 Yichun Zhang (agentzh) 0.02-1
+- upgraded postgres-orsl to 0.02.
 * Thu Jul 4 2018 Yichun Zhang 0.01
 - initial build for openresty-orsl.
