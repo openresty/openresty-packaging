@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_POSTGRESQL_ORSL_VER := 0.01
+OPENRESTY_POSTGRESQL_ORSL_VER := 0.02
 
 .PHONY: openresty-postgresql-orsl-download
 openresty-postgresql-orsl-download:
