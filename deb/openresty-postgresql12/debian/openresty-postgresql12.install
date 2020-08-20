@@ -1,0 +1,6 @@
+usr/local/openresty-postgresql12/bin/*
+usr/local/openresty-postgresql12/lib/*.so
+usr/local/openresty-postgresql12/lib/*.so.*
+usr/local/openresty-postgresql12/lib/pgxs/*
+usr/local/openresty-postgresql12/share/*
+etc/init.d/openresty-postgresql12
