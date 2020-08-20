@@ -1,8 +1,5 @@
 #! /bin/sh
 
-# chkconfig: 2345 98 02
-# description: PostgreSQL RDBMS
-
 ### BEGIN INIT INFO
 # Provides:	  openresty-postgresql12
 # Required-Start:    $local_fs $remote_fs $network $syslog $named
@@ -12,6 +9,9 @@
 # Short-Description: starts openresty-postgresql12
 # Description:       starts openresty-postgresq12l using start-stop-daemon
 ### END INIT INFO
+
+# chkconfig: 2345 98 02
+# description: PostgreSQL RDBMS
 
 # This is an example of a start/stop script for SysV-style init, such
 # as is used on Linux systems.  You should edit some of the variables
