@@ -8,7 +8,7 @@ openresty-postgresql12-download:
 	wget -nH --cut-dirs=100 --mirror 'https://ftp.postgresql.org/pub/source/v$(OPENRESTY_POSTGRESQL12_VER)/postgresql-$(OPENRESTY_POSTGRESQL12_VER).tar.gz'
 	rm -rf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	mkdir -p openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
-	tar -xf postgresql-12.3.tar.gz --strip-components=1 -C openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
+	tar -xf postgresql-$(OPENRESTY_POSTGRESQL12_VER).tar.gz --strip-components=1 -C openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	rsync -a ../rpm/SOURCES/openresty-postgresql12.init openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)/
 	tar -czf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 
@@ -22,7 +22,7 @@ openresty-postgresql12-clean:
 openresty-postgresql12-build: openresty-postgresql12-clean openresty-postgresql12-download
 	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev libssl-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-postgresql12_12.3.orig.tar.gz --strip-components=1 -C openresty-postgresql12
+	tar xf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12
 	cd openresty-postgresql12 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
