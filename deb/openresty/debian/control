@@ -3,7 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
- systemtap-sdt-dev, openresty-zlib-dev, openresty-openssl-dev (>= 1.1.0l),
+ systemtap-sdt-dev, openresty-zlib-dev, openresty-openssl111-dev (>= 1.1.1g),
  openresty-pcre-dev (>= 8.44),
  perl, libfile-temp-perl
 Standards-Version: 3.9.8
@@ -47,7 +47,7 @@ Architecture: any
 Recommends: openresty-resty, openresty-opm
 Suggests: openresty-restydoc
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-zlib, openresty-openssl (>= 1.1.0l), openresty-pcre (>= 8.44)
+ openresty-zlib, openresty-openssl111 (>= 1.1.1g), openresty-pcre (>= 8.44)
 Description: core server of OpenResty for production use
  This package contains the core server for OpenResty. Built for production
  uses.

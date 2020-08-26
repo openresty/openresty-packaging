@@ -14,6 +14,7 @@ BuildRequires:  perl(Filter::Util::Call)
 BuildRequires:  perl(ExtUtils::MakeMaker)
 Requires:       perl(Filter::Util::Call)
 Provides:       perl(Spiffy)
+AutoReqProv:    no
 
 %description
 "Spiffy" is a framework and methodology for doing object oriented (OO)

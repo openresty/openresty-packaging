@@ -11,8 +11,9 @@
 # http://nginx.org/en/docs/control.html
 #
 [Unit]
-Description=full-fledged web platform
-After=network.target
+Description=The OpenResty Application Platform
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
 
 [Service]
 Type=forking

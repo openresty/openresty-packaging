@@ -12,8 +12,8 @@ makedepends="perl openresty-zlib-dev ccache linux-headers"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="https://www.openssl.org/source/old/1.1.0/openssl-$pkgver.tar.gz
-    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
-    https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0d-sess_set_get_cb_yield.patch
+    openssl-1.1.0j-parallel_build_fix.patch
+    openssl-1.1.0d-sess_set_get_cb_yield.patch
     "
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
@@ -53,6 +53,38 @@ package() {
     rm -rf $pkgdir/$_ssl_prefix/bin/c_rehash
     rm -rf $pkgdir/$_ssl_prefix/lib/pkgconfig
     rm -rf $pkgdir/$_ssl_prefix/misc
+}
+
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
 }
 
 sha512sums="81b74149f40ea7d9f7e235820a4f977844653ad1e2b302e65e712c12193f47542fe7e3385fd1e25e3dd074e4e6d04199836cbc492656f5a7692edab5e234f4ad  openssl-1.1.0l.tar.gz

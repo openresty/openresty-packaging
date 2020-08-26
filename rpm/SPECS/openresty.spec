@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.15.8.3
+Version:        1.17.8.2
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -24,10 +24,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-devel >= 1.1.0l-1
+BuildRequires:  openresty-openssl111-devel >= 1.1.1g-3
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl >= 1.1.0l-1
+Requires:       openresty-openssl111 >= 1.1.1g-3
 Requires:       openresty-pcre >= 8.44-1
 
 
@@ -61,7 +61,7 @@ AutoReqProv:        no
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{orprefix}/zlib
 %define pcre_prefix         %{orprefix}/pcre
-%define openssl_prefix      %{orprefix}/openssl
+%define openssl_prefix      %{orprefix}/openssl111
 
 # Remove source code from debuginfo package.
 %define __debug_install_post \
@@ -330,6 +330,10 @@ fi
 
 
 %changelog
+* Mon Jul 13 2020 Yichun Zhang (agentzh) 1.17.8.2-1
+- upgraded openresty to 1.17.8.2.
+* Fri Jul 3 2020 Yichun Zhang (agentzh) 1.17.8.1-1
+- upgraded openresty to 1.17.8.1.
 * Thu Aug 29 2019 Yichun Zhang (agentzh) 1.15.8.2-1
 - upgraded openresty to 1.15.8.2.
 * Thu May 16 2019 Yichun Zhang (agentzh) 1.15.8.1-1

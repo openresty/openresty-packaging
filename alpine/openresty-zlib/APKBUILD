@@ -39,4 +39,36 @@ package() {
     rm -rf $pkgdir/$_zlib_prefix/share
 }
 
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
 sha512sums="b7f50ada138c7f93eb7eb1631efccd1d9f03a5e77b6c13c8b757017b2d462e19d2d3e01c50fad60a4ae1bc86d431f6f94c72c11ff410c25121e571953017cb67  zlib-1.2.11.tar.xz"

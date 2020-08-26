@@ -1,21 +1,20 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-debug"
-pkgver="1.15.8.3"
-pkgrel=1
+pkgver="1.17.8.2"
+pkgrel=0
 pkgdesc="The debug version of OpenResty"
 url="https://openresty.org/"
 arch="all"
 license="BSD"
-depends="openresty-openssl-debug openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl-debug-dev openresty-pcre-dev openresty-zlib-dev"
+depends="openresty-openssl111-debug>=1.1.1g-r0 openresty-pcre openresty-zlib libgcc"
+makedepends="ccache perl openresty-openssl111-debug-dev>=1.1.1g-r0 openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="$pkgname-static $pkgname-dbg"
 source="
     https://openresty.org/download/openresty-$pkgver.tar.gz
 	$pkgname.initd
 	$pkgname.confd
-    restydoc-less-fix.patch
 	"
 builddir="$srcdir/openresty-$pkgver/"
 options="!tracedeps !fhs"
@@ -23,7 +22,7 @@ options="!tracedeps !fhs"
 _orprefix="/usr/local/$pkgname"
 _zlib_prefix="/usr/local/openresty/zlib"
 _pcre_prefix="/usr/local/openresty/pcre"
-_openssl_prefix="$_orprefix/openssl"
+_openssl_prefix="$_orprefix/openssl111"
 
 
 build() {
@@ -98,7 +97,38 @@ package() {
 		"$pkgdir"/etc/conf.d/$pkgname
 }
 
-sha512sums="c895b9c0c14ea65d8604d9a74366b75f6332eb0f668e55cf28a23b14db5658044028e6cc72b19939bf1900f3297d2d95f0c0b74f830d92d4bc4a379224c1d8f9  openresty-1.15.8.3.tar.gz
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
+sha512sums="60cd8f4c6418ec315545ae07bd4f405d126b2f4c2ec212eab288658aa5edb23072db448046337bfa8e2e8199533f466484eb97500de437807e34226d730e14b4  openresty-1.17.8.2.tar.gz
 d173f4f02e99006fba81868cacccbaa86560ea0477149b33e8906d6ac5dc1138f7aba6daf0acbbdab14165723bc021533485e9dc34ad8d60c9f7aa48ab068e55  openresty-debug.initd
-b7a47806c5ad68946fcf2932c3c2d156298264bed92e817f2f5f74e23d16ed0fd2cba2a1a1ddfc26f3fa777dbf5029aa7307a426496dc44f0a7ec7ae94c299ab  openresty-debug.confd
-222910b3b27f6cc5e8b31b6bff36cc6d955213ed6b28276d38f15a4b3ae828996649260313ec3d1e349976e7976414dd467689e99bf3c72c13fb48b163d6c696  restydoc-less-fix.patch"
+b7a47806c5ad68946fcf2932c3c2d156298264bed92e817f2f5f74e23d16ed0fd2cba2a1a1ddfc26f3fa777dbf5029aa7307a426496dc44f0a7ec7ae94c299ab  openresty-debug.confd"

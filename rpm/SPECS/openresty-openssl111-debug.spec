@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-debug
-Version:            1.1.1d
-Release:            1%{?dist}
+Version:            1.1.1g
+Release:            3%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -11,7 +11,7 @@ URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 
 #Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1e-sess_set_get_cb_yield.patch
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1c-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.1f-sess_set_get_cb_yield.patch
 #Patch1:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-1.1.0j-parallel_build_fix.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -23,7 +23,7 @@ Requires:           openresty-zlib >= 1.2.11
 
 AutoReqProv:        no
 
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
 %define zlib_prefix         /usr/local/openresty/zlib
 %global _default_patch_fuzz 1
 
@@ -71,6 +71,9 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 %build
 ./config \
     no-threads no-asm \
+    enable-camellia enable-seed enable-rfc3779 \
+    enable-cms enable-md2 enable-rc5 \
+    enable-weak-ssl-ciphers \
     enable-ssl3 enable-ssl3-method \
     shared zlib -g -O0 -DPURIFY \
     --prefix=%{openssl_prefix} \

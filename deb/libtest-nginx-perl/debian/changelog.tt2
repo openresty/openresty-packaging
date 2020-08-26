@@ -1,3 +1,15 @@
+libtest-nginx-perl (0.28-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded to CPAN release 0.28.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 15 May 2018 20:00:57 -0700
+
+libtest-nginx-perl (0.27-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded to CPAN release 0.27.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 15 May 2018 20:00:57 -0700
+
 libtest-nginx-perl (0.26-3~[% distro %]1) [% distro %]; urgency=high
 
   * Excluded perllocal.pod.
