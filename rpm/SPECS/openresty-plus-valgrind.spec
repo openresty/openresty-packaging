@@ -1,5 +1,5 @@
 Name:           openresty-plus-valgrind
-Version:        1.15.8.2.10
+Version:        1.17.8.2.0
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
@@ -21,8 +21,8 @@ Requires:       valgrind
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl-debug-devel >= 1.1.0j
-BuildRequires:  openresty-pcre-devel >= 8.41-1
+BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1g-3
+BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 %if %{with lua_ldap}
@@ -36,8 +36,8 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl-debug >= 1.1.0j
-Requires:       openresty-pcre >= 8.41-1
+Requires:       openresty-openssl111-debug >= 1.1.1g-3
+Requires:       openresty-pcre >= 8.44-1
 Requires:       gd
 # needed by tcc
 Requires:       glibc-devel
@@ -52,7 +52,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl
+%define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 
@@ -158,6 +158,7 @@ a single box.
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-compat  \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0 -g3 -DLUAJIT_ENABLE_GC64' \
     --with-no-pool-patch \
@@ -225,6 +226,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Aug 20 2020 Yichun Zhang (agentzh) 1.17.8.2.0-1
+- upgraded openresty-plus to 1.17.8.2.0.
 * Sun Jun 21 2020 Yichun Zhang (agentzh) 1.15.8.2.10-1
 - upgraded openresty-plus to 1.15.8.2.10.
 * Sat Jun 6 2020 Yichun Zhang (agentzh) 1.15.8.2.9-1

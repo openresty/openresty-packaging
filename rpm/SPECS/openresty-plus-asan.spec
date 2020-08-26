@@ -1,5 +1,5 @@
 Name:           openresty-plus-asan
-Version:        1.15.8.2.10
+Version:        1.17.8.2.0
 Release:        1%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
@@ -20,8 +20,8 @@ BuildRequires:  ccache, gcc, make, perl, valgrind-devel, clang
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl-asan-devel >= 1.1.0j
-BuildRequires:  openresty-pcre-asan-devel >= 8.41-1
+BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1g-3
+BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 %if %{with lua_ldap}
@@ -35,8 +35,8 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl-asan >= 1.1.0j
-Requires:       openresty-pcre-asan >= 8.41-1
+Requires:       openresty-openssl111-asan >= 1.1.1g-3
+Requires:       openresty-pcre-asan >= 8.44-1
 Requires:       gd
 # needed by tcc
 Requires:       glibc-devel
@@ -51,7 +51,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-asan/openssl
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl111
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
 
@@ -166,6 +166,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-compat \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND %{asan_cc_opts} -g3 -DLUAJIT_ENABLE_GC64' \
     --with-no-pool-patch \
@@ -233,6 +234,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Aug 20 2020 Yichun Zhang (agentzh) 1.17.8.2.0-1
+- upgraded openresty-plus to 1.17.8.2.0.
 * Sun Jun 21 2020 Yichun Zhang (agentzh) 1.15.8.2.10-1
 - upgraded openresty-plus to 1.15.8.2.10.
 * Sat Jun 6 2020 Yichun Zhang (agentzh) 1.15.8.2.9-1
