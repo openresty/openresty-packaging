@@ -27,8 +27,9 @@ build: zlib-build pcre-build openssl-build \
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
-	openresty-clean openresty-debug-clean openresty-valgrind-clean \
-	lemplate-clean test-nginx-clean
+		openresty-clean openresty-debug-clean openresty-valgrind-clean \
+		lemplate-clean test-nginx-clean openssl111-clean openssl111-debug-clean
+	-rm *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
 zlib-download:
