@@ -169,6 +169,7 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 openssl111-clean:
 	sudo apt-get -y -qq install openresty-zlib-dev
 	cd openresty-openssl111 && debclean
+	rm -rf openresty-openssl111/debian/tmp openresty-openssl111/test openresty-openssl111/*.a
 	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
 	rm -f openresty-openssl111*.deb
 	rm -f openresty-openssl111_*.*
@@ -177,6 +178,7 @@ openssl111-clean:
 openssl111-debug-clean:
 	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-openssl111-debug && debclean
+	rm -rf openresty-openssl111-debug/debian/tmp openresty-openssl111-debug/test openresty-openssl111-debug/*.a
 	find openresty-openssl111-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111-debug' -print | xargs rm -rf
 	rm -f openresty-openssl111*.deb
 	rm -f openresty-openssl111-debug_*.*
