@@ -37,12 +37,20 @@ build: zlib-build pcre-build openssl-build \
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
-	openresty-clean openresty-debug-clean openresty-valgrind-clean \
-	openresty-plus-clean openresty-plus-debug-clean \
-	lemplate-clean test-nginx-clean hyperscan-clean \
-	openresty-saas-clean openresty-binutils-clean \
-	openresty-tar-clean openresty-plzip-clean \
-	openresty-utils
+		openresty-clean openresty-debug-clean openresty-valgrind-clean \
+		openresty-plus-clean openresty-plus-debug-clean \
+		lemplate-clean test-nginx-clean hyperscan-clean \
+		openresty-saas-clean openresty-binutils-clean \
+		openresty-tar-clean openresty-plzip-clean \
+		openresty-utils-clean openresty-postgresql-clean \
+		openresty-postgresql12-clean openresty-postgresql-orsl-clean \
+		openresty-postgresql12-orsl-clean openresty-postgresql-ip4r-clean \
+		openresty-postgresql12-ip4r-clean saas-pcre-clean saas-openssl-clean \
+		saas-zlib-clean openresty-util-linux-clean openresty-stap-clean \
+		openresty-elfutils-clean openresty-odb-clean openresty-odb-debug-clean \
+		openresty-postgresql12-timescaledb-clean openresty-python3-clean \
+		openresty-yajl-clean openresty-gdb-clean
+	-rm -f *.bz2 *.gz *.xz *.zip
 
 .PHONY: zlib-download
 zlib-download:
