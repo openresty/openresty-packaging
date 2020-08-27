@@ -1,3 +1,9 @@
+openresty-plus (1.17.8.2.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.17.8.2.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 26 Aug 2020 19:46:56 -0700
+
 openresty-plus-debug (1.17.8.2.0-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.17.8.2.0.

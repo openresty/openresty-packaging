@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.17.8.2.0
+Version:        1.17.8.2.1
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -255,6 +255,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Aug 26 2020 Yichun Zhang (agentzh) 1.17.8.2.1-1
+- upgraded openresty-plus to 1.17.8.2.1.
 * Thu Aug 20 2020 Yichun Zhang (agentzh) 1.17.8.2.0-1
 - upgraded openresty-plus to 1.17.8.2.0.
 * Sun Jun 21 2020 Yichun Zhang (agentzh) 1.15.8.2.10-1
