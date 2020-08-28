@@ -33,7 +33,7 @@ build: zlib-build pcre-build openssl-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
-	openresty-utils
+	openresty-utils openresty-saas-openssl111-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
@@ -49,7 +49,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		saas-zlib-clean openresty-util-linux-clean openresty-stap-clean \
 		openresty-elfutils-clean openresty-odb-clean openresty-odb-debug-clean \
 		openresty-postgresql12-timescaledb-clean openresty-python3-clean \
-		openresty-yajl-clean openresty-gdb-clean
+		openresty-yajl-clean openresty-gdb-clean \
+		openresty-saas-openssl111-clean
 	-rm -f *.bz2 *.gz *.xz *.zip
 
 .PHONY: zlib-download
