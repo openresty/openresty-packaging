@@ -2,12 +2,12 @@
 %define saas_or_prefix  /opt/openresty-saas
 %define zlib_prefix     %{saas_or_prefix}/zlib
 %define pcre_prefix     %{saas_or_prefix}/pcre
-%define openssl_prefix  %{saas_or_prefix}/openssl
+%define openssl_prefix  %{saas_or_prefix}/openssl111
 
 
 Name:       openresty-saas
-Version:    1.15.8.2.9
-Release:    2%{?dist}
+Version:    1.17.8.2.2
+Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -23,11 +23,11 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.11-1
-BuildRequires:  openresty-saas-openssl-devel >= 1.1.0l
+BuildRequires:  openresty-saas-openssl111-devel >= 1.1.1g
 BuildRequires:  openresty-saas-pcre-devel >= 8.44
 BuildRequires:  glibc-devel, texinfo
 Requires:       openresty-saas-zlib >= 1.2.11-1
-Requires:       openresty-saas-openssl >= 1.1.0l
+Requires:       openresty-saas-openssl111 >= 1.1.0g
 Requires:       openresty-saas-pcre >= 8.44
 
 AutoReqProv:    no
@@ -137,6 +137,12 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+
+* Fri Aug 28 2020 Jiahao Wang (johnny) 1.17.8.2.2-1
+- upgraded OpenResty to 1.17.8.2.2.
+
+* Thu Aug 27 2020 Jiahao Wang (johnny) 1.17.8.2.1-1
+- upgraded OpenResty to 1.17.8.2.1.
 
 * Wed Sep 04 2019 Jiahao Wang (johnny) 1.15.8.2.2-1
 - initial packaging
