@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.177.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -46,13 +46,13 @@ BuildRequires: bzip2-devel
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
 BuildRequires: autoconf
-BuildRequires: openresty-yajl-devel >= 2.1.0.3-1
+BuildRequires: openresty-yajl-devel >= 2.1.0.3-2
 BuildRequires: gawk
 BuildRequires: sed
 
 Requires: glibc >= 2.7
 Requires: libstdc++
-Requires: openresty-yajl >= 2.1.0.3-1
+Requires: openresty-yajl >= 2.1.0.3-2
 Requires: bzip2-libs
 Requires: xz-libs
 
@@ -86,12 +86,12 @@ autoreconf -vif
 
 ./configure \
     --prefix=%{eu_prefix} \
-    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} -L%{yajl_prefix}/%{_lib} -lyajl' \
+    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl' \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
     --enable-maintainer-mode
 
-sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/%{_lib} #' \
+sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
     `find . -name Makefile`
 
 make %{?_smp_mflags} > /dev/null
