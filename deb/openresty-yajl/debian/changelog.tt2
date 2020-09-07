@@ -1,3 +1,10 @@
+openresty-yajl (2.1.0.3-2~[% distro %]1) [% distro %]; urgency=high
+
+  * install so library files to lib/ instead of lib64/ (but we still keep
+    symlinks under lib64/ for backward compatibility.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 28 Mar 2020 20:55:46 -0700
+
 openresty-yajl (2.1.0.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded yajl-plus to 2.1.0.3.

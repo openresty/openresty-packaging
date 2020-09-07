@@ -1,6 +1,6 @@
 Name:       openresty-yajl
 Version:    2.1.0.3
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
@@ -62,7 +62,7 @@ rm -rf build
 mkdir build
 cd build
 export CC='ccache gcc -fdiagnostics-color=always'
-%cmake -DCMAKE_INSTALL_PREFIX=%{yajl_prefix} ..
+cmake -DCMAKE_INSTALL_PREFIX=%{yajl_prefix} ..
 make VERBOSE=1 %{?_smp_mflags}
 
 
@@ -71,6 +71,10 @@ rm -rf $RPM_BUILD_ROOT
 cd build
 make install DESTDIR=$RPM_BUILD_ROOT
 
+mkdir -p $RPM_BUILD_ROOT%{yajl_prefix}/lib64
+pushd $RPM_BUILD_ROOT%{yajl_prefix}/lib64
+ln -sf ../lib/*.so* ./
+popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -79,8 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{yajl_prefix}/bin/json_reformat
 %{yajl_prefix}/bin/json_verify
-%{yajl_prefix}/%{_lib}/libyajl.so.2
-%{yajl_prefix}/%{_lib}/libyajl.so.2.*
+%{yajl_prefix}/lib/libyajl.so.2
+%{yajl_prefix}/lib/libyajl.so.2.*
+%{yajl_prefix}/lib64/libyajl.so.2
+%{yajl_prefix}/lib64/libyajl.so.2.*
 
 %files devel
 %defattr(-,root,root,-)
@@ -90,9 +96,10 @@ rm -rf $RPM_BUILD_ROOT
 %{yajl_prefix}/include/yajl/yajl_parse.h
 %{yajl_prefix}/include/yajl/yajl_tree.h
 %{yajl_prefix}/include/yajl/yajl_version.h
-%{yajl_prefix}/%{_lib}/libyajl.so
+%{yajl_prefix}/lib/libyajl.so
+%{yajl_prefix}/lib64/libyajl.so
 %{yajl_prefix}/share/pkgconfig/yajl.pc
-%{yajl_prefix}/%{_lib}/libyajl_s.a
+%{yajl_prefix}/lib/libyajl_s.a
 
 %changelog
 * Sat Mar 28 2020 Yichun Zhang (agentzh) 2.1.0.3-1
