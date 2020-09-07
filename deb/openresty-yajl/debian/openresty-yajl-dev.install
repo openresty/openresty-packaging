@@ -7,4 +7,4 @@ usr/local/openresty-yajl/include/yajl/yajl_version.h
 usr/local/openresty-yajl/lib64/libyajl.so
 usr/local/openresty-yajl/lib/libyajl.so
 usr/local/openresty-yajl/share/pkgconfig/yajl.pc
-usr/local/openresty-yajl/lib64/libyajl_s.a
+usr/local/openresty-yajl/lib/libyajl_s.a
