@@ -1,6 +1,6 @@
 Name:           openresty-python3-setuptools
 Version:        39.2.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of setuptools
 Group:          Development/System
 License:        MIT
@@ -15,6 +15,7 @@ AutoReqProv: no
 %define py_lib %{py_prefix}/lib/python3.7
 %define py_sitearch %{py_lib}/site-packages
 
+%define __jar_repack 0
 
 %global __python %{py_bin}
 %global debug_package %{nil}
@@ -46,7 +47,7 @@ execute the software that requires pkg_resources.py.
 
 
 %build
-%{py_bin} setup.py build
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install

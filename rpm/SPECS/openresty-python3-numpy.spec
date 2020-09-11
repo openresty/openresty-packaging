@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
@@ -13,6 +13,9 @@ AutoReqProv: no
 %define py_bin %{py_prefix}/bin/python3
 %define py_lib %{py_prefix}/lib/python3.7
 %define py_sitearch %{py_lib}/site-packages
+%define py_version 3.7
+
+%define __jar_repack 0
 
 %global __python %{py_bin}
 
@@ -71,6 +74,8 @@ export BLAS=%{_libdir}
 export LAPACK=%{_libdir}
 export CFLAGS="%{optflags}"
 
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
+
 
 %install
 export ATLAS=%{_libdir}
@@ -89,6 +94,9 @@ rm -rf %{buildroot}%{py_sitearch}/numpy/{compat,core,distutils,f2py,fft,lib,lina
 # Remove docs
 rm -rf %{buildroot}%{py_sitearch}/numpy/doc
 
+# Remove egg-info
+rm -rf %{buildroot}%{py_sitearch}/numpy-%{version}-py%{py_version}.egg-info
+
 # Fix .so permissions
 find %{buildroot} -name \*.so -exec chmod 755 {} +
 
@@ -98,11 +106,6 @@ export QA_RPATHS=$[ 0x0002 ]
 %files
 %defattr(-, root, root)
 %{py_sitearch}/numpy/*
-%if 0%{?fedora}
-%{py_sitearch}/numpy-%{version}-py3.7.egg-info
-%else
-%{py_sitearch}/numpy-%{version}-py3.7.egg-info/
-%endif
 %{py_prefix}/bin/f2py*
 
 

@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        0.28.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        ASL
@@ -15,6 +15,8 @@ AutoReqProv: no
 %define py_lib %{py_prefix}/lib/python3.7
 %define py_sitearch %{py_lib}/site-packages
 %define py_version 3.7
+
+%define __jar_repack 0
 
 %global __python %{py_bin}
 
@@ -49,10 +51,14 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
 PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py install --root %{buildroot}
+
+# Remove egg-info
+rm -rf %{buildroot}%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info
 
 export QA_RPATHS=$[ 0x0002 ]
 
@@ -63,13 +69,7 @@ export QA_RPATHS=$[ 0x0002 ]
 %{py_prefix}/bin/cythonize
 %{py_prefix}/bin/cygdb
 %{py_sitearch}/cython.*
-%if 0%{?fedora}
-%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info
-%else
-%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info/
-%endif
 %{py_sitearch}/Cython/
-%{py_sitearch}/cython.py
 %{py_sitearch}/pyximport/
 %{py_sitearch}/__pycache__/cython.cpython-37*.py*
 
