@@ -18,10 +18,10 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	/usr/local/openresty-python3/bin/python3 setup.py build
+	PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=$(DESTDIR)/usr/local/openresty-python3/bin:/usr/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py build -j`nproc`
 
 override_dh_auto_install:
-	PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=%{_bindir}:$(DESTDIR)/usr/local/openresty-python3/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR)
+	PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=$(DESTDIR)/usr/local/openresty-python3/bin:/usr/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR)
 
 override_dh_auto_clean:
 	dh_clean

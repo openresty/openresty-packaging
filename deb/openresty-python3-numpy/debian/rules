@@ -19,20 +19,22 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	export ATLAS=None \
-		&& export BLAS=/usr/lib64 \
-		&& export LAPACK=/usr/lib64 \
+		&& export BLAS=/usr/lib \
+		&& export LAPACK=/usr/lib \
 		&& export CFLAGS="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic"
+	PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=$(DESTDIR)/usr/local/openresty-python3/bin:/usr/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py build -j`nproc`
 
 override_dh_auto_install:
 	export ATLAS=None \
-		&& export FFTW=/usr/lib64 \
-		&& export BLAS=/usr/lib64 \
-		&& export LAPACK=/usr/lib64 \
+		&& export FFTW=/usr/lib \
+		&& export BLAS=/usr/lib \
+		&& export LAPACK=/usr/lib \
 		&& export CFLAGS="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic" \
-		&& PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=%{_bindir}:$(DESTDIR)/usr/local/openresty-python3/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR) \
+		&& PYTHONPATH="/usr/local/openresty-python3/lib/python3.7:/usr/local/openresty-python3/lib/python3.7/site-packages:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7:$(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages" PATH=$(DESTDIR)/usr/local/openresty-python3/bin:/usr/bin:$(PATH) /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR) \
 		&& sed -i 's/from .testing import/# from .testing import/g' $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/__init__.py \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/{compat,core,distutils,f2py,fft,lib,linalg,ma,matrixlib,polynomial,random,testing}/tests \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/doc \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy-1.16.4-py3.7.egg-info \
 		&& find $(DESTDIR) -name \*.so -exec chmod 755 {} +
 
 override_dh_auto_clean:

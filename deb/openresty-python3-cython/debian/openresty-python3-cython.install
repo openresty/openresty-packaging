@@ -2,8 +2,6 @@ usr/local/openresty-python3/bin/cython
 usr/local/openresty-python3/bin/cythonize
 usr/local/openresty-python3/bin/cygdb
 usr/local/openresty-python3/lib/python3.7/site-packages/cython.*
-usr/local/openresty-python3/lib/python3.7/site-packages/Cython-0.28.5-py3.7.egg-info
 usr/local/openresty-python3/lib/python3.7/site-packages/Cython/
-usr/local/openresty-python3/lib/python3.7/site-packages/cython.py
 usr/local/openresty-python3/lib/python3.7/site-packages/pyximport/
 usr/local/openresty-python3/lib/python3.7/site-packages/__pycache__/cython.cpython-37*.py*

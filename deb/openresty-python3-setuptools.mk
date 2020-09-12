@@ -22,7 +22,7 @@ openresty-python3-setuptools-clean:
 
 .PHONY: openresty-python3-setuptools-build
 openresty-python3-setuptools-build: openresty-python3-setuptools-clean openresty-python3-setuptools-download
-	sudo apt-get -y -q install gcc openresty-python3-dev
+	sudo apt-get -y -q install gcc openresty-python3-dev automake
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3-setuptools_39.2.0.orig.tar.gz --strip-components=1 -C openresty-python3-setuptools
 	cd openresty-python3-setuptools \
