@@ -50,7 +50,7 @@ PGDATA="/var/postgres12/data"
 PGUSER=postgres
 
 # Where to keep a log file
-PGLOG="$PGDATA/serverlog"
+PGLOG="$PGDATA/../log/serverlog"
 
 # It's often a good idea to protect the postmaster from being killed by the
 # OOM killer (which will tend to preferentially kill the postmaster because
