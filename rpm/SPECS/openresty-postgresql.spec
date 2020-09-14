@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
-Version:    9.6.14
-Release:    5%{?dist}
+Version:    9.6.19
+Release:    1%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
