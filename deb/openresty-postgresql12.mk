@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_POSTGRESQL12_VER := 12.3
+OPENRESTY_POSTGRESQL12_VER := 12.4
 
 .PHONY: openresty-postgresql12-download
 openresty-postgresql12-download:

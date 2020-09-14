@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded PostgresSQL to 12.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 14 Sep 2020 12:50:25 -0700
+
 openresty-postgresql12 (12.3-3~[% distro %]1) [% distro %]; urgency=high
 
   * initial serverlog file generated in $PGDATA/../log directory instead of PGDATA

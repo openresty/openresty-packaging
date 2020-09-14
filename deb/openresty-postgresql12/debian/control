@@ -16,13 +16,13 @@ Description: PostgreSQL server
 Package: openresty-postgresql12-dev
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.4)
 Description: Development files for openresty-postgresql12
  Provides C header and static library for the openresty-postgresql12 package.
 
 Package: openresty-postgresql12-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-postgresql12 (>= 12.3)
+Depends: ${misc:Depends}, openresty-postgresql12 (>= 12.4)
 Description: Debug symbols for the openresty-postgresql12 package
  Debug symbols (or debuginfo) for the openresty-postgresql12 package.

@@ -2,14 +2,14 @@ Source: openresty-postgresql12-orsl
 Section: database
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), openresty-postgresql12-dev (>= 12.3)
+Build-Depends: debhelper (>= 9), openresty-postgresql12-dev (>= 12.4)
 Standards-Version: 3.9.8
 Homepage: https://github.com/
 
 Package: openresty-postgresql12-orsl
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.4)
 Description: PostgreSQL extension contains utilities used in mini-sl
  PostgreSQL extension contains utilities used in mini-sl
 

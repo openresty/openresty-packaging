@@ -2,14 +2,14 @@ Source: openresty-postgresql12-timescaledb
 Section: database
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), openresty-postgresql12-dev (>= 12.3)
+Build-Depends: debhelper (>= 9), openresty-postgresql12-dev (>= 12.4)
 Standards-Version: 3.9.8
 Homepage: https://github.com/timescale/timescaledb
 
 Package: openresty-postgresql12-timescaledb
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql12 (>= 12.4)
 Description: TimescaleDB PostgreSQL extension
  Open-source PostgreSQL extension designed to make SQL scalable for time-series data.
 
