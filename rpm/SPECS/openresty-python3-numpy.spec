@@ -36,12 +36,12 @@ AutoReqProv: no
 
 BuildRequires:  lapack-devel
 BuildRequires:  gcc-gfortran gcc
-BuildRequires:  openresty-python3-devel
+BuildRequires:  openresty-python3-devel >= 3.7.7-2
 BuildRequires:  atlas-devel
 BuildRequires:  openresty-python3-setuptools
 BuildRequires:  openresty-python3-cython
 
-Requires:   openresty-python3
+Requires:   openresty-python3 >= 3.7.7-2
 Requires:   atlas
 
 

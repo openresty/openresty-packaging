@@ -36,9 +36,9 @@ AutoReqProv: no
 %endif
 
 BuildRequires:  gcc
-BuildRequires:  openresty-python3-devel
+BuildRequires:  openresty-python3-devel >= 3.7.7-2
 
-Requires:   openresty-python3
+Requires:   openresty-python3 >= 3.7.7-2
 
 
 %description
