@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        2%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
@@ -16,6 +16,8 @@ AutoReqProv: no
 %define py_version 3.7
 
 %define __jar_repack 0
+%define __brp_mangle_shebangs /usr/bin/true
+%define __brp_python_shebangs /usr/bin/true
 
 %global __python %{py_bin}
 
@@ -38,8 +40,8 @@ BuildRequires:  lapack-devel
 BuildRequires:  gcc-gfortran gcc
 BuildRequires:  openresty-python3-devel >= 3.7.7-2
 BuildRequires:  atlas-devel
-BuildRequires:  openresty-python3-setuptools
-BuildRequires:  openresty-python3-cython
+BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
+BuildRequires:  openresty-python3-cython >= 0.28.5-3
 
 Requires:   openresty-python3 >= 3.7.7-2
 Requires:   atlas
@@ -74,7 +76,8 @@ export BLAS=%{_libdir}
 export LAPACK=%{_libdir}
 export CFLAGS="%{optflags}"
 
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
@@ -84,7 +87,8 @@ export BLAS=%{_libdir}
 export LAPACK=%{_libdir}
 export CFLAGS="%{optflags}"
 
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py install --root %{buildroot}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 # Remove tests
 sed -i 's/from .testing import/# from .testing import/g' %{buildroot}%{py_sitearch}/numpy/__init__.py

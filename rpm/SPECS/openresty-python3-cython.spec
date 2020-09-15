@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        0.28.5
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        ASL
@@ -17,6 +17,8 @@ AutoReqProv: no
 %define py_version 3.7
 
 %define __jar_repack 0
+%define __brp_mangle_shebangs /usr/bin/true
+%define __brp_python_shebangs /usr/bin/true
 
 %global __python %{py_bin}
 
@@ -51,11 +53,13 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py install --root %{buildroot}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 # Remove egg-info
 rm -rf %{buildroot}%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info

@@ -1,6 +1,6 @@
 Name:           openresty-python3-setuptools
 Version:        39.2.0
-Release:        2%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of setuptools
 Group:          Development/System
 License:        MIT
@@ -16,6 +16,8 @@ AutoReqProv: no
 %define py_sitearch %{py_lib}/site-packages
 
 %define __jar_repack 0
+%define __brp_mangle_shebangs /usr/bin/true
+%define __brp_python_shebangs /usr/bin/true
 
 %global __python %{py_bin}
 %global debug_package %{nil}
@@ -47,11 +49,13 @@ execute the software that requires pkg_resources.py.
 
 
 %build
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py build %{?_smp_mflags}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" PATH=%{buildroot}%{py_prefix}/bin:%{_bindir}:$PATH %{py_bin} setup.py install --root %{buildroot}
+PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
+    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 
 %files
