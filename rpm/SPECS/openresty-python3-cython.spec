@@ -53,13 +53,11 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 # Remove egg-info
 rm -rf %{buildroot}%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info

@@ -49,13 +49,11 @@ execute the software that requires pkg_resources.py.
 
 
 %build
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{buildroot}%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 
 %files

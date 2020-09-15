@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
@@ -71,24 +71,19 @@ EOF
 
 
 %build
-export ATLAS=%{_libdir}
-export BLAS=%{_libdir}
+export ATLAS=None
+export BLAS=None
 export LAPACK=%{_libdir}
-export CFLAGS="%{optflags}"
 
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
 
 
 %install
-export ATLAS=%{_libdir}
-export FFTW=%{_libdir}
-export BLAS=%{_libdir}
+export ATLAS=None
+export BLAS=None
 export LAPACK=%{_libdir}
-export CFLAGS="%{optflags}"
 
-PYTHONPATH="%{py_lib}:%{py_sitearch}:%{buildroot}%{py_lib}:%{buildroot}%{py_sitearch}" \
-    PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 # Remove tests
 sed -i 's/from .testing import/# from .testing import/g' %{buildroot}%{py_sitearch}/numpy/__init__.py
