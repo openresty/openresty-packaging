@@ -107,3 +107,12 @@ openresty/debian/openresty.postinst.debhelper
 openresty/debian/openresty.postrm.debhelper
 openresty/debian/openresty.prerm.debhelper
 openresty/debian/openresty/
+openresty-postgresql12/debian/openresty-postgresql12-dbgsym/
+openresty-postgresql12/debian/openresty-postgresql12-dev/
+openresty-postgresql12/debian/openresty-postgresql12/
+openresty-python3-cython/debian/openresty-python3-cython-dbgsym/
+openresty-python3-cython/debian/openresty-python3-cython/
+openresty-python3-numpy/debian/openresty-python3-numpy-dbgsym/
+openresty-python3-numpy/debian/openresty-python3-numpy/
+openresty-python3-setuptools/debian/openresty-python3-setuptools-dbgsym/
+openresty-python3-setuptools/debian/openresty-python3-setuptools/
