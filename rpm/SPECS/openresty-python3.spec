@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -63,7 +63,7 @@ export PYTHONPATH=
 
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    CC='ccache gcc -g3 -fdiagnostics-color=always' \
+    CC='ccache gcc -g3' \
     LDFLAGS="-L/usr/local/openresty/openssl/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:/usr/local/openresty/openssl/lib" \
     CFLAGS="-g3 -I/usr/local/openresty/openssl/include"
 
