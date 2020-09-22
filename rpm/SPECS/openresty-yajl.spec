@@ -1,6 +1,6 @@
 Name:       openresty-yajl
-Version:    2.1.0.3
-Release:    2%{?dist}
+Version:    2.1.0.4
+Release:    1%{?dist}
 Summary:    Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
@@ -102,6 +102,8 @@ rm -rf $RPM_BUILD_ROOT
 %{yajl_prefix}/lib/libyajl_s.a
 
 %changelog
+* Mon Sep 21 2020 Yichun Zhang (agentzh) 2.1.0.4-1
+- upgraded yajl-plus to 2.1.0.4.
 * Sat Mar 28 2020 Yichun Zhang (agentzh) 2.1.0.3-1
 - upgraded yajl-plus to 2.1.0.3.
 * Thu Jul 4 2019 Yichun Zhang <yichun@openresty.com> - 2.1.0.2-1

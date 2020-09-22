@@ -1,3 +1,9 @@
+openresty-yajl (2.1.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded yajl-plus to 2.1.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 21 Sep 2020 19:57:49 -0700
+
 openresty-yajl (2.1.0.3-2~[% distro %]1) [% distro %]; urgency=high
 
   * install so library files to lib/ instead of lib64/ (but we still keep
