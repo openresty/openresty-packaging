@@ -1,0 +1,82 @@
+# Contributor: Yichun Zhang <admin@openresty.com>
+# Maintainer: Yichun Zhang <admin@openresty.com>
+pkgname="lua-resty-jsonb-1.17.8.2"
+pkgver="0.0.1"
+pkgrel=1
+pkgdesc="Lua module for manipulating jsonb data"
+url="http://www.openresty.com/"
+arch="all"
+license="Proprietary"
+#depends=""
+makedepends="ccache openresty-yajl-dev openresty"
+#install=""
+subpackages="$pkgname-dbg"
+#subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
+source="lua-resty-jsonb-$pkgver.tar.gz"
+options="!tracedeps !fhs"
+builddir="$srcdir/lua-resty-jsonb-$pkgver"
+
+orprefix=/usr/local/openresty
+_jsonb_prefix=/usr/local/openresty/site
+
+build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+    YAJL="/usr/local/openresty-yajl"
+
+    make -j$JOBS CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3 -Wall -Werror -fPIC -I$(YAJL)/include' \
+        SFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3 -Wall -Werror -fPIC -I$(YAJL)/include' \
+        CC='ccache gcc -fdiagnostics-color=always'
+
+    for f in `find lib/resty/ -type f -name '*.lua'`; do
+        $orprefix/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+        rm $f
+    done
+}
+
+check() {
+	:
+}
+
+package() {
+    sed -i 's|lib/resty/\*.lua|lib/resty/\*.ljbc|g' Makefile
+    make install DESTDIR="$pkgdir"
+    rm -rf $pkgdir/$_jsonb_prefix/share
+}
+
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
+sha512sums="ce88f48eefa45560f70dddaf04e7b835492de3774aee499f7ebca79160c1449f5a97a92c5ed46d17a57c42e149c2ac89389ea3b6e86b4c1402cf3a717dc4df77  lua-resty-jsonb-0.0.1.tar.gz"

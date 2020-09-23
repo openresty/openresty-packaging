@@ -1,0 +1,75 @@
+# Contributor: Yichun Zhang <admin@openresty.com>
+# Maintainer: Yichun Zhang <admin@openresty.com>
+pkgname="openresty-yajl"
+pkgver="2.1.0.4"
+pkgrel=1
+pkgdesc="Yet Another JSON Library (YAJL) for OpenResty"
+url="http://lloyd.github.com/yajl/"
+arch="all"
+license="ISC"
+#depends=""
+makedepends="ccache"
+#install=""
+subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
+source="yajl-plus-$pkgver.tar.gz"
+options="!tracedeps !fhs"
+builddir="$srcdir/yajl-plus-$pkgver/"
+
+_yajl_prefix=/usr/local/openresty-yajl
+
+build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+
+    mkdir build
+    cd build
+    cmake -DCMAKE_C_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_CXX_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_Fortran_FLAGS_RELEASE:STRING=-DNDEBUG -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_INSTALL_PREFIX:PATH=/usr -DINCLUDE_INSTALL_DIR:PATH=/usr/include -DLIB_INSTALL_DIR:PATH=/usr/lib -DSYSCONF_INSTALL_DIR:PATH=/etc -DSHARE_INSTALL_PREFIX:PATH=/usr/share -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_INSTALL_PREFIX=/usr/local/openresty-yajl ..
+    make
+}
+
+check() {
+	:
+}
+
+package() {
+    cd build
+    make install DESTDIR="$pkgdir"
+    rm -rf $pkgdir/$_yajl_prefix/share
+}
+
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
+sha512sums="c98d5ce413b8107374651548bb9d82653050cc2cd93776328b523ca673ffbc2795b5fabfeea0b82fad65dbaeba5960e5777d6c68297075061a0ba1fc61d88beb  yajl-plus-2.1.0.4.tar.gz"
