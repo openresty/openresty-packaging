@@ -1,0 +1,6 @@
+lua-resty-jsonb-1.17.8.2 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for lua-resty-jsonb.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 22 Sep 2020 00:00:00 -0700
+

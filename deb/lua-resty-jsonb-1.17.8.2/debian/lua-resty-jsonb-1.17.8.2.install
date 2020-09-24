@@ -1,0 +1,3 @@
+usr/local/openresty/site/lualib/resty/
+usr/local/openresty/site/lualib/librestyjsonb.so
+usr/local/openresty/site/lualib/resty/*
