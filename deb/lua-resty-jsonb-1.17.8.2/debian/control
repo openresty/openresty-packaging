@@ -9,7 +9,7 @@ Homepage: https://www.openresty.com/
 Package: lua-resty-jsonb-1.17.8.2
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= 2.1.0.4)
 Description: Lua module for manipulating jsonb data
  This package contains the Lua module for manipulating jsonb data which is compatible with json.
 
