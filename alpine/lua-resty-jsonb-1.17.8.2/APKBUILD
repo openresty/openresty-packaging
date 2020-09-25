@@ -79,4 +79,4 @@ static() {
     default_static
 }
 
-sha512sums="ce88f48eefa45560f70dddaf04e7b835492de3774aee499f7ebca79160c1449f5a97a92c5ed46d17a57c42e149c2ac89389ea3b6e86b4c1402cf3a717dc4df77  lua-resty-jsonb-0.0.1.tar.gz"
+sha512sums="74922c96099e7a52ba9a275975ef7cd7b3dd8258baf34b5229522be2f1bf96cc4b8c59c2815f47a528ffcae712828feba3e6d96cc5587acccca7ee2ee5a687f5  lua-resty-jsonb-0.0.1.tar.gz"
