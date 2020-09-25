@@ -5,10 +5,10 @@ LUA_RESTY_JSONB_1_17_8_2_VER := 0.0.1
 
 .PHONY: lua-resty-jsonb-1.17.8.2-download
 lua-resty-jsonb-1.17.8.2-download:
-	rsync nuc:~/work/lua-resty-jsonb-0.0.1.tar.gz ./
+	rsync -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-jsonb-$(LUA_RESTY_JSONB_1_17_8_2_VER).tar.gz ./
 	rm -rf lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER)
 	mkdir -p lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER)
-	tar -xf lua-resty-jsonb-0.0.1.tar.gz --strip-components=1 -C lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER)
+	tar -xf lua-resty-jsonb-$(LUA_RESTY_JSONB_1_17_8_2_VER).tar.gz --strip-components=1 -C lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER)
 	tar -czf lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER).orig.tar.gz lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER)
 
 lua-resty-jsonb-1.17.8.2-clean:
@@ -21,7 +21,7 @@ lua-resty-jsonb-1.17.8.2-clean:
 lua-resty-jsonb-1.17.8.2-build: lua-resty-jsonb-1.17.8.2-clean lua-resty-jsonb-1.17.8.2-download
 	sudo apt-get -y -q install gcc make openresty-yajl-dev openresty
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf lua-resty-jsonb-1.17.8.2_0.0.1.orig.tar.gz --strip-components=1 -C lua-resty-jsonb-1.17.8.2
+	tar xf lua-resty-jsonb-1.17.8.2_$(LUA_RESTY_JSONB_1_17_8_2_VER).orig.tar.gz --strip-components=1 -C lua-resty-jsonb-1.17.8.2
 	cd lua-resty-jsonb-1.17.8.2 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
