@@ -8,7 +8,7 @@ url="http://lloyd.github.com/yajl/"
 arch="all"
 license="ISC"
 #depends=""
-makedepends="ccache"
+makedepends="ccache cmake"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="yajl-plus-$pkgver.tar.gz"
@@ -72,4 +72,4 @@ static() {
     default_static
 }
 
-sha512sums="c98d5ce413b8107374651548bb9d82653050cc2cd93776328b523ca673ffbc2795b5fabfeea0b82fad65dbaeba5960e5777d6c68297075061a0ba1fc61d88beb  yajl-plus-2.1.0.4.tar.gz"
+sha512sums="ce09b69cac12269416092c904b7311b96557508d3905804396d8b53b68c69e8e24486ab3202d4b9fe26729f2b927e4229cc4c9167a0da78444a11d68f83caa27  yajl-plus-2.1.0.4.tar.gz"
