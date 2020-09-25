@@ -15,7 +15,7 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4-1
 # LuaJIT is required to compile Lua files into byte code
-BuildRequires:  openresty
+BuildRequires:  openresty = 1.17.8.2
 
 Requires:  openresty-yajl >= 2.1.0.4-1
 
