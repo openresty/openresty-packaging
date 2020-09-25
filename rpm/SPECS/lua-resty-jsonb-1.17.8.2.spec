@@ -11,7 +11,7 @@ URL:            https://www.openresty.com/
 Source0:        lua-resty-jsonb-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  gcc >= 4.8.5
+BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4-1
 # LuaJIT is required to compile Lua files into byte code
