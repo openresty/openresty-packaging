@@ -2,13 +2,13 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="lua-resty-jsonb-1.17.8.2"
 pkgver="0.0.1"
-pkgrel=1
+pkgrel=0
 pkgdesc="Lua module for manipulating jsonb data"
 url="http://www.openresty.com/"
 arch="all"
 license="Proprietary"
-#depends=""
-makedepends="ccache openresty-yajl-dev openresty"
+depends="openresty-yajl>=2.1.0.4-r1"
+makedepends="ccache openresty-yajl-dev>=2.1.0.4-r1 openresty"
 #install=""
 subpackages="$pkgname-dbg"
 #subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
@@ -25,10 +25,8 @@ build() {
     export CXXFLAGS=
     export CPPFLAGS=
     export LDFLAGS=
-    YAJL="/usr/local/openresty-yajl"
 
-    make -j$JOBS CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3 -Wall -Werror -fPIC -I$(YAJL)/include' \
-        SFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3 -Wall -Werror -fPIC -I$(YAJL)/include' \
+    make -j$JOBS YAJL="/usr/local/openresty-yajl" \
         CC='ccache gcc -fdiagnostics-color=always'
 
     for f in `find lib/resty/ -type f -name '*.lua'`; do
