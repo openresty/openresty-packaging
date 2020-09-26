@@ -29,7 +29,7 @@ build() {
     export LDFLAGS=
 
     ./config \
-        shared zlib -g \
+        shared zlib -g3 \
         enable-ssl3 enable-ssl3-method \
         --prefix="$_ssl_prefix" \
         --libdir=lib \
