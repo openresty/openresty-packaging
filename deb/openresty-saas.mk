@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_SAAS_VER := 1.17.8.2.3
+OPENRESTY_SAAS_VER := 1.17.8.2.4
 
 deb_toolchain_pkgs=debhelper devscripts
 
