@@ -95,7 +95,7 @@ sub update_changelog ($$) {
     my $new = <<_EOC_;
 $name ($version-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded OpenResty to $version.
+  * upgraded OpenResty+ to $version.
 
  -- OpenResty Admin <admin\@openresty.com>  $now
 
