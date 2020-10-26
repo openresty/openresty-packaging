@@ -38,8 +38,9 @@ build: zlib-build pcre-build openssl-build \
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-clean openresty-debug-clean openresty-valgrind-clean \
+		lemplate-clean test-nginx-clean \
 		openresty-plus-clean openresty-plus-debug-clean \
-		lemplate-clean test-nginx-clean hyperscan-clean \
+		hyperscan-clean \
 		openresty-saas-clean openresty-binutils-clean \
 		openresty-tar-clean openresty-plzip-clean \
 		openresty-utils-clean openresty-postgresql-clean \

@@ -71,7 +71,7 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 ./config \
     no-asm \
     enable-ssl3 enable-ssl3-method \
-    shared zlib -g -O0 -DPURIFY \
+    shared zlib -g3 -O0 -DPURIFY \
     --prefix=%{openssl_prefix} \
     --libdir=lib \
     -I%{zlib_prefix}/include \
