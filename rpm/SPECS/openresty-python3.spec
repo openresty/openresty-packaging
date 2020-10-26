@@ -32,10 +32,10 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel, libuuid-devel, libffi-devel
 BuildRequires: ccache, gcc
-BuildRequires: openresty-openssl-devel
+BuildRequires: openresty-openssl111-devel >= 1.1.1g-4
 BuildRequires: make
 
-Requires: openresty-openssl
+Requires: openresty-openssl111 >= 1.1.1g-4
 Requires: libuuid
 
 
