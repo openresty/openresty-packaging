@@ -28,8 +28,9 @@ build: zlib-build pcre-build openssl-build \
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-clean openresty-debug-clean openresty-valgrind-clean \
-		lemplate-clean test-nginx-clean openssl111-clean openssl111-debug-clean
-	-rm *.gz *.bz2 *.xz *.zip
+		lemplate-clean test-nginx-clean \
+		openssl111-clean openssl111-debug-clean
+	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
 zlib-download:
@@ -169,7 +170,7 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 .PHONY: openssl111-clean
 openssl111-clean:
 	sudo apt-get -y -qq install openresty-zlib-dev
-	cd openresty-openssl111 && debclean
+	-cd openresty-openssl111 && debclean
 	rm -rf openresty-openssl111/debian/tmp openresty-openssl111/test openresty-openssl111/*.a
 	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
 	rm -f openresty-openssl111*.deb

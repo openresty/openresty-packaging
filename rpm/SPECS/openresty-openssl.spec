@@ -69,7 +69,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 %build
 ./config \
-    shared zlib -g \
+    shared zlib -g3 \
     enable-ssl3 enable-ssl3-method \
     --prefix=%{openssl_prefix} \
     --libdir=lib \

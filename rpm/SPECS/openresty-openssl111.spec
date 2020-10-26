@@ -70,7 +70,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 %build
 ./config \
-    shared zlib -g \
+    shared zlib -g3 \
     enable-camellia enable-seed enable-rfc3779 \
     enable-cms enable-md2 enable-rc5 \
     enable-weak-ssl-ciphers \

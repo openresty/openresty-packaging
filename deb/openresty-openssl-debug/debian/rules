@@ -29,7 +29,7 @@ override_dh_auto_configure:
 	./config \
 	  no-asm \
 	  enable-ssl3 enable-ssl3-method \
-	  shared zlib -g -O0 -DPURIFY  \
+	  shared zlib -g3 -O0 -DPURIFY  \
 	  --prefix=/usr/local/openresty-debug/openssl \
 	  --libdir=lib \
 	  -I/usr/local/openresty/zlib/include \
