@@ -2,7 +2,7 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl111"
 pkgver="1.1.1g"
-pkgrel=2
+pkgrel=3
 pkgdesc="OpenSSL 1.1.1 library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
@@ -28,7 +28,7 @@ build() {
     export LDFLAGS=
 
     ./config \
-        no-threads shared zlib -g \
+        shared zlib -g \
         enable-camellia enable-seed enable-rfc3779 \
         enable-cms enable-md2 enable-rc5 \
         enable-weak-ssl-ciphers \
