@@ -33,7 +33,8 @@ build: zlib-build pcre-build openssl-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
-	openresty-utils openresty-saas-openssl111-build
+	openresty-utils openresty-saas-openssl111-build \
+	openresty-pcap-build openresty-tcpdump-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
@@ -53,7 +54,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-yajl-clean openresty-gdb-clean \
 		openresty-saas-openssl111-clean openresty-python3-setuptools-clean \
 		openresty-python3-cython-clean openresty-python3-numpy-clean \
-		openssl111-clean openssl111-debug-clean
+		openssl111-clean openssl111-debug-clean \
+		openresty-pcap-clean openresty-tcpdump-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

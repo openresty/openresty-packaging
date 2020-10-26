@@ -1,0 +1,44 @@
+Source: openresty-pcap
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), bison, flex
+Standards-Version: 3.9.8
+Homepage: http://www.tcpdump.org
+
+Package: openresty-pcap
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A system-independent interface for user-level packet capture
+ Libpcap provides a portable framework for low-level network
+ monitoring.  Libpcap can provide network statistics collection,
+ security monitoring and network debugging.  Since almost every system
+ vendor provides a different interface for packet capture, the libpcap
+ authors created this system-independent API to ease in porting and to
+ alleviate the need for several system-dependent packet capture modules
+ in each application.
+ Install libpcap if you need to do low-level network traffic monitoring
+ on your network.
+
+Package: openresty-pcap-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcap (>= ${source:Version})
+Description: Libraries and header files for the libpcap library
+ Libpcap provides a portable framework for low-level network
+ monitoring.  Libpcap can provide network statistics collection,
+ security monitoring and network debugging.  Since almost every system
+ vendor provides a different interface for packet capture, the libpcap
+ authors created this system-independent API to ease in porting and to
+ alleviate the need for several system-dependent packet capture modules
+ in each application.
+ This package provides the libraries, include files, and other
+ resources needed for developing libpcap applications.
+
+Package: openresty-pcap-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-pcap (>= ${source:Version})
+Description: Debug symbols for the openresty-pcap package
+ Debug symbols (or debuginfo) for the openresty-pcap package.
