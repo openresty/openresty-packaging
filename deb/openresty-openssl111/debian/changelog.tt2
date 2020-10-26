@@ -1,3 +1,9 @@
+openresty-openssl111 (1.1.1h-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded to OpenSSL 1.1.1h.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 19 Mar 2017 16:40:03 -0700
+
 openresty-openssl111 (1.1.1g-3~[% distro %]1) [% distro %]; urgency=high
 
   * enable threads.
