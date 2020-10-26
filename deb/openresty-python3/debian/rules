@@ -30,7 +30,7 @@ override_dh_auto_build:
     --without-ensurepip \
 	CC='ccache gcc' \
     LDFLAGS="-L. -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
-    CFLAGS="-g3 -I$(SSL_PREFIX)include" \
+    CFLAGS="-g3 -I$(SSL_PREFIX)/include" \
 		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
