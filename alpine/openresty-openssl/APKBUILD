@@ -2,7 +2,7 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl"
 pkgver="1.1.0l"
-pkgrel=2
+pkgrel=3
 pkgdesc="OpenSSL library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
@@ -29,7 +29,7 @@ build() {
     export LDFLAGS=
 
     ./config \
-        no-threads shared zlib -g \
+        shared zlib -g \
         enable-ssl3 enable-ssl3-method \
         --prefix="$_ssl_prefix" \
         --libdir=lib \
