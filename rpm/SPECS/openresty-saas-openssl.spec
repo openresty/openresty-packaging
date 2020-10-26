@@ -1,6 +1,6 @@
 Name:               openresty-saas-openssl
 Version:            1.1.0l
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            OpenSSL library for OpenResty SaaS
 
 Group:              Development/Libraries
@@ -69,7 +69,7 @@ Provides C header and static library for OpenResty SaaS's OpenSSL library.
 
 %build
 ./config \
-    no-threads shared zlib -g \
+    shared zlib -g3 \
     enable-ssl3 enable-ssl3-method \
     --prefix=%{openssl_prefix} \
     --libdir=lib \

@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -11,7 +11,8 @@ Source0:        https://www.python.org/ftp/python/%{version}/Python-%{version}.t
 AutoReqProv:    no
 
 
-%define _prefix /usr/local/openresty-python3
+%define _prefix     /usr/local/openresty-python3
+%define ssl_prefix  /opt/openresty-saas/openssl111
 
 %global __os_install_post     %{nil}
 
@@ -32,10 +33,10 @@ AutoReqProv:    no
 
 BuildRequires: glibc-devel, libuuid-devel, libffi-devel
 BuildRequires: ccache, gcc
-BuildRequires: openresty-openssl111-devel >= 1.1.1g-4
+BuildRequires: openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires: make
 
-Requires: openresty-openssl111 >= 1.1.1g-4
+Requires: openresty-saas-openssl111 >= 1.1.1h-1
 Requires: libuuid
 
 
@@ -64,8 +65,8 @@ export PYTHONPATH=
 ./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
     --without-ensurepip \
     CC='ccache gcc -g3' \
-    LDFLAGS="-L/usr/local/openresty/openssl/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:/usr/local/openresty/openssl/lib" \
-    CFLAGS="-g3 -I/usr/local/openresty/openssl/include"
+    LDFLAGS="-L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{ssl_prefix}/lib" \
+    CFLAGS="-g3 -I%{ssl_prefix}/include"
 
 make %{?_smp_mflags} > /dev/null
 

@@ -1,5 +1,5 @@
 Name:               openresty-saas-openssl111
-Version:            1.1.1g
+Version:            1.1.1h
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty SaaS
 
@@ -70,7 +70,7 @@ Provides C header and static library for OpenResty SaaS's OpenSSL library.
 
 %build
 ./config \
-    no-threads shared zlib -g \
+    shared zlib -g3 \
     enable-camellia enable-seed enable-rfc3779 \
     enable-cms enable-md2 enable-rc5 \
     enable-weak-ssl-ciphers \

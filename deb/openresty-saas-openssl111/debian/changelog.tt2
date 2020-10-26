@@ -1,3 +1,8 @@
+openresty-saas-openssl111 (1.1.1h-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openssl to 1.1.1h.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 27 Aug 2020 16:47:03 +0800
 openresty-saas-openssl111 (1.1.1g-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial saas openssl package
