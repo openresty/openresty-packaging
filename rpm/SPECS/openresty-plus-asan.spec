@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.17.8.2.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -20,7 +20,7 @@ BuildRequires:  ccache, gcc, make, perl, valgrind-devel, clang
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1g-3
+BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
@@ -35,7 +35,7 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl111-asan >= 1.1.1g-3
+Requires:       openresty-openssl111-asan >= 1.1.1h-1
 Requires:       openresty-pcre-asan >= 8.44-1
 Requires:       gd
 # needed by tcc
