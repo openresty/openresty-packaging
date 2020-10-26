@@ -1,3 +1,9 @@
+openresty-python3 (3.7.9-4~[% distro %]1) [% distro %]; urgency=high
+
+  * fixed the openssl lib/include paths.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 24 Feb 2020 22:34:37 -0700
+
 openresty-python3 (3.7.9-3~[% distro %]1) [% distro %]; urgency=high
 
   * now we use openresty-saas-openssl111 instead.

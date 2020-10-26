@@ -6,6 +6,8 @@ include /usr/share/dpkg/default.mk
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
+SSL_PREFIX = /opt/openresty-saas/openssl111
+PY_PREFIX = /usr/local/openresty-python3
 DESTDIR = $(CURDIR)/debian/tmp
 
 clean:
@@ -24,11 +26,11 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	export PYTHONPATH= \
-		&& ./configure --prefix=/usr/local/openresty-python3 --enable-shared --enable-ipv6 \
+		&& ./configure --prefix=$(PY_PREFIX) --enable-shared --enable-ipv6 \
     --without-ensurepip \
 	CC='ccache gcc' \
-    LDFLAGS="-L. -L/usr/local/openresty/openssl/lib -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib:/usr/local/openresty/openssl/lib" \
-    CFLAGS="-g3 -I/usr/local/openresty/openssl/include" \
+    LDFLAGS="-L. -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
+    CFLAGS="-g3 -I$(SSL_PREFIX)include" \
 		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
