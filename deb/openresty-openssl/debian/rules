@@ -27,7 +27,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 override_dh_auto_configure:
 	./config \
-	  no-threads shared zlib -g \
+	  shared zlib -g \
 	  enable-ssl3 enable-ssl3-method \
 	  --prefix=/usr/local/openresty/openssl \
 	  --libdir=lib \
