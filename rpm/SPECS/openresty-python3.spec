@@ -1,6 +1,6 @@
 Name:           openresty-python3
-Version:        3.7.7
-Release:        2%{?dist}
+Version:        3.7.9
+Release:        1%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
