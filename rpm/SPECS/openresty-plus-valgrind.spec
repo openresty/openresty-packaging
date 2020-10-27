@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
-Version:        1.17.8.2.8
-Release:        2%{?dist}
+Version:        1.17.8.2.9
+Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -226,6 +226,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Oct 27 2020 Yichun Zhang (agentzh) 1.17.8.2.9-1
+- upgraded openresty-plus to 1.17.8.2.9.
 * Tue Oct 13 2020 Yichun Zhang (agentzh) 1.17.8.2.8-1
 - upgraded openresty-plus to 1.17.8.2.8.
 * Fri Oct 9 2020 Yichun Zhang (agentzh) 1.17.8.2.7-1
