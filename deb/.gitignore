@@ -116,3 +116,5 @@ openresty-python3-numpy/debian/openresty-python3-numpy-dbgsym/
 openresty-python3-numpy/debian/openresty-python3-numpy/
 openresty-python3-setuptools/debian/openresty-python3-setuptools-dbgsym/
 openresty-python3-setuptools/debian/openresty-python3-setuptools/
+openresty-python3-goto/debian/openresty-python3-goto-dbgsym/
+openresty-python3-goto/debian/openresty-python3-goto/

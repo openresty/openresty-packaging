@@ -1,0 +1,22 @@
+Source: openresty-python3-goto
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-python3-dev (>= 3.7.9), openresty-python3-setuptools (>= 39.2.0)
+Standards-Version: 3.9.8
+Homepage: https://github.com/snoack/python-goto
+
+Package: openresty-python3-goto
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.7.9)
+Description: OpenResty's fork of python goto
+ OpenResty's fork of python goto.
+ A function decorator, that rewrites the bytecode, to enable goto in Python.
+
+Package: openresty-python3-goto-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-python3-goto (>= 1.2.1)
+Description: Debug symbols for the openresty-python3-goto package
+ Debug symbols (or debuginfo) for the openresty-python3-goto package.
