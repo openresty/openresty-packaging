@@ -191,10 +191,10 @@ openssl111-debug-clean:
 	-cd openresty-openssl111-debug && debclean
 	rm -rf openresty-openssl111-debug/debian/tmp openresty-openssl111-debug/test openresty-openssl111-debug/*.a
 	find openresty-openssl111-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111-debug' -print | xargs rm -rf
-	rm -f openresty-openssl111_$(SSL111_VER)*.deb
-	rm -f openresty-openssl111-dev_$(SSL111_VER)*.deb
-	rm -f openresty-openssl111-dbgsym_$(SSL111_VER)*.deb
-	rm -f openresty-openssl111_$(SSL111_VER)*.*
+	rm -f openresty-openssl111-debug_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-debug-dev_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-debug-dbgsym_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-debug_$(SSL111_VER)*.*
 
 .PHONY: openresty-download
 openresty-download:
