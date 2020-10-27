@@ -6,7 +6,7 @@
 
 
 Name:       openresty-saas
-Version:    1.17.8.2.8
+Version:    1.17.8.2.10
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
@@ -137,6 +137,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Tue Oct 27 2020 Yichun Zhang (agentzh) 1.17.8.2.10-1
+- upgraded openresty-plus to 1.17.8.2.10.
 * Tue Oct 13 2020 Yichun Zhang (agentzh) 1.17.8.2.8-1
 - upgraded openresty-plus to 1.17.8.2.8.
 * Fri Oct 9 2020 Yichun Zhang (agentzh) 1.17.8.2.7-1
