@@ -59,7 +59,7 @@ download: zlib-download \
 	test-nginx-download
 
 .PHONY: build-prereqs
-zlib-prereqs:
+build-prereqs:
 ifneq ($(shell id -u), 0)
 	sudo apt-get -qq -y install autotools-dev debhelper
 else
