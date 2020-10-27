@@ -42,9 +42,20 @@ clean: zlib-clean \
 	test-nginx-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
+.PHONY: download
+download: zlib-download \
+	pcre-download \
+	openssl111-download \
+	openssl111-debug-download \
+	openresty-download \
+	openresty-debug-download \
+	openresty-valgrind-download \
+	lemplate-download \
+	test-nginx-download
+
 .PHONY: zlib-download
 zlib-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-zlib_$(ZLIB_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
 	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
 
@@ -69,7 +80,7 @@ zlib-clean:
 
 .PHONY: pcre-download
 pcre-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-pcre_$(PCRE_VER).orig.tar.bz2
 	wget -nH --cut-dirs=100 --mirror 'https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2'
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-pcre_$(PCRE_VER).orig.tar.bz2
 
@@ -93,7 +104,7 @@ pcre-clean:
 
 .PHONY: openssl111-download
 openssl111-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-openssl111_$(SSL111_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111_$(SSL111_VER).orig.tar.gz
 
@@ -111,7 +122,7 @@ openssl111-build: | openssl111-clean openssl111-download
 
 .PHONY: openssl111-debug-download
 openssl111-debug-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
 
@@ -147,7 +158,7 @@ openssl111-debug-clean:
 
 .PHONY: openresty-download
 openresty-download:
-	rm -f *.orig.tar.*
+	rm -f openresty_$(OR_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
 	cp openresty-$(OR_VER).tar.gz openresty_$(OR_VER).orig.tar.gz
 
@@ -173,7 +184,7 @@ openresty-clean:
 
 .PHONY: openresty-debug-download
 openresty-debug-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-debug_$(OR_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
 	cp openresty-$(OR_VER).tar.gz openresty-debug_$(OR_VER).orig.tar.gz
 
@@ -200,7 +211,7 @@ openresty-debug-clean:
 
 .PHONY: openresty-valgrind-download
 openresty-valgrind-download:
-	rm -f *.orig.tar.*
+	rm -f openresty-valgrind_$(OR_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OR_VER).tar.gz'
 	cp openresty-$(OR_VER).tar.gz openresty-valgrind_$(OR_VER).orig.tar.gz
 
@@ -227,7 +238,7 @@ openresty-valgrind-clean:
 
 .PHONY: lemplate-download
 lemplate-download:
-	rm -f *.orig.tar.*
+	rm -f liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'http://search.cpan.org/CPAN/authors/id/A/AG/AGENT/Lemplate-$(LEMPLATE_VER).tar.gz'
 	cp Lemplate-$(LEMPLATE_VER).tar.gz liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz
 
@@ -251,7 +262,7 @@ lemplate-build: | lemplate-clean lemplate-download
 
 .PHONY: test-nginx-download
 test-nginx-download:
-	rm -f *.orig.tar.*
+	rm -f libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz
 	wget -nH --cut-dirs=100 --mirror 'http://search.cpan.org/CPAN/authors/id/A/AG/AGENT/Test-Nginx-$(TEST_NGINX_VER).tar.gz'
 	cp Test-Nginx-$(TEST_NGINX_VER).tar.gz libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz
 
