@@ -104,10 +104,10 @@ pcre-build: | pcre-clean pcre-download
 pcre-clean:
 	cd openresty-pcre && debclean
 	find openresty-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-pcre' -print | xargs rm -rf
-	rm -f openresty-pcre_$(ZLIB_VER)*.deb
-	rm -f openresty-pcre-dev_$(ZLIB_VER)*.deb
-	rm -f openresty-pcre-dbgsym_$(ZLIB_VER)*.deb
-	rm -f openresty-pcre_$(ZLIB_VER)*.*
+	rm -f openresty-pcre_$(PCRE_VER)*.deb
+	rm -f openresty-pcre-dev_$(PCRE_VER)*.deb
+	rm -f openresty-pcre-dbgsym_$(PCRE_VER)*.deb
+	rm -f openresty-pcre_$(PCRE_VER)*.*
 
 .PHONY: openssl111-download
 openssl111-download:
@@ -254,7 +254,7 @@ openresty-clean:
 	rm -f openresty-restydoc_$(OR_VER)*.deb
 	rm -f openresty-dev_$(OR_VER)*.deb
 	rm -f openresty-dbgsym_$(OR_VER)*.deb
-	rm -f openresty_openresty_$(OR_VER)*.*
+	rm -f openresty_$(OR_VER)*.*
 
 .PHONY: openresty-debug-download
 openresty-debug-download:
