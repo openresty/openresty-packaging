@@ -16,7 +16,7 @@ SSL111_VER=1.1.1h
 OR_VER=1.17.8.2
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.28
-OPTS=
+OPTS=$(DEBUILD_OPTS)
 DISTRO:=$(shell lsb_release -cs)
 
 .PHONY: build
@@ -73,7 +73,7 @@ zlib-prereqs:
 ifneq ($(shell id -u), 0)
 	sudo apt-get -qq -y install autotools-dev debhelper
 else
-	apt-get -qq -y install autotools-dev
+	apt-get -qq -y install autotools-dev debhelper
 endif
 
 .PHONY: zlib-clean
@@ -92,7 +92,6 @@ pcre-download:
 
 .PHONY: pcre-build
 pcre-build: | pcre-clean pcre-download
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-pcre_$(PCRE_VER).orig.tar.bz2 --strip-components=1 -C openresty-pcre
 	cd openresty-pcre \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -115,16 +114,39 @@ openssl111-download:
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111_$(SSL111_VER).orig.tar.gz
 
 .PHONY: openssl111-build
-openssl111-build: | openssl111-clean openssl111-download
-	sudo apt-get -y -qq install openresty-zlib-dev
-	sudo apt-get --only-upgrade -y -qq install openresty-zlib-dev
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+openssl111-build: | openssl111-prereqs openssl111-clean openssl111-download
 	tar xf openresty-openssl111_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111
 	cd openresty-openssl111 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl111*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: openssl111-prereqs
+openssl111-prereqs:
+ifneq ($(shell id -u), 0)
+ifeq ("$(wildcard $(openresty-zlib-dev_$(ZLIB_VER)*.deb))","")
+	sudo dpkg -i openresty-zlib-dev_$(ZLIB_VER)*.deb openresty-zlib_$(ZLIB_VER)*.deb
+else
+	sudo apt-get -qq -y install openresty-zlib-dev=$(ZLIB_VER)
+endif
+else
+ifeq ("$(wildcard $(openresty-zlib-dev_$(ZLIB_VER)*.deb))","")
+	dpkg -i openresty-zlib-dev_$(ZLIB_VER)*.deb openresty-zlib_$(ZLIB_VER)*.deb
+else
+	apt-get -qq -y install openresty-zlib-dev=$(ZLIB_VER)
+endif
+endif
+
+.PHONY: openssl111-clean
+openssl111-clean:
+	-cd openresty-openssl111 && debclean
+	rm -rf openresty-openssl111/debian/tmp openresty-openssl111/test openresty-openssl111/*.a
+	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
+	rm -f openresty-openssl111_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-dev_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-dbgsyn_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111_$(SSL111_VER)*.*
 
 .PHONY: openssl111-debug-download
 openssl111-debug-download:
@@ -133,10 +155,7 @@ openssl111-debug-download:
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
 
 .PHONY: openssl111-debug-build
-openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+openssl111-debug-build: | openssl111-debug-prereqs openssl111-debug-clean openssl111-debug-download
 	tar xf openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111-debug
 	cd openresty-openssl111-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -144,23 +163,31 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 	#for f in openresty-openssl111-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
-.PHONY: openssl111-clean
-openssl111-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
-	-cd openresty-openssl111 && debclean
-	rm -rf openresty-openssl111/debian/tmp openresty-openssl111/test openresty-openssl111/*.a
-	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
-	rm -f openresty-openssl111*.deb
-	rm -f openresty-openssl111_*.*
+.PHONY: openssl111-debug-prereqs
+openssl111-debug-prereqs:
+ifneq ($(shell id -u), 0)
+ifeq ("$(wildcard $(openresty-zlib-dev_$(ZLIB_VER)*.deb))","")
+	sudo dpkg -i openresty-zlib-dev_$(ZLIB_VER)*.deb openresty-zlib_$(ZLIB_VER)*.deb
+else
+	sudo apt-get -qq -y install openresty-zlib-dev=$(ZLIB_VER)
+endif
+else
+ifeq ("$(wildcard $(openresty-zlib-dev_$(ZLIB_VER)*.deb))","")
+	dpkg -i openresty-zlib-dev_$(ZLIB_VER)*.deb openresty-zlib_$(ZLIB_VER)*.deb
+else
+	apt-get -qq -y install openresty-zlib-dev=$(ZLIB_VER)
+endif
+endif
 
 .PHONY: openssl111-debug-clean
 openssl111-debug-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-openssl111-debug && debclean
 	rm -rf openresty-openssl111-debug/debian/tmp openresty-openssl111-debug/test openresty-openssl111-debug/*.a
 	find openresty-openssl111-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111-debug' -print | xargs rm -rf
-	rm -f openresty-openssl111*.deb
-	rm -f openresty-openssl111-debug_*.*
+	rm -f openresty-openssl111_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-dev_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111-dbgsyn_$(SSL111_VER)*.deb
+	rm -f openresty-openssl111_$(SSL111_VER)*.*
 
 .PHONY: openresty-download
 openresty-download:
