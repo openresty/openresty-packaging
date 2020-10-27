@@ -17,7 +17,7 @@ OR_VER=1.17.8.2
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.28
 OPTS=
-DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+DISTRO:=$(shell lsb_release -cs)
 
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
