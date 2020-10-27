@@ -40,6 +40,9 @@ clean: zlib-clean \
 	openresty-valgrind-clean \
 	lemplate-clean \
 	test-nginx-clean
+
+.PHONY: distclean
+distclean: clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: download
