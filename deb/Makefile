@@ -60,15 +60,21 @@ zlib-download:
 	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
 
 .PHONY: zlib-build
-zlib-build: | zlib-clean zlib-download
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	sudo apt-get -qq -y install autotools-dev
+zlib-build: | zlib-prereqs zlib-clean zlib-download
 	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
 	cd openresty-zlib \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: zlib-prereqs
+zlib-prereqs:
+ifneq ($(shell id -u), 0)
+	sudo apt-get -qq -y install autotools-dev debhelper
+else
+	apt-get -qq -y install autotools-dev
+endif
 
 .PHONY: zlib-clean
 zlib-clean:
