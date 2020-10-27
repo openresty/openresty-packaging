@@ -20,7 +20,8 @@ OPTS=$(DEBUILD_OPTS)
 DISTRO:=$(shell lsb_release -cs)
 
 .PHONY: build
-build: zlib-build \
+build: build-prereqs \
+	zlib-build \
 	pcre-build \
 	openssl111-build \
 	openssl111-debug-build \
@@ -31,7 +32,8 @@ build: zlib-build \
 	test-nginx-build
 
 .PHONY: clean
-clean: zlib-clean \
+clean: build-prereqs \
+	zlib-clean \
 	pcre-clean \
 	openssl111-clean \
 	openssl111-debug-clean \
@@ -56,22 +58,7 @@ download: zlib-download \
 	lemplate-download \
 	test-nginx-download
 
-.PHONY: zlib-download
-zlib-download:
-	rm -f openresty-zlib_$(ZLIB_VER).orig.tar.gz
-	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
-	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
-
-.PHONY: zlib-build
-zlib-build: | zlib-prereqs zlib-clean zlib-download
-	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
-	cd openresty-zlib \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload ]; then ./upload || exit 1; fi
-
-.PHONY: zlib-prereqs
+.PHONY: build-prereqs
 zlib-prereqs:
 ifneq ($(shell id -u), 0)
 	sudo apt-get -qq -y install autotools-dev debhelper
@@ -79,8 +66,23 @@ else
 	apt-get -qq -y install autotools-dev debhelper
 endif
 
+.PHONY: zlib-download
+zlib-download:
+	rm -f openresty-zlib_$(ZLIB_VER).orig.tar.gz
+	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
+	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
+
+.PHONY: zlib-build
+zlib-build: | build-prereqs zlib-clean zlib-download
+	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
+	cd openresty-zlib \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload ]; then ./upload || exit 1; fi
+
 .PHONY: zlib-clean
-zlib-clean:
+zlib-clean: build-prereqs
 	cd openresty-zlib && debclean
 	find openresty-zlib -maxdepth 1 ! -name 'debian' ! -name 'openresty-zlib' -print | xargs rm -rf
 	rm -f openresty-zlib_$(ZLIB_VER)*.deb
@@ -95,7 +97,7 @@ pcre-download:
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-pcre_$(PCRE_VER).orig.tar.bz2
 
 .PHONY: pcre-build
-pcre-build: | pcre-clean pcre-download
+pcre-build: | build-prereqs pcre-clean pcre-download
 	tar xf openresty-pcre_$(PCRE_VER).orig.tar.bz2 --strip-components=1 -C openresty-pcre
 	cd openresty-pcre \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -119,7 +121,7 @@ openssl111-download:
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111_$(SSL111_VER).orig.tar.gz
 
 .PHONY: openssl111-build
-openssl111-build: | openssl111-prereqs openssl111-clean openssl111-download
+openssl111-build: | build-prereqs openssl111-prereqs openssl111-clean openssl111-download
 	tar xf openresty-openssl111_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111
 	cd openresty-openssl111 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -160,7 +162,7 @@ openssl111-debug-download:
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
 
 .PHONY: openssl111-debug-build
-openssl111-debug-build: | openssl111-debug-prereqs openssl111-debug-clean openssl111-debug-download
+openssl111-debug-build: | build-prereqs openssl111-debug-prereqs openssl111-debug-clean openssl111-debug-download
 	tar xf openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111-debug
 	cd openresty-openssl111-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -201,7 +203,7 @@ openresty-download:
 	cp openresty-$(OR_VER).tar.gz openresty_$(OR_VER).orig.tar.gz
 
 .PHONY: openresty-build
-openresty-build: | openresty-prereqs openresty-clean openresty-download
+openresty-build: | build-prereqs openresty-prereqs openresty-clean openresty-download
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -266,7 +268,7 @@ openresty-debug-download:
 	cp openresty-$(OR_VER).tar.gz openresty-debug_$(OR_VER).orig.tar.gz
 
 .PHONY: openresty-debug-build
-openresty-debug-build: | openresty-debug-prereqs openresty-debug-clean openresty-debug-download
+openresty-debug-build: | build-prereqs openresty-debug-prereqs openresty-debug-clean openresty-debug-download
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -331,7 +333,7 @@ openresty-valgrind-download:
 	cp openresty-$(OR_VER).tar.gz openresty-valgrind_$(OR_VER).orig.tar.gz
 
 .PHONY: openresty-valgrind-build
-openresty-valgrind-build: | openresty-debug-prereqs openresty-valgrind-prereqs openresty-valgrind-clean openresty-valgrind-download
+openresty-valgrind-build: | build-prereqs openresty-debug-prereqs openresty-valgrind-prereqs openresty-valgrind-clean openresty-valgrind-download
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -373,7 +375,7 @@ lemplate-clean:
 	rm -f liblemplate-perl_$(LEMPLATE_VER)*.*
 
 .PHONY: lemplate-build
-lemplate-build: | lemplate-prereqs lemplate-clean lemplate-download
+lemplate-build: | build-prereqs lemplate-prereqs lemplate-clean lemplate-download
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
@@ -403,7 +405,7 @@ test-nginx-clean:
 	rm -f libtest-nginx-perl_$(TEST_NGINX_VER)*.*
 
 .PHONY: test-nginx-build
-test-nginx-build: | test-nginx-prereqs test-nginx-clean test-nginx-download
+test-nginx-build: | build-prereqs test-nginx-prereqs test-nginx-clean test-nginx-download
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
