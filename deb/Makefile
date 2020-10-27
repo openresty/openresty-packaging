@@ -80,9 +80,10 @@ endif
 zlib-clean:
 	cd openresty-zlib && debclean
 	find openresty-zlib -maxdepth 1 ! -name 'debian' ! -name 'openresty-zlib' -print | xargs rm -rf
-	rm -f openresty-zlib*.deb
-	rm -f openresty-zlib_*.*
-	#rm -f zlib-$(ZLIB_VER).tar.gz
+	rm -f openresty-zlib_$(ZLIB_VER)*.deb
+	rm -f openresty-zlib-dev_$(ZLIB_VER)*.deb
+	rm -f openresty-zlib-dbgsym_$(ZLIB_VER)*.deb
+	rm -f openresty-zlib_$(ZLIB_VER)*.*
 
 .PHONY: pcre-download
 pcre-download:
@@ -103,9 +104,11 @@ pcre-build: | pcre-clean pcre-download
 pcre-clean:
 	cd openresty-pcre && debclean
 	find openresty-pcre -maxdepth 1 ! -name 'debian' ! -name 'openresty-pcre' -print | xargs rm -rf
-	rm -f openresty-pcre*.deb
-	rm -f openresty-pcre_*.*
-	#rm -f pcre-$(PCRE_VER).tar.bz2
+	rm -f openresty-pcre_$(ZLIB_VER)*.deb
+	rm -f openresty-pcre-dev_$(ZLIB_VER)*.deb
+	rm -f openresty-pcre-dbgsym_$(ZLIB_VER)*.deb
+	rm -f openresty-pcre_$(ZLIB_VER)*.*
+
 
 .PHONY: openssl111-download
 openssl111-download:
