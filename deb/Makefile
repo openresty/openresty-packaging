@@ -366,19 +366,25 @@ lemplate-download:
 lemplate-clean:
 	-cd liblemplate-perl/ && debclean
 	find liblemplate-perl -maxdepth 1 ! -name 'debian' ! -name 'liblemplate-perl' -print | xargs rm -rf
-	rm -f liblemplate-perl*.deb
-	rm -f liblemplate-perl_*.*
+	rm -f liblemplate-perl_$(LEMPLATE_VER)*.deb
+	rm -f liblemplate-perl_$(LEMPLATE_VER)*.*
 
 .PHONY: lemplate-build
-lemplate-build: | lemplate-clean lemplate-download
-	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+lemplate-build: | lemplate-prereqs lemplate-clean lemplate-download
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: lemplate-prereqs
+lemplate-prereqs:
+ifneq ($(shell id -u), 0)
+	sudo apt-get -qq -y install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
+else
+	apt-get -qq -y install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
+endif
 
 .PHONY: test-nginx-download
 test-nginx-download:
@@ -390,18 +396,24 @@ test-nginx-download:
 test-nginx-clean:
 	-cd libtest-nginx-perl/ && debclean
 	find libtest-nginx-perl -maxdepth 1 ! -name 'debian' ! -name 'libtest-nginx-perl' -print | xargs rm -rf
-	rm -f libtest-nginx-perl*.deb
-	rm -f libtest-nginx-perl_*.*
+	rm -f libtest-nginx-perl_$(TEST_NGINX_VER)*.deb
+	rm -f libtest-nginx-perl_$(TEST_NGINX_VER)*.*
 
 .PHONY: test-nginx-build
-test-nginx-build: | test-nginx-clean test-nginx-download
-	sudo apt-get -y -qq install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+test-nginx-build: | test-nginx-prereqs test-nginx-clean test-nginx-download
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: test-nginx-prereqs
+test-nginx-prereqs:
+ifneq ($(shell id -u), 0)
+	sudo apt-get -qq -y install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl
+else
+	apt-get -qq -y install libtest-base-perl libtest-longstring-perl libtext-diff-perl liblist-moreutils-perl
+endif
 
 ### Makefile ends here
