@@ -13,10 +13,3 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.7.9)
 Description: OpenResty's fork of python goto
  OpenResty's fork of python goto.
  A function decorator, that rewrites the bytecode, to enable goto in Python.
-
-Package: openresty-python3-goto-dbgsym
-Section: debug
-Architecture: any
-Depends: ${misc:Depends}, openresty-python3-goto (>= 1.2.1)
-Description: Debug symbols for the openresty-python3-goto package
- Debug symbols (or debuginfo) for the openresty-python3-goto package.
