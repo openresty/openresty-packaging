@@ -43,7 +43,7 @@ This package provides the libraries, include files, and other
 resources needed for developing libpcap applications.
 
 %prep
-%setup -q -n libpcap-libpcap-%{version}
+%setup -q -n libpcap-%{version}
 
 #sparc needs -fPIC
 %ifarch %{sparc}

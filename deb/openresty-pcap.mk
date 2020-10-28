@@ -20,6 +20,7 @@ openresty-pcap-clean:
 .PHONY: openresty-pcap-build
 openresty-pcap-build: openresty-pcap-clean openresty-pcap-download
 	sudo apt-get -y -q install bison flex
+	sudo apt-get -y -q --only-upgrade install bison flex
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-pcap_$(OPENRESTY_PCAP_VER).orig.tar.gz --strip-components=1 -C openresty-pcap
 	cd openresty-pcap \

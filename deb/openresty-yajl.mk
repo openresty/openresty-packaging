@@ -17,6 +17,7 @@ openresty-yajl-clean:
 .PHONY: openresty-yajl-build
 openresty-yajl-build: openresty-yajl-clean openresty-yajl-download
 	sudo apt-get -y -q install cmake
+	sudo apt-get -y -q --only-upgrade install cmake
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-yajl_$(OPENRESTY_YAJL_VER).orig.tar.gz --strip-components=1 -C openresty-yajl
 	cd openresty-yajl \
