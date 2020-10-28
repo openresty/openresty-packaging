@@ -1,6 +1,6 @@
 Summary: A network traffic monitoring tool
 Name: openresty-tcpdump
-Version: 4.9.3.1
+Version: 4.9.3.2
 Release: 1%{?dist}
 License: BSD with advertising
 URL: http://www.tcpdump.org
@@ -55,6 +55,8 @@ exit 0
 %{tcpdump_prefix}/sbin/tcpdump
 
 %changelog
+* Wed Oct 28 2020 Yichun Zhang (agentzh) 4.9.3.2-1
+- upgraded tcpdump-plus to 4.9.3.2.
 * Wed Jun 17 2020 zhuizhuhaomeng 4.9.3
 - initial build for tcpdump 4.9.3
 
