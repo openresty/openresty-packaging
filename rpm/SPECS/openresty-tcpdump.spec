@@ -1,7 +1,7 @@
 Summary: A network traffic monitoring tool
 Name: openresty-tcpdump
 Version: 4.9.3.1
-Release: 1%{?dist}.1
+Release: 1%{?dist}
 License: BSD with advertising
 URL: http://www.tcpdump.org
 Group: Applications/Internet
