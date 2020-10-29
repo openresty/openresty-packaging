@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_TCPDUMP_VER := 4.9.3.1
+OPENRESTY_TCPDUMP_VER := 4.9.3.2
 
 .PHONY: openresty-tcpdump-download
 openresty-tcpdump-download:
@@ -16,7 +16,8 @@ openresty-tcpdump-clean:
 
 .PHONY: openresty-tcpdump-build
 openresty-tcpdump-build: openresty-tcpdump-clean openresty-tcpdump-download
-	sudo apt-get -y -q install automake openresty-pcap openresty-pcap-dev
+	sudo apt-get -y -q install automake openresty-pcap-dev ccache
+	sudo apt-get -y -q --only-upgrade install  automake openresty-pcap-dev ccache
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-tcpdump_$(OPENRESTY_TCPDUMP_VER).orig.tar.gz --strip-components=1 -C openresty-tcpdump
 	cd openresty-tcpdump \

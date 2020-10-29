@@ -17,17 +17,21 @@ override_dh_usrlocal:
 
 override_dh_auto_configure:
 
-	#export CC="ccache gcc -fdiagnostics-color=always -I/usr/local/openresty-pcap/include" 
 override_dh_auto_build:
 	export CC="ccache gcc -I/usr/local/openresty-pcap/include" \
-		&& export CFLAGS="$(getconf LFS_CFLAGS) -fno-strict-aliasing -DHAVE_GETNAMEINFO -I/usr/local/openresty-pcap/include" \
+		&& export CFLAGS="-g3 $(getconf LFS_CFLAGS) -fno-strict-aliasing -DHAVE_GETNAMEINFO -I/usr/local/openresty-pcap/include" \
 		&& export LDFLAGS="-L/usr/local/openresty-pcap/lib -Wl,-rpath,/usr/local/openresty-pcap/lib" \
-		&& ./configure --with-user=tcpdump --without-smi --prefix=/usr/local/openresty-tcpdump \
+		&& ./configure --with-user=tcpdump --without-smi --prefix=/usr/local/openresty-tcpdump --with-system-libpcap \
 		&& make -j`nproc`
 
 override_dh_auto_install:
-	mkdir -p $(DESTDIR)/usr/local/openresty-tcpdump/sbin \
-		&& install -m755 tcpdump $(DESTDIR)/usr/local/openresty-tcpdump/sbin
+	rm -rf $(DESTDIR) \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty-tcpdump/sbin \
+		&& install -m755 tcpdump-plus $(DESTDIR)/usr/local/openresty-tcpdump/sbin
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-tcpdump-dbgsym

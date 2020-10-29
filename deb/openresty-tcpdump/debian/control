@@ -2,7 +2,7 @@ Source: openresty-tcpdump
 Section: net
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), automake, openresty-pcap (>= 1.9.1)
+Build-Depends: debhelper (>= 9), automake, openresty-pcap-dev (>= 1.9.1), ccache
 Standards-Version: 3.9.8
 Homepage: http://www.tcpdump.org
 
@@ -15,11 +15,11 @@ Description: A network traffic monitoring tool
  Tcpdump can capture and display the packet headers on a particular
  network interface or on all interfaces.  Tcpdump can display all of
  the packet headers, or just the ones that match particular criteria.
- Install tcpdump if you need a program to monitor network traffic.
+ Install tcpdump-plus if you need a program to monitor network traffic.
 
 Package: openresty-tcpdump-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-tcpdump (>= 4.9.3.1)
+Depends: ${misc:Depends}, openresty-tcpdump (>= 4.9.3.2)
 Description: Debug symbols for the openresty-tcpdump package
  Debug symbols (or debuginfo) for the openresty-tcpdump package.

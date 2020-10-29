@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export CFLAGS="-fno-strict-aliasing" \
+	export CFLAGS="-fno-strict-aliasing -g3" \
 		&& ./configure --prefix=/usr/local/openresty-pcap --libdir=/usr/local/openresty-pcap/lib \
 		&& make -j`nproc`
 
@@ -27,6 +27,10 @@ override_dh_auto_install:
 		&& rm -rf $(DESTDIR)/usr/local/openresty-pcap/bin \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-pcap/share \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-pcap/lib/pkgconfig
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-pcap-dbgsym
