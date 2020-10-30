@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_TCPDUMP_VER := 4.9.3.2
+OPENRESTY_TCPDUMP_VER := 4.9.3.3
 
 .PHONY: openresty-tcpdump-download
 openresty-tcpdump-download:
@@ -9,7 +9,7 @@ openresty-tcpdump-download:
 	rsync -av tcpdump-plus-$(OPENRESTY_TCPDUMP_VER).tar.gz openresty-tcpdump_$(OPENRESTY_TCPDUMP_VER).orig.tar.gz
 
 openresty-tcpdump-clean:
-	cd openresty-tcpdump && debclean
+	-cd openresty-tcpdump && debclean
 	-find openresty-tcpdump -maxdepth 1 ! -name 'debian' ! -name 'openresty-tcpdump' -print | xargs rm -rf
 	rm -rf openresty-tcpdump*.deb
 	rm -rf openresty-tcpdump_*.*
