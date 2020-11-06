@@ -1,3 +1,9 @@
+openresty-debug (1.19.3.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.19.3.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 6 Nov 2020 00:09:01 -0800
+
 openresty-debug (1.17.8.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.17.8.2.
