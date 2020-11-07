@@ -15,7 +15,7 @@ SSL_VER=1.1.0l
 SSL111_VER=1.1.1h
 OR_VER=1.19.3.1
 LEMPLATE_VER=0.15
-TEST_NGINX_VER=0.28
+TEST_NGINX_VER=0.29
 OPTS=
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 
