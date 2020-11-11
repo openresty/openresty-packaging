@@ -1,5 +1,5 @@
 Name:           openresty-util-linux
-Version:        2.35.1.2
+Version:        2.35.1.3
 Release:        1%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
@@ -89,5 +89,7 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Tue Nov 10 2020 Yichun Zhang (agentzh) 2.35.1.3-1
+- upgraded openresty-util-linux to 2.35.1.3.
 * Tue Aug 4 2020 Yichun Zhang (agentzh) 2.35.1.2-1
 - upgraded openresty-util-linux to 2.35.1.2.
