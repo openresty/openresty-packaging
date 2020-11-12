@@ -44,7 +44,7 @@ BuildRequires: m4, sed
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
 BuildRequires: bzip2-devel
-BuildRequires: openresty-elfutils-devel >= 0.177.3-1
+BuildRequires: openresty-elfutils-devel >= 0.177.12-1
 
 Requires: bzip2-libs
 Requires: xz-libs
@@ -52,7 +52,7 @@ Requires: zlib
 Requires: make, perl
 #Requires: perl-JSON-MaybeXS
 Requires: openresty-stap-runtime = %{version}-%{release}
-Requires: openresty-elfutils >= 0.177.3-1
+Requires: openresty-elfutils >= 0.177.12-1
 
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
