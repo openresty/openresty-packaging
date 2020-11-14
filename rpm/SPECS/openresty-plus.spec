@@ -22,6 +22,7 @@ BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl111-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
+BuildRequires:  libtool
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel, texinfo
 %if %{with lua_ldap}
