@@ -37,6 +37,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl111-asan >= 1.1.1h-1
 Requires:       openresty-pcre-asan >= 8.44-1
+Requires:       openresty-maxminddb >= 1.4.2.3
 Requires:       gd
 # needed by tcc
 Requires:       glibc-devel
