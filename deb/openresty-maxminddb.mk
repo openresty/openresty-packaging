@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_MAXMINDDB_VER := 1.4.2.3
+OPENRESTY_MAXMINDDB_VER := 1.4.2.4
 
 .PHONY: openresty-maxminddb-download
 openresty-maxminddb-download:
