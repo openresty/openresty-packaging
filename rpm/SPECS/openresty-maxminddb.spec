@@ -1,5 +1,5 @@
 Name:           openresty-maxminddb
-Version:        1.4.2.3
+Version:        1.4.2.4
 Release:        1%{?dist}
 Summary:        OpenResty's fork of libmaxminddb
 Group:          Development/System
@@ -71,5 +71,7 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Tue Nov 17 2020 Yichun Zhang (agentzh) 1.4.2.4-1
+- upgraded libmaxminddb-plus to 1.4.2.4.
 * Sat Nov 14 2020 lijunlong v1.4.2.3
 - upgraded libmaxminddb-plus to v1.4.2.3.
