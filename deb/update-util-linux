@@ -1,0 +1,111 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+
+sub update_changelog ($$);
+
+my $version = shift or die "No version number specified.\n";
+
+if ($version !~ /^\d+(?:\.\d+){3}$/) {
+    die "ERROR: Bad version number: $version";
+}
+
+{
+    my $file = "openresty-util-linux.mk";
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $new;
+    my $changed;
+    while (<$in>) {
+        if (s/^ \s* OPENRESTY_UTIL_LINUX_VER \s* := \s* ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_UTIL_LINUX_VER := $version/msx) {
+            my $old_ver = $1;
+            if ($old_ver ne $version) {
+                $changed = 1;
+                say "INFO: $file: version needs update from $old_ver to $version";
+
+            } else {
+                say "INFO: $file is already up to date: $old_ver";
+                last;
+            }
+        }
+
+    } continue {
+        $new .= $_;
+    }
+    close $in;
+
+    if ($changed) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $new;
+        close $out;
+        say "$file updated.";
+    }
+}
+
+for my $dir (reverse sort glob 'openresty-util-linux*') {
+    next unless -d $dir && -d "$dir/debian";
+    if ($dir =~ /^openresty-util-linux(?:-(?:valgrind|asan|debug))?$/) {
+        my $name = $dir;
+        my $changelog = "$dir/debian/changelog.tt2";
+        if (!-f $changelog) {
+            warn "Cannot find $changelog file\n";
+            next;
+        }
+        #say $dir;
+        update_changelog $name, $changelog;
+    }
+}
+
+sub update_changelog ($$) {
+    my ($name, $file) = @_;
+
+    #warn "name: $name, file: $file";
+
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    if ($src !~ m/^ \Q$name\E \s+ \( \d+ /xsm) {
+        die "Bad file content in $file";
+    }
+
+    if ($src =~ /^ \Q$name\E \s+ \( ( \d+ (?: \.\d+ ){3} ) - \d+ ~ /xsm) {
+        my $old_ver = $1;
+        if ($old_ver ne $version) {
+            say "INFO: $file: version needs update from $old_ver to $version";
+
+        } else {
+            say "INFO: $file is already up to date: $old_ver";
+            return;
+        }
+
+    } else {
+        die "$file: version not found";
+    }
+
+    my $now = `date +'%a, %e %b %Y %H:%M:%S %z'`;
+    chomp $now;
+    $now =~ s/\s\s+/ /g;
+    #warn "today: $today";
+
+    my $new = <<_EOC_;
+$name ($version-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded util-linux-plus to $version.
+
+ -- OpenResty Admin <admin\@openresty.com>  $now
+
+_EOC_
+
+    $src = $new . $src;
+
+    open my $out, ">$file"
+        or die "Cannot open $file for writing: $!\n";
+    print $out $src;
+    close $out;
+    say "$file updated.";
+}
