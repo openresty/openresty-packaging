@@ -91,6 +91,7 @@ OpenResty Plus for SaaS product clients.
     --without-http_lua_metrics \
     --without-lmdb \
     --without-tcc \
+    --without-lua_resty_maxminddb \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
