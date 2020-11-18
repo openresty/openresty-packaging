@@ -53,6 +53,7 @@ override_dh_auto_configure:
     --without-http_lua_metrics \
     --without-lmdb \
     --without-tcc \
+    --without-lua_resty_maxminddb \
     -j$(JOBS)
 
 override_dh_usrlocal:
