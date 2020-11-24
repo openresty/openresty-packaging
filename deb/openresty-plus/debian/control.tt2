@@ -14,7 +14,8 @@ Section: utils
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
  openresty-plus (>= ${source:Upstream-Version}),
- perl, libfile-spec-perl, libfile-temp-perl, libtime-hires-perl
+ perl, libfile-spec-perl, libfile-temp-perl, libtime-hires-perl,
+ openresty-maxminddb (>= 1.4.2.3)
 Description: resty command-line utility for OpenResty+
  This package contains the "resty" command-line utility for OpenResty+, which
  runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
