@@ -1,3 +1,9 @@
+openresty-plus-debug (1.19.3.1.3-3~[% distro %]1) [% distro %]; urgency=high
+
+  * changed dependency of openresty-maxminddb to openresty-maxminddb-debug.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 25 Nov 2020 09:29:26 +0800
+
 openresty-plus-debug (1.19.3.1.3-2~[% distro %]1) [% distro %]; urgency=high
 
   * added dependency of openresty-maxminddb.

@@ -1,0 +1,6 @@
+openresty-maxminddb-debug (1.4.2.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded libmaxminddb-plus to 1.4.2.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 17 Nov 2020 00:00:00 -0700
+

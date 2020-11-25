@@ -1,4 +1,4 @@
-Source: openresty-maxminddb
+Source: openresty-maxminddb-debug
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
@@ -6,16 +6,16 @@ Build-Depends: debhelper (>= 9), ccache
 Standards-Version: 3.9.8
 Homepage: https://github.com/maxmind/libmaxminddb
 
-Package: openresty-maxminddb
+Package: openresty-maxminddb-debug
 Architecture: any
 Section: devel
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: OpenResty's fork of libmaxminddb
  OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb.
 
-Package: openresty-maxminddb-dbgsym
+Package: openresty-maxminddb-debug-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-maxminddb (>= 1.4.2.4)
-Description: Debug symbols for the openresty-maxminddb package
- Debug symbols (or debuginfo) for the openresty-maxminddb package.
+Depends: ${misc:Depends}, openresty-maxminddb-debug (>= 1.4.2.4)
+Description: Debug symbols for the openresty-maxminddb-debug package
+ Debug symbols (or debuginfo) for the openresty-maxminddb-debug package.
