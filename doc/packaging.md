@@ -15,7 +15,7 @@
 7. Test the software.
 8. Add the update script.  eg `openresty-plus-packaging/rpm/SPECS/update-maxmind` and ``openresty-plus-packaging/deb/update-maxmind``
 
-### Import Notes
+### Important Notes
 
 1. If your are adding a new library packaging script, you may need to add the corresponding debug version script If this new library is installed in the default search path of openresty-plus.  eg: openresty-maxminddb.spec.
 
@@ -30,9 +30,9 @@
 
 ## Add deb script of deb package
 
-1. clone the spec2deb repo to the same level of openresty-plus-packing:  git clone git@github.com:orinc/spec2deb
-2. run the conversion command: ../spec2deb/bin/spec2deb.pl rpm/SPECS/your-new-software.spec
-3. add clean target in deb/Makefile: your-new-software-clean
+1. Clone the spec2deb repo to the same level of openresty-plus-packing:  git clone git@github.com:orinc/spec2deb
+2. Run the conversion command: ../spec2deb/bin/spec2deb.pl rpm/SPECS/your-new-software.spec
+3. Add the clean target in deb/Makefile: your-new-software-clean
 4. Remove `-fdiagnostics-color=always`  in deb/your-new-software/debian/rules.
 5. Build this package on Ubuntu14 ~Ubuntu20.
 
