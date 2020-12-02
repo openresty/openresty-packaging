@@ -22,7 +22,8 @@ BOOST_VER2=1.69.0
 HYPERSCAN_VER=5.0.0
 OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
-WITH_LUA_LDAP=1
+WITH_LUA_LDAP=0
+WITH_LUA_RESTY_LDAP=1
 deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
@@ -377,6 +378,8 @@ endif
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
@@ -454,6 +457,8 @@ endif
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi

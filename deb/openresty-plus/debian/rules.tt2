@@ -21,6 +21,7 @@ override_dh_auto_configure:
 	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl/lib" \
 	  --with-lua_resty_hyperscan \
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
+	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
 	  --without-lua_rds_parser \

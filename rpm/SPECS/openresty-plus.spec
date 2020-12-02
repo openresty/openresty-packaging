@@ -13,7 +13,8 @@ URL:            https://openresty.com/
 Source0:        openresty-plus-%{version}.tar.gz
 #Source1:        openresty-plus.init
 
-%bcond_without	lua_ldap
+%bcond_with	lua_ldap
+%bcond_without	lua_resty_ldap
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -22,6 +23,7 @@ BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl111-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
+BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel, texinfo
@@ -38,6 +40,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl111 >= 1.1.1h-1
 Requires:       openresty-pcre >= 8.44-1
+BuildRequires:  openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb >= 1.4.2.4
 Requires:       gd
 # needed by tcc
@@ -185,6 +188,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-pcre-jit \
 %if %{with lua_ldap}
     --with-lua_ldap \
+%endif
+%if %{with lua_resty_ldap}
+    --with-lua_resty_ldap \
 %endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \

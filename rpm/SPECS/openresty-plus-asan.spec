@@ -12,7 +12,8 @@ URL:            https://www.openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 
-%bcond_without	lua_ldap
+%bcond_with	lua_ldap
+%bcond_without	lua_resty_ldap
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -22,6 +23,7 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
 BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
+BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 %if %{with lua_ldap}
@@ -37,7 +39,8 @@ BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-openssl111-asan >= 1.1.1h-1
 Requires:       openresty-pcre-asan >= 8.44-1
-Requires:       openresty-maxminddb >= 1.4.2.3
+BuildRequires:  openresty-yajl >= 2.1.0.4
+Requires:       openresty-maxminddb-asan >= 1.4.2.3
 Requires:       gd
 # needed by tcc
 Requires:       glibc-devel
@@ -118,6 +121,9 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-pcre-jit \
 %if %{with lua_ldap}
     --with-lua_ldap \
+%endif
+%if %{with lua_resty_ldap}
+    --with-lua_resty_ldap \
 %endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
