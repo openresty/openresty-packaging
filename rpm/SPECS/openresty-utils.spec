@@ -57,6 +57,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/read-umem
 %{prefix}/bin/shm-warmup
 %{prefix}/bin/shared-pages
+%{prefix}/bin/read-kern-bid
 
 
 %changelog
