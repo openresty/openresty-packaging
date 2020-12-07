@@ -1,3 +1,9 @@
+openresty-utils (0.17-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-utils to 0.17.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 6 Dec 2020 19:37:15 -0800
+
 openresty-utils (0.16-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-utils to 0.16.
