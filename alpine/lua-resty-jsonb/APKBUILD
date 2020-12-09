@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="lua-resty-jsonb"
-pkgver="0.0.1"
+pkgver="0.0.4"
 pkgrel=0
 pkgdesc="Lua module for manipulating jsonb data"
 url="http://www.openresty.com/"
@@ -77,4 +77,4 @@ static() {
     default_static
 }
 
-sha512sums="74922c96099e7a52ba9a275975ef7cd7b3dd8258baf34b5229522be2f1bf96cc4b8c59c2815f47a528ffcae712828feba3e6d96cc5587acccca7ee2ee5a687f5  lua-resty-jsonb-0.0.1.tar.gz"
+sha512sums="8616c57384acbc770bb8873927a9795f182e37d35e594599229083aad4d2a4310d74cb5219e3883de3dda4f76128c8575303d71ee0452af3e86cdad8cb72d43e  lua-resty-jsonb-0.0.4.tar.gz"
