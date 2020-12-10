@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_RESTY_JSONB_1_17_8_2_VER := 0.0.3
+LUA_RESTY_JSONB_1_17_8_2_VER := 0.0.4
 
 .PHONY: lua-resty-jsonb-1.17.8.2-download
 lua-resty-jsonb-1.17.8.2-download:
