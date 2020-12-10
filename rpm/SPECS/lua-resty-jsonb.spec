@@ -1,4 +1,4 @@
-Name:           lua-resty-jsonb-1.17.8.2
+Name:           lua-resty-jsonb
 Version:        0.0.4
 Release:        1%{?dist}
 Summary:        Lua module for manipulating jsonb data
@@ -15,7 +15,7 @@ BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4-1
 # LuaJIT is required to compile Lua files into byte code
-BuildRequires:  openresty = 1.17.8.2
+BuildRequires:  openresty >= 1.17.8.2
 
 Requires:  openresty-yajl >= 2.1.0.4-1
 

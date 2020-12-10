@@ -32,4 +32,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=lua-resty-jsonb-1.17.8.2-dbgsym
+	dh_strip --dbg-package=lua-resty-jsonb-dbgsym

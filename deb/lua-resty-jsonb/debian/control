@@ -1,21 +1,21 @@
-Source: lua-resty-jsonb-1.17.8.2
+Source: lua-resty-jsonb
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc, make, openresty-yajl-dev (>= 2.1.0.4), openresty
+Build-Depends: debhelper (>= 9), gcc, make, openresty-yajl-dev (>= 2.1.0.4), openresty (>= 1.17.8.2)
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
-Package: lua-resty-jsonb-1.17.8.2
+Package: lua-resty-jsonb
 Architecture: any
 Section: libdevel
 Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= 2.1.0.4)
 Description: Lua module for manipulating jsonb data
  This package contains the Lua module for manipulating jsonb data which is compatible with json.
 
-Package: lua-resty-jsonb-1.17.8.2-dbgsym
+Package: lua-resty-jsonb-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, lua-resty-jsonb-1.17.8.2 (>= 0.0.1)
-Description: Debug symbols for the lua-resty-jsonb-1.17.8.2 package
- Debug symbols (or debuginfo) for the lua-resty-jsonb-1.17.8.2 package.
+Depends: ${misc:Depends}, lua-resty-jsonb (>= 0.0.4)
+Description: Debug symbols for the lua-resty-jsonb package
+ Debug symbols (or debuginfo) for the lua-resty-jsonb package.

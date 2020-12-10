@@ -1,6 +1,6 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
-pkgname="lua-resty-jsonb-1.17.8.2"
+pkgname="lua-resty-jsonb"
 pkgver="0.0.1"
 pkgrel=0
 pkgdesc="Lua module for manipulating jsonb data"
