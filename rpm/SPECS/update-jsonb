@@ -23,7 +23,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ lua-resty-jsonb-/xsm) {
+    if ($src !~ /^Name: \s+ lua-resty-jsonb\b/xsm) {
         die "Bad file content in $file";
     }
 

@@ -19,7 +19,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ LUA_RESTY_JSONB_1_17_8_2_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/LUA_RESTY_JSONB_1_17_8_2_VER := $version/msx) {
+        if (s/^ LUA_RESTY_JSONB_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/LUA_RESTY_JSONB_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
