@@ -1,0 +1,125 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+
+sub update_ssl_spec ($);
+sub update_or_spec ($);
+
+my $version = shift or die "No version number specified.\n";
+
+for my $specfile (reverse sort glob 'openresty-openssl111*.spec') {
+    print $specfile;
+    update_ssl_spec $specfile;
+}
+
+sub update_ssl_spec ($) {
+    my $file = shift;
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    if ($src !~ /^Name: \s+ openresty-openssl111\b/xsm) {
+        die "Bad file content in $file";
+    }
+
+    my $changes = 0;
+
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} [a-z] ) $/Version:$1$version/xsm) {
+        my $old_ver = $2;
+        if ($old_ver ne $version) {
+            say "INFO: $file: version got changed from $old_ver to $version";
+            $changes++;
+
+        } else {
+            say "INFO: $file: already up to date: $version";
+            return;
+        }
+
+    } else {
+        die "$file: Version line not found";
+    }
+
+    if ($src =~ s/^Release: (\s+) (\d+) ( \%\{\?dist\} )  $/Release:${1}1$3/xsm) {
+        my $old_rel = $2;
+        if ($old_rel ne '1') {
+            say "INFO: release number got changed from $old_rel to 1";
+            $changes++;
+        }
+
+    } else {
+        die "$file: Release line not found";
+    }
+
+    my $today = `date +'%a %b %e %Y'`;
+    chomp $today;
+    $today =~ s/\s\s+/ /g;
+    #warn "today: $today";
+
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded OpenSSL to $version.\n/xsm) {
+        $changes++;
+
+    } else {
+        die "$file: \%changelog section not found";
+    }
+
+    if ($changes > 0) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated with $changes change(s).";
+    }
+}
+
+for my $specfile (reverse sort glob 'openresty*.spec') {
+    #warn "checking $specfile";
+    if ($specfile =~ /^openresty(?:-plus)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
+        update_or_spec $specfile;
+    }
+}
+
+sub update_or_spec ($) {
+    my $file = shift;
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    if ($src !~ /^Name: \s+ openresty\b/xsm) {
+        die "Bad file content in $file";
+    }
+
+    my @old_vers;
+    my $changes = 0;
+    my $found;
+
+    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-openssl
+                    (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){2} [a-z] )
+                    ( - \d+)?
+                    $/push @old_vers, $2; "$1$version-1"/exsmg)
+    {
+        for my $old_ver (@old_vers) {
+            $found = 1;
+            #warn "old $2, new: $version";
+            if ($old_ver ne $version) {
+                say "INFO: $file: version got changed from $old_ver to $version";
+                $changes++;
+            }
+        }
+    }
+
+    if (!$found) {
+        die "$file: BuildRequires or Requires lines not found\n";
+    }
+
+    if ($changes > 0) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated with $changes change(s).";
+    }
+}

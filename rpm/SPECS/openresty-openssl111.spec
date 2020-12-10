@@ -1,5 +1,5 @@
 Name:               openresty-openssl111
-Version:            1.1.1h
+Version:            1.1.1i
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -118,6 +118,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 10 2020 Yichun Zhang (agentzh) 1.1.1i-1
+- upgraded OpenSSL to 1.1.1i.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1
 - upgraded openresty-openssl to 1.1.0h.
 * Thu Apr 19 2018  Yichun Zhang (agentzh) 1.0.2n-1
