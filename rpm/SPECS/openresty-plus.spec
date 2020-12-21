@@ -26,7 +26,7 @@ BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
 BuildRequires:  gd-devel
-BuildRequires:  glibc-devel, texinfo
+BuildRequires:  glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 BuildRequires:  openldap2-devel

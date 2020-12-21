@@ -25,7 +25,7 @@ BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.11-1
 BuildRequires:  openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires:  openresty-saas-pcre-devel >= 8.44
-BuildRequires:  glibc-devel, texinfo
+BuildRequires:  glibc-devel
 Requires:       openresty-saas-zlib >= 1.2.11-1
 Requires:       openresty-saas-openssl111 >= 1.1.0h-1
 Requires:       openresty-saas-pcre >= 8.44
