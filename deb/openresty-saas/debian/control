@@ -2,13 +2,13 @@ Source: openresty-saas
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-saas-zlib-dev (>= 1.2.11), openresty-saas-openssl111-dev (>= 1.1.1g), openresty-saas-pcre-dev (>= 8.44), libc-dev, texinfo
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-saas-zlib-dev (>= 1.2.11), openresty-saas-openssl111-dev (>= 1.1.1i), openresty-saas-pcre-dev (>= 8.44), libc-dev
 Standards-Version: 3.9.8
 Homepage: http://www.openresty.com
 
 Package: openresty-saas
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib (>= 1.2.11), openresty-saas-openssl111 (>= 1.1.1g), openresty-saas-pcre (>= 8.44)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib (>= 1.2.11), openresty-saas-openssl111 (>= 1.1.1i), openresty-saas-pcre (>= 8.44)
 Description: OpenResty Plus for SaaS product clients.
 
 Package: openresty-saas-dbgsym
