@@ -1,5 +1,5 @@
 Name:       openresty-postgresql12
-Version:    12.4
+Version:    12.5
 Release:    1%{?dist}
 Summary:    PostgreSQL server
 

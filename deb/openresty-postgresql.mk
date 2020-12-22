@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_POSTGRESQL_VER := 9.6.19
+OPENRESTY_POSTGRESQL_VER := 9.6.20
 
 .PHONY: openresty-postgresql-download
 openresty-postgresql-download:

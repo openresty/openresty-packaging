@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded to Pg 12.5.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 16 Sep 2020 12:50:25 -0700
+
 openresty-postgresql12 (12.4-2~[% distro %]1) [% distro %]; urgency=high
 
   * execute initdb right after binary files are installed

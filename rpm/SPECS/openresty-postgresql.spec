@@ -1,5 +1,5 @@
 Name:       openresty-postgresql
-Version:    9.6.19
+Version:    9.6.20
 Release:    1%{?dist}
 Summary:    PostgreSQL server
 
