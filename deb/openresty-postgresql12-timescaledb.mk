@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER := 1.7.2
+OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER := 1.7.4
 
 .PHONY: openresty-postgresql12-timescaledb-download
 openresty-postgresql12-timescaledb-download:

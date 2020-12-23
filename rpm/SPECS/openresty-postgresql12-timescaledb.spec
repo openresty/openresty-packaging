@@ -3,7 +3,7 @@
 %define ext timescaledb
 
 Name:       openresty-postgresql12-%{ext}
-Version:    1.7.2
+Version:    1.7.4
 Release:    1%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
@@ -11,8 +11,8 @@ License:    BSD
 URL:        https://github.com/timescale/timescaledb
 Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 
-BuildRequires:  openresty-postgresql12-devel >= 12.3
-Requires:       openresty-postgresql12 >= 12.3
+BuildRequires:  openresty-postgresql12-devel >= 12.4
+Requires:       openresty-postgresql12 >= 12.4
 
 # Remove source code from debuginfo package.
 %define __debug_install_post \
@@ -53,5 +53,7 @@ rm -fr $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Dec 23 2020 LI Geng 1.7.4
+- bump timescaledb version to 1.7.4
 * Sat Aug 8 2020 LI Geng 1.7.2
 - initial build for TimescaleDB on postgresql v12.
