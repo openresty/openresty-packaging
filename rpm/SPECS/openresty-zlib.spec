@@ -1,6 +1,6 @@
 Name:               openresty-zlib
 Version:            1.2.11
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            The zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -20,7 +20,34 @@ AutoReqProv:        no
 
 
 %description
-The zlib compression library for use by Openresty ONLY
+The zlib compression library for use by OpenResty ONLY
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/zlib-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %package devel
@@ -75,7 +102,5 @@ rm -rf %{buildroot}
 - bugfix: we did not enable debuginfo in the shared library files.
 * Sat May 20 2017 Yichun Zhang 1.2.11-2
 - added debuginfo.
-* Sun Mar 19 2017 Yichun Zhang (agentzh)
+* Sun Mar 19 2017 Yichun Zhang (agentzh) 1.2.11-1
 - upgraded zlib to 1.2.11.
-* Wed Aug 23 2016 zxcvbn4038
-- initial build for zlib 1.2.8.

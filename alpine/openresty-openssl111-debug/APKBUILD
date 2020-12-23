@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl111-debug"
-pkgver="1.1.1g"
+pkgver="1.1.1i"
 pkgrel=2
 pkgdesc="Debug version of the OpenSSL 1.1.1 library for OpenResty"
 url="https://www.openssl.org/"
@@ -91,5 +91,5 @@ static() {
     default_static
 }
 
-sha512sums="01e3d0b1bceeed8fb066f542ef5480862001556e0f612e017442330bbd7e5faee228b2de3513d7fc347446b7f217e27de1003dc9d7214d5833b97593f3ec25ab  openssl-1.1.1g.tar.gz
+sha512sums="fe12e0ab9e1688f24dd862ac633d0ab703b499c0f34b53c3560aa0d3879d81d647aa0678ed517dda5efb2711f669fcb1a1e0e24f6eac2efc2cf4eae6b62014d8  openssl-1.1.1i.tar.gz
 2b675a74ce048293fa5c80e65b665405005395c9dbd2edbd17b619dd255161ef28c92f7c1a2841dceb79b9ddacbe93313e90e0cac37c86498ea37ea1f9c4719a  openssl-1.1.1f-sess_set_get_cb_yield.patch"
