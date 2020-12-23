@@ -1,6 +1,6 @@
 Name:           openresty-asan
 Version:        1.19.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -37,25 +37,6 @@ AutoReqProv:        no
 %undefine _missing_build_ids_terminate_build
 %endif
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
-%if 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
 
 #%if 0%{?fedora} >= 28
 #BuildRequires:      compiler-rt
@@ -82,6 +63,34 @@ developers can use the Lua programming language to script various existing
 nginx C modules and Lua modules and construct extremely high-performance
 web applications that are capable to handle 10K ~ 1000K+ connections in
 a single box.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %prep
