@@ -19,7 +19,8 @@ openresty-postgresql-orsl-clean:
 
 .PHONY: openresty-postgresql-orsl-build
 openresty-postgresql-orsl-build: openresty-postgresql-orsl-clean openresty-postgresql-orsl-download
-	sudo apt-get -y -q install openresty-postgresql-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql-orsl_$(OPENRESTY_POSTGRESQL_ORSL_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql-orsl
 	cd openresty-postgresql-orsl \

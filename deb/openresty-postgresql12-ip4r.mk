@@ -19,7 +19,8 @@ openresty-postgresql12-ip4r-clean:
 
 .PHONY: openresty-postgresql12-ip4r-build
 openresty-postgresql12-ip4r-build: openresty-postgresql12-ip4r-clean openresty-postgresql12-ip4r-download
-	sudo apt-get -y -q install openresty-postgresql12-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql12-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql12-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12-ip4r_$(OPENRESTY_POSTGRESQL12_IP4R_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12-ip4r
 	cd openresty-postgresql12-ip4r \

@@ -19,7 +19,8 @@ openresty-postgresql-ip4r-clean:
 
 .PHONY: openresty-postgresql-ip4r-build
 openresty-postgresql-ip4r-build: openresty-postgresql-ip4r-clean openresty-postgresql-ip4r-download
-	sudo apt-get -y -q install openresty-postgresql-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql-ip4r_2.4.1.orig.tar.gz --strip-components=1 -C openresty-postgresql-ip4r
 	cd openresty-postgresql-ip4r \

@@ -19,7 +19,8 @@ openresty-postgresql12-orsl-clean:
 
 .PHONY: openresty-postgresql12-orsl-build
 openresty-postgresql12-orsl-build: openresty-postgresql12-orsl-clean openresty-postgresql12-orsl-download
-	sudo apt-get -y -q install openresty-postgresql12-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql12-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql12-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12-orsl_$(OPENRESTY_POSTGRESQL12_ORSL_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12-orsl
 	cd openresty-postgresql12-orsl \
