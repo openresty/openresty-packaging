@@ -60,6 +60,8 @@ This is OpenResty's python3 package
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
+
+
 %package devel
 Summary: Libraries and header files needed for Python development
 Requires: %{name} = %{version}-%{release}

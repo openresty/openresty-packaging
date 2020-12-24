@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        9.2
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -14,35 +14,64 @@ AutoReqProv:    no
 %define _prefix /usr/local/openresty-gdb
 %define py_prefix /usr/local/openresty-python3
 
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/gdb-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
 
 BuildRequires: glibc-devel
 BuildRequires: make
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
-BuildRequires: openresty-python3-devel >= 3.7.7
+BuildRequires: openresty-python3-devel >= 3.7.9
 BuildRequires: xz-devel, ncurses-devel
 
-Requires: openresty-python3 >= 3.7.7
-Requires: xz-libs, gmp, mpfr, glibc, libstdc++, expat, ncurses-libs
+Requires: openresty-python3 >= 3.7.9
+
+%if 0%{?suse_version}
+Requires: liblzma5
+Requires: libstdc++6
+Requires: libmpfr6
+Requires: libgmp10
+Requires: libncurses6
+%else
+Requires: libstdc++
+Requires: mpfr
+Requires: xz-libs
+Requires: gmp
+Requires: ncurses-libs
+%endif
+
+Requires: expat
 
 
 %description
 This is OpenResty's gdb package.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/gdb-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %prep
@@ -59,7 +88,8 @@ CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
     CC='ccache gcc -fdiagnostics-color=always' \
     CXX='ccache g++ -fdiagnostics-color=always' \
-    ../configure --with-python=%{py_prefix}/bin/python3 \
+    ../configure --with-python="%{py_prefix}/bin/python3" \
+    --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --without-guile
 
 make %{?_smp_mflags} > /dev/null

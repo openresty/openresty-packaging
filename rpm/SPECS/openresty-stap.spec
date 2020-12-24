@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.5.0.5
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -20,34 +20,35 @@ AutoReqProv:    no
 
 %define eu_prefix %{_usr}/local/openresty-elfutils
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/systemtap-plus-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++, openresty-python3
+BuildRequires: ccache, gcc-c++, openresty-python3 >= 3.7.9
 #BuildRequires: perl-JSON-MaybeXS
 BuildRequires: gettext-devel
 BuildRequires: m4, sed
 BuildRequires: zlib-devel
 BuildRequires: xz-devel
+
+%if 0%{?suse_version}
+BuildRequires: libbz2-devel
+%else
 BuildRequires: bzip2-devel
+%endif
+
 BuildRequires: openresty-elfutils-devel >= 0.177.12-1
 
+%if 0%{?suse_version}
+Requires: libbz2-1
+%else
 Requires: bzip2-libs
+%endif
+
+%if 0%{?suse_version}
+Requires: liblzma5
+%else
 Requires: xz-libs
+%endif
+
 Requires: zlib
 Requires: make, perl
 #Requires: perl-JSON-MaybeXS
@@ -62,12 +63,46 @@ the components needed to locally develop and execute systemtap scripts.
 
 # ------------------------------------------------------------------------
 
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/systemtap-plus-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+
 %package runtime
 Summary: Programmable system-wide instrumentation system - runtime (OpenResty's fork of SystemTap)
 Group: Development/System
 License: GPLv2+
 URL: http://sourceware.org/systemtap/
+
+%if 0%{?suse_version}
+Requires(pre): shadow
+%else
 Requires(pre): shadow-utils
+%endif
 
 %description runtime
 OpenResty's fork of SystemTap runtime contains the components needed to execute
@@ -103,6 +138,7 @@ cd ..
 export PATH=/usr/local/openresty-python3/bin:$PATH
 ./configure \
         --prefix=%{stap_prefix} \
+        --libexecdir="%{stap_prefix}/libexec" \
         --disable-docs --disable-publican \
         --with-python3 \
         --without-nss \
