@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.19.3.1.4
+Version:        1.19.3.1.5
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -21,7 +21,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-devel >= 1.1.1h-1
+BuildRequires:  openresty-openssl111-devel >= 1.1.1i-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
@@ -38,11 +38,17 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111 >= 1.1.1h-1
+Requires:       openresty-openssl111 >= 1.1.1i-1
 Requires:       openresty-pcre >= 8.44-1
 BuildRequires:  openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb >= 1.4.2.4
+
+%if 0%{?suse_version}
+Requires:       libgd3
+%else
 Requires:       gd
+%endif
+
 # needed by tcc
 Requires:       glibc-devel
 %if %{with lua_ldap}
@@ -110,6 +116,8 @@ a single box.
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
+
+
 %package resty
 
 Summary:        OpenResty+ command-line utility, resty
@@ -330,6 +338,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 24 2020 Yichun Zhang (agentzh) 1.19.3.1.5-1
+- upgraded openresty-plus to 1.19.3.1.5.
 * Thu Dec 24 2020 Yichun Zhang (agentzh) 1.19.3.1.4-1
 - upgraded openresty-plus to 1.19.3.1.4.
 * Tue Nov 17 2020 Yichun Zhang (agentzh) 1.19.3.1.3-1

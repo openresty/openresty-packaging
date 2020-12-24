@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.19.3.1.4
+Version:        1.19.3.1.5
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -20,7 +20,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1h-1
+BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1i-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
@@ -36,13 +36,20 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111-debug >= 1.1.1h-1
+Requires:       openresty-openssl111-debug >= 1.1.1i-1
 Requires:       openresty-pcre >= 8.44-1
 BuildRequires:  openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-debug >= 1.4.2.4
+
+%if 0%{?suse_version}
+Requires:       libgd3
+%else
 Requires:       gd
+%endif
+
 # needed by tcc
 Requires:       glibc-devel
+
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2
@@ -62,20 +69,6 @@ AutoReqProv:        no
 %define debug_cc_opts      -O1 -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
 %else
 %define debug_cc_opts      -Og -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
-%endif
-
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
 %endif
 
 
@@ -98,6 +91,34 @@ developers can use the Lua programming language to script various existing
 nginx C modules and Lua modules and construct extremely high-performance
 web applications that are capable to handle 10K ~ 1000K+ connections in
 a single box.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %package resty
@@ -262,6 +283,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 24 2020 Yichun Zhang (agentzh) 1.19.3.1.5-1
+- upgraded openresty-plus to 1.19.3.1.5.
 * Thu Dec 24 2020 Yichun Zhang (agentzh) 1.19.3.1.4-1
 - upgraded openresty-plus to 1.19.3.1.4.
 * Tue Nov 17 2020 Yichun Zhang (agentzh) 1.19.3.1.3-1
