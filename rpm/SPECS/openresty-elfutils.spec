@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.177.12
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -19,20 +19,6 @@ AutoReqProv: no
 
 %define yajl_prefix      %{_usr}/local/openresty-yajl
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/elfutils-plus-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: ccache, gcc >= 4.1.2-33
@@ -42,7 +28,13 @@ BuildRequires: flex >= 2.5.4a
 BuildRequires: m4
 BuildRequires: gettext
 BuildRequires: zlib-devel
+
+%if 0%{?suse_version}
+BuildRequires: libbz2-devel
+%else
 BuildRequires: bzip2-devel
+%endif
+
 BuildRequires: xz-devel
 BuildRequires: gcc-c++
 BuildRequires: autoconf
@@ -53,7 +45,11 @@ BuildRequires: sed
 Requires: glibc >= 2.7
 Requires: libstdc++
 Requires: openresty-yajl >= 2.1.0.3-2
+%if 0%{?suse_version}
+Requires: libbz2-1
+%else
 Requires: bzip2-libs
+%endif
 Requires: xz-libs
 
 %description
@@ -63,6 +59,35 @@ the operation of the system. The base systemtap package contains/requires
 the components needed to locally develop and execute systemtap scripts.
 
 # ------------------------------------------------------------------------
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/elfutils-plus-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %package devel
 Summary: devel files for OpenResty's fork of elfutils
@@ -85,7 +110,8 @@ OpenResty's fork of elfutils.
 autoreconf -vif
 
 ./configure \
-    --prefix=%{eu_prefix} \
+    --prefix="%{eu_prefix}" \
+    --libdir="%{eu_prefix}/lib" \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl' \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
