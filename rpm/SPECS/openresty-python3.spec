@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.9
-Release:        4%{?dist}
+Release:        12%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -22,8 +22,12 @@ BuildRequires: ccache, gcc
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires: make
 
-Requires: openresty-saas-openssl111 >= 1.1.1h-1
+Requires: openresty-saas-openssl111 >= 1.1.1i-1
+%if 0%{?suse_version}
+Requires: libuuid1
+%else
 Requires: libuuid
+%endif
 
 
 %description
@@ -73,14 +77,15 @@ into other programs, and to make binary distributions for Python libraries.
 %build
 
 export PYTHONPATH=
+export LDFLAGS="-L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{ssl_prefix}/lib"
+export CC='ccache gcc -g3'
+export CFLAGS="-g3 -I%{ssl_prefix}/include"
 
-./configure --prefix=%{_prefix} --enable-shared --enable-ipv6 \
+./configure --prefix="%{_prefix}" --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    CC='ccache gcc -g3' \
-    LDFLAGS="-L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{ssl_prefix}/lib" \
-    CFLAGS="-g3 -I%{ssl_prefix}/include"
+    --libdir="%{_prefix}/lib"
 
-make %{?_smp_mflags} > /dev/null
+make %{?_smp_mflags}
 
 
 %install
@@ -97,10 +102,12 @@ rm -rf %{buildroot}%{_prefix}/share
 ( find %{buildroot}%{_prefix}/lib -type d -name 'unittest' -exec rm -rf "{}" \; || exit 0 )
 #( find %{buildroot}%{_prefix}/lib -type d -name '__pycache__' -exec rm -r "{}" \; || exit 0 )
 
+export QA_RPATHS=$[ 0x0002 ]
+
 
 %files
 %defattr(-, root, root)
-%{_prefix}/bin/*
+%attr(0755,root,root) %{_prefix}/bin/*
 %{_prefix}/lib/*.so
 %{_prefix}/lib/*.so.*
 %{_prefix}/lib/python*/*

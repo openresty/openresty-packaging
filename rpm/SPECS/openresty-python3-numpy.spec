@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        6%{?dist}
+Release:        9%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
@@ -22,29 +22,25 @@ AutoReqProv: no
 %global __python %{py_bin}
 
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/numpy-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
 BuildRequires:  lapack-devel
-BuildRequires:  gcc-gfortran gcc
-BuildRequires:  openresty-python3-devel >= 3.7.7-2
+BuildRequires:  gcc
+BuildRequires:  openresty-python3-devel >= 3.7.9-12
+%if 0%{?suse_version}
+BuildRequires:  atlascpp-devel
+BuildRequires:  gcc-fortran
+%else
 BuildRequires:  atlas-devel
+BuildRequires:  gcc-gfortran
+%endif
 BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
 BuildRequires:  openresty-python3-cython >= 0.28.5-3
 
 Requires:   openresty-python3 >= 3.7.7-2
+%if 0%{?suse_version}
 Requires:   atlas
+%else
+Requires:   atlascpp
+%endif
 
 
 %description
@@ -57,6 +53,34 @@ introduced by numarray as well as an extended C-API and the ability to
 create arrays of arbitrary type.
 There are also basic facilities for discrete fourier transform,
 basic linear algebra and random number generation.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/numpy-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %prep

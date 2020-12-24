@@ -1,10 +1,11 @@
 Name:           openresty-python3-setuptools
 Version:        39.2.0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of setuptools
 Group:          Development/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/setuptools
+BuildArch:      noarch
 
 Source0:        https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-%{version}.zip
 
@@ -20,13 +21,7 @@ AutoReqProv: no
 %define __brp_python_shebangs /usr/bin/true
 
 %global __python %{py_bin}
-%global debug_package %{nil}
 
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
 
 BuildRequires:  gcc
 BuildRequires:  openresty-python3-devel >= 3.7.7-2

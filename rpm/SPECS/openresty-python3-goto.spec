@@ -1,6 +1,6 @@
 Name:           openresty-python3-goto
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of python goto library
 Group:          Development/Libraries
 License:        Public Domain
@@ -21,14 +21,6 @@ AutoReqProv: no
 %define __brp_python_shebangs /usr/bin/true
 
 %global __python %{py_bin}
-
-%global debug_package %{nil}
-
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
 
 
 BuildRequires:  openresty-python3-devel >= 3.7.9-3
@@ -56,9 +48,6 @@ PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 # Remove egg-info
 rm -rf %{buildroot}%{py_sitearch}/goto_statement-%{version}-py%{py_version}.egg-info
-
-
-export QA_RPATHS=$[ 0x0002 ]
 
 
 %files
