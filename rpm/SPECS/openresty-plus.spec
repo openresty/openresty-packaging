@@ -1,6 +1,6 @@
 Name:           openresty-plus
-Version:        1.19.3.1.3
-Release:        2%{?dist}
+Version:        1.19.3.1.4
+Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -64,20 +64,6 @@ AutoReqProv:        no
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty/openssl111
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
 
 %description
 This package contains the core server for OpenResty+, an enhanced version of
@@ -98,6 +84,32 @@ web applications that are capable to handle 10K ~ 1000K+ connections in
 a single box.
 
 
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{name}-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 %package resty
 
 Summary:        OpenResty+ command-line utility, resty
@@ -318,6 +330,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 24 2020 Yichun Zhang (agentzh) 1.19.3.1.4-1
+- upgraded openresty-plus to 1.19.3.1.4.
 * Tue Nov 17 2020 Yichun Zhang (agentzh) 1.19.3.1.3-1
 - upgraded openresty-plus to 1.19.3.1.3.
 * Fri Nov 13 2020 Yichun Zhang (agentzh) 1.19.3.1.1-1
