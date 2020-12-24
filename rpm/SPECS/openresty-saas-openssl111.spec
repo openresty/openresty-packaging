@@ -1,6 +1,6 @@
 Name:               openresty-saas-openssl111
 Version:            1.1.1i
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            OpenSSL library for OpenResty SaaS
 
 Group:              Development/Libraries
@@ -26,14 +26,28 @@ AutoReqProv:        no
 %define zlib_prefix         /opt/openresty-saas/zlib
 %global _default_patch_fuzz 1
 
+
+%description
+This OpenSSL library build is specifically for OpenResty SaaS uses. It may contain
+custom patches from OpenResty.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
 # Remove source code from debuginfo package.
 %define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openssl-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openssl-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
+
+%endif
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
@@ -44,11 +58,6 @@ AutoReqProv:        no
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
-
-
-%description
-This OpenSSL library build is specifically for OpenResty SaaS uses. It may contain
-custom patches from OpenResty.
 
 
 %package devel
