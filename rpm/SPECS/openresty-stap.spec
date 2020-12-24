@@ -199,6 +199,9 @@ rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-start-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-stop-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/python/stap-resolve-module-function.py*
 
+export QA_RPATHS=$[ 0x0002 ]
+
+
 %clean
 rm -rf %{buildroot}
 

@@ -107,6 +107,8 @@ rm -rf %{buildroot}%{_prefix}/lib/*.la
 rm -rf %{buildroot}%{_prefix}/share/man/
 rm -rf %{buildroot}%{_prefix}/share/info/
 
+export QA_RPATHS=$[ 0x0002 ]
+
 
 %files
 %defattr(-,root,root)

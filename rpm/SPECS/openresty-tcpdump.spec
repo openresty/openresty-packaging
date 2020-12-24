@@ -1,7 +1,7 @@
 Summary: A network traffic monitoring tool
 Name: openresty-tcpdump
 Version: 4.9.3.3
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: BSD with advertising
 URL: http://www.tcpdump.org
 Group: Applications/Internet
@@ -15,19 +15,6 @@ AutoReqProv: no
 
 Source0: tcpdump-plus-%{version}.tar.gz
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tcpdump-plus-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
 
 %description
 Tcpdump is a command-line tool for monitoring network traffic.
@@ -37,8 +24,38 @@ the packet headers, or just the ones that match particular criteria.
 
 Install tcpdump-plus if you need a program to monitor network traffic.
 
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tcpdump-plus-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+
 %prep
 %setup -q -n tcpdump-plus-%{version}
+
 
 %build
 
@@ -53,6 +70,8 @@ make %{?_smp_mflags}
 rm -rf $RPM_BUILD_ROOT
 mkdir -p ${RPM_BUILD_ROOT}%{tcpdump_prefix}/sbin
 install -m755 tcpdump-plus ${RPM_BUILD_ROOT}%{tcpdump_prefix}/sbin
+
+export QA_RPATHS=$[ 0x0002 ]
 
 
 %pre
