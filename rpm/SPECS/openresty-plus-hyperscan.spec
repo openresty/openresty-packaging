@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -27,7 +27,11 @@ BuildRequires:  openresty-python3
 BuildRequires:  sqlite-devel >= 3.0
 BuildRequires:  gcc
 
-Requires:       libstdc++, glibc
+%if 0%{?suse_version}
+Requires:       libstdc++6
+%else
+Requires:       libstdc++
+%endif
 
 AutoReqProv:    no
 
@@ -43,6 +47,34 @@ ExclusiveArch: x86_64
 Hyperscan for OpenResty Plus is a high-performance multiple regex matching library. It
 follows the regular expression syntax of the commonly-used libpcre
 library, but is a standalone library with its own C API.
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/hyperscan-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %package devel
 Summary: Libraries and header files for the hyperscan library of OpenResty Plus
@@ -61,20 +93,6 @@ needed for developing Hyperscan applications.
 Summary: Runtime for the hyperscan library of OpenResty Plus
 Requires: glibc
 AutoReqProv:    no
-
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/hyperscan-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
 
 
 %description runtime
@@ -101,6 +119,7 @@ export CXX='ccache g++'
 export JOBS=${JOBS:-9}
 cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
 make -j${JOBS} > /dev/stderr  # to always show output
+
 
 %install
 make install DESTDIR=%{buildroot}
