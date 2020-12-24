@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.3.1.3
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -32,22 +32,37 @@ Requires:       openresty-saas-pcre >= 8.44
 
 AutoReqProv:    no
 
+
+%description
+OpenResty Plus for SaaS product clients.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
 # Remove source code from debuginfo package.
 %define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{or_plus_name}-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/%{or_plus_name}-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
+%endif
+
+%if 0%{?fedora} >= 27
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
 %endif
 
-%description
-OpenResty Plus for SaaS product clients.
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
 
 
 %prep
@@ -96,6 +111,7 @@ OpenResty Plus for SaaS product clients.
 
 make %{?_smp_mflags}
 
+
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
@@ -120,6 +136,7 @@ rm -f %{buildroot}%{saas_or_prefix}/bin/opm
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
+
 
 %clean
 rm -rf %{buildroot}
