@@ -1,6 +1,6 @@
 Name:       openresty-yajl
 Version:    2.1.0.4
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
@@ -23,21 +23,6 @@ Requires: %{name} = %{version}-%{release}
 
 AutoReqProv:        no
 
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/yajl-plus-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
-
-
 %description
 Yet Another JSON Library. YAJL is a small event-driven
 (SAX-style) JSON parser written in ANSI C, and a small
@@ -50,6 +35,35 @@ validating JSON generator.
 
 This sub-package provides the libraries and includes
 necessary for developing against the YAJL library
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/yajl-plus-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %prep
 %setup -q -n yajl-plus-%{version}
