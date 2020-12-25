@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
@@ -12,12 +12,54 @@ Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}
 Source1:    openresty-postgresql.init
 
 BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
-Requires:       libxml2, libxslt, readline, uuid, openssl
+
+%if 0%{?suse_version}
+Requires:   libxslt1
+Requires:   libreadline7
+Requires:   libossp-uuid16
+Requires:   libopenssl1_1
+Requires:   libxml2-2
+%else
+Requires:   libxslt
+Requires:   readline
+Requires:   uuid
+Requires:   openssl-libs
+Requires:   libxml2
+%endif
 
 AutoReqProv:        no
 
 %description
 PostgreSQL is the world's most advanced open source database.
+
+
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
+
+# Remove source code from debuginfo package.
+%define __debug_install_post \
+    %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
+    rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/postgresql-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+%{nil}
+
+%endif
+
+%if 0%{?fedora} >= 27
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
+%if 0%{?rhel} >= 8
+%undefine _debugsource_packages
+%undefine _debuginfo_subpackages
+%endif
+
 
 %package devel
 
@@ -27,21 +69,6 @@ Requires:   %{name} = %{version}-%{release}
 
 %description devel
 Provides C header and static library for the openresty-postgresql package.
-
-
-# Remove source code from debuginfo package.
-%define __debug_install_post \
-  %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
-  rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/postgresql-%{version}"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
-  mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
-%{nil}
-
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
-%undefine _debugsource_packages
-%undefine _debuginfo_subpackages
-%endif
 
 
 %prep
