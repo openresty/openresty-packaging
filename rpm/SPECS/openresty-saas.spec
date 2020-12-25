@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.3.1.3
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -85,8 +85,6 @@ OpenResty Plus for SaaS product clients.
     --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O3 -g3 -DLUAJIT_ENABLE_GC64" \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
-    --without-lua_resty_cookie \
-    --without-pgmoon \
     --without-lua_resty_balancer \
     --without-lua_resty_utf8_escape \
     --without-lua_resty_charset \
