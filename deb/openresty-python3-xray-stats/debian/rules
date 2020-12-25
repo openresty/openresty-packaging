@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	make compile -j`nproc` \
+    CXX='g++' \
+    -j1 \
+		&& PATH="/usr/local/openresty-python3/bin:$PATH" /usr/local/openresty-python3/bin/python3 setup.py build -j`nproc`
+
+override_dh_auto_install:
+	PATH="/usr/local/openresty-python3/bin:$PATH" /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR) \
+		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__pycache__/__init__* $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__init__.pyc \
+		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__pycache__/aggregate* $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/aggregate.pyc \
+		&& rm -f $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/*.py \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/openresty_python3_xray_stats-0.0.1-py3.7.egg-info
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-python3-xray-stats-dbgsym
