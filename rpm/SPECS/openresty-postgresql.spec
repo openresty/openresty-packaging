@@ -81,6 +81,7 @@ diff-filename=01:diff-hunk=32:diff-delete=31:diff-insert=32:\
 type-diff=01;32"
 
 ./configure --prefix=%{pgprefix} \
+            --libdir="%{pgprefix}/lib" \
             --with-libxml \
             --with-blocksize=32 \
             --with-segsize=2 \
