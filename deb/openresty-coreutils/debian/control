@@ -1,0 +1,22 @@
+Source: openresty-coreutils
+Section: admin
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make
+Standards-Version: 3.9.8
+Homepage: http://www.gnu.org/software/coreutils
+
+Package: openresty-coreutils
+Architecture: any
+Section: admin
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Basic system utilities
+ The Coreutils package contains utilities for showing and setting
+ the basic system
+
+Package: openresty-coreutils-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-coreutils (>= ${source:Version})
+Description: Debug symbols for the openresty-coreutils package
+ Debug symbols (or debuginfo) for the openresty-coreutils package.
