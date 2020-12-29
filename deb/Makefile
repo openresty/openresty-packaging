@@ -392,7 +392,6 @@ endif
 		&& tpage --define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) debian/control.tt2 > debian/control \
 		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
-
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
