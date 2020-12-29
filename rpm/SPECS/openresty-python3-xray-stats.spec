@@ -24,7 +24,7 @@ AutoReqProv: no
 
 BuildRequires:  gcc-c++
 BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
-Requires:   openresty-python3 >= 3.7.9-2
+Requires:   openresty-python3 >= 3.7.9
 
 
 %description
