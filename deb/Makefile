@@ -24,6 +24,10 @@ OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
 WITH_LUA_LDAP=0
 WITH_LUA_RESTY_LDAP=1
+WITH_LUA_RESTY_OPENIDC=1
+WITH_LUA_RESTY_SESSION=1
+WITH_LUA_RESTY_JWT=1
+WITH_LUA_RESTY_HMAC=1
 deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
@@ -380,6 +384,15 @@ endif
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
 		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
+
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
@@ -459,6 +472,14 @@ endif
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) debian/control.tt2 > debian/control \
 		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) debian/control.tt2 > debian/control \
+		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi

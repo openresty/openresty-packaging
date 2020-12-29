@@ -23,6 +23,10 @@ override_dh_auto_configure:
 	  --with-lua_resty_hyperscan \
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
+	  [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
+	  [% IF with_lua_resty_session %]--with-lua_resty_session [% END %]\
+	  [% IF with_lua_resty_jwt %]--with-lua_resty_jwt [% END %]\
+	  [% IF with_lua_resty_hmac %]--with-lua_resty_hmac [% END %]\
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
 	  --without-lua_rds_parser \
