@@ -6,8 +6,8 @@
 
 
 Name:       openresty-saas
-Version:    1.19.3.1.3
-Release:    3%{?dist}
+Version:    1.19.3.1.6
+Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -153,6 +153,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Tue Dec 29 2020 Yichun Zhang (agentzh) 1.19.3.1.6-1
+- upgraded openresty-plus to 1.19.3.1.6.
 * Sun Dec 20 2020 Yichun Zhang (agentzh) 1.19.3.1.3-1
 - upgraded openresty-plus to 1.19.3.1.3.
 * Tue Oct 27 2020 Yichun Zhang (agentzh) 1.17.8.2.10-1
