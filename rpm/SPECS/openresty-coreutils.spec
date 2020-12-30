@@ -4,7 +4,7 @@
 Summary:        Basic system utilities
 Name:           openresty-coreutils
 Version:        8.32
-Release:        2%{?dist}
+Release:        3%{?dist}
 License:        GPLv3
 URL:            http://www.gnu.org/software/coreutils
 Group:          System Environment/Base
@@ -49,6 +49,8 @@ the basic system
 %build
 CC='ccache gcc -fdiagnostics-color=always' \
     ./configure \
+    --libexecdir="%{_prefix}/libexec" \
+    --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --disable-silent-rules
 
 make %{?_smp_mflags}
