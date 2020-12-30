@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    3%{?dist}
+Release:    5%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
@@ -15,7 +15,13 @@ BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel
 
 %if 0%{?suse_version}
 Requires:   libxslt1
+
+%if %{suse_version} <= 1315
+Requires:   libreadline6
+%else
 Requires:   libreadline7
+%endif
+
 Requires:   libossp-uuid16
 Requires:   libopenssl1_1
 Requires:   libxml2-2

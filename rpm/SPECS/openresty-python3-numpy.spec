@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
@@ -26,21 +26,14 @@ BuildRequires:  lapack-devel
 BuildRequires:  gcc
 BuildRequires:  openresty-python3-devel >= 3.7.9-12
 %if 0%{?suse_version}
-BuildRequires:  atlascpp-devel
 BuildRequires:  gcc-fortran
 %else
-BuildRequires:  atlas-devel
 BuildRequires:  gcc-gfortran
 %endif
 BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
 BuildRequires:  openresty-python3-cython >= 0.28.5-3
 
 Requires:   openresty-python3 >= 3.7.7-2
-%if 0%{?suse_version}
-Requires:   atlas
-%else
-Requires:   atlascpp
-%endif
 
 
 %description
@@ -85,13 +78,6 @@ basic linear algebra and random number generation.
 
 %prep
 %setup -q -n numpy-%{version}
-
-
-cat >> site.cfg <<EOF
-[atlas]
-library_dirs = %{_libdir}/atlas
-atlas_libs = satlas
-EOF
 
 
 %build

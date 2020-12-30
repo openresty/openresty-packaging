@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        9.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -28,7 +28,13 @@ Requires: openresty-python3 >= 3.7.9
 %if 0%{?suse_version}
 Requires: liblzma5
 Requires: libstdc++6
+
+%if %{suse_version} <= 1315
+Requires: libmpfr4
+%else
 Requires: libmpfr6
+%endif
+
 Requires: libgmp10
 Requires: libncurses6
 %else
