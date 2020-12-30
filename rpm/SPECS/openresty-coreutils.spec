@@ -4,7 +4,7 @@
 Summary:        Basic system utilities
 Name:           openresty-coreutils
 Version:        8.32
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        GPLv3
 URL:            http://www.gnu.org/software/coreutils
 Group:          System Environment/Base
@@ -56,6 +56,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make install-binPROGRAMS DESTDIR=${RPM_BUILD_ROOT}
+make install-pkglibexecPROGRAMS DESTDIR=${RPM_BUILD_ROOT}
 
 %post
 /sbin/ldconfig
@@ -67,7 +68,11 @@ make install-binPROGRAMS DESTDIR=${RPM_BUILD_ROOT}
 %defattr(-,root,root)
 %dir %{_prefix}/bin
 %attr(0755,root,root) %{_prefix}/bin/*
+%attr(0755,root,root) %{_prefix}/libexec/coreutils/*
 
 %changelog
+* Wed Dec 30 2020 Jiahao Wang (johnny) 8.32-2
+- bugfix: added missing libstdbuf.so.
+
 * Sat Dec 26 2020 Jiahao Wang (johnny) 8.32-1
 - initial packaging.

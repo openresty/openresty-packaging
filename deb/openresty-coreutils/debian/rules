@@ -27,6 +27,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	make install-binPROGRAMS DESTDIR=$(DESTDIR)
+	make install-pkglibexecPROGRAMS DESTDIR=$(DESTDIR)
 
 override_dh_auto_clean:
 	dh_clean
