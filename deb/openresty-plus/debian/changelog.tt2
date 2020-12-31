@@ -1,3 +1,10 @@
+openresty-plus (1.19.3.1.6-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded packaging script to include lua-resty-ldap, lua-resty-session,
+    lua-resty-openidc, lua-resty-jwt, lua-resty-hmac.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 30 Dec 2020 18:04:06 -0800
+
 openresty-plus (1.19.3.1.6-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.19.3.1.6.
