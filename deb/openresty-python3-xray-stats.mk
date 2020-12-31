@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PYTHON3_XRAY_STATS_VER := 0.0.1
+OPENRESTY_PYTHON3_XRAY_STATS_VER := 0.0.3
 
 .PHONY: openresty-python3-xray-stats-download
 openresty-python3-xray-stats-download:

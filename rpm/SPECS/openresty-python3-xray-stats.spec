@@ -1,5 +1,5 @@
 Name:           openresty-python3-xray-stats
-Version:        0.0.1
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        OpenResty XRay Stats Python Library
 Group:          Development/Libraries
@@ -95,5 +95,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 31 2020 wanghuizzz 0.0.3
+- upgraded openresty-python3-xray-stats to 0.0.3.
 * Fri Dec 25 2020 wanghuizzz 0.0.1
 - initial build for openresty-python3-xray-stats 0.0.1.
