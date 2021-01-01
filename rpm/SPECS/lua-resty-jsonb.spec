@@ -1,6 +1,6 @@
 Name:           lua-resty-jsonb
-Version:        0.0.4
-Release:        2%{?dist}
+Version:        0.0.5
+Release:        1%{?dist}
 Summary:        Lua module for manipulating jsonb data
 
 Group:          Development/Libraries
@@ -92,6 +92,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jan 1 2021 Yichun Zhang (agentzh) 0.0.5-1
+- upgraded yajl-plus to 0.0.5.
 * Wed Dec 9 2020 Yichun Zhang (agentzh) 0.0.4-1
 - upgraded yajl-plus to 0.0.4.
 * Sat Nov 7 2020 Yichun Zhang (agentzh) 0.0.3-1
