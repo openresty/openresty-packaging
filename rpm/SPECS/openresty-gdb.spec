@@ -1,6 +1,6 @@
 Name:           openresty-gdb
-Version:        9.2
-Release:        4%{?dist}
+Version:        10.1
+Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
