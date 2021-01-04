@@ -1,0 +1,10 @@
+prefix=/usr/local/openresty/modsecurity
+exec_prefix=${prefix}
+libdir=@libdir@
+includedir=${prefix}/include
+
+Name: ModSecurity
+Description: ModSecurity API
+Version: 3.0.4
+Cflags: -I${prefix}/include
+Libs: -L@libdir@ -lmodsecurity
