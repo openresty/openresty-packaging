@@ -1,0 +1,3 @@
+usr/local/openresty-nodejs/bin/npm
+usr/local/openresty-nodejs/bin/npx
+usr/local/openresty-nodejs/lib/node_modules/npm

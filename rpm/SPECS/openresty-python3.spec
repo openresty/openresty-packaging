@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.9
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -21,8 +21,10 @@ BuildRequires: glibc-devel, libuuid-devel, libffi-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires: make
+BuildRequires: bzip2-devel
 
 Requires: openresty-saas-openssl111 >= 1.1.1i-1
+Requires: bzip2
 %if 0%{?suse_version}
 Requires: libuuid1
 %else

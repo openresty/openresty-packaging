@@ -1,0 +1,42 @@
+Source: openresty-nodejs
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-python3 (>= 3.7.9), ccache, gcc, g++, openresty-saas-zlib-dev, libbz2-dev, openresty-saas-openssl111-dev (>= 1.1.1i)
+Standards-Version: 3.9.8
+Homepage: http://nodejs.org/
+
+Package: openresty-nodejs
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib, openresty-saas-openssl111 (>= 1.1.1i)
+Description: OpenResty's fork of JavaScript runtime
+ Node.js is a platform built on Chrome's JavaScript runtime
+ for easily building fast, scalable network applications.
+ Node.js uses an event-driven, non-blocking I/O model that
+ makes it lightweight and efficient, perfect for data-intensive
+ real-time applications that run across distributed devices.
+ This Node.js build is specifically for OpenResty uses.
+
+Package: openresty-nodejs-dev
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-nodejs (>= ${source:Version})
+Description:
+ Development headers for the OpenResty's fork of Node.js.
+
+Package: openresty-nodejs-npm
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-nodejs (>= ${source:Version})
+Description:
+ npm is a package manager for node.js. You can use it to install and publish
+ your node programs. It manages dependencies and does other cool stuff.
+ This npm build is specifically for OpenResty uses.
+
+Package: openresty-nodejs-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-nodejs (>= ${source:Version})
+Description: Debug symbols for the openresty-nodejs package
+ Debug symbols (or debuginfo) for the openresty-nodejs package.

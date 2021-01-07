@@ -1,3 +1,7 @@
+openresty-python3 (3.7.9-6~[% distro %]1) [% distro %]; urgency=high
+
+  * added bzip2 support.
+
 openresty-python3 (3.7.9-5~[% distro %]1) [% distro %]; urgency=high
 
   * fixed the openssl include path.

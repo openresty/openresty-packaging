@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-nodejs
+OPENSSL_PREFIX = /opt/openresty-saas/openssl111
+ZLIB_PREFIX = /opt/openresty-saas/zlib
+PY3_PREFIX = /usr/local/openresty-python3
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
+	export LDFLAGS="$(LDFLAGS) -Wl,-rpath,$(OPENSSL_PREFIX)/lib:$(ZLIB_PREFIX)/lib:$(PREFIX)/lib"
+	export CC="ccache gcc"
+	export CXX="ccache g++"
+	export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-pointer-checks -D_LARGEFILE_SOURCE'
+	export CXXFLAGS="$(CFLAGS)"
+	export PATH="$(PY3_PREFIX)/bin:$(PATH)"
+	./configure --prefix=$(PREFIX) --without-dtrace \
+		--shared \
+		--with-intl=small-icu --gdb \
+		--shared-zlib --shared-zlib-includes=$(ZLIB_PREFIX)/include \
+		--shared-zlib-libpath=$(ZLIB_PREFIX)/lib \
+		--shared-openssl --shared-openssl-includes=$(OPENSSL_PREFIX)/include \
+		--shared-openssl-libpath=$(OPENSSL_PREFIX)/lib
+	make V=0 BUILDTYPE=Release \
+		LD_LIBRARY_PATH="$(ZLIB_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(LD_LIBRARY_PATH)" \
+		-j`nproc`
+
+override_dh_auto_install:
+	export PATH="$(PY3_PREFIX)/bin:$(PATH)" \
+		&& rm -rf $(DESTDIR) \
+		&& python3 tools/install.py install '$(DESTDIR)' '$(PREFIX)' \
+		&& install -m 0755 out/Release/node $(DESTDIR)$(PREFIX)/bin/ \
+		&& (cd $(DESTDIR)$(PREFIX)/lib; ln -sf libnode.so.88 libnode.so) \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share \
+		&& rm -rf $(DESTDIR)$(PREFIX)/lib/node_modules/npm/{docs,man,changelogs} \
+		&& rm -f $(DESTDIR)$(PREFIX)/lib/node_modules/npm/{AUTHORS,CHANGELOG.md,CONTRIBUTING.md,LICENSE,make.bat,Makefile,README.md}
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-nodejs-dbgsym
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info \
+		-l$(shell pwd)/debian/openresty-nodejs/$(PREFIX)/lib

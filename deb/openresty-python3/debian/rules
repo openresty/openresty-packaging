@@ -29,7 +29,7 @@ override_dh_auto_build:
 		&& ./configure --prefix=$(PY_PREFIX) --enable-shared --enable-ipv6 \
     --without-ensurepip \
 	CC='ccache gcc' \
-    LDFLAGS="-L. -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
+	LDFLAGS="-L. -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
     CFLAGS="-g3 -I$(SSL_PREFIX)/include" \
 		&& make -j`nproc` > /dev/null
 
