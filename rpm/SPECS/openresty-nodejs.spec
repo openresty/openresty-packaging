@@ -8,7 +8,7 @@ URL:        http://nodejs.org/
 
 Source0:    https://nodejs.org/dist/v%{version}/node-v%{version}.tar.xz
 
-BuildRequires: openresty-python3 >= 3.7.9
+BuildRequires: openresty-python3 >= 3.7.9-13
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: openresty-saas-zlib-devel
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1i
