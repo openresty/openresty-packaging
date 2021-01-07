@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.19.3.1.6
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -47,7 +47,7 @@ Requires:       openresty-pcre >= 8.44-1
 BuildRequires:  openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb >= 1.4.2.4
 
-%if 0%{?suse_version}
+%if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:       libgd3
 %else
 Requires:       gd
