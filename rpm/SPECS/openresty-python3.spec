@@ -17,17 +17,24 @@ AutoReqProv:    no
 %global __os_install_post     %{nil}
 
 
-BuildRequires: glibc-devel, libuuid-devel, libffi-devel
+BuildRequires: glibc-devel, libuuid-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires: make
-BuildRequires: bzip2-devel
 
 Requires: openresty-saas-openssl111 >= 1.1.1i-1
 Requires: bzip2
+
 %if 0%{?suse_version}
 Requires: libuuid1
+BuildRequires: libbz2-devel
+
+%if 0%{?suse_version} >= 1500
+BuildRequires: libffi-devel
+%endif
+
 %else
+BuildRequires: bzip2-devel
 Requires: libuuid
 %endif
 
