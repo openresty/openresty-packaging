@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.9
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -94,7 +94,8 @@ export CFLAGS="-g3 -I%{ssl_prefix}/include"
 
 ./configure --prefix="%{_prefix}" --enable-shared --enable-ipv6 \
     --without-ensurepip \
-    --libdir="%{_prefix}/lib"
+    --libdir="%{_prefix}/lib" \
+    --with-openssl=%{ssl_prefix}
 
 make %{?_smp_mflags}
 
@@ -103,7 +104,7 @@ make %{?_smp_mflags}
 make \
     DESTDIR=%{buildroot} \
     INSTALL="install -p" \
-    install > /dev/null
+    sharedinstall libinstall inclinstall bininstall > /dev/null
 
 find %{buildroot} -type f -print0 | xargs -0 chmod u+w
 

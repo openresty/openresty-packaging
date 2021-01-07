@@ -1,3 +1,9 @@
+openresty-python3 (3.7.9-7~[% distro %]1) [% distro %]; urgency=high
+
+  * remove useless static lib.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 07 Jan 2021 14:21:12 +0800
+
 openresty-python3 (3.7.9-6~[% distro %]1) [% distro %]; urgency=high
 
   * added bzip2 support.

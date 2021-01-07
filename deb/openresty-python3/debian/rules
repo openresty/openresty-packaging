@@ -25,19 +25,21 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PYTHONPATH= \
-		&& ./configure --prefix=$(PY_PREFIX) --enable-shared --enable-ipv6 \
-    --without-ensurepip \
-	CC='ccache gcc' \
-	LDFLAGS="-L. -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
-    CFLAGS="-g3 -I$(SSL_PREFIX)/include" \
-		&& make -j`nproc` > /dev/null
+	export PYTHONPATH=
+	export CC='ccache gcc'
+	./configure --prefix=$(PY_PREFIX) --enable-shared --enable-ipv6 \
+		--without-ensurepip \
+		--libdir="$(PY_PREFIX)/lib" \
+		--with-openssl=$(SSL_PREFIX) \
+		&& make -j`nproc` \
+		LDFLAGS="-L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
+		CFLAGS="-g3 -I$(SSL_PREFIX)/include"
 
 override_dh_auto_install:
 	make \
     DESTDIR=$(DESTDIR) \
     INSTALL="install -p" \
-    install > /dev/null \
+    sharedinstall libinstall inclinstall bininstall > /dev/null \
 		&& find $(DESTDIR) -type f -print0 | xargs -0 chmod u+w \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/share \
 		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'test' -exec rm -rf "{}" \; || exit 0 ) \
@@ -50,3 +52,7 @@ override_dh_clean:
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-python3-dbgsym
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info \
+		-l$(shell pwd)/debian/openresty-python3/$(PY_PREFIX)/lib
