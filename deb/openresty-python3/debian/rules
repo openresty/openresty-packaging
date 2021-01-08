@@ -25,8 +25,8 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PYTHONPATH=
-	export CC='ccache gcc'
+	export PYTHONPATH=; \
+	export CC='ccache gcc'; \
 	./configure --prefix=$(PY_PREFIX) --enable-shared --enable-ipv6 \
 		--without-ensurepip \
 		--libdir="$(PY_PREFIX)/lib" \
