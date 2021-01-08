@@ -29,7 +29,7 @@ override_dh_auto_build:
 	export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-pointer-checks -D_LARGEFILE_SOURCE'
 	export CXXFLAGS="$(CFLAGS)"
 	export PATH="$(PY3_PREFIX)/bin:$(PATH)"
-	./configure --prefix=$(PREFIX) --without-dtrace \
+	$(PY3_PREFIX)/bin/python3 ./configure --prefix=$(PREFIX) --without-dtrace \
 		--shared \
 		--with-intl=small-icu --gdb \
 		--shared-zlib --shared-zlib-includes=$(ZLIB_PREFIX)/include \
@@ -48,7 +48,9 @@ override_dh_auto_install:
 		&& (cd $(DESTDIR)$(PREFIX)/lib; ln -sf libnode.so.88 libnode.so) \
 		&& rm -rf $(DESTDIR)$(PREFIX)/share \
 		&& rm -rf $(DESTDIR)$(PREFIX)/lib/node_modules/npm/{docs,man,changelogs} \
-		&& rm -f $(DESTDIR)$(PREFIX)/lib/node_modules/npm/{AUTHORS,CHANGELOG.md,CONTRIBUTING.md,LICENSE,make.bat,Makefile,README.md}
+		&& rm -f $(DESTDIR)$(PREFIX)/lib/node_modules/npm/{AUTHORS,CHANGELOG.md,CONTRIBUTING.md,LICENSE,make.bat,Makefile,README.md} \
+		&& sed -i 's/^\#\!\/usr\/bin\/env python$/\#\!\/usr\/bin\/env python3/' `find $(DESTDIR)/ -name '*.py'` \
+		&& sed -i 's/^\#\!\/usr\/bin\/python$/\#\!\/usr\/bin\/python3/' `find $(DESTDIR)/ -name '*.py'`
 
 override_dh_auto_clean:
 	dh_clean

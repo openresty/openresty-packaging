@@ -20,6 +20,7 @@ AutoReqProv: no
 %define     _prefix /usr/local/openresty-nodejs
 %define     zlib_prefix     /opt/openresty-saas/zlib
 %define     openssl_prefix  /opt/openresty-saas/openssl111
+%define     py3_prefix  /usr/local/openresty-python3
 
 
 %description
@@ -91,9 +92,9 @@ export CC="ccache gcc"
 export CXX="ccache g++"
 export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-pointer-checks -D_LARGEFILE_SOURCE'
 export CXXFLAGS="$CFLAGS"
-export PATH="$PATH:/usr/local/openresty-python3/bin"
+export PATH="%{py3_prefix}/bin:$PATH"
 
-./configure --prefix=%{_prefix} --without-dtrace \
+${py3_prefix}/bin/python3 ./configure --prefix=%{_prefix} --without-dtrace \
     --shared \
     --with-intl=small-icu --gdb \
     --shared-zlib --shared-zlib-includes=%{zlib_prefix}/include \
@@ -109,13 +110,17 @@ make V=0 BUILDTYPE=Release \
 export PATH="$PATH:/usr/local/openresty-python3/bin"
 
 rm -rf %{buildroot}
-python3 tools/install.py install '%{buildroot}' '%{_prefix}'
+${py3_prefix}/bin/python3 tools/install.py install '%{buildroot}' '%{_prefix}'
 install -m 0755 out/Release/node %{buildroot}%{_prefix}/bin/
 (cd %{buildroot}%{_prefix}/lib; ln -sf libnode.so.88 libnode.so)
 
 rm -rf %{buildroot}%{_prefix}/share
 rm -rf %{buildroot}%{_prefix}/lib/node_modules/npm/{docs,man,changelogs}
 rm -f %{buildroot}%{_prefix}/lib/node_modules/npm/{AUTHORS,CHANGELOG.md,CONTRIBUTING.md,LICENSE,make.bat,Makefile,README.md}
+
+sed -i 's/^\#\!\/usr\/bin\/env python$/\#\!\/usr\/bin\/env python3/' `find %{buildroot}/ -name '*.py'`
+sed -i 's/^\#\!\/usr\/bin\/python$/\#\!\/usr\/bin\/python3/' `find %{buildroot}/ -name '*.py'`
+
 
 %files
 %attr(0755,root,root) %{_prefix}/bin/node
