@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        1.16.4
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        BSD
