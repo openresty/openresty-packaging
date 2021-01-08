@@ -2,14 +2,14 @@ Source: openresty-python3-numpy
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), liblapack-dev, gfortran, gcc, openresty-python3-dev, libatlas-base-dev, openresty-python3-setuptools, openresty-python3-cython
+Build-Depends: debhelper (>= 9), liblapack-dev, gfortran, gcc, openresty-python3-dev, openresty-python3-setuptools, openresty-python3-cython
 Standards-Version: 3.9.8
 Homepage: http://www.numpy.org/
 
 Package: openresty-python3-numpy
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3, libatlas3-base
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3
 Description: OpenResty's fork of numpy
  OpenResty's fork of numpy.
  NumPy is a general-purpose array-processing package designed to
