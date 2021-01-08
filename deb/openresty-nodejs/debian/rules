@@ -22,20 +22,20 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0
-	export LDFLAGS="$(LDFLAGS) -Wl,-rpath,$(OPENSSL_PREFIX)/lib:$(ZLIB_PREFIX)/lib:$(PREFIX)/lib"
-	export CC="ccache gcc"
-	export CXX="ccache g++"
-	export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-pointer-checks -D_LARGEFILE_SOURCE'
-	export CXXFLAGS="$(CFLAGS)"
-	export PATH="$(PY3_PREFIX)/bin:$(PATH)"
+	export PYTHON_DISALLOW_AMBIGUOUS_VERSION=0; \
+	export LDFLAGS="$(LDFLAGS) -Wl,-rpath,$(OPENSSL_PREFIX)/lib:$(ZLIB_PREFIX)/lib:$(PREFIX)/lib"; \
+	export CC="ccache gcc"; \
+	export CXX="ccache g++"; \
+	export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-pointer-checks -D_LARGEFILE_SOURCE'; \
+	export CXXFLAGS="$(CFLAGS)"; \
+	export PATH="$(PY3_PREFIX)/bin:$(PATH)"; \
 	$(PY3_PREFIX)/bin/python3 ./configure --prefix=$(PREFIX) --without-dtrace \
 		--shared \
 		--with-intl=small-icu --gdb \
 		--shared-zlib --shared-zlib-includes=$(ZLIB_PREFIX)/include \
 		--shared-zlib-libpath=$(ZLIB_PREFIX)/lib \
 		--shared-openssl --shared-openssl-includes=$(OPENSSL_PREFIX)/include \
-		--shared-openssl-libpath=$(OPENSSL_PREFIX)/lib
+		--shared-openssl-libpath=$(OPENSSL_PREFIX)/lib && \
 	make V=0 BUILDTYPE=Release \
 		LD_LIBRARY_PATH="$(ZLIB_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(LD_LIBRARY_PATH)" \
 		-j`nproc`
