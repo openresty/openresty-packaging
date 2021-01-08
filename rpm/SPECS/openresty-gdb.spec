@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        10.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -83,6 +83,7 @@ This is OpenResty's gdb package.
 
 %prep
 %setup -q -n gdb-%{version}
+%patch0 -p1
 
 
 %build
