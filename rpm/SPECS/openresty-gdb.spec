@@ -1,12 +1,13 @@
 Name:           openresty-gdb
 Version:        10.1
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
 Group:          Development/Debuggers
 URL:            https://www.gnu.org/home.en.html
 Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
+Patch0:         gdb-10.1-no_bp_src_loc_print.patch
 
 AutoReqProv:    no
 
