@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        10.1
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
