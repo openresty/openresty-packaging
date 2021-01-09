@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.9
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -34,6 +34,8 @@ BuildRequires: libffi-devel
 %endif
 
 %else
+
+BuildRequires: libffi-devel
 BuildRequires: bzip2-devel
 Requires: libuuid
 %endif
