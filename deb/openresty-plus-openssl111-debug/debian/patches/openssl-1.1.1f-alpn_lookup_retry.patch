@@ -1,0 +1,144 @@
+From 0c07e0d22b3320ba66f6b14d49c00d795f48584e Mon Sep 17 00:00:00 2001
+From: Zi Lin <zzephur@protonmail.com>
+Date: Tue, 20 Oct 2020 03:59:09 +0000
+Subject: [PATCH 2/2] add retry logic for alpn lookup
+
+---
+ include/openssl/ssl.h    |  3 +++
+ ssl/ssl_lib.c            |  2 ++
+ ssl/statem/statem.c      |  3 +++
+ ssl/statem/statem.h      |  2 ++
+ ssl/statem/statem_srvr.c | 21 ++++++++++++++++++---
+ 5 files changed, 28 insertions(+), 3 deletions(-)
+
+diff --git a/include/openssl/ssl.h b/include/openssl/ssl.h
+index 1519878cd7..75c9c1e85c 100644
+--- a/include/openssl/ssl.h
++++ b/include/openssl/ssl.h
+@@ -897,6 +897,7 @@ __owur int SSL_extension_supported(unsigned int ext_type);
+ # define SSL_ASYNC_NO_JOBS      6
+ # define SSL_CLIENT_HELLO_CB    7
+ # define SSL_SESS_LOOKUP        99
++# define PENDING_ALPN_LOOKUP    100
+ 
+ /* These will only be used when doing non-blocking IO */
+ # define SSL_want_nothing(s)         (SSL_want(s) == SSL_NOTHING)
+@@ -907,6 +908,7 @@ __owur int SSL_extension_supported(unsigned int ext_type);
+ # define SSL_want_async_job(s)       (SSL_want(s) == SSL_ASYNC_NO_JOBS)
+ # define SSL_want_client_hello_cb(s) (SSL_want(s) == SSL_CLIENT_HELLO_CB)
+ # define SSL_want_sess_lookup(s)     (SSL_want(s) == SSL_SESS_LOOKUP)
++# define SSL_want_alpn_lookup(s)     (SSL_want(s) == PENDING_ALPN_LOOKUP)
+ 
+ # define SSL_MAC_FLAG_READ_MAC_STREAM 1
+ # define SSL_MAC_FLAG_WRITE_MAC_STREAM 2
+@@ -1194,6 +1196,7 @@ DECLARE_PEM_rw(SSL_SESSION, SSL_SESSION)
+ # define SSL_ERROR_WANT_CLIENT_HELLO_CB 11
+ # define SSL_ERROR_WANT_SESSION_LOOKUP  99
+ # define SSL_ERROR_PENDING_SESSION      99 /* BoringSSL compatibility */
++# define SSL_ERROR_PENDING_ALPN         100
+ # define SSL_CTRL_SET_TMP_DH                     3
+ # define SSL_CTRL_SET_TMP_ECDH                   4
+ # define SSL_CTRL_SET_TMP_DH_CB                  6
+diff --git a/ssl/ssl_lib.c b/ssl/ssl_lib.c
+index 8a2490bf37..0aac305a42 100644
+--- a/ssl/ssl_lib.c
++++ b/ssl/ssl_lib.c
+@@ -3623,6 +3623,8 @@ int SSL_get_error(const SSL *s, int i)
+         return SSL_ERROR_WANT_CLIENT_HELLO_CB;
+     if (SSL_want_sess_lookup(s))
+         return SSL_ERROR_WANT_SESSION_LOOKUP;
++    if (SSL_want_alpn_lookup(s))
++        return SSL_ERROR_PENDING_ALPN;
+ 
+     if ((s->shutdown & SSL_RECEIVED_SHUTDOWN) &&
+         (s->s3->warn_alert == SSL_AD_CLOSE_NOTIFY))
+diff --git a/ssl/statem/statem.c b/ssl/statem/statem.c
+index 20f5bd584e..15675bf051 100644
+--- a/ssl/statem/statem.c
++++ b/ssl/statem/statem.c
+@@ -668,6 +668,7 @@ static SUB_STATE_RETURN read_state_machine(SSL *s)
+                 /* Fall through */
+             case WORK_MORE_A:
+             case WORK_MORE_B:
++            case WORK_MORE_B2:
+             case WORK_MORE_C:
+                 return SUB_STATE_ERROR;
+ 
+@@ -813,6 +814,7 @@ static SUB_STATE_RETURN write_state_machine(SSL *s)
+                 /* Fall through */
+             case WORK_MORE_A:
+             case WORK_MORE_B:
++            case WORK_MORE_B2:
+             case WORK_MORE_C:
+                 return SUB_STATE_ERROR;
+ 
+@@ -874,6 +876,7 @@ static SUB_STATE_RETURN write_state_machine(SSL *s)
+                 /* Fall through */
+             case WORK_MORE_A:
+             case WORK_MORE_B:
++            case WORK_MORE_B2:
+             case WORK_MORE_C:
+                 return SUB_STATE_ERROR;
+ 
+diff --git a/ssl/statem/statem.h b/ssl/statem/statem.h
+index 144d930fc7..4a48b92dc0 100644
+--- a/ssl/statem/statem.h
++++ b/ssl/statem/statem.h
+@@ -28,6 +28,8 @@ typedef enum {
+     WORK_MORE_A,
+     /* We're working on phase B */
+     WORK_MORE_B,
++    /* We're working on phase B2 */
++    WORK_MORE_B2,
+     /* We're working on phase C */
+     WORK_MORE_C
+ } WORK_STATE;
+diff --git a/ssl/statem/statem_srvr.c b/ssl/statem/statem_srvr.c
+index ec96640fdc..0742f8b518 100644
+--- a/ssl/statem/statem_srvr.c
++++ b/ssl/statem/statem_srvr.c
+@@ -2185,6 +2185,9 @@ int tls_handle_alpn(SSL *s)
+                                            (unsigned int)s->s3->alpn_proposed_len,
+                                            s->ctx->ext.alpn_select_cb_arg);
+ 
++        if (r == PENDING_ALPN_LOOKUP) {
++            return r;
++        }
+         if (r == SSL_TLSEXT_ERR_OK) {
+             OPENSSL_free(s->s3->alpn_selected);
+             s->s3->alpn_selected = OPENSSL_memdup(selected, selected_len);
+@@ -2266,6 +2269,9 @@ WORK_STATE tls_post_process_client_hello(SSL *s, WORK_STATE wst)
+             return WORK_MORE_A;
+         wst = WORK_MORE_B;
+     }
++    if (wst == WORK_MORE_B2) {
++        goto retry;
++    }
+     if (wst == WORK_MORE_B) {
+         if (!s->hit || SSL_IS_TLS13(s)) {
+             /* Let cert callback update server certificates if required */
+@@ -2343,9 +2349,18 @@ WORK_STATE tls_post_process_client_hello(SSL *s, WORK_STATE wst)
+          * we already did this because cipher negotiation happens earlier, and
+          * we must handle ALPN before we decide whether to accept early_data.
+          */
+-        if (!SSL_IS_TLS13(s) && !tls_handle_alpn(s)) {
+-            /* SSLfatal() already called */
+-            goto err;
++        if (!SSL_IS_TLS13(s)) {
++            int rv;
++ retry:
++            rv = tls_handle_alpn(s);
++            if (rv == PENDING_ALPN_LOOKUP) {
++                s->rwstate = PENDING_ALPN_LOOKUP;
++                return WORK_MORE_B2;
++            }
++	    if (!rv) {
++                /* SSLfatal() already called */
++                goto err;
++            }
+         }
+ 
+         wst = WORK_MORE_C;
+-- 
+2.25.1
+

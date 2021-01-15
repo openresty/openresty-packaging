@@ -63,7 +63,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-pcap-clean openresty-tcpdump-clean \
 		openresty-python3-goto-clean openresty-maxminddb-clean \
 		openresty-maxminddb-debug-clean openresty-python3-xray-stats-clean \
-		openresty-nodejs-clean
+		openresty-nodejs-clean openresty-plus-openssl111-clean \
+		openresty-plus-openssl111-debug-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

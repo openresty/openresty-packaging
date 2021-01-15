@@ -3,7 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
- openresty-zlib-dev, openresty-openssl-dev (>= 1.1.0j), openresty-pcre-dev (>= 8.42),
+ openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1i), openresty-pcre-dev (>= 8.42),
  perl, libfile-temp-perl, libgd-dev, libc-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
  libldap-2.4-2, libldap2-dev[% END %]
 Standards-Version: 3.9.8
@@ -45,7 +45,7 @@ Description: OpenResty Package Manager (OPM)
 Package: openresty-plus
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
- openresty-zlib, openresty-openssl (>= 1.1.0j), openresty-pcre (>= 8.42), libgd3[% IF with_lua_ldap %],
+ openresty-zlib, openresty-plus-openssl111 (>= 1.1.1i), openresty-pcre (>= 8.42), libgd3[% IF with_lua_ldap %],
   libldap-2.4-2[% END %],
  openresty-maxminddb (>= 1.4.2.4)
 Description: core server of OpenResty+ for production use

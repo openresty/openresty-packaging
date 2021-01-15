@@ -1,0 +1,3 @@
+usr/local/openresty-plus/openssl111/bin/openssl
+usr/local/openresty-plus/openssl111/lib/*.so*
+usr/local/openresty-plus/openssl111/lib/*/*.so*

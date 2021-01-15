@@ -21,7 +21,7 @@ Requires:       valgrind
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1h-1
+BuildRequires:  openresty-plus-openssl111-debug-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
@@ -36,7 +36,7 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111-debug >= 1.1.1h-1
+Requires:       openresty-plus-openssl111-debug >= 1.1.1h-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-maxminddb >= 1.4.2.3
 # needed by tcc
@@ -59,7 +59,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
+%define openssl_prefix      %{_usr}/local/openresty-plus-debug/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 

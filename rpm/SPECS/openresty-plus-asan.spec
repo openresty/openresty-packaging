@@ -25,7 +25,7 @@ BuildRequires:  ccache, gcc, make, perl, valgrind-devel, clang
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1h-1
+BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
@@ -41,7 +41,7 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl111-asan >= 1.1.1h-1
+Requires:       openresty-plus-openssl111-asan >= 1.1.1h-1
 Requires:       openresty-pcre-asan >= 8.44-1
 BuildRequires:  openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-asan >= 1.4.2.3
@@ -65,7 +65,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-asan/openssl111
+%define openssl_prefix      %{_usr}/local/openresty-plus-asan/openssl111
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
 
