@@ -1,3 +1,9 @@
+openresty-plus (1.19.3.1.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.3.1.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 15 Jan 2021 19:54:47 -0800
+
 openresty-plus (1.19.3.1.6-2~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded packaging script to include lua-resty-ldap, lua-resty-session,
