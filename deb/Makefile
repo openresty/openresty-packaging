@@ -377,7 +377,7 @@ openresty-plus-build: | openresty-plus-clean openresty-plus-download
 ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
@@ -464,7 +464,7 @@ openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-do
 ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl-debug-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
 	cd openresty-plus-debug \
