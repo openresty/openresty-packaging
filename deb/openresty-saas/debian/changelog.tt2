@@ -1,3 +1,9 @@
+openresty-saas (1.19.3.1.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-plus to 1.19.3.1.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 21 Jan 2021 13:10:29 -0800
+
 openresty-saas (1.19.3.1.6-2~[% distro %]1) [% distro %]; urgency=high
 
   * use openresty-{zlib,pcre} instead of openresty-saas-{zlib,pcre}.
