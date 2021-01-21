@@ -9,8 +9,8 @@ export QA_RPATHS=$[ 0x0002 ]
 export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
-ZLIB_PREFIX = /opt/openresty-saas/zlib
-PCRE_PREFIX = /opt/openresty-saas/pcre
+ZLIB_PREFIX = /usr/local/openresty/zlib
+PCRE_PREFIX = /usr/local/openresty/pcre
 OPENSSL_PREFIX = /opt/openresty-saas/openssl111
 
 %:
