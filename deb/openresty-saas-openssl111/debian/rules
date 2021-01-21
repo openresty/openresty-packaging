@@ -5,6 +5,7 @@
 
 # see EXAMPLES in dpkg-buildflags(1) and read /usr/share/dpkg/*
 DPKG_EXPORT_BUILDFLAGS = 1
+ZLIB_PREFIX = /usr/local/openresty/zlib
 include /usr/share/dpkg/default.mk
 
 # see FEATURE AREAS in dpkg-buildflags(1)
@@ -34,9 +35,9 @@ override_dh_auto_configure:
 	  enable-ssl3 enable-ssl3-method \
 	  --prefix=/opt/openresty-saas/openssl111 \
 	  --libdir=lib \
-	  -I/opt/openresty-saas/zlib/include \
-	  -L/opt/openresty-saas/zlib/lib \
-	  -Wl,-rpath,/opt/openresty-saas/zlib/lib:/opt/openresty-saas/openssl111/lib
+	  -I$(ZLIB_PREFIX)/include \
+	  -L$(ZLIB_PREFIX)/lib \
+	  -Wl,-rpath,$(ZLIB_PREFIX)/lib:/opt/openresty-saas/openssl111/lib
 
 override_dh_usrlocal:
 
