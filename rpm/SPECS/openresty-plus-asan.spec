@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The clang AddressSanitizer version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -43,7 +43,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib-asan >= 1.2.11-6
 Requires:       openresty-plus-openssl111-asan >= 1.1.1h-1
 Requires:       openresty-pcre-asan >= 8.44-1
-BuildRequires:  openresty-yajl >= 2.1.0.4
+Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-asan >= 1.4.2.3
 # needed by tcc
 Requires:       glibc-devel

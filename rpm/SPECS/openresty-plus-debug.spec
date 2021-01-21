@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.19.3.1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -42,7 +42,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl111-debug >= 1.1.1i-1
 Requires:       openresty-pcre >= 8.44-1
-BuildRequires:  openresty-yajl >= 2.1.0.4
+Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-debug >= 1.4.2.4
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
