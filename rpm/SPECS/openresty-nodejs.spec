@@ -1,6 +1,6 @@
 Name:       openresty-nodejs
 Version:    15.4.0
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenResty's fork of JavaScript runtime
 License:    MIT and ASL 2.0 and ISC and BSD
 Group:      Development/Languages
@@ -68,7 +68,7 @@ This Node.js build is specifically for OpenResty uses.
 %package devel
 Summary: JavaScript runtime - development headers
 Group: Development/Languages
-Requires: %{name} = %{version}-%{release}%{?dist}
+Requires: %{name} = %{version}-%{release}
 
 %description devel
 Development headers for the OpenResty's fork of Node.js.
