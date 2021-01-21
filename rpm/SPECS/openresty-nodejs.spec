@@ -10,15 +10,15 @@ Source0:    https://nodejs.org/dist/v%{version}/node-v%{version}.tar.xz
 
 BuildRequires: openresty-python3 >= 3.7.9-13
 BuildRequires: ccache, gcc, gcc-c++
-BuildRequires: openresty-saas-zlib-devel
+BuildRequires: openresty-zlib-devel
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1i
-Requires: openresty-saas-zlib
+Requires: openresty-zlib
 Requires: openresty-saas-openssl111 >= 1.1.1i
 
 AutoReqProv: no
 
 %define     _prefix /usr/local/openresty-nodejs
-%define     zlib_prefix     /opt/openresty-saas/zlib
+%define     zlib_prefix     /usr/local/openresty/zlib
 %define     openssl_prefix  /opt/openresty-saas/openssl111
 %define     py3_prefix  /usr/local/openresty-python3
 
@@ -94,7 +94,7 @@ export CFLAGS='-g -O2 -D_FILE_OFFSET_BITS=64 -DZLIB_CONST -fno-delete-null-point
 export CXXFLAGS="$CFLAGS"
 export PATH="%{py3_prefix}/bin:$PATH"
 
-${py3_prefix}/bin/python3 ./configure --prefix=%{_prefix} --without-dtrace \
+%{py3_prefix}/bin/python3 ./configure --prefix=%{_prefix} --without-dtrace \
     --shared \
     --with-intl=small-icu --gdb \
     --shared-zlib --shared-zlib-includes=%{zlib_prefix}/include \
@@ -110,7 +110,7 @@ make V=0 BUILDTYPE=Release \
 export PATH="$PATH:/usr/local/openresty-python3/bin"
 
 rm -rf %{buildroot}
-${py3_prefix}/bin/python3 tools/install.py install '%{buildroot}' '%{_prefix}'
+%{py3_prefix}/bin/python3 tools/install.py install '%{buildroot}' '%{_prefix}'
 install -m 0755 out/Release/node %{buildroot}%{_prefix}/bin/
 (cd %{buildroot}%{_prefix}/lib; ln -sf libnode.so.88 libnode.so)
 
