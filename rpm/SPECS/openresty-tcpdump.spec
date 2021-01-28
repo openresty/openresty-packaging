@@ -63,7 +63,8 @@ export CC="ccache gcc -fdiagnostics-color=always -I%{pcap_prefix}/include"
 export CFLAGS="-g3 $RPM_OPT_FLAGS $(getconf LFS_CFLAGS) -fno-strict-aliasing -DHAVE_GETNAMEINFO -I%{pcap_prefix}/include"
 export LDFLAGS="-L%{pcap_prefix}/lib -Wl,-rpath,%{pcap_prefix}/lib"
 
-./configure --with-user=tcpdump --without-smi --prefix=%{tcpdump_prefix} --with-system-libpcap
+./configure --with-user=tcpdump --without-smi --prefix=%{tcpdump_prefix} --with-system-libpcap \
+--without-crypto
 make %{?_smp_mflags}
 
 %install

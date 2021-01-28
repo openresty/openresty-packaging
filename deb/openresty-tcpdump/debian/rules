@@ -21,7 +21,7 @@ override_dh_auto_build:
 	export CC="ccache gcc -I/usr/local/openresty-pcap/include" \
 		&& export CFLAGS="-g3 $(getconf LFS_CFLAGS) -fno-strict-aliasing -DHAVE_GETNAMEINFO -I/usr/local/openresty-pcap/include" \
 		&& export LDFLAGS="-L/usr/local/openresty-pcap/lib -Wl,-rpath,/usr/local/openresty-pcap/lib" \
-		&& ./configure --with-user=tcpdump --without-smi --prefix=/usr/local/openresty-tcpdump --with-system-libpcap \
+		&& ./configure --with-user=tcpdump --without-smi --prefix=/usr/local/openresty-tcpdump --with-system-libpcap --without-crypto\
 		&& make -j`nproc`
 
 override_dh_auto_install:
