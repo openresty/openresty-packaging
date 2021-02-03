@@ -8,3 +8,4 @@ usr/local/openresty-utils/bin/read-umem
 usr/local/openresty-utils/bin/shm-warmup
 usr/local/openresty-utils/bin/shared-pages
 usr/local/openresty-utils/bin/read-kern-bid
+usr/local/openresty-utils/bin/fs-fgraph

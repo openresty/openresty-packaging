@@ -73,6 +73,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/shm-warmup
 %{prefix}/bin/shared-pages
 %{prefix}/bin/read-kern-bid
+%{prefix}/bin/fs-fgraph
 
 
 %changelog
