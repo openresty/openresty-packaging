@@ -20,6 +20,7 @@ openresty-util-linux-clean:
 .PHONY: openresty-util-linux-build
 openresty-util-linux-build: openresty-util-linux-clean openresty-util-linux-download
 	sudo apt-get -y -q install gettext libselinux-dev ncurses-dev pkg-config
+	sudo apt-get -y -q --only-upgrade install gettext libselinux-dev ncurses-dev pkg-config
 	rm -f *.deb *.debian.tar.gz *.dsc *.changes
 	tar xf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz --strip-components=1 -C openresty-util-linux
 	cd openresty-util-linux \
