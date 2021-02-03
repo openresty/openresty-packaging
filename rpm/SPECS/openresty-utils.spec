@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -12,7 +12,8 @@ URL:            https://www.openresty.com
 
 Source0:        %{name}-%{version}.tar.gz
 
-BuildRequires:  ccache, gcc, make
+BuildRequires:  ccache, gcc, make, openresty-pcre-devel
+Requires:       openresty-pcre
 
 %description
 OpenResty Utils
