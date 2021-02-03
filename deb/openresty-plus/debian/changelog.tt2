@@ -1,3 +1,9 @@
+openresty-plus (1.19.3.1.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.3.1.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 3 Feb 2021 00:06:01 -0800
+
 openresty-plus (1.19.3.1.7-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.19.3.1.7.
