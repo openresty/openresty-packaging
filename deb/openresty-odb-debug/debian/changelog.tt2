@@ -1,3 +1,9 @@
+openresty-odb-debug (0.23-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded odb to 0.23.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 3 Feb 2021 21:52:36 -0800
+
 openresty-odb-debug (0.22-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded odb to 0.22.
