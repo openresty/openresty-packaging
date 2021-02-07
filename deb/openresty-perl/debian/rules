@@ -1,0 +1,73 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-perl
+PRIVLIB = $(PREFIX)/share/perl5
+ARCHLIB = $(PREFIX)/lib/perl5
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	/bin/sh Configure -des -Doptimize="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic" \
+        -Dmyhostname=build.openresty.org \
+        -Dcc='ccache gcc' \
+        -Dcf_by='orinc' \
+        -Dinstallprefix=$(PREFIX) \
+        -Dprefix=$(PREFIX) \
+        -Darchname=%{_arch}-%{_os} \
+        -Dvendorprefix=$(PREFIX) \
+        -Dsiteprefix=$(PREFIX) \
+        -Dprivlib="$(PRIVLIB)" \
+        -Darchlib="$(ARCHLIB)" \
+        -Duseshrplib \
+        -Dusethreads \
+        -Duseithreads \
+        -Duselargefiles \
+        -Dd_dosuid=n \
+        -Dd_semctl_semun \
+        -Di_shadow \
+        -Di_syslog \
+        -Dman3ext=3pm \
+        -Duseperlio \
+        -Dinstallusrbinperl=n \
+        -Ubincompat5005 \
+        -Uversiononly \
+        -Dpager='/usr/bin/less -isr' \
+        -Dd_gethostent_r_proto -Ud_endhostent_r_proto -Ud_sethostent_r_proto \
+        -Ud_endprotoent_r_proto -Ud_setprotoent_r_proto \
+        -Ud_endservent_r_proto -Ud_setservent_r_proto \
+        -Dscriptdir='/usr/local/openresty-perl/bin' \
+		&& make -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& make install.perl DESTDIR=$(DESTDIR) \
+		&& find $(DESTDIR) -type f -name '*.bs' -empty -delete \
+		&& find $(DESTDIR) -type f -name '*.pod' -delete \
+		&& find $(DESTDIR) -type f \( -name '*.pm' -or -name '*.pl' \) \
+			| xargs -r sed -i -nE '/^=\w/,/^=cut/!p'
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-perl-dbgsym
+
+override_dh_install:
+	dh_install -Xbin/h2xs$ \
+        -Xbin/perlivp$ \
+        -Xperl5/CORE/[^/]+.h

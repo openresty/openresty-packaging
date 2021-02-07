@@ -1,0 +1,3 @@
+usr/local/openresty-perl/bin/h2xs
+usr/local/openresty-perl/bin/perlivp
+usr/local/openresty-perl/lib/perl5/CORE/*.h

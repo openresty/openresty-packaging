@@ -1,0 +1,39 @@
+Source: openresty-perl
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, gawk, sed, procps, zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: http://www.perl.org/
+
+Package: openresty-perl
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of Perl programming language
+ Perl is a high-level programming language with roots in C, sed, awk
+ and shell scripting.  Perl is good at handling processes and files,
+ and is especially good at handling text.  Perl's hallmarks are
+ practicality and efficiency.  While it is used to do a lot of
+ different things, Perl's most common applications are system
+ administration utilities and web programming.  A large proportion of
+ the CGI scripts on the web are written in Perl.  You need the perl
+ package installed on your system so that your system can handle Perl
+ scripts.
+ Install this package if you want to program in Perl or enable your
+ system to handle Perl scripts.
+ This Perl build is specifically for OpenResty uses.
+
+Package: openresty-perl-dev
+Architecture: any
+Section: interpreters
+Depends: ${misc:Depends}, openresty-perl (>= ${source:Version})
+Description: Perl programming Language - development headers
+ Development headers for the OpenResty's fork of Perl.
+
+Package: openresty-perl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl (>= ${source:Version})
+Description: Debug symbols for the openresty-perl package
+ Debug symbols (or debuginfo) for the openresty-perl package.

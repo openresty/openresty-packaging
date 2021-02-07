@@ -1,0 +1,6 @@
+openresty-perl (5.24.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for perl 5.24.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 7 Feb 2021 23:51:00 +0800
+
