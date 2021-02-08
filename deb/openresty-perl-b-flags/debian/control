@@ -1,0 +1,22 @@
+Source: openresty-perl-b-flags
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/B-Flags/
+
+Package: openresty-perl-b-flags
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: Friendlier flags for B
+ Stringification of flags.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-b-flags-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-b-flags (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-b-flags package
+ Debug symbols (or debuginfo) for the openresty-perl-b-flags package.

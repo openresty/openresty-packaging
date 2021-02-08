@@ -1,0 +1,25 @@
+Source: openresty-perl-ipc-run
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-readonly
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/IPC-Run/
+
+Package: openresty-perl-ipc-run
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl-io-tty (>= 1.08), openresty-perl (>= 5.24.4)
+Description: system() and background procs w/ piping, redirs, ptys (Unix, Win32)
+ IPC::Run allows you to run and interact with child processes using files,
+ pipes, and pseudo-ttys. Both system()-style and scripted usages are
+ supported and may be mixed. Likewise, functional and OO API styles are both
+ supported and may be mixed.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-ipc-run-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-ipc-run (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-ipc-run package
+ Debug symbols (or debuginfo) for the openresty-perl-ipc-run package.

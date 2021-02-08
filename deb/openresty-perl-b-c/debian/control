@@ -1,0 +1,29 @@
+Source: openresty-perl-b-c
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-b-flags (>= 0.15), openresty-perl-ipc-run, openresty-perl-opcodes, openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/B-C/
+
+Package: openresty-perl-b-c
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-b-flags (>= 0.15), openresty-perl-ipc-run, openresty-perl-opcodes
+Description: Perl compiler
+ This compiler backend takes Perl source and generates C source code
+ corresponding to the internal structures that perl uses to run your
+ program. When the generated C source is compiled and run, it cuts out the
+ time which perl would have taken to load and parse your program into its
+ internal semi-compiled form. That means that compiling with this backend
+ will not help improve the runtime execution speed of your program but may
+ improve the start-up time. Depending on the environment in which your
+ program runs this may be either a help or a hindrance.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-b-c-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-b-c (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-b-c package
+ Debug symbols (or debuginfo) for the openresty-perl-b-c package.

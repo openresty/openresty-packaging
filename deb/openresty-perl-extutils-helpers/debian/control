@@ -1,0 +1,23 @@
+Source: openresty-perl-extutils-helpers
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/ExtUtils-Helpers/
+
+Package: openresty-perl-extutils-helpers
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: Various portability utilities for module builders
+ This module provides various portable helper functions for module building
+ modules.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-extutils-helpers-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-extutils-helpers (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-extutils-helpers package
+ Debug symbols (or debuginfo) for the openresty-perl-extutils-helpers package.

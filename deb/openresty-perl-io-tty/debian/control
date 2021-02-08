@@ -1,0 +1,24 @@
+Source: openresty-perl-io-tty
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/IO-Tty/
+
+Package: openresty-perl-io-tty
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: Pseudo ttys and constants
+ IO::Tty is used internally by IO::Pty to create a pseudo-tty. You
+ wouldn't want to use it directly except to import constants, use
+ IO::Pty. For a list of importable constants, see L<IO::Tty::Constant>.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-io-tty-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-io-tty (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-io-tty package
+ Debug symbols (or debuginfo) for the openresty-perl-io-tty package.

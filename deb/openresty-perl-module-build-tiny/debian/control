@@ -1,0 +1,25 @@
+Source: openresty-perl-module-build-tiny
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-extutils-config (>= 0.003), openresty-perl-extutils-helpers (>= 0.020), openresty-perl-extutils-installpaths (>= 0.002)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/Module-Build-Tiny/
+
+Package: openresty-perl-module-build-tiny
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-extutils-config (>= 0.003), openresty-perl-extutils-helpers (>= 0.020), openresty-perl-extutils-installpaths (>= 0.002)
+Description: A tiny replacement for Module::Build
+ Many Perl distributions use a Build.PL file instead of a Makefile.PL file
+ to drive distribution configuration, build, test and installation.
+ Traditionally, Build.PL uses Module::Build as the underlying build system.
+ This module provides a simple, lightweight, drop-in replacement.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-module-build-tiny-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-module-build-tiny (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-module-build-tiny package
+ Debug symbols (or debuginfo) for the openresty-perl-module-build-tiny package.

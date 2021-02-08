@@ -1,0 +1,22 @@
+Source: openresty-perl-extutils-installpaths
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-extutils-config (>= 0.008)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/ExtUtils-InstallPaths/
+
+Package: openresty-perl-extutils-installpaths
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-extutils-config (>= 0.008)
+Description: Build.PL install path logic made easy
+ This module tries to make install path resolution as easy as possible.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-extutils-installpaths-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-extutils-installpaths (>= ${source:Version})
+Description: Debug symbols for the openresty-perl-extutils-installpaths package
+ Debug symbols (or debuginfo) for the openresty-perl-extutils-installpaths package.

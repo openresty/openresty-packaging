@@ -64,7 +64,14 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-python3-goto-clean openresty-maxminddb-clean \
 		openresty-maxminddb-debug-clean openresty-python3-xray-stats-clean \
 		openresty-nodejs-clean openresty-plus-openssl111-clean \
-		openresty-plus-openssl111-debug-clean
+		openresty-plus-openssl111-debug-clean openresty-perl-b-c-clean \
+		openresty-perl-b-flags-clean openresty-perl-extutils-config-clean \
+		openresty-perl-extutils-helpers-clean \
+		openresty-perl-extutils-installpaths-clean \
+		openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
+		openresty-perl-module-build-tiny-clean \
+		openresty-perl-opcodes-clean openresty-perl-readonly \
+		openresty-perl-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
