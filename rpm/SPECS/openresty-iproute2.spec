@@ -1,10 +1,11 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               openresty-iproute2
 Version:            4.13.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/iproute2/
 Source0:            http://kernel.org/pub/linux/utils/net/iproute2/iproute2-%{version}.tar.xz
+AutoReqProv:        no
 
 %define _prefix     /usr/local/openresty-iproute2
 %define _sysconfdir %_prefix/etc

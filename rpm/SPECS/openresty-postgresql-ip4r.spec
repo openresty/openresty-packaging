@@ -4,13 +4,14 @@
 
 Name:       openresty-postgresql-%{ext}
 Version:    2.4.1
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    IPv4 and IPv4 range index types for PostgreSQL
 Group:      Productivity/Database
 License:    BSD
 URL:        https://github.com/RhodiumToad/ip4r
 Source0:    https://github.com/RhodiumToad/ip4r/archive/%{version}.tar.gz
 
+AutoReqProv:    no
 BuildRequires:  openresty-postgresql-devel >= 9.6.8
 Requires:       openresty-postgresql >= 9.6.8
 

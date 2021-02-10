@@ -1,12 +1,13 @@
 Name:           openresty-bcc
 Version:        0.5.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        BPF Compiler Collection (BCC)
 
 Group:          Development/Languages
 License:        ASL 2.0
 URL:            https://github.com/iovisor/bcc
 Source0:        https://github.com/iovisor/bcc/archive/v%{version}.tar.gz
+AutoReqProv:    no
 
 %define _prefix /usr/local/openresty-bcc
 %define python_sitelib /lib/python2.7/site-packages

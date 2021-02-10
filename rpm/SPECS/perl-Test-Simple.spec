@@ -1,6 +1,6 @@
 Name:           perl-Test-Simple
 Version:        1.302175
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Basic utilities for writing tests
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -8,6 +8,7 @@ URL:            http://search.cpan.org/dist/Test-Simple/
 Source0:        http://www.cpan.org/authors/id/E/EX/EXODIST/Test-Simple-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+AutoReqProv:    no
 BuildRequires:  perl >= 0:5.006002
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(File::Spec)

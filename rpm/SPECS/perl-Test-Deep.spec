@@ -1,6 +1,6 @@
 Name:           perl-Test-Deep
 Version:        1.128
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Extremely flexible deep comparison
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -8,6 +8,7 @@ URL:            http://search.cpan.org/dist/Test-Deep/
 Source0:        http://www.cpan.org/authors/id/R/RJ/RJBS/Test-Deep-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+AutoReqProv:    no
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(List::Util)
 BuildRequires:  perl(Scalar::Util)

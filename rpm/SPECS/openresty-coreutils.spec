@@ -4,12 +4,13 @@
 Summary:        Basic system utilities
 Name:           openresty-coreutils
 Version:        8.32
-Release:        3%{?dist}
+Release:        4%{?dist}
 License:        GPLv3
 URL:            http://www.gnu.org/software/coreutils
 Group:          System Environment/Base
 Source0:        http://ftp.gnu.org/gnu/coreutils/%{_name}-%{version}.tar.xz
 
+AutoReqProv:    no
 BuildRequires:  ccache, gcc, make
 
 %description

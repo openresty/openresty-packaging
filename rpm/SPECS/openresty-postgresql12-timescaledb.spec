@@ -4,13 +4,14 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    1.7.4
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
 License:    BSD
 URL:        https://github.com/timescale/timescaledb
 Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 
+AutoReqProv:    no
 BuildRequires:  openresty-postgresql12-devel >= 12.4
 Requires:       openresty-postgresql12 >= 12.4
 

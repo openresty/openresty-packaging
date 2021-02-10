@@ -1,6 +1,6 @@
 Name:           perl-Readonly
 Version:        2.05
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Readonly Perl module
 License:        Artistic 2.0
 Group:          Development/Libraries
@@ -8,6 +8,7 @@ URL:            http://search.cpan.org/dist/Readonly/
 Source0:        http://www.cpan.org/authors/id/S/SA/SANKO/Readonly-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+AutoReqProv:    no
 BuildRequires:  perl >= 0:5.005
 BuildRequires:  perl(Module::Build::Tiny)
 BuildRequires:  perl(Test::More)

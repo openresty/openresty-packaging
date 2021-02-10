@@ -1,6 +1,6 @@
 Name:           lua-resty-ebpf-debug
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Lua module for manipulating Linux ebpf programs
 
 Group:          Development/Libraries
@@ -11,6 +11,7 @@ URL:            https://www.openresty.com/
 Source0:        lua-resty-ebpf-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+AutoReqProv:    no
 BuildRequires:  gcc-c++ >= 4.8.5
 BuildRequires:  make
 BuildRequires:  openresty-bcc-devel >= 0.5.0-2

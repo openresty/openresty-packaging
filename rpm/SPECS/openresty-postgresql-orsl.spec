@@ -4,13 +4,14 @@
 
 Name:       openresty-postgresql-%{ext}
 Version:    0.02
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
 Group:      Productivity/Database
 License:    BSD
 URL:        https://github.com/
 Source0:    postgres-orsl-%{version}.tar.gz
 
+AutoReqProv:    no
 BuildRequires:  openresty-postgresql-devel >= 9.6.8
 Requires:       openresty-postgresql >= 9.6.8
 

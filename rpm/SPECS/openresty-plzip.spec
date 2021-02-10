@@ -1,6 +1,6 @@
 Name:           openresty-plzip
 Version:        1.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of plzip.
 
 Group:          Development/System
@@ -14,6 +14,7 @@ URL:            http://www.nongnu.org/lzip/lzip.html
 Source0:        http://download.savannah.gnu.org/releases/lzip/plzip/plzip-%{version}.tar.gz
 Source1:        http://download.savannah.gnu.org/releases/lzip/lzlib/lzlib-%{lzlib_version}.tar.gz
 
+AutoReqProv:    no
 BuildRequires:  ccache, gcc, make, gcc-c++
 
 %description

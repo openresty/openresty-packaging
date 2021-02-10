@@ -1,6 +1,6 @@
 Name:           perl-Test-LongString
 Version:        0.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tests strings for equality, with more helpful failures
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -8,6 +8,7 @@ URL:            http://search.cpan.org/dist/Test-LongString/
 Source0:        http://www.cpan.org/authors/id/R/RG/RGARCIA/Test-LongString-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
+AutoReqProv:    no
 BuildRequires:  perl >= 1:5.8.1
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::Builder)
