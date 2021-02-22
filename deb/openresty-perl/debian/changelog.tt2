@@ -1,3 +1,9 @@
+openresty-perl (5.24.4-2~[% distro %]1) [% distro %]; urgency=high
+
+  * bugfix: fixed archname of perl lib.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 22 Feb 2021 22:24:01 +0800
+
 openresty-perl (5.24.4-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial build for perl 5.24.4.

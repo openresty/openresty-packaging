@@ -27,7 +27,6 @@ override_dh_auto_build:
         -Dcf_by='orinc' \
         -Dinstallprefix=$(PREFIX) \
         -Dprefix=$(PREFIX) \
-        -Darchname=%{_arch}-%{_os} \
         -Dvendorprefix=$(PREFIX) \
         -Dsiteprefix=$(PREFIX) \
         -Dprivlib="$(PRIVLIB)" \
