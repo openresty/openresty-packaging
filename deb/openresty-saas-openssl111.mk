@@ -19,7 +19,8 @@ openresty-saas-openssl111-clean:
 
 .PHONY: openresty-saas-openssl111-build
 openresty-saas-openssl111-build: openresty-saas-openssl111-clean openresty-saas-openssl111-download
-	sudo apt-get -y -q install gcc make perl openresty-zlib-dev
+	sudo apt-get -y -q install gcc make perl openresty-saas-zlib-dev
+	sudo apt-get -y -q --only-upgrade install gcc make perl openresty-saas-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-saas-openssl111_$(OPENRESTY_SAAS_OPENSSL111_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl111
 	cd openresty-saas-openssl111 \

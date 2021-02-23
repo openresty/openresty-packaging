@@ -1,6 +1,6 @@
 Name:           openresty-odb
 Version:        0.23
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty Debugger based on ptrace
 Group:          Development/System
 License:        Proprietary
@@ -20,8 +20,8 @@ AutoReqProv:    no
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: ccache, gcc-c++
-BuildRequires: openresty-pcre-devel
-Requires: openresty-pcre
+BuildRequires: openresty-saas-pcre-devel
+Requires: openresty-saas-pcre
 
 %description
 OpenResty Debugger based on ptrace

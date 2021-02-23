@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PCRE_PREFIX = /opt/openresty-saas/pcre
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -20,7 +21,8 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	make -j`nproc` \
 		CC='ccache gcc' \
-		CFLAGS="-O3 -g3 -std=gnu99"
+		CFLAGS="-O3 -g3 -std=gnu99" \
+		PCRE_PREFIX=$(PCRE_PREFIX)
 
 override_dh_auto_install:
 	make install \

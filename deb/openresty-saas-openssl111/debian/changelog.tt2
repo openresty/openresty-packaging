@@ -1,3 +1,9 @@
+openresty-saas-openssl111 (1.1.1i-3~[% distro %]1) [% distro %]; urgency=high
+
+  * use openresty-saas-zlib instead of openresty-zlib.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 23 Feb 2021 14:30:56 +0800
+
 openresty-saas-openssl111 (1.1.1i-2~[% distro %]1) [% distro %]; urgency=high
 
   * use openresty-zlib instead of openresty-saas-zlib.

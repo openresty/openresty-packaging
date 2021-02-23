@@ -9,6 +9,7 @@ export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-odb
+PCRE_PREFIX = /opt/openresty-saas/pcre
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -22,7 +23,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	make -j$(JOBS) \
 		CXX='ccache g++' \
-		PCRE=/opt/openresty-saas/pcre \
+		PCRE=$(PCRE_PREFIX) \
 		libodb-runtime.so
 
 override_dh_auto_install:

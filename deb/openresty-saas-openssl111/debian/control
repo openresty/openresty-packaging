@@ -2,13 +2,13 @@ Source: openresty-saas-openssl111
 Section: libs
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), autotools-dev, openresty-zlib-dev
+Build-Depends: debhelper (>= 9), autotools-dev, openresty-saas-zlib-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openssl.org/
 
 Package: openresty-saas-openssl111
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib
 Description: OpenSSL 1.1.1 library for use by OpenResty SaaS ONLY
  This OpenSSL 1.1.1 library build is specifically for OpenResty SaaS uses.
  It contains custom patches from OpenResty.

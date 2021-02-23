@@ -2,14 +2,14 @@ Source: openresty-odb-debug
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, g++, openresty-pcre-dev
+Build-Depends: debhelper (>= 9), ccache, g++, openresty-saas-pcre-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
 Package: openresty-odb-debug
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcre
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-pcre
 Description: The debug version of OpenResty Debugger based on ptrace
  The debug version of OpenResty Debugger based on ptrace
 

@@ -1,6 +1,6 @@
 Name:               openresty-saas-openssl111
 Version:            1.1.1i
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            OpenSSL library for OpenResty SaaS
 
 Group:              Development/Libraries
@@ -17,13 +17,13 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
-BuildRequires:      openresty-zlib-devel >= 1.2.11
-Requires:           openresty-zlib >= 1.2.11
+BuildRequires:      openresty-saas-zlib-devel >= 1.2.11
+Requires:           openresty-saas-zlib >= 1.2.11
 
 AutoReqProv:        no
 
 %define openssl_prefix      /opt/openresty-saas/openssl111
-%define zlib_prefix         /usr/local/openresty/zlib
+%define zlib_prefix         /opt/openresty-saas/zlib
 %global _default_patch_fuzz 1
 
 
@@ -127,6 +127,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Feb 23 2021 Johnny Wang (jiahao) 1.1.1i-4
+- use openresty-saas-zlib instead of openresty-zlib.
 * Thu Jan 21 2021 Johnny Wang (jiahao) 1.1.1i-3
 - use openresty-zlib instead of openresty-saas-zlib.
 * Mon Dec 21 2020 Yichun Zhang (agentzh) 1.1.1i-1

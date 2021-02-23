@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.20
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -8,13 +8,14 @@ License:        Proprietary
 URL:            https://www.openresty.com
 
 %define prefix  %{_usr}/local/openresty-utils
+%define pcre_prefix /opt/openresty-saas/pcre
 
 
 Source0:        %{name}-%{version}.tar.gz
 
 AutoReqProv:    no
-BuildRequires:  ccache, gcc, make, openresty-pcre-devel
-Requires:       openresty-pcre
+BuildRequires:  ccache, gcc, make, openresty-saas-pcre-devel
+Requires:       openresty-saas-pcre
 
 %description
 OpenResty Utils
@@ -54,7 +55,8 @@ OpenResty Utils
 %build
 make %{?_smp_mflags} \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="-O3 -g3 -std=gnu99"
+    CFLAGS="-O3 -g3 -std=gnu99" \
+    PCRE_PREFIX=%{pcre_prefix}
 
 %install
 make install \
