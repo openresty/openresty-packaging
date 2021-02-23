@@ -16,8 +16,11 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 %define         use_systemd   1
 %endif
 
+%define         modsecurity_nginx_version      v1.0.1
+
 Source1:        openresty.service
 Source2:        openresty.init
+Source3:        https://github.com/SpiderLabs/ModSecurity-nginx/releases/download/%{modsecurity_nginx_version}/modsecurity-nginx-%{modsecurity_nginx_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -26,6 +29,9 @@ BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-openssl111-devel >= 1.1.1h-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
+%if 0%{?centos} >= 7
+BuildRequires:  openresty-modsecurity-devel
+%endif
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-openssl111 >= 1.1.1h-1
 Requires:       openresty-pcre >= 8.44-1
@@ -62,6 +68,7 @@ AutoReqProv:        no
 %define zlib_prefix         %{orprefix}/zlib
 %define pcre_prefix         %{orprefix}/pcre
 %define openssl_prefix      %{orprefix}/openssl111
+%define modsecurity_prefix  %{orprefix}/modsecurity
 
 
 %description
@@ -96,6 +103,7 @@ a single box.
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/modsecurity-nginx-%{modsecurity_nginx_version}";
 %{nil}
 
 %endif
@@ -121,7 +129,6 @@ Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
 BuildArch:      noarch
 %endif
-
 
 %description resty
 This package contains the "resty" command-line utility for OpenResty, which
@@ -187,15 +194,19 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 
 
 %prep
+tar xf %{SOURCE3}
 %setup -q -n "openresty-%{version}"
 
 
 %build
+export MODSECURITY_INC=%{modsecurity_prefix}/include
+export MODSECURITY_LIB=%{modsecurity_prefix}/lib
+export YAJL_LIB=%{_libdir}
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
-    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -I%{modsecurity_prefix}/include -I%{_includedir}" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -L%{modsecurity_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib:%{modsecurity_prefix}/lib -L%{_libdir}" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -222,6 +233,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-threads \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
+    --add-module=../modsecurity-nginx-%{modsecurity_nginx_version} \
     %{?_smp_mflags}
 
 make %{?_smp_mflags}
