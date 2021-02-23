@@ -9,16 +9,17 @@ export QA_RPATHS=$[ 0x0002 ]
 export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
-ZLIB_PREFIX = /usr/local/openresty/zlib
-PCRE_PREFIX = /usr/local/openresty/pcre
-OPENSSL_PREFIX = /opt/openresty-saas/openssl111
+PREFIX = /opt/openresty-saas
+ZLIB_PREFIX = $(PREFIX)/zlib
+PCRE_PREFIX = $(PREFIX)/pcre
+OPENSSL_PREFIX = $(PREFIX)/openssl111
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
 
 override_dh_auto_configure:
 	./configure \
-    --prefix="/opt/openresty-saas" \
+    --prefix="$(PREFIX)" \
     --with-cc='ccache gcc' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
     --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
@@ -52,20 +53,21 @@ override_dh_auto_configure:
     --without-lmdb \
     --without-tcc \
     --without-lua_resty_maxminddb \
+    --without-lua_resty_jsonb \
     -j$(JOBS)
 
 override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
-	rm -rf $(DESTDIR)/opt/openresty-saas/luajit/share/man
-	rm -f $(DESTDIR)/opt/openresty-saas/luajit/lib/libluajit-5.1.a
-	rm -rf $(DESTDIR)/opt/openresty-saas/pod/*
-	rm -f $(DESTDIR)/opt/openresty-saas/resty.index
-	rm -f $(DESTDIR)/opt/openresty-saas/bin/md2pod.pl
-	rm -f $(DESTDIR)/opt/openresty-saas/bin/nginx-xml2pod
-	rm -f $(DESTDIR)/opt/openresty-saas/bin/openresty-plus
-	rm -f $(DESTDIR)/opt/openresty-saas/bin/opm
+	rm -rf $(DESTDIR)$(PREFIX)/luajit/share/man
+	rm -f $(DESTDIR)$(PREFIX)/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)$(PREFIX)/pod/*
+	rm -f $(DESTDIR)$(PREFIX)/resty.index
+	rm -f $(DESTDIR)$(PREFIX)/bin/md2pod.pl
+	rm -f $(DESTDIR)$(PREFIX)/bin/nginx-xml2pod
+	rm -f $(DESTDIR)$(PREFIX)/bin/openresty-plus
+	rm -f $(DESTDIR)$(PREFIX)/bin/opm
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \

@@ -1,6 +1,6 @@
 Name:               openresty-saas-pcre
 Version:            8.44
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            Perl-compatible regular expression library for OpenResty SaaS
 
 Group:              System Environment/Libraries
@@ -67,6 +67,7 @@ Development files for Perl-compatible regular expression library for use by Open
 %build
 
 export CC="ccache gcc -fdiagnostics-color=always"
+export CFLAGS="-O3"
 
 ./configure \
   --prefix=%{pcre_prefix} \

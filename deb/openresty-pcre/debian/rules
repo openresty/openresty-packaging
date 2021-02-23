@@ -7,6 +7,8 @@
 DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
+DESTDIR = $(CURDIR)/debian/tmp
+
 # see FEATURE AREAS in dpkg-buildflags(1)
 #export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
@@ -35,12 +37,12 @@ override_dh_usrlocal:
 
 override_dh_install:
 	dh_install
-	rm -rf $DESTDIR/usr/local/openresty/pcre/bin
-	rm -rf $DESTDIR/usr/local/openresty/pcre/share
-	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*.la
-	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*pcrecpp*
-	rm -f $DESTDIR/usr/local/openresty/pcre/lib/*pcreposix*
-	rm -rf $DESTDIR/usr/local/openresty/pcre/lib/pkgconfig
+	rm -rf $(DESTDIR)/usr/local/openresty/pcre/bin
+	rm -rf $(DESTDIR)/usr/local/openresty/pcre/share
+	rm -f $(DESTDIR)/usr/local/openresty/pcre/lib/*.la
+	rm -f $(DESTDIR)/usr/local/openresty/pcre/lib/*pcrecpp*
+	rm -f $(DESTDIR)/usr/local/openresty/pcre/lib/*pcreposix*
+	rm -rf $(DESTDIR)/usr/local/openresty/pcre/lib/pkgconfig
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-pcre-dbgsym

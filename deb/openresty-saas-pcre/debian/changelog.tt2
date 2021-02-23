@@ -1,3 +1,9 @@
+openresty-saas-pcre (8.44-2~[% distro %]1) [% distro %]; urgency=high
+
+  * use different build flags to avoid build id conflicts.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 21 Feb 2021 11:32:44 +0800
+
 openresty-saas-pcre (8.44-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 8.44.

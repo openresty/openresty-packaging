@@ -1,6 +1,6 @@
 Name:               openresty-saas-zlib
 Version:            1.2.11
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            The zlib compression library for OpenResty SaaS
 
 Group:              System Environment/Libraries
@@ -68,8 +68,8 @@ Provides C header and static library for OpenResty SaaS's zlib library.
 
 %build
 ./configure --prefix=%{zlib_prefix}
-make %{?_smp_mflags} CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
-    SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+make %{?_smp_mflags} CFLAGS='-O2 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    SFLAGS='-O2 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     > /dev/stderr
 
 
