@@ -3,6 +3,7 @@ DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
 export NO_PKG_MANGLE=1
+DESTDIR = $(CURDIR)/debian/tmp
 
 %:
 	+dh $@ --parallel --with autotools-dev
@@ -18,9 +19,9 @@ override_dh_usrlocal:
 
 override_dh_install:
 	dh_install
-	rm -rf $DESTDIR/usr/local/openresty/zlib/share
-	rm -f $DESTDIR/usr/local/openresty/zlib/lib/*.la
-	rm -rf $DESTDIR/usr/local/openresty/zlib/lib/pkgconfig
+	rm -rf $(DESTDIR)/usr/local/openresty/zlib/share
+	rm -f $(DESTDIR)/usr/local/openresty/zlib/lib/*.la
+	rm -rf $(DESTDIR)/usr/local/openresty/zlib/lib/pkgconfig
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-zlib-dbgsym
