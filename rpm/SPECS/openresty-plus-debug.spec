@@ -70,9 +70,9 @@ AutoReqProv:        no
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 
 %if 0%{?el6}
-%define debug_cc_opts      -O1 -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
+%define debug_cc_opts      -O1 -D_FORTIFY_SOURCE=2 -fno-inline -fno-inline-functions-called-once
 %else
-%define debug_cc_opts      -Og -D_FORTIFY_SOURCE=2 -fno-omit-frame-pointer -fno-inline -fno-inline-functions-called-once
+%define debug_cc_opts      -Og -D_FORTIFY_SOURCE=2 -fno-inline -fno-inline-functions-called-once
 %endif
 
 
