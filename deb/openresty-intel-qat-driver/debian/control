@@ -1,0 +1,28 @@
+Source: openresty-intel-qat-driver
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, ccache
+Standards-Version: 3.9.8
+Homepage: https://01.org/packet-processing/intel%C2%AE-quickassist-technology-drivers-and-patches
+
+Package: openresty-intel-qat-driver
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Intel's QAT driver for Linux
+ Intel QuickAssist Technology Driver for Linux*
+
+Package: openresty-intel-qat-driver-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-intel-qat-driver (>= 1.7.l.4.11.0)
+Description: Intel QuickAssist Technology Driver for Linux*
+ Provides C header and static library for OpenResty's OpenSSL QAT engine library.
+
+Package: openresty-intel-qat-driver-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-intel-qat-driver (>= 1.7.l.4.11.0)
+Description: Debug symbols for the openresty-intel-qat-driver package
+ Debug symbols (or debuginfo) for the openresty-intel-qat-driver package.

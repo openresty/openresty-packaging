@@ -1,0 +1,43 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./configure --prefix=/usr/local/openresty/intel-qat-driver \
+		&& make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
+
+override_dh_auto_install:
+	mkdir -p $(DESTDIR)/usr/local/openresty/intel-qat-driver/lib \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/intel-qat-driver/build \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist/utilities/libusdm_drv \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist/lookaside/access_layer \
+		&& install build/libusdm_drv_s.so $(DESTDIR)/usr/local/openresty/intel-qat-driver/lib/ \
+		&& install build/libqat_s.so $(DESTDIR)/usr/local/openresty/intel-qat-driver/lib/ \
+		&& install build/libusdm_drv_s.so $(DESTDIR)/usr/local/openresty/intel-qat-driver/build/ \
+		&& install build/libqat_s.so $(DESTDIR)/usr/local/openresty/intel-qat-driver/build/ \
+		&& cp -r quickassist/include/ $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist/ \
+		&& cp -r quickassist/lookaside/access_layer/include $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist/lookaside/access_layer/ \
+		&& cp quickassist/utilities/libusdm_drv/*.h $(DESTDIR)/usr/local/openresty/intel-qat-driver/quickassist/utilities/libusdm_drv/
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-intel-qat-driver-dbgsym

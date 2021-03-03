@@ -1,0 +1,4 @@
+usr/local/openresty/intel-qat-driver/quickassist/include/*.h
+usr/local/openresty/intel-qat-driver/quickassist/include/*/*.h
+usr/local/openresty/intel-qat-driver/quickassist/utilities/libusdm_drv/*.h
+usr/local/openresty/intel-qat-driver/quickassist/lookaside/access_layer/include/*.h

@@ -1,0 +1,29 @@
+Source: openresty-plus-openssl111-qatengine
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, openresty-plus-openssl111-dev (>= 1.1.1i), openresty-intel-qat-driver-dev (>= 1.7.l.4.11.0)
+Standards-Version: 3.9.8
+Homepage: https://github.com/intel/QAT_Engine
+
+Package: openresty-plus-openssl111-qatengine
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111 (>= 1.1.1i)
+Description: QAT Engine for OpenResty's OpenSSL library
+ This OpenSSL QAT engine library build is specifically for OpenResty uses. It may contain
+ custom patches from OpenResty.
+
+Package: openresty-plus-openssl111-qatengine-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111-qatengine (>= 0.6.4)
+Description: Development files for OpenResty's OpenSSL library
+ Provides C header and static library for OpenResty's OpenSSL QAT engine library.
+
+Package: openresty-plus-openssl111-qatengine-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-plus-openssl111-qatengine (>= 0.6.4)
+Description: Debug symbols for the openresty-plus-openssl111-qatengine package
+ Debug symbols (or debuginfo) for the openresty-plus-openssl111-qatengine package.

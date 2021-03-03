@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./autogen.sh \
+		&& ./configure --with-qat_dir=/usr/local/openresty/intel-qat-driver --with-openssl_install_dir=/usr/local/openresty-plus/openssl111 \
+            --disable-qat_lenstra_protection \
+            --enable-qat_small_pkt_offload \
+            --enable-qat_hkdf \
+		&& make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty-plus/openssl111/lib/engines-1.1/*.so*
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-plus-openssl111-qatengine-dbgsym

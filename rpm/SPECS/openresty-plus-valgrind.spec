@@ -226,6 +226,7 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/nginx/modules/*
 %{orprefix}/tcc/bin/tcc
 %{orprefix}/tcc/lib/*
 %{orprefix}/tcc/include/*

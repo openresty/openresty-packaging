@@ -1,0 +1,2 @@
+usr/local/openresty/intel-qat-driver/lib/*.so*
+usr/local/openresty/intel-qat-driver/build/*.so*
