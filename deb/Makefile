@@ -55,8 +55,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-postgresql12-ip4r-clean saas-pcre-clean saas-openssl-clean \
 		saas-zlib-clean openresty-util-linux-clean openresty-stap-clean \
 		openresty-elfutils-clean openresty-odb-clean openresty-odb-debug-clean \
-		openresty-postgresql12-timescaledb-clean openresty-python3-clean \
-		openresty-yajl-clean openresty-gdb-clean \
+		openresty-postgresql12-timescaledb-clean openresty-postgresql-timescaledb-clean \
+		openresty-python3-clean openresty-yajl-clean openresty-gdb-clean \
 		openresty-saas-openssl111-clean openresty-python3-setuptools-clean \
 		openresty-python3-cython-clean openresty-python3-numpy-clean \
 		openssl111-clean openssl111-debug-clean \
