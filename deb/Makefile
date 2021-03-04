@@ -71,7 +71,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
 		openresty-perl-module-build-tiny-clean \
 		openresty-perl-opcodes-clean openresty-perl-readonly \
-		openresty-perl-clean
+		openresty-perl-clean openresty-keepalived-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
