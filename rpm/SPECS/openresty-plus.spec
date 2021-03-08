@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.19.3.1.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
