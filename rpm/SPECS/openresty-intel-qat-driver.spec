@@ -111,5 +111,5 @@ rm -rf %{buildroot}
 %{qat_driver_prefix}/quickassist/lookaside/access_layer/include/*.h
 
 %changelog
-* Tue Dec 15 2020 LI Geng 0.6.3
-- initial build for OpenSSL QAT engine v0.6.3
+* Tue Dec 15 2020 LI Geng 1.7.l.4.11.0
+- initial build for intel qat driver v1.7.l.4.11.0

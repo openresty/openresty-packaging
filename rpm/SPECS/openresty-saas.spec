@@ -3,7 +3,7 @@
 %define zlib_prefix     %{saas_or_prefix}/zlib
 %define pcre_prefix     %{saas_or_prefix}/pcre
 %define openssl_prefix  %{saas_or_prefix}/openssl111
-
+%define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
 Version:    1.19.3.1.7
@@ -114,6 +114,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{saas_or_prefix}/bin/
 
 pushd %{buildroot}
 
@@ -136,7 +137,6 @@ rm -f %{buildroot}%{saas_or_prefix}/bin/opm
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
-
 %clean
 rm -rf %{buildroot}
 
@@ -144,6 +144,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %{saas_or_prefix}/bin/resty
+%{saas_or_prefix}/bin/resty2
 %{saas_or_prefix}/site/lualib/
 %{saas_or_prefix}/luajit/*
 %{saas_or_prefix}/lualib/*

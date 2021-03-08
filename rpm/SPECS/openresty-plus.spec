@@ -73,6 +73,7 @@ AutoReqProv:        no
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
+%define orutils_prefix      %{_usr}/local/openresty-utils
 
 
 %description
@@ -284,6 +285,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
 
 pushd %{buildroot}
 
@@ -308,7 +310,6 @@ rm -rf %{buildroot}%{orprefix}/tcc/share
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
-
 %clean
 rm -rf %{buildroot}
 
@@ -318,6 +319,7 @@ rm -rf %{buildroot}
 
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
+%{orprefix}/bin/resty2
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*

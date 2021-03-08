@@ -2,6 +2,8 @@
 DPKG_EXPORT_BUILDFLAGS = 1
 orprefix = /opt/openresty-saas
 
+ORUTILS_PREFIX = /usr/local/openresty-utils
+
 include /usr/share/dpkg/default.mk
 
 export NO_PKG_MANGLE=1
@@ -60,6 +62,7 @@ override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(PREFIX)/bin/
 	rm -rf $(DESTDIR)$(PREFIX)/luajit/share/man
 	rm -f $(DESTDIR)$(PREFIX)/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)$(PREFIX)/pod/*

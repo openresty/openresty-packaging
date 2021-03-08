@@ -62,6 +62,10 @@ make %{?_smp_mflags} \
 make install \
     DESTDIR=%{buildroot} PREFIX=%{prefix}
 
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
+
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -78,6 +82,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/shared-pages
 %{prefix}/bin/read-kern-bid
 %{prefix}/bin/fs-fgraph
+%{prefix}/bin/resty2
 
 
 %changelog

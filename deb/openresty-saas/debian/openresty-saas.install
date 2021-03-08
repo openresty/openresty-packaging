@@ -1,4 +1,5 @@
 opt/openresty-saas/bin/resty
+opt/openresty-saas/bin/resty2
 opt/openresty-saas/site/lualib/
 opt/openresty-saas/luajit/*
 opt/openresty-saas/lualib/*
