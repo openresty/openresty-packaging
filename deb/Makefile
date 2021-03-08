@@ -71,7 +71,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
 		openresty-perl-module-build-tiny-clean \
 		openresty-perl-opcodes-clean openresty-perl-readonly \
-		openresty-perl-clean openresty-keepalived-clean
+		openresty-perl-clean openresty-keepalived-clean \
+		openresty-plus-test-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
@@ -504,6 +505,47 @@ openresty-plus-debug-download:
 	rm -f *.orig.tar.*
 	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
 	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz
+
+.PHONY: openresty-plus-test-build
+openresty-plus-test-build: | openresty-plus-test-clean openresty-plus-test-download
+ifeq ($(WITH_LUA_LDAP), 1)
+	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+	sudo apt-get -y -qq install --only-upgrade libldap-2.4-2 libldap-dev
+endif
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev openresty-yajl-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install --only-upgrade openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev openresty-yajl-dev $(deb_toolchain_pkgs)
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf openresty-plus-test_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-test
+	cd openresty-plus-test \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+        && tpage --define with_lua_ldap=$(WITH_LUA_LDAP)  \
+			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
+			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
+			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
+		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
+			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
+			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
+			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
+		&& debuild $(OPTS) -j$(JOBS)
+	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
+	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
+
+.PHONY: openresty-plus-test-clean
+openresty-plus-test-clean:
+	cd openresty-plus-test && debclean
+	find openresty-plus-test -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-test' -print | xargs rm -rf
+	rm -f openresty-plus-test*.deb
+	rm -f openresty-plus-test_*.*
+
+.PHONY: openresty-plus-test-download
+openresty-plus-test-download:
+	rm -f *.orig.tar.*
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
+	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-test_$(OR_PLUS_VER).orig.tar.gz
 
 .PHONY: hyperscan-download
 hyperscan-download:

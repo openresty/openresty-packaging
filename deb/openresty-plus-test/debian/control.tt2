@@ -1,0 +1,62 @@
+Source: openresty-plus-test
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
+ openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1i),
+ openresty-pcre-dev (>= 8.42), [% IF with_lua_ldap %]
+ libldap-2.4-2, libldap2-dev, [% END %]
+ perl, libfile-temp-perl, libc-dev, openresty-plus-hyperscan-dev,
+ openresty-yajl-dev (>= 2.1.0.4)
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-plus-test
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev, [% IF with_lua_ldap %]
+ libldap-2.4-2,[% END %]
+ openresty-zlib, openresty-plus-openssl111 (>= 1.1.1i), openresty-pcre (>= 8.42),
+ openresty-maxminddb (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4)
+Description: debug version of OpenResty+ core server
+ This package contains the debug version of the core server for OpenResty+.
+ Built for running test purposes only.
+ .
+ DO NOT USE THIS PACKAGE IN PRODUCTION!
+ .
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ .
+ By taking advantage of various well-designed Nginx modules (most of which
+ are developed by the OpenResty team themselves), OpenResty effectively
+ turns the nginx server into a powerful web app server, in which the web
+ developers can use the Lua programming language to script various existing
+ nginx C modules and Lua modules and construct extremely high-performance
+ web applications that are capable to handle 10K ~ 1000K+ connections in
+ a single box.
+
+Package: openresty-plus-test-resty
+Section: utils
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ openresty-plus-test (>= ${source:Upstream-Version}),
+ perl, libfile-spec-perl, libfile-temp-perl, libtime-hires-perl
+Description: resty command-line utility for OpenResty+ debug version
+ This package contains the "resty" command-line utility for  OpenResty+ debug version,
+ which runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
+ scene.
+ .
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+
+Package: openresty-plus-test-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-test
+Description: Debug symbols of OpenResty+ packages - debug version
+ Debug symbols of OpenResty+ packages
