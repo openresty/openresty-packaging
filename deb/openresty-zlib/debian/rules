@@ -4,6 +4,7 @@ include /usr/share/dpkg/default.mk
 
 DESTDIR = $(CURDIR)/debian/tmp
 export NO_PKG_MANGLE=1
+DESTDIR = $(CURDIR)/debian/tmp
 
 %:
 	+dh $@ --parallel --with autotools-dev

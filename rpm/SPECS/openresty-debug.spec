@@ -118,9 +118,9 @@ a single box.
     --with-poll_module \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O0' \
-    %{?_smp_mflags}
+    -j`nproc`
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install
