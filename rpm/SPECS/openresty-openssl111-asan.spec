@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-asan
 Version:            1.1.1i
-Release:            2%{?dist}
+Release:            4%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -16,10 +16,10 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      ccache, gcc, make, perl, clang
+BuildRequires:      ccache, gcc, make, perl, gcc
 
-BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-6
-Requires:           openresty-zlib-asan >= 1.2.11-6
+BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-16
+Requires:           openresty-zlib-asan >= 1.2.11-16
 
 AutoReqProv:        no
 
@@ -37,7 +37,7 @@ AutoReqProv:        no
 
 
 %description
-This is the clang AddressSanitizer version of the OpenSSL library build for OpenResty uses.
+This is the gcc AddressSanitizer version of the OpenSSL library build for OpenResty uses.
 
 
 %if 0%{?suse_version}
@@ -75,7 +75,7 @@ Group:              Development/Libraries
 Requires:           %{name} = %{version}-%{release}
 
 %description devel
-Provides C header and static library for the clang AddressSanitizer version of OpenResty's OpenSSL library. This is the clang AddressSanitizer version.
+Provides C header and static library for the gcc AddressSanitizer version of OpenResty's OpenSSL library. This is the gcc AddressSanitizer version.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -103,9 +103,9 @@ export ASAN_OPTIONS=detect_leaks=0
 #sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
 #sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-make %{?_smp_mflags} \
+make -j`nproc` \
     LD_LIBRARY_PATH= \
-    CC="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
+    CC="ccache gcc -fsanitize=address" \
     > /dev/stderr
 
 

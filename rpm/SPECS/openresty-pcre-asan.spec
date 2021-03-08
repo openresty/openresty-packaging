@@ -1,6 +1,6 @@
 Name:               openresty-pcre-asan
 Version:            8.44
-Release:            2%{?dist}
+Release:            4%{?dist}
 Summary:            Clang AddressSanitizer version of the Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -11,7 +11,7 @@ Source0:            https://ftp.pcre.org/pub/pcre/pcre-%{version}.tar.bz2
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      ccache, libtool, clang
+BuildRequires:      ccache, libtool, gcc
 
 AutoReqProv:        no
 
@@ -21,14 +21,10 @@ AutoReqProv:        no
 %undefine _missing_build_ids_terminate_build
 %endif
 
-#%if 0%{?fedora} >= 28
-#BuildRequires:      compiler-rt
-#%endif
-
 
 %description
 Perl-compatible regular expression library for use by OpenResty ONLY.
-This is the clang AddressSanitizer version.
+This is the gcc AddressSanitizer version.
 
 
 %if 0%{?suse_version}
@@ -67,7 +63,7 @@ Requires:           %{name} = %{version}-%{release}
 
 %description devel
 Development files for Perl-compatible regular expression library for use by OpenResty ONLY.
-This is the clang AddressSanitizer version.
+This is the gcc AddressSanitizer version.
 
 
 %prep
@@ -75,7 +71,7 @@ This is the clang AddressSanitizer version.
 
 
 %build
-export CC="ccache clang -fsanitize=address -fcolor-diagnostics"
+export CC="ccache gcc -fsanitize=address"
 export CFLAGS="-O1 -fno-omit-frame-pointer -g"
 export ASAN_OPTIONS=detect_leaks=0
 
@@ -87,7 +83,7 @@ export ASAN_OPTIONS=detect_leaks=0
   --enable-utf \
   --enable-unicode-properties
 
-make %{?_smp_mflags} V=1 > /dev/stderr
+make -j`nproc` V=1 > /dev/stderr
 
 
 %install

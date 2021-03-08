@@ -76,7 +76,7 @@ export CC="ccache gcc -fdiagnostics-color=always"
   --enable-utf \
   --enable-unicode-properties
 
-make %{?_smp_mflags} V=1 > /dev/stderr
+make -j`nproc` V=1 > /dev/stderr
 
 
 %install

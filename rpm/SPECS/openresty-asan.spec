@@ -1,7 +1,7 @@
 Name:           openresty-asan
 Version:        1.19.3.1
-Release:        2%{?dist}
-Summary:        The clang AddressSanitizer (ASAN) version of OpenResty
+Release:        4%{?dist}
+Summary:        The AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
 
@@ -15,16 +15,16 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  ccache, make, perl, systemtap-sdt-devel, clang, valgrind-devel
+BuildRequires:  ccache, make, perl, systemtap-sdt-devel, gcc, valgrind-devel
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1h-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
+BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1i-4
+BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
 
-Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-openssl111-asan >= 1.1.1h-1
-Requires:       openresty-pcre-asan >= 8.44-1
+Requires:       openresty-zlib-asan >= 1.2.11-16
+Requires:       openresty-openssl111-asan >= 1.1.1i-4
+Requires:       openresty-pcre-asan >= 8.44-4
 
 AutoReqProv:        no
 
@@ -38,15 +38,10 @@ AutoReqProv:        no
 %endif
 
 
-#%if 0%{?fedora} >= 28
-#BuildRequires:      compiler-rt
-#%endif
-
-
 %description
-This package contains a clang AddressSanitizer version of the core server
+This package contains a gcc AddressSanitizer version of the core server
 for OpenResty with
-clang's AddressSanitizer built in. Built for development purposes only.
+gcc's AddressSanitizer built in. Built for development purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
 
@@ -103,7 +98,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
+    --with-cc="ccache gcc -lasan" \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
@@ -134,9 +129,9 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
     --with-no-pool-patch \
-    %{?_smp_mflags}
+    -j`nproc`
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

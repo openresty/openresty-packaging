@@ -1,7 +1,7 @@
 Name:               openresty-zlib-asan
 Version:            1.2.11
-Release:            14%{?dist}
-Summary:            Clang AddressSanitizer version for the zlib compression library for OpenResty
+Release:            16%{?dist}
+Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
 
@@ -12,7 +12,7 @@ Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      libtool, clang
+BuildRequires:      libtool, gcc
 
 AutoReqProv:        no
 
@@ -24,7 +24,7 @@ AutoReqProv:        no
 
 
 %description
-The zlib compression library for use by Openresty ONLY. This is the clang AddressSanitizer build.
+The zlib compression library for use by Openresty ONLY. This is the gcc AddressSanitizer build.
 
 
 %if 0%{?suse_version}
@@ -63,7 +63,7 @@ Requires:           %{name} = %{version}-%{release}
 
 
 %description devel
-Provides C header and static library for OpenResty's clang AddressSanitizer version of zlib library.
+Provides C header and static library for OpenResty's gcc AddressSanitizer version of zlib library.
 
 
 %prep
@@ -73,12 +73,12 @@ Provides C header and static library for OpenResty's clang AddressSanitizer vers
 %build
 export ASAN_OPTIONS=detect_leaks=0
 
-CC="clang -fsanitize=address" ./configure --prefix=%{zlib_prefix}
+CC="gcc -fsanitize=address" ./configure --prefix=%{zlib_prefix}
 
-make %{?_smp_mflags} CC="clang -fsanitize=address" \
+make -j`nproc` CC="gcc -fsanitize=address" \
     CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
-    LDSHARED='clang -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
+    LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
     > /dev/stderr
 
 

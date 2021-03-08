@@ -122,9 +122,9 @@ a single box.
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0' \
     --with-no-pool-patch \
-    %{?_smp_mflags}
+    -j`nproc`
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install
