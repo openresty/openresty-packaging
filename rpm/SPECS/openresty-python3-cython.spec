@@ -67,7 +67,7 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
 
 
 %install

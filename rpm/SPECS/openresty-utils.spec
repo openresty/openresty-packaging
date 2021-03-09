@@ -53,7 +53,7 @@ OpenResty Utils
 %setup -q -n %{name}-%{version}
 
 %build
-make %{?_smp_mflags} \
+make -j`nproc` \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-O3 -g3 -std=gnu99" \
     PCRE_PREFIX=%{pcre_prefix}

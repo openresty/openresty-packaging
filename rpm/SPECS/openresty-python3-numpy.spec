@@ -85,7 +85,7 @@ export ATLAS=None
 export BLAS=None
 export LAPACK=%{_libdir}
 
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
 
 
 %install

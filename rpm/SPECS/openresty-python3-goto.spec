@@ -39,7 +39,7 @@ A function decorator, that rewrites the bytecode, to enable goto in Python.
 
 
 %build
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
 
 
 %install

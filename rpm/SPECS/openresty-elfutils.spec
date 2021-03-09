@@ -132,7 +132,7 @@ autoreconf -vif
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
     `find . -name Makefile`
 
-make %{?_smp_mflags} > /dev/null
+make -j`nproc` > /dev/null
 
 export QA_RPATHS=$[ 0x0002 ]
 

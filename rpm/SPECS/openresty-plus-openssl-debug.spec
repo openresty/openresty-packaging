@@ -57,7 +57,7 @@ Provides C header and static library for the debug version of OpenResty Plus's O
 
 sed -i 's/ -O3 / -O0 /g' Makefile
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

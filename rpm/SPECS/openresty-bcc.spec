@@ -40,7 +40,7 @@ pushd build
 %cmake .. -DREVISION_LAST=%{version} -DREVISION=%{version} \
     -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_PREFIX_PATH=/usr/local/openresty-clang/
 
-make %{?_smp_mflags}
+make -j`nproc`
 popd
 
 %install

@@ -154,7 +154,7 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
         CXXFLAGS='-I%{eu_prefix}/include -g3 -O2' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
-make %{?_smp_mflags} > /dev/null
+make -j`nproc` > /dev/null
 
 %install
 

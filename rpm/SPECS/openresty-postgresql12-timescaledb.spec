@@ -54,7 +54,7 @@ Open-source PostgreSQL extension designed to make SQL scalable for time-series d
 
 %build
 ./bootstrap -DPG_CONFIG=%{pg_config} -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo
-cd build && make %{?_smp_mflags}
+cd build && make -j`nproc`
 
 
 %install

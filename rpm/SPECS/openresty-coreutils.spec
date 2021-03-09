@@ -54,7 +54,7 @@ CC='ccache gcc -fdiagnostics-color=always' \
     --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --disable-silent-rules
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf %{buildroot}

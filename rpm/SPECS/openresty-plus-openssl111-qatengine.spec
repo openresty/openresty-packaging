@@ -78,7 +78,7 @@ Provides C header and static library for OpenResty's OpenSSL QAT engine library.
 
 # export MULTI_THREAD_MEMUTILS=1
 
-make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
+make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
 
 
 %install

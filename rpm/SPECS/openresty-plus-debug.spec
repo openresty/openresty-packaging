@@ -233,9 +233,9 @@ services, and dynamic web gateways.
     --with-compat  \
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT %{debug_cc_opts} -g3 -DLUAJIT_ENABLE_GC64' \
-    %{?_smp_mflags} 1>&2
+    -j`nproc` 1>&2
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

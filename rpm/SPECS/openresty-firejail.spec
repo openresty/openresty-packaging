@@ -65,7 +65,7 @@ using Linux namespaces. It includes a sandbox profile for Mozilla Firefox.
   --disable-userns --disable-contrib-install \
   CC='ccache gcc -fdiagnostics-color=always'
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

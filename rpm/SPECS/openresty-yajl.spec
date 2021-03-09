@@ -77,7 +77,7 @@ mkdir build
 cd build
 export CC='ccache gcc -fdiagnostics-color=always'
 cmake -DCMAKE_INSTALL_PREFIX=%{yajl_prefix} ..
-make VERBOSE=1 %{?_smp_mflags}
+make VERBOSE=1 -j`nproc`
 
 
 %install

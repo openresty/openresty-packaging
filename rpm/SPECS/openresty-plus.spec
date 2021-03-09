@@ -278,9 +278,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-threads \
     --with-compat  \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
-    %{?_smp_mflags}
+    -j`nproc`
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf %{buildroot}

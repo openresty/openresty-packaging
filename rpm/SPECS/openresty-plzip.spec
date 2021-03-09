@@ -63,7 +63,7 @@ cd lzlib \
     && ./configure --prefix=/lzlib \
     CC='ccache gcc -fdiagnostics-color=always' \
     CXXFLAGS='-Wall -W -O2 -g3' \
-    && make %{?_smp_mflags} \
+    && make -j`nproc` \
     && make install DESTDIR='%{_builddir}/%{?buildsubdir}' \
     && cd -
 
@@ -71,7 +71,7 @@ cd lzlib \
     CC='ccache gcc -fdiagnostics-color=always' \
     CXXFLAGS="-Wall -W -O2 -g3 -I%{_builddir}/%{?buildsubdir}/lzlib/include" \
     LDFLAGS="-L%{_builddir}/%{?buildsubdir}/lzlib/lib" \
-    && make %{?_smp_mflags}
+    && make -j`nproc`
 
 %install
 rm -rf $RPM_BUILD_ROOT

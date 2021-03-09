@@ -104,7 +104,7 @@ export PATH="%{py3_prefix}/bin:$PATH"
 
 make V=0 BUILDTYPE=Release \
     LD_LIBRARY_PATH="%{openssl_prefix}/lib:$LD_LIBRARY_PATH" \
-    %{?_smp_mflags}
+    -j`nproc`
 
 %install
 export PATH="$PATH:/usr/local/openresty-python3/bin"

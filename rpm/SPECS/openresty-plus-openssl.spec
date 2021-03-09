@@ -54,7 +54,7 @@ Provides C header and static library for OpenResty Plus's OpenSSL library.
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

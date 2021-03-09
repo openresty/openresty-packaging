@@ -68,7 +68,7 @@ Provides C header and static library for OpenResty SaaS's zlib library.
 
 %build
 ./configure --prefix=%{zlib_prefix}
-make %{?_smp_mflags} CFLAGS='-O2 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+make -j`nproc` CFLAGS='-O2 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O2 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     > /dev/stderr
 

@@ -99,7 +99,7 @@ export ASAN_OPTIONS=detect_leaks=0
 sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
 sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-make %{?_smp_mflags} \
+make -j`nproc` \
     LD_LIBRARY_PATH= \
     CC="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
     > /dev/stderr

@@ -85,7 +85,7 @@ resources needed for developing libpcap applications.
 %build
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing -g3"
 ./configure --prefix=%{pcap_prefix} --libdir=%{pcap_prefix}/lib
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 make DESTDIR=$RPM_BUILD_ROOT install

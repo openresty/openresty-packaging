@@ -65,7 +65,7 @@ export LDFLAGS="-L%{pcap_prefix}/lib -Wl,-rpath,%{pcap_prefix}/lib"
 
 ./configure --with-user=tcpdump --without-smi --prefix=%{tcpdump_prefix} --with-system-libpcap \
 --without-crypto
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf $RPM_BUILD_ROOT

@@ -66,7 +66,7 @@ OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb.
     CFLAGS="-g3 -O2" \
     --disable-tests
 
-make %{?_smp_mflags} > /dev/null
+make -j`nproc` > /dev/null
 
 
 %install

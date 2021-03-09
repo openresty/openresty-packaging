@@ -66,7 +66,7 @@ This build is specifically for OpenResty uses.
     INSTALLSITEBIN=%{prefix}/bin INSTALLSITESCRIPT=%{prefix}/bin \
     INSTALLSCRIPT=%{prefix}/bin
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 

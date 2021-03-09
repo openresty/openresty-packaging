@@ -53,7 +53,7 @@ PostgreSQL extension contains utilities used in mini-sl
 
 
 %build
-make %{?_smp_mflags} PG_CONFIG=%{pg_config}
+make -j`nproc` PG_CONFIG=%{pg_config}
 
 
 %install

@@ -72,7 +72,7 @@ Development files for OpenResty Debugger based on ptrace.
 
 
 %build
-make %{?_smp_mflags} \
+make -j`nproc` \
     CXX='ccache g++ -fdiagnostics-color=always' \
     PCRE=%{pcre_prefix} \
     libodb-runtime.so

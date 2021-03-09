@@ -30,7 +30,7 @@ Test::Deep uses the Test::Builder framework.
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf $RPM_BUILD_ROOT

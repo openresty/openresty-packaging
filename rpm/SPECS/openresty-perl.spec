@@ -108,7 +108,7 @@ Development headers for the OpenResty's fork of Perl.
         -Ud_endservent_r_proto -Ud_setservent_r_proto \
         -Dscriptdir='%{prefix}/bin'
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf %{buildroot}

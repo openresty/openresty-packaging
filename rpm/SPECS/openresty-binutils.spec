@@ -85,7 +85,7 @@ CC='ccache gcc -fdiagnostics-color=always' \
     --disable-libdecnumber --disable-sim --disable-readline \
     --disable-libquadmath CFLAGS='-Wno-error -g3 -O2'
 
-make %{?_smp_mflags} > /dev/null
+make -j`nproc` > /dev/null
 
 %install
 make install DESTDIR=%{buildroot} > /dev/null

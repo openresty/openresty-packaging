@@ -73,7 +73,7 @@ LDFLAGS='-L%{ssl_prefix}/lib -Wl,-rpath,%{ssl_prefix}/lib' \
     --enable-sha1 --enable-strict-config-checks \
     --enable-log-file
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 make install-exec DESTDIR=%{buildroot}

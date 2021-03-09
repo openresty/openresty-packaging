@@ -100,7 +100,7 @@ CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
     --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --without-guile
 
-make %{?_smp_mflags} > /dev/null
+make -j`nproc` > /dev/null
 
 
 %install

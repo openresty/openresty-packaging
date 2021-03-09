@@ -64,10 +64,10 @@ Python stats library for OpenResty XRay.
 
 
 %build
-make compile %{?_smp_mflags} \
+make compile -j`nproc` \
     CXX='g++ -fdiagnostics-color=always' \
     -j1
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build %{?_smp_mflags}
+PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
 
 
 %install

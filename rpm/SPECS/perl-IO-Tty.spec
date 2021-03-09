@@ -22,7 +22,7 @@ of importable constants, see IO::Tty::Constant.
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 rm -rf $RPM_BUILD_ROOT

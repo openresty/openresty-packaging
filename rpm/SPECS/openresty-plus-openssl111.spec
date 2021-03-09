@@ -90,7 +90,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
-make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
+make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
 
 
 %install

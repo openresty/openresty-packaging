@@ -62,7 +62,7 @@ cd build
     -DSPHINX_WARNINGS_AS_ERRORS=OFF \
     -DLLVM_BUILD_INSTRUMENTED_COVERAGE=OFF
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 cd %{name}-%{version}/build

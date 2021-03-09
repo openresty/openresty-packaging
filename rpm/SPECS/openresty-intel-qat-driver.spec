@@ -68,7 +68,7 @@ tar xf %{_topdir}/SOURCES/qat%{version}-00001.tar.gz
 
 ./configure --prefix=%{qat_driver_prefix}
 
-make CC='ccache gcc -fdiagnostics-color=always' %{?_smp_mflags}
+make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
 
 
 %install

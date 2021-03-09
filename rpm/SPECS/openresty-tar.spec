@@ -84,7 +84,7 @@ CFLAGS='-g3 -O2' \
     ./configure \
     --prefix=%{prefix}
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 make install DESTDIR=%{buildroot}

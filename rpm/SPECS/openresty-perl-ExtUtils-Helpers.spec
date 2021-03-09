@@ -65,7 +65,7 @@ if [ -f pm_to_blib ]; then rm -f pm_to_blib; fi
 %{_perl} Makefile.PL OPTIMIZE="$RPM_OPT_FLAGS" INSTALLDIRS=site \
     INSTALLSITEBIN=%{prefix}/bin INSTALLSITESCRIPT=%{prefix}/bin \
     INSTALLSCRIPT=%{prefix}/bin
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 

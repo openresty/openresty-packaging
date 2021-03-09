@@ -99,7 +99,7 @@ export CFLAGS="-g3 -I%{ssl_prefix}/include"
     --libdir="%{_prefix}/lib" \
     --with-openssl=%{ssl_prefix}
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

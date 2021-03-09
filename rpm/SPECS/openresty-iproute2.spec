@@ -43,7 +43,7 @@ export CFLAGS="%{optflags} -I /usr/x86-linux-gnu/include/"
 export LIBDIR=/%{_libdir}
 export IPT_LIB_DIR=/%{_lib}/xtables
 ./configure
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 export DESTDIR='%{buildroot}'

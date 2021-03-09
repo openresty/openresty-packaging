@@ -55,7 +55,7 @@ This build is specifically for OpenResty uses.
 %{_perl} Makefile.PL OPTIMIZE="$RPM_OPT_FLAGS" INSTALLDIRS=site \
     INSTALLSITEBIN=%{prefix}/bin INSTALLSITESCRIPT=%{prefix}/bin \
     INSTALLSCRIPT=%{prefix}/bin
-make %{?_smp_mflags}
+make -j`nproc`
 
 %install
 

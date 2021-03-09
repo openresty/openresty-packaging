@@ -100,7 +100,7 @@ type-diff=01;32"
             CFLAGS="-O2 -g3" \
             LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib"
 
-make %{?_smp_mflags} MAKELEVEL=0
+make -j`nproc` MAKELEVEL=0
 
 
 %install

@@ -169,9 +169,9 @@ a single box.
     --with-poll_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -DLUAJIT_USE_SYSMALLOC -O0 -g3 -DLUAJIT_ENABLE_GC64' \
     --with-no-pool-patch \
-    %{?_smp_mflags} 1>&2
+    -j`nproc` 1>&2
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install

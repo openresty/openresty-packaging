@@ -55,7 +55,7 @@ indexable version of the cidr type.
 
 
 %build
-make %{?_smp_mflags} PG_CONFIG=%{pg_config}
+make -j`nproc` PG_CONFIG=%{pg_config}
 
 
 %install

@@ -106,9 +106,9 @@ OpenResty Plus for SaaS product clients.
     --without-tcc \
     --without-lua_resty_maxminddb \
     --without-lua_resty_jsonb \
-    %{?_smp_mflags}
+    -j`nproc`
 
-make %{?_smp_mflags}
+make -j`nproc`
 
 
 %install
