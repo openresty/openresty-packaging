@@ -278,6 +278,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_realip_module \
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
+    --with-ngx_qat_module \
     --with-threads \
     --with-compat  \
     --with-luajit-xcflags='%{lj_debug_cc_opts} -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \

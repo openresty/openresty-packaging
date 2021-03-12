@@ -163,6 +163,7 @@ a single box.
     --with-http_stub_status_module \
     --with-http_realip_module \
     --with-http_gzip_static_module \
+    --with-ngx_qat_module \
     --with-http_gunzip_module \
     --with-threads \
     --with-compat  \
