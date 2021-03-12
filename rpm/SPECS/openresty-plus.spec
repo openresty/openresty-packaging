@@ -1,5 +1,5 @@
 Name:           openresty-plus
-Version:        1.19.3.1.16
+Version:        1.19.3.1.17
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -358,6 +358,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 12 2021 Yichun Zhang (agentzh) 1.19.3.1.17-1
+- upgraded openresty-plus to 1.19.3.1.17.
 * Wed Mar 10 2021 Yichun Zhang (agentzh) 1.19.3.1.16-1
 - upgraded openresty-plus to 1.19.3.1.16.
 * Tue Mar 9 2021 Yichun Zhang (agentzh) 1.19.3.1.15-1
