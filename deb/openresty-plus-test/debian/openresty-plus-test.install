@@ -1,0 +1,11 @@
+usr/local/openresty-plus-test/bin/openresty-plus
+usr/local/openresty-plus-test/site/lualib
+usr/local/openresty-plus-test/luajit/*
+usr/local/openresty-plus-test/lualib/*
+usr/local/openresty-plus-test/lmdb/*
+usr/local/openresty-plus-test/nginx/html/*
+usr/local/openresty-plus-test/nginx/sbin/*
+usr/local/openresty-plus-test/nginx/modules/*
+usr/local/openresty-plus-test/nginx/conf/*
+usr/local/openresty-plus-test/nginx/logs
+usr/local/openresty-plus-test/tcc/*
