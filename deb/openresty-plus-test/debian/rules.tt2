@@ -3,8 +3,10 @@ DPKG_EXPORT_BUILDFLAGS = 1
 
 PREFIX = /usr/local/openresty-plus-test
 OR_PREFIX = /usr/local/openresty
+ORUTILS_PREFIX = /usr/local/openresty-utils
 OR_PLUS_PREFIX = /usr/local/openresty-plus
-LJ_DEBUG_CC_OPTS = -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0
+LJ_DEBUG_CC_OPTS = -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 \
+    -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 include /usr/share/dpkg/default.mk
 
@@ -21,7 +23,7 @@ override_dh_auto_configure:
 	./configure \
 	  --prefix="$(PREFIX)" \
 	  --with-cc='ccache gcc' \
-	  --with-cc-opt="-I$(OR_PREFIX)/zlib/include -I$(OR_PREFIX)/pcre/include -I$(OR_PLUS_PREFIX)/openssl111/include -Og -g3" \
+	  --with-cc-opt="-I$(OR_PREFIX)/zlib/include -I$(OR_PREFIX)/pcre/include -I$(OR_PLUS_PREFIX)/openssl111/include -g3" \
 	  --with-ld-opt="-L$(OR_PREFIX)/zlib/lib -L$(OR_PREFIX)/pcre/lib -L$(OR_PLUS_PREFIX)/openssl111/lib -Wl,-rpath,$(OR_PREFIX)/zlib/lib:$(OR_PREFIX)/pcre/lib:$(OR_PLUS_PREFIX)/openssl111/lib" \
 	  --with-lua_resty_hyperscan \
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
@@ -33,7 +35,42 @@ override_dh_auto_configure:
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
 	  --without-lua_rds_parser \
-	  --with-stream \
+	  --without-http_xss_module \
+	  --without-http_form_input_module \
+	  --without-http_srcache_module \
+	  --without-http_lua_upstream_module \
+	  --without-http_array_var_module \
+	  --without-http_memc_module \
+	  --without-http_redis2_module \
+	  --without-http_redis_module \
+	  --without-lua_redis_parser \
+	  --without-lua_rds_parser \
+	  --without-lua_resty_upstream_healthcheck \
+	  --without-select_module \
+	  --without-http_userid_module \
+	  --without-http_autoindex_module \
+	  --without-http_geo_module \
+	  --without-http_split_clients_module \
+	  --without-http_fastcgi_module \
+	  --without-http_uwsgi_module \
+	  --without-http_scgi_module \
+	  --without-http_memcached_module \
+	  --without-http_limit_conn_module \
+	  --without-http_limit_req_module \
+	  --without-http_empty_gif_module \
+	  --without-http_browser_module \
+	  --without-http_upstream_hash_module \
+	  --without-http_upstream_ip_hash_module \
+	  --without-http_upstream_least_conn_module \
+	  --without-http_upstream_zone_module \
+	  --without-mail_pop3_module \
+	  --without-mail_imap_module \
+	  --without-mail_smtp_module \
+	  --without-stream_limit_conn_module \
+	  --without-stream_return_module \
+	  --without-stream_upstream_hash_module \
+	  --without-stream_upstream_least_conn_module \
+	  --without-stream_upstream_zone_module \
 	  --with-stream_ssl_module \
 	  --with-stream_ssl_preread_module \
 	  --with-http_v2_module \
@@ -42,26 +79,18 @@ override_dh_auto_configure:
 	  --without-mail_smtp_module \
 	  --with-http_stub_status_module \
 	  --with-http_realip_module \
-	  --with-http_addition_module \
-	  --with-http_auth_request_module \
-	  --with-http_secure_link_module \
-	  --with-http_random_index_module \
 	  --with-http_gzip_static_module \
-	  --with-http_sub_module \
-	  --with-http_dav_module \
-	  --with-http_flv_module \
-	  --with-http_mp4_module \
 	  --with-http_gunzip_module \
 	  --with-ngx_qat_module \
 	  --with-threads \
-	  --with-poll_module \
-	  --with-luajit-xcflags='$(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -Og -g3 -DLUAJIT_ENABLE_GC64' \
+	  --with-luajit-xcflags='$(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
 	  -j$(NJBS)
 
 override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(PREFIX)/bin/
 	rm -rf $(DESTDIR)$(PREFIX)/luajit/share/man
 	rm -rf $(DESTDIR)$(PREFIX)/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}
