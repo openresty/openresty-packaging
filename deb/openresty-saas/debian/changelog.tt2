@@ -1,3 +1,9 @@
+openresty-saas (1.19.3.1.19-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-plus to 1.19.3.1.19.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 Mar 2021 20:57:21 -0700
+
 openresty-saas (1.19.3.1.17-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-plus to 1.19.3.1.17.
