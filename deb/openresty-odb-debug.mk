@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ODB_VER := 0.23
+OPENRESTY_ODB_VER := 0.24
 
 .PHONY: openresty-odb-debug-download
 openresty-odb-debug-download:

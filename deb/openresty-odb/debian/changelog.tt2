@@ -1,3 +1,9 @@
+openresty-odb (0.24-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded odb to 0.24.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 Mar 2021 21:39:14 -0700
+
 openresty-odb (0.23-2~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: requires openresty-saas-pcre instead.
