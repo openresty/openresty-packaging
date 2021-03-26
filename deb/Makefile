@@ -28,6 +28,7 @@ WITH_LUA_RESTY_OPENIDC=1
 WITH_LUA_RESTY_SESSION=1
 WITH_LUA_RESTY_JWT=1
 WITH_LUA_RESTY_HMAC=1
+WITH_LUA_RESTY_MLCACHE=1
 deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
@@ -395,12 +396,14 @@ endif
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
@@ -482,12 +485,14 @@ endif
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
@@ -523,12 +528,14 @@ endif
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
+			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done

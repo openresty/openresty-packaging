@@ -18,6 +18,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 %bcond_without	lua_resty_session
 %bcond_without	lua_resty_jwt
 %bcond_without	lua_resty_hmac
+%bcond_without	lua_resty_mlcache
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -146,6 +147,9 @@ export ASAN_OPTIONS=detect_leaks=0
 %endif
 %if %{with lua_resty_hmac}
     --with-lua_resty_hmac \
+%endif
+%if %{with lua_resty_mlcache}
+    --with-lua_resty_mlcache \
 %endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
