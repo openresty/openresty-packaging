@@ -1,3 +1,9 @@
+openresty-plus-test (1.19.3.1.20-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.3.1.20.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 27 Mar 2021 21:11:36 -0700
+
 openresty-plus-test (1.19.3.1.19-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.19.3.1.19.
