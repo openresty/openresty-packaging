@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty/postgresql
@@ -126,8 +126,15 @@ export QA_RPATHS=$[ 0x0002 ]
 
 %preun
 if [ $1 = 0 ]; then
-   /sbin/service openresty-postgresql stop >/dev/null 2>&1
-   /sbin/chkconfig --del openresty-postgresql
+    if [ -d "/etc/systemd/system" ]; then
+        /bin/systemctl stop openresty-postgresql >/dev/null 2>&1
+    elif [ -n "$(command -v service)" ]; then
+        $(command -v service) openresty-postgresql stop >/dev/null 2>&1
+    fi
+
+    if [ -n "$(command -v chkconfig)" ]; then
+        $(command -v chkconfig) --del openresty-postgresql
+    fi
 fi
 
 %clean

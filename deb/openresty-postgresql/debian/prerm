@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -d "/etc/systemd/system" ]; then
+    /bin/systemctl stop openresty-postgresql
+elif [ -n "$(command -v service)" ]; then
+    $(command -v service) openresty-postgresql stop
+fi

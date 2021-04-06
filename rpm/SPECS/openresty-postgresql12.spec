@@ -1,6 +1,6 @@
 Name:       openresty-postgresql12
 Version:    12.5
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix %{_usr}/local/openresty-postgresql12
@@ -129,8 +129,15 @@ export QA_RPATHS=$[ 0x0002 ]
 
 %preun
 if [ $1 = 0 ]; then
-   /sbin/service openresty-postgresql12 stop >/dev/null 2>&1
-   /sbin/chkconfig --del openresty-postgresql12
+    if [ -d "/etc/systemd/system" ]; then
+        /bin/systemctl stop openresty-postgresql12 >/dev/null 2>&1
+    elif [ -n "$(command -v service)" ]; then
+        $(command -v service) openresty-postgresql12 stop >/dev/null 2>&1
+    fi
+
+    if [ -n "$(command -v chkconfig)" ]; then
+        $(command -v chkconfig) --del openresty-postgresql12
+    fi
 fi
 
 %clean

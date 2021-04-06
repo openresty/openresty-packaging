@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-2~[% distro %]1) [% distro %]; urgency=high
+
+  * add "systemctl stop" at prerm phase
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Apr 2021 16:02:25 +0800
+
 openresty-postgresql12 (12.5-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded to Pg 12.5.

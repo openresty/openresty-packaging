@@ -1,3 +1,9 @@
+openresty-postgresql (9.6.20-2~[% distro %]1) [% distro %]; urgency=high
+
+  * add "systemctl stop" at prerm phase
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Apr 2021 16:02:25 +0800
+
 openresty-postgresql (9.6.20-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded Pg to 9.6.20.
