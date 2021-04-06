@@ -54,7 +54,6 @@ export ASAN_OPTIONS=detect_leaks=0
 
 make CC="clang -fsanitize=address" \
         CFLAGS='-O1 -fno-omit-frame-pointer -g3' \
-        SFLAGS='-O1 -fno-omit-frame-pointer -g3' \
         -j`nproc` > /dev/null
 
 
