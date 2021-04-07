@@ -27,7 +27,9 @@ override_dh_auto_build:
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \
 		&& mkdir -p $(DESTDIR)/usr/local/openresty-tcpdump/sbin \
-		&& install -m755 tcpdump-plus $(DESTDIR)/usr/local/openresty-tcpdump/sbin
+		&& mkdir -p $(DESTDIR)/usr/local/openresty-tcpdump/bin  \
+		&& install -m755 tcpdump-plus $(DESTDIR)/usr/local/openresty-tcpdump/sbin \
+		&& install -m755 hex2pcap $(DESTDIR)/usr/local/openresty-tcpdump/bin
 
 override_dh_auto_clean:
 	dh_clean

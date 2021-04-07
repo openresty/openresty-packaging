@@ -1,1 +1,2 @@
 usr/local/openresty-tcpdump/sbin/tcpdump-plus
+usr/local/openresty-tcpdump/bin/hex2pcap

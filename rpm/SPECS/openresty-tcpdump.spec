@@ -70,7 +70,9 @@ make -j`nproc`
 %install
 rm -rf $RPM_BUILD_ROOT
 mkdir -p ${RPM_BUILD_ROOT}%{tcpdump_prefix}/sbin
+mkdir -p ${RPM_BUILD_ROOT}%{tcpdump_prefix}/bin
 install -m755 tcpdump-plus ${RPM_BUILD_ROOT}%{tcpdump_prefix}/sbin
+install -m755 hex2pcap ${RPM_BUILD_ROOT}%{tcpdump_prefix}/bin
 
 export QA_RPATHS=$[ 0x0002 ]
 
@@ -90,6 +92,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %{tcpdump_prefix}/sbin/tcpdump-plus
+%{tcpdump_prefix}/bin/hex2pcap
 
 %changelog
 * Fri Oct 30 2020 Yichun Zhang (agentzh) 4.9.3.3-1
