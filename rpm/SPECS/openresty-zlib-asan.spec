@@ -12,7 +12,10 @@ Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      libtool, gcc, libasan
+BuildRequires:      libtool, gcc
+%if ! 0%{?suse_version}
+BuildRequires:      libasan
+%endif
 
 AutoReqProv:        no
 

@@ -21,12 +21,16 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
 BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1i-4
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
+%if ! 0%{?suse_version}
 BuildRequires:  libasan
+%endif
 
 Requires:       openresty-zlib-asan >= 1.2.11-16
 Requires:       openresty-openssl111-asan >= 1.1.1i-4
 Requires:       openresty-pcre-asan >= 8.44-4
+%if ! 0%{?suse_version}
 Requires:       libasan
+%endif
 
 AutoReqProv:        no
 
