@@ -12,11 +12,15 @@ Source0:            https://ftp.pcre.org/pub/pcre/pcre-%{version}.tar.bz2
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      ccache, libtool, gcc
-%if ! 0%{?suse_version}
+%if 0%{?suse_version}
+BuildRequires:      libasan4
+%else
 BuildRequires:      libasan
 %endif
 
-%if ! 0%{?suse_version}
+%if 0%{?suse_version}
+Requires:           libasan4
+%else
 Requires:           libasan
 %endif
 
