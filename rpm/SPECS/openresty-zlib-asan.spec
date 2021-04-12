@@ -17,6 +17,10 @@ BuildRequires:      libtool, gcc
 BuildRequires:      libasan
 %endif
 
+%if ! 0%{?suse_version}
+Requires: libasan
+%endif
+
 AutoReqProv:        no
 
 %define zlib_prefix     /usr/local/openresty-asan/zlib
