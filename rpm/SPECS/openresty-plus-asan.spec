@@ -1,7 +1,7 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.24
 Release:        1%{?dist}
-Summary:        The clang AddressSanitizer version of OpenResty+
+Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons
 
@@ -22,12 +22,12 @@ Source0:        openresty-plus-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  ccache, gcc, make, perl, valgrind-devel, clang
+BuildRequires:  ccache, make, perl, valgrind-devel, gcc
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-6
-BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1h-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.44-1
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
+BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1i-3
+BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
@@ -41,11 +41,24 @@ BuildRequires:  openldap-devel
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
-Requires:       openresty-zlib-asan >= 1.2.11-6
-Requires:       openresty-plus-openssl111-asan >= 1.1.1h-1
-Requires:       openresty-pcre-asan >= 8.44-1
+%if 0%{?suse_version}
+BuildRequires:  libasan4
+%else
+BuildRequires:  libasan
+%endif
+
+Requires:       openresty-zlib-asan >= 1.2.11-16
+Requires:       openresty-plus-openssl111-asan >= 1.1.1i-3
+Requires:       openresty-pcre-asan >= 8.44-4
 Requires:       openresty-yajl >= 2.1.0.4
-Requires:       openresty-maxminddb-asan >= 1.4.2.3
+Requires:       openresty-maxminddb-asan >= 1.4.2.4-2
+
+%if 0%{?suse_version}
+Requires:       libasan4
+%else
+Requires:       libasan
+%endif
+
 # needed by tcc
 Requires:       glibc-devel
 
@@ -70,7 +83,6 @@ AutoReqProv:        no
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
 
-# alas. clang does not really support -Og
 %define asan_cc_opts      -O1 -fno-omit-frame-pointer -fno-inline
 
 %if 0%{?el6}
@@ -93,8 +105,9 @@ AutoReqProv:        no
 
 
 %description
-This package contains the clang AddressSanitizer version of the core server
-for OpenResty+ for Valgrind. Built for development & testing purposes only.
+This package contains the gcc AddressSanitizer version of the core server
+for OpenResty+ with gcc's AddressSanitizer built in.
+Built for development & testing purposes only.
 
 DO NOT USE THIS PACKAGE IN PRODUCTION!
 
@@ -123,7 +136,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="ccache clang -fsanitize=address -fcolor-diagnostics" \
+    --with-cc="ccache gcc -fsanitize=address" \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include %{asan_cc_opts} -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64

@@ -1,7 +1,7 @@
 Name:               openresty-plus-openssl111-asan
 Version:            1.1.1i
-Release:            2%{?dist}
-Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
+Release:            3%{?dist}
+Summary:            gcc AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
 
@@ -16,10 +16,21 @@ Patch1:             openssl-1.1.1f-alpn_lookup_retry.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      ccache, gcc, make, perl, clang
+BuildRequires:      ccache, gcc, make, perl
 
-BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-6
-Requires:           openresty-zlib-asan >= 1.2.11-6
+BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-16
+%if 0%{?suse_version}
+BuildRequires:      libasan4
+%else
+BuildRequires:      libasan
+%endif
+
+Requires:           openresty-zlib-asan >= 1.2.11-16
+%if 0%{?suse_version}
+Requires:           libasan4
+%else
+Requires:           libasan
+%endif
 
 AutoReqProv:        no
 
@@ -37,7 +48,7 @@ AutoReqProv:        no
 
 
 %description
-This is the clang AddressSanitizer version of the OpenSSL library build for OpenResty uses.
+This is the gcc AddressSanitizer version of the OpenSSL library build for OpenResty uses.
 
 
 %if 0%{?suse_version}
@@ -75,7 +86,7 @@ Group:              Development/Libraries
 Requires:           %{name} = %{version}-%{release}
 
 %description devel
-Provides C header and static library for the clang AddressSanitizer version of OpenResty's OpenSSL library. This is the clang AddressSanitizer version.
+Provides C header and static library for the gcc AddressSanitizer version of OpenResty's OpenSSL library. This is the gcc AddressSanitizer version.
 
 %prep
 %setup -q -n openssl-%{version}
@@ -105,7 +116,7 @@ export ASAN_OPTIONS=detect_leaks=0
 
 make -j`nproc` \
     LD_LIBRARY_PATH= \
-    CC="ccache clang -fsanitize=address -fcolor-diagnostics -Qunused-arguments" \
+    CC="ccache gcc -fsanitize=address" \
     > /dev/stderr
 
 

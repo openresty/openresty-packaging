@@ -1,7 +1,7 @@
 Name:           openresty-maxminddb-asan
 Version:        1.4.2.4
-Release:        1%{?dist}
-Summary:        Clang AddressSanitizer version for OpenResty's fork of libmaxminddb
+Release:        2%{?dist}
+Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
 URL:            https://github.com/maxmind/libmaxminddb
@@ -17,6 +17,11 @@ AutoReqProv: no
 
 %define _prefix %{_usr}/local/openresty-plus-asan
 
+%if 0%{?suse_version}
+
+%debug_package
+
+%else
 # Remove source code from debuginfo package.
 %define __debug_install_post \
   %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
@@ -26,6 +31,8 @@ AutoReqProv: no
   mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
 
+%endif
+
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 8
 %undefine _debugsource_packages
 %undefine _debuginfo_subpackages
@@ -33,11 +40,21 @@ AutoReqProv: no
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: ccache, clang
+BuildRequires: ccache, gcc
+%if 0%{?suse_version}
+BuildRequires:  libasan4
+%else
+BuildRequires:  libasan
+%endif
 
+%if 0%{?suse_version}
+Requires:       libasan4
+%else
+Requires:       libasan
+%endif
 
 %description
-OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This is the clang AddressSanitizer build.
+OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This is the gcc AddressSanitizer build.
 
 # ------------------------------------------------------------------------
 %prep
@@ -48,11 +65,11 @@ OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This 
 export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix=%{_prefix} \
-    CC="clang -fsanitize=address"  \
+    CC="gcc -fsanitize=address"  \
     CFLAGS="-O1 -fno-omit-frame-pointer -g3" \
     --disable-tests
 
-make CC="clang -fsanitize=address" \
+make CC="gcc -fsanitize=address" \
         CFLAGS='-O1 -fno-omit-frame-pointer -g3' \
         -j`nproc` > /dev/null
 
