@@ -18,7 +18,7 @@ BuildRequires:      libasan
 %endif
 
 %if ! 0%{?suse_version}
-Requires: libasan
+Requires:           libasan
 %endif
 
 AutoReqProv:        no
