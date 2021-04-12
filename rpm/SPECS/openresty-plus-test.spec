@@ -75,8 +75,7 @@ AutoReqProv:        no
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
-%define lj_debug_cc_opts    -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 \
-    -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
+%define lj_debug_cc_opts    -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 %description
 This package contains the debug version of the core server for OpenResty+.
