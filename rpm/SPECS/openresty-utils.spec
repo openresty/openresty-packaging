@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.22
+Version:        0.23
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -83,9 +83,12 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/read-kern-bid
 %{prefix}/bin/fs-fgraph
 %{prefix}/bin/resty2
+%{prefix}/bin/trie-gen
 
 
 %changelog
+* Mon Apr 19 2021 LI Geng (ligeng@openresty.com) 0.23-1
+- upgraded openresty-utils to 0.23.
 * Tue Apr 6 2021 Yichun Zhang (agentzh) 0.22-1
 - upgraded openresty-utils to 0.22.
 * Wed Mar 31 2021 Yichun Zhang (agentzh) 0.21-1

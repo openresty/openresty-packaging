@@ -10,3 +10,4 @@ usr/local/openresty-utils/bin/shared-pages
 usr/local/openresty-utils/bin/read-kern-bid
 usr/local/openresty-utils/bin/fs-fgraph
 usr/local/openresty-utils/bin/resty2
+usr/local/openresty-utils/bin/trie-gen
