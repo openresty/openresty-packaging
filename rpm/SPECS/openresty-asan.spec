@@ -33,7 +33,11 @@ Requires:       openresty-pcre-asan >= 8.44-4
 %if 0%{?suse_version}
 Requires:       libasan4
 %else
+%if 0%{?centos} == 6
+Requires:           libasan5
+%else
 Requires:       libasan
+%endif
 %endif
 
 AutoReqProv:        no
