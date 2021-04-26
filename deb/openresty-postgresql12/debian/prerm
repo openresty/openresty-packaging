@@ -2,6 +2,8 @@
 
 if [ -d "/etc/systemd/system" ]; then
     /bin/systemctl stop openresty-postgresql12
+    rm -f /etc/systemd/system/openresty-postgresql12.service
+
 elif [ -n "$(command -v service)" ]; then
     $(command -v service) openresty-postgresql12 stop
 fi

@@ -2,27 +2,27 @@ Source: openresty-postgresql
 Section: database
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), libxml2-dev, libxslt-dev, libossp-uuid-dev, libreadline-dev, libssl-dev, ccache
+Build-Depends: debhelper (>= 9), ccache, libxml2-dev, libxslt-dev, libossp-uuid-dev, libreadline-dev, openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: http://www.postgresql.org/ftp/source/
 
 Package: openresty-postgresql
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111
 Description: PostgreSQL server
  PostgreSQL is the world's most advanced open source database.
 
 Package: openresty-postgresql-dev
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql (>= 9.6.19)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql (>= 9.6.20)
 Description: Development files for openresty-postgresql
  Provides C header and static library for the openresty-postgresql package.
 
 Package: openresty-postgresql-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-postgresql (>= 9.6.19)
+Depends: ${misc:Depends}, openresty-postgresql (>= 9.6.20)
 Description: Debug symbols for the openresty-postgresql package
  Debug symbols (or debuginfo) for the openresty-postgresql package.

@@ -1,0 +1,13 @@
+[Unit]
+Description=PostgreSQL database server
+
+[Service]
+Type=simple
+User=postgres
+ExecStart=/usr/local/openresty/postgresql/bin/postmaster -D /var/postgres/data
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

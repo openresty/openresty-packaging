@@ -9,18 +9,20 @@ openresty-postgresql12-download:
 	rm -rf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	mkdir -p openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	tar -xf postgresql-$(OPENRESTY_POSTGRESQL12_VER).tar.gz --strip-components=1 -C openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
-	rsync -a ../rpm/SOURCES/openresty-postgresql12.init openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)/
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql12.init openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)/
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql12.service openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)/
 	tar -czf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 
 openresty-postgresql12-clean:
-	cd openresty-postgresql12 && debclean
+	-cd openresty-postgresql12 && debclean
 	-find openresty-postgresql12 -maxdepth 1 ! -name 'debian' ! -name 'openresty-postgresql12' -print | xargs rm -rf
 	rm -rf openresty-postgresql12*.deb
 	rm -rf openresty-postgresql12_*.*
 
 .PHONY: openresty-postgresql12-build
 openresty-postgresql12-build: openresty-postgresql12-clean openresty-postgresql12-download
-	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev libssl-dev
+	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12
 	cd openresty-postgresql12 \

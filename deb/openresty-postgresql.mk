@@ -9,17 +9,20 @@ openresty-postgresql-download:
 	rm -rf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
 	mkdir -p openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
 	tar -xf postgresql-$(OPENRESTY_POSTGRESQL_VER).tar.gz --strip-components=1 -C openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql.init openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)/
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql.service openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)/
 	tar -czf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER).orig.tar.gz openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
 
 openresty-postgresql-clean:
-	cd openresty-postgresql && debclean
+	-cd openresty-postgresql && debclean
 	-find openresty-postgresql -maxdepth 1 ! -name 'debian' ! -name 'openresty-postgresql' -print | xargs rm -rf
 	rm -rf openresty-postgresql*.deb
 	rm -rf openresty-postgresql_*.*
 
 .PHONY: openresty-postgresql-build
 openresty-postgresql-build: openresty-postgresql-clean openresty-postgresql-download
-	sudo apt-get -y -q install libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev libssl-dev ccache
+	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql
 	cd openresty-postgresql \

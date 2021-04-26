@@ -9,7 +9,7 @@ export QA_RPATHS=$[ 0x0002 ]
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools-dev,systemd
+	-dh $@ --parallel --with autotools-dev
 
 override_dh_auto_test:
 
@@ -19,6 +19,8 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./configure --prefix=/usr/local/openresty/postgresql \
+            --libdir="/usr/local/openresty/postgresql/lib" \
+            --with-libraries="/usr/local/openresty-plus/openssl111/lib" \
             --with-libxml \
             --with-blocksize=32 \
             --with-segsize=2 \
@@ -26,18 +28,22 @@ override_dh_auto_build:
             --with-libxslt \
             --with-openssl \
             --with-ossp-uuid \
-            CC="ccache gcc" \
-            CFLAGS="-O2 -g3" \
-            LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty/postgresql/lib" \
-		&& make -j`nproc` > /dev/null
+            CC='ccache gcc' \
+            CFLAGS="-O2 -g3 -I/usr/local/openresty-plus/openssl111/include" \
+            LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty/postgresql/lib,-rpath,/usr/local/openresty-plus/openssl111/lib" \
+		&& make -j`nproc`
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) > /dev/null \
-		&& make install-world DESTDIR=$(DESTDIR) > /dev/null \
+	make install DESTDIR=$(DESTDIR) \
+		&& make install-world DESTDIR=$(DESTDIR) \
 		&& rm -rf $(DESTDIR)//usr/local/openresty/postgresql/share/man \
     $(DESTDIR)//usr/local/openresty/postgresql/share/doc \
-		&& install -d $(DESTDIR)/etc/profile.d \
+		&& rm -f $(DESTDIR)//usr/local/openresty/postgresql/lib/*/*.o \
+    $(DESTDIR)//usr/local/openresty/postgresql/lib/st[a-zA-Z0-9]* \
 		&& install -d $(DESTDIR)/etc/init.d \
+		&& install -d $(DESTDIR)//usr/local/openresty/postgresql/share/systemd \
+		&& install -p -m 0755 openresty-postgresql.init $(DESTDIR)/etc/init.d/openresty-postgresql \
+		&& install -p -m 0755 openresty-postgresql.service $(DESTDIR)//usr/local/openresty/postgresql/share/systemd/openresty-postgresql.service
 
 override_dh_auto_clean:
 	dh_clean

@@ -1,17 +1,21 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    PostgreSQL server
 
-%define pgprefix %{_usr}/local/openresty/postgresql
+%define pgprefix            %{_usr}/local/openresty/postgresql
+%define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 
 Group:      Productivity/Database
 License:    PostgreSQL License
 URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql.init
+Source2:    openresty-postgresql.service
 
-BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openssl-devel
+BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openresty-plus-openssl111-devel
+
+Requires:   openresty-plus-openssl111
 
 %if 0%{?suse_version}
 Requires:   libxslt1
@@ -23,13 +27,11 @@ Requires:   libreadline7
 %endif
 
 Requires:   libossp-uuid16
-Requires:   libopenssl1_1
 Requires:   libxml2-2
 %else
 Requires:   libxslt
 Requires:   readline
 Requires:   uuid
-Requires:   openssl-libs
 Requires:   libxml2
 %endif
 
@@ -88,6 +90,7 @@ type-diff=01;32"
 
 ./configure --prefix=%{pgprefix} \
             --libdir="%{pgprefix}/lib" \
+            --with-libraries="%{openssl_prefix}/lib" \
             --with-libxml \
             --with-blocksize=32 \
             --with-segsize=2 \
@@ -96,8 +99,8 @@ type-diff=01;32"
             --with-openssl \
             --with-ossp-uuid \
             CC='ccache gcc' \
-            CFLAGS="-O2 -g3" \
-            LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib"
+            CFLAGS="-O2 -g3 -I%{openssl_prefix}/include" \
+            LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib,-rpath,%{openssl_prefix}/lib"
 
 make -j`nproc`
 
@@ -114,20 +117,29 @@ rm -f ${RPM_BUILD_ROOT}/%{pgprefix}/lib/*/*.o \
 #install -d $RPM_BUILD_ROOT/etc/ld.so.conf.d
 #install -d $RPM_BUILD_ROOT/etc/profile.d
 install -d $RPM_BUILD_ROOT/etc/init.d
+install -d $RPM_BUILD_ROOT/%{pgprefix}/share/systemd
 %{__install} -p -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/etc/init.d/openresty-postgresql
+%{__install} -p -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/%{pgprefix}/share/systemd/openresty-postgresql.service
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
 %post
 #/sbin/ldconfig
-/sbin/chkconfig --add openresty-postgresql
+if [ -d "/etc/systemd/system" ]; then
+    ln -sf %{pgprefix}/share/systemd/openresty-postgresql.service \
+       /etc/systemd/system/openresty-postgresql.service
+else
+    /sbin/chkconfig --add openresty-postgresql
+fi
 
 
 %preun
 if [ $1 = 0 ]; then
     if [ -d "/etc/systemd/system" ]; then
         /bin/systemctl stop openresty-postgresql >/dev/null 2>&1
+        rm -f /etc/systemd/system/openresty-postgresql.service
+
     elif [ -n "$(command -v service)" ]; then
         $(command -v service) openresty-postgresql stop >/dev/null 2>&1
     fi
