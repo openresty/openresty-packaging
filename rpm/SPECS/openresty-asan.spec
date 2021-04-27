@@ -24,7 +24,11 @@ BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
 %if 0%{?suse_version}
 BuildRequires:  libasan4
 %else
+%if 0%{?centos} == 6
+#Requires:      devtoolset-9-libasan-devel
+%else
 BuildRequires:  libasan
+%endif
 %endif
 
 Requires:       openresty-zlib-asan >= 1.2.11-16
@@ -34,7 +38,7 @@ Requires:       openresty-pcre-asan >= 8.44-4
 Requires:       libasan4
 %else
 %if 0%{?centos} == 6
-Requires:           libasan5
+Requires:       libasan5
 %else
 Requires:       libasan
 %endif

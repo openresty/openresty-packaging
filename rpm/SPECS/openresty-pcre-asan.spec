@@ -15,7 +15,11 @@ BuildRequires:      ccache, libtool, gcc
 %if 0%{?suse_version}
 BuildRequires:      libasan4
 %else
+%if 0%{?centos} == 6
+#Requires:      devtoolset-9-libasan-devel
+%else
 BuildRequires:      libasan
+%endif
 %endif
 
 %if 0%{?suse_version}
