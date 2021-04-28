@@ -1,6 +1,6 @@
 Name:               openresty-pcre-asan
 Version:            8.44
-Release:            4%{?dist}
+Release:            5%{?dist}
 Summary:            Clang AddressSanitizer version of the Perl-compatible regular expression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -12,25 +12,6 @@ Source0:            https://ftp.pcre.org/pub/pcre/pcre-%{version}.tar.bz2
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      ccache, libtool, gcc
-%if 0%{?suse_version}
-BuildRequires:      libasan4
-%else
-%if 0%{?centos} == 6
-#BuildRequires:      devtoolset-9-libasan-devel
-%else
-BuildRequires:      libasan
-%endif
-%endif
-
-%if 0%{?suse_version}
-Requires:           libasan4
-%else
-%if 0%{?centos} == 6
-Requires:           libasan5
-%else
-Requires:           libasan
-%endif
-%endif
 
 AutoReqProv:        no
 
