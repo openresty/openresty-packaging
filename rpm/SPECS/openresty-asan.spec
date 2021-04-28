@@ -21,10 +21,28 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
 BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1i-4
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
+%if 0%{?suse_version}
+BuildRequires:  libasan4
+%else
+%if 0%{?centos} == 6
+#BuildRequires:      devtoolset-9-libasan-devel
+%else
+BuildRequires:  libasan
+%endif
+%endif
 
 Requires:       openresty-zlib-asan >= 1.2.11-16
 Requires:       openresty-openssl111-asan >= 1.1.1i-4
 Requires:       openresty-pcre-asan >= 8.44-4
+%if 0%{?suse_version}
+Requires:       libasan4
+%else
+%if 0%{?centos} == 6
+Requires:       libasan5
+%else
+Requires:       libasan
+%endif
+%endif
 
 AutoReqProv:        no
 
@@ -98,7 +116,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix="%{orprefix}" \
     --with-debug \
-    --with-cc="ccache gcc -lasan" \
+    --with-cc="ccache gcc -fsanitize=address" \
     --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O1" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \

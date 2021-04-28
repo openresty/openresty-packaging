@@ -16,10 +16,28 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      ccache, gcc, make, perl, gcc
+BuildRequires:      ccache, make, perl, gcc
+%if 0%{?suse_version}
+BuildRequires:      libasan4
+%else
+%if 0%{?centos} == 6
+#BuildRequires:          devtoolset-9-libasan-devel
+%else
+BuildRequires:      libasan
+%endif
+%endif
 
 BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-16
 Requires:           openresty-zlib-asan >= 1.2.11-16
+%if 0%{?suse_version}
+Requires:           libasan4
+%else
+%if 0%{?centos} == 6
+Requires:           libasan5
+%else
+Requires:           libasan
+%endif
+%endif
 
 AutoReqProv:        no
 

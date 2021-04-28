@@ -13,6 +13,25 @@ Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      libtool, gcc
+%if 0%{?suse_version}
+BuildRequires:      libasan4
+%else
+%if 0%{?centos} == 6
+#BuildRequires:          libasan5
+%else
+BuildRequires:      libasan
+%endif
+%endif
+
+%if 0%{?suse_version}
+Requires:           libasan4
+%else
+%if 0%{?centos} == 6
+Requires:           libasan5
+%else
+Requires:           libasan
+%endif
+%endif
 
 AutoReqProv:        no
 
