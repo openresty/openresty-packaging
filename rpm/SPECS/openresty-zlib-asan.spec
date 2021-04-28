@@ -1,6 +1,6 @@
 Name:               openresty-zlib-asan
 Version:            1.2.11
-Release:            16%{?dist}
+Release:            17%{?dist}
 Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -13,25 +13,6 @@ Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      libtool, gcc
-%if 0%{?suse_version}
-BuildRequires:      libasan4
-%else
-%if 0%{?centos} == 6
-#BuildRequires:          libasan5
-%else
-BuildRequires:      libasan
-%endif
-%endif
-
-%if 0%{?suse_version}
-Requires:           libasan4
-%else
-%if 0%{?centos} == 6
-Requires:           libasan5
-%else
-Requires:           libasan
-%endif
-%endif
 
 AutoReqProv:        no
 
