@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.28
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -25,9 +25,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ccache, make, perl, valgrind-devel, gcc
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-17
 BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1i-3
-BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
+BuildRequires:  openresty-pcre-asan-devel >= 8.44-5
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
@@ -41,23 +41,12 @@ BuildRequires:  openldap-devel
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
-%if 0%{?suse_version}
-BuildRequires:  libasan4
-%else
-BuildRequires:  libasan
-%endif
 
-Requires:       openresty-zlib-asan >= 1.2.11-16
+Requires:       openresty-zlib-asan >= 1.2.11-17
 Requires:       openresty-plus-openssl111-asan >= 1.1.1i-3
-Requires:       openresty-pcre-asan >= 8.44-4
+Requires:       openresty-pcre-asan >= 8.44-5
 Requires:       openresty-yajl >= 2.1.0.4
-Requires:       openresty-maxminddb-asan >= 1.4.2.4-2
-
-%if 0%{?suse_version}
-Requires:       libasan4
-%else
-Requires:       libasan
-%endif
+Requires:       openresty-maxminddb-asan >= 1.4.2.4-3
 
 # needed by tcc
 Requires:       glibc-devel

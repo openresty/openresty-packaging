@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb-asan
 Version:        1.4.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
@@ -41,17 +41,6 @@ AutoReqProv: no
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: ccache, gcc
-%if 0%{?suse_version}
-BuildRequires:  libasan4
-%else
-BuildRequires:  libasan
-%endif
-
-%if 0%{?suse_version}
-Requires:       libasan4
-%else
-Requires:       libasan
-%endif
 
 %description
 OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This is the gcc AddressSanitizer build.

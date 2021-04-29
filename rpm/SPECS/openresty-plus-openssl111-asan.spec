@@ -17,20 +17,9 @@ Patch1:             openssl-1.1.1f-alpn_lookup_retry.patch
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      ccache, gcc, make, perl
+BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-17
 
-BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-16
-%if 0%{?suse_version}
-BuildRequires:      libasan4
-%else
-BuildRequires:      libasan
-%endif
-
-Requires:           openresty-zlib-asan >= 1.2.11-16
-%if 0%{?suse_version}
-Requires:           libasan4
-%else
-Requires:           libasan
-%endif
+Requires:           openresty-zlib-asan >= 1.2.11-17
 
 AutoReqProv:        no
 
