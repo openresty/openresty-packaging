@@ -1,6 +1,6 @@
 Name:           openresty-plus
-Version:        1.19.3.1.28
-Release:        2%{?dist}
+Version:        1.19.3.1.29
+Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -363,6 +363,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 29 2021 Yichun Zhang (agentzh) 1.19.3.1.29-1
+- upgraded openresty-plus to 1.19.3.1.29.
 * Thu Apr 29 2021 LI Geng (ligeng@openresty.com) 1.19.3.1.28-2
 - add symlink to libtriegen.so in openresty-utils.
 * Wed Apr 28 2021 Yichun Zhang (agentzh) 1.19.3.1.28-1
