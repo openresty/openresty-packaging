@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.3.1.25
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -106,6 +106,7 @@ OpenResty Plus for SaaS product clients.
     --without-tcc \
     --without-lua_resty_maxminddb \
     --without-lua_resty_jsonb \
+    --without-lua_resty_dymetrics \
     -j`nproc`
 
 make -j`nproc`

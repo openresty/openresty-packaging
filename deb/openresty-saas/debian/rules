@@ -56,6 +56,7 @@ override_dh_auto_configure:
     --without-tcc \
     --without-lua_resty_maxminddb \
     --without-lua_resty_jsonb \
+    --without-lua_resty_dymetrics \
     -j$(JOBS)
 
 override_dh_usrlocal:
