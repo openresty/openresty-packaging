@@ -10,6 +10,10 @@ Source0:        libmaxminddb-plus-%{version}.tar.gz
 
 AutoReqProv: no
 
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:  ccache, make, gcc
+
 %define _rpmmacrodir %{_rpmconfigdir}/macros.d
 
 %define _unpackaged_files_terminate_build 0
@@ -38,9 +42,7 @@ AutoReqProv: no
 %undefine _debuginfo_subpackages
 %endif
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: ccache, gcc
 
 %description
 OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This is the gcc AddressSanitizer build.
