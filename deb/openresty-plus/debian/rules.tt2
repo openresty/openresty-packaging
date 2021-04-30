@@ -87,6 +87,7 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
+	ln -sf $(ORUTILS_PREFIX)/lib/libtriegen.so $(DESTDIR)/usr/local/openresty-plus/lualib/
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}

@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.23
+Version:        0.24
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -84,9 +84,12 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/fs-fgraph
 %{prefix}/bin/resty2
 %{prefix}/bin/trie-gen
+%{prefix}/lib/libtriegen.so
 
 
 %changelog
+* Fri Apr 30 2021 LI Geng (ligeng@openresty.com) 0.24-1
+- upgraded openresty-utils to 0.24.
 * Mon Apr 19 2021 LI Geng (ligeng@openresty.com) 0.23-1
 - upgraded openresty-utils to 0.23.
 * Tue Apr 6 2021 Yichun Zhang (agentzh) 0.22-1
