@@ -1,0 +1,2 @@
+usr/local/openresty-asan/openssl111/include/*
+usr/local/openresty-asan/openssl111/lib/*.a

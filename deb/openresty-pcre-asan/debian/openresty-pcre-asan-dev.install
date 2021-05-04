@@ -1,0 +1,2 @@
+usr/local/openresty-asan/pcre/lib/*.a
+usr/local/openresty-asan/pcre/include/*.h
