@@ -29,7 +29,9 @@ build: zlib-build pcre-build openssl-build \
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-clean openresty-debug-clean openresty-valgrind-clean \
 		lemplate-clean test-nginx-clean \
-		openssl111-clean openssl111-debug-clean
+		openssl111-clean openssl111-debug-clean  \
+		openresty-zlib-asan openresty-pcre-asan  \
+		openresty-openssl111-asan openresty-asan
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
@@ -313,4 +315,5 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
+include *.mk
 ### Makefile ends here

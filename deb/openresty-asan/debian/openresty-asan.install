@@ -1,0 +1,10 @@
+usr/bin/openresty-asan
+usr/local/openresty-asan/bin/openresty
+usr/local/openresty-asan/site/lualib/
+usr/local/openresty-asan/luajit/*
+usr/local/openresty-asan/lualib/*
+usr/local/openresty-asan/nginx/html/*
+usr/local/openresty-asan/nginx/logs/
+usr/local/openresty-asan/nginx/sbin/*
+usr/local/openresty-asan/nginx/conf/*
+usr/local/openresty-asan//COPYRIGHT

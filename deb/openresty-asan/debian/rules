@@ -1,0 +1,80 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure \
+    --prefix="/usr/local/openresty-asan" \
+    --with-debug \
+    --with-cc="ccache gcc -fsanitize=address" \
+    --with-cc-opt="-I/usr/local/openresty-asan/zlib/include -I/usr/local/openresty-asan/pcre/include -I/usr/local/openresty-asan/openssl111/include -O1" \
+    --with-ld-opt="-L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre/lib -L/usr/local/openresty-asan/openssl111/lib -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/pcre/lib:/usr/local/openresty-asan/openssl111/lib" \
+    --with-pcre-jit \
+    --without-http_rds_json_module \
+    --without-http_rds_csv_module \
+    --without-lua_rds_parser \
+    --with-stream \
+    --with-stream_ssl_module \
+    --with-stream_ssl_preread_module \
+    --with-http_v2_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_auth_request_module \
+    --with-http_secure_link_module \
+    --with-http_random_index_module \
+    --with-http_gzip_static_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_mp4_module \
+    --with-http_gunzip_module \
+    --with-threads \
+    --with-poll_module \
+    --with-compat \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
+    --with-no-pool-patch \
+    -j`nproc` \
+		&& make -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/luajit/share/man \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/luajit/lib/libluajit-5.1.a \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/resty \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/restydoc \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/restydoc-index \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/md2pod.pl \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/opm \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/bin/nginx-xml2pod \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/pod/* \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/resty.index \
+		&& mkdir -p $(DESTDIR)/usr/bin \
+		&& ln -sf /usr/local/openresty-asan/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-asan
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-asan-dbgsym
