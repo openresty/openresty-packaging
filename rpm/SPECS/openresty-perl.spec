@@ -4,7 +4,7 @@
 
 Name:           openresty-perl
 Version:        5.24.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of Perl programming language
 Group:          Development/Languages
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
@@ -127,7 +127,10 @@ chmod -R u+w $RPM_BUILD_ROOT/*
 # remove all pod files
 find $RPM_BUILD_ROOT -type f -name '*.pod' -delete
 # trim POD code from all .pl or .pm files
+# FirstTime.pm: special uses with pod, skip it.
 find $RPM_BUILD_ROOT -type f \( -name '*.pm' -or -name '*.pl' \) \
+    | grep -v 'FirstTime.pm' \
+    | grep -v 'Opcode.pm' \
     | xargs -r sed -i -nE '/^=\w/,/^=cut/!p'
 
 # tests -- FIXME need to validate that this all works as expected

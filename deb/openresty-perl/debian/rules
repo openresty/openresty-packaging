@@ -57,6 +57,8 @@ override_dh_auto_install:
 		&& find $(DESTDIR) -type f -name '*.bs' -empty -delete \
 		&& find $(DESTDIR) -type f -name '*.pod' -delete \
 		&& find $(DESTDIR) -type f \( -name '*.pm' -or -name '*.pl' \) \
+			| grep -v 'FirstTime.pm' \
+			| grep -v 'Opcode.pm' \
 			| xargs -r sed -i -nE '/^=\w/,/^=cut/!p'
 
 override_dh_auto_clean:
