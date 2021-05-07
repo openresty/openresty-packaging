@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure \
+    --prefix=/usr/local/openresty-plus-asan \
+    CC="ccache gcc -fsanitize=address"  \
+    CFLAGS="-O1 -fno-omit-frame-pointer -g3" \
+    --disable-tests \
+		&& make -j`nproc` > /dev/null
+
+override_dh_auto_install:
+	install -d $(DESTDIR)//usr/local/openresty-plus-asan/lualib \
+		&& install ./src/.libs/libmaxminddb.so $(DESTDIR)//usr/local/openresty-plus-asan/lualib/libmaxminddb.so
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-maxminddb-asan-dbgsym

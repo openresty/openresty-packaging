@@ -1,0 +1,15 @@
+usr/bin/openresty-plus-asan
+usr/local/openresty-plus-asan/COPYRIGHT
+usr/local/openresty-plus-asan/bin/openresty-plus
+usr/local/openresty-plus-asan/site/lualib/
+usr/local/openresty-plus-asan/luajit/*
+usr/local/openresty-plus-asan/lualib/*
+usr/local/openresty-plus-asan/lmdb/bin/mdb_dump
+usr/local/openresty-plus-asan/lmdb/lib/liblmdb.so
+usr/local/openresty-plus-asan/nginx/html/*
+usr/local/openresty-plus-asan/nginx/logs/
+usr/local/openresty-plus-asan/nginx/sbin/*
+usr/local/openresty-plus-asan/tcc/bin/tcc
+usr/local/openresty-plus-asan/tcc/lib/*
+usr/local/openresty-plus-asan/tcc/include/*
+usr/local/openresty-plus-asan/nginx/conf/*

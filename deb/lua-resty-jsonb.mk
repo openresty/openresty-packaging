@@ -16,6 +16,7 @@ lua-resty-jsonb-clean:
 	-find lua-resty-jsonb -maxdepth 1 ! -name 'debian' ! -name 'lua-resty-jsonb' -print | xargs rm -rf
 	rm -rf lua-resty-jsonb*.deb
 	rm -rf lua-resty-jsonb_*.*
+	rm -rf lua-resty-jsonb/debian/changelog
 
 .PHONY: lua-resty-jsonb-build
 lua-resty-jsonb-build: lua-resty-jsonb-clean lua-resty-jsonb-download

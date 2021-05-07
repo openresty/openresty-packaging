@@ -1,0 +1,123 @@
+#!/usr/bin/make -f
+DPKG_EXPORT_BUILDFLAGS = 1
+orprefix = /usr/local/openresty-plus-asan
+ORUTILS_PREFIX = /usr/local/openresty-utils
+
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure \
+    --prefix="/usr/local/openresty-plus-asan" \
+    --with-debug \
+    --with-cc="ccache gcc -fsanitize=address" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I/usr/local/openresty-asan/zlib/include -I/usr/local/openresty-asan/pcre/include -I/usr/local/openresty-plus-asan/openssl111/include -O1 -fno-omit-frame-pointer -fno-inline -g3" \
+    --with-ld-opt="-L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre/lib -L/usr/local/openresty-plus-asan/openssl111/lib -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/pcre/lib:/usr/local/openresty-plus-asan/openssl111/lib" \
+    --with-lua_resty_hyperscan \
+    --with-pcre-jit \
+    [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
+    [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
+    [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
+    [% IF with_lua_resty_session %]--with-lua_resty_session [% END %]\
+    [% IF with_lua_resty_jwt %]--with-lua_resty_jwt [% END %]\
+    [% IF with_lua_resty_hmac %]--with-lua_resty_hmac [% END %]\
+    [% IF with_lua_resty_mlcache %]--with-lua_resty_mlcache [% END %]\
+    --without-http_rds_json_module \
+    --without-http_rds_csv_module \
+    --without-lua_rds_parser \
+    --without-http_xss_module \
+    --without-http_form_input_module \
+    --without-http_srcache_module \
+    --without-http_lua_upstream_module \
+    --without-http_array_var_module \
+    --without-http_memc_module \
+    --without-http_redis2_module \
+    --without-http_redis_module \
+    --without-lua_redis_parser \
+    --without-lua_rds_parser \
+    --without-lua_resty_upstream_healthcheck \
+    --without-select_module \
+    --without-http_userid_module \
+    --without-http_autoindex_module \
+    --without-http_geo_module \
+    --without-http_split_clients_module \
+    --without-http_fastcgi_module \
+    --without-http_uwsgi_module \
+    --without-http_scgi_module \
+    --without-http_memcached_module \
+    --without-http_limit_conn_module \
+    --without-http_limit_req_module \
+    --without-http_empty_gif_module \
+    --without-http_browser_module \
+    --without-http_upstream_hash_module \
+    --without-http_upstream_ip_hash_module \
+    --without-http_upstream_least_conn_module \
+    --without-http_upstream_zone_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
+    --without-stream_limit_conn_module \
+    --without-stream_return_module \
+    --without-stream_upstream_hash_module \
+    --without-stream_upstream_least_conn_module \
+    --without-stream_upstream_zone_module \
+    --with-stream \
+    --with-stream_ssl_module \
+    --with-stream_ssl_preread_module \
+    --with-http_v2_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --with-http_gzip_static_module \
+    --with-http_gunzip_module \
+    --with-ngx_qat_module \
+    --with-threads \
+    --with-compat \
+    --with-poll_module \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer -fno-inline -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-no-pool-patch \
+    -j$(JOBS) 1>&2 \
+	&& make -j$(JOBS)
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR)
+	make install DESTDIR=$(DESTDIR)
+	rm -rf $(DESTDIR) && make install DESTDIR=$(DESTDIR)
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus-asan/bin/
+	ln -sf $(ORUTILS_PREFIX)/lib/libtriegen.so $(DESTDIR)/usr/local/openresty-plus-asan/lualib/
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/luajit/share/man
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/lib/*.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/include
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/share
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/tcc/share
+	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
+		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" \
+		LD_PRELOAD= $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
+	mkdir -p $(DESTDIR)/usr/bin
+	ln -sf /usr/local/openresty-plus-asan/nginx/sbin/nginx $(DESTDIR)/usr/bin/openresty-plus-asan
+
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-plus-asan-dbgsym

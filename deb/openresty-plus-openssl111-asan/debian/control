@@ -1,0 +1,28 @@
+Source: openresty-plus-openssl111-asan
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-zlib-asan-dev (>= 1.2.11)
+Standards-Version: 3.9.8
+Homepage: https://www.openssl.org/
+
+Package: openresty-plus-openssl111-asan
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib-asan (>= 1.2.11)
+Description: gcc AddressSanitizer Debug version of the OpenSSL library for OpenResty
+ This is the gcc AddressSanitizer version of the OpenSSL library build for OpenResty uses.
+
+Package: openresty-plus-openssl111-asan-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111-asan (>= 1.1.1i)
+Description: Clang AddressSanitizer version of development files for OpenResty's OpenSSL library
+ Provides C header and static library for the gcc AddressSanitizer version of OpenResty's OpenSSL library. This is the gcc AddressSanitizer version.
+
+Package: openresty-plus-openssl111-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-plus-openssl111-asan (>= 1.1.1i)
+Description: Debug symbols for the openresty-plus-openssl111-asan package
+ Debug symbols (or debuginfo) for the openresty-plus-openssl111-asan package.

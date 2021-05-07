@@ -1,0 +1,41 @@
+Source: openresty-plus-asan
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
+ openresty-zlib-asan-dev (>= 1.2.11), openresty-plus-openssl111-asan-dev (>= 1.1.1i), openresty-pcre-asan-dev (>= 8.44),
+ perl, libfile-temp-perl, libgd-dev, libc-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
+ libldap-2.4-2, libldap2-dev[% END %], openresty-yajl-dev (>= 2.1.0.4)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-plus-asan
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
+ openresty-zlib-asan (>= 1.2.11), openresty-plus-openssl111-asan (>= 1.1.1i), openresty-pcre-asan (>= 8.44), libgd3[% IF with_lua_ldap %],
+  libldap-2.4-2[% END %],
+ openresty-maxminddb-asan (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4)
+Description: core server of OpenResty+ for production use
+ This package contains the core server for OpenResty+, an enhanced version of
+ OpenResty. Built for production uses.
+ .
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ .
+ By taking advantage of various well-designed Nginx modules (most of which
+ are developed by the OpenResty team themselves), OpenResty effectively
+ turns the nginx server into a powerful web app server, in which the web
+ developers can use the Lua programming language to script various existing
+ nginx C modules and Lua modules and construct extremely high-performance
+ web applications that are capable to handle 10K ~ 1000K+ connections in
+ a single box.
+
+Package: openresty-plus-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus
+Description: Debug symbols for the OpenResty+ package
+ Debug symbols of the OpenResty+ package.

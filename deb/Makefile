@@ -73,7 +73,11 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-perl-module-build-tiny-clean \
 		openresty-perl-opcodes-clean openresty-perl-readonly \
 		openresty-perl-clean openresty-keepalived-clean \
-		openresty-plus-test-clean
+		openresty-plus-test-clean \
+		lua-resty-jsonb-clean \
+		openresty-plus-openssl111-asan-clean \
+		openresty-plus-asan-clean \
+		openresty-maxminddb-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

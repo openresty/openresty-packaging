@@ -1,0 +1,2 @@
+/etc/*
+usr/local/openresty-plus-asan/nginx/conf/*
