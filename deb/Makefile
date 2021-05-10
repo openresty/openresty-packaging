@@ -77,7 +77,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		lua-resty-jsonb-clean \
 		openresty-plus-openssl111-asan-clean \
 		openresty-plus-asan-clean \
-		openresty-maxminddb-clean
+		openresty-maxminddb-clean \
+		openresty-zlib-asan openresty-pcre-asan  \
+		openresty-openssl111-asan openresty-asan
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

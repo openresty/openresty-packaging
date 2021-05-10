@@ -1,0 +1,36 @@
+Source: openresty-asan
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, make, perl, valgrind, systemtap-sdt-dev, gcc, openresty-zlib-asan-dev (>= 1.2.11), openresty-openssl111-asan-dev (>= 1.1.1i), openresty-pcre-asan-dev (>= 8.44)
+Standards-Version: 3.9.8
+Homepage: https://openresty.org/
+
+Package: openresty-asan
+Architecture: any
+Section: httpd
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib-asan (>= 1.2.11), openresty-openssl111-asan (>= 1.1.1i), openresty-pcre-asan (>= 8.44)
+Description: The AddressSanitizer (ASAN) version of OpenResty
+ This package contains a gcc AddressSanitizer version of the core server
+ for OpenResty with
+ gcc's AddressSanitizer built in. Built for development purposes only.
+ DO NOT USE THIS PACKAGE IN PRODUCTION!
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ By taking advantage of various well-designed Nginx modules (most of which
+ are developed by the OpenResty team themselves), OpenResty effectively
+ turns the nginx server into a powerful web app server, in which the web
+ developers can use the Lua programming language to script various existing
+ nginx C modules and Lua modules and construct extremely high-performance
+ web applications that are capable to handle 10K ~ 1000K+ connections in
+ a single box.
+
+Package: openresty-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-asan (>= 1.19.3.1)
+Description: Debug symbols for the openresty-asan package
+ Debug symbols (or debuginfo) for the openresty-asan package.
