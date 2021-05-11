@@ -100,6 +100,12 @@ the components needed to locally develop and execute systemtap scripts.
 %undefine _debuginfo_subpackages
 %endif
 
+%if 0%{?fedora} >= 34
+%define EXTRA_CFLAGS "-Wno-array-parameter"
+%else
+%define EXTRA_CFLAGS ""
+%endif
+
 
 %package devel
 Summary: devel files for OpenResty's fork of elfutils
@@ -126,7 +132,8 @@ autoreconf -vif
     --libdir="%{eu_prefix}/lib" \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl' \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="-I%{yajl_prefix}/include -g3 -O2" \
+    CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -g3 -O2" \
+    YFLAGS="-Wno-yacc" \
     --enable-maintainer-mode
 
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
