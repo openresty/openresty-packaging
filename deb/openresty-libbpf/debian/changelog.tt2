@@ -1,0 +1,12 @@
+openresty-libbpf (0.3.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded libbpf-plus to 0.3.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 14 May 2021 15:29:44 +0800
+
+openresty-libbpf (0.3.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 06 May 2021 14:30:10 +0800
+

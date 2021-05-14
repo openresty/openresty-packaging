@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-libbpf
+ELF_PREFIX = /usr/local/openresty-elfutils
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd src/ \
+		&& make -j$(JOBS) CC='ccache gcc' \
+    CFLAGS='-I$(ELF_PREFIX)/include -g3 -O3' \
+    LDFLAGS='-L$(ELF_PREFIX)/lib -Wl,-rpath,$(ELF_PREFIX)/lib' \
+    NO_PKG_CONFIG=1 \
+		&& cd ../
+
+override_dh_auto_install:
+	cd src/ \
+		&& make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) \
+		LIBSUBDIR=lib \
+		NO_PKG_CONFIG=1 \
+		&& cd ../
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-libbpf-dbgsym

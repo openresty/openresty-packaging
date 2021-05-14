@@ -1,0 +1,3 @@
+usr/local/openresty-libbpf/lib/libbpf.a
+usr/local/openresty-libbpf/lib/pkgconfig/*
+usr/local/openresty-libbpf/include/*
