@@ -19,7 +19,7 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_TCPDUMP_VER\ :=\ ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_TCPDUMP_VER := $version/msx) {
+        if (s/^ OPENRESTY_LIBBPF_VER\ :=\ ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_LIBBPF_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
