@@ -291,7 +291,6 @@ make -j`nproc`
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
-ln -sf %{orutils_prefix}/lib/libtriegen.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 
