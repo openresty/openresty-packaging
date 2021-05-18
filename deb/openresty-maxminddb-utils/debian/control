@@ -1,0 +1,21 @@
+Source: openresty-maxminddb-utils
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), make
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com
+
+Package: openresty-maxminddb-utils
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty Maxminddb Utils
+ OpenResty Maxminddb Utils
+
+Package: openresty-maxminddb-utils-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-maxminddb-utils (>= 0.0.1)
+Description: Debug symbols for the openresty-maxminddb-utils package
+ Debug symbols (or debuginfo) for the openresty-maxminddb-utils package.

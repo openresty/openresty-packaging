@@ -78,6 +78,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-plus-openssl111-asan-clean \
 		openresty-plus-asan-clean \
 		openresty-maxminddb-clean \
+		openresty-maxminddb-utils-clean \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
 		openresty-libbpf-clean

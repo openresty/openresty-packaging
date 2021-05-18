@@ -9,7 +9,7 @@ sub update_makefile ($);
 
 my $version = shift or die "No version number specified.\n";
 
-if ($version !~ /^\d+(?:\.\d+){3}$/) {
+if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
@@ -20,7 +20,7 @@ sub update_makefile($) {
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_MAXMINDDB(\w+)VER\ :=\ ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_MAXMINDDB${1}VER := $version/msx) {
+        if (s/^ OPENRESTY_MAXMINDDB_UTILS(.*?_)VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_MAXMINDDB_UTILS$1VER := $version/msx) {
             my $old_ver = $2;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -46,13 +46,13 @@ sub update_makefile($) {
     }
 }
 
-for my $file (reverse sort  grep { !/utils/ } glob 'openresty-maxminddb*.mk') {
+for my $file (reverse sort glob 'openresty-maxminddb-utils*.mk') {
         update_makefile $file;
 }
 
-for my $dir (reverse sort grep { !/utils/ } glob 'openresty-maxminddb*') {
+for my $dir (reverse sort glob 'openresty-maxminddb-utils*') {
     next unless -d $dir && -d "$dir/debian";
-    if ($dir =~ /^openresty-maxminddb(?:-(?:valgrind|asan|debug))?$/) {
+    if ($dir =~ /^openresty-maxminddb-utils(?:-(?:valgrind|asan|debug))?$/) {
         my $name = $dir;
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {
@@ -78,7 +78,7 @@ sub update_changelog ($$) {
         die "Bad file content in $file";
     }
 
-    if ($src =~ /^ \Q$name\E \s+ \( ( \d+ (?: \.\d+ ){3} ) - \d+ ~ /xsm) {
+    if ($src =~ /^ \Q$name\E \s+ \( ( \d+ (?: \.\d+ ){2} ) - \d+ ~ /xsm) {
         my $old_ver = $1;
         if ($old_ver ne $version) {
             say "INFO: $file: version needs update from $old_ver to $version";

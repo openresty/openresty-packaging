@@ -1,0 +1,3 @@
+usr/local/openresty-maxminddb-utils/bin/maxminddb-exporter
+usr/local/openresty-maxminddb-utils/bin/qqzeng-converter
+usr/local/openresty-maxminddb-utils/conf/*
