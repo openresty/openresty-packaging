@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -132,6 +132,10 @@ mkdir -p %{buildroot}/usr/local/openresty-plus-debug/lualib/
 ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}/usr/local/openresty-plus-debug/lualib/
 ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openresty-plus-debug/lualib/
 
+mkdir -p %{buildroot}/usr/local/openresty-plus-test/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}/usr/local/openresty-plus-test/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openresty-plus-test/lualib/
+
 rm -rf %{buildroot}%{hyperscan_prefix}/share/doc
 
 
@@ -142,6 +146,7 @@ rm -rf %{buildroot}
 %files
 /usr/local/openresty-plus/lualib/libhs.so
 /usr/local/openresty-plus-debug/lualib/libhs.so
+/usr/local/openresty-plus-test/lualib/libhs.so
 %{hyperscan_prefix}/%{_lib}/*.so*
 %exclude %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
 
@@ -154,6 +159,7 @@ rm -rf %{buildroot}
 %files runtime
 /usr/local/openresty-plus/lualib/libhs_runtime.so
 /usr/local/openresty-plus-debug/lualib/libhs_runtime.so
+/usr/local/openresty-plus-test/lualib/libhs_runtime.so
 %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
 
 

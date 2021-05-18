@@ -1,3 +1,9 @@
+openresty-plus-hyperscan (5.0.0-3~[% distro %]1) [% distro %]; urgency=high
+
+  * added symlinks to openresty-plus-test directory.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 18 May 2021 18:13:33 +0800
+
 openresty-plus-hyperscan (5.0.0-2~[% distro %]1) [% distro %]; urgency=high
 
   * Bundle Boost 1.69.0 ourselves.

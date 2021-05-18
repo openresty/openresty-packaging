@@ -41,12 +41,13 @@ BuildRequires:  openldap-devel
 %endif
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel
+Requires:       openresty-plus-hyperscan
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl111 >= 1.1.1i-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
-Requires:       openresty-maxminddb >= 1.4.2.4
+Requires:       openresty-maxminddb-test >= 1.4.2.4
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:       libgd3

@@ -36,6 +36,10 @@ override_dh_auto_install:
 	ln -sf $(hyperscan_prefix)/lib/libhs.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
 	ln -sf $(hyperscan_prefix)/lib/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus-debug/lualib/
 
+	mkdir -p $(DESTDIR)/usr/local/openresty-plus-test/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs.so $(DESTDIR)/usr/local/openresty-plus-test/lualib/
+	ln -sf $(hyperscan_prefix)/lib/libhs_runtime.so $(DESTDIR)/usr/local/openresty-plus-test/lualib/
+
 override_dh_install:
 	dh_install
 

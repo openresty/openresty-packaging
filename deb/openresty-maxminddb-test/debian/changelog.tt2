@@ -1,0 +1,5 @@
+openresty-maxminddb-test (1.4.2.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 18 May 2021 17:49:50 +0800
