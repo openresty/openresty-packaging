@@ -21,7 +21,7 @@ override_dh_auto_build:
 	PATH=/opt/go/bin:$$PATH make -j`nproc`
 
 override_dh_auto_install:
-	make install \
+	PATH=/opt/go/bin:$$PATH make install \
     DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty-maxminddb-utils
 
 override_dh_auto_clean:

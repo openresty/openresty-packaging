@@ -20,17 +20,10 @@ OpenResty Maxminddb Utils
 
 %global _missing_build_ids_terminate_build 0
 
-%if 0%{?suse_version}
-
-%debug_package
-
-%else
 # Remove source code from debuginfo package.
 %define __debug_install_post \
 %{_rpmconfigdir}/find-debuginfo.sh %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"\
 %{nil}
-
-%endif
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
@@ -50,7 +43,7 @@ OpenResty Maxminddb Utils
 PATH=/opt/go/bin:$PATH make -j`nproc`
 
 %install
-make install \
+PATH=/opt/go/bin:$PATH make install \
     DESTDIR=%{buildroot} PREFIX=%{prefix}
 
 # to silence the check-rpath error
