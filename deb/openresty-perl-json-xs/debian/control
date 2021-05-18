@@ -1,0 +1,25 @@
+Source: openresty-perl-json-xs
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4), openresty-perl-types-serialiser, openresty-perl-common-sense, openresty-perl-canary-stability
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/JSON-XS/
+
+Package: openresty-perl-json-xs
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-types-serialiser, openresty-perl-common-sense
+Description: unknown
+ This module converts Perl data structures to JSON and vice versa. Its
+ primary goal is to be correct and its secondary goal is to be fast.
+ To reach the latter goal it was written in C.
+ .
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-json-xs-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-json-xs (>= 4.03)
+Description: Debug symbols for the openresty-perl-json-xs package
+ Debug symbols (or debuginfo) for the openresty-perl-json-xs package.

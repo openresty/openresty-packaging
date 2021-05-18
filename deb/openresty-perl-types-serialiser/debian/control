@@ -1,0 +1,26 @@
+Source: openresty-perl-types-serialiser
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4), openresty-perl-common-sense
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/Types-Serialiser/
+
+Package: openresty-perl-types-serialiser
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-common-sense
+Description: unknown
+ This module provides some extra datatypes that are used by common
+ serialisation formats such as JSON or CBOR. The idea is to have a
+ repository of simple/small constants and containers that can be shared by
+ different implementations so they become interoperable between each other.
+ .
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-types-serialiser-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-types-serialiser (>= 1.01)
+Description: Debug symbols for the openresty-perl-types-serialiser package
+ Debug symbols (or debuginfo) for the openresty-perl-types-serialiser package.

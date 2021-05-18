@@ -1,0 +1,22 @@
+Source: openresty-perl-common-sense
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/common-sense/
+
+Package: openresty-perl-common-sense
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: unknown
+ A perl module
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-common-sense-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-common-sense (>= 3.75)
+Description: Debug symbols for the openresty-perl-common-sense package
+ Debug symbols (or debuginfo) for the openresty-perl-common-sense package.

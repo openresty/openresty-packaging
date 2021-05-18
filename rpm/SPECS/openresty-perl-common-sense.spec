@@ -1,28 +1,28 @@
-%define         _name  B-Flags
-%define         prefix /usr/local/openresty-perl
+%define         _name   common-sense
+%define         prefix  /usr/local/openresty-perl
 %define         _perl   %{prefix}/bin/perl
 %define         sitelib %{prefix}/lib/site_perl
 
-Name:           openresty-perl-B-Flags
-Version:        0.17
+Name:           openresty-perl-common-sense
+Version:        3.75
 Release:        1%{?dist}
-Summary:        Friendlier flags for B
+Summary:        unknown
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries
-URL:            http://search.cpan.org/dist/B-Flags/
-BuildArch:      %{_arch}
-Source0:        https://cpan.metacpan.org/authors/id/R/RU/RURBAN/%{_name}-%{version}.tar.gz
+URL:            http://search.cpan.org/dist/common-sense/
+BuildArch:      noarch
+Source0:        https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/%{_name}-%{version}.tar.gz
 
 AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
+Requires:       openresty-perl >= 5.24.4
 BuildRequires:  openresty-perl >= 5.24.4
 BuildRequires:  openresty-perl-devel >= 5.24.4
-Requires:       openresty-perl >= 5.24.4
 
 %description
-Stringification of flags.
+A perl module
 
 This build is specifically for OpenResty uses.
 
@@ -78,6 +78,7 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %clean
+
 rm -rf $RPM_BUILD_ROOT
 
 %files
@@ -86,5 +87,5 @@ rm -rf $RPM_BUILD_ROOT
 %{sitelib}/*
 
 %changelog
-* Mon Feb 08 2021 jiahao 0.17-1
-- Generated using cpantorpm.
+* Tue May 18 2021 jiahao 3.75-1
+- Generated using cpantorpm

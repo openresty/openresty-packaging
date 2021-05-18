@@ -1,28 +1,35 @@
-%define         _name  B-Flags
-%define         prefix /usr/local/openresty-perl
+%define         _name   JSON-XS
+%define         prefix  /usr/local/openresty-perl
 %define         _perl   %{prefix}/bin/perl
 %define         sitelib %{prefix}/lib/site_perl
 
-Name:           openresty-perl-B-Flags
-Version:        0.17
+Name:           openresty-perl-JSON-XS
+Version:        4.03
 Release:        1%{?dist}
-Summary:        Friendlier flags for B
+Summary:        unknown
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries
-URL:            http://search.cpan.org/dist/B-Flags/
+URL:            http://search.cpan.org/dist/JSON-XS/
 BuildArch:      %{_arch}
-Source0:        https://cpan.metacpan.org/authors/id/R/RU/RURBAN/%{_name}-%{version}.tar.gz
+Source0:        https://cpan.metacpan.org/authors/id/M/ML/MLEHMANN/%{_name}-%{version}.tar.gz
 
 AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
+Requires:       openresty-perl >= 5.24.4
+Requires:       openresty-perl-Types-Serialiser
+Requires:       openresty-perl-common-sense
 BuildRequires:  openresty-perl >= 5.24.4
 BuildRequires:  openresty-perl-devel >= 5.24.4
-Requires:       openresty-perl >= 5.24.4
+BuildRequires:  openresty-perl-Types-Serialiser
+BuildRequires:  openresty-perl-common-sense
+BuildRequires:  openresty-perl-Canary-Stability
 
 %description
-Stringification of flags.
+This module converts Perl data structures to JSON and vice versa. Its
+primary goal is to be correct and its secondary goal is to be fast.
+To reach the latter goal it was written in C.
 
 This build is specifically for OpenResty uses.
 
@@ -60,7 +67,8 @@ This build is specifically for OpenResty uses.
 
 %build
 
-%{_perl} Makefile.PL OPTIMIZE="$RPM_OPT_FLAGS" INSTALLDIRS=site \
+PERL_CANARY_STABILITY_NOPROMPT=1 \
+    %{_perl} Makefile.PL OPTIMIZE="$RPM_OPT_FLAGS" INSTALLDIRS=site \
     INSTALLSITEBIN=%{prefix}/bin INSTALLSITESCRIPT=%{prefix}/bin \
     INSTALLSCRIPT=%{prefix}/bin
 make -j`nproc`
@@ -78,13 +86,15 @@ find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 %{_fixperms} $RPM_BUILD_ROOT/*
 
 %clean
+
 rm -rf $RPM_BUILD_ROOT
 
 %files
 
 %defattr(-,root,root,-)
+%{prefix}/bin/*
 %{sitelib}/*
 
 %changelog
-* Mon Feb 08 2021 jiahao 0.17-1
-- Generated using cpantorpm.
+* Tue May 18 2021 jiahao 4.03-1
+- Generated using cpantorpm
