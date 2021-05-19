@@ -102,8 +102,10 @@ the components needed to locally develop and execute systemtap scripts.
 
 %if 0%{?fedora} >= 34
 %define EXTRA_CFLAGS "-Wno-array-parameter"
+%define yflags YFLAGS="-Wno-yacc"
 %else
 %define EXTRA_CFLAGS ""
+%define yflags ""
 %endif
 
 
@@ -133,7 +135,7 @@ autoreconf -vif
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl' \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -g3 -O2" \
-    YFLAGS="-Wno-yacc" \
+    %{yflags} \
     --enable-maintainer-mode
 
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
