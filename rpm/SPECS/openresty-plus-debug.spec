@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.19.3.1.30
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -66,9 +66,11 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-plus-debug/openssl111
+%define maxminddb_prefix    %{orprefix}/maxminddb
+%define openssl_prefix      %{orprefix}/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
+%define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
 
 %if 0%{?el6}
 %define debug_cc_opts      -O1 -D_FORTIFY_SOURCE=2 -fno-inline -fno-inline-functions-called-once
@@ -246,6 +248,10 @@ make -j`nproc`
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{maxminddb_prefix}/%{_lib}/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 
@@ -283,6 +289,7 @@ rm -rf %{buildroot}
 
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
+%{orprefix}/bin/resty2
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*

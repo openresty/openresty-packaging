@@ -1,1 +1,1 @@
-usr/local/openresty-plus/lualib/*.so
+usr/local/openresty-plus/maxminddb/lib/*.so

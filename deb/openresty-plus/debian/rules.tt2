@@ -1,6 +1,8 @@
 #!/usr/bin/make -f
 DPKG_EXPORT_BUILDFLAGS = 1
-orprefix = /usr/local/openresty-plus
+OR_PREFIX = /usr/local/openresty-plus
+HYPERSCAN_PREFIX = /usr/local/openresty-plus/hyperscan
+MAXMINDDB_PREFIX = /usr/local/openresty-plus/maxminddb
 ORUTILS_PREFIX = /usr/local/openresty-utils
 
 include /usr/share/dpkg/default.mk
@@ -87,6 +89,9 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(PREFIX)/lualib/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(PREFIX)/lualib/
+	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(PREFIX)/lualib/
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}
@@ -94,8 +99,8 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
-	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 

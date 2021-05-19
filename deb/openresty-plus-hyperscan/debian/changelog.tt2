@@ -1,6 +1,6 @@
 openresty-plus-hyperscan (5.0.0-3~[% distro %]1) [% distro %]; urgency=high
 
-  * added symlinks to openresty-plus-test directory.
+  * change: move the symlink operation to the packaging script of plus-*.
 
  -- OpenResty Admin <admin@openresty.com>  Tue, 18 May 2021 18:13:33 +0800
 

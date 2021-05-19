@@ -1,6 +1,6 @@
 Name:           openresty-plus-valgrind
 Version:        1.19.3.1.30
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The Valgrind debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -62,6 +62,9 @@ AutoReqProv:        no
 %define openssl_prefix      %{_usr}/local/openresty-plus-debug/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
+%define orutils_prefix      %{_usr}/local/openresty-utils
+%define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
+%define maxminddb_prefix    %{_usr}/local/openresty-plus/maxminddb
 
 # Remove source code from debuginfo package.
 %define __debug_install_post \
@@ -178,6 +181,10 @@ make -j`nproc`
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{maxminddb_prefix}/%{_lib}/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 
@@ -219,6 +226,7 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
+%{orprefix}/bin/resty2
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*

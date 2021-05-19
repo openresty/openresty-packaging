@@ -5,6 +5,8 @@ PREFIX = /usr/local/openresty-plus-test
 OR_PREFIX = /usr/local/openresty
 ORUTILS_PREFIX = /usr/local/openresty-utils
 OR_PLUS_PREFIX = /usr/local/openresty-plus
+HYPERSCAN_PREFIX = /usr/local/openresty-plus/hyperscan
+MAXMINDDB_PREFIX = /usr/local/openresty-plus/maxminddb
 LJ_DEBUG_CC_OPTS = -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 \
     -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
@@ -92,6 +94,9 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(PREFIX)/bin/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(PREFIX)/lualib/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(PREFIX)/lualib/
+	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(PREFIX)/lualib/
 	rm -rf $(DESTDIR)$(PREFIX)/luajit/share/man
 	rm -rf $(DESTDIR)$(PREFIX)/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}

@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-plus-debug/maxminddb
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -21,13 +22,13 @@ override_dh_auto_build:
 	./configure \
     --prefix=/usr/local/openresty-plus-debug \
     CC='ccache gcc' \
-    CFLAGS="-g3 -O2" \
+    CFLAGS="-g3 -O0" \
     --disable-tests \
 		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:
-	install -d $(DESTDIR)//usr/local/openresty-plus-debug/lualib \
-		&& install ./src/.libs/libmaxminddb.so $(DESTDIR)//usr/local/openresty-plus-debug/lualib/libmaxminddb.so
+	install -d $(DESTDIR)$(PREFIX)/lib \
+		&& install -c -m 755 ./src/.libs/libmaxminddb.so $(DESTDIR)$(PREFIX)/lib/libmaxminddb.so
 
 override_dh_auto_clean:
 	dh_clean

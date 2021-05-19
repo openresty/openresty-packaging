@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.30
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -68,9 +68,12 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-plus-asan/openssl111
+%define openssl_prefix      %{orprefix}/openssl111
+%define maxminddb_prefix    %{orprefix}/maxminddb
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
 %define pcre_prefix         %{_usr}/local/openresty-asan/pcre
+%define orutils_prefix      %{_usr}/local/openresty-utils
+%define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
 
 %define asan_cc_opts      -O1 -fno-omit-frame-pointer -fno-inline
 
@@ -207,12 +210,16 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-no-pool-patch \
     -j`nproc` 1>&2
 
-make -j`nproc`
-
+make -j`nproc` \
+    CXX='ccache g++ -fsanitize=address'
 
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{maxminddb_prefix}/%{_lib}/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 
@@ -254,6 +261,7 @@ rm -rf %{buildroot}
 /usr/bin/%{name}
 %{orprefix}/COPYRIGHT
 %{orprefix}/bin/openresty-plus
+%{orprefix}/bin/resty2
 %{orprefix}/site/lualib/
 %{orprefix}/luajit/*
 %{orprefix}/lualib/*

@@ -123,30 +123,13 @@ make -j${JOBS} > /dev/stderr  # to always show output
 
 %install
 make install DESTDIR=%{buildroot}
-
-mkdir -p %{buildroot}/usr/local/openresty-plus/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}/usr/local/openresty-plus/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openresty-plus/lualib/
-
-mkdir -p %{buildroot}/usr/local/openresty-plus-debug/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}/usr/local/openresty-plus-debug/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openresty-plus-debug/lualib/
-
-mkdir -p %{buildroot}/usr/local/openresty-plus-test/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}/usr/local/openresty-plus-test/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}/usr/local/openresty-plus-test/lualib/
-
 rm -rf %{buildroot}%{hyperscan_prefix}/share/doc
-
 
 %clean
 rm -rf %{buildroot}
 
 
 %files
-/usr/local/openresty-plus/lualib/libhs.so
-/usr/local/openresty-plus-debug/lualib/libhs.so
-/usr/local/openresty-plus-test/lualib/libhs.so
 %{hyperscan_prefix}/%{_lib}/*.so*
 %exclude %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
 
@@ -157,9 +140,6 @@ rm -rf %{buildroot}
 
 
 %files runtime
-/usr/local/openresty-plus/lualib/libhs_runtime.so
-/usr/local/openresty-plus-debug/lualib/libhs_runtime.so
-/usr/local/openresty-plus-test/lualib/libhs_runtime.so
 %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
 
 

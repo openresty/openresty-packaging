@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb-asan
 Version:        1.4.2.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
@@ -19,7 +19,7 @@ BuildRequires:  ccache, make, gcc
 %define _unpackaged_files_terminate_build 0
 %define _missing_doc_files_terminate_build 0
 
-%define _prefix %{_usr}/local/openresty-plus-asan
+%define prefix %{_usr}/local/openresty-plus-asan/maxminddb
 
 %if 0%{?suse_version}
 
@@ -55,7 +55,7 @@ OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb. This 
 %build
 export ASAN_OPTIONS=detect_leaks=0
 ./configure \
-    --prefix=%{_prefix} \
+    --prefix=%{prefix} \
     CC="gcc -fsanitize=address"  \
     CFLAGS="-O1 -fno-omit-frame-pointer -g3" \
     --disable-tests
@@ -66,8 +66,8 @@ make CC="gcc -fsanitize=address" \
 
 
 %install
-install -d %{buildroot}/%{_prefix}/lualib
-install ./src/.libs/libmaxminddb.so %{buildroot}/%{_prefix}/lualib/libmaxminddb.so
+install -d %{buildroot}%{prefix}/%{_lib}
+install -c -m 755 src/.libs/libmaxminddb.so %{buildroot}%{prefix}/%{_lib}/libmaxminddb.so
 
 
 %clean
@@ -76,8 +76,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %files
-%defattr(-,root,root)
-%{_prefix}/lualib/*.so
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{prefix}/{%_lib}/*.so
 
 # ------------------------------------------------------------------------
 

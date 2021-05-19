@@ -1,6 +1,6 @@
 Name:           openresty-plus-test
 Version:        1.19.3.1.30
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -47,7 +47,7 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl111 >= 1.1.1i-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
-Requires:       openresty-maxminddb-test >= 1.4.2.4
+Requires:       openresty-maxminddb >= 1.4.2.4
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:       libgd3
@@ -76,6 +76,9 @@ AutoReqProv:        no
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
+%define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
+%define maxminddb_prefix    %{_usr}/local/openresty-plus/maxminddb
+
 %define lj_debug_cc_opts    -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 %description
@@ -294,6 +297,9 @@ make -j`nproc`
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{maxminddb_prefix}/%{_lib}/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 

@@ -1,3 +1,9 @@
+openresty-maxminddb-debug (1.4.2.4-2~[% distro %]1) [% distro %]; urgency=high
+
+  * change: changed shared library path.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 19 May 2021 14:28:51 +0800
+
 openresty-maxminddb-debug (1.4.2.4-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded libmaxminddb-plus to 1.4.2.4.

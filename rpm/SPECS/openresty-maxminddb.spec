@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb
 Version:        1.4.2.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
@@ -15,7 +15,7 @@ AutoReqProv: no
 %define _unpackaged_files_terminate_build 0
 %define _missing_doc_files_terminate_build 0
 
-%define _prefix %{_usr}/local/openresty-plus
+%define prefix    %{_usr}/local/openresty-plus/maxminddb
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -58,21 +58,18 @@ OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb.
 %prep
 %setup -q -n libmaxminddb-plus-%{version}
 
-
 %build
 ./configure \
-    --prefix=%{_prefix} \
+    --prefix=%{prefix} \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-g3 -O2" \
     --disable-tests
-
 make -j`nproc` > /dev/null
 
 
 %install
-install -d %{buildroot}/%{_prefix}/lualib
-install ./src/.libs/libmaxminddb.so %{buildroot}/%{_prefix}/lualib/libmaxminddb.so
-
+install -d %{buildroot}%{prefix}/%{_lib}
+install -c -m 755 src/.libs/libmaxminddb.so %{buildroot}%{prefix}/%{_lib}/libmaxminddb.so
 
 %clean
 rm -rf %{buildroot}
@@ -80,8 +77,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %files
-%defattr(-,root,root)
-%{_prefix}/lualib/*.so
+%defattr(-,root,root,-)
+%attr(0755,root,root) %{prefix}/{%_lib}/*.so
 
 # ------------------------------------------------------------------------
 
