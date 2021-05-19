@@ -1,6 +1,6 @@
 %define         _name   Types-Serialiser
 %define         prefix  /usr/local/openresty-perl
-%define         _perl5   %{prefix}/bin/perl
+%define         _perl   %{prefix}/bin/perl
 %define         sitelib %{prefix}/lib/site_perl
 
 Name:           openresty-perl-Types-Serialiser
