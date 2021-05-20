@@ -89,9 +89,9 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
-	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(PREFIX)/lualib/
-	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(PREFIX)/lualib/
-	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(PREFIX)/lualib/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(OR_PREFIX)/lualib/
+	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(OR_PREFIX)/lualib/
+	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}
