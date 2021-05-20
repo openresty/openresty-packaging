@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb
 Version:        1.4.2.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.

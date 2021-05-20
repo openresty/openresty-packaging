@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.30
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons

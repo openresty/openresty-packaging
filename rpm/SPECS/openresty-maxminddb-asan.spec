@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb-asan
 Version:        1.4.2.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
