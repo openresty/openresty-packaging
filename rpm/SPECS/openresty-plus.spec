@@ -293,9 +293,9 @@ make -j`nproc`
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs.so %{buildroot}%{orprefix}/lualib/
-ln -sf %{hyperscan_prefix}/%{_lib}/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
-ln -sf %{maxminddb_prefix}/%{_lib}/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/lib/libhs.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{hyperscan_prefix}/lib/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{maxminddb_prefix}/lib/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
 
 pushd %{buildroot}
 

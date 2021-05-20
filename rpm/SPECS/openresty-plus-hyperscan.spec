@@ -130,17 +130,17 @@ rm -rf %{buildroot}
 
 
 %files
-%{hyperscan_prefix}/%{_lib}/*.so*
-%exclude %{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
+%{hyperscan_prefix}/lib/*.so*
+%exclude %{hyperscan_prefix}/lib/libhs_runtime.so*
 
 
 %files devel
 %{hyperscan_prefix}/include/hs/*
-%{hyperscan_prefix}/%{_lib}/pkgconfig/libhs.pc
+%{hyperscan_prefix}/lib/pkgconfig/libhs.pc
 
 
 %files runtime
-%{hyperscan_prefix}/%{_lib}/libhs_runtime.so*
+%{hyperscan_prefix}/lib/libhs_runtime.so*
 
 
 %changelog

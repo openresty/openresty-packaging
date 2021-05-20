@@ -66,8 +66,8 @@ make CC="gcc -fsanitize=address" \
 
 
 %install
-install -d %{buildroot}%{prefix}/%{_lib}
-install -c -m 755 src/.libs/libmaxminddb.so %{buildroot}%{prefix}/%{_lib}/libmaxminddb.so
+install -d %{buildroot}%{prefix}/lib
+install -c -m 755 src/.libs/libmaxminddb.so %{buildroot}%{prefix}/lib/libmaxminddb.so
 
 
 %clean
@@ -77,7 +77,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%attr(0755,root,root) %{prefix}/{%_lib}/*.so
+%attr(0755,root,root) %{prefix}/lib/*.so
 
 # ------------------------------------------------------------------------
 
