@@ -1,3 +1,9 @@
+openresty-plus-hyperscan (5.0.0-4~[% distro %]1) [% distro %]; urgency=high
+
+  * bugfix: specify the cmake_install_libdir.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 20 May 2021 11:28:00 +0800
+
 openresty-plus-hyperscan (5.0.0-3~[% distro %]1) [% distro %]; urgency=high
 
   * change: move the symlink operation to the packaging script of plus-*.

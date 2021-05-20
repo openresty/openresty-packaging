@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -117,7 +117,10 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
 export CC='ccache gcc'
 export CXX='ccache g++'
 export JOBS=${JOBS:-9}
-cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} -DBUILD_SHARED_LIBS=true .
+cmake -DCMAKE_INSTALL_PREFIX=%{hyperscan_prefix} \
+    -DBUILD_SHARED_LIBS=true \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    .
 make -j${JOBS} > /dev/stderr  # to always show output
 
 
