@@ -1,5 +1,5 @@
 Name:           openresty-maxminddb-utils
-Version:        0.0.1
+Version:        0.0.2
 Release:        1%{?dist}
 Summary:        OpenResty Maxminddb Utils
 
@@ -16,7 +16,12 @@ AutoReqProv:    no
 BuildRequires:  make
 
 %description
-OpenResty Maxminddb Utils
+OpenResty Maxminddb Utils use to generate maxminddb.
+This software is made possible by the mmdbwriter, dns and maxminddb-golang open source project.
+https://github.com/maxmind/mmdbwriter/blob/main/LICENSE-MIT
+https://github.com/miekg/dns/blob/master/LICENSE
+https://github.com/oschwald/maxminddb-golang/blob/main/LICENSE
+
 
 %global _missing_build_ids_terminate_build 0
 
@@ -55,8 +60,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{prefix}/bin/maxminddb-exporter
 %{prefix}/bin/qqzeng-converter
+%{prefix}/bin/maxminddb-exporter
+%{prefix}/bin/maxminddb-add-record
+%{prefix}/bin/maxminddb-get-googledns
 %config(noreplace) %{prefix}/conf/*
 
 
