@@ -10,25 +10,20 @@ sub cd ($);
 my $old_list = <<_EOC_;
 https://openresty.org/download/perl-Lemplate-0.15-3.fc29.src.rpm
 https://openresty.org/download/perl-Test-Nginx-0.29-2.fc28.src.rpm
-
 https://openresty.org/download/openresty-zlib-1.2.11-4.fc28.src.rpm
 https://openresty.org/download/openresty-zlib-asan-1.2.11-17.fc28.src.rpm
-
 https://openresty.org/download/openresty-pcre-8.44-2.fc28.src.rpm
 https://openresty.org/download/openresty-pcre-asan-8.44-5.fc28.src.rpm
-
-https://openresty.org/download/openresty-openssl111-1.1.1i-2.fc28.src.rpm
-https://openresty.org/download/openresty-openssl111-debug-1.1.1i-2.fc28.src.rpm
-https://openresty.org/download/openresty-openssl111-asan-1.1.1i-5.fc28.src.rpm
-
+https://openresty.org/download/openresty-openssl111-1.1.1k-1.fc28.src.rpm
+https://openresty.org/download/openresty-openssl111-debug-1.1.1k-1.fc28.src.rpm
+https://openresty.org/download/openresty-openssl111-asan-1.1.1k-1.fc28.src.rpm
 https://openresty.org/download/openresty-openssl-1.1.0l-3.fc28.src.rpm
 https://openresty.org/download/openresty-openssl-debug-1.1.0l-3.fc28.src.rpm
 https://openresty.org/download/openresty-openssl-asan-1.1.0l-3.fc28.src.rpm
-
-https://openresty.org/download/openresty-1.19.3.1-2.fc28.src.rpm
-https://openresty.org/download/openresty-debug-1.19.3.1-2.fc28.src.rpm
+https://openresty.org/download/openresty-1.19.3.2-1.fc28.src.rpm
+https://openresty.org/download/openresty-debug-1.19.3.2-1.fc28.src.rpm
 https://openresty.org/download/openresty-valgrind-1.19.3.1-2.fc28.src.rpm
-https://openresty.org/download/openresty-asan-1.19.3.1-4.fc28.src.rpm
+https://openresty.org/download/openresty-asan-1.19.3.1-5.fc28.src.rpm
 _EOC_
 
 open my $in, "<", \$old_list
