@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ASAN_VER := 1.19.3.1
+OPENRESTY_ASAN_VER := $(OR_VER)
 
 .PHONY: openresty-asan-download
 openresty-asan-download:
