@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-debug"
-pkgver="1.19.3.1"
+pkgver="1.19.3.2"
 pkgrel=0
 pkgdesc="The debug version of OpenResty"
 url="https://openresty.org/"
