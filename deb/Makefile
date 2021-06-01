@@ -12,8 +12,8 @@ JOBS=8
 ZLIB_VER=1.2.11
 PCRE_VER=8.44
 SSL_VER=1.1.0l
-SSL111_VER=1.1.1i
-OR_VER=1.19.3.1
+SSL111_VER=1.1.1k
+OR_VER=1.19.3.2
 OR_PLUS_VER=1.19.3.1.33
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.29
@@ -84,7 +84,10 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-libbpf-clean \
 		openresty-perl-json-xs-clean openresty-perl-app-cpanminus-clean \
 		openresty-perl-types-serialiser-clean openresty-perl-common-sense-clean \
-		openresty-perl-canary-stability-clean
+		openresty-perl-canary-stability-clean \
+		openssl111-clean openssl111-debug-clean  \
+		openresty-zlib-asan-clean openresty-pcre-asan-clean \
+		openresty-openssl111-asan-clean openresty-asan-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

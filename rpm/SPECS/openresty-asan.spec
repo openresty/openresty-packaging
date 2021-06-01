@@ -1,6 +1,6 @@
 Name:           openresty-asan
-Version:        1.19.3.1
-Release:        5%{?dist}
+Version:        1.19.3.2
+Release:        1%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty
 
 Group:          System Environment/Daemons
@@ -176,6 +176,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 31 2021 Yichun Zhang (agentzh) 1.19.3.2-1
+- upgraded openresty to 1.19.3.2.
 * Fri Nov 6 2020 Yichun Zhang (agentzh) 1.19.3.1-1
 - upgraded openresty to 1.19.3.1.
 * Mon Jul 13 2020 Yichun Zhang (agentzh) 1.17.8.2-1
