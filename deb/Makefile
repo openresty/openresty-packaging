@@ -37,7 +37,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 .PHONY: zlib-download
 zlib-download:
 	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
 	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
 
 .PHONY: zlib-build
