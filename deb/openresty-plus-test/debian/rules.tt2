@@ -35,6 +35,7 @@ override_dh_auto_configure:
 	  [% IF with_lua_resty_jwt %]--with-lua_resty_jwt [% END %]\
 	  [% IF with_lua_resty_hmac %]--with-lua_resty_hmac [% END %]\
 	  [% IF with_lua_resty_mlcache %]--with-lua_resty_mlcache [% END %]\
+	  [% IF with_ngx_brotli %]--with-ngx_brotli [% END %]\
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
 	  --without-lua_rds_parser \
