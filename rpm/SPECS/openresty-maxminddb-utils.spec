@@ -1,5 +1,5 @@
 Name:           openresty-maxminddb-utils
-Version:        0.0.2
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        OpenResty Maxminddb Utils
 
@@ -68,5 +68,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Jun 4 2021 Yichun Zhang (agentzh) 0.0.3-1
+- upgraded openresty-maxminddb-utils to 0.0.3.
 * Sat May 08 2021 lijunlong <lijunlong@openresty.com>
 - initial packaging

@@ -1,3 +1,9 @@
+openresty-maxminddb-utils (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded libmaxminddb-plus to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 4 Jun 2021 11:26:55 -0700
+
 openresty-maxminddb-utils (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded libmaxminddb-plus to 0.0.2.
