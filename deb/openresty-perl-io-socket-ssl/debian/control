@@ -1,0 +1,21 @@
+Source: openresty-perl-io-socket-ssl
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/IO-Socket-SSL/
+
+Package: openresty-perl-io-socket-ssl
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-net-ssleay (>= 1.46)
+Description: Nearly transparent SSL encapsulation for IO::Socket::INET.
+ A perl module
+
+Package: openresty-perl-io-socket-ssl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-io-socket-ssl (>= 2.071)
+Description: Debug symbols for the openresty-perl-io-socket-ssl package
+ Debug symbols (or debuginfo) for the openresty-perl-io-socket-ssl package.

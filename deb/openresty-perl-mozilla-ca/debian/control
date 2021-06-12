@@ -1,0 +1,23 @@
+Source: openresty-perl-mozilla-ca
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/Mozilla-CA/
+
+Package: openresty-perl-mozilla-ca
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: Mozilla's CA cert bundle in PEM format
+ Mozilla::CA provides a copy of Mozilla's bundle of Certificate Authority
+ certificates in a form that can be consumed by modules and libraries based
+ on OpenSSL.
+
+Package: openresty-perl-mozilla-ca-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-mozilla-ca (>= 20200520)
+Description: Debug symbols for the openresty-perl-mozilla-ca package
+ Debug symbols (or debuginfo) for the openresty-perl-mozilla-ca package.

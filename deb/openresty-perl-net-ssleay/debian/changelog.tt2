@@ -1,0 +1,6 @@
+openresty-perl-net-ssleay (1.90-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Generated using cpantorpm
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 10 Jun 2021 00:00:00 -0700
+

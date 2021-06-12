@@ -1,0 +1,44 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-perl
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	PERL_MM_USE_DEFAULT=1 \
+	$(PREFIX)/bin/perl Makefile.PL \
+	OPTIMIZE="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic" \
+	INSTALLDIRS=site \
+    INSTALLSITEBIN=$(PREFIX)/bin INSTALLSITESCRIPT=$(PREFIX)/bin \
+    INSTALLSCRIPT=$(PREFIX)/bin \
+		&& make
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& make pure_install PERL_INSTALL_ROOT=$(DESTDIR) \
+		&& rm -rf "$(DESTDIR)$(PREFIX)/man" \
+		&& find $(DESTDIR) -type f -name .packlist -exec rm -f {} \; \
+		&& find $(DESTDIR) -type f -name '*.bs' -size 0 -exec rm -f {} \; \
+		&& find $(DESTDIR) -depth -type d -exec rmdir {} 2>/dev/null \; \
+		&& chmod u+w -R $(DESTDIR)/*
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-perl-net-ssleay-dbgsym

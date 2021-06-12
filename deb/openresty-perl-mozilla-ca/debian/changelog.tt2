@@ -1,0 +1,6 @@
+openresty-perl-mozilla-ca (20200520-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Generated using cpantorpm
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 09 Jun 2021 00:00:00 -0700
+
