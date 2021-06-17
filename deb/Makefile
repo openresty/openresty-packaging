@@ -89,8 +89,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openssl111-clean openssl111-debug-clean  \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
-		openresty-perl-mime-base64-clean openresty-perl-mozilla-ca-clean \
-		openresty-perl-net-ssleay-clean openresty-perl-io-socket-ssl-clean
+		openresty-perl-mozilla-ca-clean openresty-perl-net-ssleay-clean \
+		openresty-perl-io-socket-ssl-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

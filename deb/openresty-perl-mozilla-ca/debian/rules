@@ -22,8 +22,8 @@ override_dh_auto_build:
 	$(PREFIX)/bin/perl Makefile.PL \
 	OPTIMIZE="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic" \
 	INSTALLDIRS=site \
-    INSTALLSITEBIN=$(PREFIX)/bin INSTALLSITESCRIPT=$(PREFIX)/bin \
-    INSTALLSCRIPT=$(PREFIX)/bin \
+	INSTALLSITEBIN=$(PREFIX)/bin INSTALLSITESCRIPT=$(PREFIX)/bin \
+	INSTALLSCRIPT=$(PREFIX)/bin \
 		&& make
 
 override_dh_auto_install:
