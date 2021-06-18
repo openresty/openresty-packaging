@@ -2,7 +2,7 @@ Source: openresty-postgresql-timescaledb
 Section: database
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), openresty-postgresql-dev (>= 9.6)
+Build-Depends: debhelper (>= 9), openresty-postgresql-dev (>= 9.6), openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: https://github.com/timescale/timescaledb
 

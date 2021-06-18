@@ -2,9 +2,11 @@
 %define pg_config %{pgprefix}/bin/pg_config
 %define ext timescaledb
 
+%define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
+
 Name:       openresty-postgresql12-%{ext}
 Version:    1.7.4
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
 License:    BSD
@@ -12,7 +14,7 @@ URL:        https://github.com/timescale/timescaledb
 Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 
 AutoReqProv:    no
-BuildRequires:  openresty-postgresql12-devel >= 12.4
+BuildRequires:  openresty-postgresql12-devel >= 12.4, openresty-plus-openssl111-devel
 Requires:       openresty-postgresql12 >= 12.4
 
 
@@ -53,7 +55,8 @@ Open-source PostgreSQL extension designed to make SQL scalable for time-series d
 
 
 %build
-./bootstrap -DPG_CONFIG=%{pg_config} -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo
+./bootstrap -DPG_CONFIG=%{pg_config} -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DOPENSSL_ROOT_DIR=%{openssl_prefix}
 cd build && make -j`nproc`
 
 

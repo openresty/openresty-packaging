@@ -19,8 +19,8 @@ openresty-postgresql-timescaledb-clean:
 
 .PHONY: openresty-postgresql-timescaledb-build
 openresty-postgresql-timescaledb-build: openresty-postgresql-timescaledb-clean openresty-postgresql-timescaledb-download
-	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql-dev
-	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql-dev openresty-plus-openssl111-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql-timescaledb_$(OPENRESTY_POSTGRESQL_TIMESCALEDB_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql-timescaledb
 	cd openresty-postgresql-timescaledb \

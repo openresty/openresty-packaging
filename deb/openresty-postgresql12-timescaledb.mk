@@ -12,15 +12,15 @@ openresty-postgresql12-timescaledb-download:
 	tar -czf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).orig.tar.gz openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
 
 openresty-postgresql12-timescaledb-clean:
-	cd openresty-postgresql12-timescaledb && debclean
+	-cd openresty-postgresql12-timescaledb && debclean
 	-find openresty-postgresql12-timescaledb -maxdepth 1 ! -name 'debian' ! -name 'openresty-postgresql12-timescaledb' -print | xargs rm -rf
 	rm -rf openresty-postgresql12-timescaledb*.deb
 	rm -rf openresty-postgresql12-timescaledb_*.*
 
 .PHONY: openresty-postgresql12-timescaledb-build
 openresty-postgresql12-timescaledb-build: openresty-postgresql12-timescaledb-clean openresty-postgresql12-timescaledb-download
-	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql12-dev
-	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql12-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes -y -q install openresty-postgresql12-dev openresty-plus-openssl111-dev
+	sudo apt-get -o Dpkg::Options::="--force-confold" --force-yes --only-upgrade -y -q install openresty-postgresql12-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12-timescaledb
 	cd openresty-postgresql12-timescaledb \

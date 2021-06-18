@@ -19,6 +19,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./bootstrap -DPG_CONFIG=/usr/local/openresty-postgresql12/bin/pg_config -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 \
 		&& cd build && make -j`nproc`
 
 override_dh_auto_install:
