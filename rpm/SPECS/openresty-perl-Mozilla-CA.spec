@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Mozilla-CA
 Version:        20200520
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Mozilla's CA cert bundle in PEM format
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries

@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-IO-Socket-SSL
 Version:        2.071
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Nearly transparent SSL encapsulation for IO::Socket::INET.
 License:        GPL+ or Artistic
 Group:          Development/Libraries

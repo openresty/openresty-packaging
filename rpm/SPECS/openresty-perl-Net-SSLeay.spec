@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Net-SSLeay
 Version:        1.90
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Perl extension for using OpenSSL
 License:        Artistic 2.0
 Group:          Development/Libraries
