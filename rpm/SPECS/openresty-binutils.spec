@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.33.1.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -78,7 +78,7 @@ converting addresses to file and line).
 
 CC='ccache gcc -fdiagnostics-color=always' \
     ./configure \
-    --prefix=%{binutils_prefix} --disable-ld --disable-gas --disable-gold \
+    --prefix=%{binutils_prefix} --disable-gas --disable-gold \
     --disable-ar --disable-gprof --disable-dlltool --disable-ranlib --disable-windmc \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
@@ -97,9 +97,7 @@ rm -rf %{buildroot}%{binutils_prefix}/share/locale
 rm -rf %{buildroot}%{binutils_prefix}/lib
 rm -rf %{buildroot}%{binutils_prefix}/include
 rm -rf %{buildroot}%{binutils_prefix}/x86_64-pc-linux-gnu
-rm -f %{buildroot}%{binutils_prefix}/bin/ar
 rm -f %{buildroot}%{binutils_prefix}/bin/elfedit
-rm -f %{buildroot}%{binutils_prefix}/bin/ranlib
 
 %clean
 rm -rf %{buildroot}
