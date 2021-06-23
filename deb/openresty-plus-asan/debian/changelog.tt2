@@ -1,3 +1,9 @@
+openresty-plus-asan (1.19.3.1.36-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.3.1.36.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 23 Jun 2021 00:25:00 -0700
+
 openresty-plus-asan (1.19.3.1.35-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.19.3.1.35.
