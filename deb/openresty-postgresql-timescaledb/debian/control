@@ -9,7 +9,7 @@ Homepage: https://github.com/timescale/timescaledb
 Package: openresty-postgresql-timescaledb
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql (>= 9.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql (>= 9.6), openresty-plus-openssl111
 Description: TimescaleDB PostgreSQL extension
  Open-source PostgreSQL extension designed to make SQL scalable for time-series data.
 
