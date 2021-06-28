@@ -1,0 +1,23 @@
+Source: openresty-perl-protocol-websocket
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4), openresty-perl-module-build-tiny
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/Protocol-WebSocket/
+
+Package: openresty-perl-protocol-websocket
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: WebSocket protocol
+ Client/server WebSocket message and frame parser/constructor. This module
+ does not provide a WebSocket server or client, but is made for using in
+ http servers or clients to provide WebSocket support.
+
+Package: openresty-perl-protocol-websocket-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-protocol-websocket (>= 0.26)
+Description: Debug symbols for the openresty-perl-protocol-websocket package
+ Debug symbols (or debuginfo) for the openresty-perl-protocol-websocket package.

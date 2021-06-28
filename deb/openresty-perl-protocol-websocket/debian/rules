@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	/usr/local/openresty-perl/bin/perl Build.PL \
+    --installdirs site \
+    --install_path script=/usr/local/openresty-perl/bin --install_path /usr/local/openresty-perl/bin \
+		&& ./Build
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& ./Build install --destdir=$(DESTDIR) --create_packlist=0 \
+		&& rm -rf "$(DESTDIR)/usr/local/openresty-perl/man" \
+		&& find $(DESTDIR) -type f -name .packlist -exec rm -f {} \; \
+		&& find $(DESTDIR) -type f -name '*.bs' -size 0 -exec rm -f {} \; \
+		&& find $(DESTDIR) -depth -type d -exec rmdir {} 2>/dev/null \; \
+		&& chmod u+w -R $(DESTDIR)/*
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-perl-protocol-websocket-dbgsym
