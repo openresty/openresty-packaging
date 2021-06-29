@@ -1,3 +1,9 @@
+openresty-postgresql (9.6.20-4~[% distro %]1) [% distro %]; urgency=high
+
+  * copy systemd service to /etc/systemd/system instead of symlinking
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 28 Jun 2021 18:15:00 +0800
+
 openresty-postgresql (9.6.20-3~[% distro %]1) [% distro %]; urgency=high
 
   * switch to openresty-plus-openssl111 for OpenSSL dependency

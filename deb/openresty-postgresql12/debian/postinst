@@ -6,6 +6,6 @@ PGPREFIX=/usr/local/openresty-postgresql12
 [ "$(sudo -u postgres ls -A $PGDATA)" ] || sudo -u postgres $PGPREFIX/bin/initdb -E "UTF8" --locale="en_US.UTF-8" $PGDATA
 
 if [ -d "/etc/systemd/system" ]; then
-    ln -sf $PGPREFIX/share/systemd/openresty-postgresql12.service \
+    cp -f $PGPREFIX/share/systemd/openresty-postgresql12.service \
        /etc/systemd/system/openresty-postgresql12.service
 fi
