@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
-Version:        0.177.13
-Release:        2%{?dist}
+Version:        0.185.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -127,8 +127,6 @@ OpenResty's fork of elfutils.
 
 
 %build
-autoreconf -vif
-
 ./configure \
     --prefix="%{eu_prefix}" \
     --libdir="%{eu_prefix}/lib" \
@@ -136,7 +134,9 @@ autoreconf -vif
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -g3 -O2" \
     %{yflags} \
-    --enable-maintainer-mode
+    --enable-maintainer-mode \
+    --disable-debuginfod \
+    --enable-libdebuginfod=dummy
 
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
     `find . -name Makefile`
@@ -148,6 +148,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 %install
 make install DESTDIR=%{buildroot}
+ln -sf %{eu_prefix}/bin/eu-readelf %{buildroot}/%{eu_prefix}/bin/eu-readelf2
 
 # remove useless files
 rm -rf %{buildroot}%{eu_prefix}/share/man
@@ -176,6 +177,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Mon Jul 05 2021 Yichun Zhang (agentzh) 0.185.1-1
+- upgraded elfutils-plus to 0.185.1.
 * Tue May 18 2021 Yichun Zhang (agentzh) 0.177.13-1
 - upgraded elfutils-plus to 0.177.13.
 * Tue Nov 3 2020 Yichun Zhang (agentzh) 0.177.12-1
