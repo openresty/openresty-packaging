@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.185.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -130,7 +130,7 @@ OpenResty's fork of elfutils.
 ./configure \
     --prefix="%{eu_prefix}" \
     --libdir="%{eu_prefix}/lib" \
-    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl' \
+    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl -lrt' \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -g3 -O2" \
     %{yflags} \
