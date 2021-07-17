@@ -1,6 +1,6 @@
 Name:           openresty-plus
 Version:        1.19.3.1.36
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -27,7 +27,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1i-1
+BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
@@ -44,7 +44,7 @@ BuildRequires:  openldap-devel
 BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-plus-openssl111 >= 1.1.1i-1
+Requires:       openresty-plus-openssl111 >= 1.1.1k-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb >= 1.4.2.4

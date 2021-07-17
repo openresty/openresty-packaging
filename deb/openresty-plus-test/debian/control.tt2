@@ -3,7 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
- openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1i),
+ openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1k),
  openresty-pcre-dev (>= 8.42), [% IF with_lua_ldap %]
  libldap-2.4-2, libldap2-dev, [% END %]
  perl, libfile-temp-perl, libc-dev, openresty-plus-hyperscan-dev,
@@ -15,7 +15,7 @@ Package: openresty-plus-test
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev, [% IF with_lua_ldap %]
  libldap-2.4-2,[% END %]
- openresty-zlib, openresty-plus-openssl111 (>= 1.1.1i), openresty-pcre (>= 8.42),
+ openresty-zlib, openresty-plus-openssl111 (>= 1.1.1k), openresty-pcre (>= 8.42),
  openresty-maxminddb (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4)
 Description: debug version of OpenResty+ core server
  This package contains the debug version of the core server for OpenResty+.

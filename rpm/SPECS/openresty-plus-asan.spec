@@ -1,6 +1,6 @@
 Name:           openresty-plus-asan
 Version:        1.19.3.1.36
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -27,7 +27,7 @@ BuildRequires:  ccache, make, perl, valgrind-devel, gcc
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-17
-BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1i-3
+BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1k-1
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-5
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
@@ -44,7 +44,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 %endif
 
 Requires:       openresty-zlib-asan >= 1.2.11-17
-Requires:       openresty-plus-openssl111-asan >= 1.1.1i-3
+Requires:       openresty-plus-openssl111-asan >= 1.1.1k-i
 Requires:       openresty-pcre-asan >= 8.44-5
 Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-asan >= 1.4.2.4-3

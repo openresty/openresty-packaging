@@ -1,6 +1,6 @@
 Name:               openresty-plus-openssl111
-Version:            1.1.1i
-Release:            2%{?dist}
+Version:            1.1.1k
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -127,6 +127,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Jul 16 2021 Johnny Wang (jiahao) 1.1.1k-1
+- upgraded OpenSSL to 1.1.1k.
 * Thu Dec 10 2020 Yichun Zhang (agentzh) 1.1.1i-1
 - upgraded OpenSSL to 1.1.1i.
 * Mon May 14 2018 Yichun Zhang (agentzh) 1.1.0h-1

@@ -16,13 +16,13 @@ Description: gcc AddressSanitizer Debug version of the OpenSSL library for OpenR
 Package: openresty-plus-openssl111-asan-dev
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111-asan (>= 1.1.1i)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111-asan (>= ${source:Version})
 Description: Clang AddressSanitizer version of development files for OpenResty's OpenSSL library
  Provides C header and static library for the gcc AddressSanitizer version of OpenResty's OpenSSL library. This is the gcc AddressSanitizer version.
 
 Package: openresty-plus-openssl111-asan-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-plus-openssl111-asan (>= 1.1.1i)
+Depends: ${misc:Depends}, openresty-plus-openssl111-asan (>= ${source:Version})
 Description: Debug symbols for the openresty-plus-openssl111-asan package
  Debug symbols (or debuginfo) for the openresty-plus-openssl111-asan package.

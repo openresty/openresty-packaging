@@ -1,6 +1,6 @@
 Name:               openresty-plus-openssl111-qatengine
 Version:            0.6.4
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            QAT Engine for OpenResty's OpenSSL library
 
 Group:              Development/Libraries
@@ -13,9 +13,9 @@ Source0:            https://github.com/intel/QAT_Engine/archive/v%{version}.tar.
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make
-BuildRequires:      openresty-plus-openssl111-devel >= 1.1.1i
+BuildRequires:      openresty-plus-openssl111-devel >= 1.1.1k
 BuildRequires:      openresty-intel-qat-driver-devel >= 1.7.l.4.11.0
-Requires:           openresty-plus-openssl111 >= 1.1.1i
+Requires:           openresty-plus-openssl111 >= 1.1.1k
 
 AutoReqProv:        no
 

@@ -1,6 +1,6 @@
 Name:           openresty-keepalived
 Version:        2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Fork's of keepalived.
 
 Group:          Development/System
@@ -13,10 +13,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  automake, autoconf
 BuildRequires:  ccache, gcc
 BuildRequires:  make
-BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1i
+BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k
 BuildRequires:  libnl3-devel
 Requires: libnl3
-Requires: openresty-plus-openssl111 >= 1.1.1i
+Requires: openresty-plus-openssl111 >= 1.1.1k
 
 AutoReqProv: no
 AutoReq:     no

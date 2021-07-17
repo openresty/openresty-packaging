@@ -3,7 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
- openresty-zlib-asan-dev (>= 1.2.11), openresty-plus-openssl111-asan-dev (>= 1.1.1i), openresty-pcre-asan-dev (>= 8.44),
+ openresty-zlib-asan-dev (>= 1.2.11), openresty-plus-openssl111-asan-dev (>= 1.1.1k), openresty-pcre-asan-dev (>= 8.44),
  perl, libfile-temp-perl, libgd-dev, libc-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
  libldap-2.4-2, libldap2-dev[% END %], openresty-yajl-dev (>= 2.1.0.4)
 Standards-Version: 3.9.8
@@ -12,7 +12,7 @@ Homepage: https://www.openresty.com/
 Package: openresty-plus-asan
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
- openresty-zlib-asan (>= 1.2.11), openresty-plus-openssl111-asan (>= 1.1.1i), openresty-pcre-asan (>= 8.44), libgd3[% IF with_lua_ldap %],
+ openresty-zlib-asan (>= 1.2.11), openresty-plus-openssl111-asan (>= 1.1.1k), openresty-pcre-asan (>= 8.44), libgd3[% IF with_lua_ldap %],
   libldap-2.4-2[% END %],
  openresty-maxminddb-asan (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4)
 Description: core server of OpenResty+ for production use

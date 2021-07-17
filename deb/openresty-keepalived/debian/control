@@ -2,14 +2,14 @@ Source: openresty-keepalived
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), build-essential, pkg-config, automake, autoconf, ccache, gcc, openresty-plus-openssl111-dev (>= 1.1.1i), libnl-3-dev, libnl-genl-3-dev
+Build-Depends: debhelper (>= 9), build-essential, pkg-config, automake, autoconf, ccache, gcc, openresty-plus-openssl111-dev (>= 1.1.1k), libnl-3-dev, libnl-genl-3-dev
 Standards-Version: 3.9.8
 Homepage: https://www.keepalived.org/
 
 Package: openresty-keepalived
 Architecture: any
 Section: devel
-Depends: ${misc:Depends}, libnl-3-200, libnl-genl-3-200, openresty-plus-openssl111 (>= 1.1.1i)
+Depends: ${misc:Depends}, libnl-3-200, libnl-genl-3-200, openresty-plus-openssl111 (>= 1.1.1k)
 Description: OpenResty Fork's of keepalived.
  The main goal of this project is to provide simple and robust facilities for
  loadbalancing and high-availability to Linux system and Linux based infrastructures.
