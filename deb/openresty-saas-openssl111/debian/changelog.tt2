@@ -1,3 +1,9 @@
+openresty-saas-openssl111 (1.1.1k-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openssl to 1.1.1k.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 17 Jul 2021 22:06:56 +0800
+
 openresty-saas-openssl111 (1.1.1i-3~[% distro %]1) [% distro %]; urgency=high
 
   * use openresty-saas-zlib instead of openresty-zlib.
