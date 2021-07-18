@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBBPF_VER := 0.4.0.1
+OPENRESTY_LIBBPF_VER := 0.4.0.2
 
 deb_toolchain_pkgs=debhelper devscripts
 
