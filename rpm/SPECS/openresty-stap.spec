@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.6.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -132,7 +132,11 @@ along with the optional dtrace-compatibility preprocessor to process related
 
 %build
 cd tapset/
-perl ../util/parse-tapset-deps.pl %{_arch}/*.stp *.{stp,stpm} linux/%{_arch}/*.stp linux/*.{stp,stpm}
+arch="%{_arch}"
+if [[ "%{_arch}" == "aarch64" ]]; then
+    arch="arm64"
+fi
+perl ../util/parse-tapset-deps.pl $arch/*.stp *.{stp,stpm} linux/$arch/*.stp linux/*.{stp,stpm}
 cd ..
 
 export PATH=/usr/local/openresty-python3/bin:$PATH
