@@ -20,15 +20,6 @@ BuildRequires:      ccache, make, perl, gcc
 
 BuildRequires:      openresty-zlib-asan-devel >= 1.2.11-16
 Requires:           openresty-zlib-asan >= 1.2.11-16
-%if 0%{?suse_version}
-Requires:           libasan4
-%else
-%if 0%{?centos} == 6
-Requires:           libasan5
-%else
-Requires:           libasan
-%endif
-%endif
 
 AutoReqProv:        no
 
