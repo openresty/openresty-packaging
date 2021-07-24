@@ -1,3 +1,9 @@
+openresty-coreutils (8.32-3~[% distro %]1) [% distro %]; urgency=high
+
+  * bugfix: applying coreutils-8.32-ls-restore-8.31-behavior.patch.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 23 Jul 2021 18:18:00 +0800
+
 openresty-coreutils (8.32-2~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: added missing libstdbuf.so.
