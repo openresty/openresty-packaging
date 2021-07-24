@@ -23,9 +23,14 @@ openresty-plus-asan-clean:
 openresty-plus-asan-build: openresty-plus-asan-clean openresty-plus-asan-download
 ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+	sudo apt-get -y -qq --only-upgrade install libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -q install ccache make perl valgrind gcc openresty-zlib-asan-dev openresty-plus-openssl111-asan-dev openresty-pcre-asan-dev openresty-yajl-dev libgd-dev libc-dev openresty-plus-hyperscan-dev
-	sudo apt-get -y -q install --only-upgrade ccache make perl valgrind gcc openresty-zlib-asan-dev openresty-plus-openssl111-asan-dev openresty-pcre-asan-dev openresty-yajl-dev libgd-dev libc-dev openresty-plus-hyperscan-dev
+ifeq ($(ARCH), amd64)
+	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
+endif
+	sudo apt-get -y -q install ccache make perl valgrind gcc openresty-zlib-asan-dev openresty-plus-openssl111-asan-dev openresty-pcre-asan-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -q install --only-upgrade ccache make perl valgrind gcc openresty-zlib-asan-dev openresty-plus-openssl111-asan-dev openresty-pcre-asan-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-asan_$(OPENRESTY_PLUS_ASAN_VER).orig.tar.gz --strip-components=1 -C openresty-plus-asan
 	cd openresty-plus-asan \
@@ -37,6 +42,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
@@ -45,6 +51,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

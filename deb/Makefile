@@ -22,6 +22,7 @@ BOOST_VER2=1.69.0
 HYPERSCAN_VER=5.0.0
 OPTS=-sa
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+ARCH:=$(shell dpkg --print-architecture)
 WITH_LUA_LDAP=0
 WITH_LUA_RESTY_LDAP=1
 WITH_LUA_RESTY_OPENIDC=1
@@ -402,8 +403,14 @@ openresty-valgrind-clean:
 openresty-plus-build: | openresty-plus-clean openresty-plus-download
 ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+	sudo apt-get -y -qq --only-upgrade install libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
+ifeq ($(ARCH), amd64)
+	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
+endif
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
 	cd openresty-plus \
@@ -415,7 +422,8 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
+			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) \
+			--define arch=$(ARCH) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
@@ -423,7 +431,8 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
+			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) \
+			--define arch=$(ARCH) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
@@ -493,8 +502,14 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
 ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
+	sudo apt-get -y -qq --only-upgrade install libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev openresty-plus-hyperscan-dev $(deb_toolchain_pkgs)
+ifeq ($(ARCH), amd64)
+	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
+endif
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
 	cd openresty-plus-debug \
@@ -506,6 +521,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
@@ -514,6 +530,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
@@ -538,8 +555,12 @@ ifeq ($(WITH_LUA_LDAP), 1)
 	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
 	sudo apt-get -y -qq install --only-upgrade libldap-2.4-2 libldap-dev
 endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev openresty-yajl-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq install --only-upgrade openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-plus-hyperscan-dev openresty-yajl-dev $(deb_toolchain_pkgs)
+ifeq ($(ARCH), amd64)
+	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
+endif
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install --only-upgrade openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-test_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-test
 	cd openresty-plus-test \
@@ -551,6 +572,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
@@ -559,6 +581,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done

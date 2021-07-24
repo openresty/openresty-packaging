@@ -27,7 +27,7 @@ override_dh_auto_configure:
 	  --with-cc='ccache gcc' \
 	  --with-cc-opt="-I$(OR_PREFIX)/zlib/include -I$(OR_PREFIX)/pcre/include -I$(OR_PLUS_PREFIX)/openssl111/include -g3" \
 	  --with-ld-opt="-L$(OR_PREFIX)/zlib/lib -L$(OR_PREFIX)/pcre/lib -L$(OR_PLUS_PREFIX)/openssl111/lib -Wl,-rpath,$(OR_PREFIX)/zlib/lib:$(OR_PREFIX)/pcre/lib:$(OR_PLUS_PREFIX)/openssl111/lib" \
-	  --with-lua_resty_hyperscan \
+      [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
 	  [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
@@ -105,6 +105,11 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/include
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/share
 	rm -rf $(DESTDIR)$(PREFIX)/tcc/share
+	[% IF arch != 'amd64' %]
+    # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
+	install -d $(DESTDIR)$(PREFIX)/lualib/resty/hyperscan/
+	echo 'return {}' > $(DESTDIR)$(PREFIX)/lualib/resty/hyperscan/compiler.lua
+	[% END %]
 	for f in `find $(DESTDIR)$(PREFIX)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \

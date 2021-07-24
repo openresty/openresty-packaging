@@ -1,6 +1,6 @@
 Name:           openresty-plus-debug
 Version:        1.19.3.1.36
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The debug version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -256,6 +256,11 @@ ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
 ln -sf %{hyperscan_prefix}/lib/libhs.so %{buildroot}%{orprefix}/lualib/
 ln -sf %{hyperscan_prefix}/lib/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
 ln -sf %{maxminddb_prefix}/lib/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
+%ifnarch x86_64
+# NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
+install -d %{buildroot}%{orprefix}/lualib/resty/hyperscan/
+echo 'return {}' > %{buildroot}%{orprefix}/lualib/resty/hyperscan/compiler.lua
+%endif
 
 pushd %{buildroot}
 

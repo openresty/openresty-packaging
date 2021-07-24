@@ -20,8 +20,8 @@ lua-resty-jsonb-clean:
 
 .PHONY: lua-resty-jsonb-build
 lua-resty-jsonb-build: lua-resty-jsonb-clean lua-resty-jsonb-download
-	sudo apt-get -y -q install gcc make openresty-yajl-dev openresty
-	sudo apt-get -y -q upgrade gcc make openresty-yajl-dev openresty
+	sudo apt-get -y -qq install gcc make openresty-yajl-dev openresty
+	sudo apt-get -y -qq --only-upgrade install gcc make openresty-yajl-dev openresty
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf lua-resty-jsonb_$(LUA_RESTY_JSONB_VER).orig.tar.gz --strip-components=1 -C lua-resty-jsonb
 	cd lua-resty-jsonb \

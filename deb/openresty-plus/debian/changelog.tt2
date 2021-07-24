@@ -1,3 +1,9 @@
+openresty-plus (1.19.3.1.36-3~[% distro %]1) [% distro %]; urgency=high
+
+  * fixed compatibility issues on arm64.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 23 Jul 2021 10:55:00 +0800
+
 openresty-plus (1.19.3.1.36-2~[% distro %]1) [% distro %]; urgency=high
 
   * upgrade the version of the dependency openssl111 to 1.1.1k.

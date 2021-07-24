@@ -4,8 +4,10 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
  openresty-zlib-asan-dev (>= 1.2.11), openresty-plus-openssl111-asan-dev (>= 1.1.1k), openresty-pcre-asan-dev (>= 8.44),
- perl, libfile-temp-perl, libgd-dev, libc-dev, openresty-plus-hyperscan-dev[% IF with_lua_ldap %],
- libldap-2.4-2, libldap2-dev[% END %], openresty-yajl-dev (>= 2.1.0.4)
+ perl, libfile-temp-perl, libgd-dev, libc-dev, [% IF arch == 'amd64' %]
+ openresty-plus-hyperscan-dev,[% END -%]
+ [% IF with_lua_ldap %], libldap-2.4-2, libldap2-dev[% END %],
+ openresty-yajl-dev (>= 2.1.0.4)
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 

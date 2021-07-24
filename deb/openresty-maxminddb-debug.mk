@@ -19,8 +19,8 @@ openresty-maxminddb-debug-clean:
 
 .PHONY: openresty-maxminddb-debug-build
 openresty-maxminddb-debug-build: openresty-maxminddb-debug-clean openresty-maxminddb-debug-download
-	sudo apt-get -y -q install ccache
-	sudo apt-get -y -q upgrade ccache
+	sudo apt-get -y -qq install ccache
+	sudo apt-get -y -qq --only-upgrade install ccache
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-maxminddb-debug_$(OPENRESTY_MAXMINDDB_DEBUG_VER).orig.tar.gz --strip-components=1 -C openresty-maxminddb-debug
 	cd openresty-maxminddb-debug \

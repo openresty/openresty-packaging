@@ -19,8 +19,8 @@ openresty-python3-xray-stats-clean:
 
 .PHONY: openresty-python3-xray-stats-build
 openresty-python3-xray-stats-build: openresty-python3-xray-stats-clean openresty-python3-xray-stats-download
-	sudo apt-get -y -q install g++ openresty-python3-setuptools
-	sudo apt-get -y -q upgrade g++ openresty-python3-setuptools
+	sudo apt-get -y -qq install g++ openresty-python3-setuptools
+	sudo apt-get -y -qq --only-upgrade install g++ openresty-python3-setuptools
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3-xray-stats_$(OPENRESTY_PYTHON3_XRAY_STATS_VER).orig.tar.gz --strip-components=1 -C openresty-python3-xray-stats
 	cd openresty-python3-xray-stats \

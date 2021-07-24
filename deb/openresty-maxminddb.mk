@@ -19,8 +19,8 @@ openresty-maxminddb-clean:
 
 .PHONY: openresty-maxminddb-build
 openresty-maxminddb-build: openresty-maxminddb-clean openresty-maxminddb-download
-	sudo apt-get -y -q install ccache
-	sudo apt-get -y -q upgrade ccache
+	sudo apt-get -y -qq install ccache
+	sudo apt-get -y -qq install --only-upgrade ccache
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-maxminddb_$(OPENRESTY_MAXMINDDB_VER).orig.tar.gz --strip-components=1 -C openresty-maxminddb
 	cd openresty-maxminddb \

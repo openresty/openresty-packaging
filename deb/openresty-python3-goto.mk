@@ -19,8 +19,8 @@ openresty-python3-goto-clean:
 
 .PHONY: openresty-python3-goto-build
 openresty-python3-goto-build: openresty-python3-goto-clean openresty-python3-goto-download
-	sudo apt-get -y -q install openresty-python3-dev openresty-python3-setuptools
-	sudo apt-get -y -q upgrade openresty-python3-dev openresty-python3-setuptools
+	sudo apt-get -y -qq install openresty-python3-dev openresty-python3-setuptools
+	sudo apt-get -y -qq --only-upgrade install openresty-python3-dev openresty-python3-setuptools
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3-goto_$(OPENRESTY_PYTHON3_GOTO_VER).orig.tar.gz --strip-components=1 -C openresty-python3-goto
 	cd openresty-python3-goto \

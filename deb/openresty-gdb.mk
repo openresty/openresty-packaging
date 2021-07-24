@@ -12,8 +12,8 @@ openresty-gdb-download:
 	tar czf openresty-gdb_$(OPENRESTY_GDB_VER).orig.tar.gz openresty-gdb_$(OPENRESTY_GDB_VER)
 
 openresty-gdb-clean:
-	sudo apt-get -y -q install libc6-dev make gcc g++ texinfo libmpfr-dev openresty-python3-dev liblzma-dev ncurses-dev
-	sudo apt-get -y -q upgrade libc6-dev make gcc g++ texinfo libmpfr-dev openresty-python3-dev liblzma-dev ncurses-dev
+	sudo apt-get -y -qq install libc6-dev make gcc g++ texinfo libmpfr-dev openresty-python3-dev liblzma-dev ncurses-dev
+	sudo apt-get -y -qq --only-upgrade install libc6-dev make gcc g++ texinfo libmpfr-dev openresty-python3-dev liblzma-dev ncurses-dev
 	rm -rf openresty-gdb/debian/.debhelper/
 	-cd openresty-gdb && debclean
 	-find openresty-gdb -maxdepth 1 ! -name 'debian' ! -name 'openresty-gdb' -print | xargs rm -rf

@@ -23,7 +23,7 @@ override_dh_auto_configure:
 	  --with-cc='ccache gcc' \
 	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus-debug/openssl111/include -Og -g3" \
 	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus-debug/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus-debug/openssl111/lib" \
-	  --with-lua_resty_hyperscan \
+      [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
 	  [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
@@ -75,6 +75,11 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-debug/tcc/share
+	[% IF arch != 'amd64' %]
+    # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
+	install -d $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/
+	echo 'return {}' > $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/compiler.lua
+	[% END %]
 	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \

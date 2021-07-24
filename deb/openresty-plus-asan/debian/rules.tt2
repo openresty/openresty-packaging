@@ -30,7 +30,7 @@ override_dh_auto_build:
     --with-cc="ccache gcc -fsanitize=address" \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -DNGX_LUA_USE_ASSERT -I/usr/local/openresty-asan/zlib/include -I/usr/local/openresty-asan/pcre/include -I/usr/local/openresty-plus-asan/openssl111/include -O1 -fno-omit-frame-pointer -fno-inline -g3" \
     --with-ld-opt="-L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre/lib -L/usr/local/openresty-plus-asan/openssl111/lib -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/pcre/lib:/usr/local/openresty-plus-asan/openssl111/lib" \
-    --with-lua_resty_hyperscan \
+    [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
     --with-pcre-jit \
     [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
     [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
@@ -111,6 +111,11 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/tcc/share
+	[% IF arch != 'amd64' %]
+    # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
+	install -d $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/
+	echo 'return {}' > $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/compiler.lua
+	[% END %]
 	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" \
 		LD_PRELOAD= $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
