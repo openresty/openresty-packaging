@@ -1,3 +1,9 @@
+openresty-perl-net-ssleay (1.90-3~[% distro %]1) [% distro %]; urgency=high
+
+  * Link to openresty-saas-openssl111
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 23 Jul 2021 00:00:00 -0700
+
 openresty-perl-net-ssleay (1.90-2~[% distro %]1) [% distro %]; urgency=high
 
   * Link to openresty-openssl111
