@@ -7,8 +7,8 @@ Group:              System Environment/Libraries
 
 # /contrib/dotzlib/ have Boost license
 License:            zlib and Boost
-URL:                http://www.zlib.net/
-Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
+URL:                https://www.zlib.net/
+Source0:            https://www.zlib.net/zlib-%{version}.tar.xz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
