@@ -94,6 +94,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{prefix}/include/odb-stat.h
 %{prefix}/include/odb-runtime.h
+%{prefix}/include/odb-runtime-config.h
 %{prefix}/include/or-pcre.h
 %{prefix}/include/or-utils.h
 

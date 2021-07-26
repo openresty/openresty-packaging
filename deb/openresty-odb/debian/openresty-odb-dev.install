@@ -1,4 +1,5 @@
 usr/local/openresty-odb/include/odb-stat.h
 usr/local/openresty-odb/include/odb-runtime.h
+usr/local/openresty-odb/include/odb-runtime-config.h
 usr/local/openresty-odb/include/or-pcre.h
 usr/local/openresty-odb/include/or-utils.h
