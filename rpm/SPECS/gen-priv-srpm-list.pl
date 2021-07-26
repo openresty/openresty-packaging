@@ -32,9 +32,9 @@ openresty-maxminddb-1.4.2.4-2.fc28.src.rpm
 openresty-maxminddb-debug-1.4.2.4-2.fc28.src.rpm
 openresty-maxminddb-asan-1.4.2.4-4.fc28.src.rpm
 openresty-saas-1.19.3.1.29-1.fc28.src.rpm
-openresty-plus-openssl111-1.1.1i-2.fc28.src.rpm
-openresty-plus-openssl111-debug-1.1.1i-2.fc28.src.rpm
-openresty-plus-openssl111-asan-1.1.1i-3.fc28.src.rpm
+openresty-plus-openssl111-1.1.1k-1.fc28.src.rpm
+openresty-plus-openssl111-debug-1.1.1k-1.fc28.src.rpm
+openresty-plus-openssl111-asan-1.1.1k-1.fc28.src.rpm
 openresty-plus-1.19.3.1.29-1.fc28.src.rpm
 openresty-plus-debug-1.19.3.1.17-1.fc28.src.rpm
 openresty-plus-asan-1.19.3.1.29-1.fc28.src.rpm
@@ -69,6 +69,10 @@ openresty-perl-Canary-Stability-2013-1.fc28.src.rpm
 openresty-perl-App-cpanminus-1.7044-1.fc28.src.rpm
 openresty-perl-Types-Serialiser-1.01-1.fc28.src.rpm
 openresty-perl-JSON-XS-4.03-1.fc28.src.rpm
+openresty-perl-Net-SSLeay-1.90-2.fc28.src.rpm
+openresty-perl-Mozilla-CA-20200520-2.fc28.src.rpm
+openresty-perl-IO-Socket-SSL-2.071-2.fc28.src.rpm
+openresty-perl-Protocol-WebSocket-0.26-1.fc28.src.rpm
 openresty-keepalived-2.2.1-1.fc28.src.rpm
 _EOC_
 
