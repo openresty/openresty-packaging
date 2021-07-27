@@ -20,7 +20,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	$(PREFIX)/bin/perl Makefile.PL \
-	OPTIMIZE="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -grecord-gcc-switches -m64 -mtune=generic" \
+	OPTIMIZE="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -grecord-gcc-switches -mtune=generic" \
 	INSTALLDIRS=site \
 	INSTALLSITEBIN=$(PREFIX)/bin INSTALLSITESCRIPT=$(PREFIX)/bin \
 	INSTALLSCRIPT=$(PREFIX)/bin \
@@ -41,3 +41,4 @@ override_dh_auto_clean:
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-perl-common-sense-dbgsym
+
