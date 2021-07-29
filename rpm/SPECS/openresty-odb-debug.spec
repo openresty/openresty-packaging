@@ -1,5 +1,5 @@
 Name:           openresty-odb-debug
-Version:        0.28
+Version:        0.29
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty Debugger based on ptrace
 Group:          Development/System
@@ -103,6 +103,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jul 28 2021 Yichun Zhang (agentzh) 0.29-1
+- upgraded odb to 0.29.
 * Sun Jul 25 2021 Yichun Zhang (agentzh) 0.28-1
 - upgraded odb to 0.28.
 * Sun Jul 25 2021 Yichun Zhang (agentzh) 0.27-1
