@@ -28,7 +28,10 @@ override_dh_auto_build:
 		libodb-runtime.so
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) \
+		CXX='ccache g++' \
+		PCRE=$(PCRE_PREFIX) \
+		CXXFLAGS="-DDDEBUG=1 -std=gnu++11 -g3 -Werror -Wall -O2 -I$(PCRE_PREFIX)/include"
 
 override_dh_auto_clean:
 	dh_clean

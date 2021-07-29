@@ -78,7 +78,9 @@ make -j`nproc` \
     libodb-runtime.so
 
 %install
-make install DESTDIR=%{buildroot} PREFIX=%{prefix}
+make install DESTDIR=%{buildroot} PREFIX=%{prefix} \
+    CXX='ccache g++ -fdiagnostics-color=always' \
+    PCRE=%{pcre_prefix} \
 
 %clean
 rm -rf %{buildroot}
