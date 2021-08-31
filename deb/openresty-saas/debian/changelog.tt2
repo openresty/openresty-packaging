@@ -1,3 +1,9 @@
+openresty-saas (1.19.3.1.40-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-plus to 1.19.3.1.40.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 31 Aug 2021 15:29:37 -0700
+
 openresty-saas (1.19.3.1.37-2~[% distro %]1) [% distro %]; urgency=high
 
   * remove lua-resty-patlist from saas.
