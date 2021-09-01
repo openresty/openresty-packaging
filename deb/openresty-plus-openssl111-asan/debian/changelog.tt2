@@ -1,3 +1,9 @@
+openresty-plus-openssl111-asan (1.1.1l-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.1.1l.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 31 Aug 2021 12:53:57 +0800
+
 openresty-plus-openssl111-asan (1.1.1k-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenSSL to 1.1.1k.

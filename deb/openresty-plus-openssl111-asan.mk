@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PLUS_OPENSSL111_ASAN_VER := 1.1.1k
+OPENRESTY_PLUS_OPENSSL111_ASAN_VER := 1.1.1l
 
 .PHONY: openresty-plus-openssl111-asan-download
 openresty-plus-openssl111-asan-download:

@@ -1,4 +1,4 @@
-SSL111_VER=1.1.1k
+SSL111_VER=1.1.1l
 
 .PHONY: openresty-plus-openssl111-download
 openresty-plus-openssl111-download:
