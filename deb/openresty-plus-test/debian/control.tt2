@@ -2,7 +2,7 @@ Source: openresty-plus-test
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd, ccache, make,
+Build-Depends: debhelper (>= 9), autotools-dev, ccache, make,
  openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1k),
  openresty-pcre-dev (>= 8.42), [% IF with_lua_ldap %]
  libldap-2.4-2, libldap2-dev, [% END -%]
