@@ -1,3 +1,9 @@
+openresty-postgresql (9.6.20-5~[% distro %]1) [% distro %]; urgency=high
+
+  * DO NOT auto-stop PG service on package removal.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 30 Aug 2021 16:15:00 +0800
+
 openresty-postgresql (9.6.20-4~[% distro %]1) [% distro %]; urgency=high
 
   * copy systemd service to /etc/systemd/system instead of symlinking

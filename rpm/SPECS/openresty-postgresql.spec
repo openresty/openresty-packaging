@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty/postgresql
@@ -130,7 +130,6 @@ if [ -d "/etc/systemd/system" ]; then
     cp -f %{pgprefix}/share/systemd/openresty-postgresql.service \
        /etc/systemd/system/openresty-postgresql.service
     /bin/systemctl daemon-reload
-    /bin/systemctl stop openresty-postgresql >/dev/null 2>&1
 
 else
     /sbin/chkconfig --add openresty-postgresql
@@ -140,11 +139,7 @@ fi
 %preun
 if [ $1 = 0 ]; then
     if [ -d "/etc/systemd/system" ]; then
-        /bin/systemctl stop openresty-postgresql >/dev/null 2>&1
         rm -f /etc/systemd/system/openresty-postgresql.service
-
-    elif [ -n "$(command -v service)" ]; then
-        $(command -v service) openresty-postgresql stop >/dev/null 2>&1
     fi
 
     if [ -n "$(command -v chkconfig)" ]; then
