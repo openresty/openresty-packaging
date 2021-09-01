@@ -1,2 +1,3 @@
 hyperscan-g3-flag.patch
 gcc-march-fix.patch
+hyperscan-5.4.0-fix-undefined-reference-to.patch
