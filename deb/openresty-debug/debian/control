@@ -2,7 +2,7 @@ Source: openresty-debug
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), autotools-dev, dh-systemd,
+Build-Depends: debhelper (>= 9), autotools-dev,
  systemtap-sdt-dev,
  openresty-zlib-dev, openresty-openssl111-debug-dev (>= 1.1.1h),
  openresty-pcre-dev (>= 8.44),
