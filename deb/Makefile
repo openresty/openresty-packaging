@@ -27,6 +27,7 @@ WITH_LUA_LDAP=0
 WITH_LUA_RESTY_LDAP=1
 WITH_LUA_RESTY_OPENIDC=1
 WITH_LUA_RESTY_SESSION=1
+WITH_LUA_RESTY_OPENSSL=1
 WITH_LUA_RESTY_JWT=1
 WITH_LUA_RESTY_HMAC=1
 WITH_LUA_RESTY_MLCACHE=1
@@ -419,6 +420,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
@@ -428,6 +430,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
@@ -518,6 +521,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
@@ -527,6 +531,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
@@ -569,6 +574,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
@@ -578,6 +584,7 @@ endif
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
 			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
 			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
+			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \

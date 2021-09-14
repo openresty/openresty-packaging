@@ -12,7 +12,15 @@ URL:            https://www.openresty.com/
 
 Source0:        openresty-plus-%{version}.tar.gz
 
-%bcond_without	lua_ldap
+%bcond_with	lua_ldap
+%bcond_without	lua_resty_ldap
+%bcond_without	lua_resty_openidc
+%bcond_without	lua_resty_session
+%bcond_without	lua_resty_openssl
+%bcond_without	lua_resty_jwt
+%bcond_without	lua_resty_hmac
+%bcond_without	lua_resty_mlcache
+%bcond_without	ngx_brotli
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -48,6 +56,8 @@ Requires:       libgd3
 Requires:       gd
 %endif
 
+# needed by tcc
+Requires:       glibc-devel
 %if %{with lua_ldap}
 %if 0%{?suse_version}
 Requires:       openldap2
@@ -119,6 +129,30 @@ a single box.
     --with-pcre-jit \
 %if %{with lua_ldap}
     --with-lua_ldap \
+%endif
+%if %{with lua_resty_ldap}
+    --with-lua_resty_ldap \
+%endif
+%if %{with lua_resty_openidc}
+    --with-lua_resty_openidc \
+%endif
+%if %{with lua_resty_session}
+    --with-lua_resty_session \
+%endif
+%if %{with lua_resty_openssl}
+    --with-lua_resty_openssl\
+%endif
+%if %{with lua_resty_jwt}
+    --with-lua_resty_jwt \
+%endif
+%if %{with lua_resty_hmac}
+    --with-lua_resty_hmac \
+%endif
+%if %{with lua_resty_mlcache}
+    --with-lua_resty_mlcache \
+%endif
+%if %{with ngx_brotli}
+    --with-ngx_brotli \
 %endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \

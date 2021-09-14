@@ -27,6 +27,7 @@ override_dh_auto_configure:
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
 	  [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
 	  [% IF with_lua_resty_session %]--with-lua_resty_session [% END %]\
+	  [% IF with_lua_resty_jwt %]--with-lua_resty_openssl [% END %]\
 	  [% IF with_lua_resty_jwt %]--with-lua_resty_jwt [% END %]\
 	  [% IF with_lua_resty_hmac %]--with-lua_resty_hmac [% END %]\
 	  [% IF with_lua_resty_mlcache %]--with-lua_resty_mlcache [% END %]\

@@ -16,6 +16,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 %bcond_without	lua_resty_ldap
 %bcond_without	lua_resty_openidc
 %bcond_without	lua_resty_session
+%bcond_without	lua_resty_openssl
 %bcond_without	lua_resty_jwt
 %bcond_without	lua_resty_hmac
 %bcond_without	lua_resty_mlcache
@@ -179,6 +180,9 @@ services, and dynamic web gateways.
 %endif
 %if %{with lua_resty_session}
     --with-lua_resty_session \
+%endif
+%if %{with lua_resty_openssl}
+    --with-lua_resty_openssl \
 %endif
 %if %{with lua_resty_jwt}
     --with-lua_resty_jwt \
