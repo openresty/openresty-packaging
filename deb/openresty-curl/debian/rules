@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+    #--cache-file=../config.cache
+override_dh_auto_configure:
+	./configure \
+    --disable-static \
+    --enable-symbol-hiding \
+    --enable-ipv6 \
+    --enable-threaded-resolver \
+    --with-gssapi \
+    --with-nghttp2 \
+    --with-openssl \
+    --prefix=/usr/local/openresty-curl/ \
+    --enable-ldap \
+    --enable-ldaps \
+    --enable-manual \
+    --with-brotli \
+    --with-libpsl \
+    --with-libssh
+
+override_dh_auto_build:
+	make -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)%{_datadir}/fish \
+		&& rm -f $(DESTDIR)%{_libdir}/libcurl.la \
+		&& rm -fr $(DESTDIR)/usr/local/openresty-curl/include \
+		&& rm -fr $(DESTDIR)/usr/local/openresty-curl/share \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-curl/bin/curl-config \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-curl/lib/libcurl.la \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-curl/lib/libcurl.so \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-curl/lib/pkgconfig/libcurl.pc \
+		&& rm -f  $(DESTDIR)/usr/share/aclocal/libcurl.m4
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-curl-dbgsym

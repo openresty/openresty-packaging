@@ -1,0 +1,8 @@
+COPYING
+CHANGES
+README
+docs/FAQ
+docs/TODO
+usr/local/openresty-curl/bin/curl
+usr/local/openresty-curl/lib/libcurl.so.4
+usr/local/openresty-curl/lib/libcurl.so.4.[0-9].[0-9]
