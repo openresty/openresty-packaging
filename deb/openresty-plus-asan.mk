@@ -43,6 +43,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
 			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
@@ -53,6 +54,7 @@ endif
 			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
 			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
 			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
+			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
 			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)

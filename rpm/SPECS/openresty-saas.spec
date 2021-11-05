@@ -6,7 +6,7 @@
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
-Version:    1.19.3.1.40
+Version:    1.19.9.1.2
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
@@ -16,6 +16,7 @@ License:    Proprietary
 URL:        http://openresty.com
 Source0:    %{or_plus_name}-%{version}.tar.gz
 
+%bcond_without	lua_resty_mail
 
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -109,6 +110,9 @@ OpenResty Plus for SaaS product clients.
     --without-lua_resty_dymetrics \
     --without-lua_resty_triegen \
     --without-lua_resty_patlist \
+%if %{with lua_resty_mail}
+    --with-lua_resty_mail \
+%endif
     -j`nproc`
 
 make -j`nproc`
@@ -158,6 +162,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Tue Nov 2 2021 Yichun Zhang (agentzh) 1.19.9.1.2-1
+- upgraded openresty-plus to 1.19.3.1.40.
 * Tue Aug 31 2021 Yichun Zhang (agentzh) 1.19.3.1.40-1
 - upgraded openresty-plus to 1.19.3.1.40.
 * Sun Jul 25 2021 Yichun Zhang (agentzh) 1.19.3.1.37-1

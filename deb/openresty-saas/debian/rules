@@ -58,6 +58,7 @@ override_dh_auto_configure:
     --without-lua_resty_jsonb \
     --without-lua_resty_dymetrics \
     --without-lua_resty_triegen \
+    --with-lua_resty_mail \
     --without-lua_resty_patlist \
     -j$(JOBS)
 

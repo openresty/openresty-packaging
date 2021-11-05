@@ -22,6 +22,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 %bcond_without	lua_resty_hmac
 %bcond_without	lua_resty_mlcache
 %bcond_without	ngx_brotli
+%bcond_without	lua_resty_mail
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -242,6 +243,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %endif
 %if %{with ngx_brotli}
     --with-ngx_brotli \
+%endif
+%if %{with lua_resty_mail}
+    --with-lua_resty_mail \
 %endif
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
