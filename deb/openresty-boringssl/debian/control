@@ -1,0 +1,29 @@
+Source: openresty-boringssl
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, g++, openresty-zlib-dev (>= 1.2.11)
+Standards-Version: 3.9.8
+Homepage: https://boringssl.googlesource.com/boringssl
+
+Package: openresty-boringssl
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib (>= 1.2.11)
+Description: BoringSSL library for OpenResty
+ This boringssl library build is specifically for OpenResty uses. It may contain
+ custom patches from OpenResty.
+
+Package: openresty-boringssl-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-boringssl (>= 20211114)
+Description: Development files for OpenResty's OpenSSL library
+ Provides C header and static library for OpenResty's OpenSSL library.
+
+Package: openresty-boringssl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-boringssl (>= 20211114)
+Description: Debug symbols for the openresty-boringssl package
+ Debug symbols (or debuginfo) for the openresty-boringssl package.

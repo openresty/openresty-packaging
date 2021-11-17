@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	mkdir -p build \
+		&& cd build \
+		&& PATH=/opt/go/bin:$$PATH cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_SHARED_LIBS=1 \
+      -DCMAKE_CXX_FLAGS="-Og -g -I/usr/local/openresty/zlib/include" \
+      -DCMAKE_C_FLAGS="-Og -g -I/usr/local/openresty/zlib/include" \
+      -DCMAKE_SHARED_LINKER_FLAGS="-L/usr/local/openresty/zlib/lib -Wl,-rpath,/usr/local/openresty/zlib/lib" \
+      -DCMAKE_BUILD_TYPE=Release .. \
+		&& PATH=/opt/go/bin:$$PATH make -j`nproc` ssl crypto
+
+override_dh_auto_install:
+	install -d $(DESTDIR)/usr/local/openresty/boringssl/lib \
+		&& install -d $(DESTDIR)/usr/local/openresty/boringssl/include/openssl \
+		&& install -m 0755 ./build/crypto/libcrypto.so $(DESTDIR)/usr/local/openresty/boringssl/lib \
+		&& install -m 0755 ./build/ssl/libssl.so $(DESTDIR)/usr/local/openresty/boringssl/lib \
+		&& install -m 0644 ./include/openssl/*.h $(DESTDIR)/usr/local/openresty/boringssl/include/openssl
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-boringssl-dbgsym
