@@ -1,0 +1,6 @@
+openresty-libedge-pki (1.1.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 17 Nov 2021 00:00:00 -0700
+

@@ -1,0 +1,6 @@
+openresty-plus-core (1.19.9.1.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 17 Nov 2021 00:00:00 -0700
+
