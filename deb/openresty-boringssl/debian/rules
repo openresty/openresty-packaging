@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty/boringssl
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -28,11 +29,13 @@ override_dh_auto_build:
 		&& PATH=/opt/go/bin:$$PATH make -j`nproc` ssl crypto
 
 override_dh_auto_install:
-	install -d $(DESTDIR)/usr/local/openresty/boringssl/lib \
-		&& install -d $(DESTDIR)/usr/local/openresty/boringssl/include/openssl \
-		&& install -m 0755 ./build/crypto/libcrypto.so $(DESTDIR)/usr/local/openresty/boringssl/lib \
-		&& install -m 0755 ./build/ssl/libssl.so $(DESTDIR)/usr/local/openresty/boringssl/lib \
-		&& install -m 0644 ./include/openssl/*.h $(DESTDIR)/usr/local/openresty/boringssl/include/openssl
+	install -d $(DESTDIR)$(PREFIX)/lib \
+		&& install -d $(DESTDIR)$(PREFIX)/include/openssl \
+		&& install -m 0755 ./build/crypto/libcrypto.so.* $(DESTDIR)$(PREFIX)/lib \
+		&& (cd $(DESTDIR)$(PREFIX)/lib; ln -sf libcrypto.so.* libcrypto.so) \
+		&& install -m 0755 ./build/ssl/libssl.so.* $(DESTDIR)$(PREFIX)/lib \
+		&& (cd $(DESTDIR)$(PREFIX)/lib; ln -sf libssl.so.* libssl.so) \
+		&& install -m 0644 ./include/openssl/*.h $(DESTDIR)$(PREFIX)/include/openssl
 
 override_dh_auto_clean:
 	dh_clean

@@ -1,5 +1,5 @@
 Name:               openresty-boringssl
-Version:            20211114
+Version:            20211122
 Release:            1%{?dist}
 Summary:            BoringSSL library for OpenResty
 
@@ -88,8 +88,10 @@ make -j`nproc` ssl crypto
 %install
 install -d %{buildroot}%{openssl_prefix}/lib
 install -d %{buildroot}%{openssl_prefix}/include/openssl
-install -m 0755 ./build/crypto/libcrypto.so %{buildroot}%{openssl_prefix}/lib
-install -m 0755 ./build/ssl/libssl.so %{buildroot}%{openssl_prefix}/lib
+install -m 0755 ./build/crypto/libcrypto.so.* %{buildroot}%{openssl_prefix}/lib
+(cd %{buildroot}%{openssl_prefix}/lib; ln -sf libcrypto.so.* libcrypto.so)
+install -m 0755 ./build/ssl/libssl.so.* %{buildroot}%{openssl_prefix}/lib
+(cd %{buildroot}%{openssl_prefix}/lib; ln -sf libssl.so.* libssl.so)
 install -m 0644 ./include/openssl/*.h %{buildroot}%{openssl_prefix}/include/openssl
 
 # to silence the check-rpath error
@@ -109,5 +111,8 @@ rm -rf %{buildroot}
 %{openssl_prefix}/include/*
 
 %changelog
+* Mon Nov 22 2021 Jiahao (wangjiahao@openresty.com) 20211122
+- upgrade openresty boringssl to 20211122.
+
 * Sun Nov 14 2021 makerpm 20211114
 - initial build for OpenSSL 20211114

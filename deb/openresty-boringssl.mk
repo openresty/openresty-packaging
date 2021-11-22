@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_BORINGSSL_VER := 20211114
+OPENRESTY_BORINGSSL_VER := 20211122
 
 .PHONY: openresty-boringssl-download
 openresty-boringssl-download:
