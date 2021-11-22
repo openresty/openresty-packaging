@@ -1,0 +1,63 @@
+Source: openresty-plus-core-h3
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, systemtap-sdt-dev, openresty-zlib-dev (>= 1.2.11), openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.44), libtool, libgd-dev, libc-dev, [% IF arch == 'amd64' %] openresty-plus-hyperscan-dev, [% END -%] openresty-yajl-dev (>= 2.1.0.4)
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-plus-core-h3-resty
+Architecture: any
+Section: httpd
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ openresty-plus-core-h3 (>= ${source:Upstream-Version}),
+ perl, libfile-spec-perl, libfile-temp-perl, libtime-hires-perl
+Description: OpenResty+ command-line utility, resty
+ This package contains the "resty" command-line utility for OpenResty+, which
+ runs OpenResty Lua scripts on the terminal using a headless NGINX behind the
+ scene.
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ BuildArch:      noarch
+
+Package: openresty-plus-core-h3-opm
+Architecture: any
+Section: httpd
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ openresty-plus-core-h3 (>= ${source:Upstream-Version}), openresty-plus-core-h3-resty (>= ${source:Upstream-Version}),
+ curl, tar, gzip, libdigest-md5-perl, libencode-perl, libfile-spec-perl, libfile-temp-perl
+Description: OpenResty+ Package Manager
+ This package provides the client side tool, opm, for OpenResty Pakcage Manager (OPM).
+
+Package: openresty-plus-core-h3
+Architecture: any
+Section: httpd
+Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
+ openresty-zlib, openresty-pcre (>= 8.42), libgd3,
+ openresty-maxminddb (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.44),
+ openresty-boringssl (>= 20211122), openresty-maxminddb (>= 1.4.2.4), libgd3
+Description: OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
+ This package contains the core server for OpenResty+, an enhanced version of
+ OpenResty. Built for production uses.
+ OpenResty is a full-fledged web platform by integrating the standard Nginx
+ core, LuaJIT, many carefully written Lua libraries, lots of high quality
+ 3rd-party Nginx modules, and most of their external dependencies. It is
+ designed to help developers easily build scalable web applications, web
+ services, and dynamic web gateways.
+ By taking advantage of various well-designed Nginx modules (most of which
+ are developed by the OpenResty team themselves), OpenResty effectively
+ turns the nginx server into a powerful web app server, in which the web
+ developers can use the Lua programming language to script various existing
+ nginx C modules and Lua modules and construct extremely high-performance
+ web applications that are capable to handle 10K ~ 1000K+ connections in
+ a single box.
+
+Package: openresty-plus-core-h3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-plus-core-h3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-plus-core-h3 package
+ Debug symbols (or debuginfo) for the openresty-plus-core-h3 package.
