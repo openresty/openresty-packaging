@@ -115,7 +115,7 @@ a single box.
 
 Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty-plus-h3 >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -171,7 +171,7 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty-plus-h3 >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}, perl(Digest::MD5)
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
