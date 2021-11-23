@@ -228,7 +228,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %endif
     --without-edge_message_bus \
     --without-edge_routing_platform \
-    --without-edge_pki \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-lua_rds_parser \
@@ -277,6 +276,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_gunzip_module \
     --with-threads \
     --with-compat  \
+    --with-http_v3_module \
+    --with-http_quic_module \
+    --with-stream_quic_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     -j`nproc`
 
