@@ -8,7 +8,7 @@ Group:              Development/Libraries
 # https://github.com/google/boringssl/blob/master/LICENSE
 License:            OpenSSL + ISC
 URL:                https://boringssl.googlesource.com/boringssl
-Source0:            boringssl-%{version}.tar.gz
+Source0:            boringssl-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -41,7 +41,7 @@ custom patches from OpenResty.
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/boringssl-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/boringssl-plus-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -70,7 +70,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 
 %prep
-%setup -q -n boringssl-%{version}
+%setup -q -n boringssl-plus-%{version}
 
 
 

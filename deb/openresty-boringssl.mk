@@ -5,10 +5,10 @@ OPENRESTY_BORINGSSL_VER := 20211122
 
 .PHONY: openresty-boringssl-download
 openresty-boringssl-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/boringssl-$(OPENRESTY_BORINGSSL_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/boringssl-plus-$(OPENRESTY_BORINGSSL_VER).tar.gz ./
 	rm -rf openresty-boringssl_$(OPENRESTY_BORINGSSL_VER)
 	mkdir -p openresty-boringssl_$(OPENRESTY_BORINGSSL_VER)
-	tar -xf boringssl-$(OPENRESTY_BORINGSSL_VER).tar.gz --strip-components=1 -C openresty-boringssl_$(OPENRESTY_BORINGSSL_VER)
+	tar -xf boringssl-plus-$(OPENRESTY_BORINGSSL_VER).tar.gz --strip-components=1 -C openresty-boringssl_$(OPENRESTY_BORINGSSL_VER)
 	tar -czf openresty-boringssl_$(OPENRESTY_BORINGSSL_VER).orig.tar.gz openresty-boringssl_$(OPENRESTY_BORINGSSL_VER)
 
 openresty-boringssl-clean:

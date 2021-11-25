@@ -17,13 +17,13 @@ Description: BoringSSL library for OpenResty
 Package: openresty-boringssl-dev
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-boringssl (>= 20211114)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-boringssl (>= ${source:Version})
 Description: Development files for OpenResty's OpenSSL library
  Provides C header and static library for OpenResty's OpenSSL library.
 
 Package: openresty-boringssl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-boringssl (>= 20211114)
+Depends: ${misc:Depends}, openresty-boringssl (>= ${source:Version})
 Description: Debug symbols for the openresty-boringssl package
  Debug symbols (or debuginfo) for the openresty-boringssl package.
