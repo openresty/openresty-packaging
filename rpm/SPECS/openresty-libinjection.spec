@@ -1,5 +1,5 @@
 Name:           openresty-libinjection
-Version:        0.0.1
+Version:        3.10.1
 Release:        1%{?dist}
 Summary:        Lua module for SQLI tokenizer parser analyzer
 
@@ -82,5 +82,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu Nov 18 2021 Shushen He 0.0.1-1
+* Thu Nov 25 2021 Shushen He (isshe) 3.10.1-1
 - initial build for openresty-libinjection.
