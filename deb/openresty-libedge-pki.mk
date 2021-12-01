@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBEDGE_PKI_VER := 1.1.4
+OPENRESTY_LIBEDGE_PKI_VER := 1.1.5
 
 .PHONY: openresty-libedge-pki-download
 openresty-libedge-pki-download:

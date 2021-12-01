@@ -1,5 +1,5 @@
 Name:           openresty-libedge-pki
-Version:        1.1.4
+Version:        1.1.5
 Release:        1%{?dist}
 Summary:        OpenResty Edge Certificates C Library
 
@@ -79,5 +79,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Dec 1 2021 Yichun Zhang (agentzh) 1.1.5-1
+- upgraded openresty-libedge-pki to 1.1.5.
 * Thu Nov 17 2021 Wang Hui (wanghuizzz) 1.1.4-1
 - initial packaging.
