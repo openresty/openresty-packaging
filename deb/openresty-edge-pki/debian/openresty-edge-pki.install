@@ -1,0 +1,3 @@
+usr/local/openresty-plus/lualib/oredge/
+usr/local/openresty-plus/lualib/libedgepki.so
+usr/local/openresty-plus/lualib/oredge/*

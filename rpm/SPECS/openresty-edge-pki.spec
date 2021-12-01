@@ -1,7 +1,7 @@
-Name:           openresty-libedge-pki
+Name:           openresty-edge-pki
 Version:        1.1.5
 Release:        1%{?dist}
-Summary:        OpenResty Edge Certificates C Library
+Summary:        OpenResty Edge Certificates Library
 
 Group:          Development/Libraries
 
@@ -60,11 +60,17 @@ Lua API for generating/verifying edge certificates.
 
 %build
 make
-
+# Create new file in install stage will cause check-buildroots to abort.
+# To avoid it, we move the compilation in build stage.
+for f in `find lib/oredge/ -type f -name '*.lua'`; do
+    %{or_prefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    rm $f
+done
 
 %install
 rm -rf %{buildroot}
-make install_c DESTDIR=%{buildroot} LUA_LIB_DIR=%{lua_lib_dir}
+sed -i 's|lib/oredge/\*.lua|lib/oredge/\*.ljbc|g' Makefile
+make install DESTDIR=%{buildroot} LUA_LIB_DIR=%{lua_lib_dir}
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -75,11 +81,13 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
+%dir %{lua_lib_dir}/oredge
 %{lua_lib_dir}/libedgepki.so
+%{lua_lib_dir}/oredge/*
 
 
 %changelog
 * Wed Dec 1 2021 Yichun Zhang (agentzh) 1.1.5-1
-- upgraded openresty-libedge-pki to 1.1.5.
+- upgraded openresty-edge-pki to 1.1.5.
 * Thu Nov 17 2021 Wang Hui (wanghuizzz) 1.1.4-1
 - initial packaging.

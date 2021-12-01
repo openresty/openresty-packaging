@@ -19,14 +19,19 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	make
+	for f in `find lib/oredge/ -type f -name '*.lua'`; do \
+		/usr/local/openresty-plus/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm $$f; \
+	done
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \
-		&& make install_c DESTDIR=$(DESTDIR) LUA_LIB_DIR=/usr/local/openresty-plus/lualib
+		&& sed -i 's|lib/oredge/\*.lua|lib/oredge/\*.ljbc|g' Makefile \
+		&& make install DESTDIR=$(DESTDIR) LUA_LIB_DIR=/usr/local/openresty-plus/lualib
 
 override_dh_auto_clean:
 	dh_clean
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-libedge-pki-dbgsym
+	dh_strip --dbg-package=openresty-edge-pki-dbgsym

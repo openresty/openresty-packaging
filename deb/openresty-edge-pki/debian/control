@@ -1,4 +1,4 @@
-Source: openresty-libedge-pki
+Source: openresty-edge-pki
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
@@ -6,16 +6,16 @@ Build-Depends: debhelper (>= 9), gcc, make, libssl-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
-Package: openresty-libedge-pki
+Package: openresty-edge-pki
 Architecture: any
 Section: libdevel
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: OpenResty Edge Certificates C Library
+Description: OpenResty Edge Certificates Library
  Lua API for generating/verifying edge certificates.
 
-Package: openresty-libedge-pki-dbgsym
+Package: openresty-edge-pki-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-libedge-pki (>= 1.1.4)
-Description: Debug symbols for the openresty-libedge-pki package
- Debug symbols (or debuginfo) for the openresty-libedge-pki package.
+Depends: ${misc:Depends}, openresty-edge-pki (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-edge-pki package
+ Debug symbols (or debuginfo) for the openresty-edge-pki package.

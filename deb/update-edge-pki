@@ -13,7 +13,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
 }
 
 {
-    my $file = "openresty-libedge-pki.mk";
+    my $file = "openresty-edge-pki.mk";
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
@@ -45,7 +45,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     }
 }
 
-for my $dir (reverse sort glob 'openresty-libedge-pki*') {
+for my $dir (reverse sort glob 'openresty-edge-pki*') {
     next unless -d $dir && -d "$dir/debian";
     if (1) {
         my $name = $dir;
@@ -95,7 +95,7 @@ sub update_changelog ($$) {
     my $new = <<_EOC_;
 $name ($version-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded openresty-libedge-pki to $version.
+  * upgraded openresty-edge-pki to $version.
 
  -- OpenResty Admin <admin\@openresty.com>  $now
 

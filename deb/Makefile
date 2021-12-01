@@ -82,7 +82,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-plus-openssl111-asan-clean \
 		openresty-plus-asan-clean \
 		openresty-plus-core-clean \
-		openresty-libedge-pki-clean \
+		openresty-edge-pki-clean \
 		openresty-maxminddb-clean \
 		openresty-maxminddb-utils-clean \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \

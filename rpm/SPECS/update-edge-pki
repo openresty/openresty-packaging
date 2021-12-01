@@ -12,7 +12,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'openresty-libedge-pki*.spec') {
+for my $specfile (reverse sort glob 'openresty-edge-pki*.spec') {
     update_spec $specfile;
 }
 
@@ -23,7 +23,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-libedge-pki\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty-edge-pki\b/xsm) {
         die "Bad file content in $file";
     }
 
@@ -60,7 +60,7 @@ sub update_spec ($) {
     $today =~ s/\s\s+/ /g;
     #warn "today: $today";
 
-    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded openresty-libedge-pki to $version.\n/xsm) {
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded openresty-edge-pki to $version.\n/xsm) {
         $changes++;
 
     } else {
