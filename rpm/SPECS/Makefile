@@ -101,8 +101,11 @@ priv_targets = openresty-plus \
 		openresty-perl-IO-Socket-SSL \
 		openresty-perl-Protocol-WebSocket \
 		openresty-plus-core \
-		openresty-libedge-pki \
-		openresty-libinjection
+		openresty-plus-core-h3 \
+		openresty-edge-pki \
+		openresty-libinjection \
+		openresty-boringssl
+
 
 .PHONY: all
 all: openresty
