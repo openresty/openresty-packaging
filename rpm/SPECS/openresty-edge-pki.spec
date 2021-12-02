@@ -13,12 +13,15 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  openssl-devel
+BuildRequires:  openresty-plus-core
+BuildRequires:  openresty-plus-openssl111-devel
+Requires:       openresty-plus-core
 
 AutoReqProv:        no
 
 %define or_prefix                       %{_usr}/local/openresty-plus
 %define lua_lib_dir                     %{or_prefix}/lualib
+%define openssl_prefix                  %{or_prefix}/openssl111
 
 
 %description
@@ -59,6 +62,8 @@ Lua API for generating/verifying edge certificates.
 
 
 %build
+export CFLAGS="-g3 -I%{openssl_prefix}/include"
+
 make
 # Create new file in install stage will cause check-buildroots to abort.
 # To avoid it, we move the compilation in build stage.

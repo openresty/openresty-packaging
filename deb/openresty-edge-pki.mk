@@ -19,8 +19,8 @@ openresty-edge-pki-clean:
 
 .PHONY: openresty-edge-pki-build
 openresty-edge-pki-build: openresty-edge-pki-clean openresty-edge-pki-download
-	sudo apt-get -y -q install gcc make libssl-dev
-	sudo apt-get -y -q install --only-upgrade gcc make libssl-dev
+	sudo apt-get -y -q install gcc make openresty-plus-core openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade gcc make openresty-plus-core openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-edge-pki_$(OPENRESTY_EDGE_PKI_VER).orig.tar.gz --strip-components=1 -C openresty-edge-pki
 	cd openresty-edge-pki \

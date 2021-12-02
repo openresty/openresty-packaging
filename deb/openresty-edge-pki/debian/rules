@@ -18,10 +18,11 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	make
+	export CFLAGS="-g3 -I/usr/local/openresty-plus/openssl111/include" \
+		&& make
 	for f in `find lib/oredge/ -type f -name '*.lua'`; do \
-		/usr/local/openresty-plus/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
-		rm $$f; \
+	    /usr/local/openresty-plus/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+	    rm $$f; \
 	done
 
 override_dh_auto_install:

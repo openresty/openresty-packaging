@@ -2,14 +2,14 @@ Source: openresty-edge-pki
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc, make, libssl-dev
+Build-Depends: debhelper (>= 9), gcc, make, openresty-plus-core, openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
 Package: openresty-edge-pki
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-core
 Description: OpenResty Edge Certificates Library
  Lua API for generating/verifying edge certificates.
 
