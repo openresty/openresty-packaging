@@ -59,7 +59,7 @@ Requires:       glibc-devel
 
 AutoReqProv:        no
 
-%define orprefix            %{_usr}/local/openresty-plus
+%define orprefix            %{_usr}/local/openresty-plus-core-h3
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty/boringssl

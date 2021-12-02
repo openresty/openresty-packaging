@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 DPKG_EXPORT_BUILDFLAGS = 1
-OR_PREFIX = /usr/local/openresty-plus
+OR_PREFIX = /usr/local/openresty-plus-core-h3
 HYPERSCAN_PREFIX = /usr/local/openresty-plus/hyperscan
 MAXMINDDB_PREFIX = /usr/local/openresty-plus/maxminddb
 ORUTILS_PREFIX = /usr/local/openresty-utils
@@ -24,7 +24,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./configure \
-    --prefix="/usr/local/openresty-plus" \
+    --prefix="$(OR_PREFIX)" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/boringssl/include -g3" \
     --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/boringssl/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/boringssl/lib" \
@@ -98,17 +98,17 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	dh_auto_install
-	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(OR_PREFIX)/bin/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(OR_PREFIX)/lualib/
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/lib/*.a
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
+	rm -rf $(DESTDIR)$(OR_PREFIX)/luajit/share/man
+	rm -rf $(DESTDIR)$(OR_PREFIX)/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/lib/*.a
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/include
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/share
+	rm -rf $(DESTDIR)$(OR_PREFIX)/tcc/share
 	[% IF arch != 'amd64' %]
         # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
 	install -d $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/
