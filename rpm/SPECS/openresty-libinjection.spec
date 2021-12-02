@@ -14,7 +14,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc
 BuildRequires:  make
 # LuaJIT is required to compile Lua files into byte code
-BuildRequires:  openresty-plus
+BuildRequires:  openresty-plus-core
 
 AutoReqProv:        no
 
