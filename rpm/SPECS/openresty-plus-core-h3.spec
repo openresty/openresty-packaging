@@ -32,13 +32,17 @@ BuildRequires:  libtool
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
 %ifarch x86_64
-BuildRequires:  openresty-plus-hyperscan-devel
+BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-boringssl >= 20211122-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb >= 1.4.2.4
+%ifarch x86_64
+Requires:  openresty-plus-hyperscan >= 5.0.0-14
+Requires:  openresty-plus-hyperscan-runtime >= 5.0.0-14
+%endif
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:       libgd3
