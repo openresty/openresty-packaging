@@ -19,8 +19,8 @@ openresty-libinjection-clean:
 
 .PHONY: openresty-libinjection-build
 openresty-libinjection-build: openresty-libinjection-clean openresty-libinjection-download
-	sudo apt-get -y -q install gcc make openresty-plus
-	sudo apt-get -y -q install --only-upgrade gcc make openresty-plus
+	sudo apt-get -y -q install gcc make openresty-plus-core
+	sudo apt-get -y -q install --only-upgrade gcc make openresty-plus-core
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-libinjection_$(OPENRESTY_LIBINJECTION_VER).orig.tar.gz --strip-components=1 -C openresty-libinjection
 	cd openresty-libinjection \
