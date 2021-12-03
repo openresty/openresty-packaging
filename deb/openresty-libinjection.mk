@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBINJECTION_VER := 3.10.1
+OPENRESTY_LIBINJECTION_VER := 3.10.2
 
 .PHONY: openresty-libinjection-download
 openresty-libinjection-download:
