@@ -19,8 +19,8 @@ openresty-boringssl-clean:
 
 .PHONY: openresty-boringssl-build
 openresty-boringssl-build: openresty-boringssl-clean openresty-boringssl-download
-	sudo apt-get -y -q install gcc make g++ openresty-zlib-dev
-	sudo apt-get -y -q install --only-upgrade gcc make g++ openresty-zlib-dev
+	sudo apt-get -y -q install gcc make g++ openresty-zlib-dev libunwind-dev
+	sudo apt-get -y -q install --only-upgrade gcc make g++ openresty-zlib-dev libunwind-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-boringssl_$(OPENRESTY_BORINGSSL_VER).orig.tar.gz --strip-components=1 -C openresty-boringssl
 	cd openresty-boringssl \

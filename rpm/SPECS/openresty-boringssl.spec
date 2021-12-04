@@ -16,7 +16,7 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 # A recent version of Perl is required.
 # C and C++ compilers with C++11 support are required. GCC7 or above
 # The most recent stable version of Go is required.
-BuildRequires:      gcc, make, gcc-c++
+BuildRequires:      gcc, make, gcc-c++, libunwind
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
@@ -75,6 +75,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
 
 
 %build
+export PATH=/opt/go/bin:$PATH
 mkdir -p build
 cd build
 cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_SHARED_LIBS=1 \
