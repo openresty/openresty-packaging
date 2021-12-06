@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.185.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -143,10 +143,11 @@ sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefi
 
 make -j`nproc` > /dev/null
 
-export QA_RPATHS=$(( 0x0001|0x0010|0x0002 ))
-
 
 %install
+
+export QA_RPATHS=$(( 0x0001|0x0010|0x0002 ))
+
 make install DESTDIR=%{buildroot}
 ln -sf %{eu_prefix}/bin/eu-readelf %{buildroot}/%{eu_prefix}/bin/eu-readelf2
 
