@@ -4,7 +4,7 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    0.02
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
 Group:      Productivity/Database
 License:    BSD
@@ -58,6 +58,9 @@ make -j`nproc` PG_CONFIG=%{pg_config}
 
 %install
 make install DESTDIR=${RPM_BUILD_ROOT} PG_CONFIG=%{pg_config}
+
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
 
 
 %clean

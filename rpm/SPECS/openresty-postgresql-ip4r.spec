@@ -4,7 +4,7 @@
 
 Name:       openresty-postgresql-%{ext}
 Version:    2.4.1
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    IPv4 and IPv4 range index types for PostgreSQL
 Group:      Productivity/Database
 License:    BSD
@@ -60,6 +60,9 @@ make -j`nproc` PG_CONFIG=%{pg_config}
 
 %install
 make install DESTDIR=${RPM_BUILD_ROOT} PG_CONFIG=%{pg_config}
+
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
 
 
 %clean

@@ -4,7 +4,7 @@
 
 Name:           openresty-perl
 Version:        5.24.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of Perl programming language
 Group:          Development/Languages
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
@@ -114,6 +114,8 @@ make -j`nproc`
 rm -rf %{buildroot}
 make install.perl DESTDIR=%{buildroot}
 rm -rf "%{buildroot}%{prefix}/lib/%{version}/pod/"
+
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 
 #
 # Core modules removal

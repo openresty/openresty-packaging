@@ -6,7 +6,7 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    1.7.4
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
 License:    BSD
@@ -62,6 +62,9 @@ cd build && make -j`nproc`
 
 %install
 cd build && make install DESTDIR=${RPM_BUILD_ROOT}
+
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
 
 
 %clean
