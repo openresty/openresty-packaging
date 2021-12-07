@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_KEEPALIVED_VER := 2.2.1
+OPENRESTY_KEEPALIVED_VER := 2.2.4
 
 .PHONY: openresty-keepalived-download
 openresty-keepalived-download:

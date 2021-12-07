@@ -1,6 +1,6 @@
 Name:           openresty-keepalived
-Version:        2.2.1
-Release:        2%{?dist}
+Version:        2.2.4
+Release:        1%{?dist}
 Summary:        OpenResty Fork's of keepalived.
 
 Group:          Development/System
@@ -13,10 +13,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  automake, autoconf
 BuildRequires:  ccache, gcc
 BuildRequires:  make
-BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k
+BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1l
 BuildRequires:  libnl3-devel
 Requires: libnl3
-Requires: openresty-plus-openssl111 >= 1.1.1k
+Requires: openresty-plus-openssl111 >= 1.1.1l
 
 AutoReqProv: no
 AutoReq:     no
@@ -78,6 +78,8 @@ make -j`nproc`
 %install
 make install-exec DESTDIR=%{buildroot}
 
+export QA_RPATHS=$[ 0x0002 ]
+
 %clean
 rm -rf %{buildroot}
 
@@ -87,5 +89,8 @@ rm -rf %{buildroot}
 %{prefix}/sbin/keepalived
 
 %changelog
+* Tue Dec 07 2021 Jiahao Wang 2.2.4-1
+- upgrade keepalived to 2.2.4.
+
 * Thu Feb 25 2021 Jiahao Wang 2.2.1-1
 - initial build for openresty-keepalived
