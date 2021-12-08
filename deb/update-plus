@@ -47,7 +47,7 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
 
 for my $dir (reverse sort glob 'openresty-plus*') {
     next unless -d $dir && -d "$dir/debian";
-    if ($dir =~ /^openresty-plus(?:-(?:valgrind|asan|debug|test))?$/) {
+    if ($dir =~ /^openresty-plus(?:-core)?(?:-(?:valgrind|asan|debug|test))?$/) {
         my $name = $dir;
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {
