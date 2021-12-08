@@ -3,13 +3,13 @@
 
 Summary:        Basic system utilities
 Name:           openresty-coreutils
-Version:        8.32
-Release:        5%{?dist}
+Version:        9.0
+Release:        1%{?dist}
 License:        GPLv3
 URL:            http://www.gnu.org/software/coreutils
 Group:          System Environment/Base
 Source0:        http://ftp.gnu.org/gnu/coreutils/%{_name}-%{version}.tar.xz
-Patch0:         coreutils-8.32-ls-restore-8.31-behavior.patch
+# Patch0:         coreutils-8.32-ls-restore-8.31-behavior.patch
 
 AutoReqProv:    no
 BuildRequires:  ccache, gcc, make
@@ -47,7 +47,7 @@ the basic system
 
 %prep
 %setup -q -n %{_name}-%{version}
-%patch0 -p1
+# %patch0 -p1
 
 %build
 CC='ccache gcc -fdiagnostics-color=always' \
@@ -76,6 +76,9 @@ make install-pkglibexecPROGRAMS DESTDIR=${RPM_BUILD_ROOT}
 %attr(0755,root,root) %{_prefix}/libexec/coreutils/*
 
 %changelog
+* Wed Dec 08 2021 Jiahao Wang (johnny) 9.0
+- Upgrade coreutils to 9.0.
+
 * Wed Dec 30 2020 Jiahao Wang (johnny) 8.32-2
 - bugfix: added missing libstdbuf.so.
 

@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_COREUTILS_VER := 8.32
+OPENRESTY_COREUTILS_VER := 9.0
 
 .PHONY: openresty-coreutils-download
 openresty-coreutils-download:

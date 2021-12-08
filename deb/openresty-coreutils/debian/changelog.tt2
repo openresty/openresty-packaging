@@ -1,3 +1,9 @@
+openresty-coreutils (9.0-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgrade coreutils to 9.0.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 08 Dec 2021 11:34:00 +0800
+
 openresty-coreutils (8.32-3~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: applying coreutils-8.32-ls-restore-8.31-behavior.patch.
