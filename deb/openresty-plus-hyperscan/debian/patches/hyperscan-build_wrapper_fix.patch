@@ -1,0 +1,11 @@
+--- a/cmake/build_wrapper_orig.sh	2021-08-11 11:53:31.365377531 -0400
++++ b/cmake/build_wrapper.sh	2021-08-11 11:54:03.003069431 -0400
+@@ -17,7 +17,7 @@
+ LIBC_SO=$("$@" --print-file-name=libc.so.6)
+ cp ${KEEPSYMS_IN} ${KEEPSYMS}
+ # get all symbols from libc and turn them into patterns
+-nm -f p -g -D ${LIBC_SO} | sed -s 's/\([^ ]*\).*/^\1$/' >> ${KEEPSYMS}
++nm -f p -g -D ${LIBC_SO} | sed -s 's/\([^ @]*\).*/^\1$/' >> ${KEEPSYMS}
+ # build the object
+ "$@"
+ # rename the symbols in the object

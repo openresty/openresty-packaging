@@ -13,6 +13,7 @@ Source1:        https://openresty.org/download/boost_%{boost_version}.tar.gz
 
 Patch0:         hyperscan-g3-flag.patch
 Patch1:         hyperscan-gcc-march-fix.patch
+Patch2:         hyperscan-build_wrapper_fix.patch
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -107,6 +108,7 @@ This package provides the runtime for Hyperscan.
 %setup -q -b 1 -n hyperscan-%{version}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p0
 
 
 %build
