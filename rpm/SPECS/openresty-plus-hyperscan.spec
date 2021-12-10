@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        14%{?dist}
+Release:        15%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
