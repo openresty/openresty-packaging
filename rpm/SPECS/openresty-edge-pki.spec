@@ -1,5 +1,5 @@
 Name:           openresty-edge-pki
-Version:        1.1.5
+Version:        1.1.6
 Release:        1%{?dist}
 Summary:        OpenResty Edge Certificates Library
 
@@ -92,7 +92,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Dec 13 2021 Jiahao Wang (jiahao) 1.1.6-1
+- upgraded openresty-edge-pki to 1.1.6.
 * Wed Dec 1 2021 Yichun Zhang (agentzh) 1.1.5-1
 - upgraded openresty-edge-pki to 1.1.5.
-* Thu Nov 17 2021 Wang Hui (wanghuizzz) 1.1.4-1
+* Wed Nov 17 2021 Wang Hui (wanghuizzz) 1.1.4-1
 - initial packaging.
