@@ -18,16 +18,27 @@ Requires:   containerd.io
 Requires:   tar
 Requires:   xz
 
+%if 0%{?el} >= 8
+%define _without_btrfs 1
+%endif
+
+%if 0%{?rhel} >= 8
+%define _without_btrfs 1
+%endif
+
+# BTRFS is enabled by default, but can be disabled by defining _without_btrfs
+%{!?_with_btrfs: %{!?_without_btrfs: %define _with_btrfs 1}}
+
 # BuildRequires: cmake
 # The most recent stable version of Go is required.
 # BuildRequires: golang
 BuildRequires: bash
-BuildRequires: btrfs-progs-devel
 BuildRequires: ca-certificates, gcc, git, glibc-static, make
 BuildRequires: libtool, libtool-ltdl-devel
 BuildRequires: pkgconfig
 BuildRequires: tar
 BuildRequires: device-mapper-devel
+%{?_with_btrfs:BuildRequires: btrfs-progs-devel}
 
 AutoReq: no
 AutoReqProv: no
@@ -55,6 +66,8 @@ chmod u+w -R %{go_build_dir} || true # avoid permissing denied here
 # %patch0 -p0
 
 %build
+
+%{?_without_btrfs:export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs'}
 export PATH=/opt/go/bin:$PATH
 export GOROOT=/opt/go
 export GO111MODULE=off
