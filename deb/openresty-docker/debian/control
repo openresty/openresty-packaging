@@ -1,0 +1,28 @@
+Source: openresty-docker
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), bash, libbtrfs-dev, ca-certificates, gcc, git, make, libtool, libltdl-dev, pkg-config, tar, libdevmapper-dev
+Standards-Version: 3.9.8
+Homepage: https://www.docker.com
+
+Package: openresty-docker
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: docker for OpenResty
+ Docker is a product for you to build, ship and run any application as a
+ lightweight container.
+ Docker containers are both hardware-agnostic and platform-agnostic. This means
+ they can run anywhere, from your laptop to the largest cloud compute instance and
+ everything in between - and they don't require you to use a particular
+ language, framework or packaging system. That makes them great building blocks
+ for deploying and scaling web apps, databases, and backend services without
+ depending on a particular stack or provider.
+
+Package: openresty-docker-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-docker (>= ${source:Version})
+Description: Debug symbols for the openresty-docker package
+ Debug symbols (or debuginfo) for the openresty-docker package.

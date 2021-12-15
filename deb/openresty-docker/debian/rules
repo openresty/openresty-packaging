@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-docker
+GOBUILDDIR = $(CURDIR)/debian/gobuild
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export PATH=/opt/go/bin:$(PATH) \
+	&& export GOROOT=/opt/go \
+	&& export DOCKER_GITCOMMIT="openresty-docker" \
+	&& export GO111MODULE=off \
+	&& mkdir -p $(GOBUILDDIR)/src/github.com/docker \
+	&& ln -sf $(CURDIR) $(GOBUILDDIR)/src/github.com/docker/docker \
+	&& for component in tini "proxy dynamic"; do \
+			TMP_GOPATH="$(GOBUILDDIR)" PREFIX="$(GOBUILDDIR)" hack/dockerfile/install/install.sh $$component; \
+		done \
+	&& GOPATH="$(GOBUILDDIR)" PRODUCT=docker hack/make.sh dynbinary \
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf "$(GOBUILDDIR)"
+	rm -f $(CURDIR)/openresty-docker
+
+override_dh_auto_install:
+	install -D -p -m 0755 $(shell readlink -f $(CURDIR)/bundles/dynbinary-daemon/dockerd) $(DESTDIR)$(PREFIX)/bin/dockerd \
+		&& install -D -p -m 0755 $(GOBUILDDIR)/docker-proxy $(DESTDIR)$(PREFIX)/bin/docker-proxy \
+		&& install -D -p -m 755 $(GOBUILDDIR)/docker-init $(DESTDIR)$(PREFIX)/bin/docker-init \
+		&& install -D -m 0644 $(CURDIR)/debian/docker.service $(DESTDIR)/lib/systemd/system/openresty-docker.service \
+		&& install -D -m 0644 $(CURDIR)/debian/docker.socket $(DESTDIR)/lib/systemd/system/openresty-docker.socket \
+		&& rm -rf "$(GOBUILDDIR)"
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-docker-dbgsym

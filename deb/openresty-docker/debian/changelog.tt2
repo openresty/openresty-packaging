@@ -1,0 +1,6 @@
+openresty-docker (20.10.11-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for openresty-docker.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 14 Dec 2021 17:17:00 +0800
+

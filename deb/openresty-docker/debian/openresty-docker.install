@@ -1,0 +1,5 @@
+usr/local/openresty-docker/bin/dockerd
+usr/local/openresty-docker/bin/docker-proxy
+usr/local/openresty-docker/bin/docker-init
+lib/systemd/system/openresty-docker.service
+lib/systemd/system/openresty-docker.socket
