@@ -1,5 +1,5 @@
 Name:           openresty-libinjection
-Version:        3.10.2
+Version:        3.10.4
 Release:        1%{?dist}
 Summary:        Lua module for SQLI tokenizer parser analyzer
 
@@ -82,6 +82,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Dec 15 2021 Yichun Zhang (agentzh) 3.10.4-1
+- upgraded openresty-libinjection to 3.10.4.
 * Thu Dec 2 2021 Yichun Zhang (agentzh) 3.10.2-1
 - upgraded openresty-libinjection to 3.10.2.
 * Thu Nov 25 2021 Shushen He (isshe) 3.10.1-1

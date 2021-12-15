@@ -1,3 +1,9 @@
+openresty-libinjection (3.10.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-libinjection to 3.10.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 15 Dec 2021 11:21:32 -0800
+
 openresty-libinjection (3.10.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-libinjection to 3.10.2.
