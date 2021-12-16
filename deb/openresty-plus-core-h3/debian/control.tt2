@@ -36,10 +36,9 @@ Package: openresty-plus-core-h3
 Architecture: any
 Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
- openresty-zlib, openresty-pcre (>= 8.42), libgd3, [% IF arch == 'amd64' %]
- openresty-plus-hyperscan (>= 5.0.0), openresty-plus-hyperscan-runtime (>= 5.0.0),[% END -%]
- openresty-maxminddb (>= 1.4.2.4), openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.44),
- openresty-boringssl (>= 20211122), openresty-maxminddb (>= 1.4.2.4), libgd3
+ openresty-zlib, libgd3,
+ openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.44),
+ openresty-boringssl (>= 20211122)
 Description: OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
  This package contains the core server for OpenResty+, an enhanced version of
  OpenResty. Built for production uses.
