@@ -104,7 +104,8 @@ priv_targets = openresty-plus \
 		openresty-plus-core-h3 \
 		openresty-edge-pki \
 		openresty-libinjection \
-		openresty-boringssl
+		openresty-boringssl \
+		openresty-docker
 
 
 .PHONY: all
