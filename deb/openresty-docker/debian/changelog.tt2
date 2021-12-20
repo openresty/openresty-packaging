@@ -1,3 +1,9 @@
+openresty-docker (20.10.12-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Upgrade docker to 20.10.12.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 16 Dec 2021 23:01:00 +0800
+
 openresty-docker (20.10.11-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial build for openresty-docker.

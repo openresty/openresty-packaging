@@ -20,16 +20,16 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PATH=/opt/go/bin:$(PATH) \
-	&& export GOROOT=/opt/go \
+	export GOROOT=/opt/go [% IF WITHOUT_BTRFS %]&& export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs' [% END %] \
 	&& export DOCKER_GITCOMMIT="openresty-docker" \
 	&& export GO111MODULE=off \
 	&& mkdir -p $(GOBUILDDIR)/src/github.com/docker \
 	&& ln -sf $(CURDIR) $(GOBUILDDIR)/src/github.com/docker/docker \
 	&& for component in tini "proxy dynamic"; do \
-			TMP_GOPATH="$(GOBUILDDIR)" PREFIX="$(GOBUILDDIR)" hack/dockerfile/install/install.sh $$component; \
+            PATH=/opt/go/bin:$$PATH TMP_GOPATH="$(GOBUILDDIR)" PREFIX="$(GOBUILDDIR)" \
+                hack/dockerfile/install/install.sh $$component; \
 		done \
-	&& GOPATH="$(GOBUILDDIR)" PRODUCT=docker hack/make.sh dynbinary \
+    && PATH=/opt/go/bin:$$PATH GOPATH="$(GOBUILDDIR)" PRODUCT=docker hack/make.sh dynbinary
 
 override_dh_auto_clean:
 	dh_clean

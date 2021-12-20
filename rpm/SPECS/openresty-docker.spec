@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:       openresty-docker
-Version:    20.10.11
+Version:    20.10.12
 Release:    1%{?dist}
 Source0:    https://github.com/moby/moby/archive/v%{version}.tar.gz
 Source1:    docker.service
@@ -38,7 +38,13 @@ BuildRequires: libtool, libtool-ltdl-devel
 BuildRequires: pkgconfig
 BuildRequires: tar
 BuildRequires: device-mapper-devel
+BuildRequires: libselinux-devel
+BuildRequires: systemd-devel
+%if 0%{?suse_version}
+%{?_with_btrfs:BuildRequires: libbtrfs-devel}
+%else
 %{?_with_btrfs:BuildRequires: btrfs-progs-devel}
+%endif
 
 AutoReq: no
 AutoReqProv: no
@@ -62,8 +68,6 @@ depending on a particular stack or provider.
 %prep
 chmod u+w -R %{go_build_dir} || true # avoid permissing denied here
 %setup -q -n "%{docker_alias}-%{version}" -a 0
-
-# %patch0 -p0
 
 %build
 
@@ -109,5 +113,7 @@ if ! getent group docker > /dev/null; then
 fi
 
 %changelog
+* Thu Dec 16 2021 Jiahao Wang - 20.10.12-1
+- upgraded docker to 20.10.12.
 * Tue Dec 14 2021 Jiahao Wang - 20.10.11-1
 - initial build for openresty-docker.
