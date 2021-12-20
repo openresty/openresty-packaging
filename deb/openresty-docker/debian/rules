@@ -20,7 +20,8 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export GOROOT=/opt/go [% IF WITHOUT_BTRFS %]&& export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs' [% END %] \
+	export GOROOT=/opt/go \
+	&& export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs' \
 	&& export DOCKER_GITCOMMIT="openresty-docker" \
 	&& export GO111MODULE=off \
 	&& mkdir -p $(GOBUILDDIR)/src/github.com/docker \

@@ -1,3 +1,9 @@
+openresty-docker (20.10.12-2~[% distro %]1) [% distro %]; urgency=high
+
+  * remove btfs support from openresty-docker.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 20 Dec 2021 16:57:00 +0800
+
 openresty-docker (20.10.12-1~[% distro %]1) [% distro %]; urgency=high
 
   * Upgrade docker to 20.10.12.

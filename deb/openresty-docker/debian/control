@@ -2,7 +2,7 @@ Source: openresty-docker
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), bash, ca-certificates, gcc, git, make, libtool, libltdl-dev, pkg-config, tar, libdevmapper-dev, libudev-dev [% IF !WITHOUT_BTRFS %], libbtrfs-dev[% END %]
+Build-Depends: debhelper (>= 9), bash, ca-certificates, gcc, git, make, libtool, libltdl-dev, pkg-config, tar, libdevmapper-dev, libudev-dev
 Standards-Version: 3.9.8
 Homepage: https://www.docker.com
 

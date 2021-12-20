@@ -1,6 +1,6 @@
 Name:       openresty-docker
 Version:    20.10.12
-Release:    1%{?dist}
+Release:    2%{?dist}
 Source0:    https://github.com/moby/moby/archive/v%{version}.tar.gz
 Source1:    docker.service
 Source2:    docker.socket
@@ -16,17 +16,6 @@ Requires:   containerd.io
 Requires:   tar
 Requires:   xz
 
-%if 0%{?el} >= 8
-%define _without_btrfs 1
-%endif
-
-%if 0%{?rhel} >= 8
-%define _without_btrfs 1
-%endif
-
-# BTRFS is enabled by default, but can be disabled by defining _without_btrfs
-%{!?_with_btrfs: %{!?_without_btrfs: %define _with_btrfs 1}}
-
 # BuildRequires: cmake
 # The most recent stable version of Go is required.
 # BuildRequires: golang
@@ -38,11 +27,6 @@ BuildRequires: tar
 BuildRequires: device-mapper-devel
 BuildRequires: libselinux-devel
 BuildRequires: systemd-devel
-%if 0%{?suse_version}
-%{?_with_btrfs:BuildRequires: libbtrfs-devel}
-%else
-%{?_with_btrfs:BuildRequires: btrfs-progs-devel}
-%endif
 
 AutoReq: no
 AutoReqProv: no
@@ -96,7 +80,8 @@ chmod u+w -R %{go_build_dir} || true # avoid permissing denied here
 
 %build
 
-%{?_without_btrfs:export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs'}
+# disable btrfs support here
+export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs'
 export PATH=/opt/go/bin:$PATH
 export GOROOT=/opt/go
 export GO111MODULE=off
