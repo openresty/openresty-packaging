@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-h3
 Version:        1.21.4.3.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -276,7 +276,6 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-threads \
     --with-compat  \
     --with-http_v3_module \
-    --with-http_quic_module \
     --with-stream_quic_module \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     -j`nproc`
@@ -365,6 +364,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-2
+- upgraded openresty-plus to 1.21.4.3.1.
 * Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-1
 - upgraded openresty-plus to 1.21.4.3.1.
 * Sat Dec 4 2021 Yichun Zhang (agentzh) 1.21.4.2.1-1
