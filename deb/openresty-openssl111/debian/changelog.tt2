@@ -1,3 +1,9 @@
+openresty-openssl111 (1.1.1m-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenSSL to 1.1.1m.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 26 Jan 2022 18:20:00 +0800
+
 openresty-openssl111 (1.1.1l-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenSSL to 1.1.1l.

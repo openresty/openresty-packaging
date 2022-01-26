@@ -1,5 +1,5 @@
 Name:               openresty-openssl111
-Version:            1.1.1l
+Version:            1.1.1m
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
