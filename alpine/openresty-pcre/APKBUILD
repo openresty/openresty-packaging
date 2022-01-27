@@ -10,7 +10,7 @@ license="BSD"
 #depends=""
 makedepends="ccache"
 subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-dbg"
-source="https://sourceforge.net/projects/pcre/files/pcre/$pkgver/pcre-$pkgver.44.tar.bz2"
+source="https://sourceforge.net/projects/pcre/files/pcre/$pkgver/pcre-$pkgver.tar.bz2"
 builddir="$srcdir/pcre-$pkgver/"
 options="!tracedeps !fhs"
 
