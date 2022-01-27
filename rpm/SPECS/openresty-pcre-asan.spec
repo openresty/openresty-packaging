@@ -7,7 +7,7 @@ Group:              System Environment/Libraries
 
 License:            BSD
 URL:                http://www.pcre.org/
-Source0:            https://ftp.pcre.org/pub/pcre/pcre-%{version}.tar.bz2
+Source0:            https://sourceforge.net/projects/pcre/files/pcre/%{version}/pcre-%{version}.tar.bz2
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
