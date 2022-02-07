@@ -1,0 +1,28 @@
+Source: openresty-libcco
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://github.com/orinc/libcco
+
+Package: openresty-libcco
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The high performance c-coherent library for OpenResty
+ The library aims to provide a high performance c-coherent library, compatible with ucontext API.
+
+Package: openresty-libcco-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libcco (>= 0.0.1)
+Description: Development files for OpenResty's libcco library
+ Provides C header and static library for OpenResty's libcco library.
+
+Package: openresty-libcco-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-libcco (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-libcco package
+ Debug symbols (or debuginfo) for the openresty-libcco package.
