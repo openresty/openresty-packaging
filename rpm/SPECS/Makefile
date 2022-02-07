@@ -104,6 +104,7 @@ priv_targets = openresty-plus \
 		openresty-plus-core-h3 \
 		openresty-edge-pki \
 		openresty-libinjection \
+		openresty-elf-loader\
 		openresty-boringssl \
 		openresty-docker
 

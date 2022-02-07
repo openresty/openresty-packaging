@@ -1,0 +1,28 @@
+Source: openresty-elf-loader
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-elfutils-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/orinc/elf-loader
+
+Package: openresty-elf-loader
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The elf-loader library for OpenResty
+ The elf loader compression library for use by OpenResty ONLY
+
+Package: openresty-elf-loader-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elf-loader (>= 0.0.1)
+Description: Development files for OpenResty's elf loader library
+ Provides C header and static library for OpenResty's elf loader library.
+
+Package: openresty-elf-loader-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-elf-loader (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-elf-loader package
+ Debug symbols (or debuginfo) for the openresty-elf-loader package.

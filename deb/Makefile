@@ -97,7 +97,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-perl-mozilla-ca-clean openresty-perl-net-ssleay-clean \
 		openresty-perl-io-socket-ssl-clean  openresty-perl-protocol-websocket-clean \
 		openresty-curl-clean openresty-boringssl-clean openresty-libinjection-clean \
-		openresty-plus-core-h3-clean openresty-docker-clean openresty-libcco-clean
+		openresty-plus-core-h3-clean openresty-docker-clean openresty-libcco-clean  \
+		openersty-elf-loader-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 
