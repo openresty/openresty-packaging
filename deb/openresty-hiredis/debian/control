@@ -1,0 +1,28 @@
+Source: openresty-hiredis
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-plus-openssl111-dev (>= 1.1.1l)
+Standards-Version: 3.9.8
+Homepage: https://github.com/redis/hiredis
+
+Package: openresty-hiredis
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111 (>= 1.1.1l)
+Description: The hiredis library for OpenResty
+ The hiredis library for use by OpenResty ONLY
+
+Package: openresty-hiredis-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-hiredis (>= 1.0.3.1)
+Description: Development files for OpenResty's hiredis library
+ Provides C header and library for OpenResty's hiredis library.
+
+Package: openresty-hiredis-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-hiredis (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-hiredis package
+ Debug symbols (or debuginfo) for the openresty-hiredis package.
