@@ -106,6 +106,7 @@ priv_targets = openresty-plus \
 		openresty-libinjection \
 		openresty-elf-loader\
 		openresty-boringssl \
+		openresty-libmemcached \
 		openresty-libcco \
 		openresty-hiredis \
 		openresty-docker \

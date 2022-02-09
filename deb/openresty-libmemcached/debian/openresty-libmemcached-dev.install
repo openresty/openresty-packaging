@@ -1,0 +1,10 @@
+usr/local/openresty-plus/libmemcached/include/libhashkit/*.h
+usr/local/openresty-plus/libmemcached/include/libhashkit-1.0/*.h
+usr/local/openresty-plus/libmemcached/include/libhashkit-1.0/*.hpp
+usr/local/openresty-plus/libmemcached/include/libmemcached-1.2/*.h
+usr/local/openresty-plus/libmemcached/include/libmemcached-1.2/*.hpp
+usr/local/openresty-plus/libmemcached/include/libmemcached-1.2/memcached/*.h
+usr/local/openresty-plus/libmemcached/include/libmemcached-1.2/struct/*.h
+usr/local/openresty-plus/libmemcached/include/libmemcached-1.2/types/*.h
+usr/local/openresty-plus/libmemcached/include/libmemcachedutil-1.2/*.h
+usr/local/openresty-plus/libmemcached/include/libmemcachedutil-1.2/*.hpp
