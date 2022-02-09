@@ -119,7 +119,6 @@ openssl-debug-build: | openssl-debug-clean openssl-debug-download
 
 .PHONY: openssl-clean
 openssl-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	cd openresty-openssl && debclean
 	find openresty-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl' -print | xargs rm -rf
 	rm -f openresty-openssl*.deb
@@ -127,7 +126,6 @@ openssl-clean:
 
 .PHONY: openssl-debug-clean
 openssl-debug-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-openssl-debug && debclean
 	find openresty-openssl-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl-debug' -print | xargs rm -rf
 	rm -f openresty-openssl*.deb
@@ -171,7 +169,6 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 
 .PHONY: openssl111-clean
 openssl111-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-openssl111 && debclean
 	rm -rf openresty-openssl111/debian/tmp openresty-openssl111/test openresty-openssl111/*.a
 	find openresty-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111' -print | xargs rm -rf
@@ -180,7 +177,6 @@ openssl111-clean:
 
 .PHONY: openssl111-debug-clean
 openssl111-debug-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-openssl111-debug && debclean
 	rm -rf openresty-openssl111-debug/debian/tmp openresty-openssl111-debug/test openresty-openssl111-debug/*.a
 	find openresty-openssl111-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111-debug' -print | xargs rm -rf
@@ -206,8 +202,6 @@ openresty-build: | openresty-clean openresty-download
 
 .PHONY: openresty-clean
 openresty-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev
 	cd openresty && debclean
 	find openresty -maxdepth 1 ! -name 'debian' ! -name 'openresty' -print | xargs rm -rf
 	rm -f openresty*.deb
@@ -233,8 +227,6 @@ openresty-debug-build: | openresty-debug-clean openresty-debug-download
 
 .PHONY: openresty-debug-clean
 openresty-debug-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
 	-cd openresty-debug && debclean
 	find openresty-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-debug' -print | xargs rm -rf
 	rm -f openresty-debug*.deb
@@ -260,8 +252,6 @@ openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 
 .PHONY: openresty-valgrind-clean
 openresty-valgrind-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
 	-cd openresty-valgrind && debclean
 	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
 	rm -f openresty-valgrind*.deb
