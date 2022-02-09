@@ -171,6 +171,7 @@ services, and dynamic web gateways.
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
 Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       openresty-plus-core-h3-doc >= %{version}-%{release}, openresty-plus-core-h3-resty >= %{version}-%{release}
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
