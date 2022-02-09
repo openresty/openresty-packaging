@@ -1,0 +1,3 @@
+usr/local/openresty-plus/libmariadb/include/mariadb/*.h
+usr/local/openresty-plus/libmariadb/include/mariadb/mysql/*.h
+usr/local/openresty-plus/libmariadb/include/mariadb/mariadb/*.h

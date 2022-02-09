@@ -108,7 +108,8 @@ priv_targets = openresty-plus \
 		openresty-boringssl \
 		openresty-libcco \
 		openresty-hiredis \
-		openresty-docker
+		openresty-docker \
+		openresty-libmariadb
 
 
 .PHONY: all

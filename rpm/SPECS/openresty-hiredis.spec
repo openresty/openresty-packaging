@@ -96,6 +96,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-%changelog
 * Mon Feb 07 2022 Yichun Zhang 1.0.3.1
 - initial version

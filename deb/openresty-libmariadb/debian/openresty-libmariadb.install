@@ -1,0 +1,3 @@
+usr/local/openresty-plus/libmariadb/bin/mariadb_config
+usr/local/openresty-plus/libmariadb/lib/mariadb/libmariadb.so*
+usr/local/openresty-plus/libmariadb/lib/mariadb/plugin/*.so
