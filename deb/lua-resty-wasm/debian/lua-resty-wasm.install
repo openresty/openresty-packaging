@@ -1,0 +1,2 @@
+usr/local/openresty-plus/wasm/lib/liborwasmrt.so
+usr/local/openresty-plus/site/lualib/resty/wasm-elf-loader.ljbc

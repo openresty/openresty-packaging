@@ -1,0 +1,28 @@
+Source: lua-resty-wasm
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-elf-loader-dev, openresty-elfutils-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/orinc/lua-resty-wasm
+
+Package: lua-resty-wasm
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elf-loader, openresty-elfutils
+Description: The Wasm library for OpenResty
+ The wasm library use by OpenResty ONLY
+
+Package: lua-resty-wasm-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, lua-resty-wasm (>= 0.0.1)
+Description: Development files for OpenResty's wasm library
+ Provides C header and static library for OpenResty's wasm library.
+
+Package: lua-resty-wasm-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, lua-resty-wasm (>= ${source:Upstream-Version})
+Description: Debug symbols for the lua-resty-wasm package
+ Debug symbols (or debuginfo) for the lua-resty-wasm package.

@@ -109,6 +109,7 @@ priv_targets = openresty-plus \
 		openresty-libmemcached \
 		openresty-libcco \
 		openresty-hiredis \
+		lua-resty-wasm \
 		openresty-docker \
 		openresty-libmariadb
 

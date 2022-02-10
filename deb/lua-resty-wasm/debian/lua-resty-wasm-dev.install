@@ -1,0 +1,3 @@
+usr/local/openresty-plus/wasm/include/wasm-rt.h
+usr/local/openresty-plus/wasm/include/or-wasm.h
+usr/local/openresty-plus/wasm/include/or-arch.h
