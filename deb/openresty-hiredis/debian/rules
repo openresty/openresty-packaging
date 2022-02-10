@@ -22,8 +22,8 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	make install  USE_SSL=1 PREFIX=/usr/local/openresty-plus/hiredis DESTDIR=$(DESTDIR) \
-		&& rm -f  $(DESTDIR)//usr/local/openresty-plus/hiredis/lib/*.a \
-		&& rm -rf $(DESTDIR)//usr/local/openresty-plus/hiredis/lib/pkgconfig
+		&& rm -f  $(DESTDIR)/usr/local/openresty-plus/hiredis/lib/*.a \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-plus/hiredis/lib/pkgconfig
 
 override_dh_auto_clean:
 	dh_clean

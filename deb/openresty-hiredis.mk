@@ -5,10 +5,10 @@ OPENRESTY_HIREDIS_VER := 1.0.3.1
 
 .PHONY: openresty-hiredis-download
 openresty-hiredis-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/hiredis-$(OPENRESTY_HIREDIS_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/hiredis-plus-$(OPENRESTY_HIREDIS_VER).tar.gz ./
 	rm -rf openresty-hiredis_$(OPENRESTY_HIREDIS_VER)
 	mkdir -p openresty-hiredis_$(OPENRESTY_HIREDIS_VER)
-	tar -xf hiredis-$(OPENRESTY_HIREDIS_VER).tar.gz --strip-components=1 -C openresty-hiredis_$(OPENRESTY_HIREDIS_VER)
+	tar -xf hiredis-plus-$(OPENRESTY_HIREDIS_VER).tar.gz --strip-components=1 -C openresty-hiredis_$(OPENRESTY_HIREDIS_VER)
 	tar -czf openresty-hiredis_$(OPENRESTY_HIREDIS_VER).orig.tar.gz openresty-hiredis_$(OPENRESTY_HIREDIS_VER)
 
 openresty-hiredis-clean:

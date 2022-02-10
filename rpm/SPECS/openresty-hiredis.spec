@@ -7,7 +7,7 @@ Group:              System Environment/Libraries
 
 License:            BSD 3-Clause "New" or "Revised" License
 URL:                https://github.com/redis/hiredis
-Source0:            hiredis-%{version}.tar.gz
+Source0:            hiredis-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -34,7 +34,7 @@ The hiredis library for use by OpenResty ONLY
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/hiredis-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/hiredis-plus-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -64,7 +64,7 @@ Provides C header and library for OpenResty's hiredis library.
 
 
 %prep
-%setup -q -n hiredis-%{version}
+%setup -q -n hiredis-plus-%{version}
 
 
 %build
