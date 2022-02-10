@@ -7,7 +7,7 @@ Group:              System Environment/Libraries
 
 License:            LGPL 2.1
 URL:                https://github.com/orinc/mariadb-connector-c-plus
-Source0:            mariadb-connector-c-%{version}.tar.gz
+Source0:            mariadb-connector-c-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -34,7 +34,7 @@ The mariadb client library for use by OpenResty ONLY
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/mariadb-connector-c-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/mariadb-connector-c-plus-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -64,11 +64,13 @@ Provides C header and library for OpenResty's mariadb library.
 
 
 %prep
-%setup -q -n mariadb-connector-c-%{version}
+%setup -q -n mariadb-connector-c-plus-%{version}
 
 
 %build
-cmake -DWITH_SSL=OPENSSL -DOPENSSL_ROOT_DIR=%{openssl_prefix} -DCMAKE_INSTALL_PREFIX=%{libmariadb_prefix} -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF .
+cmake -DWITH_SSL=OPENSSL -DOPENSSL_ROOT_DIR=%{openssl_prefix} \
+-DCMAKE_INSTALL_PREFIX=%{libmariadb_prefix} \
+-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF .
 
 make -j`nproc`
 

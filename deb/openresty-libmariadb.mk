@@ -5,10 +5,10 @@ OPENRESTY_LIBMARIADB_VER := 3.2.5.1
 
 .PHONY: openresty-libmariadb-download
 openresty-libmariadb-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/mariadb-connector-c-$(OPENRESTY_LIBMARIADB_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/mariadb-connector-c-plus-$(OPENRESTY_LIBMARIADB_VER).tar.gz ./
 	rm -rf openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER)
 	mkdir -p openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER)
-	tar -xf mariadb-connector-c-$(OPENRESTY_LIBMARIADB_VER).tar.gz --strip-components=1 -C openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER)
+	tar -xf mariadb-connector-c-plus-$(OPENRESTY_LIBMARIADB_VER).tar.gz --strip-components=1 -C openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER)
 	tar -czf openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER).orig.tar.gz openresty-libmariadb_$(OPENRESTY_LIBMARIADB_VER)
 
 openresty-libmariadb-clean:
