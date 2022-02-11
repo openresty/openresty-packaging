@@ -10,7 +10,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 PCRE_PREFIX = /opt/openresty-saas/pcre
 
 %:
-	dh $@ --parallel --with autotools-dev,systemd
+	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_test:
 
@@ -27,6 +27,8 @@ override_dh_auto_build:
 override_dh_auto_install:
 	make install \
 		DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty-utils
+	install -d $(DESTDIR)/usr/bin
+	ln -sf /usr/local/openresty-utils/bin/resty2 $(DESTDIR)/usr/bin/resty2
 
 override_dh_auto_clean:
 	dh_clean

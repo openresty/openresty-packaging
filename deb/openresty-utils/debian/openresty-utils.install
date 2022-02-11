@@ -12,3 +12,4 @@ usr/local/openresty-utils/bin/fs-fgraph
 usr/local/openresty-utils/bin/resty2
 usr/local/openresty-utils/bin/trie-gen
 usr/local/openresty-utils/lib/libtriegen.so
+usr/bin/resty2

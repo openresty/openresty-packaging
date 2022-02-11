@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.27
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -61,6 +61,8 @@ make -j`nproc` \
 %install
 make install \
     DESTDIR=%{buildroot} PREFIX=%{prefix}
+install -d %{buildroot}/usr/bin
+ln -sf %{prefix}/bin/resty2 %{buildroot}/usr/bin/resty2
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -85,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/resty2
 %{prefix}/bin/trie-gen
 %{prefix}/lib/libtriegen.so
+/usr/bin/resty2
 
 
 %changelog

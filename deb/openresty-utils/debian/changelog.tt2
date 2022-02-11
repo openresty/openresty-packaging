@@ -1,3 +1,9 @@
+openresty-utils (0.27-2~[% distro %]1) [% distro %]; urgency=high
+
+  * added /usr/bin/resty2 as symlink of resty2.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 11 Feb 2022 17:25:11 +0800
+
 openresty-utils (0.27-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-utils to 0.27.
