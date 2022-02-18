@@ -8,3 +8,5 @@ opt/openresty-saas/nginx/logs/
 opt/openresty-saas/nginx/sbin/*
 opt/openresty-saas/nginx/conf/*
 opt/openresty-saas/COPYRIGHT
+opt/openresty-saas/lmdb/bin/mdb_dump
+opt/openresty-saas/lmdb/lib/liblmdb.so

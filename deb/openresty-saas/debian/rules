@@ -42,7 +42,6 @@ override_dh_auto_configure:
     --without-edge_message_bus \
     --without-edge_routing_platform \
     --without-edge_pki \
-    --without-lua_resty_config \
     --without-lua_resty_request_id \
     --without-lua_gd \
     --without-lua_captcha \
@@ -52,7 +51,6 @@ override_dh_auto_configure:
     --without-http_lua_conf \
     --without-http_cache_index \
     --without-http_lua_metrics \
-    --without-lmdb \
     --without-tcc \
     --without-lua_resty_maxminddb \
     --without-lua_resty_jsonb \
@@ -75,6 +73,10 @@ override_dh_auto_install:
 	rm -f $(DESTDIR)$(PREFIX)/bin/nginx-xml2pod
 	rm -f $(DESTDIR)$(PREFIX)/bin/openresty-plus
 	rm -f $(DESTDIR)$(PREFIX)/bin/opm
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/lib/*.a
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/include
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/share
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
 		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \

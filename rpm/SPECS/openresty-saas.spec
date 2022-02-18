@@ -93,7 +93,6 @@ OpenResty Plus for SaaS product clients.
     --without-edge_message_bus \
     --without-edge_routing_platform \
     --without-edge_pki \
-    --without-lua_resty_config \
     --without-lua_resty_request_id \
     --without-lua_gd \
     --without-lua_captcha \
@@ -103,7 +102,6 @@ OpenResty Plus for SaaS product clients.
     --without-http_lua_conf \
     --without-http_cache_index \
     --without-http_lua_metrics \
-    --without-lmdb \
     --without-tcc \
     --without-lua_resty_maxminddb \
     --without-lua_resty_jsonb \
@@ -134,6 +132,10 @@ popd
 
 rm -rf %{buildroot}%{saas_or_prefix}/luajit/share/man
 rm -f %{buildroot}%{saas_or_prefix}/luajit/lib/libluajit-5.1.a
+rm -rf %{buildroot}%{saas_or_prefix}/lmdb/bin/mdb_{copy,load,stat,drop}
+rm -rf %{buildroot}%{saas_or_prefix}/lmdb/lib/*.a
+rm -rf %{buildroot}%{saas_or_prefix}/lmdb/include
+rm -rf %{buildroot}%{saas_or_prefix}/lmdb/share
 rm -rf %{buildroot}%{saas_or_prefix}/pod/*
 rm -f %{buildroot}%{saas_or_prefix}/resty.index
 rm -f %{buildroot}%{saas_or_prefix}/bin/md2pod.pl
@@ -154,6 +156,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/bin/resty2
 %{saas_or_prefix}/site/lualib/
 %{saas_or_prefix}/luajit/*
+%{saas_or_prefix}/lmdb/bin/mdb_dump
+%{saas_or_prefix}/lmdb/lib/liblmdb.so
 %{saas_or_prefix}/lualib/*
 %{saas_or_prefix}/nginx/html/*
 %{saas_or_prefix}/nginx/logs/
