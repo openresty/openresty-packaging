@@ -263,6 +263,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --without-http_redis_module \
     --without-lua_redis_parser \
     --without-lua_rds_parser \
+    --without-lua_resty_upstream \
     --without-lua_resty_upstream_healthcheck \
     --without-select_module \
     --without-http_userid_module \
