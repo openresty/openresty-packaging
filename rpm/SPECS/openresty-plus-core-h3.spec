@@ -61,6 +61,7 @@ AutoReqProv:        no
 %define orutils_prefix      %{_usr}/local/openresty-utils
 %define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
 %define maxminddb_prefix    %{_usr}/local/openresty-plus/maxminddb
+%define wasm_prefix         %{_usr}/local/openresty-plus/wasm
 
 
 %description
@@ -291,6 +292,7 @@ ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
 ln -sf %{hyperscan_prefix}/lib/libhs.so %{buildroot}%{orprefix}/lualib/
 ln -sf %{hyperscan_prefix}/lib/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
 ln -sf %{maxminddb_prefix}/lib/libmaxminddb.so %{buildroot}%{orprefix}/lualib/
+ln -sf %{wasm_prefix}/lib/liborwasmrt.so %{buildroot}%{orprefix}/lualib/
 %ifnarch x86_64
 # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
 install -d %{buildroot}%{orprefix}/lualib/resty/hyperscan/
