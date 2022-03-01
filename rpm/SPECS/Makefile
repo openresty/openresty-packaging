@@ -111,7 +111,8 @@ priv_targets = openresty-plus \
 		openresty-hiredis \
 		lua-resty-wasm \
 		openresty-docker \
-		openresty-libmariadb
+		openresty-libmariadb \
+		openresty-tcmalloc
 
 
 .PHONY: all

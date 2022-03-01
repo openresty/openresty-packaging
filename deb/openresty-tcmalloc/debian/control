@@ -1,0 +1,34 @@
+Source: openresty-tcmalloc
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), g++, autoconf, automake, libtool
+Standards-Version: 3.9.8
+Homepage: https://github.com/gperftools/gperftools
+
+Package: openresty-tcmalloc
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Very fast malloc and performance analysis tools
+ Perf Tools is a collection of performance analysis tools, including a
+ high-performance multi-threaded malloc() implementation that works
+ particularly well with threads and STL, a thread-friendly heap-checker,
+ a heap profiler, and a cpu-profiler.
+ This is a metapackage which pulls in all of the gperftools (and pprof)
+ binaries, libraries, and development headers, so that you can use them.
+ This Perf Tools build is specifically for OpenResty uses.
+
+Package: openresty-tcmalloc-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Development libraries and headers for gperftools
+ Libraries and headers for developing applications that use gperftools.
+
+Package: openresty-tcmalloc-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-tcmalloc (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-tcmalloc package
+ Debug symbols (or debuginfo) for the openresty-tcmalloc package.

@@ -1,0 +1,3 @@
+usr/local/openresty-tcmalloc/include/google/
+usr/local/openresty-tcmalloc/include/gperftools/
+usr/local/openresty-tcmalloc/lib/pkgconfig/*.pc
