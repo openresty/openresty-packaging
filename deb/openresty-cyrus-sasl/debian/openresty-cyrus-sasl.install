@@ -1,0 +1,4 @@
+usr/local/openresty/cyrus-sasl/lib/*.so
+usr/local/openresty/cyrus-sasl/lib/*.so.*
+usr/local/openresty/cyrus-sasl/lib/sasl2/*.so
+usr/local/openresty/cyrus-sasl/lib/sasl2/*.so.*

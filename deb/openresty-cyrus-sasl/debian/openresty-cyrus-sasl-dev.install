@@ -1,0 +1,2 @@
+usr/local/openresty/cyrus-sasl/include/sasl/*.h
+usr/local/openresty/cyrus-sasl/lib/pkgconfig/*.pc

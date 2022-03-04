@@ -1,0 +1,28 @@
+Source: openresty-cyrus-sasl
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), libtool
+Standards-Version: 3.9.8
+Homepage: https://github.com/cyrusimap/cyrus-sasl
+
+Package: openresty-cyrus-sasl
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: This is the Cyrus SASL API implementation. It can be used on the client or server side to provide authentication and authorization services.
+ This is the Cyrus SASL API implementation. It can be used on the client or server side to provide authentication and authorization services.
+
+Package: openresty-cyrus-sasl-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-cyrus-sasl (>= 2.1.28)
+Description: Development files for OpenResty's cyrus-sasl library
+ Provides C header and static library for OpenResty's cyrus-sasl library.
+
+Package: openresty-cyrus-sasl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-cyrus-sasl (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-cyrus-sasl package
+ Debug symbols (or debuginfo) for the openresty-cyrus-sasl package.
