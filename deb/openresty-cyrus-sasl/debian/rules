@@ -18,15 +18,15 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	./configure --prefix=/usr/local/openresty/cyrus-sasl --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111 \
+	./configure --prefix=/usr/local/openresty-plus/cyrus-sasl --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111 \
 		&& make -j`nproc` > /dev/stderr
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
-		&& rm -rf $(DESTDIR)/usr/local/openresty/cyrus-sasl/share \
-		&& rm -rf  $(DESTDIR)/usr/local/openresty/cyrus-sasl/sbin \
-		&& rm -f  $(DESTDIR)/usr/local/openresty/cyrus-sasl/lib/*.la \
-		&& rm -f  $(DESTDIR)/usr/local/openresty/cyrus-sasl/lib/sasl2/*.la
+		&& rm -rf $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/share \
+		&& rm -rf  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/sbin \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/lib/*.la \
+		&& rm -f  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/lib/sasl2/*.la
 
 override_dh_auto_clean:
 	dh_clean

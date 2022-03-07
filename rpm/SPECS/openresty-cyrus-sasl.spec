@@ -15,7 +15,7 @@ BuildRequires:      libtool
 
 AutoReqProv:        no
 
-%define sasl_prefix     /usr/local/openresty/cyrus-sasl
+%define sasl_prefix     /usr/local/openresty-plus/cyrus-sasl
 
 
 %description
