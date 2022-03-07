@@ -21,6 +21,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./configure \
     --prefix=$(PREFIX) \
+    --libdir=$(PREFIX)/lib \
 	--disable-dynamic-sized-delete-support \
 	--disable-static \
 		&& sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool \

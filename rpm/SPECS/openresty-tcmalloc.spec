@@ -72,6 +72,7 @@ CFLAGS=`echo $RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unused-local-typedefs -DTC
 CXXFLAGS=`echo $RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unused-local-typedefs -DTCMALLOC_LARGE_PAGES | sed -e 's|-fexceptions||g'`
 ./configure \
     --prefix=%{orprefix} \
+    --libdir=%{orprefix}/lib \
 	--disable-dynamic-sized-delete-support \
 	--disable-static
 
