@@ -11,14 +11,15 @@ Source0:            libmemcached-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  libtool, autoconf, automake, bison, flex, cyrus-sasl-devel
+BuildRequires:  libtool, autoconf, automake, bison, flex, openresty-cyrus-sasl-devel
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1l-1
 
-Requires:       openresty-plus-openssl111 >= 1.1.1l-1, cyrus-sasl
+Requires:       openresty-plus-openssl111 >= 1.1.1l-1, openresty-cyrus-sasl
 
 AutoReqProv:        no
 
 %define openssl_prefix     /usr/local/openresty-plus/openssl111
+%define sasl_prefix        /usr/local/openresty-plus/cyrus-sasl
 %define libmemcached_prefix     /usr/local/openresty-plus/libmemcached
 
 
@@ -70,12 +71,11 @@ Provides C header and library for OpenResty's libmemcached library.
 
 %build
 autoreconf -ivf
-CXXFLAGS="-Wno-error=unsafe-loop-optimizations" \
+CXXFLAGS="-I%{sasl_prefix}/include -Wno-error=unsafe-loop-optimizations" LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
   ./configure --prefix=%{libmemcached_prefix} --with-memcached=false \
-  --enable-libmemcachedprotocol --enable-shared --disable-static \
-  --disable-docs
+  --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false
 
-make
+make -j`nproc`
 
 
 %install

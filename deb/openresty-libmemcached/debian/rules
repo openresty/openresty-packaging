@@ -19,11 +19,10 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	autoreconf -ivf \
-		&& CXXFLAGS="-Wno-error=unsafe-loop-optimizations" \
-		./configure --prefix=/usr/local/openresty-plus/libmemcached \
-		--with-memcached=false --enable-libmemcachedprotocol \
-		--enable-shared --disable-static --disable-docs \
-		&& make
+		&& CXXFLAGS="-I/usr/local/openresty-plus/cyrus-sasl/include -Wno-error=unsafe-loop-optimizations" LDFLAGS="-L/usr/local/openresty-plus/cyrus-sasl/lib -Wl,-rpath,/usr/local/openresty-plus/cyrus-sasl/lib" \
+  ./configure --prefix=/usr/local/openresty-plus/libmemcached --with-memcached=false \
+  --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false \
+		&& make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \

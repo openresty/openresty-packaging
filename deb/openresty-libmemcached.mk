@@ -17,10 +17,12 @@ openresty-libmemcached-clean:
 	rm -rf openresty-libmemcached*.deb
 	rm -rf openresty-libmemcached_*.*
 
+#sudo apt-get -y -q install libtemplate-perl debhelper devscripts dh-systemd
+#sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-libmemcached-build
 openresty-libmemcached-build: openresty-libmemcached-clean openresty-libmemcached-download
-	sudo apt-get -y -q install libtool autoconf automake  bison flex openresty-plus-openssl111-dev libsasl2-dev
-	sudo apt-get -y -q install --only-upgrade libtool autoconf automake bison flex openresty-plus-openssl111-dev libsasl2-dev
+	sudo apt-get -y -q install libtool autoconf automake bison flex openresty-cyrus-sasl-dev openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade libtool autoconf automake bison flex openresty-cyrus-sasl-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-libmemcached_$(OPENRESTY_LIBMEMCACHED_VER).orig.tar.gz --strip-components=1 -C openresty-libmemcached
 	cd openresty-libmemcached \

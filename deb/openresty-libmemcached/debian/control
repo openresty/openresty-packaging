@@ -2,14 +2,14 @@ Source: openresty-libmemcached
 Section: libs
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), autoconf, automake, libtool, bison, flex, openresty-plus-openssl111-dev (>= 1.1.1l), libsasl2-dev
+Build-Depends: debhelper (>= 9), libtool, autoconf, automake, bison, flex, openresty-cyrus-sasl-dev, openresty-plus-openssl111-dev (>= 1.1.1l)
 Standards-Version: 3.9.8
-Homepage: https://github.com/awesomized/libmemcached
+Homepage: https://github.com/simplegeo/libmemcached
 
 Package: openresty-libmemcached
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111 (>= 1.1.1l), libsasl2-2
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111 (>= 1.1.1l), openresty-cyrus-sasl
 Description: The libmemcached library for OpenResty
  The libmemcached library for OpenResty ONLY
 
