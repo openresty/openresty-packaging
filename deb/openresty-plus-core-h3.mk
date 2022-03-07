@@ -2,7 +2,7 @@
 ### Version: 0.01
 
 #OPENRESTY_PLUS_CORE_H3_VER := $(OR_PLUS_VER)
-OPENRESTY_PLUS_CORE_H3_VER := 1.21.4.1.1
+OPENRESTY_PLUS_CORE_H3_VER := 1.21.4.3.2
 
 .PHONY: openresty-plus-core-h3-download
 openresty-plus-core-h3-download:
