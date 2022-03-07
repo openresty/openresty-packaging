@@ -29,5 +29,8 @@ override_dh_auto_clean:
 	dh_clean
 	rm -rf $(DESTDIR)
 
+override_dh_shlibdeps:
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):/usr/local/openresty-plus/openssl111/lib dh_shlibdeps
+
 override_dh_strip:
 	dh_strip --dbg-package=openresty-hiredis-dbgsym
