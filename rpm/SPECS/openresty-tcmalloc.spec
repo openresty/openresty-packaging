@@ -3,12 +3,12 @@
 
 Name:		openresty-tcmalloc
 Version:	2.9.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Summary:	Very fast malloc and performance analysis tools
 Group:      System Environment/Libraries
 URL:		https://github.com/gperftools/gperftools
-Source0:	https://github.com/gperftools/gperftools/releases/download/%{pkgname}-%{version}/%{pkgname}-%{version}.tar.gz
+Source0:	https://github.com/gperftools/gperftools/archive/%{pkgname}-%{version}.tar.gz
 
 BuildRequires:  gcc-c++
 BuildRequires:	autoconf, automake, libtool

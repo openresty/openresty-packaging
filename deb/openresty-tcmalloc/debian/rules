@@ -17,6 +17,7 @@ override_dh_auto_test:
 override_dh_usrlocal:
 
 override_dh_auto_configure:
+	autoreconf -ifv
 
 override_dh_auto_build:
 	./configure \
