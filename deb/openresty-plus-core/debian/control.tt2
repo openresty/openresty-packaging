@@ -46,6 +46,14 @@ Description: OpenResty Package Manager (OPM)
  designed to help developers easily build scalable web applications, web
  services, and dynamic web gateways.
 
+Package: openresty-plus-core-dev
+Section: utils
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+ openresty-plus-core (>= ${source:Upstream-Version})
+Description: OpenResty Plus Development Files (OPM)
+ Development files for OpenResty+.
+
 Package: openresty-plus-core
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,

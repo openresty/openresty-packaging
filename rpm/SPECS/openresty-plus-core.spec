@@ -232,6 +232,16 @@ BuildArch:      noarch
 This package provides the client side tool, opm, for OpenResty Pakcage Manager (OPM).
 
 
+%package devel
+Summary:            Development files for %{name}
+Group:              Development/Libraries
+Requires:           %{name} = %{version}-%{release}
+
+
+%description devel
+Development files for OpenResty+.
+
+
 %prep
 %setup -q -n "openresty-plus-%{version}"
 
@@ -358,6 +368,7 @@ make -j`nproc`
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+make install-headers DESTDIR=%{buildroot}
 ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{orprefix}/bin/
 ln -sf %{hyperscan_prefix}/lib/libhs.so %{buildroot}%{orprefix}/lualib/
 ln -sf %{hyperscan_prefix}/lib/libhs_runtime.so %{buildroot}%{orprefix}/lualib/
@@ -436,6 +447,10 @@ rm -rf %{buildroot}
 %{orprefix}/bin/opm
 %{orprefix}/site/manifest/
 %{orprefix}/site/pod/
+
+
+%files devel
+%{orprefix}/build
 
 
 %changelog

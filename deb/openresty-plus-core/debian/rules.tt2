@@ -115,6 +115,7 @@ override_dh_usrlocal:
 
 override_dh_auto_install:
 	dh_auto_install
+	make install-headers DESTDIR=$(DESTDIR)
 	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(OR_PREFIX)/lualib/
@@ -123,7 +124,7 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/lib/*.a
+	rm -f $(DESTDIR)/usr/local/openresty-plus/lmdb/lib/*.a
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
 	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
