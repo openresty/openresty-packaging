@@ -2,7 +2,13 @@ Source: openresty-plus-core-h3
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, systemtap-sdt-dev, openresty-zlib-dev (>= 1.2.11), openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.44), libtool, libgd-dev, libc-dev, [% IF arch == 'amd64' %] openresty-plus-hyperscan-dev (>= 5.0.0), [% END -%] openresty-yajl-dev (>= 2.1.0.4)
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
+  systemtap-sdt-dev, openresty-zlib-dev (>= 1.2.11),
+  openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.44),
+  libtool, libgd-dev, libc-dev, openresty-yajl-dev (>= 2.1.0.4),
+  [% IF arch == 'amd64' %] openresty-plus-hyperscan-dev (>= 5.0.0) [% END -%],
+  [% IF with_coro_nginx_module %] openresty-libcco-dev, openresty-elf-loader-dev,
+   openresty-libmariadb-dev, openresty-cyrus-sasl-dev, openresty-libmemcached-dev, openresty-hiredis-dev [% END %],
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
@@ -38,7 +44,10 @@ Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
  openresty-zlib, libgd3,
  openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.44),
- openresty-boringssl (>= 20211122)
+ openresty-boringssl (>= 20211122),
+  [% IF with_coro_nginx_module %], openresty-libcco, openresty-elf-loader,
+  openresty-libmariadb, openresty-cyrus-sasl, openresty-libmemcached,
+  openresty-hiredis [% END %],
 Description: OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
  This package contains the core server for OpenResty+, an enhanced version of
  OpenResty. Built for production uses.

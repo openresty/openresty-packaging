@@ -12,6 +12,19 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 export JOBS=`nproc`
 
+LIBCCO_PREFIX       = /usr/local/libcco
+ELF_LOADER_PREFIX   = /usr/local/elf-loader
+ELFUTILS_PREFIX     = /usr/local/openresty-elfutils
+HIREDIS_PREFIX      = /usr/local/openresty-plus/hiredis
+LIBMARIADB_PREFIX   = /usr/local/openresty-plus/libmariadb
+LIBMEMCACHED_PREFIX = /usr/local/openresty-plus/libmemcached
+CYRUS_SASL_PREFIX = /usr/local/openresty-plus/cyrus-sasl
+
+export ELF_LOADER_INC=$(ELF_LOADER_PREFIX)/include
+export ELF_LOADER_LIB=$(ELF_LOADER_PREFIX)/lib
+export CCO_INC=$(LIBCCO_PREFIX)/include
+export CCO_LIB=$(LIBCCO_PREFIX)/lib
+
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
@@ -21,8 +34,13 @@ override_dh_auto_configure:
 	./configure \
       --prefix="/usr/local/openresty-plus" \
       --with-cc='ccache gcc' \
-	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include -g3" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
+	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
+	  	-I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include \
+[% IF with_coro_nginx_module %] -I$(LIBCCO_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(HIREDIS_PREFIX)/include -I$(LIBMARIADB_PREFIX)/include/mariadb -I$(LIBMEMCACHED_PREFIX)/include -I$(CYRUS_SASL_PREFIX)/include [% END %] \
+       -g3" \
+       --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib \
+       [% IF with_coro_nginx_module %] -L$(LIBCCO_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -Wl,-rpath,$(LIBCCO_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib [% END %] \
+       -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
       [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
@@ -34,6 +52,7 @@ override_dh_auto_configure:
 	  [% IF with_lua_resty_mlcache %]--with-lua_resty_mlcache [% END %]\
 	  [% IF with_ngx_brotli %]--with-ngx_brotli [% END %]\
 	  [% IF with_lua_resty_mail %]--with-lua_resty_mail [% END %]\
+	  [% IF with_coro_nginx_module %]--with-coro_nginx_module [% END %]\
 	  --without-edge_message_bus \
 	  --without-edge_routing_platform \
 	  --without-edge_pki \

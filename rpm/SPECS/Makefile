@@ -112,6 +112,7 @@ priv_targets = openresty-plus \
 		lua-resty-wasm \
 		openresty-docker \
 		openresty-libmariadb \
+		openresty-cyrus-sasl \
 		openresty-tcmalloc
 
 

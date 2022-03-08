@@ -19,6 +19,7 @@ Source0:        openresty-plus-h3-%{version}.tar.gz
 %bcond_without	lua_resty_mlcache
 %bcond_without	ngx_brotli
 %bcond_without	lua_resty_mail
+%bcond_without  coro_nginx_module
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -31,6 +32,16 @@ BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
+%if %{with coro_nginx_module}
+BuildRequires:  openresty-libcco-devel
+BuildRequires:  openresty-elf-loader-devel
+BuildRequires:  openresty-cyrus-sasl-devel
+BuildRequires:  openresty-libmariadb-devel
+BuildRequires:  openresty-libmemcached-devel
+BuildRequires:  openresty-hiredis-devel
+BuildRequires:  openresty-elfutils-devel
+%endif
+
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
@@ -38,6 +49,15 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-boringssl >= 20211122-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
+%if %{with coro_nginx_module}
+Requires:       openresty-elfutils
+Requires:       openresty-libcco
+Requires:       openresty-elf-loader
+Requires:       openresty-cyrus-sasl
+Requires:       openresty-hiredis
+Requires:       openresty-libmemcached
+Requires:       openresty-libmariadb
+%endif
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:       libgd3
@@ -47,6 +67,7 @@ Requires:       gd
 
 # needed by tcc
 Requires:       glibc-devel
+
 
 # for /sbin/service
 #Requires(post):  chkconfig
@@ -62,6 +83,15 @@ AutoReqProv:        no
 %define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
 %define maxminddb_prefix    %{_usr}/local/openresty-plus/maxminddb
 %define wasm_prefix         %{_usr}/local/openresty-plus/wasm
+
+%define libcco_prefix       %{_usr}/local/libcco
+%define elf_loader_prefix   %{_usr}/local/elf-loader
+%define elfutils_prefix     %{_usr}/local/openresty-elfutils
+%define hiredis_prefix      %{_usr}/local/openresty-plus/hiredis
+%define libmariadb_prefix   %{_usr}/local/openresty-plus/libmariadb
+%define libmemcached_prefix %{_usr}/local/openresty-plus/libmemcached
+%define cyrus_sasl_prefix   %{_usr}/local/openresty-plus/cyrus-sasl
+
 
 
 %description
@@ -191,11 +221,28 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 
 
 %build
+
+export ELF_LOADER_INC=%{elf_loader_prefix}/include
+export ELF_LOADER_LIB=%{elf_loader_prefix}/lib
+export CCO_INC=%{libcco_prefix}/include
+export CCO_LIB=%{libcco_prefix}/lib
+
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3" \
-    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+%if %{with coro_nginx_module}
+ -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
+ -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
+ -I%{cyrus_sasl_prefix}/include \
+%endif
+    -I%{openssl_prefix}/include -g3" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
+%if %{with coro_nginx_module}
+    -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
+    -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
+%endif
+    -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64
     --with-lua_resty_hyperscan \
 %endif
@@ -226,6 +273,9 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 %endif
 %if %{with lua_resty_mail}
     --with-lua_resty_mail \
+%endif
+%if %{with coro_nginx_module}
+    --with-coro_nginx_module \
 %endif
     --without-edge_message_bus \
     --without-edge_routing_platform \
