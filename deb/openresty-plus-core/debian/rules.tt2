@@ -34,11 +34,11 @@ override_dh_auto_configure:
 	./configure \
       --prefix="/usr/local/openresty-plus" \
       --with-cc='ccache gcc' \
-	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
+	  --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
 	  	-I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include \
 [% IF with_coro_nginx_module %] -I$(LIBCCO_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(HIREDIS_PREFIX)/include -I$(LIBMARIADB_PREFIX)/include/mariadb -I$(LIBMEMCACHED_PREFIX)/include -I$(CYRUS_SASL_PREFIX)/include [% END %] \
        -g3" \
-       --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib \
+       --with-ld-opt="../license/en_plus_init.o -L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib \
        [% IF with_coro_nginx_module %] -L$(LIBCCO_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -Wl,-rpath,$(LIBCCO_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib [% END %] \
        -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
       [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\

@@ -1,5 +1,5 @@
 Name:           openresty-plus-core
-Version:        1.19.9.1.9
+Version:        1.19.9.1.10
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -257,14 +257,14 @@ export CCO_LIB=%{libcco_prefix}/lib
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+    --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
  -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
  -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
  -I%{cyrus_sasl_prefix}/include/ \
 %endif
     -I%{openssl_prefix}/include -g3" \
-    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
+    --with-ld-opt="../license/en_plus_init.o -L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
 %if %{with coro_nginx_module}
     -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
     -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
@@ -454,6 +454,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Mar 8 2022 Yichun Zhang (agentzh) 1.19.9.1.10-1
+- upgraded openresty-plus to 1.19.9.1.10.
 * Sun Mar 6 2022 Yichun Zhang (agentzh) 1.19.9.1.9-1
 - upgraded openresty-plus to 1.19.9.1.9.
 * Mon Jan 3 2022 Yichun Zhang (agentzh) 1.19.9.1.8-1
