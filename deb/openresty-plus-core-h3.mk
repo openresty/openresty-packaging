@@ -31,8 +31,8 @@ ifeq ($(ARCH), amd64)
 	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
 endif
 ifeq ($(WITH_CORO_NGINX_MODULE), 1)
-	sudo apt-get -y -q install openresty-elf-loader-dev openresty-libcco-dev openresty-libmariadb-dev openresty-libmemcached-dev openresty-cyrus-sasl-dev
-	sudo apt-get -y -q install --only-upgrade openresty-elf-loader-dev openresty-libcco-dev openresty-libmariadb-dev openresty-libmemcached-dev openresty-cyrus-sasl-dev
+	sudo apt-get -y -q install openresty-elfutils-dev openresty-elf-loader-dev openresty-libcco-dev openresty-libmariadb-dev openresty-libmemcached-dev openresty-cyrus-sasl-dev
+	sudo apt-get -y -q install --only-upgrade openresty-elfutils-dev openresty-elf-loader-dev openresty-libcco-dev openresty-libmariadb-dev openresty-libmemcached-dev openresty-cyrus-sasl-dev
 endif
 	sudo apt-get -y -q install ccache gcc make perl systemtap-sdt-dev openresty-zlib-dev openresty-boringssl-dev openresty-pcre-dev openresty-yajl-dev libtool libgd-dev libc-dev
 	sudo apt-get -y -q install --only-upgrade ccache gcc make perl systemtap-sdt-dev openresty-zlib-dev openresty-boringssl-dev openresty-pcre-dev openresty-yajl-dev libtool libgd-dev libc-dev

@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 9), autotools-dev, ccache, make,
  openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1k), openresty-pcre-dev (>= 8.42),
  perl, libfile-temp-perl, libgd-dev, libc-dev, [% IF arch == 'amd64' %]
  openresty-plus-hyperscan-dev (>= 5.0.0)[% END -%],
- [% IF with_coro_nginx_module %] openresty-libcco-dev, openresty-elf-loader-dev,
+ [% IF with_coro_nginx_module %] openresty-elfutils-dev,openresty-libcco-dev, openresty-elf-loader-dev,
   openresty-libmariadb-dev, openresty-cyrus-sasl-dev, openresty-libmemcached-dev,
   openresty-hiredis-dev [% END %],
  openresty-yajl-dev (>= 2.1.0.4)
@@ -60,8 +60,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
  openresty-zlib, openresty-plus-openssl111 (>= 1.1.1k), openresty-pcre (>= 8.44), libgd3,
  openresty-yajl (>= 2.1.0.4),
   [% IF with_coro_nginx_module %] openresty-libcco, openresty-elf-loader,
-  openresty-libmariadb, openresty-cyrus-sasl, openresty-libmemcached,
-  openresty-hiredis [% END %],
+  openresty-elfutils [% END %],
 Description: core server of OpenResty+ for production use
  This package contains the core server for OpenResty+, an enhanced version of
  OpenResty. Built for production uses.

@@ -53,10 +53,6 @@ Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-elfutils
 Requires:       openresty-libcco
 Requires:       openresty-elf-loader
-Requires:       openresty-cyrus-sasl
-Requires:       openresty-hiredis
-Requires:       openresty-libmemcached
-Requires:       openresty-libmariadb
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
