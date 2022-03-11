@@ -1,5 +1,5 @@
 Name:               openresty-hiredis
-Version:            1.0.3.1
+Version:            1.0.3.2
 Release:            1%{?dist}
 Summary:            The hiredis library for OpenResty
 
@@ -98,5 +98,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 11 2022 Yichun Zhang (agentzh) 1.0.3.2-1
+- upgraded openresty-hiredis to 1.0.3.2.
 * Mon Feb 07 2022 Yichun Zhang 1.0.3.1
 - initial version
