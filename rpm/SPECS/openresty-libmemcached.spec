@@ -6,7 +6,7 @@ Summary:            The libmemcached library for OpenResty
 Group:              System Environment/Libraries
 
 License:            BSD
-URL:                 https://github.com/simplegeo/libmemcached
+URL:                https://github.com/simplegeo/libmemcached
 Source0:            libmemcached-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -71,7 +71,8 @@ Provides C header and library for OpenResty's libmemcached library.
 
 %build
 autoreconf -ivf
-CXXFLAGS="-I%{sasl_prefix}/include -Wno-error=unsafe-loop-optimizations" LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
+CXXFLAGS="-I%{sasl_prefix}/include -Wno-error=unsafe-loop-optimizations" \
+  LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
   ./configure --prefix=%{libmemcached_prefix} --with-memcached=false \
   --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false
 

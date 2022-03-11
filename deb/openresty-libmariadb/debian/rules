@@ -8,8 +8,11 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 
+PREFIX = /usr/local/openresty-plus/libmariadb
+OPENSSL_PREFIX = /usr/local/openresty-plus/openssl111
+
 %:
-	dh $@ --parallel --with autotools-dev,systemd
+	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_test:
 
@@ -18,23 +21,23 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cmake -DWITH_SSL=OPENSSL -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 \
--DCMAKE_INSTALL_PREFIX=/usr/local/openresty-plus/libmariadb \
--DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF . \
+	cmake -DWITH_SSL=OPENSSL -DOPENSSL_ROOT_DIR=$(OPENSSL_PREFIX) \
+		-DCMAKE_INSTALL_PREFIX=$(PREFIX) \
+		-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF \
+		. \
 		&& make -j`nproc`
 
 override_dh_auto_install:
-	make install PREFIX=/usr/local/openresty-plus/libmariadb DESTDIR=$(DESTDIR) \
-		&& rm -fr  $(DESTDIR)/usr/local/openresty-plus/libmariadb/man \
-		&& rm -fr  $(DESTDIR)/usr/local/openresty-plus/libmariadb/lib/pkgconfig \
-		&& rm -fr  $(DESTDIR)/usr/local/openresty-plus/libmariadb/lib/mariadb/libmariadbclient.a \
-		&& rm -fr  $(DESTDIR)/usr/local/openresty-plus/libmariadb/lib/mariadb/libmariadb.a
+	make install PREFIX=$(PREFIX) DESTDIR=$(DESTDIR) \
+		&& rm -fr "$(DESTDIR)$(PREFIX)/man" \
+		&& rm -fr "$(DESTDIR)$(PREFIX)/lib/pkgconfig" \
+		&& rm -f $(DESTDIR)$(PREFIX)/lib/mariadb/*.a \
 
 override_dh_auto_clean:
 	dh_clean
 	rm -rf $(DESTDIR)
 override_dh_shlibdeps:
-	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):/usr/local/openresty-plus/openssl111/lib dh_shlibdeps
+	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH):$(OPENSSL_PREFIX)/lib dh_shlibdeps
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-libmariadb-dbgsym

@@ -9,6 +9,7 @@ Build-Depends: debhelper (>= 9), autotools-dev, ccache, make,
  [% IF with_coro_nginx_module %] openresty-elfutils-dev,openresty-libcco-dev, openresty-elf-loader-dev,
   openresty-libmariadb-dev, openresty-cyrus-sasl-dev, openresty-libmemcached-dev,
   openresty-hiredis-dev [% END %],
+ [% IF with_tcmalloc %] openresty-tcmalloc-dev [% END %],
  openresty-yajl-dev (>= 2.1.0.4)
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
@@ -59,6 +60,7 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
  openresty-zlib, openresty-plus-openssl111 (>= 1.1.1k), openresty-pcre (>= 8.44), libgd3,
  openresty-yajl (>= 2.1.0.4),
+  [% IF with_tcmalloc %] openresty-tcmalloc [% END %],
   [% IF with_coro_nginx_module %] openresty-libcco, openresty-elf-loader,
   openresty-elfutils [% END %],
 Description: core server of OpenResty+ for production use

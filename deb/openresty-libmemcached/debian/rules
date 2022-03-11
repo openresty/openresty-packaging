@@ -8,6 +8,9 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 
+PREFIX = /usr/local/openresty-plus/libmemcached
+SASL_PREFIX = /usr/local/openresty-plus/cyrus-sasl
+
 %:
 	dh $@ --parallel --with autotools-dev
 
@@ -19,17 +22,18 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	autoreconf -ivf \
-		&& CXXFLAGS="-I/usr/local/openresty-plus/cyrus-sasl/include -Wno-error=unsafe-loop-optimizations" LDFLAGS="-L/usr/local/openresty-plus/cyrus-sasl/lib -Wl,-rpath,/usr/local/openresty-plus/cyrus-sasl/lib" \
-  ./configure --prefix=/usr/local/openresty-plus/libmemcached --with-memcached=false \
+		&& CXXFLAGS="-I$(SASL_PREFIX)/include -Wno-error=unsafe-loop-optimizations" \
+		LDFLAGS="-L$(SASL_PREFIX)/lib -Wl,-rpath,$(SASL_PREFIX)/lib" \
+  ./configure --prefix=$(PREFIX) --with-memcached=false \
   --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false \
 		&& make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
-		&& rm -fr $(DESTDIR)/usr/local/openresty-plus/libmemcached/bin \
-		&& rm -fr $(DESTDIR)/usr/local/openresty-plus/libmemcached/share \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-plus/libmemcached/lib/*.la \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-plus/libmemcached/lib/pkgconfig
+		&& rm -fr $(DESTDIR)$(PREFIX)/bin \
+		&& rm -fr $(DESTDIR)$(PREFIX)/share \
+		&& rm -rf $(DESTDIR)$(PREFIX)/lib/*.la \
+		&& rm -rf $(DESTDIR)$(PREFIX)/lib/pkgconfig
 
 override_dh_auto_clean:
 	dh_clean

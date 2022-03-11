@@ -16,7 +16,7 @@ Description: The libmemcached library for OpenResty
 Package: openresty-libmemcached-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libmemcached (>= 1.2.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libmemcached (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's libmemcached library
  Provides C header and library for OpenResty's libmemcached library.
 

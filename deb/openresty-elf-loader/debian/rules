@@ -9,7 +9,7 @@ export QA_RPATHS=$[ 0x0002 ]
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools-dev,systemd
+	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_test:
 

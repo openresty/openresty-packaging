@@ -16,7 +16,7 @@ Description: The hiredis library for OpenResty
 Package: openresty-hiredis-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-hiredis (>= 1.0.3.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-hiredis (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's hiredis library
  Provides C header and library for OpenResty's hiredis library.
 

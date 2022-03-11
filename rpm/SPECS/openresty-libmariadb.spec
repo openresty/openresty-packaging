@@ -51,7 +51,6 @@ The mariadb client library for use by OpenResty ONLY
 %undefine _debuginfo_subpackages
 %endif
 
-
 %package devel
 
 Summary:            Development files for OpenResty's mariadb client library
@@ -69,8 +68,9 @@ Provides C header and library for OpenResty's mariadb library.
 
 %build
 cmake -DWITH_SSL=OPENSSL -DOPENSSL_ROOT_DIR=%{openssl_prefix} \
--DCMAKE_INSTALL_PREFIX=%{libmariadb_prefix} \
--DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF .
+    -DCMAKE_INSTALL_PREFIX=%{libmariadb_prefix} \
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DWITH_UNIT_TESTS:BOOL=OFF \
+    .
 
 make -j`nproc`
 

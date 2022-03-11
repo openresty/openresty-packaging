@@ -68,11 +68,13 @@ Provides C header and library for OpenResty's hiredis library.
 
 
 %build
-make -j`nproc` USE_SSL=1 PREFIX=%{hiredis_prefix} OPENSSL_PREFIX=%{openssl_prefix} V=1
+make -j`nproc` USE_SSL=1 PREFIX=%{hiredis_prefix} \
+    OPENSSL_PREFIX=%{openssl_prefix} \
+    V=1
 
 
 %install
-make install  USE_SSL=1 PREFIX=%{hiredis_prefix} DESTDIR=%{buildroot}
+make install USE_SSL=1 PREFIX=%{hiredis_prefix} DESTDIR=%{buildroot}
 rm -f  %{buildroot}/%{hiredis_prefix}/lib/*.a
 rm -rf %{buildroot}/%{hiredis_prefix}/lib/pkgconfig
 
