@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX  = /usr/local/openresty-plus/cyrus-sasl
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -18,15 +19,16 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	./configure --prefix=/usr/local/openresty-plus/cyrus-sasl --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111 \
+	./autogen.sh --prefix=$(PREFIX) --libdir=$(PREFIX)/lib \
+		--enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111 \
 		&& make -j`nproc` > /dev/stderr
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/share \
-		&& rm -rf  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/sbin \
-		&& rm -f  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/lib/*.la \
-		&& rm -f  $(DESTDIR)/usr/local/openresty-plus/cyrus-sasl/lib/sasl2/*.la
+		&& rm -rf $(DESTDIR)/$(PREFIX)/share \
+		&& rm -rf  $(DESTDIR)/$(PREFIX)/sbin \
+		&& rm -f  $(DESTDIR)/$(PREFIX)/lib/*.la \
+		&& rm -f  $(DESTDIR)/$(PREFIX)/lib/sasl2/*.la
 
 override_dh_auto_clean:
 	dh_clean

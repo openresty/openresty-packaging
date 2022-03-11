@@ -5,7 +5,7 @@ OPENRESTY_CYRUS_SASL_VER := 2.1.28
 
 .PHONY: openresty-cyrus-sasl-download
 openresty-cyrus-sasl-download:
-	wget -nH --cut-dirs=100 --mirror 'https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-$(OPENRESTY_CYRUS_SASL_VER)/cyrus-sasl-$(OPENRESTY_CYRUS_SASL_VER).tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://github.com/cyrusimap/cyrus-sasl/archive/cyrus-sasl-$(OPENRESTY_CYRUS_SASL_VER).tar.gz'
 	rm -rf openresty-cyrus-sasl_$(OPENRESTY_CYRUS_SASL_VER)
 	mkdir -p openresty-cyrus-sasl_$(OPENRESTY_CYRUS_SASL_VER)
 	tar -xf cyrus-sasl-$(OPENRESTY_CYRUS_SASL_VER).tar.gz --strip-components=1 -C openresty-cyrus-sasl_$(OPENRESTY_CYRUS_SASL_VER)

@@ -1,13 +1,13 @@
 Name:               openresty-cyrus-sasl
 Version:            2.1.28
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            This is the Cyrus SASL API implementation. It can be used on the client or server side to provide authentication and authorization services. 
 
 Group:              System Environment/Libraries
 
 License:            https://github.com/cyrusimap/cyrus-sasl/blob/master/COPYING
 URL:                https://github.com/cyrusimap/cyrus-sasl
-Source0:     https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-%{version}/cyrus-sasl-%{version}.tar.gz
+Source0:            https://github.com/cyrusimap/cyrus-sasl/archive/cyrus-sasl-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -61,11 +61,13 @@ Provides C header and static library for OpenResty's cyrus-sasl library.
 
 
 %prep
-%setup -q -n cyrus-sasl-%{version}
-
+%setup -q -c -n cyrus-sasl-%{version}
+mv cyrus-sasl-cyrus-sasl-%{version}/* .
 
 %build
-./configure --prefix=%{sasl_prefix} --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111
+./autogen.sh --prefix=%{sasl_prefix} \
+    --libdir=%{sasl_prefix}/lib  \
+    --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111
 make -j`nproc` > /dev/stderr
 
 
@@ -94,5 +96,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 4 2022 Yichun Zhang (agentzh) 2.1.28-2
+- upgraded openresty-cyrus-sasl to 2.1.28.
 * Fri Mar 4 2022 Yichun Zhang (agentzh) 2.1.28-1
 - upgraded openresty-cyrus-sasl to 2.1.28.
