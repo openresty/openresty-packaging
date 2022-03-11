@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ELF_LOADER_VER := 0.0.1
+OPENRESTY_ELF_LOADER_VER := 0.0.2
 
 .PHONY: openresty-elf-loader-download
 openresty-elf-loader-download:

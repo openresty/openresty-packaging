@@ -1,5 +1,5 @@
 Name:               openresty-elf-loader
-Version:            0.0.1
+Version:            0.0.2
 Release:            1%{?dist}
 Summary:            The elf-loader library for OpenResty
 
@@ -89,5 +89,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 10 2022 Yichun Zhang (agentzh) 0.0.2-1
+- upgraded elf-loader to 0.0.2.
 * Mon Feb 07 2022 Yichun Zhang 0.0.1
 - initial version
