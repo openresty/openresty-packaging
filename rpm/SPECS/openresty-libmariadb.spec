@@ -1,5 +1,5 @@
 Name:               openresty-libmariadb
-Version:            3.2.5.1
+Version:            3.2.5.2
 Release:            1%{?dist}
 Summary:            The libmariadb library for OpenResty
 
@@ -105,5 +105,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 11 2022 Yichun Zhang (agentzh) 3.2.5.2-1
+- upgraded openresty-libmariadb to 3.2.5.2.
 * Mon Feb 07 2022 Yichun Zhang 1.0.3.1
 - initial version

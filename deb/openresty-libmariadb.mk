@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBMARIADB_VER := 3.2.5.1
+OPENRESTY_LIBMARIADB_VER := 3.2.5.2
 
 .PHONY: openresty-libmariadb-download
 openresty-libmariadb-download:
