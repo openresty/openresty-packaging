@@ -72,9 +72,12 @@ Provides C header and library for OpenResty's libmemcached library.
 %build
 autoreconf -ivf
 CXXFLAGS="-I%{sasl_prefix}/include -Wno-error=unsafe-loop-optimizations" \
-  LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
-  ./configure --prefix=%{libmemcached_prefix} --with-memcached=false \
-  --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false
+    LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
+    ./configure --prefix=%{libmemcached_prefix} \
+    --libdir=%{libmemcached_prefix}/lib \
+    --with-memcached=false \
+    --enable-libmemcachedprotocol --enable-shared --disable-docs \
+    --disable-static --with-memcached=false
 
 make -j`nproc`
 
