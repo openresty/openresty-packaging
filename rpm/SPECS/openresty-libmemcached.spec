@@ -1,6 +1,6 @@
 Name:               openresty-libmemcached
 Version:            1.2.2
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            The libmemcached library for OpenResty
 
 Group:              System Environment/Libraries
