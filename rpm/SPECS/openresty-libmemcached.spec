@@ -89,6 +89,9 @@ rm -fr %{buildroot}/%{libmemcached_prefix}/share
 rm -rf %{buildroot}/%{libmemcached_prefix}/lib/*.la
 rm -rf %{buildroot}/%{libmemcached_prefix}/lib/pkgconfig
 
+# to silence the check-rpath error
+export QA_RPATHS=$[ 0x0002 ]
+
 
 %clean
 rm -rf %{buildroot}
