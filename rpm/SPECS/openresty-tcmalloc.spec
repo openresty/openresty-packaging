@@ -25,7 +25,9 @@ binaries, libraries, and development headers, so that you can use them.
 This Perf Tools build is specifically for OpenResty uses.
 
 %package devel
-Summary:	Development libraries and headers for gperftools
+Summary:            Development files for %{name}
+Group:              Development/Libraries
+Requires:           %{name} = %{version}-%{release}
 
 %description devel
 Libraries and headers for developing applications that use gperftools.

@@ -22,7 +22,7 @@ Description: Very fast malloc and performance analysis tools
 Package: openresty-tcmalloc-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-tcmalloc
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-tcmalloc (>= ${source:Upstream-Version})
 Description: Development libraries and headers for gperftools
  Libraries and headers for developing applications that use gperftools.
 
