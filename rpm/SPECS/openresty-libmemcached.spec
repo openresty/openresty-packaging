@@ -70,7 +70,6 @@ Provides C header and library for OpenResty's libmemcached library.
 
 
 %build
-autoreconf -ivf
 CXXFLAGS="-I%{sasl_prefix}/include -Wno-error=unsafe-loop-optimizations" \
     LDFLAGS="-L%{sasl_prefix}/lib -Wl,-rpath,%{sasl_prefix}/lib" \
     ./configure --prefix=%{libmemcached_prefix} \

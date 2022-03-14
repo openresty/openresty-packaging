@@ -21,8 +21,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	autoreconf -ivf \
-		&& CXXFLAGS="-I$(SASL_PREFIX)/include -Wno-error=unsafe-loop-optimizations" \
+	CXXFLAGS="-I$(SASL_PREFIX)/include -Wno-error=unsafe-loop-optimizations" \
 		LDFLAGS="-L$(SASL_PREFIX)/lib -Wl,-rpath,$(SASL_PREFIX)/lib" \
   ./configure --prefix=$(PREFIX) --libdir=$(PREFIX)/lib --with-memcached=false \
   --enable-libmemcachedprotocol --enable-shared --disable-docs --disable-static --with-memcached=false \
