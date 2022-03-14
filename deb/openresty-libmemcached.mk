@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBMEMCACHED_VER := 1.2.2
+OPENRESTY_LIBMEMCACHED_VER := 1.2.3
 
 .PHONY: openresty-libmemcached-download
 openresty-libmemcached-download:
