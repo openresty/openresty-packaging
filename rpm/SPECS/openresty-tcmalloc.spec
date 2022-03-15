@@ -3,7 +3,7 @@
 
 Name:		openresty-tcmalloc
 Version:	2.9.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Summary:	Very fast malloc and performance analysis tools
 Group:      System Environment/Libraries
@@ -102,5 +102,7 @@ rm -f %{buildroot}%{orprefix}/bin/pprof-symbolize
 %{orprefix}/lib/pkgconfig/*.pc
 
 %changelog
+* Mon Feb 28 2022 Jiahao Wang <wangjiahao@openresty.com> - 2.9.1-4
+- Upgraded to 2.9.1.
 * Mon Feb 28 2022 Jiahao Wang <wangjiahao@openresty.com> - 2.9.1-1
 - Upgraded to 2.9.1.
