@@ -1,5 +1,5 @@
 Name:               openresty-openssl111-debug
-Version:            1.1.1l
+Version:            1.1.1n
 Release:            1%{?dist}
 Summary:            Debug version of the OpenSSL library for OpenResty
 
@@ -130,6 +130,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 18 2022 Yichun Zhang (agentzh) 1.1.1n-1
+- upgraded OpenSSL to 1.1.1n.
 * Tue May 11 2021 Jiahao Wang 1.1.1k-1
 - upgraded OpenSSL to 1.1.1k.
 * Thu Dec 10 2020 Yichun Zhang (agentzh) 1.1.1i-1
