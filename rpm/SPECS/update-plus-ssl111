@@ -12,8 +12,8 @@ if ($version !~ /^\d+(?:\.\d+){2}[a-z]$/) {
     die "Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'openresty-plus-openssl*.spec') {
-    if ($specfile =~ /^openresty-plus-openssl111.*/) {
+for my $specfile (reverse sort glob 'openresty-plus-openssl111*.spec') {
+    if ($specfile =~ "openresty-plus-openssl111-qat.*.spec") {
         next;
     }
 
@@ -27,7 +27,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-plus-openssl\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty-plus-openssl111\b/xsm) {
         die "Bad file content in $file";
     }
 

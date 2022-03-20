@@ -1,3 +1,9 @@
+openresty-plus-openssl111-debug (1.1.1n-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.1.1n.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 19 Mar 2022 11:48:09 +0800
+
 openresty-plus-openssl111-debug (1.1.1l-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.1.1l.

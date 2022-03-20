@@ -41,7 +41,12 @@ my $version = shift or die "No version number specified.\n";
     }
 }
 
-for my $dir (reverse sort glob 'openresty-openssl*') {
+for my $dir (reverse sort glob 'openresty-plus-openssl111*') {
+    if ($dir =~ /openresty-plus-openssl111-qatengine.*/) {
+        next;
+    }
+
+    warn $dir;
     next unless -d $dir && -d "$dir/debian";
     my $name = $dir;
     my $changelog = "$dir/debian/changelog.tt2";
