@@ -1,5 +1,3 @@
-SSL111_VER=1.1.1l
-
 .PHONY: openresty-plus-openssl111-debug-download
 openresty-plus-openssl111-debug-download:
 	rm -f *.orig.tar.*
