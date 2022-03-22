@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_UTILS_VER := 0.27
+OPENRESTY_UTILS_VER := 0.28
 
 deb_toolchain_pkgs=debhelper devscripts
 
@@ -16,15 +16,15 @@ openresty-utils-download:
 	tar -czf openresty-utils_$(OPENRESTY_UTILS_VER).orig.tar.gz openresty-utils_$(OPENRESTY_UTILS_VER)
 
 openresty-utils-clean:
-	cd openresty-utils && debclean
+	-cd openresty-utils && debclean
 	-find openresty-utils -maxdepth 1 ! -name 'debian' ! -name 'openresty-utils' -print | xargs rm -rf
 	rm -rf openresty-utils*.deb
 	rm -rf openresty-utils_*.*
 
 .PHONY: openresty-utils-build
 openresty-utils-build: openresty-utils-clean openresty-utils-download
-	sudo apt-get -y -q install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev
-	sudo apt-get -y -q --only-upgrade install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev
+	sudo apt-get -y -q install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev libpcre2-dev
+	sudo apt-get -y -q --only-upgrade install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev libpcre2-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-utils_$(OPENRESTY_UTILS_VER).orig.tar.gz --strip-components=1 -C openresty-utils
 	cd openresty-utils \

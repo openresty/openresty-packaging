@@ -1,6 +1,6 @@
 Name:           openresty-utils
-Version:        0.27
-Release:        2%{?dist}
+Version:        0.28
+Release:        1%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -15,7 +15,14 @@ Source0:        %{name}-%{version}.tar.gz
 
 AutoReqProv:    no
 BuildRequires:  ccache, gcc, make, openresty-saas-pcre-devel
+BuildRequires:  pcre2-devel
 Requires:       openresty-saas-pcre
+
+%if 0%{?suse_version}
+Requires:       libpcre2-8-0
+%else
+Requires:       pcre2
+%endif
 
 %description
 OpenResty Utils
@@ -87,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/resty2
 %{prefix}/bin/trie-gen
 %{prefix}/lib/libtriegen.so
+%{prefix}/bin/lj-gc-graph
 /usr/bin/resty2
 
 
