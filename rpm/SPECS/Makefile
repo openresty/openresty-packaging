@@ -102,6 +102,7 @@ priv_targets = openresty-plus \
 		openresty-perl-Protocol-WebSocket \
 		openresty-plus-core \
 		openresty-plus-core-h3 \
+		openresty-plus-core-test \
 		openresty-edge-pki \
 		openresty-libinjection \
 		openresty-elf-loader\
