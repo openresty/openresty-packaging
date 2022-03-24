@@ -10,22 +10,22 @@ WITH_CORO_NGINX_MODULE=0
 endif
 WITH_TCMALLOC=1
 
-.PHONY: openresty-plus-core-h3-download
-openresty-plus-core-h3-download:
+.PHONY: openresty-plus-core-h3-test-download
+openresty-plus-core-h3-test-download:
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-h3-$(OPENRESTY_PLUS_CORE_H3_VER).tar.gz ./
-	rm -rf openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER)
-	mkdir -p openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER)
-	tar -xf openresty-plus-h3-$(OPENRESTY_PLUS_CORE_H3_VER).tar.gz --strip-components=1 -C openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER)
-	tar -czf openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER).orig.tar.gz openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER)
+	rm -rf openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER)
+	mkdir -p openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER)
+	tar -xf openresty-plus-h3-$(OPENRESTY_PLUS_CORE_H3_VER).tar.gz --strip-components=1 -C openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER)
+	tar -czf openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER).orig.tar.gz openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER)
 
-openresty-plus-core-h3-clean:
-	-cd openresty-plus-core-h3 && debclean
-	-find openresty-plus-core-h3 -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-core-h3' -print | xargs rm -rf
-	rm -rf openresty-plus-core-h3*.deb
-	rm -rf openresty-plus-core-h3_*.*
+openresty-plus-core-h3-test-clean:
+	-cd openresty-plus-core-h3-test && debclean
+	-find openresty-plus-core-h3-test -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-core-h3-test' -print | xargs rm -rf
+	rm -rf openresty-plus-core-h3-test*.deb
+	rm -rf openresty-plus-core-h3-test_*.*
 
-.PHONY: openresty-plus-core-h3-build
-openresty-plus-core-h3-build: openresty-plus-core-h3-clean openresty-plus-core-h3-download
+.PHONY: openresty-plus-core-h3-test-build
+openresty-plus-core-h3-test-build: openresty-plus-core-h3-test-clean openresty-plus-core-h3-test-download
 ifeq ($(ARCH), amd64)
 	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
 	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
@@ -41,8 +41,8 @@ endif
 	sudo apt-get -y -q install ccache gcc make perl systemtap-sdt-dev openresty-zlib-dev openresty-boringssl-dev openresty-pcre-dev openresty-yajl-dev libtool libgd-dev libc-dev
 	sudo apt-get -y -q install --only-upgrade ccache gcc make perl systemtap-sdt-dev openresty-zlib-dev openresty-boringssl-dev openresty-pcre-dev openresty-yajl-dev libtool libgd-dev libc-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus-core-h3_$(OPENRESTY_PLUS_CORE_H3_VER).orig.tar.gz --strip-components=1 -C openresty-plus-core-h3
-	cd openresty-plus-core-h3 \
+	tar xf openresty-plus-core-h3-test_$(OPENRESTY_PLUS_CORE_H3_VER).orig.tar.gz --strip-components=1 -C openresty-plus-core-h3-test
+	cd openresty-plus-core-h3-test \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP)  \
 			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \

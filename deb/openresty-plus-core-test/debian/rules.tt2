@@ -1,10 +1,13 @@
 #!/usr/bin/make -f
 DPKG_EXPORT_BUILDFLAGS = 1
-OR_PREFIX = /usr/local/openresty-plus
+OR_PREFIX = /usr/local/openresty-plus-core-test
 HYPERSCAN_PREFIX = /usr/local/openresty-plus/hyperscan
 MAXMINDDB_PREFIX = /usr/local/openresty-plus/maxminddb
 WASM_PREFIX = /usr/local/openresty-plus/wasm
 ORUTILS_PREFIX = /usr/local/openresty-utils
+
+LJ_DEBUG_CC_OPTS = -DLUAJIT_TEST_FIXED_ORDER=1 -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 \
+    -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 include /usr/share/dpkg/default.mk
 
@@ -33,7 +36,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 override_dh_auto_configure:
 	./configure \
-      --prefix="/usr/local/openresty-plus" \
+      --prefix="$(OR_PREFIX)" \
       --with-cc='ccache gcc' \
 	  --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
 	  -I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include \
@@ -110,7 +113,7 @@ override_dh_auto_configure:
 	  --with-http_gunzip_module \
 	  --with-ngx_qat_module \
 	  --with-threads \
-	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+	  --with-luajit-xcflags='$(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
 	  -j$(JOBS)
 
 override_dh_usrlocal:
@@ -118,18 +121,18 @@ override_dh_usrlocal:
 override_dh_auto_install:
 	dh_auto_install
 	make install-headers DESTDIR=$(DESTDIR)
-	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)/usr/local/openresty-plus/bin/
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(OR_PREFIX)/bin/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(HYPERSCAN_PREFIX)/lib/libhs_runtime.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(MAXMINDDB_PREFIX)/lib/libmaxminddb.so $(DESTDIR)$(OR_PREFIX)/lualib/
 	ln -sf $(WASM_PREFIX)/lib/liborwasmrt.so $(DESTDIR)$(OR_PREFIX)/lualib/
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/share/man
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/luajit/lib/libluajit-5.1.a
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/bin/mdb_{copy,load,stat,drop}
-	rm -f $(DESTDIR)/usr/local/openresty-plus/lmdb/lib/*.a
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/include
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/lmdb/share
-	rm -rf $(DESTDIR)/usr/local/openresty-plus/tcc/share
+	rm -rf $(DESTDIR)$(OR_PREFIX)/luajit/share/man
+	rm -rf $(DESTDIR)$(OR_PREFIX)/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -f $(DESTDIR)$(OR_PREFIX)/lmdb/lib/*.a
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/include
+	rm -rf $(DESTDIR)$(OR_PREFIX)/lmdb/share
+	rm -rf $(DESTDIR)$(OR_PREFIX)/tcc/share
 	[% IF arch != 'amd64' %]
     # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
 	install -d $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/
@@ -141,4 +144,4 @@ override_dh_auto_install:
 	done
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-plus-core-dbgsym
+	dh_strip --dbg-package=openresty-plus-core-test-dbgsym

@@ -1,4 +1,4 @@
-Source: openresty-plus-core-h3
+Source: openresty-plus-core-h3-test
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
@@ -6,18 +6,18 @@ Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
   systemtap-sdt-dev, openresty-zlib-dev (>= 1.2.11),
   openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.44),
   libtool, libgd-dev, libc-dev, openresty-yajl-dev (>= 2.1.0.4),
-  [% IF with_tcmalloc %] openresty-tcmalloc-dev [% END %],
   [% IF arch == 'amd64' %] openresty-plus-hyperscan-dev (>= 5.0.0) [% END -%],
   [% IF with_coro_nginx_module %] openresty-elfutils-dev, openresty-libcco-dev, openresty-elf-loader-dev,
    openresty-libmariadb-dev, openresty-cyrus-sasl-dev, openresty-libmemcached-dev, openresty-hiredis-dev [% END %],
+  [% IF with_tcmalloc %] openresty-tcmalloc-dev [% END %],
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
-Package: openresty-plus-core-h3-resty
+Package: openresty-plus-core-h3-test-resty
 Architecture: any
 Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-plus-core-h3 (>= ${source:Upstream-Version}),
+ openresty-plus-core-h3-test (>= ${source:Upstream-Version}),
  perl, libfile-spec-perl, libfile-temp-perl, libtime-hires-perl
 Description: OpenResty+ command-line utility, resty
  This package contains the "resty" command-line utility for OpenResty+, which
@@ -30,24 +30,24 @@ Description: OpenResty+ command-line utility, resty
  services, and dynamic web gateways.
  BuildArch:      noarch
 
-Package: openresty-plus-core-h3-opm
+Package: openresty-plus-core-h3-test-opm
 Architecture: any
 Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-plus-core-h3 (>= ${source:Upstream-Version}), openresty-plus-core-h3-resty (>= ${source:Upstream-Version}),
+ openresty-plus-core-h3-test (>= ${source:Upstream-Version}), openresty-plus-core-h3-test-resty (>= ${source:Upstream-Version}),
  curl, tar, gzip, libdigest-md5-perl, libencode-perl, libfile-spec-perl, libfile-temp-perl
 Description: OpenResty+ Package Manager
  This package provides the client side tool, opm, for OpenResty Pakcage Manager (OPM).
 
-Package: openresty-plus-core-h3-dev
+Package: openresty-plus-core-h3-test-dev
 Section: utils
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
- openresty-plus-core-h3 (>= ${source:Upstream-Version})
+ openresty-plus-core-h3-test (>= ${source:Upstream-Version})
 Description: OpenResty Plus Development Files (OPM)
  Development files for OpenResty+.
 
-Package: openresty-plus-core-h3
+Package: openresty-plus-core-h3-test
 Architecture: any
 Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
@@ -59,7 +59,10 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
   [% IF with_tcmalloc %] openresty-tcmalloc [% END %],
 Description: OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
  This package contains the core server for OpenResty+, an enhanced version of
- OpenResty. Built for production uses.
+ OpenResty. Built for running test purposes only.
+ .
+ DO NOT USE THIS PACKAGE IN PRODUCTION!
+ .
  OpenResty is a full-fledged web platform by integrating the standard Nginx
  core, LuaJIT, many carefully written Lua libraries, lots of high quality
  3rd-party Nginx modules, and most of their external dependencies. It is
@@ -73,9 +76,9 @@ Description: OpenResty+, enhanced version of scalable web platform by extending 
  web applications that are capable to handle 10K ~ 1000K+ connections in
  a single box.
 
-Package: openresty-plus-core-h3-dbgsym
+Package: openresty-plus-core-h3-test-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-plus-core-h3 (>= ${source:Upstream-Version})
-Description: Debug symbols for the openresty-plus-core-h3 package
- Debug symbols (or debuginfo) for the openresty-plus-core-h3 package.
+Depends: ${misc:Depends}, openresty-plus-core-h3-test (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-plus-core-h3-test package
+ Debug symbols (or debuginfo) for the openresty-plus-core-h3-test package.

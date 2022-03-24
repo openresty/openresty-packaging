@@ -1,15 +1,19 @@
-Name:           openresty-plus-core-h3
-Version:        1.21.4.3.3
+Name:           openresty-plus-core-test
+Version:        1.19.9.1.10
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
 
+# BSD License (two clause)
+# http://www.freebsd.org/copyright/freebsd-license.html
 License:        Proprietary
 URL:            https://openresty.com/
 
-Source0:        openresty-plus-h3-%{version}.tar.gz
+Source0:        openresty-plus-%{version}.tar.gz
+#Source1:        openresty-plus.init
 
+%bcond_with	lua_ldap
 %bcond_without	lua_resty_ldap
 %bcond_without	lua_resty_openidc
 %bcond_without	lua_resty_session
@@ -20,14 +24,13 @@ Source0:        openresty-plus-h3-%{version}.tar.gz
 %bcond_without	ngx_brotli
 %bcond_without	lua_resty_mail
 %bcond_without	coro_nginx_module
-%bcond_without	tcmalloc
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-boringssl-devel >= 20211114-1
+BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k-1
 BuildRequires:  openresty-pcre-devel >= 8.44-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
@@ -42,24 +45,18 @@ BuildRequires:  openresty-libmemcached-devel
 BuildRequires:  openresty-hiredis-devel
 BuildRequires:  openresty-elfutils-devel
 %endif
-%if %{with tcmalloc}
-BuildRequires:  openresty-tcmalloc-devel
-%endif
 
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-boringssl >= 20211122-1
+Requires:       openresty-plus-openssl111 >= 1.1.1k-1
 Requires:       openresty-pcre >= 8.44-1
 Requires:       openresty-yajl >= 2.1.0.4
 %if %{with coro_nginx_module}
 Requires:       openresty-elfutils
 Requires:       openresty-libcco
 Requires:       openresty-elf-loader
-%endif
-%if %{with tcmalloc}
-Requires:       openresty-tcmalloc
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
@@ -71,17 +68,16 @@ Requires:       gd
 # needed by tcc
 Requires:       glibc-devel
 
-
 # for /sbin/service
 #Requires(post):  chkconfig
 #Requires(preun): chkconfig, initscripts
 
 AutoReqProv:        no
 
-%define orprefix            %{_usr}/local/openresty-plus-core-h3
+%define orprefix            %{_usr}/local/openresty-plus-core-test
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
-%define openssl_prefix      %{_usr}/local/openresty/boringssl
+%define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
 %define hyperscan_prefix    %{_usr}/local/openresty-plus/hyperscan
 %define maxminddb_prefix    %{_usr}/local/openresty-plus/maxminddb
@@ -96,11 +92,14 @@ AutoReqProv:        no
 %define libmemcached_prefix %{_usr}/local/openresty-plus/libmemcached
 %define cyrus_sasl_prefix   %{_usr}/local/openresty-plus/cyrus-sasl
 
-
+%define lj_debug_cc_opts   -DLUAJIT_TEST_FIXED_ORDER=1 -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 %description
-This package contains the core server for OpenResty+, an enhanced version of
-OpenResty. Built for production uses.
+This package contains the debug version of the core server for OpenResty+, an enhanced version of
+OpenResty.
+Built for running test purposes only.
+
+DO NOT USE THIS PACKAGE IN PRODUCTION!
 
 OpenResty is a full-fledged web platform by integrating the standard Nginx
 core, LuaJIT, many carefully written Lua libraries, lots of high quality
@@ -127,7 +126,7 @@ a single box.
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-h3-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-plus-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -149,7 +148,7 @@ a single box.
 
 Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-test >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -205,8 +204,7 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}, perl(Digest::MD5)
-Requires:       openresty-plus-core-h3-doc >= %{version}-%{release}, openresty-plus-core-h3-resty >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-test >= %{version}-%{release}, perl(Digest::MD5)
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
@@ -219,21 +217,12 @@ BuildArch:      noarch
 %description opm
 This package provides the client side tool, opm, for OpenResty Pakcage Manager (OPM).
 
-%package devel
-Summary:            Development files for %{name}
-Group:              Development/Libraries
-Requires:           %{name} = %{version}-%{release}
-
-
-%description devel
-Development files for OpenResty+.
 
 %prep
-%setup -q -n "openresty-plus-h3-%{version}"
+%setup -q -n "openresty-plus-%{version}"
 
 
 %build
-
 export ELF_LOADER_INC=%{elf_loader_prefix}/include
 export ELF_LOADER_LIB=%{elf_loader_prefix}/lib
 export CCO_INC=%{libcco_prefix}/include
@@ -242,17 +231,14 @@ export CCO_LIB=%{libcco_prefix}/lib
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
     -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
     -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
-    -I%{cyrus_sasl_prefix}/include \
-%endif
-%if %{with tcmalloc}
-    -I%{tcmalloc_prefix}/include \
+    -I%{cyrus_sasl_prefix}/include/ \
 %endif
     -I%{openssl_prefix}/include -g3" \
-    --with-ld-opt="../license/en_plus_init.o -L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
 %if %{with coro_nginx_module}
     -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
     -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
@@ -262,6 +248,9 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-lua_resty_hyperscan \
 %endif
     --with-pcre-jit \
+%if %{with lua_ldap}
+    --with-lua_ldap \
+%endif
 %if %{with lua_resty_ldap}
     --with-lua_resty_ldap \
 %endif
@@ -294,6 +283,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 %endif
     --without-edge_message_bus \
     --without-edge_routing_platform \
+    --without-edge_pki \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
     --without-http_xss_module \
@@ -306,7 +296,6 @@ export CCO_LIB=%{libcco_prefix}/lib
     --without-http_redis_module \
     --without-lua_redis_parser \
     --without-lua_rds_parser \
-    --without-lua_resty_upstream \
     --without-lua_resty_upstream_healthcheck \
     --without-select_module \
     --without-http_userid_module \
@@ -340,11 +329,10 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-http_realip_module \
     --with-http_gzip_static_module \
     --with-http_gunzip_module \
+    --with-ngx_qat_module \
     --with-threads \
     --with-compat  \
-    --with-http_v3_module \
-    --with-stream_quic_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-luajit-xcflags='%{lj_debug_cc_opts} -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     -j`nproc`
 
 make -j`nproc`
@@ -404,6 +392,7 @@ rm -rf %{buildroot}
 %{orprefix}/nginx/html/*
 %{orprefix}/nginx/logs/
 %{orprefix}/nginx/sbin/*
+%{orprefix}/nginx/modules/*
 %{orprefix}/tcc/bin/tcc
 %{orprefix}/tcc/lib/*
 %{orprefix}/tcc/include/*
@@ -432,15 +421,11 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Mar 9 2022 Yichun Zhang (agentzh) 1.21.4.3.3-1
-- upgraded openresty-plus to 1.21.4.3.3.
-* Sun Mar 6 2022 Yichun Zhang (agentzh) 1.21.4.3.2-1
-- upgraded openresty-plus to 1.21.4.3.2.
-* Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-2
-- upgraded openresty-plus to 1.21.4.3.1.
-* Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-1
-- upgraded openresty-plus to 1.21.4.3.1.
-* Sat Dec 4 2021 Yichun Zhang (agentzh) 1.21.4.2.1-1
-- upgraded openresty-plus to 1.21.4.2.1.
-* Mon Nov 22 2021 Yichun Zhang (agentzh) 1.21.4.1.1-1
-- upgraded openresty-plus to 1.21.4.1.1.
+* Mon Jan 3 2022 Yichun Zhang (agentzh) 1.19.9.1.8-1
+- upgraded openresty-plus to 1.19.9.1.8.
+* Mon Dec 13 2021 Yichun Zhang (agentzh) 1.19.9.1.7-1
+- upgraded openresty-plus to 1.19.9.1.7.
+* Tue Dec 7 2021 Yichun Zhang (agentzh) 1.19.9.1.6-1
+- upgraded openresty-plus to 1.19.9.1.6.
+* Wed Nov 17 2021 Wang Hui (wanghuizzz) 1.19.9.1.5-1
+- initial packaging.

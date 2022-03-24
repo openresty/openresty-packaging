@@ -324,7 +324,6 @@ export CCO_LIB=%{libcco_prefix}/lib
     --without-edge_pki \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
-    --without-lua_rds_parser \
     --without-http_xss_module \
     --without-http_form_input_module \
     --without-http_srcache_module \

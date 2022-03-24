@@ -1,0 +1,36 @@
+openresty-plus-core-test (1.19.9.1.11-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.11.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 18 Mar 2022 22:27:52 +0800
+
+openresty-plus-core-test (1.19.9.1.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 3 Jan 2022 19:49:46 -0800
+
+openresty-plus-core-test (1.19.9.1.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 Dec 2021 22:16:22 -0800
+
+openresty-plus-core-test (1.19.9.1.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 8 Dec 2021 10:53:29 -0800
+
+openresty-plus-core-test (1.19.9.1.5-2~[% distro %]1) [% distro %]; urgency=high
+
+  * update release version to 1.19.9.1.5-2.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 2 Dec 2021 00:00:00 -0700
+
+openresty-plus-core-test (1.19.9.1.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 17 Nov 2021 00:00:00 -0700
+

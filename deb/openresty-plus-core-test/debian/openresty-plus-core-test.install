@@ -1,0 +1,15 @@
+usr/local/openresty-plus-core-test/COPYRIGHT
+usr/local/openresty-plus-core-test/bin/openresty-plus
+usr/local/openresty-plus-core-test/site/lualib/
+usr/local/openresty-plus-core-test/luajit/*
+usr/local/openresty-plus-core-test/lualib/*
+usr/local/openresty-plus-core-test/lmdb/bin/mdb_dump
+usr/local/openresty-plus-core-test/lmdb/lib/liblmdb.so
+usr/local/openresty-plus-core-test/nginx/html/*
+usr/local/openresty-plus-core-test/nginx/logs/
+usr/local/openresty-plus-core-test/nginx/sbin/*
+usr/local/openresty-plus-core-test/nginx/modules/*
+usr/local/openresty-plus-core-test/tcc/bin/tcc
+usr/local/openresty-plus-core-test/tcc/lib/*
+usr/local/openresty-plus-core-test/tcc/include/*
+usr/local/openresty-plus-core-test/nginx/conf/*

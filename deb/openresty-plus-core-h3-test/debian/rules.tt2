@@ -1,11 +1,15 @@
 #!/usr/bin/make -f
 
 DPKG_EXPORT_BUILDFLAGS = 1
-OR_PREFIX = /usr/local/openresty-plus-core-h3
+OR_PREFIX = /usr/local/openresty-plus-core-h3-test
 HYPERSCAN_PREFIX = /usr/local/openresty-plus/hyperscan
 MAXMINDDB_PREFIX = /usr/local/openresty-plus/maxminddb
 WASM_PREFIX = /usr/local/openresty-plus/wasm
 ORUTILS_PREFIX = /usr/local/openresty-utils
+
+LJ_DEBUG_CC_OPTS = -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 \
+    -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
+
 
 include /usr/share/dpkg/default.mk
 
@@ -29,7 +33,7 @@ export CCO_LIB=$(LIBCCO_PREFIX)/lib
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
-	dh $@ --parallel --with autotools-dev
+	dh $@ --parallel --with autotools-dev,systemd
 
 override_dh_auto_test:
 
@@ -40,15 +44,15 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./configure \
     --prefix="$(OR_PREFIX)" \
-    --with-cc='ccache gcc'  \
-    --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
+    --with-cc='ccache gcc' \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
     -I/usr/local/openresty/pcre/include -I/usr/local/openresty/boringssl/include \
       [% IF with_coro_nginx_module %] -I$(LIBCCO_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(HIREDIS_PREFIX)/include -I$(LIBMARIADB_PREFIX)/include/mariadb -I$(LIBMEMCACHED_PREFIX)/include -I$(CYRUS_SASL_PREFIX)/include [% END %] \
       [% IF with_tcmalloc %] -I$(TCMALLOC_PREFIX)/include [% END %] \
        -g3" \
-    --with-ld-opt="../license/en_plus_init.o -L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/boringssl/lib \
+    --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/boringssl/lib \
       [% IF with_coro_nginx_module %] -L$(LIBCCO_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -Wl,-rpath,$(LIBCCO_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib [% END %] \
-      [% IF with_tcmalloc %] -L$(TCMALLOC_PREFIX)/lib -Wl,-rpath,$(TCMALLOC_PREFIX)/lib -ltcmalloc [% END %] \
+       [% IF with_tcmalloc %] -L$(TCMALLOC_PREFIX)/lib -Wl,-rpath,$(TCMALLOC_PREFIX)/lib -ltcmalloc [% END %] \
       -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/boringssl/lib" \
     [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
     --with-pcre-jit \
@@ -114,7 +118,7 @@ override_dh_auto_build:
     --with-compat  \
     --with-http_v3_module \
     --with-stream_quic_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-luajit-xcflags='$(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     -j`nproc` \
 	&& make -j`nproc`
 
@@ -147,4 +151,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-plus-core-h3-dbgsym
+	dh_strip --dbg-package=openresty-plus-core-h3-test-dbgsym

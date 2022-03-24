@@ -1,4 +1,4 @@
-Name:           openresty-plus-core-h3
+Name:           openresty-plus-core-h3-test
 Version:        1.21.4.3.3
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
@@ -78,7 +78,7 @@ Requires:       glibc-devel
 
 AutoReqProv:        no
 
-%define orprefix            %{_usr}/local/openresty-plus-core-h3
+%define orprefix            %{_usr}/local/openresty-plus-core-h3-test
 %define zlib_prefix         %{_usr}/local/openresty/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty/boringssl
@@ -96,11 +96,14 @@ AutoReqProv:        no
 %define libmemcached_prefix %{_usr}/local/openresty-plus/libmemcached
 %define cyrus_sasl_prefix   %{_usr}/local/openresty-plus/cyrus-sasl
 
-
+%define lj_debug_cc_opts    -DLUAJIT_TEST_FIXED_ORDER=1 -DLUAJIT_SECURITY_STRID=0 -DLUAJIT_SECURITY_STRHASH=0 -DLUAJIT_SECURITY_PRNG=0 -DLUAJIT_SECURITY_MCODE=0 -DLUA_USE_APICHECK -DLUA_USE_ASSERT
 
 %description
-This package contains the core server for OpenResty+, an enhanced version of
-OpenResty. Built for production uses.
+This package contains the debug version of the core server for OpenResty+, an enhanced version of
+OpenResty.
+Built for running test purposes only.
+
+DO NOT USE THIS PACKAGE IN PRODUCTION!
 
 OpenResty is a full-fledged web platform by integrating the standard Nginx
 core, LuaJIT, many carefully written Lua libraries, lots of high quality
@@ -149,7 +152,7 @@ a single box.
 
 Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-h3-test >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -205,8 +208,8 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core-h3 >= %{version}-%{release}, perl(Digest::MD5)
-Requires:       openresty-plus-core-h3-doc >= %{version}-%{release}, openresty-plus-core-h3-resty >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-h3-test >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       openresty-plus-core-h3-test-doc >= %{version}-%{release}, openresty-plus-core-h3-test-resty >= %{version}-%{release}
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
@@ -242,7 +245,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
     -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
     -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
@@ -252,7 +255,7 @@ export CCO_LIB=%{libcco_prefix}/lib
     -I%{tcmalloc_prefix}/include \
 %endif
     -I%{openssl_prefix}/include -g3" \
-    --with-ld-opt="../license/en_plus_init.o -L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
 %if %{with coro_nginx_module}
     -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
     -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
@@ -344,7 +347,7 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-compat  \
     --with-http_v3_module \
     --with-stream_quic_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-luajit-xcflags='%{lj_debug_cc_opts} -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
     -j`nproc`
 
 make -j`nproc`
@@ -432,14 +435,6 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Wed Mar 9 2022 Yichun Zhang (agentzh) 1.21.4.3.3-1
-- upgraded openresty-plus to 1.21.4.3.3.
-* Sun Mar 6 2022 Yichun Zhang (agentzh) 1.21.4.3.2-1
-- upgraded openresty-plus to 1.21.4.3.2.
-* Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-2
-- upgraded openresty-plus to 1.21.4.3.1.
-* Tue Jan 4 2022 Yichun Zhang (agentzh) 1.21.4.3.1-1
-- upgraded openresty-plus to 1.21.4.3.1.
 * Sat Dec 4 2021 Yichun Zhang (agentzh) 1.21.4.2.1-1
 - upgraded openresty-plus to 1.21.4.2.1.
 * Mon Nov 22 2021 Yichun Zhang (agentzh) 1.21.4.1.1-1
