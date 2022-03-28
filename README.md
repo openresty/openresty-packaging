@@ -73,7 +73,7 @@ done
 If success, binary rpm files are under `~/rpmbuild/RPMS/` while source rpm files are under
 `~/rpmbuld/SRPMS/`.
 
-See the [How to create an RPM package wiki page](https://fedoraproject.org/wiki/How_to_create_an_RPM_package) for more details.
+See the [How to create an RPM package wiki page](https://docs.fedoraproject.org/en-US/quick-docs/creating-rpm-packages) for more details.
 
 [Back to TOC](#table-of-contents)
 
