@@ -1,3 +1,9 @@
+openresty-utils (0.28-2~[% distro %]1) [% distro %]; urgency=high
+
+  * add openresty-saas-pcre2 as dependency.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 30 Mar 2022 00:17:11 +0800
+
 openresty-utils (0.28-1~[% distro %]1) [% distro %]; urgency=high
 
   * added lj-gc-graph.

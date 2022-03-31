@@ -1,0 +1,6 @@
+openresty-saas-pcre2 (10.39-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded pcre2 to 10.39.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 29 Mar 2022 00:00:00 +0800
+

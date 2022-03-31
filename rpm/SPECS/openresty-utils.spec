@@ -1,28 +1,24 @@
 Name:           openresty-utils
 Version:        0.28
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
 License:        Proprietary
 URL:            https://www.openresty.com
 
-%define prefix  %{_usr}/local/openresty-utils
-%define pcre_prefix /opt/openresty-saas/pcre
+%define prefix          /usr/local/openresty-utils
+%define pcre_prefix     /opt/openresty-saas/pcre
+%define pcre2_prefix    /opt/openresty-saas/pcre2
 
 
 Source0:        %{name}-%{version}.tar.gz
 
 AutoReqProv:    no
 BuildRequires:  ccache, gcc, make, openresty-saas-pcre-devel
-BuildRequires:  pcre2-devel
+BuildRequires:  openresty-saas-pcre2-devel >= 10.39
 Requires:       openresty-saas-pcre
-
-%if 0%{?suse_version}
-Requires:       libpcre2-8-0
-%else
-Requires:       pcre2
-%endif
+Requires:       openresty-saas-pcre2
 
 %description
 OpenResty Utils
@@ -63,6 +59,8 @@ OpenResty Utils
 make -j`nproc` \
     CC='ccache gcc -fdiagnostics-color=always' \
     CFLAGS="-O3 -g3 -std=gnu99" \
+    CXXFLAGS="-std=gnu++11 -g3 -Wall -Werror -O3 -I./src/include -I%{pcre_prefix}/include -I%{pcre2_prefix}/include" \
+    LJ_GC_GRAPH_LDFLAGS="-L%{pcre2_prefix}/lib -Wl,-rpath,%{pcre2_prefix}/lib -lpcre2-8" \
     PCRE_PREFIX=%{pcre_prefix}
 
 %install

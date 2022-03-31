@@ -8,6 +8,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 PCRE_PREFIX = /opt/openresty-saas/pcre
+PCRE2_PREFIX = /opt/openresty-saas/pcre2
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -22,6 +23,8 @@ override_dh_auto_build:
 	make -j`nproc` \
 		CC='ccache gcc' \
 		CFLAGS="-O3 -g3 -std=gnu99" \
+		CXXFLAGS="-std=gnu++11 -g3 -Wall -Werror -O3 -I./src/include -I$(PCRE_PREFIX)/include -I$(PCRE2_PREFIX)/include" \
+		LJ_GC_GRAPH_LDFLAGS="-L$(PCRE2_PREFIX)/lib -Wl,-rpath,$(PCRE2_PREFIX)/lib -lpcre2-8" \
 		PCRE_PREFIX=$(PCRE_PREFIX)
 
 override_dh_auto_install:

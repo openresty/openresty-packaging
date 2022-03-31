@@ -1,0 +1,3 @@
+opt/openresty-saas/pcre2/lib/*.so
+opt/openresty-saas/pcre2/lib/pkgconfig/*
+opt/openresty-saas/pcre2/include/*.h
