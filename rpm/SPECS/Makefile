@@ -114,7 +114,8 @@ priv_targets = openresty-plus \
 		openresty-docker \
 		openresty-libmariadb \
 		openresty-cyrus-sasl \
-		openresty-tcmalloc
+		openresty-tcmalloc \
+		openresty-saas-pcre2
 
 
 .PHONY: all
