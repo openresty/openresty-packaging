@@ -1,3 +1,9 @@
+openresty-zlib (1.2.12-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded zlib to 1.2.12.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 31 Mar 2022 22:57:23 +0800
+
 openresty-zlib (1.2.11-3~[% distro %]1) [% distro %]; urgency=low
 
   * bugfix: we did not enable debuginfo in the shared library files.

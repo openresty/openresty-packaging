@@ -18,11 +18,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  ccache, make, perl, systemtap-sdt-devel, gcc, valgrind-devel
 
 BuildRequires:  perl-File-Temp
-BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-16
+BuildRequires:  openresty-zlib-asan-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1i-4
 BuildRequires:  openresty-pcre-asan-devel >= 8.44-4
 
-Requires:       openresty-zlib-asan >= 1.2.11-16
+Requires:       openresty-zlib-asan >= 1.2.12-1
 Requires:       openresty-openssl111-asan >= 1.1.1i-4
 Requires:       openresty-pcre-asan >= 8.44-4
 
