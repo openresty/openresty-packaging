@@ -1,0 +1,28 @@
+Source: openresty-libdemangle
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://gcc.gnu.org/mirrors.html
+
+Package: openresty-libdemangle
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The C++ demangle library for OpenResty Plus
+ This is a library that provides an API for parsing C++ demangle names.
+
+Package: openresty-libdemangle-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libdemangle (>= ${source:Upstream-Version})
+Description: Development files for OpenResty's libdemangle library
+ This is a library that provides an API for parsing C++ demangle names.
+
+Package: openresty-libdemangle-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-libdemangle (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-libdemangle package
+ Debug symbols (or debuginfo) for the openresty-libdemangle package.
