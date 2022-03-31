@@ -244,6 +244,8 @@ export CCO_LIB=%{libcco_prefix}/lib
 
 ./configure \
     --prefix="%{orprefix}" \
+    --with-lmdb-xcflags="-O3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-patlist-xcxxflags="-O2" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
