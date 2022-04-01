@@ -15,7 +15,7 @@ my $version = shift or die "No version number specified.\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ SSL111_VER = ( \d+ (?: \.\d+ ){2} [a-z] ) $/OR_VER=$version/msx) {
+        if (s/^ SSL111_VER = ( \d+ (?: \.\d+ ){2} [a-z] ) $/SSL111_VER=$version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
