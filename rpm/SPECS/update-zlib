@@ -4,29 +4,29 @@ use v5.10.1;
 use strict;
 use warnings;
 
-sub update_pcre_spec ($);
+sub update_zlib_spec ($);
 sub update_or_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-for my $specfile (reverse sort glob 'openresty-pcre*.spec') {
-    update_pcre_spec $specfile;
+for my $specfile (reverse sort glob 'openresty-zlib*.spec') {
+    update_zlib_spec $specfile;
 }
 
-sub update_pcre_spec ($) {
+sub update_zlib_spec ($) {
     my $file = shift;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-pcre\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty-zlib\b/xsm) {
         die "Bad file content in $file";
     }
 
     my $changes = 0;
 
-    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){1} ) $/Version:$1$version/xsm) {
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
             say "INFO: $file: version got changed from $old_ver to $version";
@@ -95,8 +95,8 @@ sub update_or_spec ($) {
     my $changes = 0;
     my $found;
 
-    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-pcre
-                    (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){1} )
+    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-zlib
+                    (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){2} )
                     ( - \d+)?
                     $/push @old_vers, $2; "$1$version-1"/exsmg)
     {

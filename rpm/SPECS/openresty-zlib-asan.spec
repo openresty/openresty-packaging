@@ -1,6 +1,6 @@
 Name:               openresty-zlib-asan
-Version:            1.2.11
-Release:            17%{?dist}
+Version:            1.2.12
+Release:            1%{?dist}
 Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -108,6 +108,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
+- upgraded PCRE to 1.2.12.
 * Sat Jul 15 2017 Yichun Zhang (agentzh) 1.2.11-6
 - specify the correct CC environment before running ./configure too.
 * Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-5

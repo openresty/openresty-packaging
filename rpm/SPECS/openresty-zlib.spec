@@ -1,6 +1,6 @@
 Name:               openresty-zlib
-Version:            1.2.11
-Release:            4%{?dist}
+Version:            1.2.12
+Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -98,6 +98,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
+- upgraded PCRE to 1.2.12.
 * Fri Jul 14 2017 Yichun Zhang 1.2.11-3
 - bugfix: we did not enable debuginfo in the shared library files.
 * Sat May 20 2017 Yichun Zhang 1.2.11-2
