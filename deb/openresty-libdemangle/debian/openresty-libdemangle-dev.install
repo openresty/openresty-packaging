@@ -1,1 +1,3 @@
 usr/local/openresty-libdemangle/include/demangle.h
+usr/local/openresty-libdemangle/include/libiberty.h
+usr/local/openresty-libdemangle/include/ansidecl.h

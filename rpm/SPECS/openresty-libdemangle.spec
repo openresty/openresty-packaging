@@ -70,7 +70,8 @@ export JOBS=${JOBS:-9}
 cd ./libiberty/
 CFLAGS=-fPIC ./configure
 make -j${JOBS} > /dev/stderr
-cc -shared ./cp-demangle.o ./rust-demangle.o ./d-demangle.o ./cplus-dem.o ./cp-demint.o ./safe-ctype.o -o libdemangle.so
+cc -shared ./cp-demangle.o ./rust-demangle.o ./d-demangle.o ./cplus-dem.o \
+./cp-demint.o ./safe-ctype.o ./xstrdup.o ./xmalloc.o ./xmemdup.o ./xexit.o -o libdemangle.so
 
 
 %install
@@ -79,6 +80,8 @@ mkdir -p $RPM_BUILD_ROOT/%{libdemangle_prefix}/include
 
 install -m 755 ./libiberty/libdemangle.so $RPM_BUILD_ROOT/%{libdemangle_prefix}/lib/
 install -m 644 ./include/demangle.h $RPM_BUILD_ROOT/%{libdemangle_prefix}/include/
+install -m 644 ./include/libiberty.h $RPM_BUILD_ROOT/%{libdemangle_prefix}/include/
+install -m 644 ./include/ansidecl.h $RPM_BUILD_ROOT/%{libdemangle_prefix}/include/
 
 
 %clean
@@ -95,8 +98,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 
 %{libdemangle_prefix}/include/demangle.h
+%{libdemangle_prefix}/include/libiberty.h
+%{libdemangle_prefix}/include/ansidecl.h
 
 
 %changelog
-* Mon Mar 23 2022 Yichun Zhang 11.2.0
+* Wed Mar 23 2022 Yichun Zhang 11.2.0
 - initial version

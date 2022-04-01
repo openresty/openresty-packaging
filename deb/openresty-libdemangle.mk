@@ -5,7 +5,7 @@ OPENRESTY_LIBDEMANGLE_VER := 11.2.0
 
 .PHONY: openresty-libdemangle-download
 openresty-libdemangle-download:
-	wget -nH --cut-dirs=100 --mirror 'https://github.com/gcc-mirror/gcc/archive/refs/tags/releases/gcc-$(OPENRESTY_LIBDEMANGLE_VER).tar.gz'
+	LANG=C LC_ALL='C.UTF-8' wget -nH --cut-dirs=100 --mirror 'https://github.com/gcc-mirror/gcc/archive/refs/tags/releases/gcc-$(OPENRESTY_LIBDEMANGLE_VER).tar.gz'
 	rm -rf openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
 	mkdir -p openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
 	tar -xf gcc-$(OPENRESTY_LIBDEMANGLE_VER).tar.gz --strip-components=1 -C openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
