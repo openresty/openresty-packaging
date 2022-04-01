@@ -1,3 +1,9 @@
+openresty-saas-zlib (1.2.12-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.2.12.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 31 Mar 2022 23:23:55 +0800
+
 openresty-saas-zlib (1.2.11-2~[% distro %]1) [% distro %]; urgency=low
 
   * bugfix: use different build flags to avoid build id conflicts.
