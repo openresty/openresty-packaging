@@ -7,8 +7,8 @@ Group:              System Environment/Libraries
 
 # /contrib/dotzlib/ have Boost license
 License:            zlib and Boost
-URL:                http://www.zlib.net/
-Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
+URL:                https://www.zlib.net/
+Source0:            https://www.zlib.net/zlib-%{version}.tar.xz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -73,7 +73,7 @@ Provides C header and static library for OpenResty's gcc AddressSanitizer versio
 %build
 export ASAN_OPTIONS=detect_leaks=0
 
-CC="gcc -fsanitize=address" ./configure --prefix=%{zlib_prefix}
+./configure --prefix=%{zlib_prefix}
 
 make -j`nproc` CC="gcc -fsanitize=address" \
     CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
