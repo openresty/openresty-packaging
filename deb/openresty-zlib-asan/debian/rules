@@ -19,7 +19,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	export ASAN_OPTIONS=detect_leaks=0 \
-		&& CC="gcc -fsanitize=address" ./configure --prefix=/usr/local/openresty-asan/zlib \
+		&& ./configure --prefix=/usr/local/openresty-asan/zlib \
 		&& make -j`nproc` CC="gcc -fsanitize=address" \
     CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \

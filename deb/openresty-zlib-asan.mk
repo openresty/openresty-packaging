@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ZLIB_ASAN_VER := 1.2.11
+OPENRESTY_ZLIB_ASAN_VER := $(ZLIB_VER)
 
 .PHONY: openresty-zlib-asan-download
 openresty-zlib-asan-download:
