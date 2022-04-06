@@ -1,0 +1,22 @@
+commit de284453215468a14d4fcdf7138125977268a290
+Author: lijunlong <lijunlong@openresty.com>
+Date:   Mon Apr 4 17:26:39 2022 +0800
+
+    change: do not unwindstack when grow heap.
+
+diff --git a/src/stacktrace.cc b/src/stacktrace.cc
+index 32b16fa..d4d4330 100644
+--- a/src/stacktrace.cc
++++ b/src/stacktrace.cc
+@@ -280,8 +280,9 @@ namespace {
+     bool stacktrace_allowed;
+   public:
+     StacktraceScope() {
+-      stacktrace_allowed = true;
+-      stacktrace_allowed = EnterStacktraceScope();
++      //stacktrace_allowed = true;
++      //stacktrace_allowed = EnterStacktraceScope();
++      stacktrace_allowed = false;
+     }
+     bool IsStacktraceAllowed() {
+       return stacktrace_allowed;

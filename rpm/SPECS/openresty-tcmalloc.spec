@@ -3,12 +3,13 @@
 
 Name:		openresty-tcmalloc
 Version:	2.9.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	BSD
 Summary:	Very fast malloc and performance analysis tools
 Group:      System Environment/Libraries
-URL:		https://github.com/gperftools/gperftools
-Source0:	https://github.com/gperftools/gperftools/archive/%{pkgname}-%{version}.tar.gz
+URL:        https://github.com/gperftools/gperftools
+Source0:    https://github.com/gperftools/gperftools/archive/%{pkgname}-%{version}.tar.gz
+Patch0:     tcmalloc_disable_unwind.patch
 
 BuildRequires:  gcc-c++
 BuildRequires:	autoconf, automake, libtool
@@ -64,6 +65,8 @@ Libraries and headers for developing applications that use gperftools.
 %prep
 %setup -qn %{pkgname}-%{version}
 
+%patch0 -p1
+
 # No need to have exec permissions on source code
 chmod -x src/*.h src/*.cc
 
@@ -102,6 +105,8 @@ rm -f %{buildroot}%{orprefix}/bin/pprof-symbolize
 %{orprefix}/lib/pkgconfig/*.pc
 
 %changelog
+* Mon Apr 6 2022 Jiahao Wang <lijunlong@openresty.com> - 2.9.1-5
+- Upgraded to 2.9.1.
 * Mon Feb 28 2022 Jiahao Wang <wangjiahao@openresty.com> - 2.9.1-4
 - Upgraded to 2.9.1.
 * Mon Feb 28 2022 Jiahao Wang <wangjiahao@openresty.com> - 2.9.1-1

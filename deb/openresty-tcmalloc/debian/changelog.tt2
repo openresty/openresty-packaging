@@ -1,3 +1,9 @@
+openresty-tcmalloc (2.9.1-5~[% distro %]1) [% distro %]; urgency=high
+
+  * added missing dependency package for tcmalloc-dev.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 6 Apr 2022 21:51:00 +0800
+
 openresty-tcmalloc (2.9.1-4~[% distro %]1) [% distro %]; urgency=high
 
   * added missing dependency package for tcmalloc-dev.
