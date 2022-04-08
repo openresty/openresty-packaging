@@ -20,7 +20,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./autogen.sh --prefix=$(PREFIX) --libdir=$(PREFIX)/lib \
-		--enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111 \
+		--enable-gssapi=no --with-openssl=/usr/local/openresty-plus/openssl111 \
 		&& make -j`nproc` > /dev/stderr
 
 override_dh_auto_install:

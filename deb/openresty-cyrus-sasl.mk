@@ -21,8 +21,8 @@ openresty-cyrus-sasl-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-cyrus-sasl-build
 openresty-cyrus-sasl-build: openresty-cyrus-sasl-clean openresty-cyrus-sasl-download
-	sudo apt-get -y -q install libtool
-	sudo apt-get -y -q install --only-upgrade libtool
+	sudo apt-get -y -q install libtool openresty-plus-openssl111
+	sudo apt-get -y -q install --only-upgrade libtool openresty-plus-openssl111
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-cyrus-sasl_$(OPENRESTY_CYRUS_SASL_VER).orig.tar.gz --strip-components=1 -C openresty-cyrus-sasl
 	cd openresty-cyrus-sasl \

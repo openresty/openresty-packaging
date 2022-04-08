@@ -1,7 +1,7 @@
 Name:               openresty-cyrus-sasl
 Version:            2.1.28
-Release:            2%{?dist}
-Summary:            This is the Cyrus SASL API implementation. It can be used on the client or server side to provide authentication and authorization services. 
+Release:            3%{?dist}
+Summary:            This is the Cyrus SASL API implementation. It can be used on the client or server side to provide authentication and authorization services.
 
 Group:              System Environment/Libraries
 
@@ -11,7 +11,9 @@ Source0:            https://github.com/cyrusimap/cyrus-sasl/archive/cyrus-sasl-%
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      libtool
+BuildRequires:      libtool, openresty-plus-openssl111
+
+Requires:           openresty-plus-openssl111
 
 AutoReqProv:        no
 
@@ -67,7 +69,7 @@ mv cyrus-sasl-cyrus-sasl-%{version}/* .
 %build
 ./autogen.sh --prefix=%{sasl_prefix} \
     --libdir=%{sasl_prefix}/lib  \
-    --enable-gssapi=no --with-openssl=/usr/local/openresty/openssl111
+    --enable-gssapi=no --with-openssl=/usr/local/openresty-plus/openssl111
 make -j`nproc` > /dev/stderr
 
 
@@ -96,6 +98,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Apr 8 2022 Yichun Zhang (agentzh) 2.1.28-3
+- upgraded openresty-cyrus-sasl to 2.1.28.
 * Fri Mar 4 2022 Yichun Zhang (agentzh) 2.1.28-2
 - upgraded openresty-cyrus-sasl to 2.1.28.
 * Fri Mar 4 2022 Yichun Zhang (agentzh) 2.1.28-1
