@@ -16,6 +16,6 @@ Description: TimescaleDB PostgreSQL extension
 Package: openresty-postgresql-timescaledb-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-postgresql-timescaledb (>= 1.7.4)
+Depends: ${misc:Depends}, openresty-postgresql-timescaledb (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-postgresql-timescaledb package
  Debug symbols (or debuginfo) for the openresty-postgresql-timescaledb package.

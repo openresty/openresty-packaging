@@ -16,6 +16,6 @@ Description: OpenResty XRay Stats Python Library
 Package: openresty-python3-xray-stats-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-python3-xray-stats (>= 0.0.1)
+Depends: ${misc:Depends}, openresty-python3-xray-stats (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-python3-xray-stats package
  Debug symbols (or debuginfo) for the openresty-python3-xray-stats package.

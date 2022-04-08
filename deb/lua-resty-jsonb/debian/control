@@ -16,6 +16,6 @@ Description: Lua module for manipulating jsonb data
 Package: lua-resty-jsonb-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, lua-resty-jsonb (>= 0.0.4)
+Depends: ${misc:Depends}, lua-resty-jsonb (>= ${source:Upstream-Version})
 Description: Debug symbols for the lua-resty-jsonb package
  Debug symbols (or debuginfo) for the lua-resty-jsonb package.

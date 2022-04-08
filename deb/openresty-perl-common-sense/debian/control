@@ -17,6 +17,6 @@ Description: unknown
 Package: openresty-perl-common-sense-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-perl-common-sense (>= 3.75)
+Depends: ${misc:Depends}, openresty-perl-common-sense (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-perl-common-sense package
  Debug symbols (or debuginfo) for the openresty-perl-common-sense package.

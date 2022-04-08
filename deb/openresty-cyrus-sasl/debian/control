@@ -16,7 +16,7 @@ Description: This is the Cyrus SASL API implementation. It can be used on the cl
 Package: openresty-cyrus-sasl-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-cyrus-sasl (>= 2.1.28)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-cyrus-sasl (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's cyrus-sasl library
  Provides C header and static library for OpenResty's cyrus-sasl library.
 

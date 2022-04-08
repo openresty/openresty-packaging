@@ -16,7 +16,7 @@ Description: The high performance c-coherent library for OpenResty
 Package: openresty-libcco-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libcco (>= 0.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libcco (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's libcco library
  Provides C header and static library for OpenResty's libcco library.
 

@@ -16,6 +16,6 @@ Description: Nearly transparent SSL encapsulation for IO::Socket::INET.
 Package: openresty-perl-io-socket-ssl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-perl-io-socket-ssl (>= 2.071)
+Depends: ${misc:Depends}, openresty-perl-io-socket-ssl (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-perl-io-socket-ssl package
  Debug symbols (or debuginfo) for the openresty-perl-io-socket-ssl package.

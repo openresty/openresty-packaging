@@ -18,7 +18,7 @@ Description: Yet Another JSON Library (YAJL) or OpenResty
 Package: openresty-yajl-dev
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= 2.1.0.2)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= ${source:Upstream-Version})
 Description: Libraries, includes, etc to develop with YAJL
  Yet Another JSON Library. YAJL is a small event-driven
  (SAX-style) JSON parser written in ANSI C, and a small
@@ -29,6 +29,6 @@ Description: Libraries, includes, etc to develop with YAJL
 Package: openresty-yajl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= 2.1.0.2)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-yajl (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-yajl package
  Debug symbols (or debuginfo) for the openresty-yajl package.

@@ -21,6 +21,6 @@ Description: OpenResty's fork of setuptools
 Package: openresty-python3-setuptools-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-python3-setuptools (>= 39.2.0)
+Depends: ${misc:Depends}, openresty-python3-setuptools (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-python3-setuptools package
  Debug symbols (or debuginfo) for the openresty-python3-setuptools package.

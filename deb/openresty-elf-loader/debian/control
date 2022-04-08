@@ -16,7 +16,7 @@ Description: The elf-loader library for OpenResty
 Package: openresty-elf-loader-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elf-loader (>= 0.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elf-loader (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's elf loader library
  Provides C header and static library for OpenResty's elf loader library.
 

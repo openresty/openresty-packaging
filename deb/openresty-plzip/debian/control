@@ -19,6 +19,6 @@ Description: OpenResty's fork of plzip.
 Package: openresty-plzip-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-plzip (>= 1.8)
+Depends: ${misc:Depends}, openresty-plzip (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-plzip package
  Debug symbols (or debuginfo) for the openresty-plzip package.

@@ -19,13 +19,13 @@ Description: OpenResty's fork of SystemTap
 Package: openresty-elfutils-dev
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elfutils (>= 0.176.6)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elfutils (>= ${source:Upstream-Version})
 Description: devel files for OpenResty's fork of elfutils
  OpenResty's fork of elfutils.
 
 Package: openresty-elfutils-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-elfutils (>= 0.176.6)
+Depends: ${misc:Depends}, openresty-elfutils (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-elfutils package
  Debug symbols (or debuginfo) for the openresty-elfutils package.

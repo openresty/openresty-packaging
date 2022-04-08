@@ -16,7 +16,7 @@ Description: The Wasm library for OpenResty
 Package: lua-resty-wasm-dev
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, lua-resty-wasm (>= 0.0.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, lua-resty-wasm (>= ${source:Upstream-Version})
 Description: Development files for OpenResty's wasm library
  Provides C header and static library for OpenResty's wasm library.
 

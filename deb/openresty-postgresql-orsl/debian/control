@@ -16,6 +16,6 @@ Description: PostgreSQL extension contains utilities used in mini-sl
 Package: openresty-postgresql-orsl-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-postgresql-orsl (>= 0.01)
+Depends: ${misc:Depends}, openresty-postgresql-orsl (>= ${source:Upstream-Version})
 Description: Debug symbols for the openresty-postgresql-orsl package
  Debug symbols (or debuginfo) for the openresty-postgresql-orsl package.
