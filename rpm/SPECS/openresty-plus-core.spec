@@ -1,6 +1,6 @@
 Name:           openresty-plus-core
 Version:        1.19.9.1.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -260,6 +260,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 
 ./configure \
     --prefix="%{orprefix}" \
+    --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O3" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
