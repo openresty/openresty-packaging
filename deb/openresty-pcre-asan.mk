@@ -1,11 +1,11 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PCRE_ASAN_VER := 8.44
+OPENRESTY_PCRE_ASAN_VER := 8.45
 
 .PHONY: openresty-pcre-asan-download
 openresty-pcre-asan-download:
-	wget -nH --cut-dirs=100 --mirror 'https://ftp.pcre.org/pub/pcre/pcre-$(OPENRESTY_PCRE_ASAN_VER).tar.bz2'
+	wget -nH --cut-dirs=100 --mirror 'https://sourceforge.net/projects/pcre/files/pcre/$(OPENRESTY_PCRE_ASAN_VER)/pcre-$(OPENRESTY_PCRE_ASAN_VER).tar.bz2'
 	rm -rf openresty-pcre-asan_$(OPENRESTY_PCRE_ASAN_VER)
 	mkdir -p openresty-pcre-asan_$(OPENRESTY_PCRE_ASAN_VER)
 	tar -xf pcre-$(OPENRESTY_PCRE_ASAN_VER).tar.bz2 --strip-components=1 -C openresty-pcre-asan_$(OPENRESTY_PCRE_ASAN_VER)

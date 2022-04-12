@@ -18,10 +18,10 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1h-1
-BuildRequires:  openresty-pcre-devel >= 8.44-1
+BuildRequires:  openresty-pcre-devel >= 8.45-1
 Requires:       openresty-zlib >= 1.2.12-1
 Requires:       openresty-openssl111-debug >= 1.1.1h-1
-Requires:       openresty-pcre >= 8.44-1
+Requires:       openresty-pcre >= 8.45-1
 
 AutoReqProv:        no
 
