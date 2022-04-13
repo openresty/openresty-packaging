@@ -7,7 +7,7 @@ WITH_CORO_NGINX_MODULE=1
 else
 WITH_CORO_NGINX_MODULE=0
 endif
-WITH_TCMALLOC=1
+WITH_TCMALLOC=0
 
 .PHONY: openresty-plus-core-download
 openresty-plus-core-download:

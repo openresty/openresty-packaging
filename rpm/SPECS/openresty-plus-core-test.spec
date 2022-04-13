@@ -23,7 +23,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 %bcond_without	lua_resty_mlcache
 %bcond_without	ngx_brotli
 %bcond_without	lua_resty_mail
-%bcond_without	coro_nginx_module
+%bcond_with  	coro_nginx_module
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
