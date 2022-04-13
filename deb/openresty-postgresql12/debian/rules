@@ -8,6 +8,10 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 
+PREFIX=/usr/local/openresty-postgresql12
+OPENSSL111_PREFIX=/usr/local/openresty-plus/openssl111
+ZLIB_PREFIX=/usr/local/openresty/zlib
+
 %:
 	-dh $@ --parallel --with autotools-dev
 
@@ -18,9 +22,9 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	./configure --prefix="/usr/local/openresty-postgresql12" \
-            --libdir="/usr/local/openresty-postgresql12/lib" \
-            --with-libraries="/usr/local/openresty-plus/openssl111/lib" \
+	./configure --prefix="$(PREFIX)" \
+            --libdir="$(PREFIX)/lib" \
+            --with-libraries="$(OPENSSL111_PREFIX)/lib" \
             --with-libxml \
             --with-blocksize=32 \
             --with-segsize=2 \
@@ -29,21 +33,21 @@ override_dh_auto_build:
             --with-openssl \
             --with-ossp-uuid \
             CC='ccache gcc' \
-            CFLAGS="-O2 -g3 -I/usr/local/openresty-plus/openssl111/include" \
-            LDFLAGS="-L. -Wl,-rpath,/usr/local/openresty-postgresql12/lib,-rpath,/usr/local/openresty-plus/openssl111/lib" \
+            CFLAGS="-O2 -g3 -I$(OPENSSL111_PREFIX)/include -I$(ZLIB_PREFIX)/include" \
+			LDFLAGS="-L$(OPENSSL111_PREFIX)/lib -L$(ZLIB_PREFIX)/lib -Wl,-rpath,$(OPENSSL111_PREFIX)/lib:$(ZLIB_PREFIX)/lib" \
 		&& make -j`nproc` MAKELEVEL=0
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) MAKELEVEL=0 \
 		&& make install-world DESTDIR=$(DESTDIR) MAKELEVEL=0 \
-		&& rm -rf $(DESTDIR)//usr/local/openresty-postgresql12/share/man \
-    $(DESTDIR)//usr/local/openresty-postgresql12/share/doc \
-		&& rm -f $(DESTDIR)//usr/local/openresty-postgresql12/lib/*/*.o \
-    $(DESTDIR)//usr/local/openresty-postgresql12/lib/st[a-zA-Z0-9]* \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-postgresql12/share/man \
+    $(DESTDIR)/usr/local/openresty-postgresql12/share/doc \
+		&& rm -f $(DESTDIR)/usr/local/openresty-postgresql12/lib/*/*.o \
+    $(DESTDIR)/usr/local/openresty-postgresql12/lib/st[a-zA-Z0-9]* \
 		&& install -d $(DESTDIR)/etc/init.d \
-		&& install -d $(DESTDIR)//usr/local/openresty-postgresql12/share/systemd \
-		&& install -p -m 0755 openresty-postgresql12.init $(DESTDIR)/etc/init.d/openresty-postgresql12 \
-		&& install -p -m 0755 openresty-postgresql12.service $(DESTDIR)//usr/local/openresty-postgresql12/share/systemd/openresty-postgresql12.service
+		&& install -d $(DESTDIR)/usr/local/openresty-postgresql12/share/systemd \
+		&& install -p -m 0755 debian/openresty-postgresql12.init $(DESTDIR)/etc/init.d/openresty-postgresql12 \
+		&& install -p -m 0755 debian/openresty-postgresql12.service $(DESTDIR)$(PREFIX)/share/systemd/openresty-postgresql12.service
 
 override_dh_auto_clean:
 	dh_clean
