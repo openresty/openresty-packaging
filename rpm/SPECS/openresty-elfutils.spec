@@ -18,6 +18,7 @@ AutoReqProv: no
 %define eu_prefix %{_usr}/local/%{name}
 
 %define yajl_prefix      %{_usr}/local/openresty-yajl
+%define libdemangle_prefix %{_usr}/local/openresty-libdemangle
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -39,6 +40,7 @@ BuildRequires: xz-devel
 BuildRequires: gcc-c++
 BuildRequires: autoconf
 BuildRequires: openresty-yajl-devel >= 2.1.0.3-2
+BuildRequires: openresty-libdemangle-devel
 BuildRequires: gawk
 BuildRequires: sed
 
@@ -51,6 +53,7 @@ Requires: libstdc++
 %endif
 
 Requires: openresty-yajl >= 2.1.0.3-2
+Requires: openresty-libdemangle
 
 %if 0%{?suse_version}
 Requires: libbz2-1
@@ -130,15 +133,15 @@ OpenResty's fork of elfutils.
 ./configure \
     --prefix="%{eu_prefix}" \
     --libdir="%{eu_prefix}/lib" \
-    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib -L%{yajl_prefix}/lib -lyajl -lrt' \
+    LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib -L%{yajl_prefix}/lib -lyajl -L%{libdemangle_prefix}/lib -ldemangle -lrt' \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -g3 -O2" \
+    CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g3 -O2" \
     %{yflags} \
     --enable-maintainer-mode \
     --disable-debuginfod \
     --enable-libdebuginfod=dummy
 
-sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib #' \
+sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib  #' \
     `find . -name Makefile`
 
 make -j`nproc` > /dev/null

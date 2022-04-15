@@ -20,12 +20,12 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./configure \
     --prefix=/usr/local/openresty-elfutils \
-    LIBS='-Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib -L/usr/local/openresty-yajl/lib -lyajl' \
-    CFLAGS="-I/usr/local/openresty-yajl/include -g3 -O2" \
+	LIBS='-Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib:/usr/local/openresty-libdemangle/lib -L/usr/local/openresty-yajl/lib -lyajl -L/usr/local/openresty-libdemangle/lib -ldemangle' \
+    CFLAGS="-I/usr/local/openresty-yajl/include -I/usr/local/openresty-libdemangle/include -g3 -O2" \
     --enable-maintainer-mode  \
     --disable-debuginfod      \
     --enable-libdebuginfod=dummy \
-		&& sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib #' \
+	&& sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib:/usr/local/openresty-libdemangle/lib #' \
     `find . -name Makefile` \
 		&& make -j`nproc` > /dev/null
 
