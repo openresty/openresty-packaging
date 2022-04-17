@@ -18,12 +18,12 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export JOBS=${JOBS:-9} \
-		&& cd ./libiberty/ \
-		&& CFLAGS=-fPIC ./configure \
-		&& make -j${JOBS} > /dev/stderr \
-		&& cc -shared ./cp-demangle.o ./rust-demangle.o ./d-demangle.o ./cplus-dem.o \
-./cp-demint.o ./safe-ctype.o ./xstrdup.o ./xmalloc.o ./xmemdup.o ./xexit.o -o libdemangle.so
+	cd ./libiberty/ \
+	    && CFLAGS="-fPIC -g3 -O2" ./configure \
+	    && make cp-demangle.o rust-demangle.o d-demangle.o cplus-dem.o \
+		   cp-demint.o safe-ctype.o xstrdup.o xmalloc.o xmemdup.o xexit.o -j$(nproc) \
+	    && cc -shared cp-demangle.o rust-demangle.o d-demangle.o cplus-dem.o \
+            cp-demint.o safe-ctype.o xstrdup.o xmalloc.o xmemdup.o xexit.o -o libdemangle.so
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-libdemangle/lib \

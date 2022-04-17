@@ -115,7 +115,8 @@ priv_targets = openresty-plus \
 		openresty-libmariadb \
 		openresty-cyrus-sasl \
 		openresty-tcmalloc \
-		openresty-saas-pcre2
+		openresty-saas-pcre2 \
+		openresty-libdemangle
 
 
 .PHONY: all
