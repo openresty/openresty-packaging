@@ -1,6 +1,6 @@
 Name:               openresty-libdemangle
 Version:            11.2.0
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            The C++ demangle library for OpenResty Plus
 
 Group:              System Environment/Libraries
@@ -31,7 +31,7 @@ This is a library that provides an API for parsing C++ demangle names.
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/openresty-libdemangle-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/gcc-releases-gcc-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -103,5 +103,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 18 2022 Yichun Zhang 11.2.0-2
+- fixed wrong debug path.
+- upgraded openresty-libdemangle to 11.2.0-2.
 * Wed Mar 23 2022 Yichun Zhang 11.2.0
 - initial version
