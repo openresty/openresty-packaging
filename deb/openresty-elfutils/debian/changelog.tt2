@@ -1,3 +1,9 @@
+openresty-elfutils (0.185.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded elfutils-plus to 0.185.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 19 Apr 2022 20:55:40 -0700
+
 openresty-elfutils (0.185.1-2~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: fixed broken symlink to eu-readelf2.
