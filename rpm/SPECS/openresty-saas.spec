@@ -6,7 +6,7 @@
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
-Version:    1.19.9.1.13
+Version:    1.19.9.1.15
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
@@ -73,6 +73,7 @@ OpenResty Plus for SaaS product clients.
 %build
 ./configure \
     --prefix="%{saas_or_prefix}" \
+    --with-lmdb-xcflags="-O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
@@ -166,6 +167,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Mon Apr 18 2022 Yichun Zhang (agentzh) 1.19.9.1.15-1
+- upgraded openresty-plus to 1.19.9.1.15.
 * Sun Apr 10 2022 Yichun Zhang (agentzh) 1.19.9.1.13-1
 - upgraded openresty-plus to 1.19.9.1.13.
 * Wed Mar 30 2022 Yichun Zhang (agentzh) 1.19.9.1.12-1
