@@ -13,4 +13,5 @@ usr/local/openresty-utils/bin/resty2
 usr/local/openresty-utils/bin/trie-gen
 usr/local/openresty-utils/lib/libtriegen.so
 usr/local/openresty-utils/bin/lj-gc-graph
+usr/local/openresty-utils/bin/demangle-nm
 usr/bin/resty2

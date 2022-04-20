@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.30
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -17,8 +17,11 @@ Source0:        %{name}-%{version}.tar.gz
 AutoReqProv:    no
 BuildRequires:  ccache, gcc, make, openresty-saas-pcre-devel
 BuildRequires:  openresty-saas-pcre2-devel >= 10.39
+BuildRequires:  openresty-libdemangle-devel
+
 Requires:       openresty-saas-pcre
 Requires:       openresty-saas-pcre2
+Requires:       openresty-libdemangle
 
 %description
 OpenResty Utils
@@ -93,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/trie-gen
 %{prefix}/lib/libtriegen.so
 %{prefix}/bin/lj-gc-graph
+%{prefix}/bin/demangle-nm
 /usr/bin/resty2
 
 

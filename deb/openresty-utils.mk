@@ -23,8 +23,8 @@ openresty-utils-clean:
 
 .PHONY: openresty-utils-build
 openresty-utils-build: openresty-utils-clean openresty-utils-download
-	sudo apt-get -y -q install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev openresty-saas-pcre2-dev
-	sudo apt-get -y -q --only-upgrade install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev openresty-saas-pcre2-dev
+	sudo apt-get -y -q install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev openresty-saas-pcre2-dev openresty-libdemangle-dev
+	sudo apt-get -y -q --only-upgrade install ccache gcc make $(deb_toolchain_pkgs) openresty-saas-pcre-dev openresty-saas-pcre2-dev openresty-libdemangle-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-utils_$(OPENRESTY_UTILS_VER).orig.tar.gz --strip-components=1 -C openresty-utils
 	cd openresty-utils \

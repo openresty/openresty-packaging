@@ -2,14 +2,14 @@ Source: openresty-utils
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.7), make, openresty-saas-pcre-dev, openresty-saas-pcre2-dev
+Build-Depends: debhelper (>= 9), ccache, gcc (>= 4.7), make, openresty-saas-pcre-dev, openresty-saas-pcre2-dev, openresty-libdemangle-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com
 
 Package: openresty-utils
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-pcre, openresty-saas-pcre2
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-pcre, openresty-saas-pcre2, openresty-libdemangle
 Description: OpenResty Utils
 
 Package: openresty-utils-dbgsym
