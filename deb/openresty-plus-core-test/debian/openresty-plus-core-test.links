@@ -2,4 +2,3 @@
 /usr/local/openresty-plus/hyperscan/lib/libhs_runtime.so /usr/local/openresty-plus-core-test/lualib/libhs_runtime.so
 /usr/local/openresty-plus/maxminddb/lib/libmaxminddb.so /usr/local/openresty-plus-core-test/lualib/libmaxminddb.so
 /usr/local/openresty-plus/wasm/lib/liborwasmrt.so /usr/local/openresty-plus-core-test/lualib/liborwasmrt.so
-/usr/local/openresty-utils/bin/resty2 /usr/local/openresty-plus-core-test/bin/resty2
