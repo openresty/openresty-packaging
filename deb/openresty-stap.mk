@@ -9,10 +9,10 @@ openresty-stap-download:
 	rsync -av systemtap-plus-$(OPENRESTY_STAP_VER).tar.gz openresty-stap_$(OPENRESTY_STAP_VER).orig.tar.gz
 
 openresty-stap-clean:
-	cd openresty-stap && debclean
+	-cd openresty-stap && debclean
 	-find openresty-stap -maxdepth 1 ! -name 'debian' ! -name 'openresty-stap' -print | xargs rm -rf
 	rm -f openresty-stap*.deb
-	rm -f openresty-stap_*.*
+	rm -rf openresty-stap_*.*
 
 .PHONY: openresty-stap-build
 openresty-stap-build: openresty-stap-clean openresty-stap-download

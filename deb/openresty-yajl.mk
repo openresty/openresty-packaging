@@ -9,10 +9,10 @@ openresty-yajl-download:
 	rsync -av yajl-plus-$(OPENRESTY_YAJL_VER).tar.gz openresty-yajl_$(OPENRESTY_YAJL_VER).orig.tar.gz
 
 openresty-yajl-clean:
-	cd openresty-yajl && debclean
+	-cd openresty-yajl && debclean
 	-find openresty-yajl -maxdepth 1 ! -name 'debian' ! -name 'openresty-yajl' -print | xargs rm -rf
 	rm -f openresty-yajl*.deb
-	rm -f openresty-yajl_*.*
+	rm -rf openresty-yajl_*.*
 
 .PHONY: openresty-yajl-build
 openresty-yajl-build: openresty-yajl-clean openresty-yajl-download
