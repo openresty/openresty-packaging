@@ -2,13 +2,6 @@
 ### Version: 0.01
 
 #OPENRESTY_PLUS_CORE_H3_VER := $(OR_PLUS_VER)
-OPENRESTY_PLUS_CORE_H3_VER := 1.21.4.3.3
-ifeq ($(ARCH), amd64)
-WITH_CORO_NGINX_MODULE=1
-else
-WITH_CORO_NGINX_MODULE=0
-endif
-WITH_TCMALLOC=1
 
 .PHONY: openresty-plus-core-h3-test-download
 openresty-plus-core-h3-test-download:

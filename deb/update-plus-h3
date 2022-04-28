@@ -13,13 +13,13 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
 }
 
 {
-    my $file = "openresty-plus-core-h3.mk";
+    my $file = "Makefile";
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_PLUS_CORE_H3_VER\ :=\ ( \d+ (?: \.\d+ ){4} ) $/OPENRESTY_PLUS_CORE_H3_VER := $version/msx) {
+        if (s/^ OPENRESTY_PLUS_CORE_H3_VER = ( \d+ (?: \.\d+ ){4} ) $/OPENRESTY_PLUS_CORE_H3_VER = $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
