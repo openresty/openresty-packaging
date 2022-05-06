@@ -1,0 +1,6 @@
+openresty-dw2c (0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 05 May 2022 00:00:00 -0700
+

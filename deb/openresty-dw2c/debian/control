@@ -1,0 +1,21 @@
+Source: openresty-dw2c
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, openresty-perl (>= 5.24.4), openresty-perl-b-c, openresty-perl-cpanel-json-xs, openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com
+
+Package: openresty-dw2c
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-perl-cpanel-json-xs
+Description: Tool for converting dwarf to C for OpenResty.
+ Tool for converting dwarf to C for OpenResty.
+
+Package: openresty-dw2c-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-dw2c (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-dw2c package
+ Debug symbols (or debuginfo) for the openresty-dw2c package.

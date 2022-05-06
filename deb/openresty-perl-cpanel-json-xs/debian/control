@@ -1,0 +1,23 @@
+Source: openresty-perl-cpanel-json-xs
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/Cpanel-JSON-XS/
+
+Package: openresty-perl-cpanel-json-xs
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: cPanel fork of JSON::XS, fast and correct serializing
+ This module converts Perl data structures to JSON and vice versa. Its
+ primary goal is to be correct and its secondary goal is to be fast.
+ To reach the latter goal it was written in C.
+
+Package: openresty-perl-cpanel-json-xs-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-cpanel-json-xs (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-perl-cpanel-json-xs package
+ Debug symbols (or debuginfo) for the openresty-perl-cpanel-json-xs package.

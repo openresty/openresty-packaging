@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-dw2c
+PERLCC = /usr/local/openresty-perl/bin/perlcc
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	for f in dw2c dw2macros dw2xml find-altlink-files; do \
+		$(PERLCC) -O2 -o $$f ./bin/$$f.pl || exit 1; \
+	done
+
+override_dh_auto_install:
+	install -d $(DESTDIR)$(PREFIX)/bin \
+		&& install -m 0755 dw2c dw2xml dw2macros find-altlink-files \
+    $(DESTDIR)$(PREFIX)/bin
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-dw2c-dbgsym
