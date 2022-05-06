@@ -1,0 +1,21 @@
+--- perl-5.24.4/inline.h	2018-03-23 12:37:49.000000000 -0700
++++ perl-5.24.4-patched/inline.h	2022-05-02 22:25:33.931000000 -0700
+@@ -170,11 +170,13 @@ S_SvREFCNT_dec(pTHX_ SV *sv)
+ PERL_STATIC_INLINE void
+ S_SvREFCNT_dec_NN(pTHX_ SV *sv)
+ {
+-    U32 rc = SvREFCNT(sv);
+-    if (LIKELY(rc > 1))
+-	SvREFCNT(sv) = rc - 1;
+-    else
+-	Perl_sv_free2(aTHX_ sv, rc);
++    if (LIKELY(sv != NULL)) {
++        U32 rc = SvREFCNT(sv);
++        if (LIKELY(rc > 1))
++            SvREFCNT(sv) = rc - 1;
++        else
++            Perl_sv_free2(aTHX_ sv, rc);
++    }
+ }
+
+ PERL_STATIC_INLINE void

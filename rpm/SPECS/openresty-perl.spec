@@ -4,13 +4,14 @@
 
 Name:           openresty-perl
 Version:        5.24.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of Perl programming language
 Group:          Development/Languages
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 URL:            http://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/perl-%{version}.tar.gz
 Patch0:         perl-pp-Guard-fix-for-really-old-bug-in-glibc-libcrypt.patch
+Patch1:         perl-fix-segfault-found-by-perlcc-with-cpaneljsonxs.patch
 BuildRequires:  ccache, gcc
 BuildRequires:  gawk, sed
 BuildRequires:  procps
@@ -74,6 +75,7 @@ Development headers for the OpenResty's fork of Perl.
 %setup -q -n perl-%{version}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 /bin/sh Configure -des \
@@ -157,5 +159,7 @@ rm -rf %{buildroot}
 %{archlib}/CORE/*.h
 
 %changelog
+* Thu May 5 2022 Jiahao Wang 5.24.4-4
+- fixed segfault found by perlcc with Cpanel::JSON::XS.
 * Sun Feb 7 2021 Jiahao Wang 5.24.4-1
 - initial build for perl 5.24.4.
