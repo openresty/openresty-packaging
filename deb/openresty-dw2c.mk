@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_DW2C_VER := 0.1
+OPENRESTY_DW2C_VER := 0.2
 
 .PHONY: openresty-dw2c-download
 openresty-dw2c-download:
