@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PERL_CPANEL_JSON_XS_VER := 4.27
+OPENRESTY_PERL_CPANEL_JSON_XS_VER := 4.28
 
 .PHONY: openresty-perl-cpanel-json-xs-download
 openresty-perl-cpanel-json-xs-download:

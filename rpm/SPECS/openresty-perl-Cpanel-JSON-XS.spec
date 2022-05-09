@@ -4,7 +4,7 @@
 %define         sitelib %{prefix}/lib/site_perl
 
 Name:           openresty-perl-Cpanel-JSON-XS
-Version:        4.27
+Version:        4.28
 Release:        1%{?dist}
 Summary:        cPanel fork of JSON::XS, fast and correct serializing
 License:        GPL+ or Artistic
@@ -62,5 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %{sitelib}/*
 
 %changelog
+* Mon May 9 2022 Yichun Zhang (agentzh) 4.28-1
+- upgraded openresty-utils to 4.28.
 * Thu May 05 2022 jiahao 4.27-1
 - Generated using cpantorpm

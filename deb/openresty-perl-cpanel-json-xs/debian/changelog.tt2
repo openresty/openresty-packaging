@@ -1,3 +1,9 @@
+openresty-perl-cpanel-json-xs (4.28-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-perl-cpanel-json-xs to 4.28.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 9 May 2022 12:19:19 +0800
+
 openresty-perl-cpanel-json-xs (4.27-1~[% distro %]1) [% distro %]; urgency=high
 
   * Generated using cpantorpm
