@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
 Version:        0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
@@ -10,6 +10,11 @@ URL:            https://www.openresty.com
 %define prefix          /usr/local/openresty-dw2c
 %define perlcc          /usr/local/openresty-perl/bin/perlcc
 
+%define perl_ver            5.24.4
+# NB: 5.24.4-4 is a version with the bugfix patch applied
+%define perl_ver_rel        5.24.4-4
+%define cpaneljsonxs_ver    4.28
+
 
 Source0:        dw2c-%{version}.tar.gz
 
@@ -18,13 +23,13 @@ AutoReq:        no
 AutoProv:       no
 
 BuildRequires:  ccache, gcc, make
-BuildRequires:  openresty-perl >= 5.24.4
+BuildRequires:  openresty-perl >= %{perl_ver_rel}
 BuildRequires:  openresty-perl-B-C
-BuildRequires:  openresty-perl-Cpanel-JSON-XS
-BuildRequires:  openresty-perl-devel >= 5.24.4
+BuildRequires:  openresty-perl-Cpanel-JSON-XS = %{cpaneljsonxs_ver}
+BuildRequires:  openresty-perl-devel >= %{perl_ver_rel}
 
-Requires:   openresty-perl >= 5.24.4
-Requires:   openresty-perl-Cpanel-JSON-XS
+Requires:       openresty-perl >= %{perl_ver_rel}
+BuildRequires:  openresty-perl-Cpanel-JSON-XS = %{cpaneljsonxs_ver}
 
 %description
 Tool for converting dwarf to C for OpenResty.
@@ -63,7 +68,7 @@ Tool for converting dwarf to C for OpenResty.
 
 %build
 for f in dw2c dw2macros dw2xml find-altlink-files; do \
-    %{perlcc} -O2 -o $f ./bin/$f.pl || exit 1; \
+    %{perlcc} -O2 --staticxs --Wc=-g -o $f ./bin/$f.pl || exit 1; \
 done
 
 %install

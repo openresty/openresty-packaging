@@ -20,8 +20,10 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
+	# NB: --staticxs: Link to static XS if available. If the XS libs
+	# are only available as shared libs link to those
 	for f in dw2c dw2macros dw2xml find-altlink-files; do \
-		$(PERLCC) -O2 -o $$f ./bin/$$f.pl || exit 1; \
+		$(PERLCC) --staticxs -O2 --Wc=-g -o $$f ./bin/$$f.pl || exit 1; \
 	done
 
 override_dh_auto_install:

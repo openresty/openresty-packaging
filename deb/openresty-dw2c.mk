@@ -3,6 +3,8 @@
 
 OPENRESTY_DW2C_VER := 0.2
 
+DEP_OR_PERL_CPANEL_JSON_XS_VER = 4.28-1~$(DISTRO)1
+
 .PHONY: openresty-dw2c-download
 openresty-dw2c-download:
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/dw2c-$(OPENRESTY_DW2C_VER).tar.gz ./
@@ -21,11 +23,16 @@ openresty-dw2c-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-dw2c-build
 openresty-dw2c-build: openresty-dw2c-clean openresty-dw2c-download
-	sudo apt-get -y -q install ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev
-	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev
+	sudo apt-get -y -q install ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev
+	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev
+	# NB: use fixed version number
+	sudo apt-get -y -q install openresty-perl-cpanel-json-xs=$(DEP_OR_PERL_CPANEL_JSON_XS_VER)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-dw2c_$(OPENRESTY_DW2C_VER).orig.tar.gz --strip-components=1 -C openresty-dw2c
 	cd openresty-dw2c \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& tpage \
+			--define perl_cpaneljsonxs_ver=$(DEP_OR_PERL_CPANEL_JSON_XS_VER) \
+			debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
