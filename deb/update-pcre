@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_control ($$);
 
 my $version = shift or die "No version number specified.\n";
 
@@ -41,7 +42,7 @@ my $version = shift or die "No version number specified.\n";
     }
 }
 
-for my $dir (reverse sort glob 'openresty-pcre*') {
+for my $dir (reverse sort glob '*') {
     next unless -d $dir && -d "$dir/debian";
     my $name = $dir;
     my $changelog = "$dir/debian/changelog.tt2";
@@ -49,8 +50,20 @@ for my $dir (reverse sort glob 'openresty-pcre*') {
         warn "Cannot find $changelog file\n";
         next;
     }
+
     #say $dir;
-    update_changelog $name, $changelog;
+    if ($dir =~ /openresty(?:-saas)?-pcre(?:-(?:asan|debug))?/) {
+        update_changelog $name, $changelog;
+    }
+
+    my $control = "$dir/debian/control.tt2";
+    if (!-f $control) {
+        $control = "$dir/debian/control";
+    }
+
+    if (-f $control) {
+        update_control $name, $control;
+    }
 }
 
 sub update_changelog ($$) {
@@ -102,4 +115,40 @@ _EOC_
     print $out $src;
     close $out;
     say "$file updated.";
+}
+
+sub update_control($$) {
+    my ($name, $file) = @_;
+
+    #warn "name: $name, file: $file";
+
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    my @old_vers;
+    my $changes = 0;
+    my $found;
+
+    #openresty-pcre-dev (>= 8.42)
+    if ($src =~ s/\b(openresty-pcre(?:-saas)?(?:-dev)?)\ \(>=\ (\d+\.\d{2})\)/push @old_vers, $2; "$1 (>= $version)"/exsmg)
+    {
+        for my $old_ver (@old_vers) {
+            $found = 1;
+            #warn "old $2, new: $version";
+            if ($old_ver ne $version) {
+                say "INFO: $file: version got changed from $old_ver to $version";
+                $changes++;
+            }
+        }
+    }
+
+    if ($changes > 0) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated with $changes change(s).";
+    }
 }

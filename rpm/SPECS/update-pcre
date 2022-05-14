@@ -75,7 +75,7 @@ sub update_ssl_spec ($) {
 
 for my $specfile (reverse sort glob 'openresty*.spec') {
     #warn "checking $specfile";
-    if ($specfile =~ /^openresty(?:-plus)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
+    if ($specfile =~ /^openresty(?:-(?:plus|saas))?(?:-core(?:-h3)?(?:-test)?)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
         update_or_spec $specfile;
     }
 }
@@ -95,7 +95,7 @@ sub update_or_spec ($) {
     my $changes = 0;
     my $found;
 
-    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-pcre
+    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty(?:-saas)?-pcre
                     (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){1} )
                     ( - \d+)?
                     $/push @old_vers, $2; "$1$version-1"/exsmg)

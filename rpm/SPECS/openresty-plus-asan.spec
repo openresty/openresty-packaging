@@ -30,7 +30,7 @@ BuildRequires:  ccache, make, perl, valgrind-devel, gcc
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.11-17
 BuildRequires:  openresty-plus-openssl111-asan-devel >= 1.1.1k-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.44-5
+BuildRequires:  openresty-pcre-asan-devel >= 8.45-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
@@ -47,7 +47,7 @@ BuildRequires:  openresty-plus-hyperscan-devel
 
 Requires:       openresty-zlib-asan >= 1.2.11-17
 Requires:       openresty-plus-openssl111-asan >= 1.1.1k-i
-Requires:       openresty-pcre-asan >= 8.44-5
+Requires:       openresty-pcre-asan >= 8.45-1
 Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-maxminddb-asan >= 1.4.2.4-3
 

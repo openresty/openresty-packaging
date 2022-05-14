@@ -25,11 +25,11 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-saas-openssl111-devel >= 1.1.1n-1
-BuildRequires:  openresty-saas-pcre-devel >= 8.44
+BuildRequires:  openresty-saas-pcre-devel >= 8.45-1
 BuildRequires:  glibc-devel
 Requires:       openresty-saas-zlib >= 1.2.12-1
 Requires:       openresty-saas-openssl111 >= 1.1.1n-1
-Requires:       openresty-saas-pcre >= 8.44
+Requires:       openresty-saas-pcre >= 8.45-1
 
 AutoReqProv:    no
 

@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
   systemtap-sdt-dev, openresty-zlib-dev (>= 1.2.11),
-  openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.44),
+  openresty-boringssl-dev (>= 20211114), openresty-pcre-dev (>= 8.45),
   libtool, libgd-dev, libc-dev, openresty-yajl-dev (>= 2.1.0.4),
   [% IF with_tcmalloc %] openresty-tcmalloc-dev [% END %],
   [% IF arch == 'amd64' %] openresty-plus-hyperscan-dev (>= 5.0.0) [% END -%],
@@ -52,7 +52,7 @@ Architecture: any
 Section: httpd
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
  openresty-zlib, libgd3,
- openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.44),
+ openresty-yajl (>= 2.1.0.4),openresty-pcre (>= 8.45),
  openresty-boringssl (>= 20211122),
   [% IF with_coro_nginx_module %], openresty-libcco, openresty-elf-loader,
   openresty-elfutils [% END %],

@@ -32,7 +32,7 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k-1
-BuildRequires:  openresty-pcre-devel >= 8.44-1
+BuildRequires:  openresty-pcre-devel >= 8.45-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
 BuildRequires:  gd-devel
@@ -62,7 +62,7 @@ BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
 Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl111 >= 1.1.1k-1
-Requires:       openresty-pcre >= 8.44-1
+Requires:       openresty-pcre >= 8.45-1
 Requires:       openresty-yajl >= 2.1.0.4
 %if %{with coro_nginx_module}
 Requires:       openresty-elfutils

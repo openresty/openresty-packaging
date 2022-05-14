@@ -3,7 +3,7 @@ Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev, ccache, make,
- openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1k), openresty-pcre-dev (>= 8.42),
+ openresty-zlib-dev, openresty-plus-openssl111-dev (>= 1.1.1k), openresty-pcre-dev (>= 8.45),
  perl, libfile-temp-perl, libgd-dev, libc-dev, [% IF arch == 'amd64' %]
  openresty-plus-hyperscan-dev (>= 5.0.0)[% END -%],
  [% IF with_coro_nginx_module %] openresty-elfutils-dev,openresty-libcco-dev, openresty-elf-loader-dev,
@@ -58,7 +58,7 @@ Description: OpenResty Plus Development Files (OPM)
 Package: openresty-plus-core-test
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, libc-dev,
- openresty-zlib, openresty-plus-openssl111 (>= 1.1.1k), openresty-pcre (>= 8.44), libgd3,
+ openresty-zlib, openresty-plus-openssl111 (>= 1.1.1k), openresty-pcre (>= 8.45), libgd3,
  openresty-yajl (>= 2.1.0.4),
   [% IF with_tcmalloc %] openresty-tcmalloc [% END %],
   [% IF with_coro_nginx_module %] openresty-libcco, openresty-elf-loader,
