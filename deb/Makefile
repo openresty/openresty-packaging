@@ -204,6 +204,8 @@ openresty-build: | openresty-clean openresty-download
 .PHONY: openresty-clean
 openresty-clean:
 	cd openresty && debclean
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
 	find openresty -maxdepth 1 ! -name 'debian' ! -name 'openresty' -print | xargs rm -rf
 	rm -f openresty*.deb
 	rm -f openresty_*.*
@@ -256,6 +258,8 @@ openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 .PHONY: openresty-valgrind-clean
 openresty-valgrind-clean:
 	-cd openresty-valgrind && debclean
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
 	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
 	rm -f openresty-valgrind*.deb
 	rm -f openresty-valgrind_*.*
