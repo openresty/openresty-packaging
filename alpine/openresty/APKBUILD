@@ -1,14 +1,14 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty"
-pkgver="1.19.9.1"
+pkgver="1.21.4.1"
 pkgrel=0
 pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
 arch="all"
 license="BSD"
-depends="openresty-openssl111>=1.1.1g-r0 openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl111-dev>=1.1.1g-r0 openresty-pcre-dev openresty-zlib-dev"
+depends="openresty-openssl111>=1.1.1n-r0 openresty-pcre openresty-zlib libgcc"
+makedepends="ccache perl openresty-openssl111-dev>=1.1.1n-r0 openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
     $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
@@ -169,6 +169,8 @@ static() {
     default_static
 }
 
-sha512sums="8e22c78930bc60f76bdf798264545009974f7ec0ed3756f4060217af7d36e7430d98bd0b9d5cea6fca407c22caf8954862ae3d17aa8bfc1c808e156961063ee5  openresty-1.19.9.1.tar.gz
+sha512sums="
+a388d9219b709c8e8042c65137db0ad3abd2094473f3cc65f389ab00d5884368e4e797466e0068787c8601be563da5f852d4294bd81bda47b329a22d76ccccb2  openresty-1.21.4.1.tar.gz
 c7d2d89634410a7beb1e8d4cb7e168d0a2b067c37889fa67018afa940dcf99b5e05db4b1a1fcad7939fd70a896f2c90854631308ef11a307f4064e7eef329d99  openresty.initd
-20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd"
+20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd
+"
