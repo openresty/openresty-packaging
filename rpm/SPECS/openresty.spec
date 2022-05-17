@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.19.9.1
+Version:        1.21.4.1
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -23,12 +23,12 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-devel >= 1.1.1h-1
-BuildRequires:  openresty-pcre-devel >= 8.44-1
-Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111 >= 1.1.1h-1
-Requires:       openresty-pcre >= 8.44-1
+BuildRequires:  openresty-zlib-devel >= 1.2.12-1
+BuildRequires:  openresty-openssl111-devel >= 1.1.1n-1
+BuildRequires:  openresty-pcre-devel >= 8.45-1
+Requires:       openresty-zlib >= 1.2.12-1
+Requires:       openresty-openssl111 >= 1.1.1n-1
+Requires:       openresty-pcre >= 8.45-1
 
 
 %if 0%{?suse_version}
@@ -339,6 +339,8 @@ fi
 
 
 %changelog
+* Tue May 17 2022 Yichun Zhang (agentzh) 1.21.4.1-1
+- upgraded openresty to 1.21.4.1.
 * Fri Aug 6 2021 Yichun Zhang (agentzh) 1.19.9.1-1
 - upgraded openresty to 1.19.9.1.
 * Mon May 31 2021 Yichun Zhang (agentzh) 1.19.3.2-1

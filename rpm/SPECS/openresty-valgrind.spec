@@ -1,5 +1,5 @@
 Name:           openresty-valgrind
-Version:        1.19.9.1
+Version:        1.21.4.1
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
@@ -19,12 +19,12 @@ BuildRequires:  gcc, make, perl, valgrind-devel, systemtap-sdt-devel
 Requires:       valgrind
 
 BuildRequires:  ccache, perl-File-Temp
-BuildRequires:  openresty-zlib-devel >= 1.2.11-3
-BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1h-1
-BuildRequires:  openresty-pcre-devel >= 8.44-1
-Requires:       openresty-zlib >= 1.2.11-3
-Requires:       openresty-openssl111-debug >= 1.1.1h-1
-Requires:       openresty-pcre >= 8.44-1
+BuildRequires:  openresty-zlib-devel >= 1.2.12-1
+BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1n-1
+BuildRequires:  openresty-pcre-devel >= 8.45-1
+Requires:       openresty-zlib >= 1.2.12-1
+Requires:       openresty-openssl111-debug >= 1.1.1n-1
+Requires:       openresty-pcre >= 8.45-1
 
 AutoReqProv:        no
 
@@ -169,6 +169,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue May 17 2022 Yichun Zhang (agentzh) 1.21.4.1-1
+- upgraded openresty to 1.21.4.1.
 * Fri Aug 6 2021 Yichun Zhang (agentzh) 1.19.9.1-1
 - upgraded openresty to 1.19.9.1.
 * Mon May 31 2021 Yichun Zhang (agentzh) 1.19.3.2-1
