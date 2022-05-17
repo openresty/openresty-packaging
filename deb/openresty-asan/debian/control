@@ -2,14 +2,14 @@ Source: openresty-asan
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, make, perl, valgrind, systemtap-sdt-dev, gcc, openresty-zlib-asan-dev (>= 1.2.12), openresty-openssl111-asan-dev (>= 1.1.1n), openresty-pcre-asan-dev (>= 8.44)
+Build-Depends: debhelper (>= 9), ccache, make, perl, valgrind, systemtap-sdt-dev, gcc, openresty-zlib-asan-dev (>= 1.2.12), openresty-openssl111-asan-dev (>= 1.1.1n), openresty-pcre-asan-dev (>= 8.45)
 Standards-Version: 3.9.8
 Homepage: https://openresty.org/
 
 Package: openresty-asan
 Architecture: any
 Section: httpd
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib-asan (>= 1.2.12), openresty-openssl111-asan (>= 1.1.1n), openresty-pcre-asan (>= 8.44)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib-asan (>= 1.2.12), openresty-openssl111-asan (>= 1.1.1n), openresty-pcre-asan (>= 8.45)
 Description: The AddressSanitizer (ASAN) version of OpenResty
  This package contains a gcc AddressSanitizer version of the core server
  for OpenResty with
