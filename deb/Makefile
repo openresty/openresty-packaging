@@ -229,6 +229,8 @@ openresty-debug-build: | openresty-debug-clean openresty-debug-download
 .PHONY: openresty-debug-clean
 openresty-debug-clean:
 	-cd openresty-debug && debclean
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
 	find openresty-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-debug' -print | xargs rm -rf
 	rm -f openresty-debug*.deb
 	rm -f openresty-debug_*.*
