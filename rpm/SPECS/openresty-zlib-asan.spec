@@ -109,7 +109,7 @@ rm -rf %{buildroot}
 
 %changelog
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
-- upgraded PCRE to 1.2.12.
+- upgraded zlib to 1.2.12.
 * Sat Jul 15 2017 Yichun Zhang (agentzh) 1.2.11-6
 - specify the correct CC environment before running ./configure too.
 * Fri Jul 14 2017 Yichun Zhang (agentzh) 1.2.11-5
