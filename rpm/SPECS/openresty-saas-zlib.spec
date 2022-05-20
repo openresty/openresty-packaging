@@ -100,6 +100,6 @@ rm -rf %{buildroot}
 
 %changelog
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
-- upgraded PCRE to 1.2.12.
+- upgraded zlib to 1.2.12.
 * Wed May 27 2020 Johnny Wang 1.2.11-1
 - initial build for zlib-saas 1.2.11.

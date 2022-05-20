@@ -57,7 +57,7 @@ sub update_zlib_spec ($) {
     $today =~ s/\s\s+/ /g;
     #warn "today: $today";
 
-    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded PCRE to $version.\n/xsm) {
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded zlib to $version.\n/xsm) {
         $changes++;
 
     } else {
