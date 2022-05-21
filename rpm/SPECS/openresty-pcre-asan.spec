@@ -72,7 +72,7 @@ This is the gcc AddressSanitizer version.
 
 %build
 export CC="ccache gcc -fsanitize=address"
-export CFLAGS="-O1 -fno-omit-frame-pointer -g"
+export CFLAGS="-fPIC -fPIE -O1 -fno-omit-frame-pointer -g"
 export ASAN_OPTIONS=detect_leaks=0
 
 ./configure \
