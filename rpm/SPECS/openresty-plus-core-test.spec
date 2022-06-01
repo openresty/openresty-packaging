@@ -1,5 +1,5 @@
 Name:           openresty-plus-core-test
-Version:        1.19.9.1.15
+Version:        1.19.9.1.16
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -423,6 +423,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jun 1 2022 Yichun Zhang (agentzh) 1.19.9.1.16-1
+- upgraded openresty-plus to 1.19.9.1.16.
 * Wed Apr 20 2022 Yichun Zhang (agentzh) 1.19.9.1.15-1
 - upgraded openresty-plus to 1.19.9.1.15.
 * Wed Apr 13 2022 Yichun Zhang (agentzh) 1.19.9.1.14-1
