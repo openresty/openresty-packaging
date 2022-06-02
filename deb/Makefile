@@ -190,7 +190,7 @@ pcre-clean:
 .PHONY: saas-pcre-download
 saas-pcre-download:
 	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2'
+	wget -nH --cut-dirs=100 --mirror 'https://sourceforge.net/projects/pcre/files/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2'
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-saas-pcre_$(PCRE_VER).orig.tar.bz2
 
 .PHONY: saas-pcre-build
