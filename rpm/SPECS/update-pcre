@@ -9,8 +9,15 @@ sub update_or_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-for my $specfile (reverse sort glob 'openresty-pcre*.spec') {
-    update_pcre_spec $specfile;
+for my $specfile (reverse sort glob 'openresty*.spec') {
+    #warn "checking $specfile";
+    if ($specfile =~ /^openresty(?:-saas)?-pcre.spec$/) {
+        update_pcre_spec $specfile;
+    }
+
+    if ($specfile =~ /^openresty(?:-plus-core|-saas)?(?:-(?:valgrind|asan|debug|test))?\.spec$/) {
+        update_or_spec $specfile;
+    }
 }
 
 sub update_pcre_spec ($) {
@@ -20,7 +27,7 @@ sub update_pcre_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-pcre\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty(?:-saas)?-pcre\b/xsm) {
         die "Bad file content in $file";
     }
 
@@ -70,13 +77,6 @@ sub update_pcre_spec ($) {
         print $out $src;
         close $out;
         say "$file updated with $changes change(s).";
-    }
-}
-
-for my $specfile (reverse sort glob 'openresty*.spec') {
-    #warn "checking $specfile";
-    if ($specfile =~ /^openresty(?:-(?:plus|saas))?(?:-core(?:-h3)?(?:-test)?)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
-        update_or_spec $specfile;
     }
 }
 

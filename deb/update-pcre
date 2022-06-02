@@ -16,7 +16,7 @@ my $version = shift or die "No version number specified.\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OR_VER = ( \d+ (?: \.\d+ ){1} ) $/OR_VER=$version/msx) {
+        if (s/^ PCRE_VER = ( \d+ \.\d{2} ) $/PCRE_VER=$version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -44,6 +44,7 @@ my $version = shift or die "No version number specified.\n";
 
 for my $dir (reverse sort glob '*') {
     next unless -d $dir && -d "$dir/debian";
+
     my $name = $dir;
     my $changelog = "$dir/debian/changelog.tt2";
     if (!-f $changelog) {
