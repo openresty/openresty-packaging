@@ -43,8 +43,7 @@ override_dh_auto_install:
 		&& find $(DESTDIR) -type f -print0 | xargs -0 chmod u+w \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/share \
 		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'test' -exec rm -rf "{}" \; || exit 0 ) \
-		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'tests' -exec rm -rf "{}" \; || exit 0 ) \
-		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'unittest' -exec rm -rf "{}" \; || exit 0 )
+		&& ( find $(DESTDIR)/usr/local/openresty-python3/lib -type d -name 'tests' -exec rm -rf "{}" \; || exit 0 )
 
 override_dh_clean:
 	dh_clean

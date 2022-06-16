@@ -113,7 +113,6 @@ find %{buildroot} -type f -print0 | xargs -0 chmod u+w
 rm -rf %{buildroot}%{_prefix}/share
 ( find %{buildroot}%{_prefix}/lib -type d -name 'test' -exec rm -rf "{}" \; || exit 0 )
 ( find %{buildroot}%{_prefix}/lib -type d -name 'tests' -exec rm -rf "{}" \; || exit 0 )
-( find %{buildroot}%{_prefix}/lib -type d -name 'unittest' -exec rm -rf "{}" \; || exit 0 )
 #( find %{buildroot}%{_prefix}/lib -type d -name '__pycache__' -exec rm -r "{}" \; || exit 0 )
 
 export QA_RPATHS=$[ 0x0002 ]
