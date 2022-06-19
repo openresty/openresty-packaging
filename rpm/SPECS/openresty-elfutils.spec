@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.185.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -135,7 +135,7 @@ OpenResty's fork of elfutils.
     --libdir="%{eu_prefix}/lib" \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib -L%{yajl_prefix}/lib -lyajl -L%{libdemangle_prefix}/lib -ldemangle -lrt' \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="%{EXTRA_CFLAGS} -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g3 -O2" \
+    CFLAGS="%{EXTRA_CFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g3 -O2" \
     %{yflags} \
     --enable-maintainer-mode \
     --disable-debuginfod \
