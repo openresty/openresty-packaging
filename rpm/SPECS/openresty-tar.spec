@@ -2,7 +2,7 @@
 
 Name:           openresty-tar
 Version:        1.32
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of tar.
 Group:          Development/System
 License:        GPLv3+
@@ -79,7 +79,7 @@ the rmt package on the remote box.
 
 %build
 
-CC='ccache gcc -fdiagnostics-color=always' \
+CC='ccache gcc -fdiagnostics-color=always -fPIC' \
 CFLAGS='-g3 -O2' \
     ./configure \
     --prefix=%{prefix}
