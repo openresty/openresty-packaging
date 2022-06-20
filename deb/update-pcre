@@ -53,7 +53,7 @@ for my $dir (reverse sort glob '*') {
     }
 
     #say $dir;
-    if ($dir =~ /openresty(?:-saas)?-pcre(?:-(?:asan|debug))?/) {
+    if ($dir =~ /^openresty(?:-saas)?-pcre(?:-(?:asan|debug))?$/) {
         update_changelog $name, $changelog;
     }
 
