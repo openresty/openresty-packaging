@@ -649,7 +649,8 @@ openresty-plus-hyperscan-build: hyperscan-build
 .PHONY: hyperscan-build
 hyperscan-build: | hyperscan-clean hyperscan-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	sudo apt-get -y -qq install ragel python libsqlite3-dev $(deb_toolchain_pkgs) pkg-config
+	sudo apt-get -y -qq install ragel libsqlite3-dev $(deb_toolchain_pkgs) pkg-config
+	sudo apt-get -y -qq install python || sudo apt-get -y -qq install python2
 	tar xf openresty-plus-hyperscan_$(HYPERSCAN_VER).orig.tar.gz --strip-components=1 -C openresty-plus-hyperscan
 	cd openresty-plus-hyperscan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
