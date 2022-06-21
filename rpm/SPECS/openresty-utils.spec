@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.30
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -61,8 +61,8 @@ OpenResty Utils
 %build
 make -j`nproc` \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="-O3 -g3 -std=gnu99" \
-    CXXFLAGS="-std=gnu++11 -g3 -Wall -Werror -O3 -I./src/include -I%{pcre_prefix}/include -I%{pcre2_prefix}/include" \
+    CFLAGS="-fPIC -O3 -g3 -std=gnu99" \
+    CXXFLAGS="-fPIC -std=gnu++11 -g3 -Wall -Werror -O3 -I./src/include -I%{pcre_prefix}/include -I%{pcre2_prefix}/include" \
     LJ_GC_GRAPH_LDFLAGS="-L%{pcre2_prefix}/lib -Wl,-rpath,%{pcre2_prefix}/lib -lpcre2-8" \
     PCRE_PREFIX=%{pcre_prefix}
 
