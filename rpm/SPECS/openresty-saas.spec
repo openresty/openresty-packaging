@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.9.1.16
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -73,9 +73,9 @@ OpenResty Plus for SaaS product clients.
 %build
 ./configure \
     --prefix="%{saas_or_prefix}" \
-    --with-lmdb-xcflags="-O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
+    --with-cc-opt="-fPIC -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --with-http_ssl_module \

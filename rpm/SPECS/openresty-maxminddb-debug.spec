@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb-debug
 Version:        1.4.2.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
@@ -63,7 +63,7 @@ OpenResty's fork of libmaxminddb that is to work with lua-resty-maxminddb.
 ./configure \
     --prefix=%{prefix} \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="-g3 -O0" \
+    CFLAGS="-fPIC -g3 -O0" \
     --disable-tests
 
 make -j`nproc` > /dev/null

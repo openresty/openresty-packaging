@@ -1,6 +1,6 @@
 Name:           openresty-maxminddb-asan
 Version:        1.4.2.4
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
 License:        Apache License, Version 2.
@@ -57,11 +57,11 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure \
     --prefix=%{prefix} \
     CC="gcc -fsanitize=address"  \
-    CFLAGS="-O1 -fno-omit-frame-pointer -g3" \
+    CFLAGS="-fPIC -O1 -fno-omit-frame-pointer -g3" \
     --disable-tests
 
 make CC="gcc -fsanitize=address" \
-        CFLAGS='-O1 -fno-omit-frame-pointer -g3' \
+        CFLAGS='-fPIC -O1 -fno-omit-frame-pointer -g3' \
         -j`nproc` > /dev/null
 
 
