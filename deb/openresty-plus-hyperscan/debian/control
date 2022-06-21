@@ -4,7 +4,6 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>=9),
                ragel (>=6.8),
-               python (>=2.7),
                po-debconf,
                pkg-config
 Standards-Version: 5.0.0
