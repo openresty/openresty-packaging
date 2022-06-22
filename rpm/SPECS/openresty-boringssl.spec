@@ -1,6 +1,6 @@
 Name:               openresty-boringssl
 Version:            20220622
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            BoringSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -79,8 +79,8 @@ export PATH=/opt/go/bin:$PATH
 mkdir -p build
 cd build
 cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_SHARED_LIBS=1 \
-      -DCMAKE_CXX_FLAGS="-Og -g -I%{zlib_prefix}/include" \
-      -DCMAKE_C_FLAGS="-Wno-array-bounds -Wno-stringop-overflow -Og -g -I%{zlib_prefix}/include" \
+      -DCMAKE_CXX_FLAGS="-O2 -g -I%{zlib_prefix}/include" \
+      -DCMAKE_C_FLAGS="-Wno-array-bounds -Wno-stringop-overflow -O2 -g -I%{zlib_prefix}/include" \
       -DCMAKE_SHARED_LINKER_FLAGS="-L%{zlib_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib" \
       -DCMAKE_BUILD_TYPE=Release ..
 
@@ -96,7 +96,13 @@ install -m 0755 ./build/ssl/libssl.so.* %{buildroot}%{openssl_prefix}/lib
 install -m 0644 ./include/openssl/*.h %{buildroot}%{openssl_prefix}/include/openssl
 
 # to silence the check-rpath error
-export QA_RPATHS=$[ 0x0002 ]
+#    0x0002 ... invalid RPATHs; these are RPATHs which are neither absolute
+#               nor relative filenames and can therefore be a SECURITY risk
+#
+#    0x0010 ... the RPATH is empty; there is no reason for such RPATHs
+#               and they cause unneeded work while loading libraries
+
+export QA_RPATHS=$[ 0x0012 ]
 
 
 %clean
