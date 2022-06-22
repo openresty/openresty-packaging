@@ -1,6 +1,6 @@
 Name:           openresty-plus-hyperscan
 Version:        5.0.0
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        Hyperscan for OpenResty Plus
 
 %define boost_version  1_69_0
@@ -112,6 +112,10 @@ This package provides the runtime for Hyperscan.
 
 
 %build
+# LTO seems to be losing the target prefix on ifunc targets leading to
+# multiply defined symbols.  This seems like a GCC bug
+# Disable LTO
+%define _lto_cflags %{nil}
 
 mv $PWD/../boost_%{boost_version}/boost include/boost
 
