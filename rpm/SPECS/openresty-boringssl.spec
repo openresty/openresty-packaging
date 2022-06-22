@@ -80,7 +80,7 @@ mkdir -p build
 cd build
 cmake -DCMAKE_VERBOSE_MAKEFILE=ON -DBUILD_SHARED_LIBS=1 \
       -DCMAKE_CXX_FLAGS="-Og -g -I%{zlib_prefix}/include" \
-      -DCMAKE_C_FLAGS="-Og -g -I%{zlib_prefix}/include" \
+      -DCMAKE_C_FLAGS="-Wno-array-bounds -Wno-stringop-overflow -Og -g -I%{zlib_prefix}/include" \
       -DCMAKE_SHARED_LINKER_FLAGS="-L%{zlib_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib" \
       -DCMAKE_BUILD_TYPE=Release ..
 
