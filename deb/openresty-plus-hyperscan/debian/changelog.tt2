@@ -1,3 +1,9 @@
+openresty-plus-hyperscan (5.0.0-5~[% distro %]1) [% distro %]; urgency=high
+
+  * bugfix: failed to build on ubuntu 22
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 22 Jun 2022 11:28:00 +0800
+
 openresty-plus-hyperscan (5.0.0-4~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: specify the cmake_install_libdir.
