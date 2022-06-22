@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-test
 Version:        1.19.9.1.16
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -230,10 +230,10 @@ export CCO_LIB=%{libcco_prefix}/lib
 
 ./configure \
     --prefix="%{orprefix}" \
-    --with-lmdb-xcflags="-O3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O2" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+    --with-cc-opt="-fPIC -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if %{with coro_nginx_module}
     -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
     -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \

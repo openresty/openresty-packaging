@@ -1,6 +1,6 @@
 Name:               openresty-boringssl
 Version:            20220622
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            BoringSSL library for OpenResty
 
 Group:              Development/Libraries
