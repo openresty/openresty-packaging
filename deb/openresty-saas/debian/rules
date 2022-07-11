@@ -24,7 +24,7 @@ override_dh_auto_configure:
     --prefix="$(PREFIX)" \
     --with-lmdb-xcflags="-O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-cc='ccache gcc' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
+    --with-cc-opt="-DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
     --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
     --with-pcre-jit \
     --with-http_ssl_module \
