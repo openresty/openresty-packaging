@@ -1,3 +1,9 @@
+openresty-tcpdump (4.9.3.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded tcpdump-plus to 4.9.3.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 20 Jul 2022 21:47:02 -0700
+
 openresty-tcpdump (4.9.3.5-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded tcpdump-plus to 4.9.3.5.
