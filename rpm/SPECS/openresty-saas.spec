@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.9.1.17
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -73,7 +73,7 @@ OpenResty Plus for SaaS product clients.
 %build
 ./configure \
     --prefix="%{saas_or_prefix}" \
-    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-fPIC -DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
@@ -167,6 +167,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Fri Jul 22 2022 Yichun Zhang (agentzh) 1.19.9.1.17-2
+- upgraded openresty-plus to 1.19.9.1.17.
 * Fri Jul 15 2022 Yichun Zhang (agentzh) 1.19.9.1.17-1
 - upgraded openresty-plus to 1.19.9.1.17.
 * Wed Jun 1 2022 Yichun Zhang (agentzh) 1.19.9.1.16-1
