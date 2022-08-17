@@ -2,8 +2,8 @@
 %define binutils_prefix %{_usr}/local/openresty-binutils
 
 Name:           openresty-binutils
-Version:        2.37.0.1
-Release:        2%{?dist}
+Version:        2.39.0.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -112,6 +112,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Tue Aug 16 2022 Yichun Zhang (agentzh) 2.39.0.1-1
+- upgraded binutils-gdb-plus to 2.39.0.1.
 * Thu Dec 9 2021 Yichun Zhang (agentzh) 2.37.0.1-1
 - upgraded binutils-gdb-plus to 2.37.0.1.
 * Wed Jul 07 2021 lijunlong (lijunlong@openresty.com)
