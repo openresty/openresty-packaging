@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.39.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -79,7 +79,7 @@ converting addresses to file and line).
 CC='ccache gcc -fdiagnostics-color=always' \
     ./configure \
     --prefix=%{binutils_prefix} --disable-gas --disable-gold \
-    --disable-ar --disable-gprof --disable-dlltool --disable-ranlib --disable-windmc \
+    --disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
     --disable-libdecnumber --disable-sim --disable-readline \
@@ -112,6 +112,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Mon Aug 22 2022 Yichun Zhang (agentzh) 2.39.0.1-2
+- upgraded binutils-gdb-plus to 2.39.0.1.
 * Tue Aug 16 2022 Yichun Zhang (agentzh) 2.39.0.1-1
 - upgraded binutils-gdb-plus to 2.39.0.1.
 * Thu Dec 9 2021 Yichun Zhang (agentzh) 2.37.0.1-1
