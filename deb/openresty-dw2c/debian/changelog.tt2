@@ -1,3 +1,9 @@
+openresty-dw2c (0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-dw2c to 0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 Aug 2022 23:11:07 +0800
+
 openresty-dw2c (0.2-1~[% distro %]2) [% distro %]; urgency=high
 
   * specify the release number of the dependent package.
