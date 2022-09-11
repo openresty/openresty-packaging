@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PYTHON3_VER := 3.7.10
+OPENRESTY_PYTHON3_VER := 3.7.14
 
 .PHONY: openresty-python3-download
 openresty-python3-download:
