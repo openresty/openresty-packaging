@@ -1,3 +1,9 @@
+openresty-python3 (3.7.14-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded python to 3.7.14.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 17 Jun 2022 14:00:30 +0800
+
 openresty-python3 (3.7.10-2~[% distro %]1) [% distro %]; urgency=high
 
   * enable unittest module.
