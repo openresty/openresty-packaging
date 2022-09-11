@@ -1,13 +1,13 @@
 Name:           openresty-gdb
 Version:        10.2
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
 Group:          Development/Debuggers
 URL:            https://www.gnu.org/home.en.html
 Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
-Patch0:         gdb-10.1-no_bp_src_loc_print.patch
+Patch0:         gdb-10.2-no_auto_out.patch
 
 AutoReqProv:    no
 
@@ -91,14 +91,14 @@ This is OpenResty's gdb package.
 mkdir -p build
 cd build/
 
-CXXFLAGS="-g3 -O2 -I%{py_prefix}/include" \
-    CFLAGS="-g3 -O2 -I%{py_prefix}/include" \
-    LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib" \
-    CC='ccache gcc -fdiagnostics-color=always' \
-    CXX='ccache g++ -fdiagnostics-color=always' \
-    ../configure --with-python="%{py_prefix}/bin/python3" \
+../configure --with-python="%{py_prefix}/bin/python3" \
     --libdir="%{_prefix}/lib" \
-    --prefix=%{_prefix} --without-guile
+    --prefix=%{_prefix} --without-guile \
+    CXXFLAGS="-g -O2 -I%{py_prefix}/include" \
+    CFLAGS="-g -O2 -I%{py_prefix}/include" \
+    LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib -rdynamic" \
+    CC='ccache gcc -fdiagnostics-color=always' \
+    CXX='ccache g++ -fdiagnostics-color=always'
 
 make -j`nproc` > /dev/null
 
