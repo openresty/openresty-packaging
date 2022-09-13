@@ -1,0 +1,356 @@
+diff -upr gdb-10.2/gdb/auto-load.c gdb-10.2-patched/gdb/auto-load.c
+--- gdb-10.2/gdb/auto-load.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/auto-load.c	2022-09-11 12:54:45.621000000 -0700
+@@ -491,10 +491,11 @@ file_is_auto_load_safe (const char *file
+   if (filename_is_in_auto_load_safe_path_vec (filename, &filename_real))
+     return 1;
+ 
+-  warning (_("File \"%ps\" auto-loading has been declined by your "
+-	     "`auto-load safe-path' set to \"%s\"."),
+-	   styled_string (file_name_style.style (), filename_real.get ()),
+-	   auto_load_safe_path);
++  if (!gdb_no_auto_out)
++    warning (_("File \"%ps\" auto-loading has been declined by your "
++               "`auto-load safe-path' set to \"%s\"."),
++             styled_string (file_name_style.style (), filename_real.get ()),
++             auto_load_safe_path);
+ 
+   if (!advice_printed)
+     {
+diff -upr gdb-10.2/gdb/breakpoint.c gdb-10.2-patched/gdb/breakpoint.c
+--- gdb-10.2/gdb/breakpoint.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/breakpoint.c	2022-09-11 12:53:11.153000000 -0700
+@@ -8539,6 +8539,9 @@ set_momentary_breakpoint_at_pc (struct g
+ static void
+ mention (struct breakpoint *b)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   b->ops->print_mention (b);
+   current_uiout->text ("\n");
+ }
+@@ -12474,6 +12477,9 @@ bkpt_print_it (bpstat bs)
+   int bp_temp;
+   struct ui_out *uiout = current_uiout;
+ 
++  if (gdb_no_auto_out)
++    return PRINT_NOTHING;
++
+   gdb_assert (bs->bp_location_at != NULL);
+ 
+   bl = bs->bp_location_at;
+@@ -12509,6 +12515,9 @@ bkpt_print_mention (struct breakpoint *b
+   if (current_uiout->is_mi_like_p ())
+     return;
+ 
++  if (gdb_no_auto_out)
++    return;
++
+   switch (b->type)
+     {
+     case bp_breakpoint:
+diff -upr gdb-10.2/gdb/gcore gdb-10.2-patched/gdb/gcore
+--- gdb-10.2/gdb/gcore	2021-04-24 21:10:28.000000000 -0700
++++ gdb-10.2-patched/gdb/gcore	2022-09-11 12:55:23.486000000 -0700
+@@ -41,7 +41,7 @@ while getopts :ao: opt; do
+             prefix=$OPTARG
+             ;;
+         *)
+-            echo "usage:  i386-pc-linux-gnu-gcore [-a] [-o prefix] pid1 [pid2...pidN]"
++            echo "usage:  gcore [-a] [-o prefix] pid1 [pid2...pidN]"
+             exit 2
+             ;;
+     esac
+@@ -51,7 +51,7 @@ shift $((OPTIND-1))
+ 
+ if [ "$#" -eq "0" ]
+ then
+-    echo "usage:  i386-pc-linux-gnu-gcore [-a] [-o prefix] pid1 [pid2...pidN]"
++    echo "usage:  gcore [-a] [-o prefix] pid1 [pid2...pidN]"
+     exit 2
+ fi
+ 
+@@ -84,8 +84,8 @@ fi
+ 
+ # Check if the GDB binary is in the expected path.  If not, just
+ # quit with a message.
+-if [ ! -f "$binary_path/i386-pc-linux-gnu-gdb" ]; then
+-  echo "gcore: GDB binary (${binary_path}/i386-pc-linux-gnu-gdb) not found"
++if [ ! -f "$binary_path/gdb" ]; then
++  echo "gcore: GDB binary (${binary_path}/gdb) not found"
+   exit 1
+ fi
+ 
+@@ -97,7 +97,7 @@ for pid in "$@"
+ do
+ 	# `</dev/null' to avoid touching interactive terminal if it is
+ 	# available but not accessible as GDB would get stopped on SIGTTIN.
+-	"$binary_path/i386-pc-linux-gnu-gdb" </dev/null \
++	"$binary_path/gdb" </dev/null \
+ 	    --nx --batch --readnever \
+ 	    -ex "set pagination off" -ex "set height 0" -ex "set width 0" \
+ 	    "${dump_all_cmds[@]}" \
+@@ -106,7 +106,7 @@ do
+ 	if [ -r "$prefix.$pid" ] ; then
+ 	    rc=0
+ 	else
+-	    echo "i386-pc-linux-gnu-gcore: failed to create $prefix.$pid"
++	    echo "gcore: failed to create $prefix.$pid"
+ 	    rc=1
+ 	    break
+ 	fi
+diff -upr gdb-10.2/gdb/infcmd.c gdb-10.2-patched/gdb/infcmd.c
+--- gdb-10.2/gdb/infcmd.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/infcmd.c	2022-09-11 12:53:11.154000000 -0700
+@@ -474,7 +474,7 @@ run_command_1 (const char *args, int fro
+   if (args != NULL)
+     set_inferior_args (args);
+ 
+-  if (from_tty)
++  if (from_tty && !gdb_no_auto_out)
+     {
+       uiout->field_string (NULL, "Starting program");
+       uiout->text (": ");
+diff -upr gdb-10.2/gdb/inferior.h gdb-10.2-patched/gdb/inferior.h
+--- gdb-10.2/gdb/inferior.h	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/inferior.h	2022-09-11 12:53:31.332000000 -0700
+@@ -61,6 +61,8 @@ struct thread_info;
+ 
+ #include "process-stratum-target.h"
+ 
++extern bool gdb_no_auto_out;
++
+ struct infcall_suspend_state;
+ struct infcall_control_state;
+ 
+diff -upr gdb-10.2/gdb/infrun.c gdb-10.2-patched/gdb/infrun.c
+--- gdb-10.2/gdb/infrun.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/infrun.c	2022-09-11 12:53:11.155000000 -0700
+@@ -7971,6 +7971,9 @@ print_signal_exited_reason (struct ui_ou
+ void
+ print_exited_reason (struct ui_out *uiout, int exitstatus)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   struct inferior *inf = current_inferior ();
+   std::string pidstr = target_pid_to_str (ptid_t (inf->pid));
+ 
+@@ -8061,6 +8064,9 @@ print_no_history_reason (struct ui_out *
+ static void
+ print_stop_location (struct target_waitstatus *ws)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   int bpstat_ret;
+   enum print_what source_flag;
+   int do_frame_printing = 1;
+@@ -8118,6 +8124,9 @@ print_stop_location (struct target_waits
+ void
+ print_stop_event (struct ui_out *uiout, bool displays)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   struct target_waitstatus last;
+   struct thread_info *tp;
+ 
+diff -upr gdb-10.2/gdb/language.c gdb-10.2-patched/gdb/language.c
+--- gdb-10.2/gdb/language.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/language.c	2022-09-11 12:53:55.161000000 -0700
+@@ -528,11 +528,12 @@ add_set_language_command ()
+ 	 just a capitalization of the internal name.  */
+       /* Note that we add the newline at the front, so we don't wind
+ 	 up with a trailing newline.  */
+-      doc.printf ("\n%-16s Use the %c%s language",
+-		  lang->la_name,
+-		  /* Capitalize first letter of language name.  */
+-		  toupper (lang->la_name[0]),
+-		  lang->la_name + 1);
++      if (!gdb_no_auto_out)
++        doc.printf ("\n%-16s Use the %c%s language",
++                    lang->la_name,
++                    /* Capitalize first letter of language name.  */
++                    toupper (lang->la_name[0]),
++                    lang->la_name + 1);
+     }
+ 
+   add_setshow_enum_cmd ("language", class_support,
+diff -upr gdb-10.2/gdb/language.h gdb-10.2-patched/gdb/language.h
+--- gdb-10.2/gdb/language.h	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/language.h	2022-09-11 12:53:11.156000000 -0700
+@@ -27,6 +27,8 @@
+ #include "gdbsupport/function-view.h"
+ #include "expression.h"
+ 
++extern bool gdb_no_auto_out;
++
+ /* Forward decls for prototypes.  */
+ struct value;
+ struct objfile;
+diff -upr gdb-10.2/gdb/linux-thread-db.c gdb-10.2-patched/gdb/linux-thread-db.c
+--- gdb-10.2/gdb/linux-thread-db.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/linux-thread-db.c	2022-09-11 12:54:22.642000000 -0700
+@@ -923,7 +923,8 @@ try_thread_db_load_1 (struct thread_db_i
+       return false;
+     }
+ 
+-  printf_unfiltered (_("[Thread debugging using libthread_db enabled]\n"));
++  if (!gdb_no_auto_out)
++    printf_unfiltered (_("[Thread debugging using libthread_db enabled]\n"));
+ 
+   if (*libthread_db_search_path || libthread_db_debug)
+     {
+@@ -939,9 +940,10 @@ try_thread_db_load_1 (struct thread_db_i
+ 	 enabled.  User visible output should not depend on debug
+ 	 settings.  */
+       file = *libthread_db_search_path != '\0' ? gdb_stdout : gdb_stdlog;
+-      fprintf_unfiltered (file,
+-			  _("Using host libthread_db library \"%ps\".\n"),
+-			  styled_string (file_name_style.style (), library));
++      if (!gdb_no_auto_out)
++        fprintf_unfiltered (file,
++                            _("Using host libthread_db library \"%ps\".\n"),
++                            styled_string (file_name_style.style (), library));
+     }
+ 
+   /* The thread library was detected.  Activate the thread_db target
+diff -upr gdb-10.2/gdb/main.c gdb-10.2-patched/gdb/main.c
+--- gdb-10.2/gdb/main.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/main.c	2022-09-11 12:53:11.156000000 -0700
+@@ -55,6 +55,8 @@
+ #include "gdbsupport/alt-stack.h"
+ #include "observable.h"
+ 
++bool gdb_no_auto_out = false;
++
+ /* The selected interpreter.  This will be used as a set command
+    variable, so it should always be malloc'ed - since
+    do_setshow_command will free it.  */
+@@ -559,6 +561,20 @@ captured_main_1 (struct captured_main_ar
+   int save_auto_load;
+   int ret = 1;
+ 
++  {
++    const char *val = getenv("OR_GDB_NO_AUTO_OUT");
++    if (val)
++      {
++        char c = val[0];
++        if (c != '\0' && c != '0' && c != 'f' && c != 'F')
++            gdb_no_auto_out = true;
++        else
++            gdb_no_auto_out = false;
++      }
++    else
++      gdb_no_auto_out = false;
++  }
++
+ #ifdef HAVE_USEFUL_SBRK
+   /* Set this before constructing scoped_command_stats.  */
+   lim_at_start = (char *) sbrk (0);
+diff -upr gdb-10.2/gdb/testsuite/lib/pdtrace gdb-10.2-patched/gdb/testsuite/lib/pdtrace
+--- gdb-10.2/gdb/testsuite/lib/pdtrace	2021-04-24 21:10:29.000000000 -0700
++++ gdb-10.2-patched/gdb/testsuite/lib/pdtrace	2022-09-11 12:55:24.004000000 -0700
+@@ -63,19 +63,19 @@
+ # variables.  Some of them are substituted by autoconf.
+ 
+ TR=tr
+-NM=i386-pc-linux-gnu-nm
++NM=nm
+ EGREP=egrep
+ SED=sed
+ CUT=cut
+-READELF=i386-pc-linux-gnu-readelf
++READELF=readelf
+ SORT=sort
+ EXPR=expr
+ WC=wc
+ UNIQ=uniq
+ HEAD=head
+ SEQ=seq
+-AS=i386-pc-linux-gnu-as
+-STRIP=i386-pc-linux-gnu-strip
++AS=as
++STRIP=strip
+ TRUE=true
+ 
+ # Sizes for several DOF structures, in bytes.
+diff -upr gdb-10.2/gdb/top.c gdb-10.2-patched/gdb/top.c
+--- gdb-10.2/gdb/top.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/top.c	2022-09-11 12:53:11.157000000 -0700
+@@ -1720,6 +1720,9 @@ quit_confirm (void)
+   if (!have_live_inferiors ())
+     return 1;
+ 
++  if (gdb_no_auto_out)
++    return 1;
++
+   /* Build the query string as a single string.  */
+   string_file stb;
+ 
+diff -upr gdb-10.2/gdb/utils.c gdb-10.2-patched/gdb/utils.c
+--- gdb-10.2/gdb/utils.c	2021-04-24 21:06:26.000000000 -0700
++++ gdb-10.2-patched/gdb/utils.c	2022-09-11 12:56:12.472000000 -0700
+@@ -61,6 +61,7 @@
+ #include "readline/readline.h"
+ 
+ #include <chrono>
++#include <execinfo.h>
+ 
+ #include "interps.h"
+ #include "gdb_regex.h"
+@@ -1672,6 +1673,36 @@ begin_line (void)
+    FILTER is true) (since prompt_for_continue may do so) so this
+    routine should not be called when cleanups are not in place.  */
+ 
++
++static void
++print_self_backtrace(void)
++{
++  enum {
++    BT_BUF_SIZE = 500
++  };
++
++  int j, nptrs;
++  void *buffer[BT_BUF_SIZE];
++  char **strings;
++
++  nptrs = backtrace (buffer, BT_BUF_SIZE);
++  if (!nptrs)
++    return;
++
++  strings = backtrace_symbols (buffer, nptrs);
++  if (strings == NULL)
++    {
++      perror ("backtrace_symbols");
++      exit (EXIT_FAILURE);
++    }
++
++  for (j = 0; j < nptrs; j++)
++    fprintf (stderr, "  %s\n", strings[j]);
++
++  free(strings);
++}
++
++
+ static void
+ fputs_maybe_filtered (const char *linebuffer, struct ui_file *stream,
+ 		      int filter)
+@@ -1681,6 +1712,15 @@ fputs_maybe_filtered (const char *linebu
+   if (linebuffer == 0)
+     return;
+ 
++  if (gdb_no_auto_out
++      && !filter
++      && stream == gdb_stdout
++      && strcmp(linebuffer, "\n") == 0)
++    {
++      fprintf(stderr, "Found single newline unfiltered output at\n");
++      print_self_backtrace();
++    }
++
+   /* Don't do any filtering if it is disabled.  */
+   if (stream != gdb_stdout
+       || !pagination_enabled

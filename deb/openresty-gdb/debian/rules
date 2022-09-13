@@ -20,12 +20,12 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	mkdir build
 	cd build && \
-	CXXFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
-    CFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
-    LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
-    ../configure --with-python=/usr/local/openresty-python3/bin/python3 \
-		--prefix=/usr/local/openresty-gdb --without-guile \
-		&& make -j`nproc` > /dev/null
+        ../configure --with-python=/usr/local/openresty-python3/bin/python3 \
+            CXXFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
+            CFLAGS="-g3 -O2 -I/usr/local/openresty-python3/include" \
+            LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
+            --prefix=/usr/local/openresty-gdb --without-guile \
+        && make -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	cd build && \
