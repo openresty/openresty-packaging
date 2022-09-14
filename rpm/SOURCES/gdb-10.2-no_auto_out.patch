@@ -250,33 +250,6 @@ diff -upr gdb-10.2/gdb/main.c gdb-10.2-patched/gdb/main.c
  #ifdef HAVE_USEFUL_SBRK
    /* Set this before constructing scoped_command_stats.  */
    lim_at_start = (char *) sbrk (0);
-diff -upr gdb-10.2/gdb/testsuite/lib/pdtrace gdb-10.2-patched/gdb/testsuite/lib/pdtrace
---- gdb-10.2/gdb/testsuite/lib/pdtrace	2021-04-24 21:10:29.000000000 -0700
-+++ gdb-10.2-patched/gdb/testsuite/lib/pdtrace	2022-09-11 12:55:24.004000000 -0700
-@@ -63,19 +63,19 @@
- # variables.  Some of them are substituted by autoconf.
- 
- TR=tr
--NM=i386-pc-linux-gnu-nm
-+NM=nm
- EGREP=egrep
- SED=sed
- CUT=cut
--READELF=i386-pc-linux-gnu-readelf
-+READELF=readelf
- SORT=sort
- EXPR=expr
- WC=wc
- UNIQ=uniq
- HEAD=head
- SEQ=seq
--AS=i386-pc-linux-gnu-as
--STRIP=i386-pc-linux-gnu-strip
-+AS=as
-+STRIP=strip
- TRUE=true
- 
- # Sizes for several DOF structures, in bytes.
 diff -upr gdb-10.2/gdb/top.c gdb-10.2-patched/gdb/top.c
 --- gdb-10.2/gdb/top.c	2021-04-24 21:06:26.000000000 -0700
 +++ gdb-10.2-patched/gdb/top.c	2022-09-11 12:53:11.157000000 -0700
