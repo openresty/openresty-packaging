@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        12.1
-Release:        7%{?dist}
+Release:        9%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -22,11 +22,17 @@ BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.7.9
-BuildRequires: xz-devel, ncurses-devel, readline-devel, expat-devel
+BuildRequires: xz-devel, ncurses-devel
+%if 0%{?suse_version}
+BuildRequires: libexpat-devel
+%else
+BuildRequires: expat-devel
+%endif
 
 Requires: openresty-python3 >= 3.7.9
 
 %if 0%{?suse_version}
+Requires: libexpat1
 Requires: liblzma5
 Requires: libstdc++6
 
@@ -94,7 +100,6 @@ cd build/
 ../configure --with-python="%{py_prefix}/bin/python3" \
     --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --without-guile \
-    --with-system-readline \
     CXXFLAGS="-g -O2 -I%{py_prefix}/include" \
     CFLAGS="-g -O2 -I%{py_prefix}/include" \
     LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib -rdynamic" \
