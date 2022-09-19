@@ -1,3 +1,9 @@
+openresty-gdb (12.1-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-gdb to 12.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 19 Sep 2022 08:34:13 +0800
+
 openresty-gdb (12.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-gdb to 12.1.
