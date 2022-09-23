@@ -1,0 +1,21 @@
+Source: openresty-wrk
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, openresty-plus-core-dev, openresty-plus-openssl111-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-wrk
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-core
+Description: OpenResty wrk
+ wrk - a HTTP benchmarking tool
+
+Package: openresty-wrk-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-wrk (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-wrk package
+ Debug symbols (or debuginfo) for the openresty-wrk package.

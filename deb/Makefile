@@ -109,7 +109,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-libmemcached-clean lua-resty-wasm-clean openresty-tcmalloc-clean \
 		openresty-cyrus-sasl-clean openresty-plus-core-test-clean openresty-plus-core-h3-test-clean \
 		openresty-saas-pcre2-clean openresty-libdemangle-clean \
-		openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean
+		openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
+		openresty-wrk-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 

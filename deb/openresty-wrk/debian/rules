@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export PATH=/usr/local/openresty-plus/luajit/bin:$(PATH) \
+		&& make WITH_LUAJIT=/usr/local/openresty-plus/luajit WITH_OPENSSL=/usr/local/openresty-plus/openssl111
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& install -d $(DESTDIR)/usr/local/openresty-wrk/bin \
+		&& install -m 0755 wrk $(DESTDIR)/usr/local/openresty-wrk/bin/wrk
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-wrk-dbgsym
