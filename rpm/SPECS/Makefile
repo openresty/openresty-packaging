@@ -118,8 +118,8 @@ priv_targets = openresty-plus \
 		openresty-saas-pcre2 \
 		openresty-libdemangle \
 		openresty-perl-Cpanel-JSON-XS \
-		openresty-dw2c
-
+		openresty-dw2c \
+		openresty-wrk
 
 .PHONY: all
 all: openresty
