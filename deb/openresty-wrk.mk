@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_WRK_VER := 0.0.1
+OPENRESTY_WRK_VER := 4.0.2.1
 
 .PHONY: openresty-wrk-download
 openresty-wrk-download:

@@ -1,5 +1,5 @@
 Name:           openresty-wrk
-Version:        0.0.1
+Version:        4.0.2.1
 Release:        1%{?dist}
 Summary:        OpenResty wrk
 

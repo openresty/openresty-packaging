@@ -1,4 +1,4 @@
-openresty-wrk (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+openresty-wrk (4.0.2.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial packaging.
 
