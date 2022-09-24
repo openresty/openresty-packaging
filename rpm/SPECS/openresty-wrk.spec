@@ -1,7 +1,7 @@
 Name:           openresty-wrk
 Version:        4.0.2.1
 Release:        1%{?dist}
-Summary:        OpenResty wrk
+Summary:        The OpenResty fork of wrk
 
 Group:          Development/Libraries
 
@@ -59,7 +59,7 @@ wrk - a HTTP benchmarking tool
 
 %prep
 # The $PWD is rpmbuild/BUILD
-%setup -q -n "wrk-%{version}"
+%setup -q -n "wrk-plus-%{version}"
 
 
 %build
