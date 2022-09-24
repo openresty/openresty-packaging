@@ -5,10 +5,10 @@ OPENRESTY_WRK_VER := 4.0.2.1
 
 .PHONY: openresty-wrk-download
 openresty-wrk-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/wrk-$(OPENRESTY_WRK_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/wrk-plus-$(OPENRESTY_WRK_VER).tar.gz ./
 	rm -rf openresty-wrk_$(OPENRESTY_WRK_VER)
 	mkdir -p openresty-wrk_$(OPENRESTY_WRK_VER)
-	tar -xf wrk-$(OPENRESTY_WRK_VER).tar.gz --strip-components=1 -C openresty-wrk_$(OPENRESTY_WRK_VER)
+	tar -xf wrk-plus-$(OPENRESTY_WRK_VER).tar.gz --strip-components=1 -C openresty-wrk_$(OPENRESTY_WRK_VER)
 	tar -czf openresty-wrk_$(OPENRESTY_WRK_VER).orig.tar.gz openresty-wrk_$(OPENRESTY_WRK_VER)
 
 openresty-wrk-clean:

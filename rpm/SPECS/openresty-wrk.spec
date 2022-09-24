@@ -8,7 +8,7 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-Source0:        wrk-%{version}.tar.gz
+Source0:        wrk-plus-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc
