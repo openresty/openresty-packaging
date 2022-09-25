@@ -1,6 +1,6 @@
 Name:           openresty-wrk
 Version:        4.0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        The OpenResty fork of wrk
 
 Group:          Development/Libraries
@@ -13,15 +13,14 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  openresty-plus-core-devel
-BuildRequires:  openresty-plus-openssl111-devel
-Requires:       openresty-plus-core
+BuildRequires:  openresty-saas
+BuildRequires:  openresty-saas-openssl111-devel
+Requires:       openresty-saas
 
 AutoReqProv:        no
 
-%define wrk_prefix /usr/local/openresty-wrk
-%define or_prefix                       %{_usr}/local/openresty-plus
-%define lua_lib_dir                     %{or_prefix}/lualib
+%define wrk_prefix                      /usr/local/openresty-wrk
+%define or_prefix                       /opt/openresty-saas
 %define openssl_prefix                  %{or_prefix}/openssl111
 
 
@@ -85,5 +84,7 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Thu Sep 22 2022 Wang Hui (wanghuizzz) 0.0.1-1
+* Mon Sep 26 2022 Wang Hui (wanghuizzz) 4.0.2.1-2
+- update the dependency.
+* Thu Sep 22 2022 Wang Hui (wanghuizzz) 4.0.2.1-1
 - initial packaging.
