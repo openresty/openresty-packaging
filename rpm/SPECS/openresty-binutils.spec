@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.39.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -83,7 +83,8 @@ CC='ccache gcc -fdiagnostics-color=always' \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
     --disable-libdecnumber --disable-sim --disable-readline \
-    --disable-libquadmath CFLAGS='-Wno-error -g3 -O2 -fPIC'
+    --enable-targets=all \
+    --disable-libquadmath CFLAGS='-Wno-error -g -O2 -fPIC'
 
 make -j`nproc` > /dev/null
 

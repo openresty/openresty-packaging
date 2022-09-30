@@ -25,7 +25,8 @@ override_dh_auto_build:
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
     --disable-libdecnumber --disable-sim --disable-readline \
-    --disable-libquadmath CFLAGS='-Wno-error -g3 -O2' \
+    --enable-targets=all \
+    --disable-libquadmath CFLAGS='-Wno-error -g -O2' \
 		&& make -j`nproc` > /dev/null
 
 override_dh_auto_install:

@@ -91,13 +91,13 @@ into other programs, and to make binary distributions for Python libraries.
 
 export PYTHONPATH=
 export LDFLAGS="-L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{ssl_prefix}/lib"
-export CC='ccache gcc -g3'
-export CFLAGS="-g3 -I%{ssl_prefix}/include"
 
 ./configure --prefix="%{_prefix}" --enable-shared --enable-ipv6 \
     --without-ensurepip \
     --libdir="%{_prefix}/lib" \
-    --with-openssl=%{ssl_prefix}
+    --with-openssl=%{ssl_prefix} \
+    CFLAGS="-g3 -I%{ssl_prefix}/include" \
+    CC='ccache gcc -g3'
 
 make -j`nproc`
 
