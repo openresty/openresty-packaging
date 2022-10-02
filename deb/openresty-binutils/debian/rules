@@ -18,19 +18,19 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	CC='ccache gcc' \
-    ./configure \
-    --prefix=/usr/local/openresty-binutils --disable-ld --disable-gas --disable-gold \
-    --disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
-    --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
-    --disable-bdf --disable-etc --disable-gnulib --disable-intl \
-    --disable-libdecnumber --disable-sim --disable-readline \
-    --enable-targets=all \
-    --disable-libquadmath CFLAGS='-Wno-error -g -O2' \
-		&& make -j`nproc` > /dev/null
+	./configure \
+		--prefix=/usr/local/openresty-binutils --disable-ld --disable-gas --disable-gold \
+		--disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
+		--disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
+		--disable-bdf --disable-etc --disable-gnulib --disable-intl \
+		--disable-libdecnumber --disable-sim --disable-readline \
+		--enable-targets=all \
+		--disable-libquadmath CFLAGS='-Wno-error -g -O2' \
+		CC='ccache gcc'
+	make -j`nproc` all-binutils
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) > /dev/null \
+	make install-binutils DESTDIR=$(DESTDIR) > /dev/null \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/man \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/info \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/locale \

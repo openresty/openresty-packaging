@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.39.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -76,20 +76,21 @@ converting addresses to file and line).
 
 %build
 
-CC='ccache gcc -fdiagnostics-color=always' \
-    ./configure \
+./configure \
     --prefix=%{binutils_prefix} --disable-gas --disable-gold \
     --disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
     --disable-libdecnumber --disable-sim --disable-readline \
     --enable-targets=all \
-    --disable-libquadmath CFLAGS='-Wno-error -g -O2 -fPIC'
+    --disable-libquadmath \
+    CFLAGS='-Wno-error -g -O2 -fPIC' \
+    CC='ccache gcc -fdiagnostics-color=always'
 
-make -j`nproc` > /dev/null
+make -j`nproc` all-binutils
 
 %install
-make install DESTDIR=%{buildroot} > /dev/null
+make install-binutils DESTDIR=%{buildroot}
 
 # remove useless files
 rm -rf %{buildroot}%{binutils_prefix}/share/man
