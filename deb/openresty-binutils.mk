@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_BINUTILS_VER := 2.39.0.1
+OPENRESTY_BINUTILS_VER := 2.39.0.2
 
 deb_toolchain_pkgs=debhelper devscripts
 

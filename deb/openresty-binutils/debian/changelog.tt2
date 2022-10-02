@@ -1,3 +1,9 @@
+openresty-binutils (2.39.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded binutils-gdb-plus to 2.39.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 2 Oct 2022 12:02:02 -0700
+
 openresty-binutils (2.39.0.1-4~[% distro %]1) [% distro %]; urgency=high
 
   * build binutils only.
