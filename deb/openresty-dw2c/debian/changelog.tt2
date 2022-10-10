@@ -1,3 +1,9 @@
+openresty-dw2c (0.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-dw2c to 0.5.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 10 Oct 2022 01:39:19 -0700
+
 openresty-dw2c (0.4-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-dw2c to 0.4.
