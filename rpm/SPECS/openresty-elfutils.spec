@@ -144,7 +144,7 @@ OpenResty's fork of elfutils.
 sed -i 's#^dso_LDFLAGS = #dso_LDFLAGS = -Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib  #' \
     `find . -name Makefile`
 
-make -j`nproc` > /dev/null
+make -j`nproc`
 
 
 %install
