@@ -9,7 +9,7 @@ openresty-libdemangle-download:
 	rm -rf openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
 	mkdir -p openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
 	tar -xf gcc-$(OPENRESTY_LIBDEMANGLE_VER).tar.gz --strip-components=1 -C openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
-	tar -czf openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER).orig.tar.gz openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
+	tar -I 'gzip -1' -cf openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER).orig.tar.gz openresty-libdemangle_$(OPENRESTY_LIBDEMANGLE_VER)
 
 openresty-libdemangle-clean:
 	-cd openresty-libdemangle && debclean
