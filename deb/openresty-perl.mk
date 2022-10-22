@@ -9,7 +9,7 @@ openresty-perl-download:
 	rm -rf openresty-perl_$(OPENRESTY_PERL_VER)
 	mkdir -p openresty-perl_$(OPENRESTY_PERL_VER)
 	tar -xf perl-$(OPENRESTY_PERL_VER).tar.gz --strip-components=1 -C openresty-perl_$(OPENRESTY_PERL_VER)
-	tar -czf openresty-perl_$(OPENRESTY_PERL_VER).orig.tar.gz openresty-perl_$(OPENRESTY_PERL_VER)
+	tar -I 'gzip -1' -cf openresty-perl_$(OPENRESTY_PERL_VER).orig.tar.gz openresty-perl_$(OPENRESTY_PERL_VER)
 
 openresty-perl-clean:
 	-cd openresty-perl && debclean

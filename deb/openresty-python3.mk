@@ -9,7 +9,7 @@ openresty-python3-download:
 	rm -rf openresty-python3_$(OPENRESTY_PYTHON3_VER)
 	mkdir -p openresty-python3_$(OPENRESTY_PYTHON3_VER)
 	tar -xf Python-$(OPENRESTY_PYTHON3_VER).tar.xz --strip-components=1 -C openresty-python3_$(OPENRESTY_PYTHON3_VER)
-	tar czf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz openresty-python3_$(OPENRESTY_PYTHON3_VER)
+	tar -I 'gzip -1' -cf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz openresty-python3_$(OPENRESTY_PYTHON3_VER)
 
 openresty-python3-clean:
 	-cd openresty-python3 && debclean
