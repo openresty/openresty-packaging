@@ -1,6 +1,6 @@
 Name:           openresty-stap
-Version:        4.7.0.19
-Release:        1%{?dist}
+Version:        4.7.0.20
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -24,6 +24,7 @@ AutoReqProv:    no
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: ccache, gcc-c++, openresty-python3 >= 3.7.9
 #BuildRequires: perl-JSON-MaybeXS
+BuildRequires: openresty-perl, openresty-perl-Cpanel-JSON-XS
 BuildRequires: gettext-devel
 BuildRequires: m4, sed
 BuildRequires: zlib-devel
@@ -50,8 +51,7 @@ Requires: xz-libs
 %endif
 
 Requires: zlib
-Requires: make, perl
-#Requires: perl-JSON-MaybeXS
+Requires: make, openresty-perl, openresty-perl-Cpanel-JSON-XS
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: openresty-elfutils >= 0.177.12-1
 
@@ -136,7 +136,7 @@ arch="%{_arch}"
 if [[ "%{_arch}" == "aarch64" ]]; then
     arch="arm64"
 fi
-perl ../util/parse-tapset-deps.pl $arch/*.stp *.{stp,stpm} linux/$arch/*.stp linux/*.{stp,stpm}
+/usr/local/openresty-perl/bin/perl ../util/parse-tapset-deps.pl $arch/*.stp *.{stp,stpm} linux/$arch/*.stp linux/*.{stp,stpm}
 cd ..
 
 export PATH=/usr/local/openresty-python3/bin:$PATH
