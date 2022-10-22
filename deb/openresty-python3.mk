@@ -25,5 +25,5 @@ openresty-python3-build: openresty-python3-clean openresty-python3-download
 	tar xf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz --strip-components=1 -C openresty-python3
 	cd openresty-python3 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

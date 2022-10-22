@@ -25,5 +25,5 @@ openresty-perl-build: openresty-perl-clean openresty-perl-download
 	tar xf openresty-perl_$(OPENRESTY_PERL_VER).orig.tar.gz --strip-components=1 -C openresty-perl
 	cd openresty-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
