@@ -69,5 +69,5 @@ endif
 			--define with_tcmalloc=$(WITH_TCMALLOC) \
 			--define arch=$(ARCH) \
 			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

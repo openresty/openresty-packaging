@@ -27,5 +27,5 @@ openresty-saas-build: openresty-saas-clean openresty-saas-download
 	tar xf openresty-saas_$(OPENRESTY_SAAS_VER).orig.tar.gz --strip-components=1 -C openresty-saas
 	cd openresty-saas \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
