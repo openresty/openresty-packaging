@@ -1,3 +1,9 @@
+openresty (1.21.4.1-2~[% distro %]1) [% distro %]; urgency=high
+
+  * bumped the release number to 2.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 12 Jul 2022 12:07:30 +0800
+
 openresty (1.21.4.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.21.4.1.
