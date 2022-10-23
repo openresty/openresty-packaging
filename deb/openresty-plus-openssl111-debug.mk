@@ -18,7 +18,6 @@ openresty-plus-openssl111-debug-build: | openresty-plus-openssl111-debug-clean o
 
 .PHONY: openresty-plus-openssl111-debug-clean
 openresty-plus-openssl111-debug-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-plus-openssl111-debug && debclean
 	rm -rf openresty-plus-openssl111-debug/debian/tmp openresty-plus-openssl111-debug/test openresty-plus-openssl111-debug/*.a
 	find openresty-plus-openssl111-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl111-debug' -print | xargs rm -rf

@@ -18,7 +18,6 @@ openresty-plus-openssl111-build: | openresty-plus-openssl111-clean openresty-plu
 
 .PHONY: openresty-plus-openssl111-clean
 openresty-plus-openssl111-clean:
-	sudo apt-get -y -qq install openresty-zlib-dev
 	-cd openresty-plus-openssl111 && debclean
 	rm -rf openresty-plus-openssl111/debian/tmp openresty-plus-openssl111/test openresty-plus-openssl111/*.a
 	find openresty-plus-openssl111 -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-openssl111' -print | xargs rm -rf
