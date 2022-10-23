@@ -12,8 +12,6 @@ openresty-asan-download:
 	tar -czf openresty-asan_$(OPENRESTY_ASAN_VER).orig.tar.gz openresty-asan_$(OPENRESTY_ASAN_VER)
 
 openresty-asan-clean:
-	sudo apt-get -y -q install ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl111-asan-dev openresty-pcre-asan-dev
-	sudo apt-get -y -q install --only-upgrade ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl111-asan-dev openresty-pcre-asan-dev
 	-cd openresty-asan && debclean
 	-find openresty-asan -maxdepth 1 ! -name 'debian' ! -name 'openresty-asan' -print | xargs rm -rf
 	rm -rf openresty-asan*.deb
