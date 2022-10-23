@@ -8,7 +8,7 @@
 # you need to install the libtemplate-perl package first to get the tpage utility.
 # we use Perl TT2 templates to generate */debian/changelog files.
 
-JOBS=8
+JOBS=$(shell nproc)
 ZLIB_VER=1.2.12
 PCRE_VER=8.45
 SSL_VER=1.1.0l
@@ -18,6 +18,7 @@ LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.29
 OPTS=
 DISTRO:=$(shell lsb_release -c|awk '{print $$2}')
+deb_toolchain_pkgs = debhelper devscripts
 
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
@@ -191,8 +192,8 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
