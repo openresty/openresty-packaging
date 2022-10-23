@@ -9,7 +9,7 @@ openresty-util-linux-download:
 	rm -rf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	mkdir -p openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 	tar -xf util-linux-$(OPENRESTY_UTIL_LINUX_VER).tar.gz --strip-components=1 -C openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
-	tar -czf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
+	tar -I 'gzip -1' -cf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 
 openresty-util-linux-clean:
 	cd openresty-util-linux && debclean
@@ -25,5 +25,5 @@ openresty-util-linux-build: openresty-util-linux-clean openresty-util-linux-down
 	tar xf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz --strip-components=1 -C openresty-util-linux
 	cd openresty-util-linux \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
