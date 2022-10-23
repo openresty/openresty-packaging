@@ -11,7 +11,7 @@ openresty-postgresql-download:
 	tar -xf postgresql-$(OPENRESTY_POSTGRESQL_VER).tar.gz --strip-components=1 -C openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql.init openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)/
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-postgresql.service openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)/
-	tar -czf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER).orig.tar.gz openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
+	tar -I 'gzip -1' -cf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER).orig.tar.gz openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER)
 
 openresty-postgresql-clean:
 	-cd openresty-postgresql && debclean
@@ -27,5 +27,5 @@ openresty-postgresql-build: openresty-postgresql-clean openresty-postgresql-down
 	tar xf openresty-postgresql_$(OPENRESTY_POSTGRESQL_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql
 	cd openresty-postgresql \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

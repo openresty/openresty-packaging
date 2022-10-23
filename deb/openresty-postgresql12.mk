@@ -9,7 +9,7 @@ openresty-postgresql12-download:
 	rm -rf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	mkdir -p openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 	tar -xf postgresql-$(OPENRESTY_POSTGRESQL12_VER).tar.gz --strip-components=1 -C openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
-	tar -czf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
+	tar -I 'gzip -1' -cf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER)
 
 openresty-postgresql12-clean:
 	-cd openresty-postgresql12 && debclean
@@ -25,5 +25,5 @@ openresty-postgresql12-build: openresty-postgresql12-clean openresty-postgresql1
 	tar xf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12
 	cd openresty-postgresql12 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
