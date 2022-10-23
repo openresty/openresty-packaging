@@ -9,7 +9,7 @@ openresty-coreutils-download:
 	rm -rf openresty-coreutils_$(OPENRESTY_COREUTILS_VER)
 	mkdir -p openresty-coreutils_$(OPENRESTY_COREUTILS_VER)
 	tar -xf coreutils-$(OPENRESTY_COREUTILS_VER).tar.xz --strip-components=1 -C openresty-coreutils_$(OPENRESTY_COREUTILS_VER)
-	tar -czf openresty-coreutils_$(OPENRESTY_COREUTILS_VER).orig.tar.gz openresty-coreutils_$(OPENRESTY_COREUTILS_VER)
+	tar -I 'gzip -1' -cf openresty-coreutils_$(OPENRESTY_COREUTILS_VER).orig.tar.gz openresty-coreutils_$(OPENRESTY_COREUTILS_VER)
 
 openresty-coreutils-clean:
 	-cd openresty-coreutils && debclean
@@ -25,5 +25,5 @@ openresty-coreutils-build: openresty-coreutils-clean openresty-coreutils-downloa
 	tar xf openresty-coreutils_$(OPENRESTY_COREUTILS_VER).orig.tar.gz --strip-components=1 -C openresty-coreutils
 	cd openresty-coreutils \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
