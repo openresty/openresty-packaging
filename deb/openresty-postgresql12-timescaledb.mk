@@ -9,7 +9,7 @@ openresty-postgresql12-timescaledb-download:
 	rm -rf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
 	mkdir -p openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
 	tar -xf $(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).tar.gz --strip-components=1 -C openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
-	tar -czf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).orig.tar.gz openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
+	tar -I 'gzip -1' -cf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).orig.tar.gz openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER)
 
 openresty-postgresql12-timescaledb-clean:
 	-cd openresty-postgresql12-timescaledb && debclean
@@ -25,5 +25,5 @@ openresty-postgresql12-timescaledb-build: openresty-postgresql12-timescaledb-cle
 	tar xf openresty-postgresql12-timescaledb_$(OPENRESTY_POSTGRESQL12_TIMESCALEDB_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12-timescaledb
 	cd openresty-postgresql12-timescaledb \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
