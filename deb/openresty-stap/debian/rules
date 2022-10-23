@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd tapset; arch=`uname -m`; if [ "$$arch" = "aarch64" ]; then arch="arm64"; fi; perl ../util/parse-tapset-deps.pl $$arch/*.stp *.stp *.stpm linux/$$arch/*.stp linux/*.stp linux/*.stpm
+	cd tapset; arch=`uname -m`; if [ "$$arch" = "aarch64" ]; then arch="arm64"; fi; /usr/local/openresty-perl/bin/perl ../util/parse-tapset-deps.pl $$arch/*.stp *.stp *.stpm linux/$$arch/*.stp linux/*.stp linux/*.stpm
 	export PATH=/usr/local/openresty-python3/bin:$$PATH; \
 	./configure \
         --prefix=/usr/local/openresty-stap \
