@@ -155,7 +155,7 @@ $(priv_targets):
 	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
 	ls -lh $(rpmbuild_dir)/SRPMS/$@*[0-9]*.src.rpm
 	mkdir -p ~/packaging/SRPMS/
-	rsync --progress -av $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm ~/packaging/SRPMS/
+	#rsync --progress -av $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm ~/packaging/SRPMS/
 	ls -lh $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm
 	scp -v $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm ~/pkg/priv/`uname -m`/
 	cd ~/pkg/priv && ./build-repo
