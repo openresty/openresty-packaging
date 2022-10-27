@@ -21,7 +21,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	/bin/sh Configure -des -Doptimize="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4 -grecord-gcc-switches -mtune=generic" \
+	/bin/sh Configure -des -Doptimize="-g3 -O2 -fno-inline -fno-inline-functions-called-once" \
         -Dmyhostname=build.openresty.org \
         -Dcc='ccache gcc' \
         -Dcf_by='orinc' \
@@ -31,23 +31,6 @@ override_dh_auto_build:
         -Dsiteprefix=$(PREFIX) \
         -Dprivlib="$(PRIVLIB)" \
         -Darchlib="$(ARCHLIB)" \
-        -Duseshrplib \
-        -Dusethreads \
-        -Duseithreads \
-        -Duselargefiles \
-        -Dd_dosuid=n \
-        -Dd_semctl_semun \
-        -Di_shadow \
-        -Di_syslog \
-        -Dman3ext=3pm \
-        -Duseperlio \
-        -Dinstallusrbinperl=n \
-        -Ubincompat5005 \
-        -Uversiononly \
-        -Dpager='/usr/bin/less -isr' \
-        -Dd_gethostent_r_proto -Ud_endhostent_r_proto -Ud_sethostent_r_proto \
-        -Ud_endprotoent_r_proto -Ud_setprotoent_r_proto \
-        -Ud_endservent_r_proto -Ud_setservent_r_proto \
         -Dscriptdir='/usr/local/openresty-perl/bin' \
 		&& make -j`nproc`
 

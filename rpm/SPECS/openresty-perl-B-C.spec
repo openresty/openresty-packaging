@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-B-C
 Version:        1.57
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Perl compiler
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -101,5 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %{sitelib}/*
 
 %changelog
+* Thu Oct 27 2022 Jiahao Wang 1.57-2
+- removed unnecessary -D option from openresty-perl.
 * Mon Feb 08 2021 jiahao 1.57-1
 - Generated using cpantorpm.

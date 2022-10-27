@@ -4,7 +4,7 @@
 
 Name:           openresty-perl
 Version:        5.24.4
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of Perl programming language
 Group:          Development/Languages
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
@@ -79,8 +79,7 @@ Development headers for the OpenResty's fork of Perl.
 
 %build
 /bin/sh Configure -des \
-        -Doptimize="-g $RPM_OPT_FLAGS" \
-        -Dlddlflags="-shared -g $RPM_OPT_FLAGS" \
+        -Doptimize="-g3 -O2 -fno-inline -fno-inline-functions-called-once" \
         -Dmyhostname=build.openresty.org \
         -Dcc='ccache gcc' \
         -Dcf_by='orinc' \
@@ -91,23 +90,6 @@ Development headers for the OpenResty's fork of Perl.
         -Dsiteprefix=%{prefix} \
         -Dprivlib="%{privlib}" \
         -Darchlib="%{archlib}" \
-        -Duseshrplib \
-        -Dusethreads \
-        -Duseithreads \
-        -Duselargefiles \
-        -Dd_dosuid=n \
-        -Dd_semctl_semun \
-        -Di_shadow \
-        -Di_syslog \
-        -Dman3ext=3pm \
-        -Duseperlio \
-        -Dinstallusrbinperl=n \
-        -Ubincompat5005 \
-        -Uversiononly \
-        -Dpager='/usr/bin/less -isr' \
-        -Dd_gethostent_r_proto -Ud_endhostent_r_proto -Ud_sethostent_r_proto \
-        -Ud_endprotoent_r_proto -Ud_setprotoent_r_proto \
-        -Ud_endservent_r_proto -Ud_setservent_r_proto \
         -Dscriptdir='%{prefix}/bin'
 
 make -j`nproc`
@@ -159,6 +141,8 @@ rm -rf %{buildroot}
 %{archlib}/CORE/*.h
 
 %changelog
+* Thu Oct 27 2022 Jiahao Wang 5.24.4-5
+- removed unnecessary -D option.
 * Thu May 5 2022 Jiahao Wang 5.24.4-4
 - fixed segfault found by perlcc with Cpanel::JSON::XS.
 * Sun Feb 7 2021 Jiahao Wang 5.24.4-1
