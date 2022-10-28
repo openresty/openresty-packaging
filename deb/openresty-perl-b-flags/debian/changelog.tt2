@@ -1,3 +1,9 @@
+openresty-perl-b-flags (0.17-2~[% distro %]1) [% distro %]; urgency=high
+
+  * For newer perl.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 08 Feb 2021 00:00:00 -0700
+
 openresty-perl-b-flags (0.17-1~[% distro %]1) [% distro %]; urgency=high
 
   * Generated using cpantorpm.

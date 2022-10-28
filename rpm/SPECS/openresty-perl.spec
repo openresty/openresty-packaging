@@ -12,6 +12,7 @@ URL:            http://www.perl.org/
 Source0:        https://www.cpan.org/src/5.0/perl-%{version}.tar.gz
 Patch0:         perl-pp-Guard-fix-for-really-old-bug-in-glibc-libcrypt.patch
 Patch1:         perl-fix-segfault-found-by-perlcc-with-cpaneljsonxs.patch
+Patch2:         perl-5.24.4_perlcc_free_bug_workaround.patch
 BuildRequires:  ccache, gcc
 BuildRequires:  gawk, sed
 BuildRequires:  procps
@@ -76,6 +77,7 @@ Development headers for the OpenResty's fork of Perl.
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 /bin/sh Configure -des \
@@ -90,7 +92,10 @@ Development headers for the OpenResty's fork of Perl.
         -Dsiteprefix=%{prefix} \
         -Dprivlib="%{privlib}" \
         -Darchlib="%{archlib}" \
-        -Dscriptdir='%{prefix}/bin'
+        -Dscriptdir='%{prefix}/bin' \
+        -Dusethreads \
+        -Duseithreads \
+        -Duselargefiles
 
 make -j`nproc`
 

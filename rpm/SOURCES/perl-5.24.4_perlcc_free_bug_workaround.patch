@@ -1,0 +1,20 @@
+--- perl-5.24.4/perl.c	2018-03-23 12:37:50.000000000 -0700
++++ perl-5.24.4-patched/perl.c	2022-10-28 15:44:41.705244534 -0700
+@@ -789,7 +789,7 @@ perl_destruct(pTHXx)
+ 	    PAD_SET_CUR_NOSAVE(CvPADLIST(PL_main_cv), 1);
+ 	    PL_comppad_name = PadlistNAMES(CvPADLIST(PL_main_cv));
+ 	}
+-	op_free(PL_main_root);
++	/* op_free(PL_main_root); */
+ 	PL_main_root = NULL;
+     }
+     PL_main_start = NULL;
+@@ -797,7 +797,7 @@ perl_destruct(pTHXx)
+      * due to the CvOUTSIDE refs from subs compiled within it. It will
+      * get freed once all the subs are freed in sv_clean_all(), for
+      * destruct_level > 0 */
+-    SvREFCNT_dec(PL_main_cv);
++    /* SvREFCNT_dec(PL_main_cv); */
+     PL_main_cv = NULL;
+     PERL_SET_PHASE(PERL_PHASE_DESTRUCT);
+ 

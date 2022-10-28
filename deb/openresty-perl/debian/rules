@@ -32,7 +32,10 @@ override_dh_auto_build:
         -Dprivlib="$(PRIVLIB)" \
         -Darchlib="$(ARCHLIB)" \
         -Dscriptdir='/usr/local/openresty-perl/bin' \
-		&& make -j`nproc`
+        -Dusethreads \
+        -Duseithreads \
+        -Duselargefiles
+	make -j`nproc`
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \

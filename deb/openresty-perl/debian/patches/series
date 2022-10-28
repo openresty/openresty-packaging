@@ -1,2 +1,3 @@
 perl-pp-Guard-fix-for-really-old-bug-in-glibc-libcrypt.patch
 perl-fix-segfault-found-by-perlcc-with-cpaneljsonxs.patch
+perl-5.24.4_perlcc_free_bug_workaround.patch
