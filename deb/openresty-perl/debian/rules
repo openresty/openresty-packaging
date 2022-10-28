@@ -21,11 +21,11 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	/bin/sh Configure -des -Doptimize="-g3 -O2 -fno-inline -fno-inline-functions-called-once" \
+	/bin/sh Configure -des -Doptimize="-g -O2" \
         -Dmyhostname=build.openresty.org \
         -Dusethreads \
         -Dcc='ccache gcc' \
-        -Dcf_by='orinc' \
+        -Dcf_by='OpenResty Inc' \
         -Dinstallprefix=$(PREFIX) \
         -Dprefix=$(PREFIX) \
         -Dvendorprefix=$(PREFIX) \

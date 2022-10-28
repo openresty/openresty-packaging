@@ -4,7 +4,7 @@
 
 Name:           openresty-perl
 Version:        5.24.4
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty's fork of Perl programming language
 Group:          Development/Languages
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
@@ -79,11 +79,11 @@ Development headers for the OpenResty's fork of Perl.
 
 %build
 /bin/sh Configure -des \
-        -Doptimize="-g3 -O2 -fno-inline -fno-inline-functions-called-once" \
+        -Doptimize="-g -O2" \
         -Dusethreads \
         -Dmyhostname=build.openresty.org \
         -Dcc='ccache gcc' \
-        -Dcf_by='orinc' \
+        -Dcf_by='OpenResty Inc' \
         -Dinstallprefix=%{prefix} \
         -Dprefix=%{prefix} \
         -Darchname=%{_arch}-%{_os} \
