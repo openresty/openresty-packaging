@@ -23,7 +23,6 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	/bin/sh Configure -des -Doptimize="-g -O2" \
         -Dmyhostname=build.openresty.org \
-        -Dusethreads \
         -Dcc='ccache gcc' \
         -Dcf_by='OpenResty Inc' \
         -Dinstallprefix=$(PREFIX) \
