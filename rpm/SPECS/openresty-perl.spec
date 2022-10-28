@@ -80,6 +80,7 @@ Development headers for the OpenResty's fork of Perl.
 %build
 /bin/sh Configure -des \
         -Doptimize="-g3 -O2 -fno-inline -fno-inline-functions-called-once" \
+        -Dusethreads \
         -Dmyhostname=build.openresty.org \
         -Dcc='ccache gcc' \
         -Dcf_by='orinc' \
