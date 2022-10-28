@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-B-C
 Version:        1.57
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Perl compiler
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -20,11 +20,11 @@ AutoProv:       no
 Requires:       openresty-perl >= 5.24.4-7
 Requires:       openresty-perl-B-Flags >= 0.17-3
 Requires:       openresty-perl-IPC-Run
-Requires:       openresty-perl-Opcodes
+Requires:       openresty-perl-Opcodes >= 0.14-2
 BuildRequires:  openresty-perl >= 5.24.4-7
 BuildRequires:  openresty-perl-B-Flags >= 0.17-3
 BuildRequires:  openresty-perl-IPC-Run
-BuildRequires:  openresty-perl-Opcodes
+BuildRequires:  openresty-perl-Opcodes >= 0.14-2
 BuildRequires:  openresty-perl-devel >= 5.24.4-7
 
 %description
