@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-B-C
 Version:        1.57
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Perl compiler
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,15 +17,15 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
-Requires:       openresty-perl-B-Flags >= 0.15
+Requires:       openresty-perl >= 5.24.4-7
+Requires:       openresty-perl-B-Flags >= 0.17-3
 Requires:       openresty-perl-IPC-Run
 Requires:       openresty-perl-Opcodes
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-B-Flags >= 0.15
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-B-Flags >= 0.17-3
 BuildRequires:  openresty-perl-IPC-Run
 BuildRequires:  openresty-perl-Opcodes
-BuildRequires:  openresty-perl-devel >= 5.24.4
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 
 %description
 This compiler backend takes Perl source and generates C source code

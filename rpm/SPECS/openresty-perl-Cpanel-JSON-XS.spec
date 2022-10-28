@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Cpanel-JSON-XS
 Version:        4.28
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        cPanel fork of JSON::XS, fast and correct serializing
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,9 +17,9 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
+Requires:       openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 
 %description
 This module converts Perl data structures to JSON and vice versa. Its

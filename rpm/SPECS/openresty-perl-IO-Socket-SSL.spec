@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-IO-Socket-SSL
 Version:        2.071
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Nearly transparent SSL encapsulation for IO::Socket::INET.
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,10 +17,10 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
-Requires:       openresty-perl-Net-SSLeay >= 1.46
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
+Requires:       openresty-perl >= 5.24.4-7
+Requires:       openresty-perl-Net-SSLeay >= 1.90-4
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 
 %description
 A perl module

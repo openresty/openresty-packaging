@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-IO-Tty
 Version:        1.16
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Pseudo ttys and constants
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,9 +17,9 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
-Requires:       openresty-perl >= 5.24.4
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
+Requires:       openresty-perl >= 5.24.4-7
 
 %description
 IO::Tty is used internally by IO::Pty to create a pseudo-tty. You

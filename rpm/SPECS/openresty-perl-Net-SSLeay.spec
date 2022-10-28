@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Net-SSLeay
 Version:        1.90
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Perl extension for using OpenSSL
 License:        Artistic 2.0
 Group:          Development/Libraries
@@ -18,10 +18,10 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
+Requires:       openresty-perl >= 5.24.4-7
 Requires:       openresty-saas-openssl111
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 BuildRequires:  openresty-saas-openssl111
 BuildRequires:  openresty-saas-openssl111-devel
 

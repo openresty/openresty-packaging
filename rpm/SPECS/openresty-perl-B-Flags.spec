@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-B-Flags
 Version:        0.17
-Release:        1%{?dist}
+Release:        3%{?dist}
 Summary:        Friendlier flags for B
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries
@@ -17,9 +17,9 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
-Requires:       openresty-perl >= 5.24.4
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
+Requires:       openresty-perl >= 5.24.4-7
 
 %description
 Stringification of flags.

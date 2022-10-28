@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-JSON-XS
 Version:        4.03
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        unknown
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries
@@ -17,11 +17,11 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
+Requires:       openresty-perl >= 5.24.4-7
 Requires:       openresty-perl-Types-Serialiser
 Requires:       openresty-perl-common-sense
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 BuildRequires:  openresty-perl-Types-Serialiser
 BuildRequires:  openresty-perl-common-sense
 BuildRequires:  openresty-perl-Canary-Stability

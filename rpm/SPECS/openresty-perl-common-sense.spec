@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-common-sense
 Version:        3.75
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        unknown
 License:        (GPL+ or Artistic) and (GPLv2+ or Artistic)
 Group:          Development/Libraries
@@ -17,9 +17,9 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-Requires:       openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl >= 5.24.4
-BuildRequires:  openresty-perl-devel >= 5.24.4
+Requires:       openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl-devel >= 5.24.4-7
 
 %description
 A perl module
