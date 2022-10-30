@@ -55,63 +55,70 @@ build: zlib-build pcre-build openssl-build \
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
-		openresty-clean openresty-debug-clean openresty-valgrind-clean \
-		lemplate-clean test-nginx-clean \
-		openresty-plus-clean openresty-plus-debug-clean \
-		hyperscan-clean \
-		openresty-saas-clean openresty-binutils-clean \
-		openresty-tar-clean openresty-plzip-clean \
-		openresty-utils-clean openresty-postgresql-clean \
-		openresty-postgresql12-clean openresty-postgresql-orsl-clean \
-		openresty-postgresql12-orsl-clean openresty-postgresql-ip4r-clean \
-		openresty-postgresql12-ip4r-clean saas-pcre-clean saas-openssl-clean \
-		saas-zlib-clean openresty-util-linux-clean openresty-stap-clean \
-		openresty-elfutils-clean openresty-odb-clean openresty-odb-debug-clean \
-		openresty-postgresql12-timescaledb-clean openresty-postgresql-timescaledb-clean \
-		openresty-python3-clean openresty-yajl-clean openresty-gdb-clean \
-		openresty-saas-openssl111-clean openresty-python3-setuptools-clean \
-		openresty-python3-cython-clean openresty-python3-numpy-clean \
-		openssl111-clean openssl111-debug-clean \
-		openresty-pcap-clean openresty-tcpdump-clean \
-		openresty-python3-goto-clean openresty-maxminddb-clean \
-		openresty-maxminddb-debug-clean openresty-python3-xray-stats-clean \
-		openresty-nodejs-clean openresty-plus-openssl111-clean \
-		openresty-plus-openssl111-debug-clean openresty-perl-b-c-clean \
-		openresty-perl-b-flags-clean openresty-perl-extutils-config-clean \
-		openresty-perl-extutils-helpers-clean \
-		openresty-perl-extutils-installpaths-clean \
-		openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
-		openresty-perl-module-build-tiny-clean \
-		openresty-perl-opcodes-clean openresty-perl-readonly \
-		openresty-perl-clean openresty-keepalived-clean \
-		openresty-plus-test-clean \
-		lua-resty-jsonb-clean \
-		openresty-plus-openssl111-asan-clean \
-		openresty-plus-asan-clean \
-		openresty-plus-core-clean \
-		openresty-edge-pki-clean \
-		openresty-maxminddb-clean \
-		openresty-maxminddb-utils-clean \
-		openresty-zlib-asan-clean openresty-pcre-asan-clean \
-		openresty-openssl111-asan-clean openresty-asan-clean \
-		openresty-libbpf-clean \
-		openresty-perl-json-xs-clean openresty-perl-app-cpanminus-clean \
-		openresty-perl-types-serialiser-clean openresty-perl-common-sense-clean \
-		openresty-perl-canary-stability-clean \
-		openssl111-clean openssl111-debug-clean  \
-		openresty-zlib-asan-clean openresty-pcre-asan-clean \
-		openresty-openssl111-asan-clean openresty-asan-clean \
-		openresty-perl-mozilla-ca-clean openresty-perl-net-ssleay-clean \
-		openresty-perl-io-socket-ssl-clean  openresty-perl-protocol-websocket-clean \
-		openresty-curl-clean openresty-boringssl-clean openresty-libinjection-clean \
-		openresty-plus-core-h3-clean openresty-docker-clean openresty-libcco-clean  \
-		openresty-elf-loader-clean openresty-hiredis-clean openresty-libmariadb-clean \
-		openresty-libmemcached-clean lua-resty-wasm-clean openresty-tcmalloc-clean \
-		openresty-cyrus-sasl-clean openresty-plus-core-test-clean openresty-plus-core-h3-test-clean \
-		openresty-saas-pcre2-clean openresty-libdemangle-clean \
-		openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
-		openresty-wrk-clean
-
+		 openresty-clean openresty-debug-clean \
+		 openresty-valgrind-clean lemplate-clean test-nginx-clean \
+		 openresty-plus-clean openresty-plus-debug-clean \
+		 hyperscan-clean openresty-saas-clean \
+		 openresty-binutils-clean openresty-tar-clean \
+		 openresty-plzip-clean openresty-utils-clean \
+		 openresty-postgresql-clean openresty-postgresql12-clean \
+		 openresty-postgresql-orsl-clean \
+		 openresty-postgresql12-orsl-clean \
+		 openresty-postgresql-ip4r-clean \
+		 openresty-postgresql12-ip4r-clean saas-pcre-clean \
+		 saas-openssl-clean saas-zlib-clean \
+		 openresty-util-linux-clean openresty-stap-clean \
+		 openresty-elfutils-clean openresty-odb-clean \
+		 openresty-odb-debug-clean \
+		 openresty-postgresql12-timescaledb-clean \
+		 openresty-postgresql-timescaledb-clean \
+		 openresty-python3-clean openresty-yajl-clean \
+		 openresty-gdb-clean openresty-saas-openssl111-clean \
+		 openresty-python3-setuptools-clean \
+		 openresty-python3-cython-clean openresty-python3-numpy-clean \
+		 openssl111-clean openssl111-debug-clean openresty-pcap-clean \
+		 openresty-tcpdump-clean openresty-python3-goto-clean \
+		 openresty-maxminddb-clean openresty-maxminddb-debug-clean \
+		 openresty-python3-xray-stats-clean openresty-nodejs-clean \
+		 openresty-plus-openssl111-clean \
+		 openresty-plus-openssl111-debug-clean \
+		 openresty-perl-b-c-clean openresty-perl-b-flags-clean \
+		 openresty-perl-extutils-config-clean \
+		 openresty-perl-extutils-helpers-clean \
+		 openresty-perl-extutils-installpaths-clean \
+		 openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
+		 openresty-perl-module-build-tiny-clean \
+		 openresty-perl-opcodes-clean openresty-perl-readonly-clean \
+		 openresty-perl-clean openresty-keepalived-clean \
+		 openresty-plus-test-clean lua-resty-jsonb-clean \
+		 openresty-plus-openssl111-asan-clean \
+		 openresty-plus-asan-clean openresty-plus-core-clean \
+		 openresty-edge-pki-clean openresty-maxminddb-utils-clean \
+		 openresty-zlib-asan-clean openresty-pcre-asan-clean \
+		 openresty-openssl111-asan-clean openresty-asan-clean \
+		 openresty-libbpf-clean openresty-perl-json-xs-clean \
+		 openresty-perl-app-cpanminus-clean \
+		 openresty-perl-types-serialiser-clean \
+		 openresty-perl-common-sense-clean \
+		 openresty-perl-canary-stability-clean \
+		 openresty-perl-mozilla-ca-clean \
+		 openresty-perl-net-ssleay-clean \
+		 openresty-perl-io-socket-ssl-clean \
+		 openresty-perl-protocol-websocket-clean openresty-curl-clean \
+		 openresty-boringssl-clean openresty-libinjection-clean \
+		 openresty-plus-core-h3-clean openresty-docker-clean \
+		 openresty-libcco-clean openresty-elf-loader-clean \
+		 openresty-hiredis-clean openresty-libmariadb-clean \
+		 openresty-libmemcached-clean lua-resty-wasm-clean \
+		 openresty-tcmalloc-clean openresty-cyrus-sasl-clean \
+		 openresty-plus-core-test-clean \
+		 openresty-plus-core-h3-test-clean openresty-saas-pcre2-clean \
+		 openresty-libdemangle-clean \
+		 openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
+		 openresty-wrk-clean lua-resty-dymetrics-bilibili-clean \
+		 openresty-coreutils-clean openresty-intel-qat-driver-clean \
+		 openresty-maxminddb-asan-clean \
+		 openresty-plus-openssl111-qatengine-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

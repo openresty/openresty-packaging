@@ -11,6 +11,7 @@ openresty-asan-download:
 	tar -xf openresty-$(OPENRESTY_ASAN_VER).tar.gz --strip-components=1 -C openresty-asan_$(OPENRESTY_ASAN_VER)
 	tar -czf openresty-asan_$(OPENRESTY_ASAN_VER).orig.tar.gz openresty-asan_$(OPENRESTY_ASAN_VER)
 
+.PHONY: openresty-asan-clean
 openresty-asan-clean:
 	-cd openresty-asan && debclean
 	-find openresty-asan -maxdepth 1 ! -name 'debian' ! -name 'openresty-asan' -print | xargs rm -rf

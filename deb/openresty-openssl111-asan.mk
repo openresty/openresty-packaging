@@ -11,6 +11,7 @@ openresty-openssl111-asan-download:
 	tar -xf openssl-$(OPENRESTY_OPENSSL111_ASAN_VER).tar.gz --strip-components=1 -C openresty-openssl111-asan_$(OPENRESTY_OPENSSL111_ASAN_VER)
 	tar -czf openresty-openssl111-asan_$(OPENRESTY_OPENSSL111_ASAN_VER).orig.tar.gz openresty-openssl111-asan_$(OPENRESTY_OPENSSL111_ASAN_VER)
 
+.PHONY: openresty-openssl111-asan-clean
 openresty-openssl111-asan-clean:
 	-cd openresty-openssl111-asan && debclean
 	-find openresty-openssl111-asan -maxdepth 1 ! -name 'debian' ! -name 'openresty-openssl111-asan' -print | xargs rm -rf
