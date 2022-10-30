@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), ccache, gcc, make, openresty-perl (>= 5.24.4),
-    openresty-perl-b-c, openresty-perl-cpanel-json-xs (= [% perl_cpaneljsonxs_ver %]),
+    openresty-perl-b-c (>= 1.57), openresty-perl-cpanel-json-xs (>= [% perl_cpaneljsonxs_ver %]),
     openresty-perl-dev (>= 5.24.4)
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com
@@ -12,7 +12,7 @@ Package: openresty-dw2c
 Architecture: any
 Section: devel
 Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4),
-    openresty-perl-cpanel-json-xs (= [% perl_cpaneljsonxs_ver %])
+    openresty-perl-cpanel-json-xs (>= [% perl_cpaneljsonxs_ver %])
 Description: Tool for converting dwarf to C for OpenResty.
  Tool for converting dwarf to C for OpenResty.
 
