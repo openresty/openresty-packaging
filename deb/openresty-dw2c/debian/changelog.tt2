@@ -1,3 +1,9 @@
+openresty-dw2c (0.6-2~[% distro %]1) [% distro %]; urgency=high
+
+  * depends on the latest openresty-perl-b-c.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 30 Oct 2022 01:20:52 -0700
+
 openresty-dw2c (0.6-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-dw2c to 0.6.
