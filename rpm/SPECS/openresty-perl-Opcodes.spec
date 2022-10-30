@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Opcodes
 Version:        0.14
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        More Opcodes information from opnames.h and opcode.h
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -17,9 +17,9 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-BuildRequires:  openresty-perl >= 5.24.4-7
-BuildRequires:  openresty-perl-devel >= 5.24.4-7
-Requires:       openresty-perl >= 5.24.4-7
+BuildRequires:  openresty-perl >= 5.24.4-8
+BuildRequires:  openresty-perl-devel >= 5.24.4-8
+Requires:       openresty-perl >= 5.24.4-8
 
 %description
 A perl module
