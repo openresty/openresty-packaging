@@ -1,0 +1,24 @@
+diff --git a/script/perlcc.PL b/script/perlcc.PL
+index b62371f5..13269bed 100644
+--- a/script/perlcc.PL
++++ b/script/perlcc.PL
+@@ -465,6 +465,9 @@ sub compile_byte {
+     } else {
+ 	my @error = grep { !/^$Input syntax OK$/o } @$error_r;
+ 	@error = grep { !/^No package specified for compilation, assuming main::$/o } @error;
++	if (grep { /Can't locate \S+ in \@INC \(/ } @error) {
++	    die "$0: Missing Perl modules\n@error";
++	}
+ 	warn "$0: Unexpected compiler output\n@error" if @error and opt('v')<5;
+ 	warn "@error" if @error and opt('v')>4;
+     }
+@@ -590,6 +593,9 @@ sub compile_cstyle {
+         if (opt('check')) {
+             print "@error" if @error;
+         } else {
++	    if (grep { /Can't locate \S+ in \@INC \(/ } @error) {
++		die "$0: Missing Perl modules\n@error";
++	    }
+             warn "$0: Unexpected compiler output\n@error" if @error and opt('v')<5;
+             warn "@error" if @error and opt('v')>4;
+         }

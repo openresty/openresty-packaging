@@ -1,3 +1,9 @@
+openresty-perl-b-c (1.57-6~[% distro %]1) [% distro %]; urgency=high
+
+  * applied patch perl-B-C-1.57_mod_not_found.patch.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 27 Oct 2022 16:13:35 +0800
+
 openresty-perl-b-c (1.57-5~[% distro %]1) [% distro %]; urgency=high
 
   * applied patch perl-B-C-1.57_thr_free_static_sv.patch.

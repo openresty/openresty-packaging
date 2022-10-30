@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-B-C
 Version:        1.57
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Perl compiler
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -13,6 +13,7 @@ URL:            http://search.cpan.org/dist/B-C/
 BuildArch:      %{_arch}
 Source0:        https://cpan.metacpan.org/authors/id/R/RU/RURBAN/%{_name}-%{version}.tar.gz
 Patch0:         perl-B-C-1.57_thr_free_static_sv.patch
+Patch1:         perl-B-C-1.57_mod_not_found.patch
 
 AutoReqProv:    no
 AutoReq:        no
@@ -73,6 +74,7 @@ This build is specifically for OpenResty uses.
 %setup -q -n %{_name}-%{version}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 
