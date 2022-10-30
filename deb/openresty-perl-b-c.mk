@@ -11,11 +11,15 @@ openresty-perl-b-c-download:
 	tar -xf B-C-$(OPENRESTY_PERL_B_C_VER).tar.gz --strip-components=1 -C openresty-perl-b-c_$(OPENRESTY_PERL_B_C_VER)
 	tar -czf openresty-perl-b-c_$(OPENRESTY_PERL_B_C_VER).orig.tar.gz openresty-perl-b-c_$(OPENRESTY_PERL_B_C_VER)
 
+.PHONY: openresty-perl-b-c-clean
 openresty-perl-b-c-clean:
 	-cd openresty-perl-b-c && debclean
 	-find openresty-perl-b-c -maxdepth 1 ! -name 'debian' ! -name 'openresty-perl-b-c' -print | xargs rm -rf
 	rm -rf openresty-perl-b-c*.deb
 	rm -rf openresty-perl-b-c_*.*
+
+.PHONY: openresty-perl-B-C-build
+openresty-perl-B-C-build: openresty-perl-b-c-build
 
 .PHONY: openresty-perl-b-c-build
 openresty-perl-b-c-build: openresty-perl-b-c-clean openresty-perl-b-c-download

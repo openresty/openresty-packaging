@@ -11,11 +11,15 @@ openresty-perl-opcodes-download:
 	tar -xf Opcodes-$(OPENRESTY_PERL_OPCODES_VER).tar.gz --strip-components=1 -C openresty-perl-opcodes_$(OPENRESTY_PERL_OPCODES_VER)
 	tar -czf openresty-perl-opcodes_$(OPENRESTY_PERL_OPCODES_VER).orig.tar.gz openresty-perl-opcodes_$(OPENRESTY_PERL_OPCODES_VER)
 
+.PHONY: openresty-perl-opcodes-clean
 openresty-perl-opcodes-clean:
 	-cd openresty-perl-opcodes && debclean
 	-find openresty-perl-opcodes -maxdepth 1 ! -name 'debian' ! -name 'openresty-perl-opcodes' -print | xargs rm -rf
 	rm -rf openresty-perl-opcodes*.deb
 	rm -rf openresty-perl-opcodes_*.*
+
+.PHONY: openresty-perl-Opcodes-build
+openresty-perl-Opcodes-build: openresty-perl-opcodes-build
 
 .PHONY: openresty-perl-opcodes-build
 openresty-perl-opcodes-build: openresty-perl-opcodes-clean openresty-perl-opcodes-download

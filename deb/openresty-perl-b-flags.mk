@@ -11,11 +11,15 @@ openresty-perl-b-flags-download:
 	tar -xf B-Flags-$(OPENRESTY_PERL_B_FLAGS_VER).tar.gz --strip-components=1 -C openresty-perl-b-flags_$(OPENRESTY_PERL_B_FLAGS_VER)
 	tar -czf openresty-perl-b-flags_$(OPENRESTY_PERL_B_FLAGS_VER).orig.tar.gz openresty-perl-b-flags_$(OPENRESTY_PERL_B_FLAGS_VER)
 
+.PHONY: openresty-perl-b-flags-clean
 openresty-perl-b-flags-clean:
 	-cd openresty-perl-b-flags && debclean
 	-find openresty-perl-b-flags -maxdepth 1 ! -name 'debian' ! -name 'openresty-perl-b-flags' -print | xargs rm -rf
 	rm -rf openresty-perl-b-flags*.deb
 	rm -rf openresty-perl-b-flags_*.*
+
+.PHONY: openresty-perl-B-Flags-build
+openresty-perl-B-Flags-build: openresty-perl-b-flags-build
 
 .PHONY: openresty-perl-b-flags-build
 openresty-perl-b-flags-build: openresty-perl-b-flags-clean openresty-perl-b-flags-download
