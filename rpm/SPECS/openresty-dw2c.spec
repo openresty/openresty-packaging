@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
 Version:        0.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
@@ -68,7 +68,7 @@ Tool for converting dwarf to C for OpenResty.
 
 %build
 for f in dw2c dw2macros dw2xml find-altlink-files; do
-    %{perlcc} -O2 --Wc=-g -o $f ./bin/$f.pl || exit 1
+    %{perlcc} -v4 -O2 --Wc='-g -O2' -o "$f" "./bin/$f.pl"
 done
 
 %install

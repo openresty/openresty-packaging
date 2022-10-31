@@ -23,13 +23,12 @@ override_dh_auto_build:
 	# NB: --staticxs: Link to static XS if available. If the XS libs
 	# are only available as shared libs link to those
 	for f in dw2c dw2macros dw2xml find-altlink-files; do \
-		$(PERLCC) -O2 --Wc=-g -o $$f ./bin/$$f.pl || exit 1; \
+		$(PERLCC) -v4 -O2 --Wc='-g -O2' -o "$$f" "./bin/$$f.pl"; \
 	done
 
 override_dh_auto_install:
-	install -d $(DESTDIR)$(PREFIX)/bin \
-		&& install -m 0755 dw2c dw2xml dw2macros find-altlink-files \
-    $(DESTDIR)$(PREFIX)/bin
+	install -d $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 dw2c dw2xml dw2macros find-altlink-files $(DESTDIR)$(PREFIX)/bin
 
 override_dh_auto_clean:
 	dh_clean
