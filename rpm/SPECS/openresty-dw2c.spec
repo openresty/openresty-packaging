@@ -68,7 +68,7 @@ Tool for converting dwarf to C for OpenResty.
 
 %build
 for f in dw2c dw2macros dw2xml find-altlink-files; do
-    %{perlcc} -v4 -O2 --Wc='-g -O2' -o "$f" "./bin/$f.pl"
+    %{perlcc} -v4 -O2 --Wc='-g -O1' -o "$f" "./bin/$f.pl"
 done
 
 %install
