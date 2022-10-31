@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
 Version:        0.6
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
