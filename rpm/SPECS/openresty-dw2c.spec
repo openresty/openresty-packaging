@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
 Version:        0.6
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
@@ -24,7 +24,7 @@ AutoProv:       no
 
 BuildRequires:  ccache, gcc, make
 BuildRequires:  openresty-perl >= %{perl_ver_rel}
-BuildRequires:  openresty-perl-B-C >= 1.57-6
+BuildRequires:  openresty-perl-B-C >= 1.57-7
 BuildRequires:  openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
 BuildRequires:  openresty-perl-devel >= %{perl_ver_rel}
 

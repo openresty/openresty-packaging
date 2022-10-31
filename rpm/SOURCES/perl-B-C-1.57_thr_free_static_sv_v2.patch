@@ -1,0 +1,16 @@
+diff --git a/lib/B/C.pm b/lib/B/C.pm
+index ee1f8f72..66aa7c02 100644
+--- a/lib/B/C.pm
++++ b/lib/B/C.pm
+@@ -9389,6 +9389,11 @@ OPTION:
+   $B::C::save_data_fh = 1 if $] >= 5.008 and (($] < 5.009004) or $MULTI);
+   $B::C::destruct = 1 if $] < 5.008 or $^O eq 'MSWin32'; # skip -ffast-destruct there
+ 
++  # skip -fcow for threaded perl since it might crash the executable
++  # in perl_destruct().
++  # see https://github.com/rurban/perl-compiler/issues/443
++  $B::C::cow = 0 if $ITHREADS or $MULTI;
++
+   init_sections();
+   foreach my $i (@eval_at_startup) {
+     $init2->add_eval($i);
