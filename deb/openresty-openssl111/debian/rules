@@ -21,6 +21,8 @@ export NO_PKG_MANGLE=1
 
 export QA_RPATHS=$[ 0x0002 ]
 
+DESTDIR = $(CURDIR)/debian/tmp
+
 # main packaging script based on dh7 syntax
 %:
 	dh $@ --parallel --with autotools-dev
