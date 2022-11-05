@@ -138,6 +138,9 @@ openssl111-download:
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111_$(SSL111_VER).orig.tar.gz
 
+.PHONY: openresty-openssl111-build
+openresty-openssl111-build: openssl111-build
+
 .PHONY: openssl111-build
 openssl111-build: | openssl111-clean openssl111-download
 	sudo apt-get -y -qq install openresty-zlib-dev
@@ -155,6 +158,9 @@ openssl111-debug-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
+
+.PHONY: openresty-openssl111-debug-build
+openresty-openssl111-debug-build: openssl111-debug-build
 
 .PHONY: openssl111-debug-build
 openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
