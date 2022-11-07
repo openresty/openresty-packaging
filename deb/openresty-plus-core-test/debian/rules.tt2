@@ -33,7 +33,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 override_dh_auto_configure:
 	./configure \
       --prefix="$(OR_PREFIX)" \
-      --with-lmdb-xcflags="-O3 -DMDB_FDATASYNC_WORKS=1" \
+      --with-lmdb-xcflags="-O2 -DMDB_FDATASYNC_WORKS=1" \
       --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O2" \
       --with-cc='ccache gcc' \
 	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \

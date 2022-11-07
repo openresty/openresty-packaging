@@ -259,7 +259,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 
 ./configure \
     --prefix="%{orprefix}" \
-    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1" \
     --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O3" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-fPIC -DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
