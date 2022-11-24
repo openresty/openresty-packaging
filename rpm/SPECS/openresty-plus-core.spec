@@ -1,5 +1,5 @@
 Name:           openresty-plus-core
-Version:        1.19.9.1.22
+Version:        1.19.9.1.23
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -259,7 +259,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 
 ./configure \
     --prefix="%{orprefix}" \
-    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-core" \
     --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O3" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-cc-opt="-fPIC -DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
@@ -466,6 +466,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Nov 24 2022 Yichun Zhang (agentzh) 1.19.9.1.23-1
+- upgraded openresty-plus to 1.19.9.1.23.
 * Tue Nov 22 2022 Yichun Zhang (agentzh) 1.19.9.1.22-1
 - upgraded openresty-plus to 1.19.9.1.22.
 * Thu Oct 27 2022 Yichun Zhang (agentzh) 1.19.9.1.21-1

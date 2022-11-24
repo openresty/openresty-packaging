@@ -22,7 +22,7 @@ OPENSSL_PREFIX = $(PREFIX)/openssl111
 override_dh_auto_configure:
 	./configure \
     --prefix="$(PREFIX)" \
-    --with-lmdb-xcflags="-O2 -g3 -DMDB_FDATASYNC_WORKS=1" \
+    --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-saas" \
     --with-cc='ccache gcc' \
     --with-cc-opt="-DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
     --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
