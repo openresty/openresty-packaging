@@ -1,6 +1,6 @@
 Name:               openresty-boringssl
-Version:            20220622
-Release:            3%{?dist}
+Version:            20221129
+Release:            1%{?dist}
 Summary:            BoringSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -118,6 +118,8 @@ rm -rf %{buildroot}
 %{openssl_prefix}/include/*
 
 %changelog
+* Tue Nov 29 2022 Yichun Zhang (agentzh) 20221129-1
+- upgraded openresty-boringssl to 20221129.
 * Tue Jun 21 2022 Yichun Zhang (agentzh) 20220622-1
 - upgraded openresty-boringssl to 20220622.
 * Mon Nov 22 2021 Jiahao (wangjiahao@openresty.com) 20211122

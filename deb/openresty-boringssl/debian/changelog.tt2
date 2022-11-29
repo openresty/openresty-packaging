@@ -1,3 +1,9 @@
+openresty-boringssl (20221129-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-boringssl to 20221129.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 29 Nov 2022 19:15:15 +0800
+
 openresty-boringssl (20220622-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-boringssl to 20220622.
