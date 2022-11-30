@@ -73,12 +73,12 @@ sub update_zlib_spec ($) {
     }
 }
 
-for my $specfile (reverse sort glob 'openresty*.spec') {
-    #warn "checking $specfile";
-    if ($specfile =~ /^openresty(?:-plus)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
-        update_or_spec $specfile;
-    }
-}
+#for my $specfile (reverse sort glob 'openresty*.spec') {
+#    #warn "checking $specfile";
+#    if ($specfile =~ /^openresty(?:-plus)?(?:-(?:valgrind|asan|debug))?\.spec$/) {
+#        update_or_spec $specfile;
+#    }
+#}
 
 sub update_or_spec ($) {
     my $file = shift;
