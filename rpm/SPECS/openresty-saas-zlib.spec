@@ -1,5 +1,5 @@
 Name:               openresty-saas-zlib
-Version:            1.2.12
+Version:            1.2.13
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty SaaS
 
@@ -68,7 +68,7 @@ Provides C header and static library for OpenResty SaaS's zlib library.
 
 %build
 ./configure --prefix=%{zlib_prefix}
-make -j`nproc` CFLAGS='-O2 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+make -j`nproc` CFLAGS='-O2 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O2 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     > /dev/stderr
 
@@ -99,6 +99,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Nov 30 2022 Yichun Zhang (agentzh) 1.2.13-1
+- upgraded PCRE to 1.2.13.
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
 - upgraded zlib to 1.2.12.
 * Wed May 27 2020 Johnny Wang 1.2.11-1

@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-h3
 Version:        1.21.4.3.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -19,8 +19,7 @@ Source0:        openresty-plus-h3-%{version}.tar.gz
 %bcond_without	lua_resty_mlcache
 %bcond_without	ngx_brotli
 %bcond_without	lua_resty_mail
-%bcond_without	coro_nginx_module
-%bcond_without	tcmalloc
+%bcond_with	tcmalloc
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -33,7 +32,7 @@ BuildRequires:  openresty-yajl-devel >= 2.1.0.4
 BuildRequires:  libtool
 BuildRequires:  gd-devel
 BuildRequires:  glibc-devel
-%if %{with coro_nginx_module}
+%if 0%{?coro_nginx_module}
 BuildRequires:  openresty-libcco-devel
 BuildRequires:  openresty-elf-loader-devel
 BuildRequires:  openresty-cyrus-sasl-devel
@@ -53,7 +52,7 @@ Requires:       openresty-zlib >= 1.2.11-3
 Requires:       openresty-boringssl >= 20211122-1
 Requires:       openresty-pcre >= 8.45-1
 Requires:       openresty-yajl >= 2.1.0.4
-%if %{with coro_nginx_module}
+%if 0%{?coro_nginx_module}
 Requires:       openresty-elfutils
 Requires:       openresty-libcco
 Requires:       openresty-elf-loader
@@ -243,8 +242,8 @@ export CCO_LIB=%{libcco_prefix}/lib
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-h3" \
-    --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
-%if %{with coro_nginx_module}
+    --with-cc-opt="-fPIC -DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+%if 0%{?coro_nginx_module}
     -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
     -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
     -I%{cyrus_sasl_prefix}/include \
@@ -254,7 +253,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 %endif
     -I%{openssl_prefix}/include -g3" \
     --with-ld-opt="../license/en_plus_init.o -L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
-%if %{with coro_nginx_module}
+%if 0%{?coro_nginx_module}
     -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
     -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
 %endif
@@ -290,7 +289,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 %if %{with lua_resty_mail}
     --with-lua_resty_mail \
 %endif
-%if %{with coro_nginx_module}
+%if 0%{?coro_nginx_module}
     --with-coro_nginx_module \
 %endif
     --without-edge_message_bus \
