@@ -1,3 +1,9 @@
+openresty-zlib (1.2.13-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded zlib to 1.2.13.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 30 Nov 2022 10:50:59 +0800
+
 openresty-zlib (1.2.12-2~[% distro %]1) [% distro %]; urgency=high
 
   * bumped the release number to 2.
