@@ -96,12 +96,15 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}
+%dir %{zlib_prefix}/lib
 %attr(0755,root,root) %{zlib_prefix}/lib/libz.so*
 
 
 %files devel
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}/include
 %{zlib_prefix}/lib/*.a
 %{zlib_prefix}/include/zlib.h
 %{zlib_prefix}/include/zconf.h
