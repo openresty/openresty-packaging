@@ -41,6 +41,9 @@ zlib-download:
 	wget -nH --cut-dirs=100 --mirror 'https://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
 	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
 
+.PHONY: openresty-zlib-build
+openresty-zlib-build: zlib-build
+
 .PHONY: zlib-build
 zlib-build: | zlib-clean zlib-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
