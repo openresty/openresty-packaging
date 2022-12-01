@@ -1,6 +1,6 @@
 Name:               openresty-zlib-asan
 Version:            1.2.13
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
 Group:              System Environment/Libraries
@@ -76,7 +76,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure --prefix=%{zlib_prefix}
 
 make -j`nproc` CC="gcc -fsanitize=address" \
-    CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
     > /dev/stderr
