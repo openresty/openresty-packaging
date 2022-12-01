@@ -94,6 +94,11 @@ popd
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%dir %{yajl_prefix}
+%dir %{yajl_prefix}/bin
+%dir %{yajl_prefix}/lib
+%dir %{yajl_prefix}/lib64
+
 %defattr(-,root,root,-)
 %{yajl_prefix}/bin/json_reformat
 %{yajl_prefix}/bin/json_verify
@@ -104,7 +109,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(-,root,root,-)
+%dir %{yajl_prefix}/include
 %dir %{yajl_prefix}/include/yajl
+%dir %{yajl_prefix}/share
+%dir %{yajl_prefix}/share/pkgconfig
 %{yajl_prefix}/include/yajl/yajl_common.h
 %{yajl_prefix}/include/yajl/yajl_gen.h
 %{yajl_prefix}/include/yajl/yajl_parse.h

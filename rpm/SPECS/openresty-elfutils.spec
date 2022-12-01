@@ -164,6 +164,10 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%dir %{eu_prefix}
+%dir %{eu_prefix}/bin
+%dir %{eu_prefix}/lib
+%dir %{eu_prefix}/share
 %{eu_prefix}/bin/*
 %{eu_prefix}/share/*
 %{eu_prefix}/lib/*.so.*
@@ -172,6 +176,7 @@ rm -rf %{buildroot}
 
 %files devel
 %defattr(-,root,root)
+%dir %{eu_prefix}/include
 %{eu_prefix}/include/*
 %{eu_prefix}/lib/pkgconfig/*
 %{eu_prefix}/lib/pkgconfig

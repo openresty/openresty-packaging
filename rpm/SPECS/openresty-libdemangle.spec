@@ -91,12 +91,15 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{libdemangle_prefix}
+%dir %{libdemangle_prefix}/lib
 %attr(0755,root,root) %{libdemangle_prefix}/lib/libdemangle.so*
 
 
 %files devel
 %defattr(-,root,root,-)
 
+%dir %{libdemangle_prefix}/include
 %{libdemangle_prefix}/include/demangle.h
 %{libdemangle_prefix}/include/libiberty.h
 %{libdemangle_prefix}/include/ansidecl.h

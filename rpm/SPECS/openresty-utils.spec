@@ -80,6 +80,9 @@ export QA_RPATHS=$[ 0x0002 ]
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%dir %{prefix}
+%dir %{prefix}/bin
+%dir %{prefix}/lib
 %defattr(-,root,root,-)
 %{prefix}/bin/crc32_fast
 %{prefix}/bin/start-stop-daemon

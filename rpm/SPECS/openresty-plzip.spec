@@ -82,6 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files
+%dir %{prefix}
+%dir %{prefix}/bin
 %defattr(-,root,root,-)
 %{prefix}/bin/plzip
 

@@ -114,6 +114,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+files %{openssl_prefix}
+files %{openssl_prefix}/bin
+files %{openssl_prefix}/lib
 %attr(0755,root,root) %{openssl_prefix}/bin/openssl
 %attr(0755,root,root) %{openssl_prefix}/lib/*.so*
 %attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
@@ -122,6 +125,7 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 
+files %{openssl_prefix}/include
 %{openssl_prefix}/include/*
 %{openssl_prefix}/lib/*.a
 

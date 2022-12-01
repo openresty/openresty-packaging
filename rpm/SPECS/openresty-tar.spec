@@ -101,6 +101,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %files
+%dir %{prefix}
+%dir %{prefix}/bin
 %defattr(-,root,root)
 %{prefix}/bin/*
 

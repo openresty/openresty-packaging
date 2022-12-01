@@ -71,7 +71,10 @@ make install-pkglibexecPROGRAMS DESTDIR=${RPM_BUILD_ROOT}
 
 %files
 %defattr(-,root,root)
+%dir %{_prefix}
 %dir %{_prefix}/bin
+%dir %{_prefix}/libexec
+%dir %{_prefix}/libexec/coreutils
 %attr(0755,root,root) %{_prefix}/bin/*
 %attr(0755,root,root) %{_prefix}/libexec/coreutils/*
 

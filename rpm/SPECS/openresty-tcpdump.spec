@@ -90,6 +90,9 @@ exit 0
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%dir %{tcpdump_prefix}
+%dir %{tcpdump_prefix}/bin
+%dir %{tcpdump_prefix}/sbin
 %defattr(-,root,root)
 %{tcpdump_prefix}/sbin/tcpdump-plus
 %{tcpdump_prefix}/bin/hex2pcap

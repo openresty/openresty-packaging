@@ -123,12 +123,15 @@ rm -rf $RPM_BUILD_ROOT/%{pcre2_prefix}/bin
 export QA_RPATHS=$[ 0x0002 ]
 
 %files
+%dir %{pcre2_prefix}
+%dir %{pcre2_prefix}/lib
 %{pcre2_prefix}/lib/libpcre2-8.so.0*
 %{pcre2_prefix}/lib/libpcre2-posix.so.3*
 %{pcre2_prefix}/lib/libpcre2-16.so.0*
 %{pcre2_prefix}/lib/libpcre2-32.so.0*
 
 %files devel
+%dir %{pcre2_prefix}/include
 %{pcre2_prefix}/lib/*.so
 %{pcre2_prefix}/lib/pkgconfig/*
 %{pcre2_prefix}/include/*.h

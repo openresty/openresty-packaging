@@ -89,12 +89,15 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %files
+%dir %{prefix}
+%dir %{prefix}/lib
 %defattr(-,root,root,-)
 %{prefix}/lib/libodb-runtime.so
 
 
 %files devel
 %defattr(-,root,root)
+%dir %{prefix}/include
 %{prefix}/include/odb-stat.h
 %{prefix}/include/odb-runtime.h
 %{prefix}/include/odb-runtime-config.h

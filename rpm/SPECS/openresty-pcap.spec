@@ -97,11 +97,14 @@ rm -rf %{buildroot}/%{pcap_prefix}/lib/pkgconfig
 rm -rf $RPM_BUILD_ROOT
 
 %files
+%dir %{pcap_prefix}
+%dir %{pcap_prefix}/lib
 %defattr(-,root,root)
 %{pcap_prefix}/lib/libpcap.so.*
 
 %files devel
 %defattr(-,root,root)
+%dir %{pcap_prefix}/include
 %{pcap_prefix}/include/
 %{pcap_prefix}/lib/libpcap.a
 %{pcap_prefix}/lib/libpcap.so

@@ -132,6 +132,9 @@ rm -rf %{buildroot}
 
 %files
 # devel
+%dir %{prefix}
+%dir %{prefix}/lib
+%dir %{prefix}/share
 %exclude %{prefix}/bin/h2xs
 %exclude %{prefix}/bin/perlivp
 %exclude %{archlib}/CORE/*.h

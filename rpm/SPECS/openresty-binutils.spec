@@ -108,6 +108,8 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
+%dir %{binutils_prefix}
+%dir %{binutils_prefix}/bin
 %{binutils_prefix}/bin/*
 
 

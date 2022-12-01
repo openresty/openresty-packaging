@@ -97,6 +97,9 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %files
+%dir %{util_linux_prefix}
+%dir %{util_linux_prefix}/bin
+%{util_linux_prefix}/bin/script
 %defattr(-,root,root)
 %{util_linux_prefix}/bin/script
 %{util_linux_prefix}/bin/scriptreplay

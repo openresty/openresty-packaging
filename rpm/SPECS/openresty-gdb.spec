@@ -127,6 +127,7 @@ export QA_RPATHS=$[ 0x0002 ]
 %files
 %defattr(-,root,root)
 
+%dir %{_prefix}
 %{_prefix}/bin/
 %{_prefix}/lib/
 %{_prefix}/share/
