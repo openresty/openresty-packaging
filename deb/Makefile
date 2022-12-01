@@ -152,6 +152,9 @@ saas-zlib-download:
 	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
 	cp zlib-$(ZLIB_VER).tar.gz openresty-saas-zlib_$(ZLIB_VER).orig.tar.gz
 
+.PHONY: openresty-saas-zlib-build
+openresty-saas-zlib-build: saas-zlib-build
+
 .PHONY: saas-zlib-build
 saas-zlib-build: | saas-zlib-clean saas-zlib-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
