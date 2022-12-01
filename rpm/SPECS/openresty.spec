@@ -293,6 +293,14 @@ fi
 %files
 %defattr(-,root,root,-)
 
+%dir %{orprefix}
+%dir %{orprefix}/bin
+%dir %{orprefix}/luajit
+%dir %{orprefix}/lualib
+%dir %{orprefix}/nginx
+%dir %{orprefix}/nginx/html
+%dir %{orprefix}/nginx/logs
+%dir %{orprefix}/nginx/sbin
 %if 0%{?use_systemd}
 %{_unitdir}/%{name}.service
 %else
@@ -311,6 +319,7 @@ fi
 
 
 %files resty
+%dir %{orprefix}/bin
 %defattr(-,root,root,-)
 
 /usr/bin/resty
@@ -320,6 +329,7 @@ fi
 %files doc
 %defattr(-,root,root,-)
 
+%dir %{orprefix}/pod
 /usr/bin/restydoc
 %{orprefix}/bin/restydoc
 %{orprefix}/bin/restydoc-index
@@ -333,6 +343,9 @@ fi
 %defattr(-,root,root,-)
 
 /usr/bin/opm
+%dir %{orprefix}/site
+%dir %{orprefix}/site/pod
+%dir %{orprefix}/site/manifest
 %{orprefix}/bin/opm
 %{orprefix}/site/manifest/
 %{orprefix}/site/pod/
