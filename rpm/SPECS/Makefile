@@ -119,6 +119,7 @@ priv_targets = openresty-plus \
 		openresty-libdemangle \
 		openresty-perl-Cpanel-JSON-XS \
 		openresty-dw2c \
+		openresty-luajit-plus \
 		openresty-wrk
 
 .PHONY: all

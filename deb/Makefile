@@ -51,7 +51,8 @@ build: zlib-build pcre-build openssl-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
 	openresty-utils openresty-saas-openssl111-build \
-	openresty-pcap-build openresty-tcpdump-build
+	openresty-pcap-build openresty-tcpdump-build \
+	openresty-luajit-plus-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
@@ -118,7 +119,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-wrk-clean lua-resty-dymetrics-bilibili-clean \
 		 openresty-coreutils-clean openresty-intel-qat-driver-clean \
 		 openresty-maxminddb-asan-clean \
-		 openresty-plus-openssl111-qatengine-clean
+		 openresty-plus-openssl111-qatengine-clean \
+		 openresty-luajit-plus-clean
+
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
