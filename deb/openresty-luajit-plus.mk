@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LUAJIT_PLUS_VER := 20230111
+OPENRESTY_LUAJIT_PLUS_VER := 20230112
 
 .PHONY: openresty-luajit-plus-download
 openresty-luajit-plus-download:

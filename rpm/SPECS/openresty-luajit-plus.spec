@@ -1,5 +1,5 @@
 Name:           openresty-luajit-plus
-Version:        20230111
+Version:        20230112
 Release:        1%{?dist}
 Summary:        Luajit with enchance from openresty
 Group:          Development/System
@@ -75,6 +75,13 @@ make install DESTDIR=%{buildroot} PREFIX=%{prefix}
 rm -rf %{buildroot}%{prefix}/share/man
 rm -rf %{buildroot}%{prefix}/lib/libluajit-5.1.a
 
+pushd %{buildroot}
+
+for f in `find .%{prefix}/ -type f -name '*.lua'`; do
+    LUA_PATH=".%{prefix}/share/luajit-2.1.0-beta3/?.ljbc;.%{prefix}/share/luajit-2.1.0-beta3/?.lua;;" .%{prefix}/bin/luajit -bg $f ${f%.lua}.ljbc
+    rm -f $f
+done
+
 %clean
 rm -rf %{buildroot}
 
@@ -94,7 +101,7 @@ rm -rf %{buildroot}
 %{prefix}/lib/libluajit-5.1.so
 %{prefix}/lib/libluajit-5.1.so.2
 %{prefix}/lib/libluajit-5.1.so.2.1.0
-%{prefix}/share/luajit-2.1.0-beta3/jit/*.lua
+%{prefix}/share/luajit-2.1.0-beta3/jit/*.ljbc
 
 
 %files devel
@@ -107,6 +114,8 @@ rm -rf %{buildroot}
 %{prefix}/lib/pkgconfig/luajit.pc
 
 %changelog
+* Wed Jan 11 2023 Yichun Zhang (agentzh) 20230112-1
+- upgraded luajit-plus to 20230112.
 * Wed Jan 11 2023 Yichun Zhang (agentzh) 20230111-1
 - upgraded luajit-plus to 20230111.
 * Wed Jan 11 2023 Yichun Zhang (agentzh) 20230103-1
