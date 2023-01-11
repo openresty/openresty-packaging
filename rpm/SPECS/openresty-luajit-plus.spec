@@ -68,7 +68,7 @@ Development files for Luajit
 
 
 %build
-make -j`nproc` CCDEBUG=-g XCFLAGS='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g -DLUAJIT_ENABLE_GC64' Q=
+make -j`nproc` CCDEBUG=-g XCFLAGS='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g -DLUAJIT_ENABLE_GC64' Q= PREFIX=%{prefix}
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{prefix}
