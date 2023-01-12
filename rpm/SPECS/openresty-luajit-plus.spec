@@ -82,6 +82,8 @@ for f in `find .%{prefix}/ -type f -name '*.lua'`; do
     rm -f $f
 done
 
+popd
+
 %clean
 rm -rf %{buildroot}
 

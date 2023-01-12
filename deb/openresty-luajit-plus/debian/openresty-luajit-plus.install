@@ -10,4 +10,4 @@ usr/local/openresty/luajit-plus/bin/luajit-2.1.0-beta3
 usr/local/openresty/luajit-plus/lib/libluajit-5.1.so
 usr/local/openresty/luajit-plus/lib/libluajit-5.1.so.2
 usr/local/openresty/luajit-plus/lib/libluajit-5.1.so.2.1.0
-usr/local/openresty/luajit-plus/share/luajit-2.1.0-beta3/jit/*.lua
+usr/local/openresty/luajit-plus/share/luajit-2.1.0-beta3/jit/*.ljbc

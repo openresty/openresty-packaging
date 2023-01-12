@@ -1,5 +1,5 @@
 Name:           openresty-plus-core
-Version:        1.19.9.1.29
+Version:        1.19.9.1.30
 Release:        1%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
@@ -399,6 +399,11 @@ for f in `find .%{orprefix}/lualib -type f -name '*.lua'`; do
     rm -f $f
 done
 
+for f in `find .%{orprefix}/luajit -type f -name '*.lua'`; do
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;.%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.ljbc;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    rm -f $f
+done
+
 popd
 
 rm -rf %{buildroot}%{orprefix}/luajit/share/man
@@ -466,6 +471,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jan 11 2023 Yichun Zhang (agentzh) 1.19.9.1.30-1
+- upgraded openresty-plus to 1.19.9.1.30.
 * Tue Jan 3 2023 Yichun Zhang (agentzh) 1.19.9.1.29-1
 - upgraded openresty-plus to 1.19.9.1.29.
 * Mon Jan 2 2023 Yichun Zhang (agentzh) 1.19.9.1.28-1

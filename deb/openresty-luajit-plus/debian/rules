@@ -1,5 +1,6 @@
 #!/usr/bin/make -f
 
+PREFIX = /usr/local/openresty/luajit-plus
 DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
@@ -18,12 +19,16 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	make -j`nproc` CCDEBUG=-g XCFLAGS='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g -DLUAJIT_ENABLE_GC64'
+	make -j`nproc` CCDEBUG=-g XCFLAGS='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g -DLUAJIT_ENABLE_GC64' Q= PREFIX=$(PREFIX)
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty/luajit-plus \
-		&& rm -rf $(DESTDIR)/usr/local/openresty/luajit-plus/share/man \
-		&& rm -rf $(DESTDIR)/usr/local/openresty/luajit-plus/lib/libluajit-5.1.a
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/man \
+		&& rm -rf $(DESTDIR)$(PREFIX)/lib/libluajit-5.1.a
+	for f in `find $(DESTDIR)$(PREFIX) -type f -name '*.lua'`; do \
+		LUA_PATH="$(DESTDIR)$(PREFIX)/share/luajit-2.1.0-beta3/?.lua;$(DESTDIR)$(PREFIX)/share/luajit-2.1.0-beta3/?.ljbc;;" $(DESTDIR)$(PREFIX)/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
 
 override_dh_auto_clean:
 	dh_clean
