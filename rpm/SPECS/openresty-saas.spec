@@ -6,7 +6,7 @@
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
-Version:    1.19.9.1.30
+Version:    1.19.9.1.31
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
@@ -172,6 +172,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Tue Jan 17 2023 Yichun Zhang (agentzh) 1.19.9.1.31-1
+- upgraded openresty-plus to 1.19.9.1.31.
 * Wed Jan 11 2023 Yichun Zhang (agentzh) 1.19.9.1.30-1
 - upgraded openresty-plus to 1.19.9.1.30.
 * Tue Jan 3 2023 Yichun Zhang (agentzh) 1.19.9.1.29-1
