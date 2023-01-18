@@ -1,6 +1,6 @@
 Name:       openresty-postgresql12
 Version:    12.5
-Release:    8%{?dist}
+Release:    9%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql12
@@ -12,6 +12,7 @@ URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql12.init
 Source2:    openresty-postgresql12.service
+Source3:    postgresql-check-db-dir
 
 BuildRequires:  ccache, libxml2-devel, libxslt-devel, uuid-devel, readline-devel, openresty-plus-openssl111-devel
 
@@ -122,6 +123,7 @@ install -d $RPM_BUILD_ROOT/etc/init.d
 install -d $RPM_BUILD_ROOT/%{pgprefix}/share/systemd
 %{__install} -p -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/etc/init.d/openresty-postgresql12
 %{__install} -p -m 0755 %{SOURCE2} $RPM_BUILD_ROOT/%{pgprefix}/share/systemd/openresty-postgresql12.service
+%{__install} -p -m 0755 %{SOURCE3} $RPM_BUILD_ROOT/%{pgprefix}/bin/postgresql-check-db-dir
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -129,7 +131,10 @@ export QA_RPATHS=$[ 0x0002 ]
 %post
 #/sbin/ldconfig
 if [ -d "/etc/systemd/system" ]; then
-    cp -f %{pgprefix}/share/systemd/openresty-postgresql12.service \
+    if [ -L /etc/systemd/system/openresty-postgresql12.service ]; then
+        rm -f /etc/systemd/system/openresty-postgresql12.service
+    fi
+    /bin/cp -f %{pgprefix}/share/systemd/openresty-postgresql12.service \
        /etc/systemd/system/openresty-postgresql12.service
     /bin/systemctl daemon-reload
 

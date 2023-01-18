@@ -47,7 +47,8 @@ override_dh_auto_install:
 		&& install -d $(DESTDIR)/etc/init.d \
 		&& install -d $(DESTDIR)/usr/local/openresty-postgresql12/share/systemd \
 		&& install -p -m 0755 debian/openresty-postgresql12.init $(DESTDIR)/etc/init.d/openresty-postgresql12 \
-		&& install -p -m 0755 debian/openresty-postgresql12.service $(DESTDIR)$(PREFIX)/share/systemd/openresty-postgresql12.service
+		&& install -p -m 0755 debian/openresty-postgresql12.service $(DESTDIR)$(PREFIX)/share/systemd/openresty-postgresql12.service \
+		&& install -p -m 0755 debian/postgresql-check-db-dir $(DESTDIR)$(PREFIX)/bin/postgresql-check-db-dir
 
 override_dh_auto_clean:
 	dh_clean
