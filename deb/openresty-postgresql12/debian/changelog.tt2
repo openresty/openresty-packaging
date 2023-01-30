@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-8~[% distro %]1) [% distro %]; urgency=high
+
+  * added restart=always to .service file.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 30 Jan 2023 12:05:00 +0800
+
 openresty-postgresql12 (12.5-7~[% distro %]1) [% distro %]; urgency=high
 
   * bugfix: fixed .service file for openresty-postgresql12.

@@ -35,5 +35,11 @@ KillSignal=SIGINT
 # No artificial start/stop timeout (rhbz#1525477, pgrpms#2786).
 TimeoutSec=0
 
+Restart=always
+RestartSec=3
+
+StartLimitIntervalSec=200
+StartLimitBurst=5
+
 [Install]
 WantedBy=multi-user.target

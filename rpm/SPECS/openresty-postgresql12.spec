@@ -1,6 +1,6 @@
 Name:       openresty-postgresql12
 Version:    12.5
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql12
