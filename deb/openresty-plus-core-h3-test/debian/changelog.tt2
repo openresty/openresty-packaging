@@ -1,3 +1,9 @@
+openresty-plus-core-h3-test (1.21.4.3.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.21.4.3.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 5 Feb 2023 19:53:28 -0800
+
 openresty-plus-core-h3-test (1.21.4.3.7-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.21.4.3.7.
