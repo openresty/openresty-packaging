@@ -1,3 +1,9 @@
+openresty-elfutils (0.188.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded elfutils-plus to 0.188.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 9 Feb 2023 22:18:15 -0800
+
 openresty-elfutils (0.187.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded elfutils-plus to 0.187.2.
