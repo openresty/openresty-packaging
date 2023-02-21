@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-9~[% distro %]1) [% distro %]; urgency=high
+
+  * updated shebang for postgresql-check-db-dir.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 20 Feb 2023 12:11:00 +0800
+
 openresty-postgresql12 (12.5-8~[% distro %]1) [% distro %]; urgency=high
 
   * added restart=always to .service file.

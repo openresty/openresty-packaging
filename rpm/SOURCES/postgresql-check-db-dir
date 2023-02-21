@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # This script verifies that the postgresql data directory has been correctly
 # initialized.  We do not want to automatically initdb it, because that has
