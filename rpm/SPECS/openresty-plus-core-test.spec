@@ -258,7 +258,7 @@ export CCO_LIB=%{libcco_prefix}/lib
 %if %{with tcmalloc}
     -L%{tcmalloc_prefix}/lib \
     -Wl,-rpath,%{tcmalloc_prefix}/lib \
-    -ltcmalloc \
+    -ltcmalloc_minimal \
 %endif
     -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64
