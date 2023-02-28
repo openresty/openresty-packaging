@@ -1,3 +1,9 @@
+openresty-tcmalloc (2.10-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-tcmalloc to 2.10.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 28 Feb 2023 15:35:38 +0800
+
 openresty-tcmalloc (2.9.1-5~[% distro %]1) [% distro %]; urgency=high
 
   * added missing dependency package for tcmalloc-dev.

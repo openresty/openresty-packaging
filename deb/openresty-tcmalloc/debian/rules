@@ -23,8 +23,12 @@ override_dh_auto_build:
 	./configure \
     --prefix=$(PREFIX) \
     --libdir=$(PREFIX)/lib \
-	--disable-dynamic-sized-delete-support \
-	--disable-static \
+    --disable-cpu-profiler \
+    --disable-heap-profiler \
+    --disable-heap-checker \
+    --disable-debugalloc \
+    --disable-dynamic-sized-delete-support \
+    --disable-static \
 		&& sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool \
 		&& sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool \
 		&& make -j`nproc`

@@ -24,6 +24,7 @@ Source0:        openresty-plus-%{version}.tar.gz
 %bcond_without	ngx_brotli
 %bcond_without	lua_resty_mail
 %bcond_with  	coro_nginx_module
+%bcond_with	tcmalloc
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -45,6 +46,9 @@ BuildRequires:  openresty-libmemcached-devel
 BuildRequires:  openresty-hiredis-devel
 BuildRequires:  openresty-elfutils-devel
 %endif
+%if %{with tcmalloc}
+BuildRequires:  openresty-tcmalloc-devel
+%endif
 
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
@@ -57,6 +61,9 @@ Requires:       openresty-yajl >= 2.1.0.4
 Requires:       openresty-elfutils
 Requires:       openresty-libcco
 Requires:       openresty-elf-loader
+%endif
+%if %{with tcmalloc}
+Requires:       openresty-tcmalloc
 %endif
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
@@ -239,11 +246,19 @@ export CCO_LIB=%{libcco_prefix}/lib
     -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
     -I%{cyrus_sasl_prefix}/include/ \
 %endif
+%if %{with tcmalloc}
+    -I%{tcmalloc_prefix}/include \
+%endif
     -I%{openssl_prefix}/include -g3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib \
 %if 0%{?coro_nginx_module}
     -L%{elf_loader_prefix}/lib -L%{libcco_prefix}/lib -L%{elfutils_prefix}/lib \
     -Wl,-rpath,%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{libcco_prefix}/lib \
+%endif
+%if %{with tcmalloc}
+    -L%{tcmalloc_prefix}/lib \
+    -Wl,-rpath,%{tcmalloc_prefix}/lib \
+    -ltcmalloc \
 %endif
     -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
 %ifarch x86_64

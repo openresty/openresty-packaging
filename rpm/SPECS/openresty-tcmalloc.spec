@@ -2,13 +2,13 @@
 %define     orprefix    /usr/local/openresty-tcmalloc
 
 Name:		openresty-tcmalloc
-Version:	2.9.1
-Release:	5%{?dist}
+Version:	2.10
+Release:	1%{?dist}
 License:	BSD
 Summary:	Very fast malloc and performance analysis tools
 Group:      System Environment/Libraries
 URL:        https://github.com/gperftools/gperftools
-Source0:    https://github.com/gperftools/gperftools/archive/%{pkgname}-%{version}.tar.gz
+Source0:    https://github.com/gperftools/gperftools/releases/download/gperftools-%{version}/gperftools-%{version}.tar.gz
 Patch0:     tcmalloc_disable_unwind.patch
 
 BuildRequires:  gcc-c++
@@ -78,8 +78,12 @@ CXXFLAGS=`echo $RPM_OPT_FLAGS -fno-strict-aliasing -Wno-unused-local-typedefs -D
 ./configure \
     --prefix=%{orprefix} \
     --libdir=%{orprefix}/lib \
-	--disable-dynamic-sized-delete-support \
-	--disable-static
+    --disable-cpu-profiler \
+    --disable-heap-profiler \
+    --disable-heap-checker \
+    --disable-debugalloc \
+    --disable-dynamic-sized-delete-support \
+    --disable-static
 
 # Bad rpath!
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -105,6 +109,8 @@ rm -f %{buildroot}%{orprefix}/bin/pprof-symbolize
 %{orprefix}/lib/pkgconfig/*.pc
 
 %changelog
+* Tue Feb 28 2023 Yichun Zhang (agentzh) 2.10-1
+- upgraded openresty-tcmalloc to 2.10.
 * Mon Apr 6 2022 Jiahao Wang <lijunlong@openresty.com> - 2.9.1-5
 - Upgraded to 2.9.1.
 * Mon Feb 28 2022 Jiahao Wang <wangjiahao@openresty.com> - 2.9.1-4

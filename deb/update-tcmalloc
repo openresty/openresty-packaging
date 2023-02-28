@@ -8,7 +8,7 @@ sub update_changelog ($$);
 
 my $version = shift or die "No version number specified.\n";
 
-if ($version !~ /^\d+(\.\d+){2}$/) {
+if ($version !~ /^\d+(\.\d+){1,2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
@@ -19,7 +19,7 @@ if ($version !~ /^\d+(\.\d+){2}$/) {
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_TCMALLOC_VER\ :=\ ( \d+(\.\d+){2} ) $/OPENRESTY_TCMALLOC_VER := $version/msx) {
+        if (s/^ OPENRESTY_TCMALLOC_VER\ :=\ ( \d+(\.\d+){1,2} ) $/OPENRESTY_TCMALLOC_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -73,7 +73,7 @@ sub update_changelog ($$) {
         die "Bad file content in $file";
     }
 
-    if ($src =~ /^ \Q$name\E \s+ \( ( \d+(\.\d+){2} ) - \d+ ~ /xsm) {
+    if ($src =~ /^ \Q$name\E \s+ \( ( \d+(\.\d+){1,2} ) - \d+ ~ /xsm) {
         my $old_ver = $1;
         if ($old_ver ne $version) {
             say "INFO: $file: version needs update from $old_ver to $version";
