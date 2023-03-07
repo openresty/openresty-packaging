@@ -1,3 +1,9 @@
+openresty-dw2c (0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-dw2c to 0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 6 Mar 2023 17:07:02 -0800
+
 openresty-dw2c (0.6-5~[% distro %]1) [% distro %]; urgency=high
 
   * fixed perlcc command lines.
