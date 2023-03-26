@@ -1,0 +1,4 @@
+usr/local/openresty/site/lualib/resty/redis/cluster/
+usr/local/openresty/site/lualib/resty/redis/cluster/fast/
+usr/local/openresty/site/lualib/resty/redis/cluster/fast/cmd/
+usr/local/openresty/site/lualib/resty/redis/cluster/*

@@ -120,7 +120,8 @@ priv_targets = openresty-plus \
 		openresty-perl-Cpanel-JSON-XS \
 		openresty-dw2c \
 		openresty-luajit-plus \
-		openresty-wrk
+		openresty-wrk \
+		lua-resty-redis-cluster-fast
 
 .PHONY: all
 all: openresty

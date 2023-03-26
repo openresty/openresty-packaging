@@ -120,7 +120,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-coreutils-clean openresty-intel-qat-driver-clean \
 		 openresty-maxminddb-asan-clean \
 		 openresty-plus-openssl111-qatengine-clean \
-		 openresty-luajit-plus-clean
+		 openresty-luajit-plus-clean \
+		 lua-resty-redis-cluster-fast-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 
