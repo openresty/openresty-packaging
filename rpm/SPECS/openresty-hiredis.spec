@@ -1,6 +1,6 @@
 Name:               openresty-hiredis
 Version:            1.0.3.3
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            The hiredis library for OpenResty
 
 Group:              System Environment/Libraries
@@ -70,6 +70,7 @@ Provides C header and library for OpenResty's hiredis library.
 %build
 make -j`nproc` USE_SSL=1 PREFIX=%{hiredis_prefix} \
     OPENSSL_PREFIX=%{openssl_prefix} \
+    CFLAGS='-DHIREDIS_USE_FREE_LISTS' \
     V=1
 
 

@@ -21,7 +21,9 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	make -j`nproc` USE_SSL=1 PREFIX=$(PREFIX) OPENSSL_PREFIX=$(OPENSSL_PREFIX) \
+	make -j`nproc` USE_SSL=1 PREFIX=$(PREFIX) \
+		CFLAGS='-DHIREDIS_USE_FREE_LISTS' \
+		OPENSSL_PREFIX=$(OPENSSL_PREFIX) \
 		V=1
 
 override_dh_auto_install:
