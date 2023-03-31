@@ -1,0 +1,30 @@
+Source: openresty-coro-nginx-module
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
+ openresty-elf-loader-dev, openresty-libcco-dev, openresty-elfutils-dev,
+ openresty-zlib-dev, openresty-pcre-dev, openresty-openssl111-dev (>= 1.1.1n)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-coro-nginx-module
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elf-loader, openresty-libcco, openresty-elfutils
+Description: Coroutine implemented using ucontext API
+ Coroutine implemented using ucontext API.
+
+Package: openresty-coro-nginx-module-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-coro-nginx-module (>= ${source:Upstream-Version})
+Description: Development files for openresty-coro-nginx-module
+ Development files for openresty-coro-nginx-module.
+
+Package: openresty-coro-nginx-module-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-coro-nginx-module (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-coro-nginx-module package
+ Debug symbols (or debuginfo) for the openresty-coro-nginx-module package.
