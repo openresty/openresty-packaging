@@ -1,6 +1,6 @@
 Name:               openresty-hiredis
 Version:            1.0.3.3
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            The hiredis library for OpenResty
 
 Group:              System Environment/Libraries
@@ -11,13 +11,13 @@ Source0:            hiredis-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1l-1
+BuildRequires:  openresty-openssl111-devel >= 1.1.1l-1
 
-Requires:       openresty-plus-openssl111 >= 1.1.1l-1
+Requires:       openresty-openssl111 >= 1.1.1l-1
 
 AutoReqProv:        no
 
-%define openssl_prefix     /usr/local/openresty-plus/openssl111
+%define openssl_prefix     /usr/local/openresty/openssl111
 %define hiredis_prefix     /usr/local/openresty-plus/hiredis
 
 
