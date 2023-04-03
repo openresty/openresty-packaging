@@ -15,6 +15,8 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # LuaJIT is required to compile Lua files into byte code
 BuildRequires:  openresty >= 1.17.8.2
 
+Requires:  openresty-coro-hiredis-nginx-module
+
 AutoReqProv:        no
 
 %define orprefix                        %{_usr}/local/openresty
