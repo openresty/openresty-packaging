@@ -89,7 +89,7 @@ cd openresty-*/
 ./configure \
     --prefix="%{prefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -I%{elf_loader_prefix}/include -I%{cco_prefix}/include -I%{elfutils_prefix}/include" \
+    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -I%{elf_loader_prefix}/include -I%{cco_prefix}/include -I%{elfutils_prefix}/include -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -L%{elfutils_prefix}/lib -L%{elf_loader_prefix}/lib -L%{cco_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib:%{elfutils_prefix}/lib:%{elf_loader_prefix}/lib:%{cco_prefix}/lib" \
     --with-compat \
     --add-dynamic-module=../ \

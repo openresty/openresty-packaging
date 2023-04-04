@@ -1,6 +1,6 @@
 Name:               openresty-hiredis
-Version:            1.0.3.3
-Release:            4%{?dist}
+Version:            1.0.3.4
+Release:            1%{?dist}
 Summary:            The hiredis library for OpenResty
 
 Group:              System Environment/Libraries
@@ -103,6 +103,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Apr 4 2023 Yichun Zhang (agentzh) 1.0.3.4-1
+- upgraded openresty-hiredis to 1.0.3.4.
 * Thu Mar 30 2023 Yichun Zhang (agentzh) 1.0.3.3-1
 - upgraded openresty-hiredis to 1.0.3.3.
 * Fri Mar 11 2022 Yichun Zhang (agentzh) 1.0.3.2-1

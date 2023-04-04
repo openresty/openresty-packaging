@@ -1,3 +1,9 @@
+openresty-hiredis (1.0.3.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-hiredis to 1.0.3.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 4 Apr 2023 11:10:40 -0700
+
 openresty-hiredis (1.0.3.3-2~[% distro %]1) [% distro %]; urgency=high
 
   * fixed the make commands.
