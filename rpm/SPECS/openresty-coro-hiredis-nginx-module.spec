@@ -1,5 +1,5 @@
 Name:           openresty-coro-hiredis-nginx-module
-Version:        0.0.2
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        Coroutine implemented hiredis nginx module for OpenResty
 
@@ -123,6 +123,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Apr 4 2023 Yichun Zhang (agentzh) 0.0.3-1
+- upgraded openresty-coro-hiredis-nginx-module to 0.0.3.
 * Thu Mar 30 2023 Yichun Zhang (agentzh) 0.0.2-1
 - upgraded openresty-coro-hiredis-nginx-module to 0.0.2.
 * Thu Mar 30 2023 Hui Wang 0.0.1-1
