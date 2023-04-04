@@ -1,6 +1,6 @@
 Name:           lua-resty-redis-cluster-fast
-Version:        0.0.1
-Release:        2%{?dist}
+Version:        0.0.2
+Release:        1%{?dist}
 Summary:        Redis cluster client for OpenResty
 
 Group:          Development/Libraries
@@ -93,5 +93,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Apr 4 2023 Yichun Zhang (agentzh) 0.0.2-1
+- upgraded lua-resty-redis-cluster-fast to 0.0.2.
 * Sat Mar 25 2023 Hui Wang 0.0.1-1
 - initial build for lua-resty-redis-cluster-fast.
