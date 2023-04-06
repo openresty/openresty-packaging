@@ -23,7 +23,7 @@ BuildRequires:  openresty-pcre-devel
 BuildRequires:  openresty-elf-loader-devel
 BuildRequires:  openresty-libcco-devel
 BuildRequires:  openresty-elfutils-devel
-BuildRequires:  openresty-coro-nginx-module-devel
+BuildRequires:  openresty-coro-nginx-module-devel >= 0.0.5-1
 BuildRequires:  openresty-hiredis-devel
 BuildRequires:  openresty
 Requires:       openresty-coro-nginx-module, openresty-hiredis
