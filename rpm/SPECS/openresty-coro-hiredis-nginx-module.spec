@@ -1,6 +1,6 @@
 Name:           openresty-coro-hiredis-nginx-module
 Version:        0.0.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Coroutine implemented hiredis nginx module for OpenResty
 
 Group:          Development/Libraries
@@ -26,7 +26,8 @@ BuildRequires:  openresty-elfutils-devel
 BuildRequires:  openresty-coro-nginx-module-devel >= 0.0.5-1
 BuildRequires:  openresty-hiredis-devel
 BuildRequires:  openresty
-Requires:       openresty-coro-nginx-module, openresty-hiredis
+Requires:       openresty-coro-nginx-module >= 0.0.5-1
+Requires:       openresty-hiredis
 
 AutoReqProv:        no
 
