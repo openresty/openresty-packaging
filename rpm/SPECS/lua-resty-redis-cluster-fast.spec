@@ -1,5 +1,5 @@
 Name:           lua-resty-redis-cluster-fast
-Version:        0.0.3
+Version:        0.0.4
 Release:        1%{?dist}
 Summary:        Redis cluster client for OpenResty
 
@@ -12,10 +12,10 @@ BuildArch:      noarch
 Source0:        lua-resty-redis-cluster-fast-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-# LuaJIT is required to compile Lua files into byte code
+# LuaJIT is required to compile Lua files into bytecode
 BuildRequires:  openresty >= 1.17.8.2
 
-Requires:  openresty-coro-hiredis-nginx-module
+Requires:  openresty-coro-hiredis-nginx-module >= 0.0.5-2
 
 AutoReqProv:        no
 
