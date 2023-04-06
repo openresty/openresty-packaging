@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_CORO_NGINX_MODULE_VER := 0.0.4
+OPENRESTY_CORO_NGINX_MODULE_VER := 0.0.5
 OPENRESTY_VER := 1.21.4.2rc1
 
 .PHONY: openresty-coro-nginx-module-download
