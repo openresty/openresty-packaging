@@ -1,5 +1,5 @@
 Name:               openresty-saas-openssl111
-Version:            1.1.1t
+Version:            1.1.1s
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty SaaS
 
@@ -131,6 +131,8 @@ files %{openssl_prefix}/include
 
 
 %changelog
+* Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.1s-1
+- upgraded OpenSSL SaaS to 1.1.1s.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.1t-1
 - upgraded OpenSSL SaaS to 1.1.1t.
 * Fri Nov 4 2022 Yichun Zhang (agentzh) 1.1.1s-1
