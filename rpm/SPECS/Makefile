@@ -142,6 +142,7 @@ $(targets):
 	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
 	ls $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm > file.txt
 	rsync --progress -av `cat file.txt` openresty.org:/home/agentz/www/misc/nginx/
+	rsync --progress -av `cat file.txt` ~/packaging/SRPMS/
 	cd ~/rpmbuild/RPMS && ./sync-repo
 	cd ~/pkg/oss && ./build-repo
 	#cd ~/pkg/oss && ./upload

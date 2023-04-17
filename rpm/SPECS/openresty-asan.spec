@@ -163,6 +163,14 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{orprefix}
+%dir %{orprefix}/bin
+%dir %{orprefix}/luajit
+%dir %{orprefix}/lualib
+%dir %{orprefix}/nginx
+%dir %{orprefix}/nginx/html
+%dir %{orprefix}/nginx/logs
+%dir %{orprefix}/nginx/sbin
 /usr/bin/%{name}
 %{orprefix}/bin/openresty
 %{orprefix}/site/lualib/

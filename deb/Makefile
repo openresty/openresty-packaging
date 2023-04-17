@@ -12,7 +12,7 @@ JOBS=$(shell nproc)
 ZLIB_VER=1.2.13
 PCRE_VER=8.45
 SSL_VER=1.1.0l
-SSL111_VER=1.1.1t
+SSL111_VER=1.1.1s
 OR_VER=1.21.4.1
 OR_PLUS_VER=1.19.9.1.38
 OPENRESTY_PLUS_CORE_H3_VER=1.21.4.3.9
@@ -132,6 +132,9 @@ zlib-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.zlib.net/fossils/zlib-$(ZLIB_VER).tar.gz'
 	cp zlib-$(ZLIB_VER).tar.gz openresty-zlib_$(ZLIB_VER).orig.tar.gz
+
+.PHONY: openresty-zlib-build
+openresty-zlib-build: zlib-build
 
 .PHONY: zlib-build
 zlib-build: | zlib-clean zlib-download
@@ -307,6 +310,9 @@ openssl111-download:
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111_$(SSL111_VER).orig.tar.gz
 
+.PHONY: openresty-openssl111-build
+openresty-openssl111-build: openssl111-build
+
 .PHONY: openssl111-build
 openssl111-build: | openssl111-clean openssl111-download
 	sudo apt-get -y -qq install openresty-zlib-dev
@@ -324,6 +330,9 @@ openssl111-debug-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL111_VER).tar.gz'
 	cp openssl-$(SSL111_VER).tar.gz openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz
+
+.PHONY: openresty-openssl111-debug-build
+openresty-openssl111-debug-build: openssl111-debug-build
 
 .PHONY: openssl111-debug-build
 openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download

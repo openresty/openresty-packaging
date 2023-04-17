@@ -102,11 +102,14 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%dir %{pcre_prefix}
+%dir %{pcre_prefix}/lib
 %{pcre_prefix}/lib/*.so*
 
 
 %files devel
 %defattr(-,root,root,-)
+%dir %{pcre_prefix}/include
 %{pcre_prefix}/lib/*.a
 %{pcre_prefix}/include/*.h
 

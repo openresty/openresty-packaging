@@ -1,5 +1,5 @@
 Name:               openresty-zlib-asan
-Version:            1.2.12
+Version:            1.2.13
 Release:            2%{?dist}
 Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
@@ -76,7 +76,7 @@ export ASAN_OPTIONS=detect_leaks=0
 ./configure --prefix=%{zlib_prefix}
 
 make -j`nproc` CC="gcc -fsanitize=address" \
-    CFLAGS='-O1 -fno-omit-frame-pointer -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
     > /dev/stderr
@@ -96,18 +96,23 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}
+%dir %{zlib_prefix}/lib
 %attr(0755,root,root) %{zlib_prefix}/lib/libz.so*
 
 
 %files devel
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}/include
 %{zlib_prefix}/lib/*.a
 %{zlib_prefix}/include/zlib.h
 %{zlib_prefix}/include/zconf.h
 
 
 %changelog
+* Wed Nov 30 2022 Yichun Zhang (agentzh) 1.2.13-1
+- upgraded zlib to 1.2.13.
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
 - upgraded zlib to 1.2.12.
 * Sat Jul 15 2017 Yichun Zhang (agentzh) 1.2.11-6

@@ -1,5 +1,5 @@
 Name:               openresty-zlib
-Version:            1.2.12
+Version:            1.2.13
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty
 
@@ -67,7 +67,7 @@ Provides C header and static library for OpenResty's zlib library.
 
 %build
 ./configure --prefix=%{zlib_prefix}
-make -j`nproc` CFLAGS='-O3 -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+make -j`nproc` CFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     SFLAGS='-O3 -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
     > /dev/stderr
 
@@ -86,18 +86,23 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}
+%dir %{zlib_prefix}/lib
 %attr(0755,root,root) %{zlib_prefix}/lib/libz.so*
 
 
 %files devel
 %defattr(-,root,root,-)
 
+%dir %{zlib_prefix}/include
 %{zlib_prefix}/lib/*.a
 %{zlib_prefix}/include/zlib.h
 %{zlib_prefix}/include/zconf.h
 
 
 %changelog
+* Wed Nov 30 2022 Yichun Zhang (agentzh) 1.2.13-1
+- upgraded zlib to 1.2.13.
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
 - upgraded zlib to 1.2.12.
 * Fri Jul 14 2017 Yichun Zhang 1.2.11-3

@@ -101,6 +101,7 @@ rm -rf %{buildroot}
 
 
 %files devel
+%dir %{pcre_prefix}/include
 %defattr(-,root,root,-)
 %dir %{pcre_prefix}/include
 %{pcre_prefix}/lib/*.a

@@ -1,5 +1,5 @@
 Name:               openresty-openssl111
-Version:            1.1.1n
+Version:            1.1.1t
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -114,6 +114,9 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 
+%dir %{openssl_prefix}
+%dir %{openssl_prefix}/bin
+%dir %{openssl_prefix}/lib
 %attr(0755,root,root) %{openssl_prefix}/bin/openssl
 %attr(0755,root,root) %{openssl_prefix}/lib/*.so*
 %attr(0755,root,root) %{openssl_prefix}/lib/*/*.so*
@@ -122,11 +125,16 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 
+%dir %{openssl_prefix}/include
 %{openssl_prefix}/include/*
 %{openssl_prefix}/lib/*.a
 
 
 %changelog
+* Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.1t-1
+- upgraded OpenSSL to 1.1.1t.
+* Thu Nov 3 2022 Yichun Zhang (agentzh) 1.1.1s-1
+- upgraded OpenSSL to 1.1.1s.
 * Fri Mar 18 2022 Yichun Zhang (agentzh) 1.1.1n-1
 - upgraded OpenSSL to 1.1.1n.
 * Tue May 11 2021 Jiahao Wang 1.1.1k-1
