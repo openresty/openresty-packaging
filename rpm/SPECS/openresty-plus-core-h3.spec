@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-h3
 Version:        1.21.4.3.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
