@@ -123,7 +123,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-luajit-plus-clean \
 		 lua-resty-redis-cluster-fast-clean \
 		 openresty-coro-nginx-module-clean \
-		 openresty-coro-hiredis-nginx-module-clean
+		 openresty-coro-hiredis-nginx-module-clean \
+		 openresty-lua-cjson-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 

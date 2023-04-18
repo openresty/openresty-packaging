@@ -1,0 +1,21 @@
+Source: openresty-lua-cjson
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), libtool
+Standards-Version: 3.9.8
+Homepage: https://github.com/orinc/lua-cjson-plus/
+
+Package: openresty-lua-cjson
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The lua-cjson library for OpenResty
+ The cjson compression library for use by OpenResty ONLY
+
+Package: openresty-lua-cjson-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-lua-cjson (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-lua-cjson package
+ Debug symbols (or debuginfo) for the openresty-lua-cjson package.
