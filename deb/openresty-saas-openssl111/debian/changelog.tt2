@@ -1,3 +1,9 @@
+openresty-saas-openssl111 (1.1.1t-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openssl to 1.1.1t.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 19 Apr 2023 22:15:54 -0700
+
 openresty-saas-openssl111 (1.1.1s-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openssl to 1.1.1s.
