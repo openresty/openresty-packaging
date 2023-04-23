@@ -1,0 +1,6 @@
+openresty-opencc (1.1.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-opencc to 1.1.6-1
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 23 Apr 2023 00:00:00 -0700
+

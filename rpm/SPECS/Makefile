@@ -124,6 +124,7 @@ priv_targets = openresty-plus \
 		lua-resty-redis-cluster-fast \
 		openresty-coro-nginx-module \
 		openresty-coro-hiredis-nginx-module \
+		openresty-opencc \
 		openresty-lua-cjson
 
 .PHONY: all

@@ -1,0 +1,3 @@
+usr/local/openresty-opencc/include/
+usr/local/openresty-opencc/include/opencc/*.hpp
+usr/local/openresty-opencc/include/opencc/*.h

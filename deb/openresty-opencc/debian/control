@@ -1,0 +1,28 @@
+Source: openresty-opencc
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gettext, cmake, python3
+Standards-Version: 3.9.8
+Homepage: https://opencc.byvoid.com/
+
+Package: openresty-opencc
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Open Chinese Convert is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai).
+ Open Chinese Convert is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai).
+
+Package: openresty-opencc-dev
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-opencc (>= ${source:Upstream-Version})
+Description: Development files for OpenResty's zlib library
+ Provides C header and static library for OpenResty's zlib library.
+
+Package: openresty-opencc-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-opencc (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-opencc package
+ Debug symbols (or debuginfo) for the openresty-opencc package.

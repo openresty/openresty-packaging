@@ -1,0 +1,9 @@
+usr/local/openresty-opencc/
+usr/local/openresty-opencc/lib/
+usr/local/openresty-opencc/bin/
+usr/local/openresty-opencc/share/opencc/
+usr/local/openresty-opencc/lib/libopencc.so*
+usr/local/openresty-opencc/bin/opencc
+usr/local/openresty-opencc/bin/opencc_dict
+usr/local/openresty-opencc/bin/opencc_phrase_extract
+usr/local/openresty-opencc/share/opencc/*
