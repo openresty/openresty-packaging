@@ -21,8 +21,8 @@ openresty-opencc-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-opencc-build
 openresty-opencc-build: openresty-opencc-clean openresty-opencc-download
-	sudo apt-get -y -q install gettext cmake python3
-	sudo apt-get -y -q install --only-upgrade gettext cmake python3
+	sudo apt-get -y -q install gettext cmake
+	sudo apt-get -y -q install --only-upgrade gettext cmake
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-opencc_$(OPENRESTY_OPENCC_VER).orig.tar.gz --strip-components=1 -C openresty-opencc
 	cd openresty-opencc \

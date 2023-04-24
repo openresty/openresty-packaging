@@ -1,6 +1,6 @@
 Name:               openresty-opencc
 Version:            1.1.6
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Open Chinese Convert is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai). 
 
 Group:              Development/Tools
@@ -14,7 +14,6 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 
 BuildRequires:  gettext
 BuildRequires:  cmake
-BuildRequires:  python3
 
 AutoReqProv:    no
 
