@@ -1,6 +1,6 @@
 Name:               openresty-opencc
 Version:            1.1.6
-Release:            2%{?dist}
+Release:            3%{?dist}
 Summary:            Open Chinese Convert is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai). 
 
 Group:              Development/Tools
@@ -77,6 +77,7 @@ make -j`nproc` PREFIX=%{opencc_prefix}
 make install DESTDIR=%{buildroot} PREFIX=%{opencc_prefix}
 rm -f  %{buildroot}/%{opencc_prefix}/lib/*.la
 rm -rf %{buildroot}/%{opencc_prefix}/lib/pkgconfig
+export QA_RPATHS=$[ 0x0002 ]
 
 
 %clean
@@ -91,7 +92,9 @@ rm -rf %{buildroot}
 %dir %{opencc_prefix}/bin
 %dir %{opencc_prefix}/share/opencc
 
-%attr(0755,root,root) %{opencc_prefix}/lib/libopencc.so*
+%{opencc_prefix}/lib/libopencc.so
+%{opencc_prefix}/lib/libopencc.so.1.1
+%attr(0755,root,root) %{opencc_prefix}/lib/libopencc.so.1.1.5
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc_dict
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc_phrase_extract
