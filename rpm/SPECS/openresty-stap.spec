@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -11,7 +11,8 @@ Source0:        systemtap-plus-%{version}.tar.gz
 
 AutoReqProv:    no
 
-%define __brp_python_bytecompile  /usr/local/openresty-python3/bin/python3
+%global _python_bytecompile_extra 0
+#%define __brp_python_bytecompile  /usr/local/openresty-python3/bin/python3
 
 %define _rpmmacrodir %{_rpmconfigdir}/macros.d
 
@@ -146,11 +147,13 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
         --prefix=%{stap_prefix} \
         --libexecdir="%{stap_prefix}/libexec" \
         --disable-docs --disable-publican \
-        --with-python3 \
+        --without-python3 \
+        --without-python2 \
         --without-nss \
         --without-openssl \
         --without-avahi \
         --without-bpf \
+        --without-dyninst \
         --without-python2-probes \
         --without-python3-probes \
         --disable-refdocs \
@@ -204,6 +207,14 @@ rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-sign-module
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-start-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-stop-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/python/stap-resolve-module-function.py*
+rm -rf %{buildroot}%{stap_prefix}/share/systemtap/interactive-notebook/
+
+rm %{buildroot}%{stap_prefix}/bin/stap-jupyter-container \
+   %{buildroot}%{stap_prefix}/bin/stap-jupyter-install \
+   %{buildroot}%{stap_prefix}/bin/stap-profile-annotate \
+   %{buildroot}%{stap_prefix}/libexec/systemtap/HelperSDT.jar \
+   %{buildroot}%{stap_prefix}/libexec/systemtap/libHelperSDT.so \
+   %{buildroot}%{stap_prefix}/libexec/systemtap/stapbm
 
 export QA_RPATHS=$[ 0x0002 ]
 

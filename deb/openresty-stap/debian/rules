@@ -21,20 +21,22 @@ override_dh_auto_build:
 	cd tapset; arch=`uname -m`; if [ "$$arch" = "aarch64" ]; then arch="arm64"; fi; /usr/local/openresty-perl/bin/perl ../util/parse-tapset-deps.pl $$arch/*.stp *.stp *.stpm linux/$$arch/*.stp linux/*.stp linux/*.stpm
 	export PATH=/usr/local/openresty-python3/bin:$$PATH; \
 	./configure \
-        --prefix=/usr/local/openresty-stap \
-        --disable-docs --disable-publican \
-        --with-python3 \
-        --without-nss \
-        --without-openssl \
-        --without-avahi \
-        --without-bpf \
-        --without-python2-probes \
-        --without-python3-probes \
-        --disable-refdocs \
-        CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
-        CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
-        LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib' \
-		&& make -j`nproc` > /dev/null
+	    --prefix=/usr/local/openresty-stap \
+	    --disable-docs --disable-publican \
+	    --without-python3 \
+	    --without-python2 \
+	    --without-nss \
+	    --without-openssl \
+	    --without-avahi \
+	    --without-bpf \
+	    --without-dyninst \
+	    --without-python2-probes \
+	    --without-python3-probes \
+	    --disable-refdocs \
+	    CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
+	    CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
+	    LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib'
+	make -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-stap/share/systemtap/
@@ -42,25 +44,32 @@ override_dh_auto_install:
 	rm tapset/tapset-deps.data
 	mkdir -p $(DESTDIR)/usr/local/openresty-stap/bin/
 	install -c -m 755 util/parse-stp-deps.pl $(DESTDIR)/usr/local/openresty-stap/bin/
-	make install DESTDIR=$(DESTDIR) > /dev/null \
-		&& chmod 755 $(DESTDIR)/usr/local/openresty-stap/bin/staprun \
-		&& install -c -m 755 stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/man \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/systemtap/examples \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/share/locale \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-stap/lib64/python2.7 \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-server \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapbpf \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapsh \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-report \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-env \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-gen-cert \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-serverd \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-sign-module \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-start-server \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-stop-server \
-		&& rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/python/stap-resolve-module-function.py*
+	make install DESTDIR=$(DESTDIR) > /dev/null
+	chmod 755 $(DESTDIR)/usr/local/openresty-stap/bin/staprun
+	install -c -m 755 stap-prep $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep
+	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/man
+	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/systemtap/examples
+	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/locale
+	rm -rf $(DESTDIR)/usr/local/openresty-stap/lib64/python2.7
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-server
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapbpf
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stapsh
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-prep
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-report
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-env
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-gen-cert
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-serverd
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-sign-module
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-start-server
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stap-stop-server
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/python/stap-resolve-module-function.py*
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/HelperSDT.jar
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/libHelperSDT.so
+	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stapbm
+	rm -f $(DESTDIR)/usr/local/openresty-stap/share/systemtap/interactive-notebook/
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-container
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-install
+	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-profile-annotate
 
 override_dh_clean:
 	dh_clean
