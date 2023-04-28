@@ -23,8 +23,7 @@ override_dh_auto_build:
 	./configure \
 	    --prefix=/usr/local/openresty-stap \
 	    --disable-docs --disable-publican \
-	    --without-python3 \
-	    --without-python2 \
+	    --with-python3 \
 	    --without-nss \
 	    --without-openssl \
 	    --without-avahi \

@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -12,7 +12,6 @@ Source0:        systemtap-plus-%{version}.tar.gz
 AutoReqProv:    no
 
 %global _python_bytecompile_extra 0
-#%define __brp_python_bytecompile  /usr/local/openresty-python3/bin/python3
 
 %define _rpmmacrodir %{_rpmconfigdir}/macros.d
 
@@ -147,8 +146,7 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
         --prefix=%{stap_prefix} \
         --libexecdir="%{stap_prefix}/libexec" \
         --disable-docs --disable-publican \
-        --without-python3 \
-        --without-python2 \
+        --with-python3 \
         --without-nss \
         --without-openssl \
         --without-avahi \
