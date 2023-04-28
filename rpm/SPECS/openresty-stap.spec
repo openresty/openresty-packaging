@@ -209,7 +209,7 @@ rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/stap-stop-server
 rm -f %{buildroot}%{stap_prefix}/libexec/systemtap/python/stap-resolve-module-function.py*
 rm -rf %{buildroot}%{stap_prefix}/share/systemtap/interactive-notebook/
 
-rm %{buildroot}%{stap_prefix}/bin/stap-jupyter-container \
+rm -f %{buildroot}%{stap_prefix}/bin/stap-jupyter-container \
    %{buildroot}%{stap_prefix}/bin/stap-jupyter-install \
    %{buildroot}%{stap_prefix}/bin/stap-profile-annotate \
    %{buildroot}%{stap_prefix}/libexec/systemtap/HelperSDT.jar \
