@@ -11,6 +11,8 @@ Source0:        systemtap-plus-%{version}.tar.gz
 
 AutoReqProv:    no
 
+%define __brp_python_bytecompile  /usr/local/openresty-python3/bin/python3
+
 %define _rpmmacrodir %{_rpmconfigdir}/macros.d
 
 %define _unpackaged_files_terminate_build 0
