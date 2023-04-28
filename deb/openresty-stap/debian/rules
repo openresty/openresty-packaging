@@ -65,7 +65,7 @@ override_dh_auto_install:
 	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/HelperSDT.jar
 	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/libHelperSDT.so
 	rm -f $(DESTDIR)/usr/local/openresty-stap/libexec/systemtap/stapbm
-	rm -f $(DESTDIR)/usr/local/openresty-stap/share/systemtap/interactive-notebook/
+	rm -rf $(DESTDIR)/usr/local/openresty-stap/share/systemtap/interactive-notebook/
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-container
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-install
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-profile-annotate
