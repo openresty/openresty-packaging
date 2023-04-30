@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -161,8 +161,8 @@ ccache g++ -v
         --disable-refdocs \
         CC='ccache gcc -fdiagnostics-color=always' \
         CXX='ccache g++ -fdiagnostics-color=always' \
-        CFLAGS='-I%{eu_prefix}/include -g -O2 -Werror=implicit-fallthrough' \
-        CXXFLAGS='-I%{eu_prefix}/include -g -O2 -Werror=implicit-fallthrough' \
+        CFLAGS='-I%{eu_prefix}/include -g -O2 -Wno-error=implicit-fallthrough' \
+        CXXFLAGS='-I%{eu_prefix}/include -g -O2 -Wno-error=implicit-fallthrough' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
 make -j`nproc` V=1
