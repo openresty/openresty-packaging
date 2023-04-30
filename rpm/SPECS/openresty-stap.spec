@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -161,11 +161,11 @@ ccache g++ -v
         --disable-refdocs \
         CC='ccache gcc -fdiagnostics-color=always' \
         CXX='ccache g++ -fdiagnostics-color=always' \
-        CFLAGS='-I%{eu_prefix}/include -g -O2' \
-        CXXFLAGS='-I%{eu_prefix}/include -g -O2' \
+        CFLAGS='-I%{eu_prefix}/include -g -O2 -Werror=implicit-fallthrough' \
+        CXXFLAGS='-I%{eu_prefix}/include -g -O2 -Werror=implicit-fallthrough' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
-make -j`nproc`
+make -j`nproc` V=1
 
 %install
 
@@ -176,7 +176,7 @@ mkdir -p %{buildroot}%{stap_prefix}/bin/
 install -c -m 755 util/parse-stp-deps.pl %{buildroot}%{stap_prefix}/bin/
 
 export PATH=/usr/local/openresty-python3/bin:$PATH
-make install DESTDIR=%{buildroot} > /dev/null
+make install DESTDIR=%{buildroot}
 
 sed -i 's/^#!.*python*/#!\/usr\/local\/openresty-python3\/bin\/python3/' \
     %{buildroot}%{stap_prefix}/bin/dtrace
