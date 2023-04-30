@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -157,8 +157,8 @@ export PATH=/usr/local/openresty-python3/bin:$PATH
         --disable-refdocs \
         CC='ccache gcc -fdiagnostics-color=always' \
         CXX='ccache g++ -fdiagnostics-color=always' \
-        CFLAGS='-I%{eu_prefix}/include -g3 -O2' \
-        CXXFLAGS='-I%{eu_prefix}/include -g3 -O2' \
+        CFLAGS='-I%{eu_prefix}/include -g -O2' \
+        CXXFLAGS='-I%{eu_prefix}/include -g -O2' \
         LDFLAGS='-L%{eu_prefix}/lib -Wl,-rpath,%{eu_prefix}/lib'
 
 make -j`nproc`
