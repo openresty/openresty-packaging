@@ -23,7 +23,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	cd src/ \
 		&& make -j$(JOBS) CC='ccache gcc' \
-    CFLAGS='-I$(ELF_PREFIX)/include -g3 -O3' \
+    CFLAGS='-I$(ELF_PREFIX)/include -g3 -O3 -std=gnu11' \
     LDFLAGS='-L$(ELF_PREFIX)/lib -Wl,-rpath,$(ELF_PREFIX)/lib' \
     NO_PKG_CONFIG=1 \
 		&& cd ../
