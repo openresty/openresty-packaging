@@ -73,6 +73,8 @@ cd src/ \
     NO_PKG_CONFIG=1 \
     && cd ../
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 %package devel
 Summary: Openresty Shared Library for Libbpf
 Requires: openresty-libbpf
