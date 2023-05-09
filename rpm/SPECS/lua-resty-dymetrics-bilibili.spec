@@ -1,5 +1,5 @@
 Name:           lua-resty-dymetrics-bilibili
-Version:        0.0.2
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        Lua module for manipulating dymetrics data
 
@@ -92,7 +92,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue May 9 2023 Yichun Zhang (agentzh) 0.0.3-1
+- upgraded lua-resty-dymetrics-bilibili to 0.0.3.
 * Tue Jul 7 2021 Junlong Li 0.0.2-1
-- update lua-resty-dymetrics-bilibili to v0.0.2.
+- upgrade lua-resty-dymetrics-bilibili to v0.0.2.
 * Tue Apr 16 2021 Junlong Li 0.0.1-1
 - initial build for lua-resty-dymetrics-bilibili.

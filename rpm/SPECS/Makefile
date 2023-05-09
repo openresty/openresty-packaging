@@ -122,6 +122,7 @@ priv_targets = openresty-plus \
 		openresty-luajit-plus \
 		openresty-wrk \
 		lua-resty-redis-cluster-fast \
+		lua-resty-dymetrics-bilibili \
 		openresty-coro-nginx-module \
 		openresty-coro-hiredis-nginx-module \
 		openresty-opencc \

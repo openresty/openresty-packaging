@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_RESTY_DYMETRICS_BILIBILI_VER := 0.0.2
+LUA_RESTY_DYMETRICS_BILIBILI_VER := 0.0.3
 
 .PHONY: lua-resty-dymetrics-bilibili-download
 lua-resty-dymetrics-bilibili-download:
