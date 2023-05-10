@@ -1,0 +1,24 @@
+Source: openresty-ebpf-plus
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-ebpf-plus
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of ebpf
+ eBPF is part of the mainline kernel so it will have a larger user base than
+ SystemTap and will also get more attention (bug fixes and enhancements) from
+ the kernel developers over the years. SystemTap is an out-of-tree project and
+ will remain so.
+
+Package: openresty-ebpf-plus-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-ebpf-plus (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-ebpf-plus package
+ Debug symbols (or debuginfo) for the openresty-ebpf-plus package.

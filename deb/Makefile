@@ -125,7 +125,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-coro-nginx-module-clean \
 		 openresty-coro-hiredis-nginx-module-clean \
 		 openresty-lua-cjson-clean \
-		 openresty-opencc
+		 openresty-opencc-clean \
+		 openresty-ebpf-plus-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 
