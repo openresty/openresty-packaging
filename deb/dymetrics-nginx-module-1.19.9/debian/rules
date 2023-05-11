@@ -1,0 +1,71 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+OPENRESTY_VER = 1.19.9.1
+NGINX_VER = 1.19.9
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd openresty-$(OPENRESTY_VER)/bundle/nginx-$(NGINX_VER) && patch -p1 < $(CURDIR)/debian/patches/nginx-$(NGINX_VER)-proc_exit_handler.patch
+	cd openresty-* \
+	&& ./configure \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
+    --with-cc-opt="-I/usr/local/openresty/openssl111/include -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -O3" \
+    --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl111/lib" \
+    --with-pcre-jit \
+    --without-http_rds_json_module \
+    --without-http_rds_csv_module \
+    --without-lua_rds_parser \
+    --with-stream \
+    --with-stream_ssl_module \
+    --with-stream_ssl_preread_module \
+    --with-http_v2_module \
+    --without-mail_pop3_module \
+    --without-mail_imap_module \
+    --without-mail_smtp_module \
+    --with-http_stub_status_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_auth_request_module \
+    --with-http_secure_link_module \
+    --with-http_random_index_module \
+    --with-http_gzip_static_module \
+    --with-http_sub_module \
+    --with-http_dav_module \
+    --with-http_flv_module \
+    --with-http_mp4_module \
+    --with-http_gunzip_module \
+    --with-threads \
+    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
+    --with-compat \
+    --add-dynamic-module=../ \
+    -j`nproc` \
+		&& make -C build/nginx-*/ modules -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& cd openresty-* \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/nginx/lib \
+		&& install -m755 build/nginx-*/objs/*.so $(DESTDIR)/usr/local/openresty/nginx/lib/
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=dymetrics-nginx-module-1.19.9-dbgsym

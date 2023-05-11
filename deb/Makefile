@@ -123,6 +123,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-luajit-plus-clean \
 		 lua-resty-redis-cluster-fast-clean \
 		 openresty-coro-nginx-module-clean \
+                 dymetrics-nginx-module-1.19.9-clean \
 		 openresty-coro-hiredis-nginx-module-clean \
 		 openresty-lua-cjson-clean \
 		 openresty-opencc-clean \

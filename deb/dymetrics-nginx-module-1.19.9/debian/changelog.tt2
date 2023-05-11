@@ -1,0 +1,6 @@
+dymetrics-nginx-module-1.19.9 (0.0.15-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dymetrics-nginx-module to 0.0.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 11 May 2023 00:00:00 -0700
+
