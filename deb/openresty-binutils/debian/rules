@@ -6,6 +6,8 @@ include /usr/share/dpkg/default.mk
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
+PREFIX=/usr/local/openresty-binutils
+
 DESTDIR = $(CURDIR)/debian/tmp
 
 %:
@@ -19,27 +21,29 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./configure \
-		--prefix=/usr/local/openresty-binutils --disable-ld --disable-gas --disable-gold \
+		--prefix=$(PREFIX) --disable-ld --disable-gas --disable-gold \
 		--disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
 		--disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
 		--disable-bdf --disable-etc --disable-gnulib --disable-intl \
 		--disable-libdecnumber --disable-sim --disable-readline \
 		--enable-targets=all \
-		--disable-libquadmath CFLAGS='-Wno-error -g -O2' \
+		--disable-libquadmath \
+		--enable-shared \
+		--disable-libctf \
+		CFLAGS='-Wno-error -g -O2' \
 		CC='ccache gcc'
 	make -j`nproc` all-binutils
 
 override_dh_auto_install:
 	make install-binutils DESTDIR=$(DESTDIR) > /dev/null \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/man \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/info \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/share/locale \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/lib \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/include \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-binutils/x86_64-pc-linux-gnu \
-		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/ar \
-		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/elfedit \
-		&& rm -f $(DESTDIR)/usr/local/openresty-binutils/bin/ranlib
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/man \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/info \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/locale \
+		&& rm -rf $(DESTDIR)$(PREFIX)/x86_64-pc-linux-gnu \
+		&& rm -f $(DESTDIR)$(PREFIX)/bin/ar \
+		&& rm -f $(DESTDIR)$(PREFIX)/bin/elfedit \
+		&& rm -f $(DESTDIR)$(PREFIX)/lib/*.a \
+		&& rm -f $(DESTDIR)$(PREFIX)/bin/ranlib
 
 override_dh_auto_clean:
 	dh_clean
@@ -47,3 +51,7 @@ override_dh_auto_clean:
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-binutils-dbgsym
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info \
+		-l$(shell pwd)/debian/openresty-binutils/$(PREFIX)/lib

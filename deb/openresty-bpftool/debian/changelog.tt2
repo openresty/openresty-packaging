@@ -1,0 +1,12 @@
+openresty-bpftool (5.13.18.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool to 5.13.18.3
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 10 May 2023 00:00:00 +0800
+
+openresty-bpftool (5.13.18.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool to 5.13.18.2
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 9 May 2023 00:00:00 -0700
+

@@ -1,3 +1,9 @@
+openresty-binutils (2.39.0.2-2~[% distro %]1) [% distro %]; urgency=high
+
+  * --enable-shared for binutils.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 9 May 2023 22:45:02 +0800
+
 openresty-binutils (2.39.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded binutils-gdb-plus to 2.39.0.2.

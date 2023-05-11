@@ -1,1 +1,2 @@
 usr/local/openresty-binutils/bin/*
+usr/local/openresty-binutils/lib/*.so*

@@ -16,7 +16,7 @@ openresty-binutils-download:
 	tar -I 'gzip -1' -cf openresty-binutils_$(OPENRESTY_BINUTILS_VER).orig.tar.gz openresty-binutils_$(OPENRESTY_BINUTILS_VER)
 
 openresty-binutils-clean:
-	cd openresty-binutils && debclean
+	-cd openresty-binutils && debclean
 	-find openresty-binutils -maxdepth 1 ! -name 'debian' ! -name 'openresty-binutils' -print | xargs rm -rf
 	rm -rf openresty-binutils*.deb
 	rm -rf openresty-binutils_*.*

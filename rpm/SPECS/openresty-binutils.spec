@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.39.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -84,6 +84,8 @@ converting addresses to file and line).
     --disable-libdecnumber --disable-sim --disable-readline \
     --enable-targets=all \
     --disable-libquadmath \
+    --enable-shared \
+    --disable-libctf \
     CFLAGS='-Wno-error -g -O2 -fPIC' \
     CC='ccache gcc -fdiagnostics-color=always'
 
@@ -92,17 +94,26 @@ make -j`nproc` all-binutils
 %install
 make install-binutils DESTDIR=%{buildroot}
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 # remove useless files
 rm -rf %{buildroot}%{binutils_prefix}/share/man
 rm -rf %{buildroot}%{binutils_prefix}/share/info
 rm -rf %{buildroot}%{binutils_prefix}/share/locale
-rm -rf %{buildroot}%{binutils_prefix}/lib
-rm -rf %{buildroot}%{binutils_prefix}/include
 rm -rf %{buildroot}%{binutils_prefix}/x86_64-pc-linux-gnu
+rm -f %{buildroot}%{binutils_prefix}/lib/*.a
+rm -f %{buildroot}%{binutils_prefix}/lib/*.la
 rm -f %{buildroot}%{binutils_prefix}/bin/elfedit
 
 %clean
 rm -rf %{buildroot}
+
+%package devel
+Summary: Openresty Shared Library for binutils
+Requires: openresty-binutils
+
+%description devel
+Openresty Shared Library for binutils
 
 # ------------------------------------------------------------------------
 
@@ -111,6 +122,10 @@ rm -rf %{buildroot}
 %dir %{binutils_prefix}
 %dir %{binutils_prefix}/bin
 %{binutils_prefix}/bin/*
+%{binutils_prefix}/lib/*.so*
+
+%files devel
+%{binutils_prefix}/include/*
 
 
 # ------------------------------------------------------------------------

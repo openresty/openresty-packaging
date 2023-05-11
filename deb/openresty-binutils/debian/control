@@ -24,6 +24,13 @@ Description: OpenResty's fork of binutils.
  from files), strip (for discarding symbols), and addr2line (for
  converting addresses to file and line).
 
+Package: openresty-binutils-dev
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-binutils (>= ${source:Version})
+Description: Openresty Shared Library for binutils
+ Openresty Shared Library for binutils
+
 Package: openresty-binutils-dbgsym
 Section: debug
 Architecture: any
