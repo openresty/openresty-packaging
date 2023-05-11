@@ -126,7 +126,9 @@ priv_targets = openresty-plus \
 		openresty-coro-nginx-module \
 		openresty-coro-hiredis-nginx-module \
 		openresty-opencc \
-		openresty-lua-cjson
+		openresty-lua-cjson \
+		openresty-bpftool \
+		openresty-ebpf-plus
 
 .PHONY: all
 all: openresty
