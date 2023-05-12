@@ -1,7 +1,7 @@
 %define pkgname bpftool-plus
 
 Name:           openresty-bpftool
-Version:        5.13.18.3
+Version:        5.13.18.4
 Release:        1%{?dist}
 Summary:        OpenResty's fork of bpftool
 
@@ -87,6 +87,8 @@ export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 %{_prefix}/bin/bpftool
 
 %changelog
+* Thu May 11 2023 Yichun Zhang (agentzh) 5.13.18.4-1
+- upgraded bpftool-plus to 5.13.18.4.
 * Wed May 10 2023 Yichun Zhang (agentzh) 5.13.18.3-1
 - upgraded bpftool to 5.13.18.3
 * Tue May 9 2023 Yichun Zhang (agentzh) 5.13.18.2-1
