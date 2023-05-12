@@ -127,6 +127,7 @@ priv_targets = openresty-plus \
 		openresty-coro-hiredis-nginx-module \
                 dymetrics-nginx-module-1.19.9 \
 		openresty-opencc \
+		openresty-llvm \
 		openresty-lua-cjson \
 		openresty-bpftool \
 		openresty-ebpf-plus

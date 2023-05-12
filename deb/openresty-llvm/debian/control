@@ -1,0 +1,21 @@
+Source: openresty-llvm
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, g++, clang, ccache, cmake, zlib1g-dev, libffi-dev, libncurses-dev, binutils-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/orinc/llvm-plus/
+
+Package: openresty-llvm
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: The llvm compiler utilities
+ OpenResty Inc's proprietary LLVM fork
+
+Package: openresty-llvm-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-llvm (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-llvm package
+ Debug symbols (or debuginfo) for the openresty-llvm package.

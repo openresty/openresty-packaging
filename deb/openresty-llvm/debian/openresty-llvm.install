@@ -1,0 +1,5 @@
+usr/local/openresty-llvm/bin/
+usr/local/openresty-llvm/lib/
+usr/local/openresty-llvm/libexec/
+usr/local/openresty-llvm/share/
+usr/local/openresty-llvm/include/

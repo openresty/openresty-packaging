@@ -1,0 +1,42 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export DEB_CFLAGS_MAINT_STRIP ="-g"
+export DEB_CXXFLAGS_MAINT_STRIP ="-g"
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	mkdir build \
+		&& cd build/ \
+		&& cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
+    -DLLVM_TARGETS_TO_BUILD="WebAssembly;X86;BPF" -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
+    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_INSTALL_PREFIX=/usr/local/openresty-llvm ../llvm \
+		&& make -j16
+
+override_dh_auto_install:
+	cd build/ \
+		&& make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-llvm/man
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-llvm-dbgsym
