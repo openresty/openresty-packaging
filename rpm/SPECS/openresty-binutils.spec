@@ -78,7 +78,7 @@ converting addresses to file and line).
 
 ./configure \
     --prefix=%{binutils_prefix} --libdir=%{binutils_prefix}/lib \
-    --disable-gas --disable-gold \
+    --disable-ld --disable-gas --disable-gold \
     --disable-ar --disable-gprof --disable-gprofng --disable-dlltool --disable-ranlib --disable-windmc \
     --disable-windres --disable-nlmconv --with-system-zlib --disable-gdb \
     --disable-bdf --disable-etc --disable-gnulib --disable-intl \
