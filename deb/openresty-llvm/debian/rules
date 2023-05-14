@@ -20,14 +20,15 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	mkdir build \
-		&& cd build/ \
-		&& cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
-    -DLLVM_TARGETS_TO_BUILD="WebAssembly;X86;BPF" -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
-    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
-    -DCMAKE_INSTALL_PREFIX=/usr/local/openresty-llvm ../llvm \
-		&& make -j16
+	mkdir -p build
+	cd build/ && cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
+    	-DLLVM_TARGETS_TO_BUILD="WebAssembly;X86;BPF" -DCMAKE_BUILD_TYPE=Release \
+    	-DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
+    	-DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    	-DCMAKE_INSTALL_PREFIX=/usr/local/openresty-llvm ../llvm
+	free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
+		 max_jobs=$$(( $$free / 1100 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
+		 max_jobs=$$ncpus; fi; make -C build -j$$max_jobs
 
 override_dh_auto_install:
 	cd build/ && make install DESTDIR=$(DESTDIR)

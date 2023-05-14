@@ -82,7 +82,16 @@ cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DCMAKE_INSTALL_PREFIX=%{llvm_prefix} ../llvm
-make -j8
+
+free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
+ncpus=`nproc`
+max_jobs=$(( $free / 1100 ))
+#echo "max jobs: $max_jobs"
+if [ "$max_jobs" -gt "$ncpus" ]; then
+    max_jobs=$ncpus
+fi
+#echo "max jobs: $max_jobs"
+make -j$max_jobs
 
 %install
 cd build/
