@@ -2,7 +2,7 @@
 
 Name:           openresty-bpftool
 Version:        5.13.18.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of bpftool
 
 Group:          Development/Languages
@@ -22,7 +22,7 @@ AutoReqProv:    no
 %undefine _debuginfo_subpackages
 %endif
 
-BuildRequires: ccache, gcc, make, perl, pkgconfig, vim-common
+BuildRequires: ccache, gcc, make, perl, pkgconfig
 BuildRequires: openresty-libbpf-devel
 BuildRequires: openresty-elfutils-devel
 BuildRequires: openresty-binutils-devel
