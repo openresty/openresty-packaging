@@ -22,7 +22,8 @@ AutoReqProv:    no
 %undefine _debuginfo_subpackages
 %endif
 
-BuildRequires: ccache, gcc, make, perl, pkgconfig
+# vim provides the xxd tool needed by the build system.
+BuildRequires: ccache, gcc, make, perl, pkgconfig, vim
 BuildRequires: openresty-libbpf-devel
 BuildRequires: openresty-elfutils-devel
 BuildRequires: openresty-binutils-devel
