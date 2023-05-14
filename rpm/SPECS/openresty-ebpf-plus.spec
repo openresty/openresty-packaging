@@ -8,6 +8,7 @@ License:        LGPLv2
 URL:            https://openresty.com/
 Source0:        ebpf-plus-%{version}.tar.gz
 AutoReqProv:    no
+BuildArch:      noarch
 
 %define _prefix     /usr/local/openresty-ebpf-plus
 
