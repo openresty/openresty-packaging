@@ -1,6 +1,6 @@
 Name:           dymetrics-nginx-module-1.19.9
 Version:        0.0.17
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        dymetrics nginx module for OpenResty
 
 Group:          Development/Libraries
@@ -77,7 +77,7 @@ cd openresty-%{or_version}/bundle/nginx-%{ngx_version}
 cd openresty-*
 ./configure \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -O3" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
