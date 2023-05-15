@@ -6,7 +6,7 @@ DYMETRICS_NGINX_MODULE_VER := 0.0.17
 .PHONY: dymetrics-nginx-module-1.19.9-download
 dymetrics-nginx-module-1.19.9-download:
 	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.19.9.1.tar.gz'
-	#rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-dymetrics-$(DYMETRICS_NGINX_MODULE_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-dymetrics-$(DYMETRICS_NGINX_MODULE_VER).tar.gz ./
 	rm -rf dymetrics-nginx-module-1.19.9_$(DYMETRICS_NGINX_MODULE_VER)
 	mkdir -p dymetrics-nginx-module-1.19.9_$(DYMETRICS_NGINX_MODULE_VER)
 	tar -xf openresty-1.19.9.1.tar.gz -C dymetrics-nginx-module-1.19.9_$(DYMETRICS_NGINX_MODULE_VER)
