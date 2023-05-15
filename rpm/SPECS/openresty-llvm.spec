@@ -1,6 +1,6 @@
 Name:               openresty-llvm
 Version:            14.0.0.1
-Release:            1%{?dist}
+Release:            3%{?dist}
 Summary:            OpenResty Inc's proprietary LLVM fork
 
 Group:              System Environment/Libraries
@@ -13,14 +13,12 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 
 BuildRequires:	gcc
 BuildRequires:	gcc-c++
-BuildRequires:	clang
 BuildRequires:	ccache
 BuildRequires:	cmake
 #BuildRequires:	ninja-build
 BuildRequires:	zlib-devel
 BuildRequires:	libffi-devel
 BuildRequires:	ncurses-devel
-BuildRequires:	multilib-rpm-config
 %if %{with gold}
 BuildRequires:	binutils-devel
 %endif
@@ -90,6 +88,7 @@ make -j8
 cd build/
 make install DESTDIR=%{buildroot}
 rm -rf %{buildroot}/%{llvm_prefix}/man
+find %{buildroot}/%{llvm_prefix} -name "*.a" -delete
 
 
 %clean

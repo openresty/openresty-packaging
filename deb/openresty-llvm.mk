@@ -21,8 +21,8 @@ openresty-llvm-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-llvm-build
 openresty-llvm-build: openresty-llvm-clean openresty-llvm-download
-	sudo apt-get -y -q install gcc g++ clang ccache cmake zlib1g-dev libffi-dev libncurses-dev binutils-dev
-	sudo apt-get -y -q install --only-upgrade gcc g++ clang ccache cmake zlib1g-dev libffi-dev libncurses-dev binutils-dev
+	sudo apt-get -y -q install gcc g++ ccache cmake zlib1g-dev libffi-dev libncurses-dev binutils-dev
+	sudo apt-get -y -q install --only-upgrade gcc g++ ccache cmake zlib1g-dev libffi-dev libncurses-dev binutils-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-llvm_$(OPENRESTY_LLVM_VER).orig.tar.gz --strip-components=1 -C openresty-llvm
 	cd openresty-llvm \
