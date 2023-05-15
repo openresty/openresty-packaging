@@ -1,3 +1,9 @@
+openresty-binutils (2.39.0.2-3~[% distro %]1) [% distro %]; urgency=high
+
+  * added missing binutils-dev.install.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 15 May 2023 11:21:02 +0800
+
 openresty-binutils (2.39.0.2-2~[% distro %]1) [% distro %]; urgency=high
 
   * --enable-shared for binutils.
