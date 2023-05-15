@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-DYMETRICS_NGINX_MODULE_VER := 0.0.16
+DYMETRICS_NGINX_MODULE_VER := 0.0.17
 
 .PHONY: dymetrics-nginx-module-1.19.9-download
 dymetrics-nginx-module-1.19.9-download:
