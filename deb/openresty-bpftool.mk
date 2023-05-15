@@ -29,5 +29,6 @@ openresty-bpftool-build: openresty-bpftool-clean openresty-bpftool-download
 	tar xf openresty-bpftool_$(OPENRESTY_BPFTOOL_VER).orig.tar.gz --strip-components=1 -C openresty-bpftool
 	cd openresty-bpftool \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& tpage --define distro=$(DISTRO) debian/control.tt2 > debian/control \
 		&& debuild $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

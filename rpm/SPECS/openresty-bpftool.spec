@@ -26,12 +26,12 @@ AutoReqProv:    no
 BuildRequires: ccache, gcc, make, perl, pkgconfig, vim
 BuildRequires: openresty-libbpf-devel
 BuildRequires: openresty-elfutils-devel
-BuildRequires: openresty-binutils-devel
+BuildRequires: openresty-binutils-devel >= 2.39.0.2-2
 BuildRequires: openresty-zlib-devel
 BuildRequires: libcap-devel
 Requires: openresty-libbpf
 Requires: openresty-elfutils
-Requires: openresty-binutils
+Requires: openresty-binutils >= 2.39.0.2-2
 Requires: openresty-zlib
 Requires: libcap
 
