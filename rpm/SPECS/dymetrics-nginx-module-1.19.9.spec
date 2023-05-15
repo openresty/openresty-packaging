@@ -1,5 +1,5 @@
 Name:           dymetrics-nginx-module-1.19.9
-Version:        0.0.15
+Version:        0.0.16
 Release:        1%{?dist}
 Summary:        dymetrics nginx module for OpenResty
 
@@ -132,5 +132,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun May 14 2023 Yichun Zhang (agentzh) 0.0.16-1
+- upgraded dymetrics-nginx-module to 0.0.16.
 * Thu May 11 2023 Yichun Zhang (agentzh) 0.0.15-1
 - upgraded dymetrics-nginx-module to 0.0.15.
