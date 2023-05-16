@@ -83,7 +83,7 @@ cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
     -DCMAKE_INSTALL_PREFIX=%{llvm_prefix} ../llvm
 
-free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
+free=`free -m|grep -E '^Mem'|head -n2|awk '{print $NF}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 1100 ))
 #echo "max jobs: $max_jobs"
