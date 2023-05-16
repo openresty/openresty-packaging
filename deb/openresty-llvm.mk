@@ -27,5 +27,5 @@ openresty-llvm-build: openresty-llvm-clean openresty-llvm-download
 	tar xf openresty-llvm_$(OPENRESTY_LLVM_VER).orig.tar.gz --strip-components=1 -C openresty-llvm
 	cd openresty-llvm \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
