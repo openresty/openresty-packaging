@@ -164,10 +164,11 @@ $(priv_targets):
 	spectool -g -R $@.spec
 	sudo dnf builddep -y $@.spec
 	echo -n|setsid time rpmbuild -v -ba $@.spec
-	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
 	ls -lh $(rpmbuild_dir)/SRPMS/$@*[0-9]*.src.rpm
 	mkdir -p ~/packaging/SRPMS/
 	rsync --progress -av $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm ~/packaging/SRPMS/
+	for f in $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
+	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm do rpmsign -v --addsign $$f || exit 1; done
 	ls -lh $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm
 	rsync -av $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm ~/pkg/priv/`uname -m`/
 	cd ~/pkg/priv && ./build-repo
