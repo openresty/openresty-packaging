@@ -1,6 +1,6 @@
 Name:               openresty-llvm
 Version:            14.0.0.1
-Release:            3%{?dist}
+Release:            4%{?dist}
 Summary:            OpenResty Inc's proprietary LLVM fork
 
 Group:              System Environment/Libraries
