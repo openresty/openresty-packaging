@@ -1,0 +1,5 @@
+usr/local/openresty-orbpf-ko/src/*.c
+usr/local/openresty-orbpf-ko/src/*.h
+usr/local/openresty-orbpf-ko/src/*.S
+usr/local/openresty-orbpf-ko/src/Makefile
+usr/local/openresty-orbpf-ko/src/auto/*.c

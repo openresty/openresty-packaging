@@ -1,0 +1,29 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+
+override_dh_auto_install:
+	install -d $(DESTDIR)/usr/local/openresty-orbpf-ko/src/ \
+		&& install -d $(DESTDIR)/usr/local/openresty-orbpf-ko/src/auto \
+		&& install -m 0644 *.h *.c *.S Makefile $(DESTDIR)/usr/local/openresty-orbpf-ko/src/ \
+		&& install -m 0644 auto/*.c $(DESTDIR)/usr/local/openresty-orbpf-ko/src/auto/
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-orbpf-ko-dbgsym

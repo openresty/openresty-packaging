@@ -130,7 +130,8 @@ priv_targets = openresty-plus \
 		openresty-llvm \
 		openresty-lua-cjson \
 		openresty-bpftool \
-		openresty-ebpf-plus
+		openresty-ebpf-plus \
+		openresty-orbpf-ko
 
 .PHONY: all
 all: openresty
