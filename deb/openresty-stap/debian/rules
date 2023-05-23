@@ -69,6 +69,8 @@ override_dh_auto_install:
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-container
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-jupyter-install
 	rm -f $(DESTDIR)/usr/local/openresty-stap/bin/stap-profile-annotate
+	rm t/data/bug-addr2name/libssl.so.1.1
+	cp -r t $(DESTDIR)/usr/local/openresty-stap/
 
 override_dh_clean:
 	dh_clean

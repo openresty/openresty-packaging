@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -128,6 +128,21 @@ along with the optional dtrace-compatibility preprocessor to process related
 .d files into tracing-macro-laden .h headers.
 
 
+%package tests
+Summary: Test suite for OpenResty's SystemTap+
+Group: Development/System
+License: GPLv2+ and Public Domain
+AutoReqProv:    no
+URL: http://sourceware.org/systemtap/
+%if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
+BuildArch:      noarch
+%endif
+
+
+%description tests
+Test suite for OpenResty's SystemTap+
+
+
 %prep
 %setup -q -n systemtap-plus-%{version}
 
@@ -190,6 +205,9 @@ chmod 755 %{buildroot}%{stap_prefix}/bin/staprun
 #install the useful stap-prep script
 install -c -m 755 stap-prep %{buildroot}%{stap_prefix}/bin/stap-prep
 
+rm t/data/bug-addr2name/libssl.so.1.1
+cp -r t %{buildroot}%{stap_prefix}/
+
 #install -D -m 644 macros.systemtap %{buildroot}%{_rpmmacrodir}/macros.systemtap
 
 # remove useless files
@@ -248,6 +266,12 @@ rm -rf %{buildroot}
 %{stap_prefix}/bin/dtrace
 %{stap_prefix}/include/sys/sdt.h
 %{stap_prefix}/include/sys/sdt-config.h
+
+
+%files tests
+%defattr(-,root,root)
+%dir %{stap_prefix}/t
+%{stap_prefix}/t/*
 
 # ------------------------------------------------------------------------
 

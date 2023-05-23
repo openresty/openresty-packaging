@@ -45,3 +45,9 @@ Architecture: any
 Depends: ${misc:Depends}, openresty-stap (>= 4.2.0.2)
 Description: Debug symbols for the openresty-stap package
  Debug symbols (or debuginfo) for the openresty-stap package.
+
+Package: openresty-stap-tests
+Architecture: all
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Test suite for the openresty-stap package.
