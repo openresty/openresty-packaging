@@ -77,6 +77,9 @@ OpenResty Inc's proprietary LLVM fork
 %build
 mkdir build
 cd build/
+export CFLAGS=$(rpm --eval '%{build_cflags}' | sed 's/ -g / /')
+export CXXFLAGS=$(rpm --eval '%{build_cxxflags}' | sed 's/ -g / /')
+export FFLAGS=$(rpm --eval '%{build_fflags}' | sed 's/ -g / /')
 cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_TARGETS_TO_BUILD="WebAssembly;X86;BPF" -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
@@ -86,6 +89,7 @@ cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
     -DCMAKE_INSTALL_PREFIX=%{llvm_prefix} ../llvm
 find . -name flags.make | xargs sed -i 's/ -g / /g'
+find . -name build.make | xargs sed -i 's/ -g / /g'
 
 free=`free -m|grep -E '^Mem'|head -n2|awk '{print $NF}'`
 ncpus=`nproc`
