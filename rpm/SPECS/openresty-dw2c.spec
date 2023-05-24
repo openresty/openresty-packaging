@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
 Version:        1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
@@ -67,13 +67,13 @@ Tool for converting dwarf to C for OpenResty.
 %setup -q -n dw2c-%{version}
 
 %build
-for f in dw2c dw2macros dw2xml find-altlink-files; do
+for f in dw2jl dw2c dw2macros dw2xml find-altlink-files; do
     %{perlcc} -v4 -O2 --Wc='-g -O1' -o "$f" "./bin/$f.pl"
 done
 
 %install
 install -d %{buildroot}%{prefix}/bin
-install -m 0755 dw2c dw2xml dw2macros find-altlink-files \
+install -m 0755 dw2jl dw2c dw2xml dw2macros find-altlink-files \
     %{buildroot}%{prefix}/bin
 
 # to silence the check-rpath error
@@ -85,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
+%{prefix}/bin/dw2jl
 %{prefix}/bin/dw2c
 %{prefix}/bin/dw2macros
 %{prefix}/bin/dw2xml
