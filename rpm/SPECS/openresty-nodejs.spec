@@ -102,9 +102,16 @@ export PATH="%{py3_prefix}/bin:$PATH"
     --shared-openssl --shared-openssl-includes=%{openssl_prefix}/include \
     --shared-openssl-libpath=%{openssl_prefix}/lib
 
+free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
+ncpus=`nproc`
+max_jobs=$(( $free / 900 ))
+# echo "max jobs: $max_jobs"
+if [ "$max_jobs" -gt "$ncpus" ]; then
+    max_jobs=$ncpus
+fi
 make V=0 BUILDTYPE=Release \
     LD_LIBRARY_PATH="%{openssl_prefix}/lib:$LD_LIBRARY_PATH" \
-    -j`nproc`
+    -j$max_jobs
 
 %install
 export PATH="$PATH:/usr/local/openresty-python3/bin"
