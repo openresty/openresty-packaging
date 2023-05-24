@@ -1,0 +1,28 @@
+From bf636421120aa2c97f9e0fdcee3c211b4241bd86 Mon Sep 17 00:00:00 2001
+From: Tomas Orsava <torsava@redhat.com>
+Date: Mon, 29 Jan 2018 16:13:18 +0100
+Subject: [PATCH] Add envvar that will be present during RPM build
+
+Part of a Fedora Change for F28:
+"Avoid /usr/bin/python in RPM build"
+https://fedoraproject.org/wiki/Changes/Avoid_usr_bin_python_in_RPM_Build
+---
+ macros.in | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/macros.in b/macros.in
+index dd6ef67..68449e3 100644
+--- a/macros.in
++++ b/macros.in
+@@ -804,6 +804,8 @@ package or when debugging this package.\
+   export PKG_CONFIG_PATH\
+   CONFIG_SITE=${CONFIG_SITE:-NONE}\
+   export CONFIG_SITE\
++  PYTHON_DISALLOW_AMBIGUOUS_VERSION=warn\
++  export PYTHON_DISALLOW_AMBIGUOUS_VERSION\
+   \
+   %{verbose:set -x}%{!verbose:exec > /dev/null}\
+   umask 022\
+-- 
+2.13.6
+

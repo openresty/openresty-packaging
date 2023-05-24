@@ -1,0 +1,11 @@
+--- rpm/lib/header.c	2023-05-18 17:10:08.589265070 +0800
++++ rpm/lib/header.c	2023-05-18 17:08:33.140439856 +0800
+@@ -1907,7 +1907,7 @@
+ 
+     if (regionTag == RPMTAG_HEADERSIGNATURES) {
+ 	il_max = 32;
+-	dl_max = 8192;
++	dl_max = 64 * 1024 * 1024;
+     }
+ 
+     memset(block, 0, sizeof(block));

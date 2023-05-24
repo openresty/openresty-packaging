@@ -1,0 +1,30 @@
+From f2bc669cd0a080792522dd1bb7f50ef7025f16f0 Mon Sep 17 00:00:00 2001
+From: Mark Wielaard <mark@klomp.org>
+Date: Sat, 21 Jul 2018 10:13:04 +0200
+Subject: [PATCH] find-debuginfo.sh: decompress DWARF compressed ELF sections
+
+debugedit and dwz do not support DWARF compressed ELF sections, let's
+just decompress those before extracting debuginfo.
+
+Tested-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
+---
+ scripts/find-debuginfo.sh | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/scripts/find-debuginfo.sh b/scripts/find-debuginfo.sh
+index 90a44942d..7b01bc036 100755
+--- a/scripts/find-debuginfo.sh
++++ b/scripts/find-debuginfo.sh
+@@ -357,6 +357,9 @@ do_file()
+   get_debugfn "$f"
+   [ -f "${debugfn}" ] && return
+ 
++  echo "explicitly decompress any DWARF compressed ELF sections in $f"
++  eu-elfcompress -q -p -t none "$f"
++
+   echo "extracting debug info from $f"
+   # See also cpio SOURCEFILE copy. Directories must match up.
+   debug_base_name="$RPM_BUILD_DIR"
+-- 
+2.18.0
+

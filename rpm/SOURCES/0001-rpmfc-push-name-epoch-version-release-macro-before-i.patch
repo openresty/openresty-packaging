@@ -1,0 +1,61 @@
+From 0d2176c9a3ae44fd0a67c9983b1a5ba0a00388fd Mon Sep 17 00:00:00 2001
+From: Igor Gnatenko <i.gnatenko.brain@gmail.com>
+Date: Mon, 15 Oct 2018 19:49:57 +0200
+Subject: [PATCH] rpmfc: push name/epoch/version/release macro before invoking
+ depgens
+
+Fixes: https://github.com/rpm-software-management/rpm/issues/502
+Signed-off-by: Igor Gnatenko <i.gnatenko.brain@gmail.com>
+---
+ build/rpmfc.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/build/rpmfc.c b/build/rpmfc.c
+index 2fbfc69ab..eccd6582a 100644
+--- a/build/rpmfc.c
++++ b/build/rpmfc.c
+@@ -1334,9 +1334,31 @@ static rpmRC rpmfcApplyExternal(rpmfc fc)
+     return rc;
+ }
+ 
++typedef const struct macroExport_s {
++    const char * name;
++    rpmTagVal tag;
++} * macroExport;
++
++static struct macroExport_s const macroExportList[] = {
++    { "name",	RPMTAG_NAME },
++    { "epoch",	RPMTAG_EPOCH },
++    { "version",	RPMTAG_VERSION },
++    { "release",	RPMTAG_RELEASE },
++    { NULL,	0 }
++};
++
+ rpmRC rpmfcApply(rpmfc fc)
+ {
+     rpmRC rc;
++    Package pkg = fc->pkg;
++    macroExport me;
++    for (me = macroExportList; me->name; me++) {
++	char *val = headerGetAsString(pkg->header, me->tag);
++	if (val) {
++	    rpmPushMacro(NULL, me->name, NULL, val, RMIL_SPEC);
++	    free(val);
++	}
++    }
+     /* If new-fangled dependency generation is disabled ... */
+     if (!rpmExpandNumeric("%{?_use_internal_dependency_generator}")) {
+ 	/* ... then generate dependencies using %{__find_requires} et al. */
+@@ -1347,6 +1369,9 @@ rpmRC rpmfcApply(rpmfc fc)
+ 	/* ... otherwise generate per-file dependencies */
+ 	rc = rpmfcApplyInternal(fc);
+     }
++    for (me = macroExportList; me->name; me++)
++	if (headerIsEntry(pkg->header, me->tag))
++	    rpmPopMacro(NULL, me->name);
+     return rc;
+ }
+ 
+-- 
+2.19.1
+

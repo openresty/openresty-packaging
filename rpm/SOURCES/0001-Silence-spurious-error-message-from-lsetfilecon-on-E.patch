@@ -1,0 +1,37 @@
+From 4a71a3eccd7e9e14ee0e83b1cb300386a93622cd Mon Sep 17 00:00:00 2001
+Message-Id: <4a71a3eccd7e9e14ee0e83b1cb300386a93622cd.1588577025.git.pmatilai@redhat.com>
+From: Panu Matilainen <pmatilai@redhat.com>
+Date: Fri, 13 Dec 2019 14:14:10 +0200
+Subject: [PATCH] Silence spurious error message from lsetfilecon() on
+ -EOPNOTSUPP
+
+We already filter out -EOPNOTSUPP and return OK, but the message was
+getting logged before the filtering so we'd spit out spurious error
+messages on filesystems that don't support SELinux (RhBug:1777502)
+---
+ plugins/selinux.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/plugins/selinux.c b/plugins/selinux.c
+index a51f95e83..ba37ffabe 100644
+--- a/plugins/selinux.c
++++ b/plugins/selinux.c
+@@ -168,11 +168,12 @@ static rpmRC selinux_fsm_file_prepare(rpmPlugin plugin, rpmfi fi,
+ 	if (selabel_lookup_raw(sehandle, &scon, dest, file_mode) == 0) {
+ 	    int conrc = lsetfilecon(path, scon);
+ 
+-	    rpmlog(loglvl(conrc < 0), "lsetfilecon: (%s, %s) %s\n",
+-		       path, scon, (conrc < 0 ? strerror(errno) : ""));
+-
+ 	    if (conrc == 0 || (conrc < 0 && errno == EOPNOTSUPP))
+ 		rc = RPMRC_OK;
++
++	    rpmlog(loglvl(rc != RPMRC_OK), "lsetfilecon: (%s, %s) %s\n",
++		       path, scon, (conrc < 0 ? strerror(errno) : ""));
++
+ 	    freecon(scon);
+ 	} else {
+ 	    /* No context for dest is not our headache */
+-- 
+2.26.2
+
