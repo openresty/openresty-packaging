@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_BPFTOOL_VER := 5.13.18.6
+OPENRESTY_BPFTOOL_VER := 5.13.18.7
 
 .PHONY: openresty-bpftool-download
 openresty-bpftool-download:
