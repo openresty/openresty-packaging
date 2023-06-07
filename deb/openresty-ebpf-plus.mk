@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_EBPF_PLUS_VER := 0.0.3
+OPENRESTY_EBPF_PLUS_VER := 0.0.4
 
 .PHONY: openresty-ebpf-plus-download
 openresty-ebpf-plus-download:
