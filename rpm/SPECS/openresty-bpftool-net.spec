@@ -1,9 +1,9 @@
 %define pkgname bpftool-plus
 
-Name:           openresty-bpftool
+Name:           openresty-bpftool-net
 Version:        5.13.18.7
 Release:        1%{?dist}
-Summary:        OpenResty's fork of bpftool
+Summary:        OpenResty's fork of bpftool (networking)
 
 Group:          Development/Languages
 License:        LGPLv2
@@ -11,8 +11,8 @@ URL:            https://openresty.com/
 Source0:        %{pkgname}-%{version}.tar.gz
 AutoReqProv:    no
 
-%define _prefix         /usr/local/openresty-bpftool
-%define libbpf_prefix   /usr/local/openresty-libbpf
+%define _prefix         /usr/local/openresty-bpftool-net
+%define libbpf_prefix   /usr/local/openresty-libbpf-net
 %define elf_prefix      /usr/local/openresty-elfutils
 %define binutils_prefix /usr/local/openresty-binutils
 %define or_zlib_prefix  /usr/local/openresty/zlib
@@ -24,19 +24,19 @@ AutoReqProv:    no
 
 # vim provides the xxd tool needed by the build system.
 BuildRequires: ccache, gcc, make, perl, pkgconfig, vim
-BuildRequires: openresty-libbpf-devel >= 0.4.0.8-1
+BuildRequires: openresty-libbpf-net-devel >= 0.4.0.8-2
 BuildRequires: openresty-elfutils-devel
 BuildRequires: openresty-binutils-devel >= 2.39.0.2-2
 BuildRequires: openresty-zlib-devel
 BuildRequires: libcap-devel
-Requires: openresty-libbpf >= 0.4.0.8-1
+Requires: openresty-libbpf-net >= 0.4.0.8-2
 Requires: openresty-elfutils
 Requires: openresty-binutils >= 2.39.0.2-2
 Requires: openresty-zlib
 Requires: libcap
 
 %description
-OpenResty Inc's private fork of bpftool from the Linux kernel.
+OpenResty Inc's private fork of bpftool from the Linux kernel (networking).
 
 
 %if 0%{?suse_version}
@@ -81,10 +81,10 @@ make LIBBPF_PREFIX=%{libbpf_prefix} BINUTILS_PREFIX=%{binutils_prefix} \
     LDFLAGS='-L%{libbpf_prefix}/lib -L%{elf_prefix}/lib -L%{binutils_prefix}/lib \
 	-L%{or_zlib_prefix}/lib \
     -Wl,-rpath,%{libbpf_prefix}/lib:%{elf_prefix}/lib:%{binutils_prefix}/lib:%{or_zlib_prefix}/lib \
-    -lbpf -lz -lcap -lbfd -ldl -lelf -lopcodes'
+    -lbpf -lz -lcap -lbfd -ldl -lelf -lopcodes' NET=1
 
 %install
-make install PREFIX=%{_prefix} DESTDIR=%{buildroot}
+make install PREFIX=%{_prefix} DESTDIR=%{buildroot} NET=1
 
 export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 
@@ -92,15 +92,5 @@ export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 %{_prefix}/bin/bpftool
 
 %changelog
-* Tue Jun 6 2023 Yichun Zhang (agentzh) 5.13.18.7-1
-- upgraded bpftool-plus to 5.13.18.7.
-* Sun Jun 4 2023 Yichun Zhang (agentzh) 5.13.18.6-1
-- upgraded bpftool-plus to 5.13.18.6.
-* Sun May 14 2023 Yichun Zhang (agentzh) 5.13.18.5-1
-- upgraded bpftool-plus to 5.13.18.5.
-* Thu May 11 2023 Yichun Zhang (agentzh) 5.13.18.4-1
-- upgraded bpftool-plus to 5.13.18.4.
-* Wed May 10 2023 Yichun Zhang (agentzh) 5.13.18.3-1
-- upgraded bpftool to 5.13.18.3
-* Tue May 9 2023 Yichun Zhang (agentzh) 5.13.18.2-1
-- upgraded bpftool to 5.13.18.2
+* Mon Jun 12 2023 Yichun Zhang (agentzh) 5.13.18.7-1
+- initial packaging.
