@@ -1,6 +1,6 @@
 Name:           openresty-libbpf-net
 Version:        0.4.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of Libbpf
 
 Group:          Development/Languages
@@ -63,8 +63,8 @@ rm -rf %{buildroot}
 %setup -q -n libbpf-plus-%{version}
 
 %build
-make -C src -j`nproc` CC='ccache gcc -fdiagnostics-color=always'
-CFLAGS='-I%{elf_prefix}/include -g3 -O2' \
+make -C src -j`nproc` CC='ccache gcc -fdiagnostics-color=always' \
+    CFLAGS='-I%{elf_prefix}/include -g3 -O2' \
     LDFLAGS='-L%{elf_prefix}/lib -Wl,-rpath,%{elf_prefix}/lib' \
     NO_PKG_CONFIG=1 CONFIG_ORBPF_NET=1
 
