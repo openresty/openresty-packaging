@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+PREFIX=/usr/local/openresty-bpftool
+LIBBPF_PREFIX=/usr/local/openresty-libbpf
+ELF_PREFIX=/usr/local/openresty-elfutils
+BINUTILS_PREFIX=/usr/local/openresty-binutils
+OR_ZLIB_PREFIX=/usr/local/openresty/zlib
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	make LIBBPF_PREFIX=$(LIBBPF_PREFIX) BINUTILS_PREFIX=$(BINUTILS_PREFIX) \
+	LIBZ_PREFIX=$(OR_ZLIB_PREFIX) \
+    CC='ccache gcc -fdiagnostics-color=always' \
+    LDFLAGS='-L$(LIBBPF_PREFIX)/lib -L$(ELF_PREFIX)/lib -L$(BINUTILS_PREFIX)/lib \
+	-L$(OR_ZLIB_PREFIX)/lib \
+	-Wl,-rpath,$(LIBBPF_PREFIX)/lib:$(ELF_PREFIX)/lib:$(BINUTILS_PREFIX)/lib:$(OR_ZLIB_PREFIX)/lib \
+    -lbpf -lz -lcap -lbfd -ldl -lelf -lopcodes'
+
+override_dh_auto_install:
+	make install PREFIX=$(PREFIX) DESTDIR=$(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-bpftool-dbgsym

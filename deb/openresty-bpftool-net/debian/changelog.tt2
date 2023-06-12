@@ -1,0 +1,36 @@
+openresty-bpftool (5.13.18.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool-plus to 5.13.18.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Jun 2023 22:27:04 -0700
+
+openresty-bpftool (5.13.18.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool-plus to 5.13.18.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 4 Jun 2023 19:28:26 -0700
+
+openresty-bpftool (5.13.18.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool-plus to 5.13.18.5.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 14 May 2023 13:16:32 -0700
+
+openresty-bpftool (5.13.18.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool-plus to 5.13.18.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 11 May 2023 19:36:08 -0700
+
+openresty-bpftool (5.13.18.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool to 5.13.18.3
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 10 May 2023 00:00:00 +0800
+
+openresty-bpftool (5.13.18.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded bpftool to 5.13.18.2
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 9 May 2023 00:00:00 -0700
+

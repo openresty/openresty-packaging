@@ -131,6 +131,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-opencc-clean \
 		 openresty-ebpf-plus-clean \
 		 openresty-bpftool-clean \
+		 openresty-bpftool-net-clean \
 		 openresty-orbpf-ko-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
