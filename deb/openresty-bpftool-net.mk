@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_BPFTOOL_NET_VER := 5.13.18.7
+OPENRESTY_BPFTOOL_NET_VER := 5.13.18.8
 
 .PHONY: openresty-bpftool-net-download
 openresty-bpftool-net-download:
