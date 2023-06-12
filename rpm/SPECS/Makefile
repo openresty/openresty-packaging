@@ -132,7 +132,8 @@ priv_targets = openresty-plus \
 		openresty-bpftool \
 		openresty-ebpf-plus \
 		openresty-orbpf-ko \
-		rpm
+		rpm \
+		openresty-libbpf-net \
 
 .PHONY: all
 all: openresty

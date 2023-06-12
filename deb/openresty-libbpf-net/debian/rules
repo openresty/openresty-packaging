@@ -7,7 +7,7 @@ export NO_PKG_MANGLE=1
 export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
-PREFIX = /usr/local/openresty-libbpf
+PREFIX = /usr/local/openresty-libbpf-net
 ELF_PREFIX = /usr/local/openresty-elfutils
 
 %:
@@ -23,13 +23,12 @@ override_dh_auto_build:
 	make -C src -j$(JOBS) CC='ccache gcc' \
     	CFLAGS='-I$(ELF_PREFIX)/include -g3 -O2 -std=gnu11' \
     	LDFLAGS='-L$(ELF_PREFIX)/lib -Wl,-rpath,$(ELF_PREFIX)/lib' \
-    	NO_PKG_CONFIG=1
+    	NO_PKG_CONFIG=1 CONFIG_ORBPF_NET=1
 
 override_dh_auto_install:
-	make -C src install install_uapi_headers \
-		DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) \
+	make -C src install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX) \
 		LIBSUBDIR=lib \
-		NO_PKG_CONFIG=1
+		NO_PKG_CONFIG=1 CONFIG_ORBPF_NET=1
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-libbpf-dbgsym
+	dh_strip --dbg-package=openresty-libbpf-net-dbgsym

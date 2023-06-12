@@ -1,0 +1,30 @@
+Source: openresty-libbpf-net
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, pkg-config, openresty-elfutils-dev
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-libbpf-net
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elfutils
+Description: OpenResty's fork of Libbpf (networking)
+ Libbpf supports building BPF CO-RE-enabled applications, which,
+ in contrast to BCC, do not require Clang/LLVM runtime being deployed to
+ target servers and doesn't rely on kernel-devel headers being available.
+
+Package: openresty-libbpf-net-dev
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libbpf-net
+Description: Openresty Shared Library for Libbpf
+ Openresty Shared Library for Libbpf
+
+Package: openresty-libbpf-net-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-libbpf-net (>= 0.3.0.2)
+Description: Debug symbols for the openresty-libbpf-net package
+ Debug symbols (or debuginfo) for the openresty-libbpf package.

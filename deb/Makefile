@@ -97,7 +97,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-edge-pki-clean openresty-maxminddb-utils-clean \
 		 openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		 openresty-openssl111-asan-clean openresty-asan-clean \
-		 openresty-libbpf-clean openresty-perl-json-xs-clean \
+		 openresty-libbpf-clean openresty-libbpf-net-clean \
+		 openresty-perl-json-xs-clean \
 		 openresty-perl-app-cpanminus-clean \
 		 openresty-perl-types-serialiser-clean \
 		 openresty-perl-common-sense-clean \

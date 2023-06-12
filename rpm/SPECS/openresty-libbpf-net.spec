@@ -1,4 +1,4 @@
-Name:           openresty-libbpf
+Name:           openresty-libbpf-net
 Version:        0.4.0.7
 Release:        1%{?dist}
 Summary:        OpenResty's fork of Libbpf
@@ -9,7 +9,7 @@ URL:            https://openresty.com/
 Source0:        libbpf-plus-%{version}.tar.gz
 AutoReqProv:    no
 
-%define _prefix     /usr/local/openresty-libbpf
+%define _prefix     /usr/local/openresty-libbpf-net
 %define elf_prefix  /usr/local/openresty-elfutils
 
 %if 0%{?fedora} >= 27
@@ -54,23 +54,25 @@ target servers and doesn't rely on kernel-devel headers being available.
 %undefine _debuginfo_subpackages
 %endif
 
+
 %clean
 rm -rf %{buildroot}
+
 
 %prep
 %setup -q -n libbpf-plus-%{version}
 
 %build
-make -C src -j`nproc` CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS='-I%{elf_prefix}/include -g3 -O2' \
+make -C src -j`nproc` CC='ccache gcc -fdiagnostics-color=always'
+CFLAGS='-I%{elf_prefix}/include -g3 -O2' \
     LDFLAGS='-L%{elf_prefix}/lib -Wl,-rpath,%{elf_prefix}/lib' \
-    NO_PKG_CONFIG=1
+    NO_PKG_CONFIG=1 CONFIG_ORBPF_NET=1
 
 %install
 make -C src install install_uapi_headers \
     DESTDIR=%{buildroot} PREFIX=%{_prefix} \
     LIBSUBDIR=lib \
-    NO_PKG_CONFIG=1
+    NO_PKG_CONFIG=1 CONFIG_ORBPF_NET=1
 
 rm %{buildroot}%{_prefix}/lib/libbpf.a
 
@@ -78,7 +80,7 @@ export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 
 %package devel
 Summary: Openresty Shared Library for Libbpf
-Requires: openresty-libbpf
+Requires: openresty-libbpf-net
 
 %description devel
 Openresty Shared Library for Libbpf
@@ -91,21 +93,5 @@ Openresty Shared Library for Libbpf
 %{_prefix}/include/*
 
 %changelog
-* Tue Jun 6 2023 Yichun Zhang (agentzh) 0.4.0.7-1
-- upgraded libbpf-plus to 0.4.0.7.
-* Sun Jun 4 2023 Yichun Zhang (agentzh) 0.4.0.6-1
-- upgraded libbpf-plus to 0.4.0.6.
-* Mon May 8 2023 Yichun Zhang (agentzh) 0.4.0.4-1
-- upgraded libbpf-plus to 0.4.0.4.
-* Mon May 8 2023 Yichun Zhang (agentzh) 0.4.0.3-1
-- upgraded libbpf-plus to 0.4.0.3.
-* Sun Jul 18 2021 Yichun Zhang (agentzh) 0.4.0.2-1
-- upgraded libbpf-plus to 0.4.0.2.
-* Mon Jun 21 2021 Yichun Zhang (agentzh) 0.4.0.1-1
-- upgraded libbpf-plus to 0.4.0.1.
-* Fri May 14 2021 Yichun Zhang (agentzh) 0.3.0.3-1
-- upgraded libbpf-plus to 0.3.0.3.
-* Fri May 14 2021 Jiahao Wang (johnny) 0.3.0.2-1
-- upgraded libbpf-plus to 0.3.0.2.
-* Thu May 06 2021 Jiahao Wang (johnny) 0.3.0.1-1
+* Mon Jun 12 2023 Yichun Zhang (agentzh) 0.4.0.7-1
 - initial packaging
