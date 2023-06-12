@@ -7,7 +7,7 @@ OPENRESTY_BPFTOOL_NET_VER := 5.13.18.7
 openresty-bpftool-net-download:
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/bpftool-plus-$(OPENRESTY_BPFTOOL_NET_VER).tar.gz ./
 	rm -rf openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER)
-	mkdir -p openresty-bpftool-ne_$(OPENRESTY_BPFTOOL_NET_VER)
+	mkdir -p openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER)
 	tar -xf bpftool-plus-$(OPENRESTY_BPFTOOL_NET_VER).tar.gz --strip-components=1 -C openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER)
 	tar -czf openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER).orig.tar.gz openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER)
 
