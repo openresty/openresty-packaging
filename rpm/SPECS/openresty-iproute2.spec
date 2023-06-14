@@ -79,6 +79,8 @@ make install DESTDIR=%{buildroot} \
 # drop these files, iproute-doc package extracts files directly from _builddir
 rm -rf '%{buildroot}%{_prefix}/share'
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 %package devel
 Summary: Openresty Shared Library for iproute2
 Requires: openresty-iproute2
