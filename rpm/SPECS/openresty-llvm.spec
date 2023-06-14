@@ -1,6 +1,6 @@
 Name:               openresty-llvm
 Version:            14.0.0.1
-Release:            3%{?dist}
+Release:            5%{?dist}
 Summary:            OpenResty Inc's proprietary LLVM fork
 
 Group:              System Environment/Libraries
@@ -77,13 +77,14 @@ OpenResty Inc's proprietary LLVM fork
 %build
 mkdir build
 cd build/
-export CFLAGS=$(rpm --eval '%{build_cflags}' | sed 's/ -g / /')
-export CXXFLAGS=$(rpm --eval '%{build_cxxflags}' | sed 's/ -g / /')
-export FFLAGS=$(rpm --eval '%{build_fflags}' | sed 's/ -g / /')
+export CFLAGS='-O2 -Wall -Wno-error -mtune=generic'
+export CXXFLAGS='-O2 -Wall -Wno-error -mtune=generic'
+export FFLAGS='-O2 -Wall -Wno-error -mtune=generic'
+export LDFLAGS=
 cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
     -DLLVM_TARGETS_TO_BUILD="WebAssembly;X86;BPF" -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_ENABLE_PROJECTS="lld;clang;compiler-rt" \
-    -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+    -DCMAKE_CXX_COMPILER_LAUNCHER='ccache' \
     -DLLVM_INCLUDE_TESTS=OFF \
     -DLLVM_INCLUDE_GO_TESTS=OFF \
     -DLLVM_INCLUDE_BENCHMARKS=OFF \
