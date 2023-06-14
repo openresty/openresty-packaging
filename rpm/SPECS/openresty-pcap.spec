@@ -1,6 +1,6 @@
 Name: openresty-pcap
 Version: 1.9.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: A system-independent interface for user-level packet capture
 Group: Development/Libraries
 License: BSD with advertising
@@ -91,7 +91,6 @@ make -j`nproc`
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf %{buildroot}/%{pcap_prefix}/bin
 rm -rf %{buildroot}/%{pcap_prefix}/share
-rm -rf %{buildroot}/%{pcap_prefix}/lib/pkgconfig
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -108,6 +107,7 @@ rm -rf $RPM_BUILD_ROOT
 %{pcap_prefix}/include/
 %{pcap_prefix}/lib/libpcap.a
 %{pcap_prefix}/lib/libpcap.so
+%{pcap_prefix}/lib/pkgconfig
 
 %changelog
 * Wed Jun 17 2020 zhuizhuhaomeng 1.9.1

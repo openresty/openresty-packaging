@@ -1,0 +1,6 @@
+openresty-xdp-tools (1.2.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded xdp-tools to 1.2.2-1.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 13 Jun 2023 00:00:00 -0700
+

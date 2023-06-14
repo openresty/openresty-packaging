@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+PREFIX=/usr/local/openresty-xdp-tools
+LIBBPF_PREFIX=/usr/local/openresty-libbpf-net
+PCAP_PREFIX=/usr/local/openresty-pcap
+LIBELF_PREFIX=/usr/local/openresty-elfutils
+LLVM_PREFIX=/usr/local/openresty-llvm
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export PKG_CONFIG_PATH=$(LIBBPF_PREFIX)/lib/pkgconfig:$(PCAP_PREFIX)/lib/pkgconfig:$(LIBELF_PREFIX)/lib/pkgconfig \
+		&& export LIBBPF_DIR=$(LIBBPF_PREFIX) \
+		&& export LIBBPF_LIB_DIR=$(LIBBPF_PREFIX)/lib \
+		&& export LIBBPF_INCLUDE_DIR=$(LIBBPF_PREFIX)/include \
+		&& export PATH="$(LLVM_PREFIX)/bin:$$PATH" \
+		&& CC="ccache gcc" CLANG="ccache $(LLVM_PREFIX)/bin/clang" ./configure
+	echo "CFLAGS += -g -O2" >> config.mk
+	echo "LDFLAGS += -L$(PCAP_PREFIX)/lib -L$(LIBELF_PREFIX)/lib" >> config.mk
+	echo "LDFLAGS += -Wl,-rpath,$(PCAP_PREFIX)/lib:$(LIBELF_PREFIX)/lib:$(LIBBPF_PREFIX)/lib" >> config.mk
+	PATH="$(LLVM_PREFIX)/bin:$$PATH" \
+		make -j`nproc`
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty-xdp-tools
+	rm -f $(DESTDIR)/usr/local/openresty-xdp-tools/lib/bpf/*.o
+	rm -f $(DESTDIR)/usr/local/openresty-xdp-tools/lib/libxdp.a
+	rm -rf $(DESTDIR)/usr/local/openresty-xdp-tools/share/
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-xdp-tools-dbgsym

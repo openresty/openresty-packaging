@@ -1,3 +1,9 @@
+openresty-pcap (1.9.1-2~[% distro %]1) [% distro %]; urgency=high
+
+  * added pkgconfig to pcap-dev package.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 13 Jun 2023 12:18:25 +0800
+
 openresty-pcap (1.9.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial build for pcap 1.9.1.

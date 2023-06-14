@@ -1,0 +1,28 @@
+Source: openresty-xdp-tools
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, pkg-config, openresty-libbpf-net-dev, openresty-pcap-dev (>= 1.9.1-2~[% distro %]1), openresty-elfutils-dev, openresty-llvm, zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-xdp-tools
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libbpf-net, openresty-pcap, openresty-elfutils, zlib1g
+Description: OpenResty's fork of xdp-tools
+ Library and utilities for use with XDP
+
+Package: openresty-xdp-tools-dev
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-xdp-tools
+Description: Openresty Shared Library for xdp-tools
+ Openresty Shared Library for xdp-tools
+
+Package: openresty-xdp-tools-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-xdp-tools (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-xdp-tools package
+ Debug symbols (or debuginfo) for the openresty-xdp-tools package.

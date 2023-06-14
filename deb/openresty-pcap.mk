@@ -12,7 +12,7 @@ openresty-pcap-download:
 	tar -czf openresty-pcap_$(OPENRESTY_PCAP_VER).orig.tar.gz openresty-pcap_$(OPENRESTY_PCAP_VER)
 
 openresty-pcap-clean:
-	cd openresty-pcap && debclean
+	-cd openresty-pcap && debclean
 	-find openresty-pcap -maxdepth 1 ! -name 'debian' ! -name 'openresty-pcap' -print | xargs rm -rf
 	rm -rf openresty-pcap*.deb
 	rm -rf openresty-pcap_*.*

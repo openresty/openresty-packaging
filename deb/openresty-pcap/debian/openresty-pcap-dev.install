@@ -1,3 +1,4 @@
 usr/local/openresty-pcap/include/
 usr/local/openresty-pcap/lib/libpcap.a
 usr/local/openresty-pcap/lib/libpcap.so
+usr/local/openresty-pcap/lib/pkgconfig/
