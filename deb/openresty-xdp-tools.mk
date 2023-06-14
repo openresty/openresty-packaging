@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_XDP_TOOLS_VER := 1.2.2
+OPENRESTY_XDP_TOOLS_VER := 1.2.2.1
 
 .PHONY: openresty-xdp-tools-download
 openresty-xdp-tools-download:
