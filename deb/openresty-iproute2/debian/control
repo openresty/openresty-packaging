@@ -1,0 +1,30 @@
+Source: openresty-iproute2
+Section: admin
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), bison, flex, libdb-dev, libmnl-dev, pkg-config, ccache, patch, openresty-elfutils-dev, openresty-libbpf-net-dev, zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: http://kernel.org/pub/linux/utils/net/iproute2/
+
+Package: openresty-iproute2
+Architecture: any
+Section: admin
+Depends: ${shlibs:Depends}, ${misc:Depends}, libdb, libmnl, openresty-elfutils, openresty-libbpf-net, zlib1g
+Description: Advanced IP routing and network device configuration tools
+ The iproute package contains networking utilities (ip and rtmon, for example)
+ which are designed to use the advanced networking capabilities of the Linux
+ kernel.
+
+Package: openresty-iproute2-dev
+Architecture: any
+Section: admin
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-iproute2
+Description: Openresty Shared Library for iproute2
+ Openresty Shared Library for iproute2
+
+Package: openresty-iproute2-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-iproute2 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-iproute2 package
+ Debug symbols (or debuginfo) for the openresty-iproute2 package.

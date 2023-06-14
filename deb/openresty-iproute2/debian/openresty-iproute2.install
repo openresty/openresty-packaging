@@ -1,0 +1,4 @@
+usr/local/openresty-iproute2/sbin/
+usr/local/openresty-iproute2/bash_completion.d/
+usr/local/openresty-iproute2/conf/
+usr/local/openresty-iproute2/lib/tc/*.dist

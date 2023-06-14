@@ -133,7 +133,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-bpftool-clean \
 		 openresty-bpftool-net-clean \
 		 openresty-orbpf-ko-clean \
-		 openresty-xdp-tools-clean
+		 openresty-xdp-tools-clean \
+		 openresty-iproute2-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 

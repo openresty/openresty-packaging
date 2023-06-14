@@ -1,0 +1,29 @@
+--- a/configure	2022-03-22 22:59:11.000000000 +0800
++++ b/configure	2023-06-13 17:22:35.548186235 +0800
+@@ -338,15 +338,21 @@
+         return
+     fi
+ 
+-    if [ $(uname -m) = x86_64 ]; then
+-        local LIBBPF_LIBDIR="${LIBBPF_DIR}/usr/lib64"
++    if [ -d "${LIBBPF_DIR}/lib64" ]; then
++        local LIBBPF_LIBDIR="${LIBBPF_DIR}/lib64"
+     else
+-        local LIBBPF_LIBDIR="${LIBBPF_DIR}/usr/lib"
++        local LIBBPF_LIBDIR="${LIBBPF_DIR}/lib"
+     fi
+ 
+     if [ -n "$LIBBPF_DIR" ]; then
+-        LIBBPF_CFLAGS="-I${LIBBPF_DIR}/usr/include"
+-        LIBBPF_LDLIBS="${LIBBPF_LIBDIR}/libbpf.a -lz -lelf"
++        LIBBPF_CFLAGS="-I${LIBBPF_DIR}/include"
++        LIBBPF_LDLIBS="-L$LIBBPF_LIBDIR -Wl,-rpath,$LIBBPF_LIBDIR -lbpf -lz -lelf"
++
++        if ${PKG_CONFIG} libelf --exists; then
++            LIBBPF_CFLAGS="$LIBBPF_CFLAGS $(${PKG_CONFIG} libelf --cflags)"
++            LIBBPF_LDLIBS="$LIBBPF_LDLIBS $(${PKG_CONFIG} libelf --libs)"
++        fi
++
+         LIBBPF_VERSION=$(PKG_CONFIG_LIBDIR=${LIBBPF_LIBDIR}/pkgconfig ${PKG_CONFIG} libbpf --modversion)
+     else
+         LIBBPF_CFLAGS=$(${PKG_CONFIG} libbpf --cflags)
