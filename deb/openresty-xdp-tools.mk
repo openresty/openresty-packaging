@@ -21,8 +21,8 @@ openresty-xdp-tools-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-xdp-tools-build
 openresty-xdp-tools-build: openresty-xdp-tools-clean openresty-xdp-tools-download
-	sudo apt-get -y -q install ccache gcc make perl pkg-config openresty-libbpf-net-dev openresty-pcap-dev openresty-elfutils-dev openresty-llvm zlib1g-dev
-	sudo apt-get -y -q install --only-upgrade ccache gcc make perl pkg-config openresty-libbpf-net-dev openresty-pcap-dev openresty-elfutils-dev openresty-llvm zlib1g-dev
+	sudo apt-get -y -q install ccache gcc make perl pkg-config openresty-libbpf-net-dev openresty-pcap-dev openresty-elfutils-dev openresty-llvm zlib1g-dev gcc-multilib
+	sudo apt-get -y -q install --only-upgrade ccache gcc make perl pkg-config openresty-libbpf-net-dev openresty-pcap-dev openresty-elfutils-dev openresty-llvm zlib1g-dev gcc-multilib
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-xdp-tools_$(OPENRESTY_XDP_TOOLS_VER).orig.tar.gz --strip-components=1 -C openresty-xdp-tools
 	cd openresty-xdp-tools \
