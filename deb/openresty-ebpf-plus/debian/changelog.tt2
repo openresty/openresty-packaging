@@ -1,3 +1,9 @@
+openresty-ebpf-plus (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded ebpf-plus to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 17 Jun 2023 13:05:11 -0700
+
 openresty-ebpf-plus (0.0.5-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded ebpf-plus to 0.0.5.
