@@ -1,16 +1,21 @@
 Name:           openresty-orbpf-ko
-Version:        0.0.1
-Release:        1%{?dist}
+Version:        0.0.6
+Release:        1
 Summary:        BPF kernel module implemented by OpenResty INC.
 
 Group:          Development/Languages
 License:        LGPLv2
 URL:            https://openresty.com/
 Source0:        orbpf-ko-%{version}.tar.gz
-AutoReqProv:    no
 BuildArch:      noarch
 
+AutoReq:        no
+AutoProv:       no
+AutoReqProv:    no
+
 %define _prefix     /usr/local/openresty-orbpf-ko
+%define _binaries_in_noarch_packages_terminate_build 0
+%define _binary_payload w9.gzdio
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages

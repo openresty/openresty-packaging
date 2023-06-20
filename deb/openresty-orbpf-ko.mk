@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ORBPF_KO_VER := 0.0.1
+OPENRESTY_ORBPF_KO_VER := 0.0.6
 
 .PHONY: openresty-orbpf-ko-download
 openresty-orbpf-ko-download:

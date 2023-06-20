@@ -1,4 +1,16 @@
-openresty-orbpf-ko (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+openresty-orbpf-ko (0.0.6-1~1) all; urgency=high
+
+  * upgraded orbpf-ko to 0.0.6-1.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 19 Jun 2023 00:00:00 +0800
+
+openresty-orbpf-ko (0.0.4-1~1) all; urgency=high
+
+  * upgraded orbpf-ko to 0.0.4-1.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 12 Jun 2023 00:00:00 +0800
+
+openresty-orbpf-ko (0.0.1-1~1) all; urgency=high
 
   * upgraded orbpf-ko to 0.0.1-1.
 
