@@ -1,3 +1,9 @@
+openresty-xdp-tools (1.2.2.1-2~[% distro %]1) [% distro %]; urgency=high
+
+  * added missing bpf object files.
+
+ -- OpenResty Admin <admin@openresty.com>  Web, 21 Jun 2023 00:42:00 +0800
+
 openresty-xdp-tools (1.2.2.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial packaging.

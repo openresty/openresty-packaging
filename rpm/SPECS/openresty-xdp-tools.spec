@@ -1,6 +1,6 @@
 Name:           openresty-xdp-tools
 Version:        1.2.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of xdp-tools
 
 Group:          Development/Languages
@@ -69,6 +69,7 @@ export LIBBPF_DIR=%{libbpf_prefix}
 export LIBBPF_LIB_DIR=%{libbpf_prefix}/lib
 export LIBBPF_INCLUDE_DIR=%{libbpf_prefix}/include
 export PATH="%{llvm_prefix}/bin:$PATH"
+export BPF_OBJECT_DIR=%{_prefix}/lib/bpf
 CC="ccache gcc" CLANG="ccache %{llvm_prefix}/bin/clang" ./configure
 echo "CFLAGS += -g -O2" >> config.mk
 echo "LDFLAGS += -L%{pcap_prefix}/lib -L%{libelf_prefix}/lib" >> config.mk
@@ -77,8 +78,10 @@ make -j`nproc`
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{_prefix}
-# NB: these are object files, I deleted
-rm -f %{buildroot}%{_prefix}/lib/bpf/*.o
+# NB: these are object files
+# Removing executable privileges allows you to skip the check to
+# extract debug information
+chmod -x %{buildroot}%{_prefix}/lib/bpf/*.o
 rm -f %{buildroot}%{_prefix}/lib/libxdp.a
 rm -rf %{buildroot}%{_prefix}/share/
 
@@ -94,6 +97,7 @@ Openresty Shared Library for xdp-tools
 %files
 %{_prefix}/sbin/*
 %{_prefix}/lib/libxdp.so*
+%{_prefix}/lib/bpf/*.o
 
 %files devel
 %{_prefix}/lib/pkgconfig/*

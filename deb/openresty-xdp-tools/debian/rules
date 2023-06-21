@@ -29,6 +29,7 @@ override_dh_auto_build:
 		&& export LIBBPF_LIB_DIR=$(LIBBPF_PREFIX)/lib \
 		&& export LIBBPF_INCLUDE_DIR=$(LIBBPF_PREFIX)/include \
 		&& export PATH="$(LLVM_PREFIX)/bin:$$PATH" \
+		&& export BPF_OBJECT_DIR=$(PREFIX)/lib/bpf \
 		&& CC="ccache gcc" CLANG="ccache $(LLVM_PREFIX)/bin/clang" ./configure
 	echo "CFLAGS += -g -O2" >> config.mk
 	echo "LDFLAGS += -L$(PCAP_PREFIX)/lib -L$(LIBELF_PREFIX)/lib" >> config.mk
@@ -38,7 +39,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty-xdp-tools
-	rm -f $(DESTDIR)/usr/local/openresty-xdp-tools/lib/bpf/*.o
+	chmod -x $(DESTDIR)$(PREFIX)/lib/bpf/*.o
 	rm -f $(DESTDIR)/usr/local/openresty-xdp-tools/lib/libxdp.a
 	rm -rf $(DESTDIR)/usr/local/openresty-xdp-tools/share/
 
