@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_IPROUTE2_VER := 5.17.0
+OPENRESTY_IPROUTE2_VER := 6.3.0
 
 .PHONY: openresty-iproute2-download
 openresty-iproute2-download:

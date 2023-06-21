@@ -1,6 +1,6 @@
 Summary:            Advanced IP routing and network device configuration tools
 Name:               openresty-iproute2
-Version:            5.17.0
+Version:            6.3.0
 Release:            1%{?dist}
 Group:              Applications/System
 URL:                http://kernel.org/pub/linux/utils/net/iproute2/
@@ -98,5 +98,7 @@ Openresty Shared Library for iproute2
 %{_prefix}/include/iproute2/*.h
 
 %changelog
+* Tue Jun 20 2023 Yichun Zhang (agentzh) 6.3.0-1
+- upgraded iproute2 to 6.3.0.
 * Tue Jun 13 2023 Yichun Zhang (agentzh) 5.17.0-1
 - upgraded iproute2 to 5.17.0-1.

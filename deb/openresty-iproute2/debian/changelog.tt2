@@ -1,3 +1,9 @@
+openresty-iproute2 (6.3.0-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded iproute2 to 6.3.0.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 20 Jun 2023 22:51:01 +0800
+
 openresty-iproute2 (5.17.0-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded iproute2 to 5.17.0-1.
