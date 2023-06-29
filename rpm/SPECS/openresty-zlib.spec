@@ -88,7 +88,9 @@ rm -rf %{buildroot}
 
 %dir %{zlib_prefix}
 %dir %{zlib_prefix}/lib
-%attr(0755,root,root) %{zlib_prefix}/lib/libz.so*
+%attr(0755,root,root) %{zlib_prefix}/lib/libz.so.1.2.13
+%{zlib_prefix}/lib/libz.so
+%{zlib_prefix}/lib/libz.so.1
 
 
 %files devel

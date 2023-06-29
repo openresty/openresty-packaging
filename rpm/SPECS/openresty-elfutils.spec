@@ -156,6 +156,8 @@ ln -sf %{eu_prefix}/bin/eu-readelf %{buildroot}/%{eu_prefix}/bin/eu-readelf2
 
 # remove useless files
 rm -rf %{buildroot}%{eu_prefix}/share/man
+rm -f %{buildroot}%{eu_prefix}/etc/profile.d/debuginfod.csh
+rm -f %{buildroot}%{eu_prefix}/etc/profile.d/debuginfod.sh
 
 %clean
 rm -rf %{buildroot}
@@ -177,9 +179,9 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root)
 %dir %{eu_prefix}/include
+%dir %{eu_prefix}/lib/pkgconfig
 %{eu_prefix}/include/*
 %{eu_prefix}/lib/pkgconfig/*
-%{eu_prefix}/lib/pkgconfig
 %{eu_prefix}/lib/*.a
 
 
@@ -234,5 +236,5 @@ rm -rf %{buildroot}
 - upgraded elfutils-plus to 0.177.2.
 * Sat Jul 6 2019 Yichun Zhang (agentzh) 0.176.6-1
 - upgraded elfutils-plus to 0.176.6.
-* Wed Mar 20 2018 Yichun Zhang 0.176.1
+* Tue Mar 20 2018 Yichun Zhang 0.176.1
 - upgraded to 0.176.1

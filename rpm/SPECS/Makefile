@@ -1,4 +1,4 @@
-rpmbuild_dir := $(shell ls -d $$HOME/rpmbuild)
+rpmbuild_dir := $(shell rpmbuild -E "%{_topdir}")
 
 targets = openresty \
 	  openresty-debug \
