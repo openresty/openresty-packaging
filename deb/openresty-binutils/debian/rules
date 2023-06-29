@@ -31,6 +31,7 @@ override_dh_auto_build:
 		--disable-libquadmath \
 		--enable-shared \
 		--disable-libctf \
+                --with-debuginfod=no \
 		CFLAGS='-Wno-error -g -O2' \
 		CC='ccache gcc'
 	make -j`nproc` all-binutils

@@ -1,3 +1,9 @@
+openresty-binutils (2.39.0.3-2~[% distro %]1) [% distro %]; urgency=high
+
+  * added configuration option: --with-debuginfod=no
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 29 Jun 2023 15:22:44 -0700
+
 openresty-binutils (2.39.0.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded binutils-gdb-plus to 2.39.0.3.

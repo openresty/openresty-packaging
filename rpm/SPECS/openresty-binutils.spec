@@ -3,7 +3,7 @@
 
 Name:           openresty-binutils
 Version:        2.39.0.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of binutils.
 Group:          Development/System
 License:        GPLv3+
@@ -87,6 +87,7 @@ converting addresses to file and line).
     --disable-libquadmath \
     --enable-shared \
     --disable-libctf \
+    --with-debuginfod=no \
     CFLAGS='-Wno-error -g -O2 -fPIC' \
     CC='ccache gcc -fdiagnostics-color=always'
 
@@ -132,6 +133,8 @@ Openresty Shared Library for binutils
 # ------------------------------------------------------------------------
 
 %changelog
+* Thu Jun 29 2023 Yichun Zhang (agentzh) 2.39.0.3-2
+- added configuration option: --with-debuginfod=no.
 * Thu Jun 8 2023 Yichun Zhang (agentzh) 2.39.0.3-1
 - upgraded binutils-gdb-plus to 2.39.0.3.
 * Sun Oct 2 2022 Yichun Zhang (agentzh) 2.39.0.2-1
