@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
 Version:        0.29
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
@@ -48,7 +48,6 @@ Requires:       perl(Text::Diff)
 Requires:       perl(Time::HiRes)
 Requires:       perl-IPC-Run
 Requires:       perl(URI::Escape)
-#Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 Provides:       perl(Test::Nginx)
 
