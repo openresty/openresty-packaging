@@ -1,6 +1,6 @@
 Name:           openresty-stap
 Version:        4.9.0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -170,6 +170,7 @@ ccache g++ -v
         --without-openssl \
         --without-avahi \
         --without-bpf \
+        --without-rpm \
         --without-dyninst \
         --without-python2-probes \
         --without-python3-probes \
