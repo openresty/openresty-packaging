@@ -21,7 +21,6 @@ BuildRequires:  perl(Text::Glob)
 BuildRequires:  perl(Number::Compare)
 Requires:       perl(Template)
 AutoReqProv:    no
-#Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 Provides:       perl(Lemplate)
 
