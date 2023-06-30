@@ -22,8 +22,12 @@ BuildRequires:  cmake
 BuildRequires:  pcre-devel
 BuildRequires:  openresty-python3
 
+%if 0%{?el6}
 # we cannot specify the ragel dep for CentOS 6 does not have this package.
 #BuildRequires:  ragel
+%else
+BuildRequires:  ragel
+%endif
 
 BuildRequires:  sqlite-devel >= 3.0
 BuildRequires:  gcc

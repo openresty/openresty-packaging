@@ -20,6 +20,11 @@ BuildRequires:      gcc, make, gcc-c++, libunwind
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
+%if "%{?_vendor}" == "mariner"
+BuildRequires:      libunwind-devel
+Requires:           libunwind
+%endif
+
 AutoReqProv:        no
 
 %define openssl_prefix      /usr/local/openresty/boringssl
