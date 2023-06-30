@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.7.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -17,10 +17,16 @@ AutoReqProv:    no
 %global __os_install_post     %{nil}
 
 
-BuildRequires: glibc-devel, libuuid-devel
+BuildRequires: glibc-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-saas-openssl111-devel >= 1.1.1h-1
 BuildRequires: make
+
+%if "%{?_vendor}" == "mariner"
+BuildRequires: uuid-devel
+%else
+BuildRequires: libuuid-devel
+%endif
 
 Requires: openresty-saas-openssl111 >= 1.1.1i-1
 Requires: bzip2
@@ -37,7 +43,11 @@ BuildRequires: libffi-devel
 
 BuildRequires: libffi-devel
 BuildRequires: bzip2-devel
+%if "%{?_vendor}" == "mariner"
+Requires: uuid
+%else
 Requires: libuuid
+%endif
 %endif
 
 
