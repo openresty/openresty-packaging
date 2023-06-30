@@ -1,3 +1,9 @@
+openresty-libbpf-net (0.4.0.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded libbpf-plus to 0.4.0.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 29 Jun 2023 20:37:38 -0700
+
 openresty-libbpf-net (0.4.0.8-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded libbpf-plus to 0.4.0.8.

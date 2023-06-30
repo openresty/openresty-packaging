@@ -1,6 +1,6 @@
 Name:           openresty-libbpf-net
-Version:        0.4.0.8
-Release:        2%{?dist}
+Version:        0.4.0.9
+Release:        1%{?dist}
 Summary:        OpenResty's fork of Libbpf
 
 Group:          Development/Languages
@@ -93,6 +93,8 @@ Openresty Shared Library for Libbpf
 %{_prefix}/include/*
 
 %changelog
+* Thu Jun 29 2023 Yichun Zhang (agentzh) 0.4.0.9-1
+- upgraded libbpf-plus to 0.4.0.9.
 * Mon Jun 12 2023 Yichun Zhang (agentzh) 0.4.0.8-1
 - upgraded libbpf-plus to 0.4.0.8.
 * Mon Jun 12 2023 Yichun Zhang (agentzh) 0.4.0.7-1
