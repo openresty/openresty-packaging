@@ -64,6 +64,7 @@ Library and utilities for use with XDP
 %setup -q -n xdp-tools-plus-%{version}
 
 %build
+%define __strip %{llvm_prefix}/bin/llvm-strip
 export PKG_CONFIG_PATH=%{libbpf_prefix}/lib/pkgconfig:%{pcap_prefix}/lib/pkgconfig:%{libelf_prefix}/lib/pkgconfig
 export LIBBPF_DIR=%{libbpf_prefix}
 export LIBBPF_LIB_DIR=%{libbpf_prefix}/lib
