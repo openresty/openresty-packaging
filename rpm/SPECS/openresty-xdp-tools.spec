@@ -1,6 +1,6 @@
 Name:           openresty-xdp-tools
 Version:        1.2.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of xdp-tools
 
 Group:          Development/Languages
