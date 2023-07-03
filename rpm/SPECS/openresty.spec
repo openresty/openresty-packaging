@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.21.4.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -12,7 +12,7 @@ URL:            https://openresty.org/
 
 Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 
-%if 0%{?amzn} >= 2 || 0%{?suse_version} || 0%{?fedora} || 0%{?rhel} >= 7
+%if 0%{?amzn} >= 2 || 0%{?suse_version} || 0%{?fedora} || 0%{?rhel} >= 7 || "%{?_vendor}" == "mariner"
 %define         use_systemd   1
 %endif
 
