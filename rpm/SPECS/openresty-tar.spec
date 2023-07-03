@@ -2,7 +2,7 @@
 
 Name:           openresty-tar
 Version:        1.32
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of tar.
 Group:          Development/System
 License:        GPLv3+
@@ -25,8 +25,13 @@ BuildRequires: autoconf, automake, gzip, texinfo
 BuildRequires: gettext, libacl-devel, gawk
 
 Requires: info
+%if "%{?_vendor}" == "mariner"
+Requires(post): /usr/bin/install-info
+Requires(preun): /usr/bin/install-info
+%else
 Requires(post): /sbin/install-info
 Requires(preun): /sbin/install-info
+%endif
 
 %description
 OpenResty's fork of tar.
