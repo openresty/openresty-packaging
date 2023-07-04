@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.38
+Version:        0.39
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -94,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/shm-warmup
 %{prefix}/bin/shared-pages
 %{prefix}/bin/read-kern-bid
+%{prefix}/bin/read-zimage-bid
 %{prefix}/bin/fs-fgraph
 %{prefix}/bin/resty2
 %{prefix}/bin/trie-gen
@@ -104,6 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Jul 4 2023 Yichun Zhang (agentzh) 0.39-1
+- upgraded openresty-utils to 0.39.
 * Mon Jun 26 2023 Yichun Zhang (agentzh) 0.38-1
 - upgraded openresty-utils to 0.38.
 * Thu May 25 2023 Yichun Zhang (agentzh) 0.37-1
