@@ -25,7 +25,12 @@ BuildRequires: autoconf, automake, gzip, texinfo
 BuildRequires: gettext, libacl-devel, gawk
 
 Requires: info
+%if 0%{?suse_version}
+Requires: libacl1
+%else
 Requires: libacl
+%endif
+
 %if "%{?_vendor}" == "mariner"
 Requires(post): /usr/bin/install-info
 Requires(preun): /usr/bin/install-info
