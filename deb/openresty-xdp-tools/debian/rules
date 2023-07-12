@@ -35,10 +35,10 @@ override_dh_auto_build:
 	echo "LDFLAGS += -L$(PCAP_PREFIX)/lib -L$(LIBELF_PREFIX)/lib" >> config.mk
 	echo "LDFLAGS += -Wl,-rpath,$(PCAP_PREFIX)/lib:$(LIBELF_PREFIX)/lib:$(LIBBPF_PREFIX)/lib" >> config.mk
 	PATH="$(LLVM_PREFIX)/bin:$$PATH" \
-		make -j`nproc`
+		make -j`nproc` BPF_OBJECT_DIR=$(PREFIX)/lib/bpf
 
 override_dh_auto_install:
-	make install DESTDIR=$(DESTDIR) PREFIX=/usr/local/openresty-xdp-tools
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 	chmod -x $(DESTDIR)$(PREFIX)/lib/bpf/*.o
 	rm -f $(DESTDIR)/usr/local/openresty-xdp-tools/lib/libxdp.a
 	rm -rf $(DESTDIR)/usr/local/openresty-xdp-tools/share/

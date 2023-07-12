@@ -1,14 +1,20 @@
+openresty-xdp-tools (1.2.2.1-4~[% distro %]1) [% distro %]; urgency=high
+
+  * bugfix: fixed missing BPF_OBJECT_DIRS environment variable during xdp-tools build.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 12 Jul 2023 11:26:00 +0800
+
 openresty-xdp-tools (1.2.2.1-3~[% distro %]1) [% distro %]; urgency=high
 
   * fixed arm64 build issue.
 
- -- OpenResty Admin <admin@openresty.com>  Web, 21 Jun 2023 00:42:00 +0800
+ -- OpenResty Admin <admin@openresty.com>  Wed, 21 Jun 2023 00:42:00 +0800
 
 openresty-xdp-tools (1.2.2.1-2~[% distro %]1) [% distro %]; urgency=high
 
   * added missing bpf object files.
 
- -- OpenResty Admin <admin@openresty.com>  Web, 21 Jun 2023 00:42:00 +0800
+ -- OpenResty Admin <admin@openresty.com>  Wed, 21 Jun 2023 00:42:00 +0800
 
 openresty-xdp-tools (1.2.2.1-1~[% distro %]1) [% distro %]; urgency=high
 
