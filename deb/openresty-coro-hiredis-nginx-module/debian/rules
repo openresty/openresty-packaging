@@ -6,10 +6,14 @@ include /usr/share/dpkg/default.mk
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
-export zlib_prefix         /usr/local/openresty/zlib
-export pcre_prefix         /usr/local/openresty/pcre
-export openssl_prefix      /usr/local/openresty/openssl111
-export elfutils_prefix      /usr/local/openresty-elfutils
+PREFIX=/usr/local/openresty-coro-nginx-module
+HIREDIS_PREFIX=/usr/local/openresty-plus/hiredis
+ELF_LOADER_PREFIX=/usr/local/elf-loader
+LIBCCO_PREFIX=/usr/local/libcco
+ZLIB_PREFIX=/usr/local/openresty/zlib
+PCRE_PREFIX=/usr/local/openresty/pcre
+OPENSSL_PREFIX=/usr/local/openresty/openssl111
+ELFUTILS_PREFIX=/usr/local/openresty-elfutils
 
 DESTDIR = $(CURDIR)/debian/tmp
 
@@ -25,8 +29,8 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	cd openresty-*/ && ./configure \
     --with-cc='ccache gcc' \
-    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I$(zlib_prefix)/include -I$(pcre_prefix)/include -I$(openssl_prefix)/include -I$(elfutils_prefix)/include -I/usr/local/elf-loader/include -I/usr/local/openresty-coro-nginx-module/include -I/usr/local/openresty-plus/hiredis/include" \
-    --with-ld-opt="-L$(zlib_prefix)/lib -I$(pcre_prefix)/lib -I$(openssl_prefix)/lib -L$(elfutils_prefix)/lib -L/usr/local/elf-loader/lib -L/usr/local/openresty-coro-nginx-module/lib -Wl,-rpath,$(zlib_prefix)/lib:$(pcre_prefix)/lib:$(openssl_prefix)/lib:$(elfutils_prefix)/lib:/usr/local/elf-loader/lib:/usr/local/openresty-coro-nginx-module/lib" \
+    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -I$(ELFUTILS_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(PREFIX)/include -I$(HIREDIS_PREFIX)/include" \
+    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(PREFIX)/lib" \
     --with-compat \
     --add-dynamic-module=../ \
     -j`nproc` && \
@@ -39,9 +43,9 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR)
-	mkdir -p $(DESTDIR)/usr/local/openresty-coro-nginx-module/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	mkdir -p $(DESTDIR)/usr/local/openresty/site/lualib/resty
-	cd openresty-* && install -m755 build/nginx-*/objs/*.so $(DESTDIR)/usr/local/openresty-coro-nginx-module/lib/
+	cd openresty-* && install -m755 build/nginx-*/objs/*.so $(DESTDIR)$(PREFIX)/lib/
 	sed -i 's|lib/resty/\*.lua|lib/resty/\*.ljbc|g' Makefile
 	make install DESTDIR=$(DESTDIR) LUA_LIB_DIR=/usr/local/openresty/site/lualib
 
