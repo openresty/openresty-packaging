@@ -9,7 +9,7 @@ Homepage: http://kernel.org/pub/linux/utils/net/iproute2/
 Package: openresty-iproute2
 Architecture: any
 Section: admin
-Depends: ${shlibs:Depends}, ${misc:Depends}, libdb, libmnl, openresty-elfutils, openresty-libbpf-net, zlib1g
+Depends: ${shlibs:Depends}, ${misc:Depends}, libdb5.3, libmnl0, openresty-elfutils, openresty-libbpf-net, zlib1g
 Description: Advanced IP routing and network device configuration tools
  The iproute package contains networking utilities (ip and rtmon, for example)
  which are designed to use the advanced networking capabilities of the Linux
