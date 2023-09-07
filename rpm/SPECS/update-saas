@@ -12,8 +12,8 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'openresty-saas.spec') {
-    if ($specfile !~ /openssl/ && $specfile !~ /hyperscan/) {
+for my $specfile (reverse sort glob 'openresty-saas*.spec') {
+    if ($specfile =~ /openresty-saas(-asan)?\.spec/) {
         update_spec $specfile;
     }
 }
