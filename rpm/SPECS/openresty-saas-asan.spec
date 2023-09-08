@@ -1,8 +1,8 @@
 %define or_plus_name    openresty-plus
 %define saas_or_prefix  /opt/openresty-saas-asan
-%define zlib_prefix     %{saas_or_prefix}/zlib-asan
-%define pcre_prefix     %{saas_or_prefix}/pcre-asan
-%define openssl_prefix  %{saas_or_prefix}/openssl111-asan
+%define zlib_prefix     %{saas_or_prefix}/zlib
+%define pcre_prefix     %{saas_or_prefix}/pcre
+%define openssl_prefix  %{saas_or_prefix}/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas-asan

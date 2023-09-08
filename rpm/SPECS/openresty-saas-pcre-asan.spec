@@ -15,7 +15,7 @@ BuildRequires:      ccache, libtool
 
 AutoReqProv:        no
 
-%define pcre_prefix     /opt/openresty-saas/pcre-asan
+%define pcre_prefix     /opt/openresty-saas-asan/pcre
 
 
 %description

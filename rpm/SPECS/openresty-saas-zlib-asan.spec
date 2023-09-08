@@ -16,7 +16,7 @@ BuildRequires:      libtool
 
 AutoReqProv:        no
 
-%define zlib_prefix     /opt/openresty-saas/zlib-asan
+%define zlib_prefix     /opt/openresty-saas-asan/zlib
 
 
 %description

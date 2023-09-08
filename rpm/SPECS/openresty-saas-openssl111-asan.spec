@@ -22,8 +22,8 @@ Requires:           openresty-saas-zlib >= 1.2.11
 
 AutoReqProv:        no
 
-%define openssl_prefix      /opt/openresty-saas/openssl111-asan
-%define zlib_prefix         /opt/openresty-saas/zlib-asan
+%define openssl_prefix      /opt/openresty-saas-asan/openssl111
+%define zlib_prefix         /opt/openresty-saas-asan/zlib
 %global _default_patch_fuzz 1
 
 
