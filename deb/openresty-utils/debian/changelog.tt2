@@ -1,3 +1,9 @@
+openresty-utils (0.44-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-utils to 0.44.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 13 Sep 2023 00:06:09 -0700
+
 openresty-utils (0.42-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-utils to 0.42.
