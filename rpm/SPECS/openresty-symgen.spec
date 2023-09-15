@@ -76,14 +76,14 @@ for f in `find bin -type f -name '*.lua'`; do
     rm $f
 done
 
-for f in asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl; do
+for f in asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl gen-sym-ofs; do
     %{perlcc} -v4 -O2 --Wc='-g -O1' -o "$f" "./bin/$f.pl"
 done
 
 %install
 install -d %{buildroot}%{prefix}/bin
 install -m 0644 bin/*.ljbc %{buildroot}%{prefix}/bin
-install -m 0755 asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl \
+install -m 0755 asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl gen-sym-ofs \
    %{buildroot}%{prefix}/bin
 
 # to silence the check-rpath error
@@ -102,6 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/gen-func-json
 %{prefix}/bin/gen-r2-af-cmds
 %{prefix}/bin/rebuild-jl
+%{prefix}/bin/gen-sym-ofs
 
 
 %changelog
