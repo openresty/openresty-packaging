@@ -132,11 +132,11 @@ override_dh_auto_install:
 	echo 'return {}' > $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/compiler.lua
 	[% END %]
 	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 	for f in `find $(DESTDIR)$(OR_PREFIX)/luajit -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.ljbc;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 

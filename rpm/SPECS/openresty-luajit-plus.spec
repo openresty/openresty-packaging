@@ -78,7 +78,7 @@ rm -rf %{buildroot}%{prefix}/lib/libluajit-5.1.a
 pushd %{buildroot}
 
 for f in `find .%{prefix}/ -type f -name '*.lua'`; do
-    LUA_PATH=".%{prefix}/share/luajit-2.1.0-beta3/?.ljbc;.%{prefix}/share/luajit-2.1.0-beta3/?.lua;;" .%{prefix}/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{prefix}/share/luajit-2.1/?.ljbc;.%{prefix}/share/luajit-2.1/?.lua;;" .%{prefix}/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 
@@ -95,15 +95,15 @@ rm -rf %{buildroot}
 %dir %{prefix}/lib/lua/5.1
 %dir %{prefix}/share/lua/5.1
 %dir %{prefix}/share/lua
-%dir %{prefix}/share/luajit-2.1.0-beta3
-%dir %{prefix}/share/luajit-2.1.0-beta3/jit
+%dir %{prefix}/share/luajit-2.1
+%dir %{prefix}/share/luajit-2.1/jit
 %defattr(-,root,root,-)
 %{prefix}/bin/luajit
-%{prefix}/bin/luajit-2.1.0-beta3
+%{prefix}/bin/luajit-2.1
 %{prefix}/lib/libluajit-5.1.so
 %{prefix}/lib/libluajit-5.1.so.2
 %{prefix}/lib/libluajit-5.1.so.2.1.0
-%{prefix}/share/luajit-2.1.0-beta3/jit/*.ljbc
+%{prefix}/share/luajit-2.1/jit/*.ljbc
 
 
 %files devel

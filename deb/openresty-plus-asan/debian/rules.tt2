@@ -120,7 +120,7 @@ override_dh_auto_install:
 	[% END %]
 	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
 		echo "$${f%.lua}.ljbc" 1>&2; \
-		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.lua;;" \
 		LD_PRELOAD= $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done

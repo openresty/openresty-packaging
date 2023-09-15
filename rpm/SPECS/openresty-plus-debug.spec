@@ -1,5 +1,5 @@
 Name:           openresty-plus-debug
-Version:        1.19.9.1.48
+Version:        1.19.9.1.49
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty+
 
@@ -273,7 +273,7 @@ echo 'return {}' > %{buildroot}%{orprefix}/lualib/resty/hyperscan/compiler.lua
 pushd %{buildroot}
 
 for f in `find .%{orprefix}/lualib -type f -name '*.lua'`; do
-    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 
@@ -329,6 +329,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Sep 7 2023 Yichun Zhang (agentzh) 1.19.9.1.49-1
+- upgraded openresty-plus to 1.19.9.1.49.
 * Tue Sep 5 2023 Yichun Zhang (agentzh) 1.19.9.1.48-1
 - upgraded openresty-plus to 1.19.9.1.48.
 * Thu Aug 24 2023 Yichun Zhang (agentzh) 1.19.9.1.47-1

@@ -366,12 +366,12 @@ echo 'return {}' > %{buildroot}%{orprefix}/lualib/resty/hyperscan/compiler.lua
 pushd %{buildroot}
 
 for f in `find .%{orprefix}/lualib -type f -name '*.lua'`; do
-    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1/?.lua;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 
 for f in `find .%{orprefix}/luajit -type f -name '*.lua'`; do
-    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.lua;.%{orprefix}/luajit/share/luajit-2.1.0-beta3/?.ljbc;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{orprefix}/luajit/share/luajit-2.1/?.lua;.%{orprefix}/luajit/share/luajit-2.1/?.ljbc;;" .%{orprefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 

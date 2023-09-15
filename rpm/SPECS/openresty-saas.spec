@@ -6,7 +6,7 @@
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
-Version:    1.19.9.1.46
+Version:    1.19.9.1.49
 Release:    1%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
@@ -125,12 +125,12 @@ ln -sf %{orutils_prefix}/bin/resty2 %{buildroot}%{saas_or_prefix}/bin/
 pushd %{buildroot}
 
 for f in `find .%{saas_or_prefix}/lualib -type f -name '*.lua'`; do
-    LUA_PATH=".%{saas_or_prefix}/luajit/share/luajit-2.1.0-beta3/?.lua;;" .%{saas_or_prefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{saas_or_prefix}/luajit/share/luajit-2.1/?.lua;;" .%{saas_or_prefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 
 for f in `find .%{saas_or_prefix}/luajit -type f -name '*.lua'`; do
-    LUA_PATH=".%{saas_or_prefix}/luajit/share/luajit-2.1.0-beta3/?.lua;.%{saas_or_prefix}/luajit/share/luajit-2.1.0-beta3/?.ljbc;;" .%{saas_or_prefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
+    LUA_PATH=".%{saas_or_prefix}/luajit/share/luajit-2.1/?.lua;.%{saas_or_prefix}/luajit/share/luajit-2.1/?.ljbc;;" .%{saas_or_prefix}/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm -f $f
 done
 
@@ -172,6 +172,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Thu Sep 7 2023 Yichun Zhang (agentzh) 1.19.9.1.49-1
+- upgraded openresty-plus to 1.19.9.1.49.
 * Mon Aug 14 2023 Yichun Zhang (agentzh) 1.19.9.1.46-1
 - upgraded openresty-plus to 1.19.9.1.46.
 * Sun Aug 6 2023 Yichun Zhang (agentzh) 1.19.9.1.45-1

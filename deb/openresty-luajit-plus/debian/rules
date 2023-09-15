@@ -26,7 +26,7 @@ override_dh_auto_install:
 		&& rm -rf $(DESTDIR)$(PREFIX)/share/man \
 		&& rm -rf $(DESTDIR)$(PREFIX)/lib/libluajit-5.1.a
 	for f in `find $(DESTDIR)$(PREFIX) -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(PREFIX)/share/luajit-2.1.0-beta3/?.lua;$(DESTDIR)$(PREFIX)/share/luajit-2.1.0-beta3/?.ljbc;;" $(DESTDIR)$(PREFIX)/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(PREFIX)/share/luajit-2.1/?.lua;$(DESTDIR)$(PREFIX)/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(PREFIX)/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 

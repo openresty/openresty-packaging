@@ -79,11 +79,11 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/include
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/share
 	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 	for f in `find $(DESTDIR)$(orprefix)/luajit -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.lua;$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1.0-beta3/?.ljbc;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 

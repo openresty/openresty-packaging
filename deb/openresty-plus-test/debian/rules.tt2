@@ -113,7 +113,7 @@ override_dh_auto_install:
 	echo 'return {}' > $(DESTDIR)$(PREFIX)/lualib/resty/hyperscan/compiler.lua
 	[% END %]
 	for f in `find $(DESTDIR)$(PREFIX)/lualib -type f -name '*.lua'`; do \
-		LUA_PATH="$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1.0-beta3/?.lua;;" $(DESTDIR)$(PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		LUA_PATH="$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 
