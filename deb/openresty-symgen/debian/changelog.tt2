@@ -1,0 +1,6 @@
+openresty-symgen (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 29 Aug 2023 00:00:00 -0700
+

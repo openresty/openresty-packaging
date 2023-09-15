@@ -124,7 +124,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-luajit-plus-clean \
 		 lua-resty-redis-cluster-fast-clean \
 		 openresty-coro-nginx-module-clean \
-                 dymetrics-nginx-module-1.19.9-clean \
+		 dymetrics-nginx-module-1.19.9-clean \
 		 openresty-coro-hiredis-nginx-module-clean \
 		 openresty-llvm-clean \
 		 openresty-lua-cjson-clean \
@@ -134,7 +134,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-bpftool-net-clean \
 		 openresty-orbpf-ko-clean \
 		 openresty-xdp-tools-clean \
-		 openresty-iproute2-clean
+		 openresty-iproute2-clean \
+		 openresty-radare2-clean \
+		 openresty-symgen-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 

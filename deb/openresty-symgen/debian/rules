@@ -1,0 +1,43 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	sed -i 's/\$$FindBin::Bin/\/usr\/local\/openresty-symgen\/bin/' bin/*.pl
+
+	for f in `find bin -type f -name '*.lua'`; do \
+		/opt/openresty-saas/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm $$f; \
+	done
+
+	for f in asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl; do \
+		/usr/local/openresty-perl/bin/perlcc -v4 -O2 --Wc='-g -O1' -o "$$f" "./bin/$$f.pl"; \
+	done
+
+override_dh_auto_install:
+	install -d $(DESTDIR)/usr/local/openresty-symgen/bin \
+		&& install -m 0644 bin/*.ljbc $(DESTDIR)/usr/local/openresty-symgen/bin \
+		&& install -m 0755 asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl \
+   $(DESTDIR)/usr/local/openresty-symgen/bin
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-symgen-dbgsym

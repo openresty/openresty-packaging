@@ -1,0 +1,21 @@
+Source: openresty-radare2
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: http://radare.org/
+
+Package: openresty-radare2
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: radare2 for OpenResty
+ radare2 for OpenResty ONLY
+
+Package: openresty-radare2-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-radare2 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-radare2 package
+ Debug symbols (or debuginfo) for the openresty-radare2 package.
