@@ -1,5 +1,5 @@
 Name:               openresty-zlib
-Version:            1.2.13
+Version:            1.3
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty
 
@@ -103,6 +103,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Sep 13 2023 Yichun Zhang (agentzh) 1.3-1
+- upgraded zlib to 1.3.
 * Wed Nov 30 2022 Yichun Zhang (agentzh) 1.2.13-1
 - upgraded zlib to 1.2.13.
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
