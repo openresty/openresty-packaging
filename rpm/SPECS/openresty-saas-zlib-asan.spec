@@ -1,5 +1,5 @@
 Name:               openresty-saas-zlib-asan
-Version:            1.2.13
+Version:            1.3
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty SaaS
 
@@ -107,6 +107,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Sep 15 2023 Yichun Zhang (agentzh) 1.3-1
+- upgraded PCRE to 1.3.
 * Wed Nov 30 2022 Yichun Zhang (agentzh) 1.2.13-1
 - upgraded PCRE to 1.2.13.
 * Thu Mar 31 2022 Yichun Zhang (agentzh) 1.2.12-1
