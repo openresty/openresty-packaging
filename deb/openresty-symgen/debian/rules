@@ -7,6 +7,8 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-symgen
+PERLCC = /usr/local/openresty-perl/bin/perlcc
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -25,15 +27,10 @@ override_dh_auto_build:
 		rm $$f; \
 	done
 
-	for f in asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl gen-sym-ofs; do \
-		/usr/local/openresty-perl/bin/perlcc -v4 -O2 --Wc='-g -O1' -o "$$f" "./bin/$$f.pl"; \
-	done
+	make compile PERLCC=$(PERLCC) -j`nproc`
 
 override_dh_auto_install:
-	install -d $(DESTDIR)/usr/local/openresty-symgen/bin \
-		&& install -m 0644 bin/*.ljbc $(DESTDIR)/usr/local/openresty-symgen/bin \
-		&& install -m 0755 asm2grams cmp-grams gen-auto-func-list gen-func-json gen-r2-af-cmds rebuild-jl gen-sym-ofs \
-   $(DESTDIR)/usr/local/openresty-symgen/bin
+	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
 
 override_dh_auto_clean:
 	dh_clean

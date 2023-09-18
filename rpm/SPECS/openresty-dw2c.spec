@@ -67,14 +67,11 @@ Tool for converting dwarf to C for OpenResty.
 %setup -q -n dw2c-%{version}
 
 %build
-for f in dw2jl dw2c dw2macros dw2xml find-altlink-files; do
-    %{perlcc} -v4 -O2 --Wc='-g -O1' -o "$f" "./bin/$f.pl"
-done
+make compile -j`nproc` PERLCC=%{perlcc}
+
 
 %install
-install -d %{buildroot}%{prefix}/bin
-install -m 0755 dw2jl dw2c dw2xml dw2macros find-altlink-files \
-    %{buildroot}%{prefix}/bin
+make install DESTDIR=%{buildroot} PREFIX=%{prefix}
 
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
@@ -90,6 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/dw2macros
 %{prefix}/bin/dw2xml
 %{prefix}/bin/find-altlink-files
+%{prefix}/bin/gen-retaddrs
 
 
 %changelog

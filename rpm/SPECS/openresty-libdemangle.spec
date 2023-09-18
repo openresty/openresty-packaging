@@ -69,7 +69,7 @@ This is a library that provides an API for parsing C++ demangle names.
 cd ./libiberty/
 CFLAGS="-fPIC -g3 -O2" ./configure
 make cp-demangle.o rust-demangle.o d-demangle.o cplus-dem.o \
-    cp-demint.o safe-ctype.o xstrdup.o xmalloc.o xmemdup.o xexit.o -j$(nproc)
+    cp-demint.o safe-ctype.o xstrdup.o xmalloc.o xmemdup.o xexit.o -j`nproc`
 cc -shared cp-demangle.o rust-demangle.o d-demangle.o cplus-dem.o \
     cp-demint.o safe-ctype.o xstrdup.o xmalloc.o xmemdup.o xexit.o -o libdemangle.so
 
