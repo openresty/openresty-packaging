@@ -1,0 +1,98 @@
+#!/usr/bin/make -f
+DPKG_EXPORT_BUILDFLAGS = 1
+orprefix = /opt/openresty-saas-asan
+
+ORUTILS_PREFIX = /usr/local/openresty-utils
+
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /opt/openresty-saas-asan
+ZLIB_PREFIX = $(PREFIX)/zlib
+PCRE_PREFIX = $(PREFIX)/pcre
+OPENSSL_PREFIX = $(PREFIX)/openssl111
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+
+override_dh_auto_configure:
+	export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure \
+    --prefix="$(PREFIX)" \
+    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-saas -fsanitize=address" \
+    --with-cc='ccache gcc -fdiagnostics-color=always -fsanitize=address' \
+    --with-cc-opt="-fPIC -DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
+    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
+    --with-pcre-jit \
+    --with-http_ssl_module \
+    --with-http_realip_module \
+    --with-stream \
+    --with-http_v2_module \
+    --with-threads \
+    --with-lua_resty_dmi \
+    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O1 -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC -fsanitize=address" \
+    --without-lua_resty_memcached_shdict \
+    --without-lua_resty_shdict_simple \
+    --without-lua_resty_balancer \
+    --without-lua_resty_utf8_escape \
+    --without-lua_resty_charset \
+    --without-lua_resty_upstream \
+    --without-edge_message_bus \
+    --without-edge_routing_platform \
+    --without-edge_pki \
+    --without-lua_resty_request_id \
+    --without-lua_gd \
+    --without-lua_captcha \
+    --without-lua_resty_domain_suffix \
+    --without-lua_resty_triegen \
+    --without-edge_message_bus \
+    --without-http_lua_conf \
+    --without-http_cache_index \
+    --without-http_lua_metrics \
+    --without-tcc \
+    --without-lua_resty_maxminddb \
+    --without-lua_resty_jsonb \
+    --without-lua_resty_dymetrics \
+    --without-lua_resty_triegen \
+    --with-lua_resty_mail \
+    --without-lua_resty_patlist \
+    --with-no-pool-patch \
+    -j$(JOBS)
+
+override_dh_usrlocal:
+
+override_dh_auto_install:
+	dh_auto_install
+	ln -sf $(ORUTILS_PREFIX)/bin/resty2 $(DESTDIR)$(PREFIX)/bin/
+	rm -rf $(DESTDIR)$(PREFIX)/luajit/share/man
+	rm -f $(DESTDIR)$(PREFIX)/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)$(PREFIX)/pod/*
+	rm -f $(DESTDIR)$(PREFIX)/resty.index
+	rm -f $(DESTDIR)$(PREFIX)/bin/md2pod.pl
+	rm -f $(DESTDIR)$(PREFIX)/bin/nginx-xml2pod
+	rm -f $(DESTDIR)$(PREFIX)/bin/openresty-plus
+	rm -f $(DESTDIR)$(PREFIX)/bin/opm
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/lib/*.a
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/include
+	rm -rf $(DESTDIR)$(PREFIX)/lmdb/share
+	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
+		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
+	for f in `find $(DESTDIR)$(orprefix)/luajit -type f -name '*.lua'`; do \
+		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-saas-asan-dbgsym

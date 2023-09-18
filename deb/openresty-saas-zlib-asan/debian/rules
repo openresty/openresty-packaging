@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure --prefix=/opt/openresty-saas-asan/zlib \
+		&& make -j`nproc` CC="gcc -fsanitize=address" \
+    CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+    LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
+    > /dev/stderr
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR)
+	rm -rf $(DESTDIR)/opt/openresty-saas-asan/zlib/share
+	rm -f  $(DESTDIR)/opt/openresty-saas-asan/zlib/lib/*.la
+	rm -rf $(DESTDIR)/opt/openresty-saas-asan/zlib/lib/pkgconfig
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-saas-zlib-asan-dbgsym

@@ -1,0 +1,12 @@
+opt/openresty-saas-asan/bin/resty
+opt/openresty-saas-asan/bin/resty2
+opt/openresty-saas-asan/site/lualib/
+opt/openresty-saas-asan/luajit/*
+opt/openresty-saas-asan/lmdb/bin/mdb_dump
+opt/openresty-saas-asan/lmdb/lib/liblmdb.so
+opt/openresty-saas-asan/lualib/*
+opt/openresty-saas-asan/nginx/html/*
+opt/openresty-saas-asan/nginx/logs/
+opt/openresty-saas-asan/nginx/sbin/*
+opt/openresty-saas-asan/nginx/conf/*
+opt/openresty-saas-asan/COPYRIGHT

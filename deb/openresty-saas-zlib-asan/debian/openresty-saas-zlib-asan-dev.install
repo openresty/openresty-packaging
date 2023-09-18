@@ -1,0 +1,4 @@
+opt/openresty-saas-asan/zlib/include/
+opt/openresty-saas-asan/zlib/lib/*.a
+opt/openresty-saas-asan/zlib/include/zlib.h
+opt/openresty-saas-asan/zlib/include/zconf.h

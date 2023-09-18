@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_makefile ($);
 
 my $version = shift or die "No version number specified.\n";
 
@@ -12,14 +13,20 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-{
-    my $file = "openresty-saas.mk";
+for my $f (reverse sort glob 'openresty-saas*.mk') {
+    next unless -f $f;
+    update_makefile $f;
+}
+
+
+sub update_makefile($) {
+    my $file = shift;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^(OPENRESTY_SAAS_VER\s*:=\s*)(\d+(?:\.\d+){4})\s*$/$1$version\n/ms) {
+        if (s/^(OPENRESTY_SAAS(?:_ASAN)?_VER\s*:=\s*)(\d+(?:\.\d+){4})\s*$/$1$version\n/ms) {
             my $old_ver = $2;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -45,7 +52,7 @@ if ($version !~ /^\d+(?:\.\d+){4}$/) {
     }
 }
 
-for my $dir (reverse sort glob 'openresty-saas') {
+for my $dir (reverse sort glob 'openresty-saas*') {
     next unless -d $dir && -d "$dir/debian";
     if ($dir =~ /^openresty-saas(?:-(?:valgrind|asan|debug))?$/) {
         my $name = $dir;

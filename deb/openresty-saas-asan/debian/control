@@ -1,0 +1,21 @@
+Source: openresty-saas-asan
+Section: httpd
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-saas-zlib-asan-dev (>= 1.2.13), openresty-saas-openssl111-asan-dev (>= 1.1.1t), openresty-saas-pcre-asan-dev (>= 8.45), libc-dev
+Standards-Version: 3.9.8
+Homepage: http://openresty.com
+
+Package: openresty-saas-asan
+Architecture: any
+Section: httpd
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib-asan (>= 1.2.13), openresty-saas-openssl111-asan (>= 1.1.1t), openresty-saas-pcre-asan (>= 8.45)
+Description: OpenResty Plus for SaaS product clients
+ OpenResty Plus for SaaS product clients.
+
+Package: openresty-saas-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-saas-asan (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-saas-asan package
+ Debug symbols (or debuginfo) for the openresty-saas-asan package.

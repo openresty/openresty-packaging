@@ -136,7 +136,11 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-xdp-tools-clean \
 		 openresty-iproute2-clean \
 		 openresty-radare2-clean \
-		 openresty-symgen-clean
+		 openresty-symgen-clean \
+		 openresty-saas-asan-clean \
+		 openresty-saas-zlib-asan-clean \
+		 openresty-saas-pcre-asan-clean \
+		 openresty-saas-openssl111-asan-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip
 
