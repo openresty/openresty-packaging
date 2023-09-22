@@ -53,7 +53,6 @@ radare2 for OpenResty ONLY
 
 
 %build
-mkdir -p /usr/local/openresty-radare2/lib
 CC='ccache gcc'
 LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib'
 CFLAGS='-g -O2'
