@@ -136,7 +136,9 @@ priv_targets = openresty-plus \
 		openresty-libbpf-net \
 		openresty-bpftool-net \
 		openresty-xdp-tools \
-		openresty-iproute2
+		openresty-iproute2 \
+		openresty-symgen \
+		openresty-radare2
 
 .PHONY: all
 all: openresty
