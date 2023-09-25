@@ -24,8 +24,8 @@ override_dh_auto_configure:
 	export ASAN_OPTIONS=detect_leaks=0 \
 		&& ./configure \
     --prefix="$(PREFIX)" \
-    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-saas -fsanitize=address" \
-    --with-cc='ccache gcc -fdiagnostics-color=always -fsanitize=address' \
+    --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-saas" \
+    --with-cc='ccache gcc -fdiagnostics-color=always -fsanitize=address -fno-omit-frame-pointer' \
     --with-cc-opt="-fPIC -DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
     --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
     --with-pcre-jit \
@@ -35,7 +35,7 @@ override_dh_auto_configure:
     --with-http_v2_module \
     --with-threads \
     --with-lua_resty_dmi \
-    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O1 -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC -fsanitize=address" \
+    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O1 -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC" \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
     --without-lua_resty_balancer \
