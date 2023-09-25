@@ -68,7 +68,7 @@ rm -rf %{buildroot}/%{radare2_prefix}/lib/pkgconfig
 rm -rf %{buildroot}/%{radare2_prefix}/include
 rm -rf %{buildroot}/%{radare2_prefix}/share/man
 rm -rf %{buildroot}/%{radare2_prefix}/share/doc
-rm -rf %{buildroot}/%{radare2_data_prefix}/%{version}-git/www
+rm -rf %{buildroot}/%{radare2_data_prefix}/*-git/www
 
 
 # to silence the check-rpath error
@@ -109,5 +109,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Fri Aug 25 2023 Hui Wang 5.0.0-1
+* Fri Aug 25 2023 Hui Wang 5.0.1-1
 - initial build for openresty-radare2.
