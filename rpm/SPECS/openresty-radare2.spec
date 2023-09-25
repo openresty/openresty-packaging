@@ -1,5 +1,5 @@
 Name:               openresty-radare2
-Version:            5.0.1
+Version:            5.0.2
 Release:            1%{?dist}
 Summary:            radare2 for OpenResty
 
@@ -109,5 +109,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Sep 24 2023 Yichun Zhang (agentzh) 5.0.2-1
+- upgraded openresty-radare2 to 5.0.2.
 * Fri Aug 25 2023 Hui Wang 5.0.1-1
 - initial build for openresty-radare2.
