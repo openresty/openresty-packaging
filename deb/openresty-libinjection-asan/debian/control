@@ -1,0 +1,21 @@
+Source: openresty-libinjection-asan
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, openresty-plus-core
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-libinjection-asan
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lua module for SQLI tokenizer parser analyzer
+ This package contains the Lua module for check SQLI and XSS attack.
+
+Package: openresty-libinjection-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-libinjection-asan (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-libinjection-asan package
+ Debug symbols (or debuginfo) for the openresty-libinjection-asan package.

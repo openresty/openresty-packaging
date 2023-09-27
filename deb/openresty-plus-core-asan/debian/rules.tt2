@@ -1,0 +1,145 @@
+#!/usr/bin/make -f
+DPKG_EXPORT_BUILDFLAGS = 1
+OR_PREFIX = /usr/local/openresty-plus-asan
+
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+LIBCCO_PREFIX       = /usr/local/libcco
+ELF_LOADER_PREFIX   = /usr/local/elf-loader
+ELFUTILS_PREFIX     = /usr/local/openresty-elfutils
+HIREDIS_PREFIX      = /usr/local/openresty-plus/hiredis
+LIBMARIADB_PREFIX   = /usr/local/openresty-plus/libmariadb
+LIBMEMCACHED_PREFIX = /usr/local/openresty-plus/libmemcached
+TCMALLOC_PREFIX     = /usr/local/openresty-tcmalloc
+CYRUS_SASL_PREFIX   = /usr/local/openresty-plus/cyrus-sasl
+
+export ELF_LOADER_INC=$(ELF_LOADER_PREFIX)/include
+export ELF_LOADER_LIB=$(ELF_LOADER_PREFIX)/lib
+export CCO_INC=$(LIBCCO_PREFIX)/include
+export CCO_LIB=$(LIBCCO_PREFIX)/lib
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_configure:
+	export ASAN_OPTIONS=detect_leaks=0 \
+	  	&& ./configure \
+      --prefix="/usr/local/openresty-plus-asan" \
+      --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-core" \
+      --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O3" \
+      --with-cc='ccache gcc -fsanitize=address -fno-omit-frame-pointer' \
+	  --with-cc-opt="-DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty-asan/zlib/include \
+	  -I/usr/local/openresty-asan/pcre/include -I/usr/local/openresty-plus-asan/openssl111/include \
+[% IF with_coro_nginx_module %] -I$(LIBCCO_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(HIREDIS_PREFIX)/include -I$(LIBMARIADB_PREFIX)/include/mariadb -I$(LIBMEMCACHED_PREFIX)/include -I$(CYRUS_SASL_PREFIX)/include [% END %] \
+       [% IF with_tcmalloc %] -I$(TCMALLOC_PREFIX)/include [% END %] \
+       -O1 -fno-inline -g" \
+       --with-ld-opt="../license/en_plus_init.o -L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre/lib -L/usr/local/openresty-plus-asan/openssl111/lib \
+       [% IF with_coro_nginx_module %] -L$(LIBCCO_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -Wl,-rpath,$(LIBCCO_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib [% END %] \
+       [% IF with_tcmalloc %] -L$(TCMALLOC_PREFIX)/lib -Wl,-rpath,$(TCMALLOC_PREFIX)/lib -ltcmalloc_minimal [% END %] \
+       -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
+      [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
+	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
+	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\
+	  [% IF with_lua_resty_openidc %]--with-lua_resty_openidc [% END %]\
+	  [% IF with_lua_resty_session %]--with-lua_resty_session [% END %]\
+	  [% IF with_lua_resty_jwt %]--with-lua_resty_openssl [% END %]\
+	  [% IF with_lua_resty_jwt %]--with-lua_resty_jwt [% END %]\
+	  [% IF with_lua_resty_hmac %]--with-lua_resty_hmac [% END %]\
+	  [% IF with_lua_resty_mlcache %]--with-lua_resty_mlcache [% END %]\
+	  [% IF with_ngx_brotli %]--with-ngx_brotli [% END %]\
+	  [% IF with_lua_resty_mail %]--with-lua_resty_mail [% END %]\
+	  [% IF with_coro_nginx_module %]--with-coro_nginx_module [% END %]\
+	  --without-edge_message_bus \
+	  --without-edge_routing_platform \
+	  --without-edge_pki \
+	  --without-http_rds_json_module \
+	  --without-http_rds_csv_module \
+	  --without-lua_rds_parser \
+	  --without-http_xss_module \
+	  --without-http_form_input_module \
+	  --without-http_srcache_module \
+	  --without-http_lua_upstream_module \
+	  --without-http_array_var_module \
+	  --without-http_memc_module \
+	  --without-http_redis2_module \
+	  --without-http_redis_module \
+	  --without-lua_redis_parser \
+	  --without-lua_resty_upstream \
+	  --without-lua_resty_upstream_healthcheck \
+	  --without-select_module \
+	  --without-http_userid_module \
+	  --without-http_autoindex_module \
+	  --without-http_geo_module \
+	  --without-http_split_clients_module \
+	  --without-http_fastcgi_module \
+	  --without-http_uwsgi_module \
+	  --without-http_scgi_module \
+	  --without-http_memcached_module \
+	  --without-http_limit_conn_module \
+	  --without-http_limit_req_module \
+	  --without-http_empty_gif_module \
+	  --without-http_browser_module \
+	  --without-http_upstream_hash_module \
+	  --without-http_upstream_ip_hash_module \
+	  --without-http_upstream_least_conn_module \
+	  --without-http_upstream_zone_module \
+	  --without-mail_pop3_module \
+	  --without-mail_imap_module \
+	  --without-mail_smtp_module \
+	  --without-stream_limit_conn_module \
+	  --without-stream_return_module \
+	  --without-stream_upstream_hash_module \
+	  --without-stream_upstream_least_conn_module \
+	  --without-stream_upstream_zone_module \
+	  --with-stream_ssl_module \
+	  --with-stream_ssl_preread_module \
+	  --with-http_v2_module \
+	  --without-mail_pop3_module \
+	  --without-mail_imap_module \
+	  --without-mail_smtp_module \
+	  --with-http_stub_status_module \
+	  --with-http_realip_module \
+	  --with-http_gzip_static_module \
+	  --with-http_gunzip_module \
+	  --with-ngx_qat_module \
+	  --with-threads \
+      --with-compat \
+      --with-poll_module \
+	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+	  --with-no-pool-patch \
+	  -j$(JOBS)
+
+override_dh_usrlocal:
+
+override_dh_auto_install:
+	dh_auto_install
+	make install-headers DESTDIR=$(DESTDIR)
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/luajit/share/man
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/luajit/lib/libluajit-5.1.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/bin/mdb_{copy,load,stat,drop}
+	rm -f $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/lib/*.a
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/include
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/lmdb/share
+	rm -rf $(DESTDIR)/usr/local/openresty-plus-asan/tcc/share
+	[% IF arch != 'amd64' %]
+    # NB: hyperscan.compiler is always required in edgelang, so put a fake lua module here.
+	install -d $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/
+	echo 'return {}' > $(DESTDIR)$(OR_PREFIX)/lualib/resty/hyperscan/compiler.lua
+	[% END %]
+	for f in `find $(DESTDIR)$(OR_PREFIX)/lualib -type f -name '*.lua'`; do \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
+	for f in `find $(DESTDIR)$(OR_PREFIX)/luajit -type f -name '*.lua'`; do \
+		LUA_PATH="$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(OR_PREFIX)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(OR_PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+		rm -f $$f; \
+	done
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-plus-core-asan-dbgsym

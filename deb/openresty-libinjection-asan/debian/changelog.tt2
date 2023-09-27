@@ -1,0 +1,18 @@
+openresty-libinjection-asan (3.10.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-libinjection to 3.10.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 15 Dec 2021 00:00:00 -0700
+
+openresty-libinjection-asan (3.10.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-libinjection to 3.10.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 2 Dec 2021 00:00:00 -0700
+
+openresty-libinjection-asan (3.10.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for openresty-libinjection.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 Nov 2021 00:00:00 -0700
+

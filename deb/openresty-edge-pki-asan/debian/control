@@ -1,0 +1,21 @@
+Source: openresty-edge-pki-asan
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, openresty-plus-core, openresty-plus-openssl111-asan-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: openresty-edge-pki-asan
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-core-asan
+Description: OpenResty Edge Certificates Library
+ Lua API for generating/verifying edge certificates.
+
+Package: openresty-edge-pki-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-edge-pki-asan (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-edge-pki-asan package
+ Debug symbols (or debuginfo) for the openresty-edge-pki-asan package.

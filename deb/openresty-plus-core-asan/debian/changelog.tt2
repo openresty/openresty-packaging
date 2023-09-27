@@ -1,0 +1,282 @@
+openresty-plus-core-asan (1.19.9.1.49-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.49.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 7 Sep 2023 12:34:53 +0000
+
+openresty-plus-core-asan (1.19.9.1.48-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.48.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 5 Sep 2023 22:13:44 -0700
+
+openresty-plus-core-asan (1.19.9.1.47-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.47.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 24 Aug 2023 15:26:20 -0700
+
+openresty-plus-core-asan (1.19.9.1.46-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.46.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 14 Aug 2023 10:33:59 -0700
+
+openresty-plus-core-asan (1.19.9.1.45-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.45.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 3 Aug 2023 21:47:32 -0700
+
+openresty-plus-core-asan (1.19.9.1.44-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.44.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 1 Aug 2023 11:58:41 -0700
+
+openresty-plus-core-asan (1.19.9.1.43-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.43.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 24 Jul 2023 11:40:59 -0700
+
+openresty-plus-core-asan (1.19.9.1.42-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.42.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 18 Jul 2023 18:28:00 -0700
+
+openresty-plus-core-asan (1.19.9.1.40-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.40.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 4 Jul 2023 23:54:48 -0700
+
+openresty-plus-core-asan (1.19.9.1.39-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.39.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 May 2023 14:33:06 -0700
+
+openresty-plus-core-asan (1.19.9.1.38-2~[% distro %]1) [% distro %]; urgency=high
+
+  * disable ngx_coro on amd64 as well.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 14 Apr 2023 11:22:22 -0700
+
+openresty-plus-core-asan (1.19.9.1.38-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.38.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 14 Apr 2023 11:22:22 -0700
+
+openresty-plus-core-asan (1.19.9.1.37-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.37.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 10 Apr 2023 12:29:13 -0700
+
+openresty-plus-core-asan (1.19.9.1.36-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.36.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 3 Apr 2023 15:57:53 -0700
+
+openresty-plus-core-asan (1.19.9.1.35-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.35.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 20 Mar 2023 12:50:20 -0700
+
+openresty-plus-core-asan (1.19.9.1.34-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.34.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 6 Mar 2023 10:35:13 -0800
+
+openresty-plus-core-asan (1.19.9.1.33-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.33.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 24 Feb 2023 20:47:01 -0800
+
+openresty-plus-core-asan (1.19.9.1.32-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.32.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 9 Feb 2023 21:01:43 -0800
+
+openresty-plus-core-asan (1.19.9.1.31-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.31.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 16 Jan 2023 22:07:58 -0800
+
+openresty-plus-core-asan (1.19.9.1.30-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.30.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 11 Jan 2023 18:38:58 +0800
+
+openresty-plus-core-asan (1.19.9.1.29-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.29.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 3 Jan 2023 11:20:03 -0800
+
+openresty-plus-core-asan (1.19.9.1.28-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.28.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 2 Jan 2023 20:50:40 -0800
+
+openresty-plus-core-asan (1.19.9.1.27-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.27.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 2 Jan 2023 11:17:59 -0800
+
+openresty-plus-core-asan (1.19.9.1.26-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.26.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 26 Dec 2022 20:46:24 -0800
+
+openresty-plus-core-asan (1.19.9.1.25-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.25.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 8 Dec 2022 20:05:29 -0800
+
+openresty-plus-core-asan (1.19.9.1.24-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.24.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 28 Nov 2022 11:04:18 -0800
+
+openresty-plus-core-asan (1.19.9.1.23-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.23.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 24 Nov 2022 18:10:18 +0800
+
+openresty-plus-core-asan (1.19.9.1.22-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.22.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 22 Nov 2022 23:42:28 -0800
+
+openresty-plus-core-asan (1.19.9.1.21-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.21.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 27 Oct 2022 20:57:25 -0700
+
+openresty-plus-core-asan (1.19.9.1.20-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.20.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 25 Oct 2022 16:05:39 -0700
+
+openresty-plus-core-asan (1.19.9.1.19-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.19.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 19 Oct 2022 18:38:25 -0700
+
+openresty-plus-core-asan (1.19.9.1.18-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.18.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 16 Sep 2022 16:57:03 -0700
+
+openresty-plus-core-asan (1.19.9.1.17-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.17.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 15 Jul 2022 10:43:15 -0700
+
+openresty-plus-core-asan (1.19.9.1.16-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.16.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 1 Jun 2022 10:40:25 -0700
+
+openresty-plus-core-asan (1.19.9.1.15-3~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 28 Apr 2022 21:55:14 -0700
+
+openresty-plus-core-asan (1.19.9.1.15-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 20 Apr 2022 21:55:14 -0700
+
+openresty-plus-core-asan (1.19.9.1.14-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.14.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 13 Apr 2022 17:27:10 -0700
+
+openresty-plus-core-asan (1.19.9.1.13-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.13.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 7 Apr 2022 12:13:44 -0700
+
+openresty-plus-core-asan (1.19.9.1.12-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.12.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 29 Mar 2022 11:17:12 -0700
+
+openresty-plus-core-asan (1.19.9.1.11-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.11.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 16 Mar 2022 22:35:21 -0700
+
+openresty-plus-core-asan (1.19.9.1.10-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.10.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 9 Mar 2022 15:10:42 +0800
+
+openresty-plus-core-asan (1.19.9.1.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 6 Mar 2022 10:30:11 -0800
+
+openresty-plus-core-asan (1.19.9.1.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 3 Jan 2022 19:49:46 -0800
+
+openresty-plus-core-asan (1.19.9.1.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 Dec 2021 22:16:22 -0800
+
+openresty-plus-core-asan (1.19.9.1.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 8 Dec 2021 10:53:29 -0800
+
+openresty-plus-core-asan (1.19.9.1.5-2~[% distro %]1) [% distro %]; urgency=high
+
+  * update release version to 1.19.9.1.5-2.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 2 Dec 2021 00:00:00 -0700
+
+openresty-plus-core-asan (1.19.9.1.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial packaging.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 17 Nov 2021 00:00:00 -0700
+

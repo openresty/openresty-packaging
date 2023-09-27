@@ -1,0 +1,41 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-keepalived
+SSL_PREFIX = /usr/local/openresty-plus/openssl111
+
+%:
+	dh $@ --parallel --with autotools-dev,systemd
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./autogen.sh \
+	&& CC='ccache gcc -fsanitize=address -fno-omit-frame-pointer' \
+		CFLAGS="-I$(SSL_PREFIX)/include" \
+		LDFLAGS='-L$(SSL_PREFIX)/lib -Wl,-rpath,$(SSL_PREFIX)/lib' \
+		./configure --prefix=$(PREFIX) \
+		--disable-systemd \
+		--enable-sha1 --enable-strict-config-checks \
+		--enable-log-file \
+	&& make -j`nproc`
+
+override_dh_auto_install:
+	make install-exec DESTDIR=$(DESTDIR)
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-keepalived-asan-dbgsym
