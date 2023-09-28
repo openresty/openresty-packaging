@@ -19,7 +19,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_EDGE_PKI_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_EDGE_PKI_VER := $version/msx) {
+        if (s/^ OPENRESTY_EDGE_PKI(?:\w+)VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_EDGE_PKI(?:\w+)VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;

@@ -56,6 +56,7 @@ priv_targets = openresty-plus \
 		openresty-saas-openssl \
 		openresty-saas-openssl111 \
 		openresty-saas \
+		openresty-saas-asan \
 		openresty-binutils \
 		openresty-tar \
 		openresty-plzip \
@@ -103,8 +104,11 @@ priv_targets = openresty-plus \
 		openresty-plus-core \
 		openresty-plus-core-h3 \
 		openresty-plus-core-test \
+		openresty-plus-core-asan \
 		openresty-edge-pki \
+		openresty-edge-pki-asan \
 		openresty-libinjection \
+		openresty-libinjection-asan \
 		openresty-elf-loader\
 		openresty-boringssl \
 		openresty-libmemcached \

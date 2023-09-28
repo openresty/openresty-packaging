@@ -140,6 +140,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		 openresty-saas-asan-clean \
 		 openresty-saas-zlib-asan-clean \
 		 openresty-saas-pcre-asan-clean \
+		 openresty-plus-core-asan-clean \
+		 openresty-libinjection-asan-clean \
+		 openresty-edge-pki-asan-clean \
 		 openresty-saas-openssl111-asan-clean
 
 	-rm -f *.gz *.bz2 *.xz *.zip

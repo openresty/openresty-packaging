@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PLUS_CORE_ASAN_VER := 1.19.9.1.49
+OPENRESTY_PLUS_CORE_ASAN_VER := $(OR_PLUS_VER)
 
 .PHONY: openresty-plus-core-asan-download
 openresty-plus-core-asan-download:
