@@ -1,3 +1,0 @@
-opt/openresty-saas-asan/pcre/include/
-opt/openresty-saas-asan/pcre/lib/*.a
-opt/openresty-saas-asan/pcre/include/*.h

@@ -2,14 +2,14 @@ Source: openresty-saas-asan
 Section: httpd
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-saas-zlib-asan-dev (>= 1.2.13), openresty-saas-openssl111-asan-dev (>= 1.1.1t), openresty-saas-pcre-asan-dev (>= 8.45), libc-dev
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-zlib-asan-dev, openresty-openssl111-asan-dev, openresty-pcre-asan-dev, libc-dev
 Standards-Version: 3.9.8
 Homepage: http://openresty.com
 
 Package: openresty-saas-asan
 Architecture: any
 Section: httpd
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib-asan (>= 1.2.13), openresty-saas-openssl111-asan (>= 1.1.1t), openresty-saas-pcre-asan (>= 8.45)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib-asan, openresty-openssl111-asan, openresty-pcre-asan
 Description: OpenResty Plus for SaaS product clients
  OpenResty Plus for SaaS product clients.
 

@@ -1,13 +1,14 @@
 %define or_plus_name    openresty-plus
 %define saas_or_prefix  /opt/openresty-saas-asan
-%define zlib_prefix     %{saas_or_prefix}/zlib
-%define pcre_prefix     %{saas_or_prefix}/pcre
-%define openssl_prefix  %{saas_or_prefix}/openssl111
-%define orutils_prefix      %{_usr}/local/openresty-utils
+%define or_prefix       /usr/local/openresty-asan
+%define zlib_prefix     %{or_prefix}/zlib
+%define pcre_prefix     %{or_prefix}/pcre
+%define openssl_prefix  %{or_prefix}/openssl111
+%define orutils_prefix  %{_usr}/local/openresty-utils
 
 Name:       openresty-saas-asan
 Version:    1.19.9.1.49
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -23,13 +24,13 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
-BuildRequires:  openresty-saas-zlib-asan-devel >= 1.2.13-1
-BuildRequires:  openresty-saas-openssl111-asan-devel >= 1.1.1t-1
-BuildRequires:  openresty-saas-pcre-asan-devel >= 8.45-1
+BuildRequires:  openresty-zlib-asan-devel
+BuildRequires:  openresty-openssl111-asan-devel
+BuildRequires:  openresty-pcre-asan-devel
 BuildRequires:  glibc-devel
-Requires:       openresty-saas-zlib-asan >= 1.2.13-1
-Requires:       openresty-saas-openssl111-asan >= 1.1.1t-1
-Requires:       openresty-saas-pcre-asan >= 8.45-1
+Requires:       openresty-zlib-asan
+Requires:       openresty-openssl111-asan
+Requires:       openresty-pcre-asan
 
 AutoReqProv:    no
 

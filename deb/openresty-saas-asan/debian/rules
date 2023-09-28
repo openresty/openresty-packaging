@@ -1,7 +1,5 @@
 #!/usr/bin/make -f
 DPKG_EXPORT_BUILDFLAGS = 1
-orprefix = /opt/openresty-saas-asan
-
 ORUTILS_PREFIX = /usr/local/openresty-utils
 
 include /usr/share/dpkg/default.mk
@@ -12,9 +10,10 @@ export JOBS=`nproc`
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /opt/openresty-saas-asan
-ZLIB_PREFIX = $(PREFIX)/zlib
-PCRE_PREFIX = $(PREFIX)/pcre
-OPENSSL_PREFIX = $(PREFIX)/openssl111
+OR_PREFIX = /usr/local/openresty-asan
+ZLIB_PREFIX = $(OR_PREFIX)/zlib
+PCRE_PREFIX = $(OR_PREFIX)/pcre
+OPENSSL_PREFIX = $(OR_PREFIX)/openssl111
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -81,12 +80,12 @@ override_dh_auto_install:
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/lib/*.a
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/include
 	rm -rf $(DESTDIR)$(PREFIX)/lmdb/share
-	for f in `find $(DESTDIR)$(orprefix)/lualib -type f -name '*.lua'`; do \
-		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+	for f in `find $(DESTDIR)$(PREFIX)/lualib -type f -name '*.lua'`; do \
+		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1/?.lua;;" $(DESTDIR)$(PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
-	for f in `find $(DESTDIR)$(orprefix)/luajit -type f -name '*.lua'`; do \
-		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(orprefix)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(orprefix)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+	for f in `find $(DESTDIR)$(PREFIX)/luajit -type f -name '*.lua'`; do \
+		LD_PRELOAD= LUA_PATH="$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1/?.lua;$(DESTDIR)$(PREFIX)/luajit/share/luajit-2.1/?.ljbc;;" $(DESTDIR)$(PREFIX)/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm -f $$f; \
 	done
 
