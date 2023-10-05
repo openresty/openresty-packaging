@@ -1,3 +1,9 @@
+openresty-luajit-plus (20230907-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded luajit-plus to 20230907.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 5 Oct 2023 10:07:21 -0700
+
 openresty-luajit-plus (20230410-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded luajit-plus to 20230410.
