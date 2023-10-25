@@ -14,7 +14,7 @@ PCRE_VER=8.45
 SSL_VER=1.1.0l
 SSL111_VER=1.1.1t
 OR_VER=1.21.4.1
-OR_PLUS_VER=1.19.9.1.49
+OR_PLUS_VER=1.19.9.1.50
 OPENRESTY_PLUS_CORE_H3_VER=1.21.4.3.11
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.29
@@ -498,7 +498,7 @@ endif
 
 .PHONY: openresty-plus-clean
 openresty-plus-clean:
-	cd openresty-plus && debclean
+	-cd openresty-plus && debclean
 	find openresty-plus -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus' -print | xargs rm -rf
 	rm -f openresty-plus*.deb
 	rm -f openresty-plus_*.*
