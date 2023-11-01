@@ -1,13 +1,13 @@
 Summary: A network traffic monitoring tool
 Name: openresty-tcpdump
 Version: 4.9.3.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: BSD with advertising
 URL: http://www.tcpdump.org
 Group: Applications/Internet
 #Requires(pre): shadow-utils /usr/bin/getent
-Requires: openresty-pcap >= 1.9.1
-BuildRequires: automake, openresty-pcap-devel >= 1.9.1, ccache
+Requires: openresty-pcap >= 1.9.1, libnl3
+BuildRequires: automake, openresty-pcap-devel >= 1.9.1, ccache, libnl3-devel
 AutoReqProv: no
 
 %define tcpdump_prefix     /usr/local/openresty-tcpdump
@@ -98,6 +98,8 @@ rm -rf $RPM_BUILD_ROOT
 %{tcpdump_prefix}/bin/hex2pcap
 
 %changelog
+* Wed Nov 1 2023 Yichun Zhang (agentzh) 4.9.3.6-2
+- add dependency libnl3.
 * Wed Jul 20 2022 Yichun Zhang (agentzh) 4.9.3.6-1
 - upgraded tcpdump-plus to 4.9.3.6.
 * Tue Apr 6 2021 Yichun Zhang (agentzh) 4.9.3.5-1

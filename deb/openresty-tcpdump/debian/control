@@ -2,14 +2,14 @@ Source: openresty-tcpdump
 Section: net
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), automake, openresty-pcap-dev (>= 1.9.1), ccache
+Build-Depends: debhelper (>= 9), automake, openresty-pcap-dev (>= 1.9.1), ccache, libnl-genl-3-dev
 Standards-Version: 3.9.8
 Homepage: http://www.tcpdump.org
 
 Package: openresty-tcpdump
 Architecture: any
 Section: net
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcap (>= 1.9.1)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcap (>= 1.9.1), libnl-genl-3-200
 Description: A network traffic monitoring tool
  Tcpdump is a command-line tool for monitoring network traffic.
  Tcpdump can capture and display the packet headers on a particular
