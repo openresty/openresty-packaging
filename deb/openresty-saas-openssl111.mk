@@ -25,5 +25,5 @@ openresty-saas-openssl111-build: openresty-saas-openssl111-clean openresty-saas-
 	tar xf openresty-saas-openssl111_$(OPENRESTY_SAAS_OPENSSL111_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl111
 	cd openresty-saas-openssl111 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
