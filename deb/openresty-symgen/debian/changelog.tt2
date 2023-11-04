@@ -1,3 +1,9 @@
+openresty-symgen (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-symgen to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 3 Nov 2023 21:52:05 -0700
+
 openresty-symgen (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-symgen to 0.0.2.
