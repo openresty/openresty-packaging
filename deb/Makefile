@@ -230,6 +230,9 @@ saas-pcre-download:
 	wget -nH --cut-dirs=100 --mirror 'https://sourceforge.net/projects/pcre/files/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2'
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-saas-pcre_$(PCRE_VER).orig.tar.bz2
 
+.PHONY: openresty-saas-pcre-build
+openresty-saas-pcre-build: saas-pcre-build
+
 .PHONY: saas-pcre-build
 saas-pcre-build: | saas-pcre-clean saas-pcre-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
@@ -253,6 +256,9 @@ saas-openssl-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
 	cp openssl-$(SSL_VER).tar.gz openresty-saas-openssl_$(SSL_VER).orig.tar.gz
+
+.PHONY: openresty-saas-openssl-build
+openresty-saas-openssl-build: saas-openssl-build
 
 .PHONY: saas-openssl-build
 saas-openssl-build: | saas-openssl-clean saas-openssl-download
