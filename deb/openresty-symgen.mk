@@ -27,5 +27,5 @@ openresty-symgen-build: openresty-symgen-clean openresty-symgen-download
 	tar xf openresty-symgen_$(OPENRESTY_SYMGEN_VER).orig.tar.gz --strip-components=1 -C openresty-symgen
 	cd openresty-symgen \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

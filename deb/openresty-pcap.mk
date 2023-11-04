@@ -25,5 +25,5 @@ openresty-pcap-build: openresty-pcap-clean openresty-pcap-download
 	tar xf openresty-pcap_$(OPENRESTY_PCAP_VER).orig.tar.gz --strip-components=1 -C openresty-pcap
 	cd openresty-pcap \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

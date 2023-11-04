@@ -25,5 +25,5 @@ openresty-radare2-build: openresty-radare2-clean openresty-radare2-download
 	tar xf openresty-radare2_$(OPENRESTY_RADARE2_VER).orig.tar.gz --strip-components=1 -C openresty-radare2
 	cd openresty-radare2 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
