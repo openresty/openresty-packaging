@@ -34,5 +34,5 @@ openresty-dw2c-build: openresty-dw2c-clean openresty-dw2c-download
 		&& tpage \
 			--define perl_cpaneljsonxs_ver=$(DEP_OR_PERL_CPANEL_JSON_XS_VER) \
 			debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

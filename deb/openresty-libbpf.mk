@@ -27,5 +27,5 @@ openresty-libbpf-build: openresty-libbpf-clean openresty-libbpf-download
 	tar xf openresty-libbpf_$(OPENRESTY_LIBBPF_VER).orig.tar.gz --strip-components=1 -C openresty-libbpf
 	cd openresty-libbpf \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

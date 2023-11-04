@@ -22,5 +22,5 @@ openresty-tcpdump-build: openresty-tcpdump-clean openresty-tcpdump-download
 	tar xf openresty-tcpdump_$(OPENRESTY_TCPDUMP_VER).orig.tar.gz --strip-components=1 -C openresty-tcpdump
 	cd openresty-tcpdump \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

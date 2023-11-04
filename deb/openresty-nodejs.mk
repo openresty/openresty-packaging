@@ -25,5 +25,5 @@ openresty-nodejs-build: openresty-nodejs-clean openresty-nodejs-download
 	tar xf openresty-nodejs_$(OPENRESTY_NODEJS_VER).orig.tar.gz --strip-components=1 -C openresty-nodejs
 	cd openresty-nodejs \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

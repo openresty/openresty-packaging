@@ -27,5 +27,5 @@ openresty-libbpf-net-build: openresty-libbpf-net-clean openresty-libbpf-net-down
 	tar xf openresty-libbpf-net_$(OPENRESTY_LIBBPF_NET_VER).orig.tar.gz --strip-components=1 -C openresty-libbpf-net
 	cd openresty-libbpf-net \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

@@ -27,5 +27,5 @@ openresty-iproute2-build: openresty-iproute2-clean openresty-iproute2-download
 	tar xf openresty-iproute2_$(OPENRESTY_IPROUTE2_VER).orig.tar.gz --strip-components=1 -C openresty-iproute2
 	cd openresty-iproute2 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
