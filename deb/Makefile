@@ -69,6 +69,9 @@ pcre-download:
 	wget -nH --cut-dirs=100 --mirror 'https://sourceforge.net/projects/pcre/files/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2'
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-pcre_$(PCRE_VER).orig.tar.bz2
 
+.PHONY: openresty-pcre-build
+openresty-pcre-build: pcre-build
+
 .PHONY: pcre-build
 pcre-build: | pcre-clean pcre-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
@@ -92,6 +95,9 @@ openssl-download:
 	rm -f *.orig.tar.*
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
 	cp openssl-$(SSL_VER).tar.gz openresty-openssl_$(SSL_VER).orig.tar.gz
+
+.PHONY: openresty-openssl-build
+openresty-openssl-build: openssl-build
 
 .PHONY: openssl-build
 openssl-build: | openssl-clean openssl-download
