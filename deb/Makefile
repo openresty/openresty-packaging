@@ -302,7 +302,7 @@ lemplate-build: | lemplate-clean lemplate-download
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
 .PHONY: libtest-nginx-perl-build
-libtest-nginx-perl-build: test-nginx-download
+libtest-nginx-perl-build: test-nginx-build
 
 .PHONY: test-nginx-download
 test-nginx-download:
