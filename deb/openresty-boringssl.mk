@@ -25,5 +25,5 @@ openresty-boringssl-build: openresty-boringssl-clean openresty-boringssl-downloa
 	tar xf openresty-boringssl_$(OPENRESTY_BORINGSSL_VER).orig.tar.gz --strip-components=1 -C openresty-boringssl
 	cd openresty-boringssl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild --preserve-envvar PATH $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian --preserve-envvar PATH $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
