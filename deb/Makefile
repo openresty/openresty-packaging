@@ -287,6 +287,9 @@ lemplate-clean:
 	rm -f liblemplate-perl*.deb
 	rm -f liblemplate-perl_*.*
 
+.PHONY: liblemplate-perl-build
+liblemplate-perl-build: lemplate-build
+
 .PHONY: lemplate-build
 lemplate-build: | lemplate-clean lemplate-download
 	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl
@@ -297,6 +300,9 @@ lemplate-build: | lemplate-clean lemplate-download
 		&& debuild -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: libtest-nginx-perl-build
+libtest-nginx-perl-build: test-nginx-download
 
 .PHONY: test-nginx-download
 test-nginx-download:

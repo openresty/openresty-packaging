@@ -85,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc Changes README.md
 %{perl_vendorlib}/*
-%{_mandir}/man3/*
+#%{_mandir}/man3/*
 
 %changelog
 * Tue Apr 25 2017 Yichun Zhang (agentzh) 0.26-1
