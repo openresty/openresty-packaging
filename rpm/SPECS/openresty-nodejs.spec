@@ -1,6 +1,6 @@
 Name:       openresty-nodejs
 Version:    15.4.0
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    OpenResty's fork of JavaScript runtime
 License:    MIT and ASL 2.0 and ISC and BSD
 Group:      Development/Languages
@@ -96,7 +96,10 @@ export PATH="%{py3_prefix}/bin:$PATH"
 
 %{py3_prefix}/bin/python3 ./configure --prefix=%{_prefix} --without-dtrace \
     --shared \
-    --with-intl=small-icu --gdb \
+    --with-intl=small-icu \
+%ifarch x86_64
+    --gdb  \
+%endif
     --shared-zlib --shared-zlib-includes=%{zlib_prefix}/include \
     --shared-zlib-libpath=%{zlib_prefix}/lib \
     --shared-openssl --shared-openssl-includes=%{openssl_prefix}/include \
@@ -150,5 +153,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Nov 4 2023 lijunlnog (junlong) 15.4.0-5.
+- added support for arm64.
 * Mon Jan 4 2021 Jiahao Wang (jiahao) 15.4.0-1.
 - initial build for openresty-nodejs 15.4.0.

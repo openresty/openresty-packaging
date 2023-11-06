@@ -31,7 +31,8 @@ override_dh_auto_build:
 	export PATH="$(PY3_PREFIX)/bin:$(PATH)"; \
 	$(PY3_PREFIX)/bin/python3 ./configure --prefix=$(PREFIX) --without-dtrace \
 		--shared \
-		--with-intl=small-icu --gdb \
+		--with-intl=small-icu \
+                [% IF arch == 'amd64' %] --gdb [% END %] \
 		--shared-zlib --shared-zlib-includes=$(ZLIB_PREFIX)/include \
 		--shared-zlib-libpath=$(ZLIB_PREFIX)/lib \
 		--shared-openssl --shared-openssl-includes=$(OPENSSL_PREFIX)/include \

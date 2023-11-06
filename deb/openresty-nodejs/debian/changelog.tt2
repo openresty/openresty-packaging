@@ -1,3 +1,8 @@
+openresty-nodejs (15.4.0-5~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for openresty-nodejs 15.4.0.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 6 Nov 2023 19:10:40 -0700
 openresty-nodejs (15.4.0-1~[% distro %]1) [% distro %]; urgency=high
 
   * initial build for openresty-nodejs 15.4.0.
