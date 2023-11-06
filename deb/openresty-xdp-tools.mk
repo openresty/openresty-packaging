@@ -37,5 +37,5 @@ openresty-xdp-tools-build: openresty-xdp-tools-clean openresty-xdp-tools-downloa
 	cd openresty-xdp-tools \
 		&& tpage --define arch=$(ARCH) --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& tpage --define arch=$(ARCH) --define distro=$(DISTRO) debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
