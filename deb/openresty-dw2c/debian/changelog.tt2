@@ -1,3 +1,9 @@
+openresty-dw2c (2.01-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-dw2c to 2.01.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 9 Nov 2023 21:22:51 -0800
+
 openresty-dw2c (1.10-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-dw2c to 1.10.
