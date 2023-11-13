@@ -54,3 +54,6 @@ override_dh_auto_install:
 
 override_dh_strip:
 	dh_strip --dbg-package=openresty-dbgsym
+
+override_dh_installinit:
+	dh_installinit --no-stop-on-upgrade
