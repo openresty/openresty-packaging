@@ -57,6 +57,8 @@ Requires: make, openresty-perl, openresty-perl-Cpanel-JSON-XS
 Requires: openresty-stap-runtime = %{version}-%{release}
 Requires: openresty-elfutils >= 0.177.12-1
 
+%undefine __brp_mangle_shebangs
+
 %description
 OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
 Developers can write instrumentation scripts to collect data on
