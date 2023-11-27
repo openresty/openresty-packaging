@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.21.4.3
+Version:        1.25.3.1
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -25,10 +25,10 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl111-devel >= 1.1.1n-1
-BuildRequires:  openresty-pcre-devel >= 8.45-1
+BuildRequires:  openresty-pcre2-devel >= 10.42-1
 Requires:       openresty-zlib >= 1.2.12-1
 Requires:       openresty-openssl111 >= 1.1.1n-1
-Requires:       openresty-pcre >= 8.45-1
+Requires:       openresty-pcre2 >= 10.42-1
 
 
 %if 0%{?suse_version}
@@ -60,7 +60,7 @@ AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{orprefix}/zlib
-%define pcre_prefix         %{orprefix}/pcre
+%define pcre_prefix         %{orprefix}/pcre2
 %define openssl_prefix      %{orprefix}/openssl111
 
 
@@ -204,6 +204,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -352,6 +353,8 @@ fi
 
 
 %changelog
+* Mon Nov 27 2023 Yichun Zhang (agentzh) 1.25.3.1-1
+- upgraded openresty to 1.25.3.1.
 * Thu Oct 26 2023 Yichun Zhang (agentzh) 1.21.4.3-1
 - upgraded openresty to 1.21.4.3.
 * Mon Jul 17 2023 Yichun Zhang (agentzh) 1.21.4.2-1
