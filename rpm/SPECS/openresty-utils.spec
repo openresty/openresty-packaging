@@ -16,7 +16,7 @@ Source0:        %{name}-%{version}.tar.gz
 
 AutoReqProv:    no
 BuildRequires:  ccache, gcc, make, openresty-saas-pcre-devel
-BuildRequires:  openresty-saas-pcre2-devel >= 10.39
+BuildRequires:  openresty-saas-pcre2-devel >= 10.42
 BuildRequires:  openresty-libdemangle-devel
 
 Requires:       openresty-saas-pcre

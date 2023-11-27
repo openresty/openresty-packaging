@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_SAAS_PCRE2_VER = 10.39
+OPENRESTY_SAAS_PCRE2_VER = 10.42
 
 .PHONY: openresty-saas-pcre2-download
 openresty-saas-pcre2-download:

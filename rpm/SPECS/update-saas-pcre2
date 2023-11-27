@@ -95,7 +95,7 @@ sub update_utils_spec ($) {
     if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-saas-pcre2
                     (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){1} )
                     ( - \d+)?
-                    $/push @old_vers, $2; "$1$version-1"/exsmg)
+                    $/push @old_vers, $2; "$1$version"/exsmg)
     {
         for my $old_ver (@old_vers) {
             $found = 1;

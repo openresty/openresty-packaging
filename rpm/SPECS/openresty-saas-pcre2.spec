@@ -1,5 +1,5 @@
 Name:       openresty-saas-pcre2
-Version:    10.39
+Version:    10.42
 Release:    1%{?dist}
 Summary:    Perl-compatible regular expression library
 
@@ -137,5 +137,7 @@ export QA_RPATHS=$[ 0x0002 ]
 %{pcre2_prefix}/include/*.h
 
 %changelog
+* Mon Nov 27 2023 Yichun Zhang (agentzh) 10.42-1
+- upgraded PCRE2 to 10.42.
 * Tue Mar 29 2022 Jiahao Wang <wangjiahao@openresty.com> - 10.39-1
 - upgraded pcre2 to 10.39.
