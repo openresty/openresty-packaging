@@ -1,0 +1,43 @@
+Source: openresty-pcre2
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), coreutils, gcc, make, ccache, sed
+Standards-Version: 3.9.8
+Homepage: https://github.com/PhilipHazel/pcre2
+
+Package: openresty-pcre2
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Perl-compatible regular expression library
+ PCRE2 is a re-working of the original PCRE (Perl-compatible regular
+ expression) library to provide an entirely new API.
+ PCRE2 is written in C, and it has its own API. There are three sets of
+ functions, one for the 8-bit library, which processes strings of bytes, one
+ for the 16-bit library, which processes strings of 16-bit values, and one for
+ the 32-bit library, which processes strings of 32-bit values. There are no C++
+ wrappers. This package provides support for strings in 8-bit and UTF-8
+ encodings.
+ The distribution does contain a set of C wrapper functions for the 8-bit
+ library that are based on the POSIX regular expression API (see the pcre2posix
+ man page). These can be found in a library called libpcre2posix. Note that
+ this just provides a POSIX calling interface to PCRE2; the regular expressions
+ themselves still follow Perl syntax and semantics. The POSIX API is
+ restricted, and does not give full access to all of PCRE2's facilities.
+
+Package: openresty-pcre2-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcre2 (>= ${source:Upstream-Version})
+Description: Development files for openresty-pcre2
+ Development files (headers, libraries for dynamic linking, documentation)
+ for openresty-pcre2.  The header file for the POSIX-style functions is called
+ pcre2posix.h.
+
+Package: openresty-pcre2-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-pcre2 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-pcre2 package
+ Debug symbols (or debuginfo) for the openresty-pcre2 package.

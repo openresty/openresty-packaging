@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+PREFIX = /usr/local/openresty-saas/pcre2
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	CFLAGS="-g -O3" ./configure \
+		--prefix=$(PREFIX) \
+		--libdir=$(PREFIX)/lib \
+		--enable-jit \
+		--enable-pcre2grep-jit \
+		--disable-bsr-anycrlf \
+		--disable-coverage \
+		--disable-ebcdic \
+		--disable-fuzz-support \
+		--disable-jit-sealloc \
+		--disable-never-backslash-C \
+		--enable-newline-is-lf \
+		--enable-pcre2-8 \
+		--enable-pcre2-16 \
+		--enable-pcre2-32 \
+		--enable-pcre2grep-callout \
+		--enable-pcre2grep-callout-fork \
+		--disable-pcre2grep-libbz2 \
+		--disable-pcre2grep-libz \
+		--disable-pcre2test-libedit \
+		--enable-percent-zt \
+		--disable-rebuild-chartables \
+		--enable-shared \
+		--disable-static \
+		--disable-silent-rules \
+		--enable-unicode \
+		--disable-valgrind \
+	&& make CC='ccache gcc' -j`nproc`
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share \
+		&& rm -rf $(DESTDIR)$(PREFIX)/bin
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-pcre2-dbgsym

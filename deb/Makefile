@@ -24,7 +24,7 @@ deb_toolchain_pkgs = debhelper devscripts
 build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
 	openresty-valgrind-build \
-	lemplate-build test-nginx-build
+	lemplate-build test-nginx-build openresty-pcre2-build
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
@@ -32,7 +32,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		lemplate-clean test-nginx-clean \
 		openssl111-clean openssl111-debug-clean  \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
-		openresty-openssl111-asan-clean openresty-asan-clean
+		openresty-openssl111-asan-clean openresty-asan-clean \
+                openresty-pcre2-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
