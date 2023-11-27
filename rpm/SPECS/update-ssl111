@@ -96,7 +96,7 @@ sub update_or_spec ($) {
     my $changes = 0;
     my $found;
 
-    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-openssl
+    if ($src =~ s/^ ( \s* (?:Build)?Requires: \s+ openresty-openssl111
                     (?: - [_a-z]+ )* \s* >=? \s* ) ( \d+ (?: \.\d+ ){2} [a-z] )
                     ( - \d+)?
                     $/push @old_vers, $2; "$1$version-1"/exsmg)
