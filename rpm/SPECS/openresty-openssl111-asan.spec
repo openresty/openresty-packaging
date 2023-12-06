@@ -1,6 +1,6 @@
 Name:               openresty-openssl111-asan
 Version:            1.1.1w
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            Clang AddressSanitizer Debug version of the OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -103,7 +103,11 @@ export ASAN_OPTIONS=detect_leaks=0
 #sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
 #sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-make -j`nproc` \
+ncpus=`nproc`
+if [ "$ncpus" -gt 16 ]; then
+    ncpus=16
+fi
+make -j$ncpus \
     LD_LIBRARY_PATH= \
     CC="ccache gcc -fsanitize=address" \
     > /dev/stderr
