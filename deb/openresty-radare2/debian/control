@@ -2,14 +2,14 @@ Source: openresty-radare2
 Section: libs
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9)
+Build-Depends: debhelper (>= 9), openresty-tcmalloc-dev
 Standards-Version: 3.9.8
 Homepage: http://radare.org/
 
 Package: openresty-radare2
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-tcmalloc
 Description: radare2 for OpenResty
  radare2 for OpenResty ONLY
 

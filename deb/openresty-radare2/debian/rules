@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX=/usr/local/openresty-tcmalloc
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -19,9 +20,9 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	CC='ccache gcc' \
-		&& LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib' \
-		&& CFLAGS='-g -O2' \
-		&& ./configure --prefix=/usr/local/openresty-radare2 --with-rpath \
+	LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib -L/usr/local/openresty-tcmalloc/lib -Wl,-rpath,/usr/local/openresty-tcmalloc/lib,--no-as-needed -ltcmalloc_minimal' \
+	CFLAGS='-g -O2' \
+	./configure --prefix=/usr/local/openresty-radare2 --with-rpath \
 		&& make -j`nproc`
 
 override_dh_auto_install:

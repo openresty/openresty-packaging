@@ -11,9 +11,14 @@ Source0:            radare2-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires:      openresty-tcmalloc-devel
+
+Requires:           openresty-tcmalloc
+
 AutoReqProv:        no
 
 %define radare2_prefix          /usr/local/openresty-radare2
+%define tcmalloc_prefix         /usr/local/openresty-tcmalloc
 %define radare2_data_prefix     /usr/local/openresty-radare2/share/radare2
 
 %description
@@ -53,9 +58,9 @@ radare2 for OpenResty ONLY
 
 
 %build
-CC='ccache gcc'
-LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib'
-CFLAGS='-g -O2'
+CC='ccache gcc' \
+LDFLAGS='-Wl,-rpath,%{radare2_prefix}/lib -L%{tcmalloc_prefix}/lib -Wl,-rpath,%{tcmalloc_prefix}/lib,--no-as-needed -ltcmalloc_minimal' \
+CFLAGS='-g -O2' \
 ./configure --prefix=%{radare2_prefix} --with-rpath
 make -j`nproc`
 
