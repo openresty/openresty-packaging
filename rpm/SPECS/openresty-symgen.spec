@@ -76,8 +76,9 @@ for f in `find bin -type f -name '*.lua'`; do
     rm $f
 done
 
-make compile -j`nproc` PERLCC=%{perlcc}
-
+for i in 1 2 3; do
+    make compile -j`nproc` PERLCC=%{perlcc} && break
+done
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{prefix}

@@ -21,13 +21,11 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	sed -i 's/\$$FindBin::Bin/\/usr\/local\/openresty-symgen\/bin/' bin/*.pl
-
 	for f in `find bin -type f -name '*.lua'`; do \
 		/opt/openresty-saas/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm $$f; \
 	done
-
-	make compile PERLCC=$(PERLCC) -j`nproc`
+	for i in 1 2 3; do make compile PERLCC=$(PERLCC) -j`nproc` && break; done
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
