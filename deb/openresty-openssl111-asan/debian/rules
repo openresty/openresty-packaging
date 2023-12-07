@@ -30,11 +30,10 @@ override_dh_auto_build:
     --libdir=lib \
     -I/usr/local/openresty-asan/zlib/include \
     -L/usr/local/openresty-asan/zlib/lib \
-    -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl111/lib \
-		&& make -j`nproc` \
-    LD_LIBRARY_PATH= \
-    CC="ccache gcc -fsanitize=address" \
-    > /dev/stderr
+    -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl111/lib
+	jobs=`nproc`; if [ "$$jobs" -gt 8 ]; then jobs=8; fi; make -j$$jobs \
+		LD_LIBRARY_PATH= \
+		CC="ccache gcc -fsanitize=address"
 
 override_dh_auto_install:
 	make install_sw DESTDIR=$(DESTDIR) \
