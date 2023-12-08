@@ -21,7 +21,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
+	#sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
 	sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 	for f in `find bin -type f -name '*.lua'`; do \
 		/opt/openresty-saas/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \

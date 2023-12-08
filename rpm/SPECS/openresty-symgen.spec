@@ -71,7 +71,7 @@ Tool for converting dwarf to C for OpenResty.
 %setup -q -n symgen-%{version}
 
 %build
-sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
+#sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
 sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 
 for f in `find bin -type f -name '*.lua'`; do
