@@ -8,7 +8,8 @@ License:        Proprietary
 URL:            https://www.openresty.com
 
 %define prefix          /usr/local/openresty-symgen
-%define perlcc          /usr/local/openresty-perl/bin/perlcc
+%define perl_bin        /usr/local/openresty-perl/bin
+%define perlcc          %{perl_bin}/perlcc
 
 %define perl_ver            5.24.4
 # NB: 5.24.4-4 is a version with the bugfix patch applied
@@ -70,14 +71,16 @@ Tool for converting dwarf to C for OpenResty.
 %setup -q -n symgen-%{version}
 
 %build
-sed -i 's/\$FindBin::Bin/\/usr\/local\/openresty-symgen\/bin/' bin/*.pl
+sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
+sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
+
 for f in `find bin -type f -name '*.lua'`; do
     /opt/openresty-saas/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
     rm $f
 done
 
 for i in 1 2 3; do
-    make compile -j`nproc` PERLCC=%{perlcc} && break
+    PATH=%{perl_bin}:$PATH make compile -j`nproc` PERLCC=%{perlcc} && break
 done
 
 %install

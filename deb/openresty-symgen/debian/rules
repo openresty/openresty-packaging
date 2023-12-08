@@ -8,7 +8,8 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-symgen
-PERLCC = /usr/local/openresty-perl/bin/perlcc
+PERL_BIN = /usr/local/openresty-perl/bin
+PERLCC = $(PERL_BIN)/perlcc
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -20,12 +21,13 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	sed -i 's/\$$FindBin::Bin/\/usr\/local\/openresty-symgen\/bin/' bin/*.pl
+	sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
+	sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 	for f in `find bin -type f -name '*.lua'`; do \
 		/opt/openresty-saas/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
 		rm $$f; \
 	done
-	for i in 1 2 3; do make compile PERLCC=$(PERLCC) -j`nproc` && break; done
+	for i in 1 2 3; do PATH=$(PERL_BIN):$$PATH make compile PERLCC=$(PERLCC) -j`nproc` && break; done
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
