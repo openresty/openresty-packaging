@@ -1,6 +1,6 @@
 Name:       openresty-pcre2
 Version:    10.42
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Perl-compatible regular expression library
 
 Group:      System Environment/Libraries
@@ -82,7 +82,7 @@ pcre2posix.h.
 %setup -q -n pcre2-%{version}
 
 %build
-CFLAGS="-g -O3" ./configure \
+CFLAGS="-fPIC -g -O3" ./configure \
     --prefix=%{pcre2_prefix} \
     --libdir=%{pcre2_prefix}/lib \
     --enable-jit \
@@ -115,6 +115,7 @@ make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
 make install DESTDIR=%{buildroot}
 
 # Get rid of unneeded *.la files
+rm -rf $RPM_BUILD_ROOT/%{pcre2_prefix}/lib/*.la
 rm -rf $RPM_BUILD_ROOT%{pcre2_prefix}/share
 rm -rf $RPM_BUILD_ROOT/%{pcre2_prefix}/bin
 
@@ -130,12 +131,13 @@ export QA_RPATHS=$[ 0x0002 ]
 
 %files devel
 %dir %{pcre2_prefix}/include
-%{pcre2_prefix}/lib/*.la
 %{pcre2_prefix}/lib/*.so
 %{pcre2_prefix}/lib/pkgconfig/*
 %{pcre2_prefix}/include/*.h
 
 %changelog
+* Mon Nov 27 2023 Yichun Zhang (agentzh) 10.42-2
+- update the packaging script.
 * Mon Nov 27 2023 Yichun Zhang (agentzh) 10.42-1
 - upgraded PCRE2 to 10.42.
 * Tue Mar 29 2022 Jiahao Wang <wangjiahao@openresty.com> - 10.39-1
