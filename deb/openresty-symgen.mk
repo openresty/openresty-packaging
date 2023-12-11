@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_SYMGEN_VER := 0.0.8
+OPENRESTY_SYMGEN_VER := 0.0.9
 
 .PHONY: openresty-symgen-download
 openresty-symgen-download:
