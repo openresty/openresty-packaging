@@ -25,5 +25,5 @@ openresty-pcre-asan-build: openresty-pcre-asan-clean openresty-pcre-asan-downloa
 	tar xf openresty-pcre-asan_$(OPENRESTY_PCRE_ASAN_VER).orig.tar.gz --strip-components=1 -C openresty-pcre-asan
 	cd openresty-pcre-asan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

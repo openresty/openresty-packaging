@@ -24,5 +24,5 @@ openresty-openssl111-asan-build: openresty-openssl111-asan-clean openresty-opens
 	tar xf openresty-openssl111-asan_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111-asan
 	cd openresty-openssl111-asan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

@@ -25,5 +25,5 @@ openresty-zlib-asan-build: openresty-zlib-asan-clean openresty-zlib-asan-downloa
 	tar xf openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER).orig.tar.gz --strip-components=1 -C openresty-zlib-asan
 	cd openresty-zlib-asan \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi

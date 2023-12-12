@@ -11,6 +11,7 @@ targets = openresty \
 	  openresty-openssl-asan \
 	  openresty-openssl111-asan \
 	  openresty-pcre \
+	  openresty-pcre2 \
 	  openresty-pcre-asan \
 	  openresty-zlib \
 	  openresty-zlib-asan \

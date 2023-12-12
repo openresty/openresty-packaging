@@ -13,7 +13,7 @@ ZLIB_VER=1.3
 PCRE_VER=8.45
 SSL_VER=1.1.0l
 SSL111_VER=1.1.1w
-OR_VER=1.21.4.1
+OR_VER=1.21.4.3
 OR_PLUS_VER=1.19.9.1.51
 OPENRESTY_PLUS_CORE_H3_VER=1.21.4.3.11
 LEMPLATE_VER=0.15
@@ -45,8 +45,9 @@ deb_toolchain_pkgs = debhelper devscripts
 .PHONY: build
 build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
-	openresty-valgrind-build openresty-plus-build \
-	lemplate-build test-nginx-build \
+	openresty-valgrind-build \
+	lemplate-build test-nginx-build openresty-pcre2-build \
+	openresty-plus-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
@@ -56,92 +57,93 @@ build: zlib-build pcre-build openssl-build \
 
 .PHONY: clean
 clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
-		 openresty-clean openresty-debug-clean \
-		 openresty-valgrind-clean lemplate-clean test-nginx-clean \
-		 openresty-plus-clean openresty-plus-debug-clean \
-		 hyperscan-clean openresty-saas-clean \
-		 openresty-binutils-clean openresty-tar-clean \
-		 openresty-plzip-clean openresty-utils-clean \
-		 openresty-postgresql-clean openresty-postgresql12-clean \
-		 openresty-postgresql-orsl-clean \
-		 openresty-postgresql12-orsl-clean \
-		 openresty-postgresql-ip4r-clean \
-		 openresty-postgresql12-ip4r-clean saas-pcre-clean \
-		 saas-openssl-clean saas-zlib-clean \
-		 openresty-util-linux-clean openresty-stap-clean \
-		 openresty-elfutils-clean openresty-odb-clean \
-		 openresty-odb-debug-clean \
-		 openresty-postgresql12-timescaledb-clean \
-		 openresty-postgresql-timescaledb-clean \
-		 openresty-python3-clean openresty-yajl-clean \
-		 openresty-gdb-clean openresty-saas-openssl111-clean \
-		 openresty-python3-setuptools-clean \
-		 openresty-python3-cython-clean openresty-python3-numpy-clean \
-		 openssl111-clean openssl111-debug-clean openresty-pcap-clean \
-		 openresty-tcpdump-clean openresty-python3-goto-clean \
-		 openresty-maxminddb-clean openresty-maxminddb-debug-clean \
-		 openresty-python3-xray-stats-clean openresty-nodejs-clean \
-		 openresty-plus-openssl111-clean \
-		 openresty-plus-openssl111-debug-clean \
-		 openresty-perl-b-c-clean openresty-perl-b-flags-clean \
-		 openresty-perl-extutils-config-clean \
-		 openresty-perl-extutils-helpers-clean \
-		 openresty-perl-extutils-installpaths-clean \
-		 openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
-		 openresty-perl-module-build-tiny-clean \
-		 openresty-perl-opcodes-clean openresty-perl-readonly-clean \
-		 openresty-perl-clean openresty-keepalived-clean \
-		 openresty-plus-test-clean lua-resty-jsonb-clean \
-		 openresty-plus-openssl111-asan-clean \
-		 openresty-plus-asan-clean openresty-plus-core-clean \
-		 openresty-edge-pki-clean openresty-maxminddb-utils-clean \
-		 openresty-zlib-asan-clean openresty-pcre-asan-clean \
-		 openresty-openssl111-asan-clean openresty-asan-clean \
-		 openresty-libbpf-clean openresty-libbpf-net-clean \
-		 openresty-perl-json-xs-clean \
-		 openresty-perl-app-cpanminus-clean \
-		 openresty-perl-types-serialiser-clean \
-		 openresty-perl-common-sense-clean \
-		 openresty-perl-canary-stability-clean \
-		 openresty-perl-mozilla-ca-clean \
-		 openresty-perl-net-ssleay-clean \
-		 openresty-perl-io-socket-ssl-clean \
-		 openresty-perl-protocol-websocket-clean openresty-curl-clean \
-		 openresty-boringssl-clean openresty-libinjection-clean \
-		 openresty-plus-core-h3-clean openresty-docker-clean \
-		 openresty-libcco-clean openresty-elf-loader-clean \
-		 openresty-hiredis-clean openresty-libmariadb-clean \
-		 openresty-libmemcached-clean lua-resty-wasm-clean \
-		 openresty-tcmalloc-clean openresty-cyrus-sasl-clean \
-		 openresty-plus-core-test-clean \
-		 openresty-plus-core-h3-test-clean openresty-saas-pcre2-clean \
-		 openresty-libdemangle-clean \
-		 openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
-		 openresty-wrk-clean lua-resty-dymetrics-bilibili-clean \
-		 openresty-coreutils-clean openresty-intel-qat-driver-clean \
-		 openresty-maxminddb-asan-clean \
-		 openresty-plus-openssl111-qatengine-clean \
-		 openresty-luajit-plus-clean \
-		 lua-resty-redis-cluster-fast-clean \
-		 openresty-coro-nginx-module-clean \
-		 dymetrics-nginx-module-1.19.9-clean \
-		 openresty-coro-hiredis-nginx-module-clean \
-		 openresty-llvm-clean \
-		 openresty-lua-cjson-clean \
-		 openresty-opencc-clean \
-		 openresty-ebpf-plus-clean \
-		 openresty-bpftool-clean \
-		 openresty-bpftool-net-clean \
-		 openresty-orbpf-ko-clean \
-		 openresty-xdp-tools-clean \
-		 openresty-iproute2-clean \
-		 openresty-radare2-clean \
-		 openresty-symgen-clean \
-		 openresty-saas-asan-clean \
-		 openresty-plus-core-asan-clean \
-		 openresty-libinjection-asan-clean \
-		 openresty-edge-pki-asan-clean
-
+		openresty-clean openresty-debug-clean openresty-valgrind-clean \
+		lemplate-clean test-nginx-clean \
+		openssl111-clean openssl111-debug-clean  \
+		openresty-zlib-asan-clean openresty-pcre-asan-clean \
+		openresty-openssl111-asan-clean openresty-asan-clean \
+                openresty-pcre2-clean \
+		openresty-plus-clean openresty-plus-debug-clean \
+		hyperscan-clean openresty-saas-clean \
+		openresty-binutils-clean openresty-tar-clean \
+		openresty-plzip-clean openresty-utils-clean \
+		openresty-postgresql-clean openresty-postgresql12-clean \
+		openresty-postgresql-orsl-clean \
+		openresty-postgresql12-orsl-clean \
+		openresty-postgresql-ip4r-clean \
+		openresty-postgresql12-ip4r-clean saas-pcre-clean \
+		saas-openssl-clean saas-zlib-clean \
+		openresty-util-linux-clean openresty-stap-clean \
+		openresty-elfutils-clean openresty-odb-clean \
+		openresty-odb-debug-clean \
+		openresty-postgresql12-timescaledb-clean \
+		openresty-postgresql-timescaledb-clean \
+		openresty-python3-clean openresty-yajl-clean \
+		openresty-gdb-clean openresty-saas-openssl111-clean \
+		openresty-python3-setuptools-clean \
+		openresty-python3-cython-clean openresty-python3-numpy-clean \
+		openresty-pcap-clean \
+		openresty-tcpdump-clean openresty-python3-goto-clean \
+		openresty-maxminddb-clean openresty-maxminddb-debug-clean \
+		openresty-python3-xray-stats-clean openresty-nodejs-clean \
+		openresty-plus-openssl111-clean \
+		openresty-plus-openssl111-debug-clean \
+		openresty-perl-b-c-clean openresty-perl-b-flags-clean \
+		openresty-perl-extutils-config-clean \
+		openresty-perl-extutils-helpers-clean \
+		openresty-perl-extutils-installpaths-clean \
+		openresty-perl-io-tty-clean openresty-perl-ipc-run-clean \
+		openresty-perl-module-build-tiny-clean \
+		openresty-perl-opcodes-clean openresty-perl-readonly-clean \
+		openresty-perl-clean openresty-keepalived-clean \
+		openresty-plus-test-clean lua-resty-jsonb-clean \
+		openresty-plus-openssl111-asan-clean \
+		openresty-plus-asan-clean openresty-plus-core-clean \
+		openresty-edge-pki-clean openresty-maxminddb-utils-clean \
+		openresty-libbpf-clean openresty-libbpf-net-clean \
+		openresty-perl-json-xs-clean \
+		openresty-perl-app-cpanminus-clean \
+		openresty-perl-types-serialiser-clean \
+		openresty-perl-common-sense-clean \
+		openresty-perl-canary-stability-clean \
+		openresty-perl-mozilla-ca-clean \
+		openresty-perl-net-ssleay-clean \
+		openresty-perl-io-socket-ssl-clean \
+		openresty-perl-protocol-websocket-clean openresty-curl-clean \
+		openresty-boringssl-clean openresty-libinjection-clean \
+		openresty-plus-core-h3-clean openresty-docker-clean \
+		openresty-libcco-clean openresty-elf-loader-clean \
+		openresty-hiredis-clean openresty-libmariadb-clean \
+		openresty-libmemcached-clean lua-resty-wasm-clean \
+		openresty-tcmalloc-clean openresty-cyrus-sasl-clean \
+		openresty-plus-core-test-clean \
+		openresty-plus-core-h3-test-clean openresty-saas-pcre2-clean \
+		openresty-libdemangle-clean \
+		openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
+		openresty-wrk-clean lua-resty-dymetrics-bilibili-clean \
+		openresty-coreutils-clean openresty-intel-qat-driver-clean \
+		openresty-maxminddb-asan-clean \
+		openresty-plus-openssl111-qatengine-clean \
+		openresty-luajit-plus-clean \
+		lua-resty-redis-cluster-fast-clean \
+		openresty-coro-nginx-module-clean \
+		dymetrics-nginx-module-1.19.9-clean \
+		openresty-coro-hiredis-nginx-module-clean \
+		openresty-llvm-clean \
+		openresty-lua-cjson-clean \
+		openresty-opencc-clean \
+		openresty-ebpf-plus-clean \
+		openresty-bpftool-clean \
+		openresty-bpftool-net-clean \
+		openresty-orbpf-ko-clean \
+		openresty-xdp-tools-clean \
+		openresty-iproute2-clean \
+		openresty-radare2-clean \
+		openresty-symgen-clean \
+		openresty-saas-asan-clean \
+		openresty-plus-core-asan-clean \
+		openresty-libinjection-asan-clean \
+		openresty-edge-pki-asan-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
@@ -160,7 +162,7 @@ zlib-build: | zlib-clean zlib-download
 	tar xf openresty-zlib_$(ZLIB_VER).orig.tar.gz --strip-components=1 -C openresty-zlib
 	cd openresty-zlib \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in *.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -206,13 +208,16 @@ pcre-download:
 	wget -nH --cut-dirs=100 --mirror 'https://sourceforge.net/projects/pcre/files/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2'
 	cp pcre-$(PCRE_VER).tar.bz2 openresty-pcre_$(PCRE_VER).orig.tar.bz2
 
+.PHONY: openresty-pcre-build
+openresty-pcre-build: pcre-build
+
 .PHONY: pcre-build
 pcre-build: | pcre-clean pcre-download
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-pcre_$(PCRE_VER).orig.tar.bz2 --strip-components=1 -C openresty-pcre
 	cd openresty-pcre \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in openresty-pcre*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -285,6 +290,9 @@ openssl-download:
 	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
 	cp openssl-$(SSL_VER).tar.gz openresty-openssl_$(SSL_VER).orig.tar.gz
 
+.PHONY: openresty-openssl-build
+openresty-openssl-build: openssl-build
+
 .PHONY: openssl-build
 openssl-build: | openssl-clean openssl-download
 	sudo apt-get -y -qq install openresty-zlib-dev $(deb_toolchain_pkgs)
@@ -292,7 +300,7 @@ openssl-build: | openssl-clean openssl-download
 	tar xf openresty-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl
 	cd openresty-openssl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -309,7 +317,7 @@ openssl-debug-build: | openssl-debug-clean openssl-debug-download
 	tar xf openresty-openssl-debug_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-openssl-debug
 	cd openresty-openssl-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -344,7 +352,7 @@ openssl111-build: | openssl111-clean openssl111-download
 	tar xf openresty-openssl111_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111
 	cd openresty-openssl111 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl111*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -365,7 +373,7 @@ openssl111-debug-build: | openssl111-debug-clean openssl111-debug-download
 	tar xf openresty-openssl111-debug_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-openssl111-debug
 	cd openresty-openssl111-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-openssl111-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -399,7 +407,7 @@ openresty-build: | openresty-clean openresty-download
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -424,7 +432,7 @@ openresty-debug-build: | openresty-debug-clean openresty-debug-download
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -449,7 +457,7 @@ openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
@@ -528,6 +536,9 @@ lemplate-clean:
 	rm -f liblemplate-perl*.deb
 	rm -f liblemplate-perl_*.*
 
+.PHONY: liblemplate-perl-build
+liblemplate-perl-build: lemplate-build
+
 .PHONY: lemplate-build
 lemplate-build: | lemplate-clean lemplate-download
 	sudo apt-get -y -qq install libipc-run3-perl libfile-find-rule-perl libtext-glob-perl libnumber-compare-perl $(deb_toolchain_pkgs)
@@ -535,9 +546,12 @@ lemplate-build: | lemplate-clean lemplate-download
 	tar xf liblemplate-perl_$(LEMPLATE_VER).orig.tar.gz --strip-components=1 -C liblemplate-perl
 	cd liblemplate-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
+
+.PHONY: libtest-nginx-perl-build
+libtest-nginx-perl-build: test-nginx-build
 
 .PHONY: test-nginx-download
 test-nginx-download:
@@ -559,7 +573,7 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 	tar xf libtest-nginx-perl_$(TEST_NGINX_VER).orig.tar.gz --strip-components=1 -C libtest-nginx-perl
 	cd libtest-nginx-perl \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 

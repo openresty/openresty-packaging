@@ -20,21 +20,20 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	export ASAN_OPTIONS=detect_leaks=0 \
 		&& ./config \
-    no-asm \
-    enable-camellia enable-seed enable-rfc3779 \
-    enable-cms enable-md2 enable-rc5 \
-    enable-weak-ssl-ciphers \
-    enable-ssl3 enable-ssl3-method \
-    shared zlib -g3 -O1 -DPURIFY \
-    --prefix=/usr/local/openresty-asan/openssl111 \
-    --libdir=lib \
-    -I/usr/local/openresty-asan/zlib/include \
-    -L/usr/local/openresty-asan/zlib/lib \
-    -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl111/lib \
-		&& make -j`nproc` \
-    LD_LIBRARY_PATH= \
-    CC="ccache gcc -fsanitize=address" \
-    > /dev/stderr
+		no-asm \
+		enable-camellia enable-seed enable-rfc3779 \
+		enable-cms enable-md2 enable-rc5 \
+		enable-weak-ssl-ciphers \
+		enable-ssl3 enable-ssl3-method \
+		shared zlib -g3 -O1 -DPURIFY \
+		--prefix=/usr/local/openresty-asan/openssl111 \
+		--libdir=lib \
+		-I/usr/local/openresty-asan/zlib/include \
+		-L/usr/local/openresty-asan/zlib/lib \
+		-Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl111/lib
+	jobs=`nproc`; if [ "$$jobs" -gt 8 ]; then jobs=8; fi; make -j$$jobs \
+		LD_LIBRARY_PATH= \
+		CC="ccache gcc -fsanitize=address"
 
 override_dh_auto_install:
 	make install_sw DESTDIR=$(DESTDIR) \

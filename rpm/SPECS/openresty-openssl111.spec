@@ -1,5 +1,5 @@
 Name:               openresty-openssl111
-Version:            1.1.1t
+Version:            1.1.1w
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -90,7 +90,11 @@ Provides C header and static library for OpenResty's OpenSSL library.
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
-make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
+ncpus=`nproc`
+if [ "$ncpus" -gt 16 ]; then
+    ncpus=16
+fi
+make CC='ccache gcc -fdiagnostics-color=always' -j$ncpus
 
 
 %install
@@ -131,6 +135,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Nov 27 2023 Yichun Zhang (agentzh) 1.1.1w-1
+- upgraded OpenSSL to 1.1.1w.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.1t-1
 - upgraded OpenSSL to 1.1.1t.
 * Thu Nov 3 2022 Yichun Zhang (agentzh) 1.1.1s-1
