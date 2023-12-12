@@ -93,7 +93,11 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 
 sed -i 's/ -O3 / -O0 /g' Makefile
 
-make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
+ncpus=`nproc`
+if [ "$ncpus" -gt 16 ]; then
+    ncpus=16
+fi
+make CC='ccache gcc -fdiagnostics-color=always' -j$ncpus
 
 
 %install
