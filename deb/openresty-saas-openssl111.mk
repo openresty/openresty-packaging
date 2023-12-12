@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_SAAS_OPENSSL111_VER := 1.1.1t
+OPENRESTY_SAAS_OPENSSL111_VER := 1.1.1w
 
 .PHONY: openresty-saas-openssl111-download
 openresty-saas-openssl111-download:
