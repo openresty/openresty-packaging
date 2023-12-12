@@ -104,8 +104,8 @@ export ASAN_OPTIONS=detect_leaks=0
 #sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
 ncpus=`nproc`
-if [ "$ncpus" -gt 16 ]; then
-    ncpus=16
+if [ "$ncpus" -gt 8 ]; then
+    ncpus=8
 fi
 make -j$ncpus \
     LD_LIBRARY_PATH= \
