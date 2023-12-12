@@ -26,6 +26,8 @@ export QA_RPATHS=$[ 0x0002 ]
 	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_configure:
+
+override_dh_auto_build:
 	./config \
 	  no-threads shared zlib -g \
 	  --openssldir=/usr/local/openresty-plus/openssl \
@@ -33,6 +35,9 @@ override_dh_auto_configure:
 	  -I/usr/local/openresty/zlib/include \
 	  -L/usr/local/openresty/zlib/lib \
 	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-plus/openssl/lib
+	jobs=`nproc`; if [ "$$jobs" -gt 8 ]; then jobs=8; fi; make -j$$jobs \
+		LD_LIBRARY_PATH= \
+		CC="ccache gcc"
 
 override_dh_usrlocal:
 

@@ -28,6 +28,8 @@ DESTDIR = $(CURDIR)/debian/tmp
 	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_configure:
+
+override_dh_auto_build:
 	./config \
 	  shared zlib -g3 \
 	  enable-camellia enable-seed enable-rfc3779 \
@@ -39,6 +41,9 @@ override_dh_auto_configure:
 	  -I/usr/local/openresty/zlib/include \
 	  -L/usr/local/openresty/zlib/lib \
 	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-plus/openssl111/lib
+	jobs=`nproc`; if [ "$$jobs" -gt 8 ]; then jobs=8; fi; make -j$$jobs \
+		LD_LIBRARY_PATH= \
+		CC="ccache gcc"
 
 override_dh_usrlocal:
 
