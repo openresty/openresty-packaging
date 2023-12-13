@@ -1,5 +1,5 @@
 Name:           openresty-maxminddb-utils
-Version:        0.0.3
+Version:        0.0.4
 Release:        1%{?dist}
 Summary:        OpenResty Maxminddb Utils
 
@@ -64,10 +64,13 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/maxminddb-exporter
 %{prefix}/bin/maxminddb-add-record
 %{prefix}/bin/maxminddb-get-googledns
+%{prefix}/bin/maxminddb-export-citycsv
 %config(noreplace) %{prefix}/conf/*
 
 
 %changelog
+* Wed Dec 13 2023 Yichun Zhang (agentzh) 0.0.4-1
+- upgraded openresty-maxminddb-utils to 0.0.4.
 * Fri Jun 4 2021 Yichun Zhang (agentzh) 0.0.3-1
 - upgraded openresty-maxminddb-utils to 0.0.3.
 * Sat May 08 2021 lijunlong <lijunlong@openresty.com>
