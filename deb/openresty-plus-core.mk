@@ -37,8 +37,8 @@ ifeq ($(WITH_TCMALLOC), 1)
 	sudo apt-get -y -q install --no-install-recommends openresty-tcmalloc openresty-tcmalloc-dev
 	sudo apt-get -y -q install --only-upgrade openresty-tcmalloc openresty-tcmalloc-dev
 endif
-	sudo apt-get -y -q install --no-install-recommends ccache make perl valgrind gcc openresty-zlib-dev openresty-plus-openssl111-dev openresty-pcre-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -q install --only-upgrade ccache make perl valgrind gcc openresty-zlib-dev openresty-plus-openssl111-dev openresty-pcre-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -q install --no-install-recommends ccache make perl valgrind gcc openresty-saas-zlib-dev openresty-plus-openssl111-dev openresty-pcre-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -q install --only-upgrade ccache make perl valgrind gcc openresty-saas-zlib-dev openresty-plus-openssl111-dev openresty-pcre-dev openresty-yajl-dev libgd-dev libc-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-core_$(OPENRESTY_PLUS_CORE_VER).orig.tar.gz --strip-components=1 -C openresty-plus-core
 	cd openresty-plus-core \

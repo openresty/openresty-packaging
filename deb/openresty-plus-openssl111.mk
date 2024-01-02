@@ -6,8 +6,8 @@ openresty-plus-openssl111-download:
 
 .PHONY: openresty-plus-openssl111-build
 openresty-plus-openssl111-build: | openresty-plus-openssl111-clean openresty-plus-openssl111-download
-	sudo apt-get -y -qq install openresty-zlib-dev
-	sudo apt-get --only-upgrade -y -qq install openresty-zlib-dev
+	sudo apt-get -y -qq install openresty-saas-zlib-dev
+	sudo apt-get --only-upgrade -y -qq install openresty-saas-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-plus-openssl111_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl111
 	cd openresty-plus-openssl111 \

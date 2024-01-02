@@ -19,8 +19,8 @@ openresty-nodejs-clean:
 
 .PHONY: openresty-nodejs-build
 openresty-nodejs-build: openresty-nodejs-clean openresty-nodejs-download
-	sudo apt-get -y -q install openresty-python3 ccache gcc g++ openresty-saas-zlib-dev libbz2-dev openresty-saas-openssl111-dev
-	sudo apt-get -y -q install --only-upgrade openresty-python3 ccache gcc g++ openresty-saas-zlib-dev libbz2-dev openresty-saas-openssl111-dev
+	sudo apt-get -y -q install openresty-python3 ccache gcc g++ openresty-saas-zlib-dev libbz2-dev openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade openresty-python3 ccache gcc g++ openresty-saas-zlib-dev libbz2-dev openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-nodejs_$(OPENRESTY_NODEJS_VER).orig.tar.gz --strip-components=1 -C openresty-nodejs
 	cd openresty-nodejs \

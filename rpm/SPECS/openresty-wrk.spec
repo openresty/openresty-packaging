@@ -14,7 +14,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gcc
 BuildRequires:  make
 BuildRequires:  openresty-saas
-BuildRequires:  openresty-saas-openssl111-devel
+BuildRequires:  openresty-plus-openssl111-devel
 Requires:       openresty-saas
 
 AutoReqProv:        no

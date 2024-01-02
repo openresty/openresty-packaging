@@ -6,7 +6,7 @@ include /usr/share/dpkg/default.mk
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
-SSL_PREFIX = /opt/openresty-saas/openssl111
+SSL_PREFIX = /usr/local/openresty-plus/openssl111
 PY_PREFIX = /usr/local/openresty-python3
 DESTDIR = $(CURDIR)/debian/tmp
 

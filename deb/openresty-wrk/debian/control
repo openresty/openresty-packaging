@@ -2,7 +2,7 @@ Source: openresty-wrk
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc, make, openresty-saas, openresty-saas-openssl111-dev
+Build-Depends: debhelper (>= 9), gcc, make, openresty-saas, openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 

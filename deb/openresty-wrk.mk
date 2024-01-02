@@ -21,8 +21,8 @@ openresty-wrk-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-wrk-build
 openresty-wrk-build: openresty-wrk-clean openresty-wrk-download
-	sudo apt-get -y -q install gcc make openresty-saas openresty-saas-openssl111-dev
-	sudo apt-get -y -q install --only-upgrade gcc make openresty-saas openresty-saas-openssl111-dev
+	sudo apt-get -y -q install gcc make openresty-saas openresty-plus-openssl111-dev
+	sudo apt-get -y -q install --only-upgrade gcc make openresty-saas openresty-plus-openssl111-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-wrk_$(OPENRESTY_WRK_VER).orig.tar.gz --strip-components=1 -C openresty-wrk
 	cd openresty-wrk \

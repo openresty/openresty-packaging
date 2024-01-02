@@ -1,6 +1,6 @@
 Name:               openresty-plus-openssl111
 Version:            1.1.1w
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -17,13 +17,13 @@ Patch1:             openssl-1.1.1f-alpn_lookup_retry.patch
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
-BuildRequires:      openresty-zlib-devel >= 1.2.11
-Requires:           openresty-zlib >= 1.2.11
+BuildRequires:      openresty-saas-zlib-devel >= 1.2.11
+Requires:           openresty-saas-zlib >= 1.2.11
 
 AutoReqProv:        no
 
 %define openssl_prefix      /usr/local/openresty-plus/openssl111
-%define zlib_prefix         /usr/local/openresty/zlib
+%define zlib_prefix         /opt/openresty-saas/zlib
 %global _default_patch_fuzz 1
 
 
@@ -135,6 +135,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Dec 29 2023 Yichun Zhang (agentzh) 1.1.1w-1
+- link to openresty-saas-zlib.
 * Tue Dec 12 2023 Yichun Zhang (agentzh) 1.1.1w-1
 - upgraded OpenSSL to 1.1.1w.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.1t-1

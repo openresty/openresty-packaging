@@ -2,14 +2,14 @@ Source: openresty-perl-net-ssleay
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4), openresty-saas-openssl111, openresty-saas-openssl111-dev
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4), openresty-plus-openssl111, openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: http://search.cpan.org/dist/Net-SSLeay/
 
 Package: openresty-perl-net-ssleay
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-saas-openssl111
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4), openresty-plus-openssl111
 Description: Perl extension for using OpenSSL
  A perl module
 

@@ -5,7 +5,7 @@
 
 Name:           openresty-perl-Net-SSLeay
 Version:        1.90
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Perl extension for using OpenSSL
 License:        Artistic 2.0
 Group:          Development/Libraries
@@ -19,11 +19,11 @@ AutoReq:        no
 AutoProv:       no
 
 Requires:       openresty-perl >= 5.24.4-7
-Requires:       openresty-saas-openssl111
+Requires:       openresty-plus-openssl111
 BuildRequires:  openresty-perl >= 5.24.4-7
 BuildRequires:  openresty-perl-devel >= 5.24.4-7
-BuildRequires:  openresty-saas-openssl111
-BuildRequires:  openresty-saas-openssl111-devel
+BuildRequires:  openresty-plus-openssl111
+BuildRequires:  openresty-plus-openssl111-devel
 
 
 %description
@@ -35,13 +35,13 @@ A perl module
 
 %build
 
-OPENSSL_PREFIX=/opt/openresty-saas/openssl111/ \
-PERL_MM_OPT='LD="ccache gcc -Wl,-rpath,/opt/openresty-saas/openssl111/lib -L/opt/openresty-saas/openssl111/lib" LIBS="-lssl -lcrypto -lz"' \
+OPENSSL_PREFIX=/usr/local/openresty-plus/openssl111/ \
+PERL_MM_OPT='LD="ccache gcc -Wl,-rpath,/usr/local/openresty-plus/openssl111/lib -L/usr/local/openresty-plus/openssl111/lib" LIBS="-lssl -lcrypto -lz"' \
 PERL_MM_USE_DEFAULT=1 \
 %{_perl} Makefile.PL OPTIMIZE="$RPM_OPT_FLAGS" INSTALLDIRS=site \
     INSTALLSITEBIN=%{prefix}/bin INSTALLSITESCRIPT=%{prefix}/bin \
     INSTALLSCRIPT=%{prefix}/bin \
-    INC=-I/opt/openresty-saas/openssl111/include \
+    INC=-I/usr/local/openresty-plus/openssl111/include \
 
 make -j`nproc`
 
@@ -69,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %{sitelib}/*
 
 %changelog
+* Fri Dec 29 2023 openresty 1.90-5
+- use openresty-openssl-plus
 * Thu Jun 10 2021 openresty 1.90-1
 - Generated using cpantorpm
 

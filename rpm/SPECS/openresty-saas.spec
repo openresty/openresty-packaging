@@ -2,7 +2,7 @@
 %define saas_or_prefix  /opt/openresty-saas
 %define zlib_prefix     %{saas_or_prefix}/zlib
 %define pcre_prefix     %{saas_or_prefix}/pcre
-%define openssl_prefix  %{saas_or_prefix}/openssl111
+%define openssl_prefix  /usr/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
 
 Name:       openresty-saas
@@ -24,11 +24,11 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.13-1
-BuildRequires:  openresty-saas-openssl111-devel >= 1.1.1w-1
+BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1w-1
 BuildRequires:  openresty-saas-pcre-devel >= 8.45-1
 BuildRequires:  glibc-devel
 Requires:       openresty-saas-zlib >= 1.2.13-1
-Requires:       openresty-saas-openssl111 >= 1.1.1w-1
+Requires:       openresty-plus-openssl111 >= 1.1.1w-1
 Requires:       openresty-saas-pcre >= 8.45-1
 
 AutoReqProv:    no

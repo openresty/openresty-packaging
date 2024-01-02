@@ -14,7 +14,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /opt/openresty-saas
 ZLIB_PREFIX = $(PREFIX)/zlib
 PCRE_PREFIX = $(PREFIX)/pcre
-OPENSSL_PREFIX = $(PREFIX)/openssl111
+OPENSSL_PREFIX = /usr/local/openresty-plus/openssl111
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd

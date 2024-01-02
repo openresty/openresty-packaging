@@ -10,16 +10,16 @@ Source0:    https://nodejs.org/dist/v%{version}/node-v%{version}.tar.xz
 
 BuildRequires: openresty-python3 >= 3.7.9-13
 BuildRequires: ccache, gcc, gcc-c++
-BuildRequires: openresty-zlib-devel
-BuildRequires: openresty-saas-openssl111-devel >= 1.1.1i
-Requires: openresty-zlib
-Requires: openresty-saas-openssl111 >= 1.1.1i
+BuildRequires: openresty-saas-zlib-devel
+BuildRequires: openresty-plus-openssl111-devel >= 1.1.1i
+Requires: openresty-saas-zlib
+Requires: openresty-plus-openssl111 >= 1.1.1i
 
 AutoReqProv: no
 
 %define     _prefix /usr/local/openresty-nodejs
-%define     zlib_prefix     /usr/local/openresty/zlib
-%define     openssl_prefix  /opt/openresty-saas/openssl111
+%define     zlib_prefix     /opt/openresty-saas/zlib
+%define     openssl_prefix  /usr/local/openresty-plus/openssl111
 %define     py3_prefix  /usr/local/openresty-python3
 
 

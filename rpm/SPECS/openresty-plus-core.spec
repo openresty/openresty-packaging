@@ -29,7 +29,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.11-3
+BuildRequires:  openresty-saas-zlib-devel >= 1.2.11-3
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k-1
 BuildRequires:  openresty-pcre-devel >= 8.45-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
@@ -59,7 +59,7 @@ BuildRequires:  openldap-devel
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
-Requires:       openresty-zlib >= 1.2.11-3
+Requires:       openresty-saas-zlib >= 1.2.11-3
 Requires:       openresty-plus-openssl111 >= 1.1.1k-1
 Requires:       openresty-pcre >= 8.45-1
 Requires:       openresty-yajl >= 2.1.0.4
@@ -95,7 +95,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/openresty-plus
-%define zlib_prefix         %{_usr}/local/openresty/zlib
+%define zlib_prefix         %{_usr}/opt/openresty-saas/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils

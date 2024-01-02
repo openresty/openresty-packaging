@@ -51,7 +51,7 @@ build: zlib-build pcre-build openssl-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
-	openresty-utils openresty-saas-openssl111-build \
+	openresty-utils \
 	openresty-pcap-build openresty-tcpdump-build \
 	openresty-luajit-plus-build
 
@@ -72,14 +72,14 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-postgresql12-orsl-clean \
 		openresty-postgresql-ip4r-clean \
 		openresty-postgresql12-ip4r-clean saas-pcre-clean \
-		saas-openssl-clean saas-zlib-clean \
+		saas-zlib-clean \
 		openresty-util-linux-clean openresty-stap-clean \
 		openresty-elfutils-clean openresty-odb-clean \
 		openresty-odb-debug-clean \
 		openresty-postgresql12-timescaledb-clean \
 		openresty-postgresql-timescaledb-clean \
 		openresty-python3-clean openresty-yajl-clean \
-		openresty-gdb-clean openresty-saas-openssl111-clean \
+		openresty-gdb-clean \
 		openresty-python3-setuptools-clean \
 		openresty-python3-cython-clean openresty-python3-numpy-clean \
 		openresty-pcap-clean \
@@ -255,34 +255,6 @@ saas-pcre-clean:
 	rm -f openresty-saas-pcre*.deb
 	rm -f openresty-saas-pcre_*.*
 	#rm -f pcre-$(PCRE_VER).tar.bz2
-
-.PHONY: saas-openssl-download
-saas-openssl-download:
-	rm -f *.orig.tar.*
-	wget -nH --cut-dirs=100 --mirror 'https://www.openssl.org/source/openssl-$(SSL_VER).tar.gz'
-	cp openssl-$(SSL_VER).tar.gz openresty-saas-openssl_$(SSL_VER).orig.tar.gz
-
-.PHONY: openresty-saas-openssl-build
-openresty-saas-openssl-build: saas-openssl-build
-
-.PHONY: saas-openssl-build
-saas-openssl-build: | saas-openssl-clean saas-openssl-download
-	sudo apt-get -y -qq install openresty-saas-zlib-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq install --only-upgrade openresty-saas-zlib-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-saas-openssl_$(SSL_VER).orig.tar.gz --strip-components=1 -C openresty-saas-openssl
-	cd openresty-saas-openssl \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty-openssl*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload ]; then ./upload || exit 1; fi
-
-.PHONY: saas-openssl-clean
-saas-openssl-clean:
-	-cd openresty-saas-openssl && debclean
-	find openresty-saas-openssl -maxdepth 1 ! -name 'debian' ! -name 'openresty-saas-openssl' -print | xargs rm -rf
-	rm -f openresty-saas-openssl*.deb
-	rm -f openresty-saas-openssl_*.*
 
 .PHONY: openssl-download
 openssl-download:
@@ -468,61 +440,6 @@ openresty-valgrind-clean:
 	rm -f openresty-valgrind*.deb
 	rm -f openresty-valgrind_*.*
 
-.PHONY: openresty-plus-build
-openresty-plus-build: | openresty-plus-clean openresty-plus-download
-ifeq ($(WITH_LUA_LDAP), 1)
-	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
-	sudo apt-get -y -qq --only-upgrade install libldap-2.4-2 libldap-dev
-endif
-ifeq ($(ARCH), amd64)
-	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
-endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus
-	cd openresty-plus \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP)  \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) debian/rules.tt2 > debian/rules \
-		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
-
-.PHONY: openresty-plus-clean
-openresty-plus-clean:
-	-cd openresty-plus && debclean
-	find openresty-plus -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus' -print | xargs rm -rf
-	rm -f openresty-plus*.deb
-	rm -f openresty-plus_*.*
-
-.PHONY: openresty-plus-download
-openresty-plus-download:
-	rm -f *.orig.tar.*
-	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
-	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus_$(OR_PLUS_VER).orig.tar.gz
-
 .PHONY: lemplate-download
 lemplate-download:
 	rm -f *.orig.tar.*
@@ -576,116 +493,6 @@ test-nginx-build: | test-nginx-clean test-nginx-download
 		&& debuild --no-lintian -sa $(OPTS) -j$(JOBS)
 	#for f in openresty-valgrind*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
-
-.PHONY: openresty-plus-debug-build
-openresty-plus-debug-build: | openresty-plus-debug-clean openresty-plus-debug-download
-ifeq ($(WITH_LUA_LDAP), 1)
-	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
-	sudo apt-get -y -qq --only-upgrade install libldap-2.4-2 libldap-dev
-endif
-ifeq ($(ARCH), amd64)
-	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
-endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-debug-dev libgd-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-debug
-	cd openresty-plus-debug \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-        && tpage --define with_lua_ldap=$(WITH_LUA_LDAP)  \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
-		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
-
-.PHONY: openresty-plus-debug-clean
-openresty-plus-debug-clean:
-	cd openresty-plus-debug && debclean
-	find openresty-plus-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-debug' -print | xargs rm -rf
-	rm -f openresty-plus-debug*.deb
-	rm -f openresty-plus-debug_*.*
-
-.PHONY: openresty-plus-debug-download
-openresty-plus-debug-download:
-	rm -f *.orig.tar.*
-	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
-	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-debug_$(OR_PLUS_VER).orig.tar.gz
-
-.PHONY: openresty-plus-test-build
-openresty-plus-test-build: | openresty-plus-test-clean openresty-plus-test-download
-ifeq ($(WITH_LUA_LDAP), 1)
-	sudo apt-get -y -qq install libldap-2.4-2 libldap-dev
-	sudo apt-get -y -qq install --only-upgrade libldap-2.4-2 libldap-dev
-endif
-ifeq ($(ARCH), amd64)
-	sudo apt-get -y -qq install openresty-plus-hyperscan-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-plus-hyperscan-dev
-endif
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq install --only-upgrade openresty-zlib-dev openresty-pcre-dev openresty-plus-openssl111-dev libgd-dev openresty-yajl-dev $(deb_toolchain_pkgs)
-	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf openresty-plus-test_$(OR_PLUS_VER).orig.tar.gz --strip-components=1 -C openresty-plus-test
-	cd openresty-plus-test \
-		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-        && tpage --define with_lua_ldap=$(WITH_LUA_LDAP)  \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/rules.tt2 > debian/rules \
-		&& tpage --define with_lua_ldap=$(WITH_LUA_LDAP) \
-			--define with_lua_resty_ldap=$(WITH_LUA_RESTY_LDAP) \
-			--define with_lua_resty_openidc=$(WITH_LUA_RESTY_OPENIDC) \
-			--define with_lua_resty_session=$(WITH_LUA_RESTY_SESSION) \
-			--define with_lua_resty_openssl=$(WITH_LUA_RESTY_OPENSSL) \
-			--define with_lua_resty_jwt=$(WITH_LUA_RESTY_JWT) \
-			--define with_lua_resty_mlcache=$(WITH_LUA_RESTY_MLCACHE) \
-			--define with_ngx_brotli=$(WITH_NGX_BROTLI) \
-			--define with_lua_resty_mail=$(WITH_LUA_RESTY_MAIL) \
-			--define arch=$(ARCH) \
-			--define with_lua_resty_hmac=$(WITH_LUA_RESTY_HMAC) debian/control.tt2 > debian/control \
-		&& debuild $(OPTS) -j$(JOBS)
-	#for f in openresty*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
-	if [ -f ./upload-proprietary ]; then ./upload-proprietary || exit 1; fi
-
-.PHONY: openresty-plus-test-clean
-openresty-plus-test-clean:
-	cd openresty-plus-test && debclean
-	find openresty-plus-test -maxdepth 1 ! -name 'debian' ! -name 'openresty-plus-test' -print | xargs rm -rf
-	rm -f openresty-plus-test*.deb
-	rm -f openresty-plus-test_*.*
-
-.PHONY: openresty-plus-test-download
-openresty-plus-test-download:
-	rm -f *.orig.tar.*
-	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/openresty-plus-$(OR_PLUS_VER).tar.gz .
-	cp openresty-plus-$(OR_PLUS_VER).tar.gz openresty-plus-test_$(OR_PLUS_VER).orig.tar.gz
 
 .PHONY: hyperscan-download
 hyperscan-download:

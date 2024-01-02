@@ -19,6 +19,7 @@ LIBMARIADB_PREFIX   = /usr/local/openresty-plus/libmariadb
 LIBMEMCACHED_PREFIX = /usr/local/openresty-plus/libmemcached
 TCMALLOC_PREFIX     = /usr/local/openresty-tcmalloc
 CYRUS_SASL_PREFIX   = /usr/local/openresty-plus/cyrus-sasl
+ZLIB_PREFIX         = /opt/openresty-saas/zlib
 
 export ELF_LOADER_INC=$(ELF_LOADER_PREFIX)/include
 export ELF_LOADER_LIB=$(ELF_LOADER_PREFIX)/lib
@@ -36,15 +37,15 @@ override_dh_auto_configure:
       --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-test" \
       --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O2" \
       --with-cc='ccache gcc' \
-	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include \
+	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include \
 	  -I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include \
 [% IF with_coro_nginx_module %] -I$(LIBCCO_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(HIREDIS_PREFIX)/include -I$(LIBMARIADB_PREFIX)/include/mariadb -I$(LIBMEMCACHED_PREFIX)/include -I$(CYRUS_SASL_PREFIX)/include [% END %] \
        [% IF with_tcmalloc %] -I$(TCMALLOC_PREFIX)/include [% END %] \
        -g3" \
-       --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib \
+       --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib \
        [% IF with_coro_nginx_module %] -L$(LIBCCO_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -Wl,-rpath,$(LIBCCO_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib [% END %] \
        [% IF with_tcmalloc %] -L$(TCMALLOC_PREFIX)/lib -Wl,-rpath,$(TCMALLOC_PREFIX)/lib -ltcmalloc_minimal [% END %] \
-       -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
+       -Wl,-rpath,$(ZLIB_PREFIX)/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib" \
       [% IF arch == 'amd64' %] --with-lua_resty_hyperscan [% END %]\
 	  --with-pcre-jit [% IF with_lua_ldap %]--with-lua_ldap [% END %]\
 	  [% IF with_lua_resty_ldap %]--with-lua_resty_ldap [% END %]\

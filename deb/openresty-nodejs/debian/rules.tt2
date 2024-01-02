@@ -8,7 +8,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-nodejs
-OPENSSL_PREFIX = /opt/openresty-saas/openssl111
+OPENSSL_PREFIX = /usr/local/openresty-plus/openssl111
 ZLIB_PREFIX = /opt/openresty-saas/zlib
 PY3_PREFIX = /usr/local/openresty-python3
 

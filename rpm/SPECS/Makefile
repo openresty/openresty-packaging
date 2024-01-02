@@ -54,8 +54,6 @@ priv_targets = openresty-plus \
 		openresty-postgresql-timescaledb \
 		openresty-saas-zlib \
 		openresty-saas-pcre \
-		openresty-saas-openssl \
-		openresty-saas-openssl111 \
 		openresty-saas \
 		openresty-saas-asan \
 		openresty-binutils \
