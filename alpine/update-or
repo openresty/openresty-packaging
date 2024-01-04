@@ -63,7 +63,7 @@ sub update_apk_build ($) {
         die "$file: Release line not found";
     }
 
-    my $sha512sums = "\n";
+    my $sha512sums = "";
     if ($src =~ /^source \s* = \s* " (.+?) "\s*$/xsm) {
         my $src_txt = $1;
         for my $src_line (split /\n/, $src_txt) {
@@ -113,12 +113,18 @@ sub get_sha512sum ($$) {
     my $sha512_txt;
 
     if ($src_line =~ m{^https?://}) {
-        $sha512_txt = `curl -sL $src_line | sha512sum`;
+        $sha512_txt = `set -o pipefail; curl -sfL $src_line | sha512sum`;
+        if ($? != 0) {
+            die "Error: failed to download $src_line: $!\n";
+        }
 
     } else {
         if ($file =~ m{([\w-]+)/APKBUILD$}) {
             my $dir = $1;
             $sha512_txt = `sha512sum $dir/$src_line`;
+            if ($? != 0) {
+                die "Error: failed to calc sha512 for $dir/$src_line: $!\n";
+            }
         }
     }
 
