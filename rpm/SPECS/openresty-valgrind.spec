@@ -1,5 +1,5 @@
 Name:           openresty-valgrind
-Version:        1.21.4.3
+Version:        1.25.3.1
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
@@ -169,6 +169,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jan 4 2024 Yichun Zhang (agentzh) 1.25.3.1-1
+- upgraded openresty to 1.25.3.1.
 * Thu Oct 26 2023 Yichun Zhang (agentzh) 1.21.4.3-1
 - upgraded openresty to 1.21.4.3.
 * Mon Jul 17 2023 Yichun Zhang (agentzh) 1.21.4.2-1
