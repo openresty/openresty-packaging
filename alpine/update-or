@@ -115,7 +115,8 @@ sub get_sha512sum ($$) {
     if ($src_line =~ m{^https?://}) {
         $sha512_txt = `set -o pipefail; curl -sfL $src_line | sha512sum`;
         if ($? != 0) {
-            die "Error: failed to download $src_line: $!\n";
+            my $exit_code = $? >> 8;
+            die "Error: failed to download $src_line, exit code $exit_code\n";
         }
 
     } else {
@@ -123,7 +124,8 @@ sub get_sha512sum ($$) {
             my $dir = $1;
             $sha512_txt = `sha512sum $dir/$src_line`;
             if ($? != 0) {
-                die "Error: failed to calc sha512 for $dir/$src_line: $!\n";
+                my $exit_code = $? >> 8;
+                die "Error: failed to calc sha512 for $dir/$src_line, exit code $exit_code\n";
             }
         }
     }
