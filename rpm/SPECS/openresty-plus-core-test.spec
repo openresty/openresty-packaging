@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-test
 Version:        1.19.9.1.52
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -30,7 +30,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.11-3
+BuildRequires:  openresty-saas-zlib-devel
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1k-1
 BuildRequires:  openresty-pcre-devel >= 8.45-1
 BuildRequires:  openresty-yajl-devel >= 2.1.0.4
@@ -53,7 +53,7 @@ BuildRequires:  openresty-tcmalloc-devel
 %ifarch x86_64
 BuildRequires:  openresty-plus-hyperscan-devel >= 5.0.0-14
 %endif
-Requires:       openresty-zlib >= 1.2.11-3
+Requires:       openresty-saas-zlib
 Requires:       openresty-plus-openssl111 >= 1.1.1k-1
 Requires:       openresty-pcre >= 8.45-1
 Requires:       openresty-yajl >= 2.1.0.4
@@ -82,7 +82,7 @@ Requires:       glibc-devel
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/openresty-plus-core-test
-%define zlib_prefix         %{_usr}/local/openresty/zlib
+%define zlib_prefix         /opt/openresty-saas/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
@@ -443,6 +443,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jan 3 2024 Yichun Zhang (agentzh) 1.19.9.1.52-2
+- used openresty-saas-zlib instead of openresty-zlib.
 * Wed Jan 3 2024 Yichun Zhang (agentzh) 1.19.9.1.52-1
 - upgraded openresty-plus to 1.19.9.1.52.
 * Wed Nov 29 2023 Yichun Zhang (agentzh) 1.19.9.1.51-1

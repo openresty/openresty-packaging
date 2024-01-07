@@ -1,6 +1,6 @@
 Name:           openresty-plus-core
 Version:        1.19.9.1.52
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty+, enhanced version of scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -95,7 +95,7 @@ Requires:       openldap
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/openresty-plus
-%define zlib_prefix         %{_usr}/opt/openresty-saas/zlib
+%define zlib_prefix         /opt/openresty-saas/zlib
 %define pcre_prefix         %{_usr}/local/openresty/pcre
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 %define orutils_prefix      %{_usr}/local/openresty-utils
@@ -471,6 +471,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jan 3 2024 Yichun Zhang (agentzh) 1.19.9.1.52-2
+- fixed the zlib path.
 * Wed Jan 3 2024 Yichun Zhang (agentzh) 1.19.9.1.52-1
 - upgraded openresty-plus to 1.19.9.1.52.
 * Wed Nov 29 2023 Yichun Zhang (agentzh) 1.19.9.1.51-1
