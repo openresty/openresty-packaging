@@ -94,7 +94,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-perl-module-build-tiny-clean \
 		openresty-perl-opcodes-clean openresty-perl-readonly-clean \
 		openresty-perl-clean openresty-keepalived-clean \
-		openresty-plus-test-clean lua-resty-jsonb-clean \
+		lua-resty-jsonb-clean \
 		openresty-plus-openssl111-asan-clean \
 		openresty-plus-asan-clean openresty-plus-core-clean \
 		openresty-edge-pki-clean openresty-maxminddb-utils-clean \
