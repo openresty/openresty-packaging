@@ -90,13 +90,7 @@ Provides C header and static library for OpenResty's OpenSSL library.
     -L%{zlib_prefix}/lib \
     -Wl,-rpath,%{zlib_prefix}/lib:%{openssl_prefix}/lib
 
-ncpus=`nproc`
-max_jobs=$(( $free / 3500 ))
-#echo "max jobs: $max_jobs"
-if [ "$max_jobs" -gt "$ncpus" ]; then
-    max_jobs=$ncpus
-fi
-make CC='ccache gcc -fdiagnostics-color=always' -j$max_jobs
+make CC='ccache gcc -fdiagnostics-color=always' -j$(nproc)
 
 
 %install
