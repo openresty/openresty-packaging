@@ -104,10 +104,12 @@ export ASAN_OPTIONS=detect_leaks=0
 #sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
 ncpus=`nproc`
-if [ "$ncpus" -gt 8 ]; then
-    ncpus=8
+max_jobs=$(( $free / 3500 ))
+#echo "max jobs: $max_jobs"
+if [ "$max_jobs" -gt "$ncpus" ]; then
+    max_jobs=$ncpus
 fi
-make -j$ncpus \
+make -j$max_jobs \
     LD_LIBRARY_PATH= \
     CC="ccache gcc -fsanitize=address" \
     > /dev/stderr

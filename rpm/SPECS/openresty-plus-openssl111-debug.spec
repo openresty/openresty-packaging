@@ -94,10 +94,12 @@ Provides C header and static library for the debug version of OpenResty's OpenSS
 sed -i 's/ -O3 / -O0 /g' Makefile
 
 ncpus=`nproc`
-if [ "$ncpus" -gt 16 ]; then
-    ncpus=16
+max_jobs=$(( $free / 3500 ))
+#echo "max jobs: $max_jobs"
+if [ "$max_jobs" -gt "$ncpus" ]; then
+    max_jobs=$ncpus
 fi
-make CC='ccache gcc -fdiagnostics-color=always' -j$ncpus
+make CC='ccache gcc -fdiagnostics-color=always' -j$max_jobs
 
 
 %install
