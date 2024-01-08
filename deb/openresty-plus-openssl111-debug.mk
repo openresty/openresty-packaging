@@ -12,7 +12,7 @@ openresty-plus-openssl111-debug-build: | openresty-plus-openssl111-debug-clean o
 	tar xf openresty-plus-openssl111-debug_$(SSL111_VER).orig.tar.gz --strip-components=1 -C openresty-plus-openssl111-debug
 	cd openresty-plus-openssl111-debug \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild -sa $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#for f in openresty-plus-openssl111-debug*.deb; do debsigs --sign=origin -K D5EDEB74 $$f || exit 1; done
 	if [ -f ./upload ]; then ./upload || exit 1; fi
 
