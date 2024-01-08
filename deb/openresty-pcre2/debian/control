@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), coreutils, gcc, make, ccache, sed
 Standards-Version: 3.9.8
-Homepage: https://github.com/PhilipHazel/pcre2
+Homepage: https://github.com/PCRE2Project/pcre2
 
 Package: openresty-pcre2
 Architecture: any

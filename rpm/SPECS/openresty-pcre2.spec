@@ -6,8 +6,8 @@ Summary:    Perl-compatible regular expression library
 Group:      System Environment/Libraries
 
 License:    BSD
-URL:        https://github.com/PhilipHazel/pcre2
-Source0:    https://github.com/PhilipHazel/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.gz
+URL:        https://github.com/PCRE2Project/pcre2
+Source0:    https://github.com/PCRE2Project/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.gz
 
 BuildRequires:  coreutils, gcc, make
 BuildRequires:  ccache, sed

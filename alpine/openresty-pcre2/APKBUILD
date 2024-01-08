@@ -10,7 +10,7 @@ license="BSD"
 #depends=""
 makedepends="ccache"
 subpackages="$pkgname-dev $pkgname-dbg"
-source="https://github.com/PhilipHazel/pcre2/releases/download/pcre2-$pkgver/pcre2-$pkgver.tar.gz"
+source="https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$pkgver/pcre2-$pkgver.tar.gz"
 builddir="$srcdir/pcre2-$pkgver/"
 options="!tracedeps !fhs"
 
