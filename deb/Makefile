@@ -47,7 +47,6 @@ build: zlib-build pcre-build openssl-build \
 	openssl-debug-build openresty-build openresty-debug-build \
 	openresty-valgrind-build \
 	lemplate-build test-nginx-build openresty-pcre2-build \
-	openresty-plus-build \
 	openresty-plus-debug-build hyperscan-build \
 	openresty-saas-build openresty-binutils-build \
 	openresty-tar-build openresty-plzip-build \
@@ -63,7 +62,6 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
                 openresty-pcre2-clean \
-		openresty-plus-clean openresty-plus-debug-clean \
 		hyperscan-clean openresty-saas-clean \
 		openresty-binutils-clean openresty-tar-clean \
 		openresty-plzip-clean openresty-utils-clean \
