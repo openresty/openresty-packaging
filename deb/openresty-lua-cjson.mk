@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LUA_CJSON_VER := 2.1.0.12.1
+OPENRESTY_LUA_CJSON_VER := 2.1.0.13.2
 
 .PHONY: openresty-lua-cjson-download
 openresty-lua-cjson-download:

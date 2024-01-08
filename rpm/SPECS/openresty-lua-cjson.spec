@@ -1,5 +1,5 @@
 Name:               openresty-lua-cjson
-Version:            2.1.0.12.1
+Version:            2.1.0.13.2
 Release:            1%{?dist}
 Summary:            The lua-cjson library for OpenResty
 
@@ -76,6 +76,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 8 2024 Yichun Zhang (agentzh) 2.1.0.13.2-1
+- upgraded lua-cjson-plus to 2.1.0.13.2.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 2.1.0.12.1
 
 - upgraded lua-cjson 2.1.0.12.1
