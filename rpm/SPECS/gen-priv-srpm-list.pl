@@ -16,7 +16,6 @@ openresty-elfutils-0.185.1-5.fc28.src.rpm
 openresty-util-linux-2.35.1.3-2.fc28.src.rpm
 openresty-saas-zlib-1.2.12-1.fc28.src.rpm
 openresty-saas-pcre-8.45-2.fc28.src.rpm
-openresty-saas-openssl111-1.1.1l-1.fc28.src.rpm
 openresty-utils-0.28-2.fc28.src.rpm
 openresty-python3-3.7.10-1.fc28.src.rpm
 openresty-python3-cython-0.28.5-6.fc28.src.rpm
