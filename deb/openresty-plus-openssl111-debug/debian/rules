@@ -28,6 +28,8 @@ DESTDIR = $(CURDIR)/debian/tmp
 	dh $@ --parallel --with autotools-dev
 
 override_dh_auto_configure:
+
+override_dh_auto_build:
 	./config \
 	  no-asm \
 	  enable-camellia enable-seed enable-rfc3779 \
@@ -40,6 +42,7 @@ override_dh_auto_configure:
 	  -I/usr/local/openresty/zlib/include \
 	  -L/usr/local/openresty/zlib/lib \
 	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-plus-debug/openssl111/lib
+	make -j`nproc` LD_LIBRARY_PATH=
 	#sed -i 's/ -O3 / -O0 /g' Makefile
 
 override_dh_usrlocal:
