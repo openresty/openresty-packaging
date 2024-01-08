@@ -103,13 +103,7 @@ export ASAN_OPTIONS=detect_leaks=0
 #sed -i 's/ -O3 / -O1 -fno-omit-frame-pointer /g' Makefile
 #sed -r -i 's/^([ \t]*)LD_LIBRARY_PATH=[^\\ \t]*/\1LD_LIBRARY_PATH=/g' Makefile.shared
 
-ncpus=`nproc`
-max_jobs=$(( $free / 3500 ))
-#echo "max jobs: $max_jobs"
-if [ "$max_jobs" -gt "$ncpus" ]; then
-    max_jobs=$ncpus
-fi
-make -j$max_jobs \
+make -j$(nproc) \
     LD_LIBRARY_PATH= \
     CC="ccache gcc -fsanitize=address" \
     > /dev/stderr
