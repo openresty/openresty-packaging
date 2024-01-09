@@ -1,5 +1,5 @@
 Name:           openresty-orbpf-ko
-Version:        0.0.6
+Version:        0.0.8
 Release:        1
 Summary:        BPF kernel module implemented by OpenResty INC.
 
