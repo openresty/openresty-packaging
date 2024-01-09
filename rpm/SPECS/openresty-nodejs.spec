@@ -1,6 +1,6 @@
 Name:       openresty-nodejs
 Version:    15.4.0
-Release:    5%{?dist}
+Release:    6%{?dist}
 Summary:    OpenResty's fork of JavaScript runtime
 License:    MIT and ASL 2.0 and ISC and BSD
 Group:      Development/Languages
@@ -153,6 +153,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 8 2024 lijunlnog (junlong) 15.4.0-6.
+- change the zlib from openresty-zlib to openresty-saas-zlib.
 * Mon Nov 4 2023 lijunlnog (junlong) 15.4.0-5.
 - added support for arm64.
 * Mon Jan 4 2021 Jiahao Wang (jiahao) 15.4.0-1.

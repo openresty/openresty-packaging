@@ -19,8 +19,8 @@ openresty-postgresql12-clean:
 
 .PHONY: openresty-postgresql12-build
 openresty-postgresql12-build: openresty-postgresql12-clean openresty-postgresql12-download
-	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev bison openresty-zlib-dev
-	sudo apt-get -y -q install --only-upgrade ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev bison openresty-zlib-dev
+	sudo apt-get -y -q install ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev bison
+	sudo apt-get -y -q install --only-upgrade ccache libxml2-dev libxslt-dev libossp-uuid-dev libreadline-dev openresty-plus-openssl111-dev bison
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12_$(OPENRESTY_POSTGRESQL12_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12
 	cd openresty-postgresql12 \

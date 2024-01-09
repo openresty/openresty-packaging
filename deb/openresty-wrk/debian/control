@@ -9,7 +9,7 @@ Homepage: https://www.openresty.com/
 Package: openresty-wrk
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas, openresty-plus-openssl111
 Description: OpenResty wrk
  wrk - a HTTP benchmarking tool
 

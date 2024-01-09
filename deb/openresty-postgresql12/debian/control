@@ -2,14 +2,14 @@ Source: openresty-postgresql12
 Section: database
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, libxml2-dev, libxslt-dev, libossp-uuid-dev, libreadline-dev, bison, openresty-plus-openssl111-dev, openresty-zlib-dev
+Build-Depends: debhelper (>= 9), ccache, libxml2-dev, libxslt-dev, libossp-uuid-dev, libreadline-dev, bison, openresty-plus-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: http://www.postgresql.org/ftp/source/
 
 Package: openresty-postgresql12
 Architecture: any
 Section: database
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111, openresty-zlib
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111
 Description: PostgreSQL server
  PostgreSQL is the world's most advanced open source database.
 

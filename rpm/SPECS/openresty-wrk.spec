@@ -1,6 +1,6 @@
 Name:           openresty-wrk
 Version:        4.0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        The OpenResty fork of wrk
 
 Group:          Development/Libraries
@@ -16,12 +16,13 @@ BuildRequires:  make
 BuildRequires:  openresty-saas
 BuildRequires:  openresty-plus-openssl111-devel
 Requires:       openresty-saas
+Requires:       openresty-plus-openssl111
 
 AutoReqProv:        no
 
 %define wrk_prefix                      /usr/local/openresty-wrk
 %define or_prefix                       /opt/openresty-saas
-%define openssl_prefix                  %{or_prefix}/openssl111
+%define openssl_prefix                  /usr/local/openresty-plus/openssl111
 
 
 %description
@@ -84,6 +85,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan 8 2024 Wang Hui (wanghuizzz) 4.0.2.1-3
+- update the dependency.
 * Mon Sep 26 2022 Wang Hui (wanghuizzz) 4.0.2.1-2
 - update the dependency.
 * Thu Sep 22 2022 Wang Hui (wanghuizzz) 4.0.2.1-1

@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-10~[% distro %]1) [% distro %]; urgency=high
+
+  * change openresty-zlib to openresty-saas-zlib.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 8 Jan 2024 12:11:00 +0800
+
 openresty-postgresql12 (12.5-9~[% distro %]1) [% distro %]; urgency=high
 
   * updated shebang for postgresql-check-db-dir.

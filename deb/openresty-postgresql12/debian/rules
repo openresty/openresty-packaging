@@ -10,7 +10,6 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 PREFIX=/usr/local/openresty-postgresql12
 OPENSSL111_PREFIX=/usr/local/openresty-plus/openssl111
-ZLIB_PREFIX=/usr/local/openresty/zlib
 
 %:
 	-dh $@ --parallel --with autotools-dev
@@ -33,8 +32,8 @@ override_dh_auto_build:
             --with-openssl \
             --with-ossp-uuid \
             CC='ccache gcc' \
-            CFLAGS="-O2 -g3 -I$(OPENSSL111_PREFIX)/include -I$(ZLIB_PREFIX)/include" \
-			LDFLAGS="-L$(OPENSSL111_PREFIX)/lib -L$(ZLIB_PREFIX)/lib -Wl,-rpath,$(OPENSSL111_PREFIX)/lib:$(ZLIB_PREFIX)/lib" \
+            CFLAGS="-O2 -g3 -I$(OPENSSL111_PREFIX)/include" \
+			LDFLAGS="-L$(OPENSSL111_PREFIX)/lib -Wl,-rpath,$(OPENSSL111_PREFIX)/lib" \
 		&& make -j`nproc` MAKELEVEL=0
 
 override_dh_auto_install:
