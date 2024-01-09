@@ -71,7 +71,7 @@ OpenResty Plus for SaaS product clients.
 
 
 %build
-./configure \
+export CJSON_DISABLE_YYJSON=1 && ./configure \
     --prefix="%{saas_or_prefix}" \
     --with-lmdb-xcflags="-fPIC -O2 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-saas" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
