@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_makefile ($);
 
 my $version = shift or die "No version number specified.\n";
 
@@ -12,8 +13,13 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
+for my $mk (reverse sort glob "lua-resty-redis-cluster-fast*.mk") {
+    update_makefile $mk;
+}
+
+sub update_makefile ($)
 {
-    my $file = "lua-resty-redis-cluster-fast.mk";
+    my $file = shift;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;

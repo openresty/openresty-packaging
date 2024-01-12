@@ -126,9 +126,11 @@ priv_targets = openresty-plus \
 		openresty-wrk \
 		lua-resty-redis-cluster-fast \
 		lua-resty-dymetrics-bilibili \
-		openresty-coro-nginx-module \
-		openresty-coro-hiredis-nginx-module \
-                dymetrics-nginx-module-1.19.9 \
+		coro-nginx-module-1.21.4 \
+		coro-hiredis-nginx-module-1.21.4 \
+		coro-nginx-module-1.25.3 \
+		coro-hiredis-nginx-module-1.25.3 \
+		dymetrics-nginx-module-1.19.9 \
 		openresty-opencc \
 		openresty-llvm \
 		openresty-lua-cjson \

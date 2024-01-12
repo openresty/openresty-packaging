@@ -1,0 +1,24 @@
+Source: coro-hiredis-nginx-module-1.21.4
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
+ coro-nginx-module-1.21.4-dev, openresty-elf-loader-dev,
+ openresty-hiredis-dev, openresty-elfutils-dev, openresty-zlib-dev, openresty,
+ openresty-pcre-dev, openresty-openssl111-dev (>= 1.1.1n)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: coro-hiredis-nginx-module-1.21.4
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, coro-nginx-module-1.21.4, openresty-hiredis
+Description: Coroutine implemented hiredis nginx module for OpenResty
+ This is the coroutine implemented hiredis nginx module for OpenResty.
+
+Package: coro-hiredis-nginx-module-1.21.4-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, coro-hiredis-nginx-module-1.21.4 (>= ${source:Upstream-Version})
+Description: Debug symbols for the coro-hiredis-nginx-module-1.21.4 package
+ Debug symbols (or debuginfo) for the coro-hiredis-nginx-module-1.21.4 package.

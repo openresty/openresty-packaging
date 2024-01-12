@@ -1,0 +1,24 @@
+lua-resty-redis-cluster-fast-1.21.4 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-redis-cluster-fast to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 5 Apr 2023 23:07:53 -0700
+
+lua-resty-redis-cluster-fast-1.21.4 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-redis-cluster-fast to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 5 Apr 2023 11:16:11 -0700
+
+lua-resty-redis-cluster-fast-1.21.4 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-redis-cluster-fast to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 4 Apr 2023 11:38:41 -0700
+
+lua-resty-redis-cluster-fast-1.21.4 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for lua-resty-redis-cluster-fast.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 25 Mar 2023 00:00:00 -0700
+

@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_mk ($);
 
 my $version = shift or die "No version number specified.\n";
 
@@ -12,14 +13,19 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
+for my $mkfile (reverse sort glob 'coro-nginx-module*.mk') {
+    update_mk $mkfile;
+}
+
+sub update_mk ($)
 {
-    my $file = "openresty-coro-nginx-module.mk";
+    my $file = shift;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_CORO_NGINX_MODULE_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_CORO_NGINX_MODULE_VER := $version/msx) {
+        if (s/^ CORO_NGINX_MODULE_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/CORO_NGINX_MODULE_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -45,7 +51,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     }
 }
 
-for my $dir (reverse sort glob 'openresty-coro-nginx-module*') {
+for my $dir (reverse sort glob 'coro-nginx-module*') {
     next unless -d $dir && -d "$dir/debian";
     if (1) {
         my $name = $dir;
@@ -95,7 +101,7 @@ sub update_changelog ($$) {
     my $new = <<_EOC_;
 $name ($version-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded openresty-coro-nginx-module to $version.
+  * upgraded coro-nginx-module to $version.
 
  -- OpenResty Admin <admin\@openresty.com>  $now
 
