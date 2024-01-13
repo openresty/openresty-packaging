@@ -30,5 +30,5 @@ coro-nginx-module-1.21.4-build: coro-nginx-module-1.21.4-clean coro-nginx-module
 	tar xf coro-nginx-module-1.21.4_$(CORO_NGINX_MODULE_VER).orig.tar.gz --strip-components=1 -C coro-nginx-module-1.21.4
 	cd coro-nginx-module-1.21.4 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
-		&& debuild $(OPTS) -j$(JOBS)
+		&& debuild --no-lintian $(OPTS) -j$(JOBS)
 	#if [ -f ./upload ]; then ./upload || exit 1; fi
