@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_ELFUTILS_VER := 0.188.14
+OPENRESTY_ELFUTILS_VER := 0.188.15
 
 .PHONY: openresty-elfutils-download
 openresty-elfutils-download:
