@@ -22,7 +22,7 @@ override_dh_auto_build:
 	export CC="ccache gcc -fsanitize=address" \
 	&& export CFLAGS="-O1 -fno-omit-frame-pointer -g" \
 	&& export ASAN_OPTIONS=detect_leaks=0 \
-	./configure \
+	&& ./configure \
 		--prefix=$(PREFIX) \
 		--libdir=$(PREFIX)/lib \
 		--enable-jit \
@@ -57,4 +57,4 @@ override_dh_auto_install:
 		&& rm -rf $(DESTDIR)$(PREFIX)/bin
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-pcre2-dbgsym
+	dh_strip --dbg-package=openresty-pcre2-asan-dbgsym

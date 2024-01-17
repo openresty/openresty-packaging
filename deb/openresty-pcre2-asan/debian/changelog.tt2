@@ -1,10 +1,10 @@
-openresty-pcre2 (10.42-1~[% distro %]1) [% distro %]; urgency=high
+openresty-pcre2-asan (10.42-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 10.42.
 
  -- OpenResty Admin <admin@openresty.com>  Mon, 27 Nov 2023 08:32:43 +0800
 
-openresty-pcre2 (10.39-1~[% distro %]1) [% distro %]; urgency=high
+openresty-pcre2-asan (10.39-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded pcre2 to 10.39.
 
