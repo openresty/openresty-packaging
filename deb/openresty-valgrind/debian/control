@@ -5,7 +5,7 @@ Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev,
  systemtap-sdt-dev, valgrind,
  openresty-zlib-dev, openresty-openssl111-debug-dev (>= 1.1.1n),
- openresty-pcre-dev (>= 8.45),
+ openresty-pcre2-dev (>= 10.42),
  perl, libfile-temp-perl
 Standards-Version: 3.9.8
 Homepage: https://openresty.org/
@@ -13,7 +13,7 @@ Homepage: https://openresty.org/
 Package: openresty-valgrind
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, valgrind,
- openresty-zlib, openresty-openssl111-debug (>= 1.1.1n), openresty-pcre (>= 8.45)
+ openresty-zlib, openresty-openssl111-debug (>= 1.1.1n), openresty-pcre2 (>= 10.42)
 Description: valgrind debug version of OpenResty core server
  This package contains the debug version of the core server for OpenResty.
  Built for development purposes only.

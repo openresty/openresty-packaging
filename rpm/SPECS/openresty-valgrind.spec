@@ -21,17 +21,17 @@ Requires:       valgrind
 BuildRequires:  ccache, perl-File-Temp
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl111-debug-devel >= 1.1.1w-1
-BuildRequires:  openresty-pcre-devel >= 8.45-1
+BuildRequires:  openresty-pcre2-devel >= 10.42-1
 Requires:       openresty-zlib >= 1.2.12-1
 Requires:       openresty-openssl111-debug >= 1.1.1w-1
-Requires:       openresty-pcre >= 8.45-1
+Requires:       openresty-pcre2 >= 10.42-1
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
 %define openssl_prefix      %{_usr}/local/openresty-debug/openssl111
 %define zlib_prefix         %{_usr}/local/openresty/zlib
-%define pcre_prefix         %{_usr}/local/openresty/pcre
+%define pcre2_prefix         %{_usr}/local/openresty/pcre2
 
 
 %description
@@ -92,8 +92,8 @@ a single box.
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
     --with-debug \
-    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -O0" \
-    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+    --with-cc-opt="-I%{zlib_prefix}/include -I%{pcre2_prefix}/include -I%{openssl_prefix}/include -O0" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre2_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre2_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -102,6 +102,7 @@ a single box.
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
