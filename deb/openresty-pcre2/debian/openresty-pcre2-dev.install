@@ -1,4 +1,4 @@
-usr/local/openresty-saas/pcre2/lib/*.so
-usr/local/openresty-saas/pcre2/lib/*.la
-usr/local/openresty-saas/pcre2/lib/pkgconfig/*
-usr/local/openresty-saas/pcre2/include/*.h
+usr/local/openresty/pcre2/lib/*.so
+usr/local/openresty/pcre2/lib/*.la
+usr/local/openresty/pcre2/lib/pkgconfig/*
+usr/local/openresty/pcre2/include/*.h

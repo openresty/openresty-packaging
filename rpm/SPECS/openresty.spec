@@ -25,10 +25,10 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl111-devel >= 1.1.1w-1
-BuildRequires:  openresty-pcre-devel >= 8.45-1
+BuildRequires:  openresty-pcre2-devel >= 10.42-1
 Requires:       openresty-zlib >= 1.2.12-1
 Requires:       openresty-openssl111 >= 1.1.1w-1
-Requires:       openresty-pcre >= 8.45-1
+Requires:       openresty-pcre2 >= 10.42-1
 
 
 %if 0%{?suse_version}
@@ -60,7 +60,7 @@ AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{orprefix}/zlib
-%define pcre_prefix         %{orprefix}/pcre
+%define pcre2_prefix         %{orprefix}/pcre2
 %define openssl_prefix      %{orprefix}/openssl111
 
 
@@ -194,8 +194,8 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
 ./configure \
     --prefix="%{orprefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include" \
-    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
+    --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre2_prefix}/include -I%{openssl_prefix}/include" \
+    --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre2_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre2_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
@@ -204,6 +204,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
