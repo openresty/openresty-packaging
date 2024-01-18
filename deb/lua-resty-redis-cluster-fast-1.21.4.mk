@@ -5,7 +5,7 @@ LUA_RESTY_REDIS_CLUSTER_FAST_VER := 0.0.4
 
 .PHONY: lua-resty-redis-cluster-fast-1.21.4-download
 lua-resty-redis-cluster-fast-1.21.4-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-redis-cluster-fast-1.21.4-$(LUA_RESTY_REDIS_CLUSTER_FAST_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-redis-cluster-fast-$(LUA_RESTY_REDIS_CLUSTER_FAST_VER).tar.gz ./
 	rm -rf lua-resty-redis-cluster-fast-1.21.4_$(LUA_RESTY_REDIS_CLUSTER_FAST_VER)
 	mkdir -p lua-resty-redis-cluster-fast-1.21.4_$(LUA_RESTY_REDIS_CLUSTER_FAST_VER)
 	tar -xf lua-resty-redis-cluster-fast-$(LUA_RESTY_REDIS_CLUSTER_FAST_VER).tar.gz --strip-components=1 -C lua-resty-redis-cluster-fast-1.21.4_$(LUA_RESTY_REDIS_CLUSTER_FAST_VER)
