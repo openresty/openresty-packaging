@@ -1,6 +1,6 @@
 Name:           openresty-elfutils
 Version:        0.190.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        LGPLv2+
@@ -103,14 +103,20 @@ the components needed to locally develop and execute systemtap scripts.
 %undefine _debuginfo_subpackages
 %endif
 
-%if 0%{?fedora} >= 34
-%define EXTRA_CFLAGS "-Wno-array-parameter"
-%define yflags YFLAGS="-Wno-yacc"
-%else
 %define EXTRA_CFLAGS ""
+%define EXTRA_CXXFLAGS ""
 %define yflags ""
+
+%if 0%{?centos} == 6
+%define EXTRA_CFLAGS -Wno-unused-parameter -Wno-unused-function
+%define EXTRA_CXXFLAGS -Wno-unused-parameter -Wno-unused-function
 %endif
 
+%if 0%{?fedora} >= 34
+%define EXTRA_CFLAGS "-Wno-array-parameter"
+%define EXTRA_CXXFLAGS "-Wno-array-parameter"
+%define yflags YFLAGS="-Wno-yacc"
+%endif
 
 %package devel
 Summary: devel files for OpenResty's fork of elfutils
@@ -135,7 +141,8 @@ OpenResty's fork of elfutils.
     --libdir="%{eu_prefix}/lib" \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib -L%{yajl_prefix}/lib -lyajl -L%{libdemangle_prefix}/lib -ldemangle -lrt' \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="%{EXTRA_CFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g3 -O2" \
+    CFLAGS="%{EXTRA_CFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2" \
+    CXXFLAGS="%{EXTRA_CXXFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2" \
     %{yflags} \
     --enable-maintainer-mode \
     --disable-debuginfod \
@@ -188,6 +195,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Tue Jan 23 2024 Yichun Zhang (agentzh) 0.190.1-2
+- upgraded elfutils-plus to 0.190.1.
 * Tue Jan 23 2024 Yichun Zhang (agentzh) 0.190.1-1
 - upgraded elfutils-plus to 0.190.1.
 * Mon Jan 15 2024 Yichun Zhang (agentzh) 0.188.15-1
