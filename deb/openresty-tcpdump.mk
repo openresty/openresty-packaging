@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_TCPDUMP_VER := 4.9.3.6
+OPENRESTY_TCPDUMP_VER := 4.9.3.7
 
 .PHONY: openresty-tcpdump-download
 openresty-tcpdump-download:

@@ -1,3 +1,9 @@
+openresty-tcpdump (4.9.3.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded tcpdump-plus to 4.9.3.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 29 Jan 2024 20:57:33 -0800
+
 openresty-tcpdump (4.9.3.6-2~[% distro %]1) [% distro %]; urgency=high
 
   * add dependency libnl-3-200.
