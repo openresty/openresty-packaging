@@ -13,6 +13,13 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-tcmalloc
 Description: radare2 for OpenResty
  radare2 for OpenResty ONLY
 
+Package:openresty-radare2-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-radare2
+Description: Provides C header and static library for OpenResty's radare2 library
+ Provides C header and static library for OpenResty's radare2 library.
+
 Package: openresty-radare2-dbgsym
 Section: debug
 Architecture: any

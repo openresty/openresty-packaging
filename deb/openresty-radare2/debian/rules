@@ -27,9 +27,6 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
-		&& rm -f  $(DESTDIR)/usr/local/openresty-radare2/lib/*.a \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/lib/pkgconfig \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/include \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/man \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/doc \
 		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/radare2/*-git/www

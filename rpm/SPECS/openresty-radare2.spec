@@ -1,6 +1,6 @@
 Name:               openresty-radare2
 Version:            5.0.3
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -53,6 +53,17 @@ radare2 for OpenResty ONLY
 %endif
 
 
+%package devel
+
+Summary:            Development files for OpenResty's radare2 library
+Group:              Development/Libraries
+Requires:           %{name} = %{version}-%{release}
+
+
+%description devel
+Provides C header and static library for OpenResty's radare2 library.
+
+
 %prep
 %setup -q -n radare2-plus-%{version}
 
@@ -68,9 +79,6 @@ make -j`nproc`
 %install
 make install DESTDIR=%{buildroot}
 
-rm -f  %{buildroot}/%{radare2_prefix}/lib/*.a
-rm -rf %{buildroot}/%{radare2_prefix}/lib/pkgconfig
-rm -rf %{buildroot}/%{radare2_prefix}/include
 rm -rf %{buildroot}/%{radare2_prefix}/share/man
 rm -rf %{buildroot}/%{radare2_prefix}/share/doc
 rm -rf %{buildroot}/%{radare2_data_prefix}/*-git/www
@@ -113,7 +121,41 @@ rm -rf %{buildroot}
 %{radare2_data_prefix}/*-git/format/*
 
 
+%files devel
+%defattr(-,root,root,-)
+
+%{radare2_prefix}/lib/pkgconfig
+%dir %{radare2_prefix}/include/libr
+%dir %{radare2_prefix}/include/libr/r_crypto
+%dir %{radare2_prefix}/include/libr/r_util
+%dir %{radare2_prefix}/include/libr/sdb
+%dir %{radare2_prefix}/include/libr/sflib/common
+%dir %{radare2_prefix}/include/libr/sflib/darwin-arm-64
+%dir %{radare2_prefix}/include/libr/sflib/darwin-x86-32
+%dir %{radare2_prefix}/include/libr/sflib/darwin-x86-64
+%dir %{radare2_prefix}/include/libr/sflib/linux-arm-32
+%dir %{radare2_prefix}/include/libr/sflib/linux-arm-64
+%dir %{radare2_prefix}/include/libr/sflib/linux-x86-32
+%dir %{radare2_prefix}/include/libr/sflib/linux-x86-64
+%{radare2_prefix}/lib/*.a
+%{radare2_prefix}/lib/pkgconfig/*.pc
+%{radare2_prefix}/include/libr/*.h
+%{radare2_prefix}/include/libr/r_crypto/*.h
+%{radare2_prefix}/include/libr/r_util/*.h
+%{radare2_prefix}/include/libr/sdb/*.h
+%{radare2_prefix}/include/libr/sflib/common/*.h
+%{radare2_prefix}/include/libr/sflib/darwin-arm-64/*.h
+%{radare2_prefix}/include/libr/sflib/darwin-x86-32/*.h
+%{radare2_prefix}/include/libr/sflib/darwin-x86-64/*.h
+%{radare2_prefix}/include/libr/sflib/linux-arm-32/*.h
+%{radare2_prefix}/include/libr/sflib/linux-arm-64/*.h
+%{radare2_prefix}/include/libr/sflib/linux-x86-32/*.h
+%{radare2_prefix}/include/libr/sflib/linux-x86-64/*.h
+
+
 %changelog
+* Fri Feb 2 2024 Yichun Zhang (agentzh) 5.0.3-2
+- added the devel package.
 * Wed Dec 6 2023 Yichun Zhang (agentzh) 5.0.3-1
 - upgraded openresty-radare2 to 5.0.3.
 * Sun Sep 24 2023 Yichun Zhang (agentzh) 5.0.2-1
