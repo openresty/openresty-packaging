@@ -1,3 +1,9 @@
+openresty-radare2 (5.0.3.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * added the dev package.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 3 Feb 2024 04:38:02 -0800
+
 openresty-radare2 (5.0.3-2~[% distro %]1) [% distro %]; urgency=high
 
   * added the dev package.

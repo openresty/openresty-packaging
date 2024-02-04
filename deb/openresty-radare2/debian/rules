@@ -19,11 +19,13 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
+	rm -rf shlr/capstone
 	CC='ccache gcc' \
 	LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib -L/usr/local/openresty-tcmalloc/lib -Wl,-rpath,/usr/local/openresty-tcmalloc/lib,--no-as-needed -ltcmalloc_minimal' \
 	CFLAGS='-g -O2' \
-	./configure --prefix=/usr/local/openresty-radare2 --with-rpath \
-		&& make -j`nproc`
+	./configure --prefix=/usr/local/openresty-radare2 --with-rpath --with-capstone4
+	cd  shlr/capstone && git pull
+	make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \

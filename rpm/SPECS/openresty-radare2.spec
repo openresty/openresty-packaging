@@ -1,6 +1,6 @@
 Name:               openresty-radare2
-Version:            5.0.3
-Release:            2%{?dist}
+Version:            5.0.3.2
+Release:            1%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -11,7 +11,7 @@ Source0:            radare2-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      openresty-tcmalloc-devel
+BuildRequires:      openresty-tcmalloc-devel, git
 
 Requires:           openresty-tcmalloc
 
@@ -69,10 +69,14 @@ Provides C header and static library for OpenResty's radare2 library.
 
 
 %build
+rm -rf shlr/capstone
 CC='ccache gcc' \
-LDFLAGS='-Wl,-rpath,%{radare2_prefix}/lib -L%{tcmalloc_prefix}/lib -Wl,-rpath,%{tcmalloc_prefix}/lib,--no-as-needed -ltcmalloc_minimal' \
+LDFLAGS='-Wl,-rpath,%{radare2_prefix}/lib:%{tcmalloc_prefix}/lib -L%{tcmalloc_prefix}/lib -ltcmalloc_minimal' \
 CFLAGS='-g -O2' \
-./configure --prefix=%{radare2_prefix} --with-rpath
+./configure --prefix=%{radare2_prefix} --with-rpath --with-capstone4
+pushd shlr/capstone
+git pull
+popd
 make -j`nproc`
 
 
@@ -154,6 +158,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Feb 3 2024 Yichun Zhang (agentzh) 5.0.3.2-1
+- bugfix: r_core_cmd_str(): r_cons_flush() might prematurely flush out buffer contents to stdout.
 * Fri Feb 2 2024 Yichun Zhang (agentzh) 5.0.3-2
 - added the devel package.
 * Wed Dec 6 2023 Yichun Zhang (agentzh) 5.0.3-1

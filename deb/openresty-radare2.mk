@@ -21,8 +21,8 @@ openresty-radare2-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-radare2-build
 openresty-radare2-build: openresty-radare2-clean openresty-radare2-download
-	sudo apt-get -y -q install --no-install-recommends openresty-tcmalloc openresty-tcmalloc-dev
-	sudo apt-get -y -q install --only-upgrade openresty-tcmalloc openresty-tcmalloc-dev
+	sudo apt-get -y -q install --no-install-recommends openresty-tcmalloc openresty-tcmalloc-dev git
+	sudo apt-get -y -q install --only-upgrade openresty-tcmalloc openresty-tcmalloc-dev git
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-radare2_$(OPENRESTY_RADARE2_VER).orig.tar.gz --strip-components=1 -C openresty-radare2
 	cd openresty-radare2 \
