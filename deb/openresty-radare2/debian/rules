@@ -7,7 +7,8 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
-PREFIX=/usr/local/openresty-tcmalloc
+PREFIX=/usr/local/openresty-radare2
+TCM_PREFIX=/usr/local/openresty-tcmalloc
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -21,17 +22,16 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	rm -rf shlr/capstone
 	CC='ccache gcc' \
-	LDFLAGS='-Wl,-rpath,/usr/local/openresty-radare2/lib -L/usr/local/openresty-tcmalloc/lib -Wl,-rpath,/usr/local/openresty-tcmalloc/lib,--no-as-needed -ltcmalloc_minimal' \
-	CFLAGS='-g -O2' \
-	./configure --prefix=/usr/local/openresty-radare2 --with-rpath --with-capstone4
-	cd  shlr/capstone && git pull
+	   LDFLAGS='-Wl,-rpath,$(PREFIX)/lib:$(TCM_PREFIX)/lib -L$(TCM_PREFIX)/lib -Wl,--no-as-needed -ltcmalloc_minimal' \
+		CFLAGS='-g -O2' \
+		./configure --prefix=$(PREFIX) --with-rpath
 	make -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/man \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/doc \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-radare2/share/radare2/*-git/www
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/man \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/doc \
+		&& rm -rf $(DESTDIR)$(PREFIX)/share/radare2/*-git/www
 
 override_dh_auto_clean:
 	dh_clean

@@ -1,6 +1,6 @@
 Name:               openresty-radare2
 Version:            5.0.3.2
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -11,7 +11,7 @@ Source0:            radare2-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      openresty-tcmalloc-devel, git
+BuildRequires:      openresty-tcmalloc-devel
 
 Requires:           openresty-tcmalloc
 
@@ -71,12 +71,10 @@ Provides C header and static library for OpenResty's radare2 library.
 %build
 rm -rf shlr/capstone
 CC='ccache gcc' \
-LDFLAGS='-Wl,-rpath,%{radare2_prefix}/lib:%{tcmalloc_prefix}/lib -L%{tcmalloc_prefix}/lib -ltcmalloc_minimal' \
-CFLAGS='-g -O2' \
-./configure --prefix=%{radare2_prefix} --with-rpath --with-capstone4
-pushd shlr/capstone
-git pull
-popd
+    LDFLAGS='-Wl,-rpath,%{radare2_prefix}/lib:%{tcmalloc_prefix}/lib -L%{tcmalloc_prefix}/lib -Wl,--no-as-needed -ltcmalloc_minimal' \
+    CFLAGS='-g -O2' \
+    ./configure --prefix=%{radare2_prefix} --with-rpath
+
 make -j`nproc`
 
 
