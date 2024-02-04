@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_RADARE2_VER := 5.0.3
+OPENRESTY_RADARE2_VER := 5.0.3.2
 
 .PHONY: openresty-radare2-download
 openresty-radare2-download:
