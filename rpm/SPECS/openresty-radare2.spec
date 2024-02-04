@@ -1,6 +1,6 @@
 Name:               openresty-radare2
-Version:            5.0.3.2
-Release:            2%{?dist}
+Version:            5.0.3.3
+Release:            1%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -156,6 +156,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sun Feb 4 2024 Yichun Zhang (agentzh) 5.0.3.3-1
+- upgraded openresty-radare2 to 5.0.3.3.
 * Sat Feb 3 2024 Yichun Zhang (agentzh) 5.0.3.2-1
 - bugfix: r_core_cmd_str(): r_cons_flush() might prematurely flush out buffer contents to stdout.
 * Fri Feb 2 2024 Yichun Zhang (agentzh) 5.0.3-2
