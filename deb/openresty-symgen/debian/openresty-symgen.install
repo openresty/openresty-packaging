@@ -1,8 +1,8 @@
 usr/local/openresty-symgen/bin/*.ljbc
 usr/local/openresty-symgen/bin/asm2grams
 usr/local/openresty-symgen/bin/cmp-grams
-usr/local/openresty-symgen/bin/gen-auto-func-list
 usr/local/openresty-symgen/bin/gen-func-json
 usr/local/openresty-symgen/bin/gen-r2-af-cmds
 usr/local/openresty-symgen/bin/rebuild-jl
 usr/local/openresty-symgen/bin/gen-sym-ofs
+usr/local/openresty-symgen/bin/func-retval

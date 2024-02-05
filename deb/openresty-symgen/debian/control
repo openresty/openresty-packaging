@@ -2,14 +2,14 @@ Source: openresty-symgen
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, openresty-saas, openresty-perl (>= 5.24.4), openresty-perl-b-c (>= 1.57), openresty-perl-cpanel-json-xs (>= 4.28), openresty-perl-dev (>= 5.24.4)
+Build-Depends: debhelper (>= 9), ccache, gcc, make, openresty-saas, openresty-perl (>= 5.24.4), openresty-perl-b-c (>= 1.57), openresty-perl-cpanel-json-xs (>= 4.28), openresty-perl-dev (>= 5.24.4), openresty-radare2-dev (>= 5.0.3.3)
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com
 
 Package: openresty-symgen
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas, openresty-utils, openresty-perl (>= 5.24.4), openresty-perl-cpanel-json-xs (>= 4.28)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas, openresty-utils, openresty-perl (>= 5.24.4), openresty-perl-cpanel-json-xs (>= 4.28), openresty-radare2 (>= 5.0.3.3)
 Description: Tool for rebuilding symbol tables and debug info for ELF binary executables.
  Tool for converting dwarf to C for OpenResty.
 
