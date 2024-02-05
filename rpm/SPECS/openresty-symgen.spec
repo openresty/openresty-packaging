@@ -1,5 +1,5 @@
 Name:           openresty-symgen
-Version:        0.0.9
+Version:        0.1.1
 Release:        1%{?dist}
 Summary:        Tool for rebuilding symbol tables and debug info for ELF binary executables.
 
@@ -74,11 +74,6 @@ Tool for converting dwarf to C for OpenResty.
 #sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
 sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 
-for f in `find bin -type f -name '*.lua'`; do
-    /opt/openresty-saas/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
-    rm $f
-done
-
 for i in 1 2 3; do
     PATH=%{perl_bin}:$PATH make compile -j`nproc` PERLCC=%{perlcc} && break
 done
@@ -96,17 +91,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{prefix}/bin/*.ljbc
 %{prefix}/bin/asm2grams
 %{prefix}/bin/cmp-grams
-%{prefix}/bin/gen-auto-func-list
 %{prefix}/bin/gen-func-json
 %{prefix}/bin/gen-r2-af-cmds
 %{prefix}/bin/rebuild-jl
 %{prefix}/bin/gen-sym-ofs
+%{prefix}/bin/func-retval
 
 
 %changelog
+* Sun Feb 4 2023 Yichun Zhang (agentzh) 0.1.1-1
+- upgraded openresty-symgen to 0.1.1.
 * Sun Dec 10 2023 Yichun Zhang (agentzh) 0.0.9-1
 - upgraded openresty-symgen to 0.0.9.
 * Fri Dec 8 2023 Yichun Zhang (agentzh) 0.0.8-1
