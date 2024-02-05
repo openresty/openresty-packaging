@@ -24,14 +24,14 @@ AutoReq:        no
 AutoProv:       no
 
 BuildRequires:  ccache, gcc, make
-BuildRequires:  openresty-saas
+BuildRequires:  openresty-saas, openresty-radare2-devel >= 5.0.3.3
 BuildRequires:  openresty-perl >= %{perl_ver_rel}
 BuildRequires:  openresty-perl-B-C >= 1.57-7
 BuildRequires:  openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
 BuildRequires:  openresty-perl-devel >= %{perl_ver_rel}
 
 Requires:       openresty-saas
-Requires:       openresty-utils
+Requires:       openresty-utils, openresty-radare2 >= 5.0.3.3
 Requires:       openresty-perl >= %{perl_ver_rel}
 Requires:       openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
 
@@ -101,7 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sun Feb 4 2023 Yichun Zhang (agentzh) 0.1.1-1
+* Sun Feb 4 2024 Yichun Zhang (agentzh) 0.1.1-1
 - upgraded openresty-symgen to 0.1.1.
 * Sun Dec 10 2023 Yichun Zhang (agentzh) 0.0.9-1
 - upgraded openresty-symgen to 0.0.9.
