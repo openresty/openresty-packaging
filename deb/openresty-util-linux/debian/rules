@@ -20,7 +20,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./configure \
     --prefix=/usr/local/openresty-util-linux --disable-libuuid --disable-libblkid \
-    --disable-libmount --disable-libsmartcols --disable-libfdisk\
+    --disable-libmount --disable-libfdisk\
     --disable-fdisks --disable-mount --disable-losetup \
     --disable-zramctl --disable-fsck --disable-partx \
     --disable-uuidd --disable-mountpoint --disable-fallocate \
@@ -38,11 +38,11 @@ override_dh_auto_build:
     --disable-runuser --disable-ul --disable-more \
     --disable-setterm --disable-schedutils --disable-wall \
     --disable-irqtop --disable-lsirq
-	make script scriptreplay dmesg -j`nproc` > /dev/null
+	make script scriptreplay dmesg prlimit -j`nproc` > /dev/null
 
 override_dh_auto_install:
 	mkdir -p $(DESTDIR)/usr/local/openresty-util-linux/bin/ \
-		&& mv ./script ./scriptreplay ./dmesg $(DESTDIR)/usr/local/openresty-util-linux/bin/
+		&& mv ./script ./scriptreplay ./dmesg ./prlimit $(DESTDIR)/usr/local/openresty-util-linux/bin/
 
 override_dh_auto_clean:
 	dh_clean

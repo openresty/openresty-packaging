@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
 Version:        2.35.1.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -61,8 +61,8 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
 %build
 
 ./configure \
-    --prefix=%{util_linux_prefix} --disable-libuuid --disable-libblkid \
-    --disable-libmount --disable-libsmartcols --disable-libfdisk\
+    --prefix=/usr/local/openresty-util-linux --disable-libuuid --disable-libblkid \
+    --disable-libmount --disable-libfdisk\
     --disable-fdisks --disable-mount --disable-losetup \
     --disable-zramctl --disable-fsck --disable-partx \
     --disable-uuidd --disable-mountpoint --disable-fallocate \
@@ -81,14 +81,14 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
     --disable-setterm --disable-schedutils --disable-wall \
     --disable-irqtop --disable-lsirq
 
-make script scriptreplay dmesg -j`nproc` > /dev/null
+make script scriptreplay dmesg prlimit -j`nproc` > /dev/null
 
 
 %install
 
 # only need script and scriptreplay tools
 mkdir -p %{buildroot}%{util_linux_prefix}/bin/
-mv ./script ./scriptreplay ./dmesg %{buildroot}%{util_linux_prefix}/bin/
+mv ./script ./scriptreplay ./dmesg ./prlimit %{buildroot}%{util_linux_prefix}/bin/
 
 
 %clean
@@ -104,10 +104,13 @@ rm -rf %{buildroot}
 %{util_linux_prefix}/bin/script
 %{util_linux_prefix}/bin/scriptreplay
 %{util_linux_prefix}/bin/dmesg
+%{util_linux_prefix}/bin/prlimit
 
 # ------------------------------------------------------------------------
 
 %changelog
+* Sun Feb 4 2024 Yichun Zhang (agentzh) 2.35.1.3-3
+- upgraded openresty-util-linux to 2.35.1.3.
 * Tue Nov 10 2020 Yichun Zhang (agentzh) 2.35.1.3-1
 - upgraded openresty-util-linux to 2.35.1.3.
 * Tue Aug 4 2020 Yichun Zhang (agentzh) 2.35.1.2-1

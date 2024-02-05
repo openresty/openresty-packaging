@@ -1,3 +1,4 @@
 usr/local/openresty-util-linux/bin/script
 usr/local/openresty-util-linux/bin/scriptreplay
 usr/local/openresty-util-linux/bin/dmesg
+usr/local/openresty-util-linux/bin/prlimit
