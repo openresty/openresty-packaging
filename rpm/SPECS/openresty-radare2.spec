@@ -1,6 +1,6 @@
 Name:               openresty-radare2
 Version:            5.0.3.3
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -97,7 +97,8 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{radare2_prefix}/bin/r*
-%{radare2_prefix}/lib/libr*
+%{radare2_prefix}/lib/libr_*.so
+%{radare2_prefix}/lib/libr_*.so.*
 %dir %{radare2_prefix}/lib/radare2/*-git
 %{radare2_prefix}/lib/radare2/last
 %dir %{radare2_data_prefix}
@@ -126,7 +127,7 @@ rm -rf %{buildroot}
 %files devel
 %defattr(-,root,root,-)
 
-%{radare2_prefix}/lib/pkgconfig
+%dir %{radare2_prefix}/lib/pkgconfig
 %dir %{radare2_prefix}/include/libr
 %dir %{radare2_prefix}/include/libr/r_crypto
 %dir %{radare2_prefix}/include/libr/r_util
@@ -156,6 +157,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Feb 4 2024 Yichun Zhang (agentzh) 5.0.3.3-2
+- upgraded openresty-radare2 to 5.0.3.3.
 * Sun Feb 4 2024 Yichun Zhang (agentzh) 5.0.3.3-1
 - upgraded openresty-radare2 to 5.0.3.3.
 * Sat Feb 3 2024 Yichun Zhang (agentzh) 5.0.3.2-1

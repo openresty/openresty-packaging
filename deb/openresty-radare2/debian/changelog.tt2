@@ -1,3 +1,9 @@
+openresty-radare2 (5.0.3.3-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-radare2 to 5.0.3.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 4 Feb 2024 18:33:29 -0800
+
 openresty-radare2 (5.0.3.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-radare2 to 5.0.3.3.

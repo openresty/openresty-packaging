@@ -1,5 +1,6 @@
 usr/local/openresty-radare2/bin/r*
-usr/local/openresty-radare2/lib/libr*
+usr/local/openresty-radare2/lib/libr_*.so
+usr/local/openresty-radare2/lib/libr_*.so.*
 usr/local/openresty-radare2/lib/radare2/*-git/
 usr/local/openresty-radare2/lib/radare2/last
 usr/local/openresty-radare2/share/radare2/
