@@ -13,6 +13,12 @@ Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas, openresty-utils, op
 Description: Tool for rebuilding symbol tables and debug info for ELF binary executables.
  Tool for converting dwarf to C for OpenResty.
 
+Package: openresty-symgen-agent
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-radare2 (>= 5.0.3.3), openresty-radare2-r2dec
+Description: Tool for inspecting ELF binary executables on the agent side.
+
 Package: openresty-symgen-dbgsym
 Section: debug
 Architecture: any
