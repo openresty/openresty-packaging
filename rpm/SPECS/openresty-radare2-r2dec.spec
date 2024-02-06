@@ -1,5 +1,5 @@
 Name:               openresty-radare2-r2dec
-Version:            0.0.1
+Version:            0.0.2
 Release:            1%{?dist}
 Summary:            Converts asm to pseudo-C code for OpenResty
 
@@ -93,5 +93,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Feb 5 2024 Yichun Zhang (agentzh) 0.0.2-1
+- upgraded openresty-radare2-r2dec to 0.0.2.
 * Sun Feb 4 2024 Hui Wang 0.0.1-1
 - initial build for openresty-radare2-r2dec.

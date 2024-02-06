@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_RADARE2_R2DEC_VER := 0.0.1
+OPENRESTY_RADARE2_R2DEC_VER := 0.0.2
 
 .PHONY: openresty-radare2-r2dec-download
 openresty-radare2-r2dec-download:
