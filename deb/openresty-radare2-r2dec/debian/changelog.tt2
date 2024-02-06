@@ -1,3 +1,9 @@
+openresty-radare2-r2dec (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-radare2-r2dec to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 6 Feb 2024 00:01:35 -0800
+
 openresty-radare2-r2dec (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-radare2-r2dec to 0.0.2.
