@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+NEWPATH = /usr/local/openresty-radare2/bin:/usr/local/openresty-python3/bin:$(PATH)
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export PATH=$(NEWPATH); \
+		curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+		python3 get-pip.py && \
+		pip3 install ninja meson && \
+		make -C p -j`nproc`
+
+override_dh_auto_install:
+	export PATH=$(NEWPATH); \
+		make install-plugin -C p PLUGDIR=$(DESTDIR)/usr/local/openresty-radare2/lib/radare2/5.0.1-git/
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-radare2-r2dec-dbgsym

@@ -1,0 +1,6 @@
+openresty-radare2-r2dec (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for openresty-radare2-r2dec.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 4 Feb 2024 00:00:00 -0700
+

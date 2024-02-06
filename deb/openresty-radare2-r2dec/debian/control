@@ -1,0 +1,21 @@
+Source: openresty-radare2-r2dec
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-python3, openresty-radare2-dev (>= 5.0.3.3)
+Standards-Version: 3.9.8
+Homepage: http://radare.org/
+
+Package: openresty-radare2-r2dec
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-radare2 (>= 5.0.3.3)
+Description: Converts asm to pseudo-C code for OpenResty
+ Converts asm to pseudo-C code for OpenResty ONLY
+
+Package: openresty-radare2-r2dec-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-radare2-r2dec (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-radare2-r2dec package
+ Debug symbols (or debuginfo) for the openresty-radare2-r2dec package.
