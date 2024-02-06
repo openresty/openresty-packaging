@@ -11,7 +11,7 @@ Source0:            r2dec-js-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      openresty-python3, openresty-radare2-devel >= 5.0.3.3
+BuildRequires:      wget, openresty-python3, openresty-radare2-devel >= 5.0.3.3
 
 Requires:           openresty-radare2 >= 5.0.3.3
 
@@ -57,16 +57,26 @@ Converts asm to pseudo-C code for OpenResty ONLY
 
 
 %build
-export PATH=%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
-pip3 install ninja meson
+export PATH=$HOME/.local/bin:%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
+if [ -z "$(command -v $HOME/.local/bin/pip3)" ]; then
+    wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+    python3 get-pip.py
+fi
+
+if [ -z "$(command -v $HOME/.local/bin/meson)" ]; then
+    pip3 install --user meson
+fi
+
+if [ -z "$(command -v $HOME/.local/bin/ninja)" ]; then
+    pip3 install --user ninja
+fi
+
 make -C p -j`nproc`
 
 
 %install
-export PATH=%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
-make install-plugin -C p PLUGDIR=%{buildroot}%{radare2_prefix}/lib/radare2/5.0.1-git/
+export PATH=$HOME/.local/bin:%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
+make install-plugin -C p DESTDIR=%{buildroot}
 
 
 # to silence the check-rpath error
@@ -79,7 +89,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{radare2_prefix}/lib/radare2/5.0.1-git/libcore_pdd.so
+%{radare2_prefix}/lib/radare2/*-git/libcore_pdd.so
 
 
 %changelog

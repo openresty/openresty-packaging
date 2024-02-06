@@ -21,8 +21,8 @@ openresty-radare2-r2dec-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-radare2-r2dec-build
 openresty-radare2-r2dec-build: openresty-radare2-r2dec-clean openresty-radare2-r2dec-download
-	sudo apt-get -y -q install openresty-python3 openresty-radare2-dev
-	sudo apt-get -y -q install --only-upgrade openresty-python3 openresty-radare2-dev
+	sudo apt-get -y -q install wget openresty-python3 openresty-radare2-dev
+	sudo apt-get -y -q install --only-upgrade wget openresty-python3 openresty-radare2-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-radare2-r2dec_$(OPENRESTY_RADARE2_R2DEC_VER).orig.tar.gz --strip-components=1 -C openresty-radare2-r2dec
 	cd openresty-radare2-r2dec \

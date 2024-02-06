@@ -7,7 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
-NEWPATH = /usr/local/openresty-radare2/bin:/usr/local/openresty-python3/bin:$(PATH)
+PATH := $(HOME)/.local/bin:/usr/local/openresty-radare2/bin:/usr/local/openresty-python3/bin:$(PATH)
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -19,15 +19,20 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PATH=$(NEWPATH); \
-		curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-		python3 get-pip.py && \
-		pip3 install ninja meson && \
-		make -C p -j`nproc`
+	if [ -z "$$(command -v $(HOME)/.local/bin/pip3)" ]; then \
+		wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py; \
+		python3 get-pip.py; \
+	fi
+	if [ -z "$$(command -v $(HOME)/.local/bin/meson)" ]; then \
+		pip3 install --user meson; \
+	fi
+	if [ -z "$$(command -v $(HOME)/.local/bin/ninja)" ]; then \
+		pip3 install --user ninja; \
+	fi
+	make -C p -j`nproc`
 
 override_dh_auto_install:
-	export PATH=$(NEWPATH); \
-		make install-plugin -C p PLUGDIR=$(DESTDIR)/usr/local/openresty-radare2/lib/radare2/5.0.1-git/
+	make install-plugin -C p DESTDIR=$(DESTDIR)
 
 override_dh_auto_clean:
 	dh_clean
