@@ -144,7 +144,8 @@ priv_targets = openresty-plus \
 		openresty-xdp-tools \
 		openresty-iproute2 \
 		openresty-symgen \
-		openresty-radare2
+		openresty-radare2 \
+		openresty-radare2-r2dec
 
 .PHONY: all
 all: openresty
