@@ -101,6 +101,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/libtriegen.so
 %{prefix}/bin/lj-gc-graph
 %{prefix}/bin/demangle-nm
+%{prefix}/bin/strings-re
 /usr/bin/resty2
 
 
