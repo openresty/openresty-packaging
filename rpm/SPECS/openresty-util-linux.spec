@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
 Version:        2.35.1.4
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -61,8 +61,10 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
 %build
 
 ./configure \
-    --prefix=/usr/local/openresty-util-linux --disable-libuuid --disable-libblkid \
-    --disable-libmount --disable-libfdisk\
+    --prefix=/usr/local/openresty-util-linux \
+    --libdir=/usr/local/openresty-util-linux/lib \
+    --disable-libuuid --disable-libblkid \
+    --disable-libmount --disable-libfdisk \
     --disable-fdisks --disable-mount --disable-losetup \
     --disable-zramctl --disable-fsck --disable-partx \
     --disable-uuidd --disable-mountpoint --disable-fallocate \
@@ -127,6 +129,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-3
+- upgraded openresty-util-linux to 2.35.1.4.
 * Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-2
 - upgraded openresty-util-linux to 2.35.1.4.
 * Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-1

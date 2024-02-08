@@ -22,8 +22,10 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	./configure \
-    --prefix=/usr/local/openresty-util-linux --disable-libuuid --disable-libblkid \
-    --disable-libmount --disable-libfdisk\
+    --prefix=/usr/local/openresty-util-linux \
+    --libdir=/usr/local/openresty-util-linux/lib \
+    --disable-libuuid --disable-libblkid \
+    --disable-libmount --disable-libfdisk \
     --disable-fdisks --disable-mount --disable-losetup \
     --disable-zramctl --disable-fsck --disable-partx \
     --disable-uuidd --disable-mountpoint --disable-fallocate \
