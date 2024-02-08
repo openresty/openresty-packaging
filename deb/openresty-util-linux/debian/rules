@@ -7,6 +7,9 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PREFIX=/usr/local/openresty-util-linux
+BIN_DIR=$(DESTDIR)$(PREFIX)/bin
+TMP_BIN_DIR=$(DESTDIR)$(PREFIX)/bin_tmp
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -41,8 +44,21 @@ override_dh_auto_build:
 	make script scriptreplay dmesg prlimit -j`nproc` > /dev/null
 
 override_dh_auto_install:
-	mkdir -p $(DESTDIR)/usr/local/openresty-util-linux/bin/ \
-		&& mv ./script ./scriptreplay ./dmesg ./prlimit $(DESTDIR)/usr/local/openresty-util-linux/bin/
+	make install DESTDIR=$(DESTDIR)
+	rm -rf $(DESTDIR)/usr/share
+	rm -rf $(DESTDIR)/$(PREFIX)/share
+	rm -rf $(DESTDIR)/$(PREFIX)/lib/*.a
+	rm -rf $(DESTDIR)/$(PREFIX)/lib/*.la
+	rm -rf $(DESTDIR)/$(PREFIX)/lib/pkgconfig
+	rm -rf $(DESTDIR)/$(PREFIX)/include
+	rm -rf $(DESTDIR)/$(PREFIX)/sbin
+
+	mkdir -p $(TMP_BIN_DIR)
+	mv $(BIN_DIR)/script $(BIN_DIR)/scriptreplay \
+        $(BIN_DIR)/dmesg $(BIN_DIR)/prlimit $(TMP_BIN_DIR)
+
+	rm -rf $(BIN_DIR)
+	mv $(TMP_BIN_DIR) $(BIN_DIR)
 
 override_dh_auto_clean:
 	dh_clean

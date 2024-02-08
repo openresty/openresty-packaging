@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
 Version:        2.35.1.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -86,9 +86,25 @@ make script scriptreplay dmesg prlimit -j`nproc` > /dev/null
 
 %install
 
-# only need script and scriptreplay tools
-mkdir -p %{buildroot}%{util_linux_prefix}/bin/
-mv ./script ./scriptreplay ./dmesg ./prlimit %{buildroot}%{util_linux_prefix}/bin/
+make install DESTDIR=%{buildroot}
+rm -rf %{buildroot}/usr/share
+rm -rf %{buildroot}/%{util_linux_prefix}/share
+rm -rf %{buildroot}/%{util_linux_prefix}/lib/*.a
+rm -rf %{buildroot}/%{util_linux_prefix}/lib/*.la
+rm -rf %{buildroot}/%{util_linux_prefix}/lib/pkgconfig
+rm -rf %{buildroot}/%{util_linux_prefix}/include
+rm -rf %{buildroot}/%{util_linux_prefix}/sbin
+
+mkdir -p %{buildroot}/%{util_linux_prefix}/bin_tmp
+bin_dir=%{buildroot}/%{util_linux_prefix}/bin
+
+# only copy commands we need
+mv $bin_dir/script $bin_dir/scriptreplay \
+    $bin_dir/dmesg $bin_dir/prlimit \
+    %{buildroot}/%{util_linux_prefix}/bin_tmp/
+
+rm -rf $bin_dir
+mv %{buildroot}/%{util_linux_prefix}/bin_tmp $bin_dir
 
 
 %clean
@@ -99,16 +115,20 @@ rm -rf %{buildroot}
 %files
 %dir %{util_linux_prefix}
 %dir %{util_linux_prefix}/bin
+%dir %{util_linux_prefix}/lib
 %{util_linux_prefix}/bin/script
 %defattr(-,root,root)
 %{util_linux_prefix}/bin/script
 %{util_linux_prefix}/bin/scriptreplay
 %{util_linux_prefix}/bin/dmesg
 %{util_linux_prefix}/bin/prlimit
-
+%{util_linux_prefix}/lib/*.so
+%{util_linux_prefix}/lib/*.so.*
 # ------------------------------------------------------------------------
 
 %changelog
+* Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-2
+- upgraded openresty-util-linux to 2.35.1.4.
 * Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-1
 - upgraded openresty-util-linux to 2.35.1.4.
 * Sun Feb 4 2024 Yichun Zhang (agentzh) 2.35.1.3-3
