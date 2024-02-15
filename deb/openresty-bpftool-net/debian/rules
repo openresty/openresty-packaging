@@ -7,7 +7,7 @@ PREFIX=/usr/local/openresty-bpftool-net
 LIBBPF_PREFIX=/usr/local/openresty-libbpf-net
 ELF_PREFIX=/usr/local/openresty-elfutils
 BINUTILS_PREFIX=/usr/local/openresty-binutils
-OR_ZLIB_PREFIX=/usr/local/openresty/zlib
+OR_ZLIB_PREFIX=/opt/openresty-saas/zlib
 
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]

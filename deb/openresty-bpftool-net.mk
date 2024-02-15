@@ -22,9 +22,9 @@ openresty-bpftool-net-clean:
 .PHONY: openresty-bpftool-net-build
 openresty-bpftool-net-build: openresty-bpftool-net-clean openresty-bpftool-net-download
 	sudo apt-get -y -q install ccache gcc make perl pkg-config openresty-libbpf-net-dev \
-		openresty-elfutils-dev openresty-binutils-dev libcap-dev openresty-zlib-dev vim-common
+		openresty-elfutils-dev openresty-binutils-dev libcap-dev openresty-saas-zlib-dev vim-common
 	sudo apt-get -y -q install --only-upgrade ccache gcc make perl pkg-config openresty-libbpf-net-dev \
-		openresty-elfutils-dev openresty-binutils-dev libcap-dev openresty-zlib-dev vim-common
+		openresty-elfutils-dev openresty-binutils-dev libcap-dev openresty-saas-zlib-dev vim-common
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-bpftool-net_$(OPENRESTY_BPFTOOL_NET_VER).orig.tar.gz --strip-components=1 -C openresty-bpftool-net
 	cd openresty-bpftool-net \

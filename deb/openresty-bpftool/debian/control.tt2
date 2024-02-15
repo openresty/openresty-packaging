@@ -2,14 +2,14 @@ Source: openresty-bpftool
 Section: interpreters
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, pkg-config, openresty-libbpf-dev, openresty-elfutils-dev, openresty-binutils-dev (>= 2.39.0.2-3~[% distro %]1), libcap-dev, openresty-zlib-dev, vim
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, pkg-config, openresty-libbpf-dev, openresty-elfutils-dev, openresty-binutils-dev (>= 2.39.0.2-3~[% distro %]1), libcap-dev, openresty-saas-zlib-dev, vim
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
 Package: openresty-bpftool
 Architecture: any
 Section: interpreters
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libbpf, openresty-elfutils, openresty-binutils (>= 2.39.0.2-3~[% distro %]1), libcap2, openresty-zlib
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libbpf, openresty-elfutils, openresty-binutils (>= 2.39.0.2-3~[% distro %]1), libcap2, openresty-saas-zlib
 Description: OpenResty's fork of bpftool
  OpenResty Inc's private fork of bpftool from the Linux kernel.
 

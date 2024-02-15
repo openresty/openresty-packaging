@@ -2,7 +2,7 @@
 
 Name:           openresty-bpftool-net
 Version:        5.13.18.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of bpftool (networking)
 
 Group:          Development/Languages
@@ -15,7 +15,7 @@ AutoReqProv:    no
 %define libbpf_prefix   /usr/local/openresty-libbpf-net
 %define elf_prefix      /usr/local/openresty-elfutils
 %define binutils_prefix /usr/local/openresty-binutils
-%define or_zlib_prefix  /usr/local/openresty/zlib
+%define or_zlib_prefix  /opt/openresty-saas/zlib
 
 %if 0%{?fedora} >= 27
 %undefine _debugsource_packages
@@ -27,12 +27,12 @@ BuildRequires: ccache, gcc, make, perl, pkgconfig, vim
 BuildRequires: openresty-libbpf-net-devel >= 0.4.0.8-2
 BuildRequires: openresty-elfutils-devel
 BuildRequires: openresty-binutils-devel >= 2.39.0.2-2
-BuildRequires: openresty-zlib-devel
+BuildRequires: openresty-saas-zlib-devel
 BuildRequires: libcap-devel
 Requires: openresty-libbpf-net >= 0.4.0.8-2
 Requires: openresty-elfutils
 Requires: openresty-binutils >= 2.39.0.2-2
-Requires: openresty-zlib
+Requires: openresty-saas-zlib
 Requires: libcap
 
 %description
@@ -92,6 +92,8 @@ export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 %{_prefix}/bin/bpftool
 
 %changelog
+* Wed Feb 14 2024 Yichun Zhang (agentzh) 5.13.18.8-2
+- upgraded bpftool-plus to 5.13.18.8.
 * Mon Jun 12 2023 Yichun Zhang (agentzh) 5.13.18.8-1
 - upgraded bpftool-plus to 5.13.18.8.
 * Mon Jun 12 2023 Yichun Zhang (agentzh) 5.13.18.7-1
