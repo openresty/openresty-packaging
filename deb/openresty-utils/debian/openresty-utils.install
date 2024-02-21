@@ -13,6 +13,7 @@ usr/local/openresty-utils/bin/fs-fgraph
 usr/local/openresty-utils/bin/resty2
 usr/local/openresty-utils/bin/trie-gen
 usr/local/openresty-utils/lib/libtriegen.so
+usr/local/openresty-utils/lib/libswitch-mnt-ns.so
 usr/local/openresty-utils/bin/lj-gc-graph
 usr/local/openresty-utils/bin/demangle-nm
 usr/local/openresty-utils/bin/strings-re

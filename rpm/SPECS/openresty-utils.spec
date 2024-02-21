@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.57
+Version:        0.58
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -99,6 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/resty2
 %{prefix}/bin/trie-gen
 %{prefix}/lib/libtriegen.so
+%{prefix}/lib/libswitch-mnt-ns.so
 %{prefix}/bin/lj-gc-graph
 %{prefix}/bin/demangle-nm
 %{prefix}/bin/strings-re
@@ -106,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Feb 21 2024 Yichun Zhang (agentzh) 0.58-1
+- upgraded openresty-utils to 0.58.
 * Tue Feb 13 2024 Yichun Zhang (agentzh) 0.57-1
 - upgraded openresty-utils to 0.57.
 * Thu Feb 8 2024 Yichun Zhang (agentzh) 0.56-1

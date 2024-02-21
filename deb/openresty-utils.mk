@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_UTILS_VER := 0.57
+OPENRESTY_UTILS_VER := 0.58
 
 deb_toolchain_pkgs=debhelper devscripts
 
