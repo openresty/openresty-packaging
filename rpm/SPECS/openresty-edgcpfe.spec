@@ -57,7 +57,7 @@ cp src/defines.h.linux src/defines.h \
 make -j"$(nproc)" CXX="ccache g++"
 touch src/defines.h
 make -j"$(nproc)" CXX="ccache g++" \
-    CXXFLAGS='-DTARGET_YLANG=1 -std=c++11 -g -x c++' LDFLAGS=''
+    CXXFLAGS='-DTARGET_YLANG=1 -std=gnu++11 -g -x c++'
 
 %install
 rm -rf %{buildroot}
