@@ -1,0 +1,21 @@
+Source: openresty-edgcpfe
+Section: interpreters
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, g++
+Standards-Version: 3.9.8
+Homepage: https://www.edg.com/
+
+Package: openresty-edgcpfe
+Architecture: any
+Section: interpreters
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of EDG C++ Frontend Compiler
+ OpenResty's fork of EDG C++ Frontend Compiler
+
+Package: openresty-edgcpfe-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-edgcpfe (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-edgcpfe package
+ Debug symbols (or debuginfo) for the openresty-edgcpfe package.

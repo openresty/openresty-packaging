@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+PREFIX = /usr/local/openresty-edgcpfe
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+export JOBS=`nproc`
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	export EDG_BASE="$(DESTDIR)" \
+		&& cp src/defines.h.linux src/defines.h \
+    && cp sample_edg_eccp_config/edg_eccp_config.linux edg_eccp_config \
+    && (cd lib && ../sample_edg_eccp_config/make_g++_incl_paths \
+        && ../misc/make_predef_macro_table) \
+		&& make -j"$(JOBS)" CXX="ccache g++" \
+		&& touch src/defines.h \
+		&& make -j"$(JOBS)" CXX="ccache g++" \
+    CXXFLAGS='-DTARGET_YLANG=1 -std=c++11 -g -x c++' LDFLAGS=''
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& install -d $(DESTDIR)$(PREFIX)/bin \
+		&& install -m 0755 bin/edgcpfe $(DESTDIR)$(PREFIX)/bin/edgcpfe \
+		&& install -m 0755 bin/eccp $(DESTDIR)$(PREFIX)/bin/eccp \
+		&& install -m 0755 bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/edgcpdisp
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-edgcpfe-dbgsym

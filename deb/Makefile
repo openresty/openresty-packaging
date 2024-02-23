@@ -145,7 +145,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-plus-core-asan-clean \
 		openresty-libinjection-asan-clean \
 		openresty-edge-pki-asan-clean \
-		openresty-radare2-r2dec-clean
+		openresty-radare2-r2dec-clean \
+		openresty-edgcpfe-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
