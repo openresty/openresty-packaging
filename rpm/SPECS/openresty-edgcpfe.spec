@@ -1,6 +1,6 @@
 Name:       openresty-edgcpfe
 Version:    6.6.0.3
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty's fork of EDG C++ Frontend Compiler
 License:    Proprietary
 Group:      Development/Languages
@@ -50,12 +50,12 @@ OpenResty's fork of EDG C++ Frontend Compiler
 
 %build
 export EDG_BASE="%{buildroot}"
-cp src/defines.h.linux src/defines.h \
-    && cp sample_edg_eccp_config/edg_eccp_config.linux edg_eccp_config \
-    && (cd lib && ../sample_edg_eccp_config/make_g++_incl_paths \
-        && ../misc/make_predef_macro_table)
-make -j"$(nproc)" CXX="ccache g++"
-touch src/defines.h
+cp src/defines.h.linux src/defines.h
+cp sample_edg_eccp_config/edg_eccp_config.linux edg_eccp_config
+cd lib
+../sample_edg_eccp_config/make_g++_incl_paths
+../misc/make_predef_macro_table
+cd ..
 make -j"$(nproc)" CXX="ccache g++" \
     CXXFLAGS='-DTARGET_YLANG=1 -std=c++11 -g -x c++ -O2' LDFLAGS='-std=c++11'
 
@@ -65,17 +65,22 @@ install -d %{buildroot}%{_prefix}/bin
 install -m 0755 bin/edgcpfe %{buildroot}%{_prefix}/bin/edgcpfe
 install -m 0755 bin/eccp %{buildroot}%{_prefix}/bin/eccp
 install -m 0755 bin/edgcpdisp %{buildroot}%{_prefix}/bin/edgcpdisp
+install -d %{buildroot}%{_prefix}/lib
+install lib/* %{buildroot}%{_prefix}/lib/
 
 %files
 %attr(0755,root,root) %{_prefix}/bin/edgcpfe
 %attr(0755,root,root) %{_prefix}/bin/eccp
 %attr(0755,root,root) %{_prefix}/bin/edgcpdisp
+%{_prefix}/lib/*
 
 %clean
 rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.3-2
+- added lib/* files.
 * Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.3-1
 - upgraded openresty-edgcpfe to 6.6.0.3.
 * Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.2-1

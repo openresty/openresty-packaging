@@ -24,10 +24,8 @@ override_dh_auto_build:
 	export EDG_BASE="$(DESTDIR)" \
 		&& cp src/defines.h.linux src/defines.h \
     && cp sample_edg_eccp_config/edg_eccp_config.linux edg_eccp_config \
-    && (cd lib && ../sample_edg_eccp_config/make_g++_incl_paths \
-        && ../misc/make_predef_macro_table) \
-		&& make -j"$(JOBS)" CXX="ccache g++" \
-		&& touch src/defines.h \
+    && ( cd lib && ../sample_edg_eccp_config/make_g++_incl_paths \
+        && ../misc/make_predef_macro_table ) \
 		&& make -j"$(JOBS)" CXX="ccache g++" \
     CXXFLAGS='-DTARGET_YLANG=1 -std=c++11 -g -x c++ -O2' LDFLAGS='-std=c++11'
 
