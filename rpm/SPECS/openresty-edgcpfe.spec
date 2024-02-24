@@ -62,9 +62,7 @@ make -j"$(nproc)" CXX="ccache g++" \
 %install
 rm -rf %{buildroot}
 install -d %{buildroot}%{_prefix}/bin
-install -m 0755 bin/edgcpfe %{buildroot}%{_prefix}/bin/edgcpfe
-install -m 0755 bin/eccp %{buildroot}%{_prefix}/bin/eccp
-install -m 0755 bin/edgcpdisp %{buildroot}%{_prefix}/bin/edgcpdisp
+install -m 0755 bin/y++ bin/edgcpfe bin/eccp bin/edgcpdisp %{buildroot}%{_prefix}/bin/
 install -d %{buildroot}%{_prefix}/lib
 install lib/* %{buildroot}%{_prefix}/lib/
 install -d %{buildroot}%{_prefix}/include
@@ -74,6 +72,7 @@ install include/*.h include/*.stdh %{buildroot}%{_prefix}/include/
 %attr(0755,root,root) %{_prefix}/bin/edgcpfe
 %attr(0755,root,root) %{_prefix}/bin/eccp
 %attr(0755,root,root) %{_prefix}/bin/edgcpdisp
+%attr(0755,root,root) %{_prefix}/bin/y++
 %{_prefix}/lib/*
 %attr(0644,root,root) %{_prefix}/include/*.h
 %attr(0644,root,root) %{_prefix}/include/*.stdh
