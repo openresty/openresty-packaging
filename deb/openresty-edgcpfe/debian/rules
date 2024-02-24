@@ -32,7 +32,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	rm -rf $(DESTDIR)
 	install -d $(DESTDIR)$(PREFIX)/bin
-	install -m 0755 bin/y++ bin/edgcpfe bin/eccp bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/edgcpfe
+	install -m 0755 bin/y++ bin/edgcpfe bin/eccp bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/
 	install -d $(DESTDIR)$(PREFIX)/lib
 	install lib/* $(DESTDIR)$(PREFIX)/lib/
 	install -d $(DESTDIR)$(PREFIX)/include
