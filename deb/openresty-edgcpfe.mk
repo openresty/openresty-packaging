@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_EDGCPFE_VER := 6.3.1.1
+OPENRESTY_EDGCPFE_VER := 6.6.0.1
 
 .PHONY: openresty-edgcpfe-download
 openresty-edgcpfe-download:
