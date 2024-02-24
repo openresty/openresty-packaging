@@ -30,11 +30,13 @@ override_dh_auto_build:
     CXXFLAGS='-DTARGET_YLANG=1 -std=c++11 -g -x c++ -O2' LDFLAGS='-std=c++11'
 
 override_dh_auto_install:
-	rm -rf $(DESTDIR) \
-		&& install -d $(DESTDIR)$(PREFIX)/bin \
-		&& install -m 0755 bin/edgcpfe $(DESTDIR)$(PREFIX)/bin/edgcpfe \
-		&& install -m 0755 bin/eccp $(DESTDIR)$(PREFIX)/bin/eccp \
-		&& install -m 0755 bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/edgcpdisp
+	rm -rf $(DESTDIR)
+	install -d $(DESTDIR)$(PREFIX)/bin
+	install -m 0755 bin/edgcpfe $(DESTDIR)$(PREFIX)/bin/edgcpfe
+	install -m 0755 bin/eccp $(DESTDIR)$(PREFIX)/bin/eccp
+	install -m 0755 bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/edgcpdisp
+	install -d $(DESTDIR)$(PREFIX)/lib
+	install lib/* $(DESTDIR)$(PREFIX)/lib/
 
 override_dh_auto_clean:
 	dh_clean
