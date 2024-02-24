@@ -1,6 +1,6 @@
 Name:       openresty-edgcpfe
 Version:    6.6.0.3
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenResty's fork of EDG C++ Frontend Compiler
 License:    Proprietary
 Group:      Development/Languages
@@ -67,18 +67,24 @@ install -m 0755 bin/eccp %{buildroot}%{_prefix}/bin/eccp
 install -m 0755 bin/edgcpdisp %{buildroot}%{_prefix}/bin/edgcpdisp
 install -d %{buildroot}%{_prefix}/lib
 install lib/* %{buildroot}%{_prefix}/lib/
+install -d %{buildroot}%{_prefix}/include
+install include/*.h include/*.stdh %{buildroot}%{_prefix}/include/
 
 %files
 %attr(0755,root,root) %{_prefix}/bin/edgcpfe
 %attr(0755,root,root) %{_prefix}/bin/eccp
 %attr(0755,root,root) %{_prefix}/bin/edgcpdisp
 %{_prefix}/lib/*
+%attr(0644,root,root) %{_prefix}/include/*.h
+%attr(0644,root,root) %{_prefix}/include/*.stdh
 
 %clean
 rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.3-3
+- added include/*.{h,stdh} files.
 * Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.3-2
 - added lib/* files.
 * Fri Feb 23 2024 Yichun Zhang (agentzh) 6.6.0.3-1

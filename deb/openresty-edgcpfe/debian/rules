@@ -37,6 +37,8 @@ override_dh_auto_install:
 	install -m 0755 bin/edgcpdisp $(DESTDIR)$(PREFIX)/bin/edgcpdisp
 	install -d $(DESTDIR)$(PREFIX)/lib
 	install lib/* $(DESTDIR)$(PREFIX)/lib/
+	install -d $(DESTDIR)$(PREFIX)/include
+	install include/*.h include/*.stdh $(DESTDIR)$(PREFIX)/include/
 
 override_dh_auto_clean:
 	dh_clean

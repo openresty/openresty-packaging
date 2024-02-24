@@ -1,3 +1,9 @@
+openresty-edgcpfe (6.6.0.3-3~[% distro %]1) [% distro %]; urgency=high
+
+  * added include/*.{h,stdh} files.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 23 Feb 2024 21:53:42 -0800
+
 openresty-edgcpfe (6.6.0.3-2~[% distro %]1) [% distro %]; urgency=high
 
   * added lib/* files.
