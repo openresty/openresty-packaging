@@ -5,10 +5,10 @@ OPENRESTY_STAP2_VER := 4.9.0.23
 
 .PHONY: openresty-stap2-download
 openresty-stap2-download:
-	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/systemtap-plus2-$(OPENRESTY_STAP2_VER).tar.gz .
+	rsync -av -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/systemtap-plus-$(OPENRESTY_STAP2_VER).tar.gz .
 	rm -rf openresty-stap2_$(OPENRESTY_STAP2_VER)
 	mkdir -p openresty-stap2_$(OPENRESTY_STAP2_VER)
-	tar -xf systemtap-plus2-$(OPENRESTY_STAP2_VER).tar.gz --strip-components=1 -C openresty-stap2_$(OPENRESTY_STAP2_VER)
+	tar -xf systemtap-plus-$(OPENRESTY_STAP2_VER).tar.gz --strip-components=1 -C openresty-stap2_$(OPENRESTY_STAP2_VER)
 	tar -czf openresty-stap2_$(OPENRESTY_STAP2_VER).orig.tar.gz openresty-stap2_$(OPENRESTY_STAP2_VER)
 
 openresty-stap2-clean:

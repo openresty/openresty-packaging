@@ -7,7 +7,7 @@ License:        GPLv2+
 URL:            http://sourceware.org/systemtap/
 Provides:       openresty-stap2
 
-Source0:        systemtap-plus2-%{version}.tar.gz
+Source0:        systemtap-plus-%{version}.tar.gz
 
 AutoReqProv:    no
 

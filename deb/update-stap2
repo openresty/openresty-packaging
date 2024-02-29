@@ -95,7 +95,7 @@ sub update_changelog ($$) {
     my $new = <<_EOC_;
 $name ($version-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded systemtap-plus2 to $version.
+  * upgraded systemtap-plus to $version.
 
  -- OpenResty Admin <admin\@openresty.com>  $now
 
