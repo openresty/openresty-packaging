@@ -1,6 +1,6 @@
 Name:           openresty-plus-core-asan
-Version:        1.19.9.1.52
-Release:        2%{?dist}
+Version:        1.19.9.1.53
+Release:        1%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty+
 
 Group:          System Environment/Daemons
@@ -479,6 +479,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Feb 28 2024 Yichun Zhang (agentzh) 1.19.9.1.53-1
+- upgraded openresty-plus to 1.19.9.1.53.
 * Wed Jan 3 2024 Yichun Zhang (agentzh) 1.19.9.1.52-1
 - upgraded openresty-plus to 1.19.9.1.52.
 * Wed Nov 29 2023 Yichun Zhang (agentzh) 1.19.9.1.51-1
