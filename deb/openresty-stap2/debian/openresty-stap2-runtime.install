@@ -1,0 +1,4 @@
+usr/local/openresty-stap2/bin/staprun
+usr/local/openresty-stap2/bin/stap-merge
+usr/local/openresty-stap2/libexec/systemtap/
+usr/local/openresty-stap2/libexec/systemtap/stapio

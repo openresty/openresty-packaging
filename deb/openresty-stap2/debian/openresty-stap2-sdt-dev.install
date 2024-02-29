@@ -1,0 +1,3 @@
+usr/local/openresty-stap2/bin/dtrace
+usr/local/openresty-stap2/include/sys/sdt.h
+usr/local/openresty-stap2/include/sys/sdt-config.h

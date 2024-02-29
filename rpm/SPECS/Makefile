@@ -146,7 +146,8 @@ priv_targets = openresty-plus \
 		openresty-symgen \
 		openresty-radare2 \
 		openresty-radare2-r2dec \
-		openresty-edgcpfe
+		openresty-edgcpfe \
+		openresty-stap2
 
 .PHONY: all
 all: openresty

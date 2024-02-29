@@ -12,8 +12,8 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'openresty-stap*.spec') {
-    if ($specfile =~ /^openresty-stap(?:-(?:valgrind|asan|debug))?\.spec$/) {
+for my $specfile (reverse sort glob 'openresty-stap2*.spec') {
+    if ($specfile =~ /^openresty-stap2(?:-(?:valgrind|asan|debug))?\.spec$/) {
         update_spec $specfile;
     }
 }
@@ -25,7 +25,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ openresty-stap\b/xsm) {
+    if ($src !~ /^Name: \s+ openresty-stap2\b/xsm) {
         die "Bad file content in $file";
     }
 
@@ -62,7 +62,7 @@ sub update_spec ($) {
     $today =~ s/\s\s+/ /g;
     #warn "today: $today";
 
-    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded openresty-stap to $version.\n/xsm) {
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded openresty-stap2 to $version.\n/xsm) {
         $changes++;
 
     } else {

@@ -1,0 +1,53 @@
+Source: openresty-stap2
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), g++, gettext, m4, zlib1g-dev, liblzma-dev,
+ libbz2-dev, openresty-elfutils-dev (>= 0.177.12), openresty-perl, openresty-perl-cpanel-json-xs
+Standards-Version: 3.9.8
+Homepage: http://sourceware.org/systemtap/
+
+Package: openresty-stap2-sdt-dev
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Static probe support tools (OpenResty's fork of SystemTap)
+ OpenResty's fork of SystemTap sdt-devel includes the <sys/sdt.h> header file
+ used for static instrumentation compiled into userspace programs and libraries,
+ along with the optional dtrace-compatibility preprocessor to process related
+ .d files into tracing-macro-laden .h headers.
+
+Package: openresty-stap2-runtime
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Programmable system-wide instrumentation system - runtime (OpenResty's fork of SystemTap)
+ OpenResty's fork of SystemTap runtime contains the components needed to execute
+ a systemtap script that was already compiled into a module
+ using a local or remote systemtap-devel installation.
+
+Package: openresty-stap2
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libbz2-dev, liblzma5, zlib1g, make,
+ openresty-stap2-runtime (>= 4.2.0.2), openresty-elfutils (>= 0.177.12),
+ openresty-perl, openresty-perl-cpanel-json-xs
+Description: OpenResty's fork of SystemTap
+ OpenResty's fork of SystemTap is an instrumentation system for systems running Linux.
+ Developers can write instrumentation scripts to collect data on
+ the operation of the system. The base systemtap package contains/requires
+ the components needed to locally develop and execute systemtap scripts.
+ Requires(pre): shadow-utils
+
+Package: openresty-stap2-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-stap2 (>= 4.2.0.2)
+Description: Debug symbols for the openresty-stap2 package
+ Debug symbols (or debuginfo) for the openresty-stap2 package.
+
+Package: openresty-stap2-tests
+Architecture: all
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Test suite for the openresty-stap2 package.
