@@ -78,7 +78,7 @@ the components needed to locally develop and execute systemtap scripts.
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/systemtap-plus2-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/systemtap-plus-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -146,7 +146,7 @@ Test suite for OpenResty's SystemTap+
 
 
 %prep
-%setup -q -n systemtap-plus2-%{version}
+%setup -q -n systemtap-plus-%{version}
 
 
 %build
