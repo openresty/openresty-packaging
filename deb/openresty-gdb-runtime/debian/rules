@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	make -j`nproc` \
+    PREFIX=/usr/local/openresty-gdb-runtime \
+    PCRE=/opt/openresty-saas/pcre \
+    CXX='g++ -fdiagnostics-color=always'
+
+override_dh_auto_install:
+	make install \
+    DESTDIR=$(DESTDIR) \
+    PREFIX=/usr/local/openresty-gdb-runtime \
+    PCRE=/opt/openresty-saas/pcre
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-gdb-runtime-dbgsym

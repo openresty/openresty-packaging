@@ -147,7 +147,8 @@ priv_targets = openresty-plus \
 		openresty-radare2 \
 		openresty-radare2-r2dec \
 		openresty-edgcpfe \
-		openresty-stap2
+		openresty-stap2 \
+		openresty-gdb-runtime
 
 .PHONY: all
 all: openresty

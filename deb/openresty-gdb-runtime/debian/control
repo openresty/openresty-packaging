@@ -1,0 +1,21 @@
+Source: openresty-gdb-runtime
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), g++, openresty-saas-pcre-dev
+Standards-Version: 3.9.8
+Homepage: https://openresty.com/
+
+Package: openresty-gdb-runtime
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-pcre
+Description: OpenResty GDB Runtime Library
+ OpenResty GDB Runtime Library.
+
+Package: openresty-gdb-runtime-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-gdb-runtime (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-gdb-runtime package
+ Debug symbols (or debuginfo) for the openresty-gdb-runtime package.
