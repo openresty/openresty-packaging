@@ -1,0 +1,31 @@
+Source: openresty-absl
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, g++, make, cmake
+Standards-Version: 3.9.8
+Homepage: https://abseil.io/
+
+Package: openresty-absl
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of abseil.
+ OpenResty's fork of abseil.
+ Abseil is an open source collection of C++ libraries drawn from the most
+ fundamental pieces of Google’s internal codebase. These libraries are the
+ nuts-and-bolts that underpin almost everything Google runs.
+
+Package: openresty-absl-dev
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: openresty-absl for devel
+ openresty-absl for devel
+
+Package: openresty-absl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-absl (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-absl package
+ Debug symbols (or debuginfo) for the openresty-absl package.

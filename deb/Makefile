@@ -148,7 +148,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-radare2-r2dec-clean \
 		openresty-edgcpfe-clean \
 		openresty-stap2-clean \
-		openresty-gdb-runtime-clean
+		openresty-gdb-runtime-clean \
+		openresty-absl-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

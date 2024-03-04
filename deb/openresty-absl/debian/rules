@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export PREFIX=/usr/local/openresty-absl
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	mkdir build \
+		&& cd build \
+		&& cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_LIBDIR=$(PREFIX)/lib -DCMAKE_INSTALL_PREFIX=$(PREFIX) \
+    -DABSL_BUILD_TESTING=OFF -DABSL_USE_GOOGLETEST_HEAD=OFF \
+    -DCMAKE_CXX_COMPILER_LAUNCHER='ccache' \
+    -DCMAKE_CXX_FLAGS="-O2 -g" \
+    .. \
+		&& make -j$(nproc)
+
+override_dh_auto_install:
+	cd build \
+		&& make install DESTDIR=$(DESTDIR)
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
