@@ -1,0 +1,243 @@
+diff --git a/gdb/auto-load.c b/gdb/auto-load.c
+index 8bbe669..32fa8d0 100644
+--- a/gdb/auto-load.c
++++ b/gdb/auto-load.c
+@@ -448,10 +448,11 @@ file_is_auto_load_safe (const char *filename)
+   if (filename_is_in_auto_load_safe_path_vec (filename, &filename_real))
+     return true;
+ 
+-  warning (_("File \"%ps\" auto-loading has been declined by your "
+-	     "`auto-load safe-path' set to \"%s\"."),
+-	   styled_string (file_name_style.style (), filename_real.get ()),
+-	   auto_load_safe_path.c_str ());
++  if (!gdb_no_auto_out)
++    warning (_("File \"%ps\" auto-loading has been declined by your "
++	       "`auto-load safe-path' set to \"%s\"."),
++	     styled_string (file_name_style.style (), filename_real.get ()),
++	     auto_load_safe_path.c_str ());
+ 
+   if (!advice_printed)
+     {
+diff --git a/gdb/auto-load.h b/gdb/auto-load.h
+index 1a7753e..430a425 100644
+--- a/gdb/auto-load.h
++++ b/gdb/auto-load.h
+@@ -25,6 +25,8 @@ struct program_space;
+ struct auto_load_pspace_info;
+ struct extension_language_defn;
+ 
++extern bool gdb_no_auto_out;
++
+ namespace gdb {
+ namespace observers {
+ struct token;
+diff --git a/gdb/breakpoint.c b/gdb/breakpoint.c
+index db7d2e6..eb88c2d 100644
+--- a/gdb/breakpoint.c
++++ b/gdb/breakpoint.c
+@@ -8388,6 +8388,8 @@ set_momentary_breakpoint_at_pc (struct gdbarch *gdbarch, CORE_ADDR pc,
+ static void
+ mention (const breakpoint *b)
+ {
++  if (gdb_no_auto_out)
++    return;
+   b->print_mention ();
+   current_uiout->text ("\n");
+ }
+@@ -9587,6 +9589,9 @@ ranged_breakpoint::print_it (const bpstat *bs) const
+ {
+   struct ui_out *uiout = current_uiout;
+ 
++  if (gdb_no_auto_out)
++    return PRINT_NOTHING;
++
+   gdb_assert (type == bp_hardware_breakpoint);
+ 
+   /* Ranged breakpoints have only one location.  */
+@@ -9665,6 +9670,8 @@ ranged_breakpoint::print_mention () const
+   struct ui_out *uiout = current_uiout;
+ 
+   gdb_assert (type == bp_hardware_breakpoint);
++  if (gdb_no_auto_out)
++    return;
+ 
+   uiout->message (_("Hardware assisted ranged breakpoint %d from %s to %s."),
+ 		  number, paddress (bl.gdbarch, bl.address),
+@@ -9676,6 +9683,9 @@ ranged_breakpoint::print_mention () const
+ void
+ ranged_breakpoint::print_recreate (struct ui_file *fp) const
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   gdb_printf (fp, "break-range %s, %s",
+ 	      locspec->to_string (),
+ 	      locspec_range_end->to_string ());
+diff --git a/gdb/infcmd.c b/gdb/infcmd.c
+index fd85d27..808f074 100644
+--- a/gdb/infcmd.c
++++ b/gdb/infcmd.c
+@@ -437,7 +437,7 @@ run_command_1 (const char *args, int from_tty, enum run_how run_how)
+   if (args != nullptr)
+     current_inferior ()->set_args (args);
+ 
+-  if (from_tty)
++  if (from_tty && !gdb_no_auto_out)
+     {
+       uiout->field_string (nullptr, "Starting program");
+       uiout->text (": ");
+diff --git a/gdb/inferior.h b/gdb/inferior.h
+index 29c90d1..f9a0542 100644
+--- a/gdb/inferior.h
++++ b/gdb/inferior.h
+@@ -65,6 +65,8 @@ struct thread_info;
+ 
+ #include <unordered_map>
+ 
++extern bool gdb_no_auto_out;
++
+ struct infcall_suspend_state;
+ struct infcall_control_state;
+ 
+diff --git a/gdb/infrun.c b/gdb/infrun.c
+index 4730d29..c772684 100644
+--- a/gdb/infrun.c
++++ b/gdb/infrun.c
+@@ -8643,6 +8643,9 @@ print_exited_reason (struct ui_out *uiout, int exitstatus)
+   struct inferior *inf = current_inferior ();
+   std::string pidstr = target_pid_to_str (ptid_t (inf->pid));
+ 
++  if (gdb_no_auto_out)
++    return;
++
+   annotate_exited (exitstatus);
+   if (exitstatus)
+     {
+@@ -8733,6 +8736,9 @@ print_no_history_reason (struct ui_out *uiout)
+ static void
+ print_stop_location (const target_waitstatus &ws)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   int bpstat_ret;
+   enum print_what source_flag;
+   int do_frame_printing = 1;
+@@ -8790,6 +8796,9 @@ print_stop_location (const target_waitstatus &ws)
+ void
+ print_stop_event (struct ui_out *uiout, bool displays)
+ {
++  if (gdb_no_auto_out)
++    return;
++
+   struct target_waitstatus last;
+   struct thread_info *tp;
+ 
+diff --git a/gdb/language.c b/gdb/language.c
+index c768971..96a9cdb 100644
+--- a/gdb/language.c
++++ b/gdb/language.c
+@@ -500,11 +500,12 @@ add_set_language_command ()
+       if (lang->la_language == language_unknown)
+ 	continue;
+ 
++      if (!gdb_no_auto_out)
+       /* Note that we add the newline at the front, so we don't wind
+ 	 up with a trailing newline.  */
+-      doc.printf ("\n%-16s Use the %s language",
+-		  lang->name (),
+-		  lang->natural_name ());
++        doc.printf ("\n%-16s Use the %s language",
++		    lang->name (),
++		    lang->natural_name ());
+     }
+ 
+   add_setshow_enum_cmd ("language", class_support,
+diff --git a/gdb/language.h b/gdb/language.h
+index 6ee8f61..587f859 100644
+--- a/gdb/language.h
++++ b/gdb/language.h
+@@ -27,6 +27,8 @@
+ #include "gdbsupport/function-view.h"
+ #include "expression.h"
+ 
++extern bool gdb_no_auto_out;
++
+ /* Forward decls for prototypes.  */
+ struct value;
+ struct objfile;
+diff --git a/gdb/linux-thread-db.c b/gdb/linux-thread-db.c
+index cef78f5..52ac0e7 100644
+--- a/gdb/linux-thread-db.c
++++ b/gdb/linux-thread-db.c
+@@ -937,7 +937,8 @@ try_thread_db_load_1 (struct thread_db_info *info)
+       return false;
+     }
+ 
+-  gdb_printf (_("[Thread debugging using libthread_db enabled]\n"));
++  if (!gdb_no_auto_out)
++    gdb_printf (_("[Thread debugging using libthread_db enabled]\n"));
+ 
+   if (!libthread_db_search_path.empty () || libthread_db_debug)
+     {
+@@ -946,9 +947,9 @@ try_thread_db_load_1 (struct thread_db_info *info)
+       library = dladdr_to_soname ((const void *) *info->td_ta_new_p);
+       if (library == NULL)
+ 	library = LIBTHREAD_DB_SO;
+-
+-      gdb_printf (_("Using host libthread_db library \"%ps\".\n"),
+-		  styled_string (file_name_style.style (), library));
++      if (!gdb_no_auto_out)
++        gdb_printf (_("Using host libthread_db library \"%ps\".\n"),
++		    styled_string (file_name_style.style (), library));
+     }
+ 
+   /* The thread library was detected.  Activate the thread_db target
+diff --git a/gdb/main.c b/gdb/main.c
+index 2da39f8..a3b9127 100644
+--- a/gdb/main.c
++++ b/gdb/main.c
+@@ -57,6 +57,8 @@
+ #include "observable.h"
+ #include "serial.h"
+ 
++bool gdb_no_auto_out = false;
++
+ /* The selected interpreter.  */
+ std::string interpreter_p;
+ 
+@@ -649,6 +651,20 @@ captured_main_1 (struct captured_main_args *context)
+   int save_auto_load;
+   int ret = 1;
+ 
++  {
++    const char *val = getenv("OR_GDB_NO_AUTO_OUT");
++    if (val)
++      {
++        char c = val[0];
++        if (c != '\0' && c != '0' && c != 'f' && c != 'F')
++            gdb_no_auto_out = true;
++        else
++            gdb_no_auto_out = false;
++      }
++    else
++      gdb_no_auto_out = false;
++  }
++
+   const char *no_color = getenv ("NO_COLOR");
+   if (no_color != nullptr && *no_color != '\0')
+     cli_styling = false;
+diff --git a/gdb/top.c b/gdb/top.c
+index 5028440..36ed9af 100644
+--- a/gdb/top.c
++++ b/gdb/top.c
+@@ -1692,6 +1692,9 @@ quit_confirm (void)
+   if (!have_live_inferiors ())
+     return 1;
+ 
++  if (gdb_no_auto_out)
++    return 1;
++
+   /* Build the query string as a single string.  */
+   string_file stb;
+ 

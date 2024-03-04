@@ -1,13 +1,13 @@
 Name:           openresty-gdb
-Version:        12.1
-Release:        10%{?dist}
+Version:        14.2
+Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
 Group:          Development/Debuggers
 URL:            https://www.gnu.org/home.en.html
 Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
-Patch0:         gdb-12.1-no_auto_out.patch
+Patch0:         gdb-14.2-no_auto_out.patch
 
 AutoReqProv:    no
 
