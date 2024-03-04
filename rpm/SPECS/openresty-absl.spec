@@ -10,7 +10,6 @@ Source0:        https://github.com/abseil/abseil-cpp/archive/refs/tags/%{version
 
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: make
-BuildRequires: %cmake
 
 AutoReqProv: no
 
