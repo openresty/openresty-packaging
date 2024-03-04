@@ -8,12 +8,6 @@ URL:            https://abseil.io/
 
 Source0:        https://github.com/abseil/abseil-cpp/archive/refs/tags/%{version}.tar.gz
 
-%if 0%{?fedora}
-%define cmake cmake
-%else
-%define cmake cmake3
-%endif
-
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: make
 BuildRequires: %cmake
@@ -70,7 +64,7 @@ openresty-absl for devel
 %build
 mkdir build
 cd build
-%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_SHARED_LIBS=OFF \
+cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_INSTALL_LIBDIR=%{prefix}/lib -DCMAKE_INSTALL_PREFIX=%{prefix} \
     -DABSL_BUILD_TESTING=OFF -DABSL_USE_GOOGLETEST_HEAD=OFF \
     -DCMAKE_CXX_COMPILER_LAUNCHER='ccache' \
