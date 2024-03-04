@@ -18,15 +18,16 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	mkdir build \
-		&& cd build \
-		&& cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_SHARED_LIBS=OFF \
-    -DCMAKE_INSTALL_LIBDIR=$(PREFIX)/lib -DCMAKE_INSTALL_PREFIX=$(PREFIX) \
-    -DABSL_BUILD_TESTING=OFF -DABSL_USE_GOOGLETEST_HEAD=OFF \
-    -DCMAKE_CXX_COMPILER_LAUNCHER='ccache' \
-    -DCMAKE_CXX_FLAGS="-O2 -g" \
-    .. \
-		&& make -j$(nproc)
+	mkdir build
+	echo $$PATH
+	which cmake
+	PATH=/opt/cmake/bin:$PATH \
+		 cmake -Bbuild -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_SHARED_LIBS=OFF \
+		-DCMAKE_INSTALL_LIBDIR=$(PREFIX)/lib -DCMAKE_INSTALL_PREFIX=$(PREFIX) \
+		-DABSL_BUILD_TESTING=OFF -DABSL_USE_GOOGLETEST_HEAD=OFF \
+		-DCMAKE_CXX_COMPILER_LAUNCHER='ccache' \
+		-DCMAKE_CXX_FLAGS="-O2 -g" .
+	make -j$(nproc) -C build
 
 override_dh_auto_install:
 	cd build \
