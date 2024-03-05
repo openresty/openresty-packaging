@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        14.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -14,6 +14,7 @@ AutoReqProv:    no
 
 %define _prefix /usr/local/openresty-gdb
 %define py_prefix /usr/local/openresty-python3
+%define __python %{py_prefix}/bin/python3
 
 
 BuildRequires: gmp-devel
