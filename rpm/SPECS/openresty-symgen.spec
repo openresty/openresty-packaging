@@ -106,7 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%{prefix}/bin/asm2grams
+%{prefix}/bin/asm2model
 %{prefix}/bin/cmp-grams
 %{prefix}/bin/gen-func-json
 %{prefix}/bin/gen-r2-af-cmds
