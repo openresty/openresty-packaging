@@ -1,5 +1,5 @@
 Name:           openresty-symgen
-Version:        0.1.2
+Version:        0.1.3
 Release:        1%{?dist}
 Summary:        Tool for rebuilding symbol tables and debug info for ELF binary executables.
 
@@ -23,14 +23,15 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-BuildRequires:  ccache, gcc, make
+BuildRequires:  ccache, gcc, make, openresty-saas-pcre2-devel
 BuildRequires:  openresty-saas, openresty-radare2-devel >= 5.0.3.3
 BuildRequires:  openresty-perl >= %{perl_ver_rel}
 BuildRequires:  openresty-perl-B-C >= 1.57-7
 BuildRequires:  openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
 BuildRequires:  openresty-perl-devel >= %{perl_ver_rel}
+BuildRequires:  openresty-absl-devel, openresty-tcmalloc-devel
 
-Requires:       openresty-saas
+Requires:       openresty-saas, openresty-tcmalloc, openresty-saas-pcre2
 Requires:       openresty-utils, openresty-radare2 >= 5.0.3.3
 Requires:       openresty-perl >= %{perl_ver_rel}
 Requires:       openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
@@ -87,7 +88,9 @@ Tool for inspecting ELF binary executables on the agent side.
 sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 
 for i in 1 2 3; do
-    PATH=%{perl_bin}:$PATH make compile -j`nproc` PERLCC=%{perlcc} && break
+    PATH=%{perl_bin}:$PATH \
+        make compile -j`nproc` PERLCC=%{perlcc} \
+            ABSL_PREFIX=/usr/local/openresty-absl USE_TCM=1 OPT_LEVEL=2 USE_LTO=1 && break
 done
 
 %install
@@ -117,6 +120,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Mar 8 2024 Yichun Zhang (agentzh) 0.1.3-1
+- upgraded openresty-symgen to 0.1.3.
 * Tue Feb 6 2024 Yichun Zhang (agentzh) 0.1.2-1
 - upgraded openresty-symgen to 0.1.2.
 * Sun Feb 4 2024 Yichun Zhang (agentzh) 0.1.1-1
