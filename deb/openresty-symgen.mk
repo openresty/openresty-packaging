@@ -21,8 +21,8 @@ openresty-symgen-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-symgen-build
 openresty-symgen-build: openresty-symgen-clean openresty-symgen-download
-	sudo apt-get -y -q install ccache gcc make openresty-saas openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev openresty-radare2-dev
-	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-saas openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev openresty-radare2
+	sudo apt-get -y -q install ccache gcc make openresty-saas openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev openresty-radare2-dev openresty-tcmalloc-dev openresty-absl-dev openresty-saas-pcre2-dev
+	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-saas openresty-perl openresty-perl-b-c openresty-perl-cpanel-json-xs openresty-perl-dev openresty-radare2 openresty-tcmalloc-dev openresty-absl-dev openresty-saas-pcre2-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-symgen_$(OPENRESTY_SYMGEN_VER).orig.tar.gz --strip-components=1 -C openresty-symgen
 	cd openresty-symgen \

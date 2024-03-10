@@ -23,7 +23,9 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	#sed -i 's/^use  *lib\>/use lib "\/usr\/local\/openresty-symgen\/lib", /' bin/*.pl
 	sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
-	for i in 1 2 3; do PATH=$(PERL_BIN):$$PATH make compile PERLCC=$(PERLCC) -j`nproc` && break; done
+	for i in 1 2 3; do PATH=$(PERL_BIN):$$PATH make compile PERLCC=$(PERLCC) -j`nproc` \
+		USE_TCM=1 USE_LTO=1 OPT_LEVEL=2 \
+		&& break; done
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
