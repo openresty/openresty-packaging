@@ -13,35 +13,36 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
 }
 
 {
-    my $file = "openresty-edge-pki.mk";
-    open my $in, $file
-        or die "Cannot open $file for reading: $!\n";
-    my $new;
-    my $changed;
-    while (<$in>) {
-        if (s/^ OPENRESTY_EDGE_PKI(?:\w+)VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_EDGE_PKI(?:\w+)VER := $version/msx) {
-            my $old_ver = $1;
-            if ($old_ver ne $version) {
-                $changed = 1;
-                say "INFO: $file: version needs update from $old_ver to $version";
+    for my $file (sort glob "openresty-edge-pki*.mk") {
+        open my $in, $file
+            or die "Cannot open $file for reading: $!\n";
+        my $new;
+        my $changed;
+        while (<$in>) {
+            if (s/^ OPENRESTY_EDGE_PKI(\w+)VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/OPENRESTY_EDGE_PKI${1}VER := $version/msx) {
+                my $old_ver = $2;
+                if ($old_ver ne $version) {
+                    $changed = 1;
+                    say "INFO: $file: version needs update from $old_ver to $version";
 
-            } else {
-                say "INFO: $file is already up to date: $old_ver";
-                last;
+                } else {
+                    say "INFO: $file is already up to date: $old_ver";
+                    last;
+                }
             }
+
+        } continue {
+            $new .= $_;
         }
+        close $in;
 
-    } continue {
-        $new .= $_;
-    }
-    close $in;
-
-    if ($changed) {
-        open my $out, ">$file"
-            or die "Cannot open $file for writing: $!\n";
-        print $out $new;
-        close $out;
-        say "$file updated.";
+        if ($changed) {
+            open my $out, ">$file"
+                or die "Cannot open $file for writing: $!\n";
+            print $out $new;
+            close $out;
+            say "$file updated.";
+        }
     }
 }
 

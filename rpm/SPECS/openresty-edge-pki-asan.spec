@@ -1,5 +1,5 @@
 Name:           openresty-edge-pki-asan
-Version:        1.1.8
+Version:        1.1.9
 Release:        1%{?dist}
 Summary:        OpenResty Edge Certificates Library
 
@@ -13,9 +13,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  openresty-plus-core
+BuildRequires:  openresty-plus-core >= 1.19.9.1.53
 BuildRequires:  openresty-plus-openssl111-asan-devel
-Requires:       openresty-plus-core-asan
+Requires:       openresty-plus-core-asan >= 1.19.9.1.53
 
 AutoReqProv:        no
 
@@ -93,6 +93,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Feb 21 2024 Yichun Zhang (agentzh) 1.1.9-1
+- upgraded openresty-edge-pki to 1.1.9.
 * Mon Jan 8 2024 Yichun Zhang (agentzh) 1.1.8-1
 - upgraded openresty-edge-pki to 1.1.8.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 1.1.7-1

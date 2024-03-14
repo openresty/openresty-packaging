@@ -1,3 +1,9 @@
+openresty-edge-pki-asan (1.1.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-edge-pki to 1.1.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 21 Feb 2024 16:30:31 +0800
+
 openresty-edge-pki-asan (1.1.8-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-edge-pki to 1.1.8.

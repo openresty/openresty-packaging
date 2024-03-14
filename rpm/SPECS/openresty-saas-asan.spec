@@ -86,7 +86,6 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-stream \
     --with-http_v2_module \
     --with-threads \
-    --with-lua_resty_dmi \
     --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O1 -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC" \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
