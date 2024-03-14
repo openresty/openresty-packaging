@@ -1,0 +1,22 @@
+Source: openresty-zstd
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make
+Standards-Version: 3.9.8
+Homepage: https://facebook.github.io/zstd/
+
+Package: openresty-zstd
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty's fork of zstd.
+ Zstandard, or zstd as short version, is a fast lossless compression algorithm, targeting real-time compression scenarios at zlib-level and better compression ratios.
+ It's backed by a very fast entropy stage, provided by Huff0 and FSE library.
+
+Package: openresty-zstd-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-zstd (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-zstd package
+ Debug symbols (or debuginfo) for the openresty-zstd package.

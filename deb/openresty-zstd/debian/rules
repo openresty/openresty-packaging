@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	HAVE_ZLIB=0 HAVE_LZMA=0 make -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& make install PREFIX=$(DESTDIR)/usr/local/openresty-zstd \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-zstd/share \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-zstd/include \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-zstd/lib/*.a \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-zstd/lib/pkgconfig
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-zstd-dbgsym

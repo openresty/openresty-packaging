@@ -1,0 +1,11 @@
+usr/local/openresty-zstd/
+usr/local/openresty-zstd/bin/
+usr/local/openresty-zstd/lib/
+usr/local/openresty-zstd/bin/zstd
+usr/local/openresty-zstd/bin/unzstd
+usr/local/openresty-zstd/bin/zstdcat
+usr/local/openresty-zstd/bin/zstdgrep
+usr/local/openresty-zstd/bin/zstdless
+usr/local/openresty-zstd/bin/zstdmt
+usr/local/openresty-zstd/lib/libzstd.so
+usr/local/openresty-zstd/lib/libzstd.so.*

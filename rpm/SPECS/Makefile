@@ -149,7 +149,8 @@ priv_targets = openresty-plus \
 		openresty-edgcpfe \
 		openresty-stap2 \
 		openresty-gdb-runtime \
-		openresty-absl
+		openresty-absl \
+		openresty-zstd
 
 .PHONY: all
 all: openresty
