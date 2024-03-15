@@ -1,6 +1,6 @@
 Name:           openresty-zstd
 Version:        1.5.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of zstd.
 
 Group:          Development/System
@@ -52,7 +52,7 @@ It's backed by a very fast entropy stage, provided by Huff0 and FSE library.
 
 %build
 
-HAVE_ZLIB=0 HAVE_LZMA=0 make -j`nproc`
+HAVE_ZLIB=0 HAVE_LZMA=0 LDLIBS=-lrt make -j`nproc`
 
 
 %install

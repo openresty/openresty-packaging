@@ -18,7 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	HAVE_ZLIB=0 HAVE_LZMA=0 make -j`nproc`
+	HAVE_ZLIB=0 HAVE_LZMA=0 LDLIBS=-lrt make -j`nproc`
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \
