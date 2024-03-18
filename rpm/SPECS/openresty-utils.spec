@@ -1,5 +1,5 @@
 Name:           openresty-utils
-Version:        0.58
+Version:        0.59
 Release:        1%{?dist}
 Summary:        OpenResty Utils
 
@@ -107,6 +107,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Mon Mar 18 2024 Yichun Zhang (agentzh) 0.59-1
+- upgraded openresty-utils to 0.59.
 * Wed Feb 21 2024 Yichun Zhang (agentzh) 0.58-1
 - upgraded openresty-utils to 0.58.
 * Tue Feb 13 2024 Yichun Zhang (agentzh) 0.57-1
