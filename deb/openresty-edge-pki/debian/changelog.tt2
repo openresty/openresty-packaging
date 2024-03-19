@@ -1,3 +1,9 @@
+openresty-edge-pki (1.1.9-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded required plus-core version to 1.19.9.1.55.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 21 Feb 2024 16:30:31 +0800
+
 openresty-edge-pki (1.1.9-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-edge-pki to 1.1.9.

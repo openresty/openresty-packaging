@@ -1,6 +1,6 @@
 Name:           openresty-edge-pki
 Version:        1.1.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Edge Certificates Library
 
 Group:          Development/Libraries
@@ -13,9 +13,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  gcc
 BuildRequires:  make
-BuildRequires:  openresty-plus-core >= 1.19.9.1.53
+BuildRequires:  openresty-plus-core >= 1.19.9.1.55
 BuildRequires:  openresty-plus-openssl111-devel
-Requires:       openresty-plus-core >= 1.19.9.1.53
+Requires:       openresty-plus-core >= 1.19.9.1.55
 
 AutoReqProv:        no
 
