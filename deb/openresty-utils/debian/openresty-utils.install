@@ -17,4 +17,5 @@ usr/local/openresty-utils/lib/libswitch-mnt-ns.so
 usr/local/openresty-utils/bin/lj-gc-graph
 usr/local/openresty-utils/bin/demangle-nm
 usr/local/openresty-utils/bin/strings-re
+usr/local/openresty-utils/bin/or-unescape
 usr/bin/resty2

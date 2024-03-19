@@ -1,6 +1,6 @@
 Name:           openresty-utils
 Version:        0.59
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -103,6 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/bin/lj-gc-graph
 %{prefix}/bin/demangle-nm
 %{prefix}/bin/strings-re
+%{prefix}/bin/or-unescape
 /usr/bin/resty2
 
 
