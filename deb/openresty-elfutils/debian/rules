@@ -21,7 +21,8 @@ override_dh_auto_build:
 	./configure \
     --prefix=/usr/local/openresty-elfutils \
 	LIBS='-Wl,-rpath,/usr/local/openresty-elfutils/lib:/usr/local/openresty-yajl/lib:/usr/local/openresty-libdemangle/lib -L/usr/local/openresty-yajl/lib -lyajl -L/usr/local/openresty-libdemangle/lib -ldemangle' \
-    CFLAGS="-I/usr/local/openresty-yajl/include -I/usr/local/openresty-libdemangle/include -g3 -O2" \
+    CFLAGS="-I/usr/local/openresty-yajl/include -I/usr/local/openresty-libdemangle/include -fPIC -g3 -O2 -DHAVE_DECL_BASENAME=1" \
+    CXXFLAGS="-I/usr/local/openresty-yajl/include -I/usr/local/openresty-libdemangle/include -fPIC -g -O2 -DHAVE_DECL_BASENAME=1" \
     --enable-maintainer-mode  \
     --disable-debuginfod      \
     --enable-libdebuginfod=dummy \

@@ -1,5 +1,5 @@
 Name:           openresty-elfutils
-Version:        0.190.3
+Version:        0.191.1
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -141,8 +141,8 @@ OpenResty's fork of elfutils.
     --libdir="%{eu_prefix}/lib" \
     LIBS='-Wl,-rpath,%{eu_prefix}/lib:%{yajl_prefix}/lib:%{libdemangle_prefix}/lib -L%{yajl_prefix}/lib -lyajl -L%{libdemangle_prefix}/lib -ldemangle -lrt' \
     CC='ccache gcc -fdiagnostics-color=always' \
-    CFLAGS="%{EXTRA_CFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2" \
-    CXXFLAGS="%{EXTRA_CXXFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2" \
+    CFLAGS="%{EXTRA_CFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2 -DHAVE_DECL_BASENAME=1" \
+    CXXFLAGS="%{EXTRA_CXXFLAGS} -fPIC -I%{yajl_prefix}/include -I%{libdemangle_prefix}/include -g -O2 -DHAVE_DECL_BASENAME=1" \
     %{yflags} \
     --enable-maintainer-mode \
     --disable-debuginfod \
@@ -195,6 +195,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Wed Mar 20 2024 Yichun Zhang (agentzh) 0.191.1-1
+- upgraded elfutils-plus to 0.191.1.
 * Sun Mar 3 2024 Yichun Zhang (agentzh) 0.190.3-1
 - upgraded elfutils-plus to 0.190.3.
 * Mon Feb 19 2024 Yichun Zhang (agentzh) 0.190.2-1
