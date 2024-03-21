@@ -90,7 +90,8 @@ sed -i 's/\t\(bin\/symgen-src-filter.pl -o\)/\tperl -Ilib \1/g' Makefile
 for i in 1 2 3; do
     PATH=%{perl_bin}:$PATH \
         make compile -j`nproc` PERLCC=%{perlcc} \
-            ABSL_PREFIX=/usr/local/openresty-absl USE_TCM=1 OPT_LEVEL=2 USE_LTO=1 && break
+            USE_TCM=1 OPT_LEVEL=2 USE_LTO=1 USE_GCH= \
+            && break
 done
 
 %install
