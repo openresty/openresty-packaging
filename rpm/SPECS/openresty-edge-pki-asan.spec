@@ -1,6 +1,6 @@
 Name:           openresty-edge-pki-asan
-Version:        1.1.9
-Release:        2%{?dist}
+Version:        1.1.10
+Release:        1%{?dist}
 Summary:        OpenResty Edge Certificates Library
 
 Group:          Development/Libraries
@@ -93,6 +93,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Mar 21 2024 Yichun Zhang (agentzh) 1.1.10-1
+- upgraded openresty-edge-pki to 1.1.10.
 * Wed Feb 21 2024 Yichun Zhang (agentzh) 1.1.9-1
 - upgraded openresty-edge-pki to 1.1.9.
 * Mon Jan 8 2024 Yichun Zhang (agentzh) 1.1.8-1

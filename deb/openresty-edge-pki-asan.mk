@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_EDGE_PKI_ASAN_VER := 1.1.9
+OPENRESTY_EDGE_PKI_ASAN_VER := 1.1.10
 
 .PHONY: openresty-edge-pki-asan-download
 openresty-edge-pki-asan-download:
