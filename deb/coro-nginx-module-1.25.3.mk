@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-CORO_NGINX_MODULE_VER := 0.0.6
+CORO_NGINX_MODULE_VER := 0.0.7
 
 .PHONY: coro-nginx-module-1.25.3-download
 coro-nginx-module-1.25.3-download:
