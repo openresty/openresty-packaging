@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_HIREDIS_VER := 1.0.3.4
+OPENRESTY_HIREDIS_VER := 1.0.3.6
 
 .PHONY: openresty-hiredis-download
 openresty-hiredis-download:

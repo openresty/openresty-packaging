@@ -1,3 +1,9 @@
+openresty-hiredis (1.0.3.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-hiredis to 1.0.3.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 22 Mar 2024 21:32:52 -0700
+
 openresty-hiredis (1.0.3.4-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-hiredis to 1.0.3.4.
