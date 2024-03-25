@@ -1,5 +1,5 @@
 Name:           openresty-gdb-runtime
-Version:        0.0.5
+Version:        0.0.6
 Release:        1%{?dist}
 Summary:        OpenResty GDB Runtime Library
 Group:          Development/Libraries
@@ -84,6 +84,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Mar 25 2024 Yichun Zhang (agentzh) 0.0.6-1
+- upgraded openresty-gdb-runtime to 0.0.6.
 * Tue Mar 12 2024 Yichun Zhang (agentzh) 0.0.5-1
 - upgraded openresty-gdb-runtime to 0.0.5.
 * Thu Mar 7 2024 Yichun Zhang (agentzh) 0.0.4-1
