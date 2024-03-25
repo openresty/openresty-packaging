@@ -3,7 +3,7 @@ Version:        39.2.0
 Release:        5%{?dist}
 Summary:        OpenResty's fork of setuptools
 Group:          Development/System
-License:        MIT
+License:        Proprietary
 URL:            https://pypi.python.org/pypi/setuptools
 BuildArch:      noarch
 

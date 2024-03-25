@@ -5,7 +5,7 @@ Summary:    Perl-compatible regular expression library
 
 Group:      System Environment/Libraries
 
-License:    BSD
+License:    Proprietary
 URL:        https://github.com/PhilipHazel/pcre2
 Source0:    https://github.com/PhilipHazel/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.gz
 

@@ -4,7 +4,7 @@ Release:        3%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
-License:        PSFL
+License:        Proprietary
 URL:            https://www.python.org/
 Source0:        https://www.python.org/ftp/python/%{version}/Python-%{version}.tar.xz
 

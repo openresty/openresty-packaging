@@ -3,7 +3,7 @@ Version:        1.16.4
 Release:        11%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
-License:        BSD
+License:        Proprietary
 URL:            http://www.numpy.org/
 Source0:        https://github.com/numpy/numpy/archive/v%{version}/numpy-%{version}.tar.gz
 

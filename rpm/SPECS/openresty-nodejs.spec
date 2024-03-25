@@ -2,7 +2,7 @@ Name:       openresty-nodejs
 Version:    15.4.0
 Release:    6%{?dist}
 Summary:    OpenResty's fork of JavaScript runtime
-License:    MIT and ASL 2.0 and ISC and BSD
+License:    Proprietary
 Group:      Development/Languages
 URL:        http://nodejs.org/
 

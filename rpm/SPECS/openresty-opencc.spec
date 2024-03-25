@@ -6,7 +6,7 @@ Summary:            Open Chinese Convert is an opensource project for conversion
 Group:              Development/Tools
 
 # /contrib/dotzlib/ have Boost license
-License:            Apache-2.0 license
+License:            Proprietary
 URL:                https://opencc.byvoid.com/
 Source0:            https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.1.1.6.tar.gz
 

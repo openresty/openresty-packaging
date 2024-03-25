@@ -3,7 +3,7 @@ Version: 1.9.1
 Release: 4%{?dist}
 Summary: A system-independent interface for user-level packet capture
 Group: Development/Libraries
-License: BSD with advertising
+License: Proprietary
 URL: http://www.tcpdump.org
 
 %if 0%{?suse_version}

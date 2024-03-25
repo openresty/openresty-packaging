@@ -7,7 +7,7 @@ Summary:    PostgreSQL server
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 
 Group:      Productivity/Database
-License:    PostgreSQL License
+License:    Proprietary
 URL:        http://www.postgresql.org/ftp/source/
 Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.gz
 Source1:    openresty-postgresql12.init

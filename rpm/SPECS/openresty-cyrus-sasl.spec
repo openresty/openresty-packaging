@@ -5,7 +5,7 @@ Summary:            This is the Cyrus SASL API implementation. It can be used on
 
 Group:              System Environment/Libraries
 
-License:            https://github.com/cyrusimap/cyrus-sasl/blob/master/COPYING
+License:            Proprietary
 URL:                https://github.com/cyrusimap/cyrus-sasl
 Source0:            https://github.com/cyrusimap/cyrus-sasl/archive/cyrus-sasl-%{version}.tar.gz
 

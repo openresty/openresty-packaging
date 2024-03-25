@@ -7,7 +7,7 @@ Version:    2.4.1
 Release:    5%{?dist}
 Summary:    IPv4 and IPv4 range index types for PostgreSQL
 Group:      Productivity/Database
-License:    BSD
+License:    Proprietary
 URL:        https://github.com/RhodiumToad/ip4r
 Source0:    https://github.com/RhodiumToad/ip4r/archive/%{version}.tar.gz
 

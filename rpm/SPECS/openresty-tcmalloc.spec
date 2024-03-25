@@ -4,7 +4,7 @@
 Name:		openresty-tcmalloc
 Version:	2.10
 Release:	1%{?dist}
-License:	BSD
+License:    Proprietary
 Summary:	Very fast malloc and performance analysis tools
 Group:      System Environment/Libraries
 URL:        https://github.com/gperftools/gperftools

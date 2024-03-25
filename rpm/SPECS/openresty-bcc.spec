@@ -4,7 +4,7 @@ Release:        3%{?dist}
 Summary:        BPF Compiler Collection (BCC)
 
 Group:          Development/Languages
-License:        ASL 2.0
+License:        Proprietary
 URL:            https://github.com/iovisor/bcc
 Source0:        https://github.com/iovisor/bcc/archive/v%{version}.tar.gz
 AutoReqProv:    no

@@ -3,7 +3,7 @@ Version:        1.4.2.4
 Release:        7%{?dist}
 Summary:        gcc AddressSanitizer version for OpenResty's fork of libmaxminddb
 Group:          Development/System
-License:        Apache License, Version 2.
+License:        Proprietary
 URL:            https://github.com/maxmind/libmaxminddb
 
 Source0:        libmaxminddb-plus-%{version}.tar.gz

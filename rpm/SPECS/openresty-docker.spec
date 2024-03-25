@@ -6,7 +6,7 @@ Source1:    docker.service
 Source2:    docker.socket
 Summary:    docker for OpenResty
 Group:      Development/Libraries
-License:    ASL 2.0
+License:    Proprietary
 URL:        https://www.docker.com
 
 Requires:   container-selinux

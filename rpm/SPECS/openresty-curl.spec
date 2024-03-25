@@ -2,7 +2,7 @@ Summary: A utility for getting files from remote servers (FTP, HTTP, and others)
 Name: openresty-curl
 Version: 7.63.0
 Release: 1%{?dist}
-License: MIT
+License: Proprietary
 Source0: https://curl.se/download/curl-%{version}.tar.gz
 # The curl download page ( https://curl.se/download.html ) links
 # to Daniel's address page https://daniel.haxx.se/address.html for the GPG Key,

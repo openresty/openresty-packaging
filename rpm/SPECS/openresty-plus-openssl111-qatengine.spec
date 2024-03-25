@@ -6,7 +6,7 @@ Summary:            QAT Engine for OpenResty's OpenSSL library
 Group:              Development/Libraries
 
 # https://www.openssl.org/source/license.html
-License:            OpenSSL
+License:            Proprietary
 URL:                https://github.com/intel/QAT_Engine
 Source0:            https://github.com/intel/QAT_Engine/archive/v%{version}.tar.gz
 

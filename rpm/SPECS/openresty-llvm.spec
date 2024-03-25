@@ -5,7 +5,7 @@ Summary:            OpenResty Inc's proprietary LLVM fork
 
 Group:              System Environment/Libraries
 
-License:            Apache License 2.0
+License:            Proprietary
 URL:                https://github.com/orinc/llvm-plus/
 Source0:            llvm-plus-%{version}.tar.gz
 

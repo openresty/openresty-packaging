@@ -3,7 +3,7 @@ Version:        20240116.1
 Release:        1%{?dist}
 Summary:        OpenResty's fork of abseil.
 Group:          Development/Tools
-License:        Apache License 2.0
+License:        Proprietary
 URL:            https://abseil.io/
 
 Source0:        https://github.com/abseil/abseil-cpp/archive/refs/tags/%{version}.tar.gz

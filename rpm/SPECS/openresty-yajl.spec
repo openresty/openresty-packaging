@@ -4,7 +4,7 @@ Release:    2%{?dist}
 Summary:    Yet Another JSON Library (YAJL) or OpenResty
 
 Group: Development/Libraries
-License: ISC
+License: Proprietary
 URL: http://lloyd.github.com/yajl/
 
 %define _missing_doc_files_terminate_build 0

@@ -3,7 +3,7 @@ Version:        5.0.0
 Release:        2%{?dist}
 Summary:        llvm + clang used only for bpf program
 
-License:        NCSA
+License:        Proprietary
 URL:            http://llvm.org
 Source0:        http://llvm.org/releases/%{version}/llvm-%{version}.src.tar.xz
 Source1:        http://llvm.org/releases/%{version}/cfe-%{version}.src.tar.xz

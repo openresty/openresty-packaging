@@ -3,7 +3,7 @@ Version:        1.2.1
 Release:        3%{?dist}
 Summary:        OpenResty's fork of python goto library
 Group:          Development/Libraries
-License:        Public Domain
+License:        Proprietary
 URL:            https://github.com/snoack/python-goto
 Source0:        python-goto-plus-%{version}.tar.gz
 BuildArch:      noarch

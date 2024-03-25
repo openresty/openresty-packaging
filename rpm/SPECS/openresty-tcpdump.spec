@@ -2,7 +2,7 @@ Summary: A network traffic monitoring tool
 Name: openresty-tcpdump
 Version: 4.9.3.7
 Release: 1%{?dist}
-License: BSD with advertising
+License: Proprietary
 URL: http://www.tcpdump.org
 Group: Applications/Internet
 #Requires(pre): shadow-utils /usr/bin/getent

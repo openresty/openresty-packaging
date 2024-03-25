@@ -5,7 +5,7 @@ Summary:        Lua module for SQLI tokenizer parser analyzer
 
 Group:          Development/Libraries
 
-License:        BSD
+License:        Proprietary
 URL:            https://www.openresty.com/
 
 Source0:        openresty-libinjection-%{version}.tar.gz

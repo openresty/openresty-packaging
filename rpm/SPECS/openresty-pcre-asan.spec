@@ -5,7 +5,7 @@ Summary:            Clang AddressSanitizer version of the Perl-compatible regula
 
 Group:              System Environment/Libraries
 
-License:            BSD
+License:            Proprietary
 URL:                http://www.pcre.org/
 Source0:            https://sourceforge.net/projects/pcre/files/pcre/%{version}/pcre-%{version}.tar.bz2
 

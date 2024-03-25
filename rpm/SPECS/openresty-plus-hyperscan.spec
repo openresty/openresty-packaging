@@ -6,7 +6,7 @@ Summary:        Hyperscan for OpenResty Plus
 %define boost_version  1_69_0
 %define boost_version2 1.69.0
 
-License:        BSD
+License:        Proprietary
 URL:            https://www.hyperscan.io
 Source0:        https://github.com/intel/hyperscan/archive/v%{version}.tar.gz
 Source1:        https://openresty.org/download/boost_%{boost_version}.tar.gz

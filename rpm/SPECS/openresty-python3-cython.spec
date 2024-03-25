@@ -3,7 +3,7 @@ Version:        0.28.5
 Release:        6%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
-License:        ASL
+License:        Proprietary
 URL:            http://www.cython.org
 
 Source0:        https://github.com/cython/cython/archive/%{version}/Cython-%{version}.tar.gz

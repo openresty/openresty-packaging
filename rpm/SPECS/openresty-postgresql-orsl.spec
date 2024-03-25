@@ -7,7 +7,7 @@ Version:    0.02
 Release:    4%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
 Group:      Productivity/Database
-License:    BSD
+License:    Proprietary
 URL:        https://github.com/
 Source0:    postgres-orsl-%{version}.tar.gz
 

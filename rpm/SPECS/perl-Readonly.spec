@@ -2,7 +2,7 @@ Name:           perl-Readonly
 Version:        2.05
 Release:        2%{?dist}
 Summary:        Readonly Perl module
-License:        Artistic 2.0
+License:        Proprietary
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Readonly/
 Source0:        http://www.cpan.org/authors/id/S/SA/SANKO/Readonly-%{version}.tar.gz

@@ -5,7 +5,7 @@ Summary:            The libmemcached library for OpenResty
 
 Group:              System Environment/Libraries
 
-License:            BSD
+License:            Proprietary
 URL:                https://github.com/simplegeo/libmemcached
 Source0:            libmemcached-plus-%{version}.tar.gz
 

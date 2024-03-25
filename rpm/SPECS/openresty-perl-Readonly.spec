@@ -7,7 +7,7 @@ Name:           openresty-perl-Readonly
 Version:        2.05
 Release:        1%{?dist}
 Summary:        Facility for creating read-only scalars, arrays, hashes
-License:        Artistic 2.0
+License:        Proprietary
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Readonly/
 BuildArch:      noarch

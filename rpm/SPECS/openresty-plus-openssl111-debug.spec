@@ -6,7 +6,7 @@ Summary:            Debug version of the OpenSSL library for OpenResty
 Group:              Development/Libraries
 
 # https://www.openssl.org/source/license.html
-License:            OpenSSL
+License:            Proprietary
 URL:                https://www.openssl.org/
 Source0:            https://www.openssl.org/source/openssl-%{version}.tar.gz
 

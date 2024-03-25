@@ -4,7 +4,7 @@ Release:        2%{?dist}
 Summary:        OpenResty's fork of zstd.
 
 Group:          Development/System
-License:        BSD
+License:        Proprietary
 URL:            https://facebook.github.io/zstd/
 
 %define prefix  %{_usr}/local/openresty-zstd

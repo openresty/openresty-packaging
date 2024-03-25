@@ -5,7 +5,7 @@ Summary:            The hiredis library for OpenResty
 
 Group:              System Environment/Libraries
 
-License:            BSD 3-Clause "New" or "Revised" License
+License:            Proprietary
 URL:                https://github.com/redis/hiredis
 Source0:            hiredis-plus-%{version}.tar.gz
 

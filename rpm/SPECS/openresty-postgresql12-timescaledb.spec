@@ -9,7 +9,7 @@ Version:    1.7.4
 Release:    6%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
-License:    BSD
+License:    Proprietary
 URL:        https://github.com/timescale/timescaledb
 Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 

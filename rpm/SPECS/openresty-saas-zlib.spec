@@ -6,7 +6,7 @@ Summary:            The zlib compression library for OpenResty SaaS
 Group:              System Environment/Libraries
 
 # /contrib/dotzlib/ have Boost license
-License:            zlib and Boost
+License:            Proprietary
 URL:                http://www.zlib.net/
 Source0:            http://www.zlib.net/zlib-%{version}.tar.xz
 

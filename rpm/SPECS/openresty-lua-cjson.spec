@@ -5,7 +5,7 @@ Summary:            The lua-cjson library for OpenResty
 
 Group:              System Environment/Libraries
 
-License:            MIT
+License:            Proprietary
 URL:                https://github.com/orinc/lua-cjson-plus/
 Source0:            lua-cjson-plus-%{version}.tar.gz
 
