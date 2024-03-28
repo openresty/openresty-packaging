@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
 Version:        2.35.1.4
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -68,7 +68,7 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
     --disable-fdisks --disable-mount --disable-losetup \
     --disable-zramctl --disable-fsck --disable-partx \
     --disable-uuidd --disable-mountpoint --disable-fallocate \
-    --disable-unshare --disable-nsenter --disable-setpriv \
+    --disable-setpriv \
     --disable-eject --disable-agetty --disable-cramfs \
     --disable-bfs --disable-minix --disable-fdformat \
     --disable-hwclock --disable-wdctl --disable-cal \
@@ -83,7 +83,9 @@ OpenResty's fork of util-linux for script and scriptreplay tools.
     --disable-setterm --disable-schedutils --disable-wall \
     --disable-irqtop --disable-lsirq
 
-make script scriptreplay dmesg prlimit -j`nproc` > /dev/null
+make script scriptreplay dmesg prlimit \
+    unshare nsenter \
+    -j`nproc` > /dev/null
 
 
 %install
@@ -103,6 +105,7 @@ bin_dir=%{buildroot}/%{util_linux_prefix}/bin
 # only copy commands we need
 mv $bin_dir/script $bin_dir/scriptreplay \
     $bin_dir/dmesg $bin_dir/prlimit \
+    $bin_dir/unshare $bin_dir/nsenter \
     %{buildroot}/%{util_linux_prefix}/bin_tmp/
 
 rm -rf $bin_dir
@@ -124,6 +127,8 @@ rm -rf %{buildroot}
 %{util_linux_prefix}/bin/scriptreplay
 %{util_linux_prefix}/bin/dmesg
 %{util_linux_prefix}/bin/prlimit
+%{util_linux_prefix}/bin/unshare
+%{util_linux_prefix}/bin/nsenter
 %{util_linux_prefix}/lib/*.so
 %{util_linux_prefix}/lib/*.so.*
 # ------------------------------------------------------------------------

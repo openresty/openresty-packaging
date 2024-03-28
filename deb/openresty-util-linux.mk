@@ -12,7 +12,7 @@ openresty-util-linux-download:
 	tar -I 'gzip -1' -cf openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER).orig.tar.gz openresty-util-linux_$(OPENRESTY_UTIL_LINUX_VER)
 
 openresty-util-linux-clean:
-	cd openresty-util-linux && debclean
+	-cd openresty-util-linux && debclean
 	-find openresty-util-linux -maxdepth 1 ! -name 'debian' ! -name 'openresty-util-linux' -print | xargs rm -rf
 	rm -rf openresty-util-linux*.deb
 	rm -rf openresty-util-linux_*.*

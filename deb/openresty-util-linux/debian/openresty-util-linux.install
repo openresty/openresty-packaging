@@ -2,5 +2,7 @@ usr/local/openresty-util-linux/bin/script
 usr/local/openresty-util-linux/bin/scriptreplay
 usr/local/openresty-util-linux/bin/dmesg
 usr/local/openresty-util-linux/bin/prlimit
+usr/local/openresty-util-linux/bin/nsenter
+usr/local/openresty-util-linux/bin/unshare
 usr/local/openresty-util-linux/lib/*.so
 usr/local/openresty-util-linux/lib/*.so.*
