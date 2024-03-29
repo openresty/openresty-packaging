@@ -1,6 +1,6 @@
 Name:           openresty-util-linux
-Version:        2.35.1.4
-Release:        4%{?dist}
+Version:        2.35.1.5
+Release:        1%{?dist}
 Summary:        OpenResty's fork of util-linux
 Group:          System Environment/Base
 License:        GPLv2 and GPLv2+ and LGPLv2+ and BSD with advertising and Public Domain
@@ -134,6 +134,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Fri Mar 29 2024 Yichun Zhang (agentzh) 2.35.1.5-1
+- upgraded openresty-util-linux to 2.35.1.5.
 * Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-3
 - upgraded openresty-util-linux to 2.35.1.4.
 * Wed Feb 7 2024 Yichun Zhang (agentzh) 2.35.1.4-2

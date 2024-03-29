@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_UTIL_LINUX_VER := 2.35.1.4
+OPENRESTY_UTIL_LINUX_VER := 2.35.1.5
 
 .PHONY: openresty-util-linux-download
 openresty-util-linux-download:
