@@ -1,3 +1,9 @@
+coro-nginx-module-1.21.4 (0.0.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-nginx-module to 0.0.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 1 Apr 2024 12:58:39 -0700
+
 coro-nginx-module-1.21.4 (0.0.8-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded coro-nginx-module to 0.0.8.
