@@ -1,3 +1,9 @@
+lua-resty-redis-cluster-fast-1.21.4 (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-redis-cluster-fast to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 1 Apr 2024 13:32:47 -0700
+
 lua-resty-redis-cluster-fast-1.21.4 (0.0.5-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded lua-resty-redis-cluster-fast to 0.0.5.
