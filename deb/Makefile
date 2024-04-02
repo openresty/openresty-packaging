@@ -140,6 +140,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-xdp-tools-clean \
 		openresty-iproute2-clean \
 		openresty-radare2-clean \
+		openresty-procsnap-clean \
 		openresty-symgen-clean \
 		openresty-saas-asan-clean \
 		openresty-plus-core-asan-clean \

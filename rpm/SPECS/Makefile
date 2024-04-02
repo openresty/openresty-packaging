@@ -144,6 +144,7 @@ priv_targets = openresty-plus \
 		openresty-xdp-tools \
 		openresty-iproute2 \
 		openresty-symgen \
+		openresty-procsnap \
 		openresty-radare2 \
 		openresty-radare2-r2dec \
 		openresty-edgcpfe \
