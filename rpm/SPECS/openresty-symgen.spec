@@ -109,6 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %{prefix}/bin/asm2model
 %{prefix}/bin/cmp-models
+%{prefix}/bin/mod2sto
 %{prefix}/bin/gen-func-json
 %{prefix}/bin/gen-r2-af-cmds
 %{prefix}/bin/rebuild-jl
