@@ -1,5 +1,5 @@
 usr/local/openresty-symgen/bin/asm2model
-usr/local/openresty-symgen/bin/cmp-grams
+usr/local/openresty-symgen/bin/cmp-models
 usr/local/openresty-symgen/bin/gen-func-json
 usr/local/openresty-symgen/bin/gen-r2-af-cmds
 usr/local/openresty-symgen/bin/rebuild-jl
