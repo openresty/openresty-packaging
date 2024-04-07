@@ -1,5 +1,5 @@
 Name:       openresty-procsnap
-Version:    3.19.0.1
+Version:    3.19.0.2
 Release:    1%{?dist}
 Summary:    fork and suspend target process
 
@@ -78,5 +78,7 @@ rm -rf $RPM_BUILD_ROOT
 %{procsnap_prefix}/bin/procsnap
 
 %changelog
+* Sat Apr 6 2024 Yichun Zhang (agentzh) 3.19.0.2-1
+- upgraded procsnap to 3.19.0.2.
 * Wed Apr 2 2024 Yichun Zhang <yichun@openresty.com> - 3.19.0.1
 - Initial build.
