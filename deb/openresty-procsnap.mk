@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PROCSNAP_VER := 3.19.0.2
+OPENRESTY_PROCSNAP_VER := 3.19.0.3
 
 .PHONY: openresty-procsnap-download
 openresty-procsnap-download:

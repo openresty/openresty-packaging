@@ -1,11 +1,15 @@
 Name:       openresty-procsnap
-Version:    3.19.0.2
+Version:    3.19.0.3
 Release:    1%{?dist}
 Summary:    fork and suspend target process
 
 Group: Development/System
 License: Proprietary
 URL: http://github.com/orinc/criu-plus
+
+# With annobin enabled, CRIU does not work anymore. It seems CRIU's
+# parasite code breaks if annobin is enabled.
+%undefine _annotated_build
 
 %define _missing_doc_files_terminate_build 0
 
@@ -61,8 +65,9 @@ Inject code and fork the target process.
 # align with Fedora standards
 rm -rf build
 export CC='ccache gcc -fdiagnostics-color=always'
-make -j`nproc` compel/compel-host-bin
-make -j`nproc` -C procsnap
+CFLAGS=`echo -n "$CFLAGS -D_GNU_SOURCE" | sed 's/-Wp,-D_FORTIFY_SOURCE=2//' | sed -e 's/-fstack-protector\S*//g'`
+CFLAGS=$CFLAGS make -j`nproc` compel/compel-host-bin
+CFLAGS=$CFLAGS make -j`nproc` -C procsnap
 
 
 %install
@@ -78,7 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %{procsnap_prefix}/bin/procsnap
 
 %changelog
+* Sun Apr 7 2024 Yichun Zhang (agentzh) 3.19.0.3-1
+- upgraded procsnap to 3.19.0.3.
 * Sat Apr 6 2024 Yichun Zhang (agentzh) 3.19.0.2-1
 - upgraded procsnap to 3.19.0.2.
-* Wed Apr 2 2024 Yichun Zhang <yichun@openresty.com> - 3.19.0.1
+* Tue Apr 2 2024 Yichun Zhang <yichun@openresty.com> - 3.19.0.1
 - Initial build.

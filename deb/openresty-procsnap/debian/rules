@@ -19,6 +19,7 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	rm -rf build \
+		&& CFLAGS=`echo -n "$(CFLAGS) -D_GNU_SOURCE" | sed 's/-Wp,-D_FORTIFY_SOURCE=2//' | sed -e 's/-fstack-protector\S*//g'` \
 		&& export CC='ccache gcc -fdiagnostics-color=always' \
 		&& make -j`nproc` compel/compel-host-bin \
 		&& make -j`nproc` -C procsnap
