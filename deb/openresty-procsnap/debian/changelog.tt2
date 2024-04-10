@@ -1,3 +1,9 @@
+openresty-procsnap (3.19.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded procsnap to 3.19.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 9 Apr 2024 21:48:40 -0700
+
 openresty-procsnap (3.19.0.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded procsnap to 3.19.0.3.
