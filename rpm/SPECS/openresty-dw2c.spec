@@ -1,5 +1,5 @@
 Name:           openresty-dw2c
-Version:        2.02
+Version:        2.03
 Release:        1%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
@@ -91,6 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Apr 16 2024 Yichun Zhang (agentzh) 2.03-1
+- upgraded openresty-utils to 2.03.
 * Tue Dec 5 2023 Yichun Zhang (agentzh) 2.02-1
 - upgraded openresty-utils to 2.02.
 * Thu Nov 9 2023 Yichun Zhang (agentzh) 2.01-1
