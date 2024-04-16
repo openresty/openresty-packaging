@@ -1,6 +1,6 @@
 Name:       openresty-edgcpfe
 Version:    6.6.0.14
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty's fork of EDG C++ Frontend Compiler
 License:    Proprietary
 Group:      Development/Languages
@@ -62,7 +62,7 @@ make -j"$(nproc)" CXX="ccache g++" \
 %install
 rm -rf %{buildroot}
 install -d %{buildroot}%{_prefix}/bin
-install -m 0755 bin/y++ bin/edgcpfe bin/eccp bin/edgcpdisp %{buildroot}%{_prefix}/bin/
+install -m 0755 bin/norm-y-temp-names.pl bin/y++ bin/edgcpfe bin/eccp bin/edgcpdisp %{buildroot}%{_prefix}/bin/
 install -d %{buildroot}%{_prefix}/lib
 install lib/* %{buildroot}%{_prefix}/lib/
 install -d %{buildroot}%{_prefix}/include
@@ -73,6 +73,7 @@ install include/*.h include/*.stdh %{buildroot}%{_prefix}/include/
 %attr(0755,root,root) %{_prefix}/bin/eccp
 %attr(0755,root,root) %{_prefix}/bin/edgcpdisp
 %attr(0755,root,root) %{_prefix}/bin/y++
+%attr(0755,root,root) %{_prefix}/bin/norm-y-temp-names.pl
 %{_prefix}/lib/*
 %attr(0644,root,root) %{_prefix}/include/*.h
 %attr(0644,root,root) %{_prefix}/include/*.stdh

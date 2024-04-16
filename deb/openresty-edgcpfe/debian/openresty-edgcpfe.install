@@ -2,6 +2,7 @@ usr/local/openresty-edgcpfe/bin/edgcpfe
 usr/local/openresty-edgcpfe/bin/eccp
 usr/local/openresty-edgcpfe/bin/edgcpdisp
 usr/local/openresty-edgcpfe/bin/y++
+usr/local/openresty-edgcpfe/bin/norm-y-temp-names.pl
 usr/local/openresty-edgcpfe/lib/*
 usr/local/openresty-edgcpfe/include/*.h
 usr/local/openresty-edgcpfe/include/*.stdh
