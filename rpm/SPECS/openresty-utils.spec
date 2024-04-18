@@ -1,6 +1,6 @@
 Name:           openresty-utils
-Version:        0.59
-Release:        2%{?dist}
+Version:        0.60
+Release:        1%{?dist}
 Summary:        OpenResty Utils
 
 Group:          Development/System
@@ -108,6 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Apr 17 2024 Yichun Zhang (agentzh) 0.60-1
+- upgraded openresty-utils to 0.60.
 * Mon Mar 18 2024 Yichun Zhang (agentzh) 0.59-1
 - upgraded openresty-utils to 0.59.
 * Wed Feb 21 2024 Yichun Zhang (agentzh) 0.58-1
