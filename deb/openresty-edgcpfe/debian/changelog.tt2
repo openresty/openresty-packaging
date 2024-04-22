@@ -1,3 +1,9 @@
+openresty-edgcpfe (6.6.0.15-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-edgcpfe to 6.6.0.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 21 Apr 2024 17:38:08 -0700
+
 openresty-edgcpfe (6.6.0.14-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-edgcpfe to 6.6.0.14.
