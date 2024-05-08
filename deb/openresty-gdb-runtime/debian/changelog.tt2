@@ -1,3 +1,9 @@
+openresty-gdb-runtime (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-gdb-runtime to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 8 May 2024 10:12:22 -0700
+
 openresty-gdb-runtime (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-gdb-runtime to 0.0.6.
