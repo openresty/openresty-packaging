@@ -1,6 +1,6 @@
 Name:           openresty-gdb-runtime
 Version:        0.0.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty GDB Runtime Library
 Group:          Development/Libraries
 License:        Proprietary
@@ -72,11 +72,11 @@ make install \
 %files
 %defattr(-, root, root)
 %dir %{prefix}
-%dir %{prefix}/objs
+%dir %{prefix}/lib
 %dir %{prefix}/include
 %defattr(-,root,root,-)
 %{prefix}/include/*.h
-%{prefix}/objs/*.o
+%{prefix}/lib/*.so
 
 
 %clean

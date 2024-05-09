@@ -1,5 +1,5 @@
 usr/local/openresty-gdb-runtime/
-usr/local/openresty-gdb-runtime/objs/
+usr/local/openresty-gdb-runtime/lib/
 usr/local/openresty-gdb-runtime/include/
 usr/local/openresty-gdb-runtime/include/*.h
-usr/local/openresty-gdb-runtime/objs/*.o
+usr/local/openresty-gdb-runtime/lib/*.so
