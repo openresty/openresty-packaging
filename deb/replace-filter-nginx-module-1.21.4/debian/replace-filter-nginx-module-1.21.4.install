@@ -1,0 +1,2 @@
+usr/local/openresty/nginx/modules/ngx_http_replace_filter_module.so
+usr/local/openresty/site/lualib/resty/replace.ljbc

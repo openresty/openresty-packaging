@@ -155,7 +155,10 @@ priv_targets = openresty-plus \
 		openresty-stap2 \
 		openresty-gdb-runtime \
 		openresty-absl \
-		openresty-zstd
+		openresty-zstd \
+		openresty-perl-IPC-Run3 \
+		openresty-minifiers \
+		replace-filter-nginx-module-1.21.4
 
 .PHONY: all
 all: openresty

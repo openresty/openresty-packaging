@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
+		max_jobs=$$(( $$free / 4096 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
+		max_jobs=$$ncpus; fi; \
+		make -j$$max_jobs \
+    CC='ccache gcc -fdiagnostics-color=always'
+
+override_dh_auto_install:
+	install -d $(DESTDIR)/usr/local/openresty-minifiers/lib \
+		&& install -d $(DESTDIR)/usr/local/openresty-minifiers/tpls \
+		&& install min-css.so min-html.so min-js.so \
+		$(DESTDIR)/usr/local/openresty-minifiers/lib \
+		&& install -m 644 tpls/* $(DESTDIR)/usr/local/openresty-minifiers/tpls \
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-minifiers-dbgsym

@@ -1,0 +1,6 @@
+openresty-perl-ipc-run3 (0.049-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Generated using cpantorpm
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 09 May 2024 00:00:00 -0700
+

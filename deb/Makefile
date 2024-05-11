@@ -155,7 +155,10 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-stap2-clean \
 		openresty-gdb-runtime-clean \
 		openresty-absl-clean \
-		openresty-zstd-clean
+		openresty-zstd-clean \
+		openresty-minifiers-clean \
+		replace-filter-nginx-module-1.21.4-clean \
+		openresty-perl-ipc-run3-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

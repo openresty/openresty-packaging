@@ -1,0 +1,25 @@
+Source: openresty-perl-ipc-run3
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl (>= 5.24.4), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: http://search.cpan.org/dist/IPC-Run3/
+
+Package: openresty-perl-ipc-run3
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-perl (>= 5.24.4)
+Description: run a subprocess with input/output redirection
+ This module allows you to run a subprocess and redirect stdin, stdout,
+ and/or stderr to files and perl data structures. It aims to satisfy 99% of
+ the need for using system, qx, and open3 with a simple, extremely
+ Perlish API.
+ This build is specifically for OpenResty uses.
+
+Package: openresty-perl-ipc-run3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-perl-ipc-run3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-perl-ipc-run3 package
+ Debug symbols (or debuginfo) for the openresty-perl-ipc-run3 package.

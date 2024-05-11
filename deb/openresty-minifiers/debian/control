@@ -1,0 +1,21 @@
+Source: openresty-minifiers
+Section: devel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com
+
+Package: openresty-minifiers
+Architecture: any
+Section: devel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: OpenResty Inc's minifiers for CSS/HTML/JS/etc
+ OpenResty Inc's minifiers for CSS/HTML/JS/etc
+
+Package: openresty-minifiers-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-minifiers (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-minifiers package
+ Debug symbols (or debuginfo) for the openresty-minifiers package.

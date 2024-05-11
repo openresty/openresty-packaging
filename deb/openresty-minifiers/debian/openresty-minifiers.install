@@ -1,0 +1,6 @@
+usr/local/openresty-minifiers/
+usr/local/openresty-minifiers/tpls/*
+usr/local/openresty-minifiers/lib/
+usr/local/openresty-minifiers/lib/min-css.so
+usr/local/openresty-minifiers/lib/min-html.so
+usr/local/openresty-minifiers/lib/min-js.so
