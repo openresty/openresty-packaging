@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+export DPKG_EXPORT_BUILDFLAGS=1
+#export DEB_BUILD_MAINT_OPTIONS=hardening=+bindnow,-pie
+
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	CFLAGS="-I/usr/local/openresty/openssl111/include -I/usr/local/openresty-plus/cyrus-sasl/include" \
+LDFLAGS="-L/usr/local/openresty/openssl111/lib -L/usr/local/openresty-plus/cyrus-sasl/lib -g -O2 -Wl,-rpath,/usr/local/openresty/openssl111/lib:/usr/local/openresty-plus/cyrus-sasl/lib:/usr/local/openresty/librdkafka/lib" \
+./configure --disable-curl --disable-gssapi --disable-lz4-ext --enable-ssl --disable-zstd --enable-gssapi --prefix=/usr/local/openresty/librdkafka \
+		&& make -j$(nproc) libs
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) \
+		&& rm -rf $(DESTDIR)/usr/local/openresty/librdkafka/share \
+		&& rm -f  $(DESTDIR)/usr/local/openresty/librdkafka/lib/*.la
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-librdkafka-dbgsym

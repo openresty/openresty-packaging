@@ -1,0 +1,3 @@
+usr/local/openresty/librdkafka/include/librdkafka/*.h
+usr/local/openresty/librdkafka/lib/pkgconfig/*.pc
+usr/local/openresty/librdkafka/lib/librdkafka*.a

@@ -1,0 +1,32 @@
+commit 8b81da72e18e53185fccf4e0a9705aded3d60557
+Author: lijunlong <lijunlong@openresty.com>
+Date:   Mon Apr 29 20:21:40 2024 +0800
+
+    bugfix: compilation failed: error: type qualifiers ignored on function return type.
+
+diff --git a/src/rdkafka.h b/src/rdkafka.h
+index e403b895..45cc93b4 100644
+--- a/src/rdkafka.h
++++ b/src/rdkafka.h
+@@ -8255,7 +8255,7 @@ const rd_kafka_TopicPartitionInfo_t **rd_kafka_TopicDescription_partitions(
+  * @return The partition id.
+  */
+ RD_EXPORT
+-const int rd_kafka_TopicPartitionInfo_partition(
++int rd_kafka_TopicPartitionInfo_partition(
+     const rd_kafka_TopicPartitionInfo_t *partition);
+ 
+ 
+diff --git a/src/rdkafka_admin.c b/src/rdkafka_admin.c
+index 924fb950..9478fb6e 100644
+--- a/src/rdkafka_admin.c
++++ b/src/rdkafka_admin.c
+@@ -8521,7 +8521,7 @@ static void rd_kafka_TopicDescription_free(void *ptr) {
+         rd_kafka_TopicDescription_destroy(ptr);
+ }
+ 
+-const int rd_kafka_TopicPartitionInfo_partition(
++int rd_kafka_TopicPartitionInfo_partition(
+     const rd_kafka_TopicPartitionInfo_t *partition) {
+         return partition->partition;
+ }

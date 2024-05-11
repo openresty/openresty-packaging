@@ -1,0 +1,2 @@
+usr/local/openresty/librdkafka/lib/*.so
+usr/local/openresty/librdkafka/lib/*.so.*

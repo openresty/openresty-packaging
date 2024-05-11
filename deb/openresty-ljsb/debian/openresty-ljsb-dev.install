@@ -1,0 +1,10 @@
+usr/local/openresty/ljsb/include/
+usr/local/openresty/ljsb/include/ljsb/
+usr/local/openresty/ljsb/share/
+usr/local/openresty/ljsb/share/pkgconfig/
+usr/local/openresty/ljsb/include/ljsb/ljsb_common.h
+usr/local/openresty/ljsb/include/ljsb/ljsb_gen.h
+usr/local/openresty/ljsb/lib/libljsb.so
+usr/local/openresty/ljsb/lib64/libljsb.so
+usr/local/openresty/ljsb/share/pkgconfig/ljsb.pc
+usr/local/openresty/ljsb/lib/libljsb_s.a

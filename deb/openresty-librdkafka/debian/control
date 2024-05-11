@@ -1,0 +1,28 @@
+Source: openresty-librdkafka
+Section: libs
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), libtool, openresty-openssl111-dev, openresty-cyrus-sasl-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/confluentinc/librdkafka
+
+Package: openresty-librdkafka
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl111, openresty-cyrus-sasl
+Description: Apache Kafka C driver library.
+ librdkafka is a C library implementation of the Apache Kafka protocol, providing Producer, Consumer and Admin clients. It was designed with message delivery reliability and high performance in mind, current figures exceed 1 million msgs/second for the producer and 3 million msgs/second for the consumer.
+
+Package: openresty-librdkafka-dev
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-librdkafka (>= ${source:Upstream-Version})
+Description: Development files for OpenResty's librdkafka library
+ Provides C header and static library for OpenResty's librdkafka library.
+
+Package: openresty-librdkafka-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-librdkafka (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-librdkafka package
+ Debug symbols (or debuginfo) for the openresty-librdkafka package.

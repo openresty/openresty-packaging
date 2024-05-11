@@ -45,6 +45,7 @@ priv_targets = openresty-plus \
 		openresty-postgresql12 \
 		openresty-elfutils \
 		openresty-yajl \
+		openresty-ljsb \
 		openresty-util-linux \
 		openresty-postgresql-ip4r \
 		openresty-postgresql12-ip4r \
@@ -117,6 +118,7 @@ priv_targets = openresty-plus \
 		openresty-docker \
 		openresty-libmariadb \
 		openresty-cyrus-sasl \
+		openresty-librdkafka \
 		openresty-tcmalloc \
 		openresty-saas-pcre2 \
 		openresty-libdemangle \
@@ -131,6 +133,8 @@ priv_targets = openresty-plus \
 		coro-hiredis-nginx-module-1.21.4 \
 		coro-nginx-module-1.25.3 \
 		coro-hiredis-nginx-module-1.25.3 \
+		lua-kafka-nginx-module-1.21.4 \
+		lua-kafka-nginx-module-1.25.3 \
 		dymetrics-nginx-module-1.19.9 \
 		openresty-opencc \
 		openresty-llvm \
@@ -180,6 +184,8 @@ $(targets):
 .PHONY: $(priv_targets)
 $(priv_targets):
 	#echo $(rpmbuild_dir)
+	if [ $@ = "lua-kafka-nginx-module-1.21.4" ]; then sed 's/NGINX_VERSION/1.21.4/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2rc1/' > lua-kafka-nginx-module-1.21.4.spec; fi
+	if [ $@ = "lua-kafka-nginx-module-1.25.3" ]; then sed 's/NGINX_VERSION/1.25.3/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > lua-kafka-nginx-module-1.25.3.spec; fi
 	echo $$PATH
 	rm -f ~/rpmbuild/SRPMS/*.rpm ~/rpmbuild/RPMS/*/*.rpm
 	spectool -g -R $@.spec

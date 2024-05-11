@@ -1,0 +1,30 @@
+Source: openresty-ljsb
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, cmake, gcc, make
+Standards-Version: 3.9.8
+Homepage: http://github.com/orinc/ljsb
+
+Package: openresty-ljsb
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: LuaJIT string buffer encoding
+ This library encode data into LuaJIT string.buffer encoding format.
+
+Package: openresty-ljsb-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-ljsb (>= ${source:Upstream-Version})
+Description: Libraries, includes, etc to develop with YAJL
+ This library encode data into LuaJIT string.buffer encoding format.
+ This sub-package provides the libraries and includes
+ necessary for developing against the YAJL library
+
+Package: openresty-ljsb-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-ljsb (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-ljsb package
+ Debug symbols (or debuginfo) for the openresty-ljsb package.
