@@ -1,0 +1,49 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	for f in `find lualib/resty/ -type f -name '*.lua'`; do \
+	/usr/local/openresty/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+	rm $$f; \
+	done \
+	&& cd openresty-*/ \
+	&& ./configure \
+    --prefix="/usr/local/openresty" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
+    --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl111/include -I/usr/local/openresty/librdkafka/include -I/usr/local/openresty-plus/cyrus-sasl/include -I/usr/local/openresty/ljsb/include -O3" \
+    --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl111/lib -L%{librdkafka}/lib -L/usr/local/openresty-plus/cyrus-sasl/lib -L/usr/local/openresty/ljsb/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl111/lib:/usr/local/openresty/librdkafka/lib:/usr/local/openresty-plus/cyrus-sasl/lib:/usr/local/openresty/ljsb/lib" \
+    --with-compat --with-threads \
+    --add-dynamic-module=../ \
+    -j`nproc` \
+		&& make -C build/nginx-*/ modules -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/nginx/modules \
+		&& sed -i 's|lualib/resty/\*.lua|lualib/resty/\*.ljbc|g' Makefile \
+		&& make install DESTDIR=$(DESTDIR) LUA_LIB_DIR=/usr/local/openresty/site/lualib \
+		&& cd openresty-*/ \
+		&& install -m755 build/nginx-*/objs/*.so $(DESTDIR)/usr/local/openresty/nginx/modules
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=lua-kafka-nginx-module-1.21.4-dbgsym

@@ -1,0 +1,2 @@
+usr/local/openresty/nginx/modules/ngx_http_lua_kafka_module.so
+usr/local/openresty/site/lualib/resty/kafka/fast.ljbc

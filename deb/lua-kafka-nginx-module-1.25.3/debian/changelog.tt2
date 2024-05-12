@@ -1,0 +1,6 @@
+lua-kafka-nginx-module-1.25.3 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for lua-kafka-nginx-module.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 7 Mar 2024 00:00:00 -0700
+
