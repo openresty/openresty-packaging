@@ -52,7 +52,7 @@ OpenResty Inc's minifiers for CSS/HTML/JS/etc
 %build
 free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
 ncpus=`nproc`
-max_jobs=$(( $free / 4096 ))
+max_jobs=$(( $free / 13312 ))
 # echo "max jobs: $max_jobs"
 if [ "$max_jobs" -gt "$ncpus" ]; then
     max_jobs=$ncpus
