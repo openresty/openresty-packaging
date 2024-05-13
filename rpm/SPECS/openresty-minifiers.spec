@@ -50,15 +50,7 @@ OpenResty Inc's minifiers for CSS/HTML/JS/etc
 %setup -q -n or-minifiers-%{version}
 
 %build
-free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
-ncpus=`nproc`
-max_jobs=$(( $free / 13312 ))
-# echo "max jobs: $max_jobs"
-if [ "$max_jobs" -gt "$ncpus" ]; then
-    max_jobs=$ncpus
-fi
-make -j$max_jobs \
-    CC='ccache gcc -fdiagnostics-color=always'
+make -j1 CC='ccache gcc -fdiagnostics-color=always'
 
 %install
 install -d %{buildroot}%{prefix}/lib

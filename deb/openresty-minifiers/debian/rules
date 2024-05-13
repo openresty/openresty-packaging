@@ -18,11 +18,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
-		max_jobs=$$(( $$free / 13312 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
-		max_jobs=$$ncpus; fi; \
-		make -j$$max_jobs \
-    CC='ccache gcc -fdiagnostics-color=always'
+	make -j1 CC='ccache gcc -fdiagnostics-color=always'
 
 override_dh_auto_install:
 	install -d $(DESTDIR)/usr/local/openresty-minifiers/lib \
