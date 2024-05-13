@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_MINIFIERS_VER := 0.0.1
+OPENRESTY_MINIFIERS_VER := 0.0.2
 
 .PHONY: openresty-minifiers-download
 openresty-minifiers-download:

@@ -1,5 +1,5 @@
 Name:           openresty-minifiers
-Version:        0.0.1
+Version:        0.0.2
 Release:        1%{?dist}
 Summary:        OpenResty Inc's minifiers for CSS/HTML/JS/etc
 
@@ -85,5 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun May 12 2024 Yichun Zhang (agentzh) 0.0.2-1
+- upgraded or-minifiers to 0.0.2.
 * Wed May 08 2024 Johnny Wang <wangjiahao@openresty.com>
 - initial packaging
