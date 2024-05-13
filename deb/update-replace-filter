@@ -12,13 +12,13 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $file (reverse sort glob 'replace-filter-nginx-module-*.mk') {
+for my $file (reverse sort glob 'replace-filter-plus-nginx-module-*.mk') {
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ \s* REPLACE_FILTER_NGINX_MODULE_VER \s* := \s* ( \d+ (?: \.\d+ ){2} ) $/REPLACE_FILTER_NGINX_MODULE_VER := $version/msx) {
+        if (s/^ \s* REPLACE_FILTER_PLUS_NGINX_MODULE_VER \s* := \s* ( \d+ (?: \.\d+ ){2} ) $/REPLACE_FILTER_PLUS_NGINX_MODULE_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -44,9 +44,9 @@ for my $file (reverse sort glob 'replace-filter-nginx-module-*.mk') {
     }
 }
 
-for my $dir (reverse sort glob 'replace-filter-nginx-module-*') {
+for my $dir (reverse sort glob 'replace-filter-plus-nginx-module-*') {
     next unless -d $dir && -d "$dir/debian";
-    if ($dir =~ /^replace-filter-nginx-module-\d+(?:\.\d+){2}$/) {
+    if ($dir =~ /^replace-filter-plus-nginx-module-\d+(?:\.\d+){2}$/) {
         my $name = $dir;
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {

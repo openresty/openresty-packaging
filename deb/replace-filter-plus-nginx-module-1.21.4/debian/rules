@@ -62,4 +62,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=replace-filter-nginx-module-1.21.4-dbgsym
+	dh_strip --dbg-package=replace-filter-plus-nginx-module-1.21.4-dbgsym

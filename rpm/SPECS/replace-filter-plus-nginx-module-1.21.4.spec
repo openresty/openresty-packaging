@@ -1,4 +1,4 @@
-Name:           replace-filter-nginx-module-1.21.4
+Name:           replace-filter-plus-nginx-module-1.21.4
 Version:        0.0.2
 Release:        1%{?dist}
 Summary:        Streaming regular expression replacement in response bodies

@@ -12,7 +12,7 @@ if ($version !~ /^\d+(?:\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'replace-filter-nginx-module-*.spec') {
+for my $specfile (reverse sort glob 'replace-filter-plus-nginx-module-*.spec') {
     update_spec $specfile;
 }
 
@@ -23,7 +23,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ replace-filter-nginx-module-(\d+(\.\d+){2})\b/xsm) {
+    if ($src !~ /^Name: \s+ replace-filter-plus-nginx-module-(\d+(\.\d+){2})\b/xsm) {
         die "Bad file content in $file";
     }
 
