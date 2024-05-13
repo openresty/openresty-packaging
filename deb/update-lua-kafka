@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub gen_all_vers_cfg ();
 
 my $version = shift or die "No version number specified.\n";
 
@@ -108,36 +109,39 @@ _EOC_
     print $out $src;
     close $out;
     say "$file updated.";
+    gen_all_vers_cfg;
 }
 
-my @ngx_vers = (["1.21.4", "1.21.4.2rc1"], ["1.25.3", "1.25.3.1"]);
 
-for my $ver (@ngx_vers) {
-    my $ngx_ver=$ver->[0];
-    my $or_ver=$ver->[1];
+sub gen_all_vers_cfg () {
+    my @ngx_vers = (["1.21.4", "1.21.4.2rc1"], ["1.25.3", "1.25.3.1"]);
 
-    system("rm -fr lua-kafka-nginx-module-$ngx_ver") == 0
-        or die "Cannot remove lua-kafka-nginx-module-$ngx_ver: $!\n";
+    for my $ver (@ngx_vers) {
+        my $ngx_ver=$ver->[0];
+        my $or_ver=$ver->[1];
 
-    system("cp -R lua-kafka-nginx-module-NGINX_VERSION lua-kafka-nginx-module-$ngx_ver") == 0
-        or die "Cannot cp to lua-kafka-nginx-module-$ngx_ver: $!\n";
+        system("rm -fr lua-kafka-nginx-module-$ngx_ver") == 0
+            or die "Cannot remove lua-kafka-nginx-module-$ngx_ver: $!\n";
 
-    rename "lua-kafka-nginx-module-$ngx_ver/debian/lua-kafka-nginx-module-NGINX_VERSION.install",
-           "lua-kafka-nginx-module-$ngx_ver/debian/lua-kafka-nginx-module-$ngx_ver.install"
-           or die "Cannot rename lua-kafka-nginx-module-NGINX_VERSION.install: $!";
-    system("find lua-kafka-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/NGINX_VERSION/$ngx_ver/g") == 0
-        or die "can not change NGINX_VERSION: $!";
+        system("cp -R lua-kafka-nginx-module-NGINX_VERSION lua-kafka-nginx-module-$ngx_ver") == 0
+            or die "Cannot cp to lua-kafka-nginx-module-$ngx_ver: $!\n";
 
-    system("find lua-kafka-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/OPENRESTY_VERSION/$or_ver/g") == 0
-        or die "can not change OPENRESTY_VERSION: $!";
+        rename "lua-kafka-nginx-module-$ngx_ver/debian/lua-kafka-nginx-module-NGINX_VERSION.install",
+               "lua-kafka-nginx-module-$ngx_ver/debian/lua-kafka-nginx-module-$ngx_ver.install"
+               or die "Cannot rename lua-kafka-nginx-module-NGINX_VERSION.install: $!";
+        system("find lua-kafka-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/NGINX_VERSION/$ngx_ver/g") == 0
+            or die "can not change NGINX_VERSION: $!";
 
-    system("cp -R lua-kafka-nginx-module-NGINX_VERSION.mk lua-kafka-nginx-module-$ngx_ver.mk") == 0
-        or die "can not copy lua-kafka-nginx-module-NGINX_VERSION.mk: $!";
+        system("find lua-kafka-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/OPENRESTY_VERSION/$or_ver/g") == 0
+            or die "can not change OPENRESTY_VERSION: $!";
 
-    system("sed -i s/NGINX_VERSION/$ngx_ver/g lua-kafka-nginx-module-$ngx_ver.mk") == 0
-        or die "can not change NGINX_VERSION: $!";
+        system("cp -R lua-kafka-nginx-module-NGINX_VERSION.mk lua-kafka-nginx-module-$ngx_ver.mk") == 0
+            or die "can not copy lua-kafka-nginx-module-NGINX_VERSION.mk: $!";
 
-    system("sed -i s/OPENRESTY_VERSION/$or_ver/g lua-kafka-nginx-module-$ngx_ver.mk") == 0
-        or die "can not change OPENRESTY_VERSION: $!";
+        system("sed -i s/NGINX_VERSION/$ngx_ver/g lua-kafka-nginx-module-$ngx_ver.mk") == 0
+            or die "can not change NGINX_VERSION: $!";
+
+        system("sed -i s/OPENRESTY_VERSION/$or_ver/g lua-kafka-nginx-module-$ngx_ver.mk") == 0
+            or die "can not change OPENRESTY_VERSION: $!";
+    }
 }
-

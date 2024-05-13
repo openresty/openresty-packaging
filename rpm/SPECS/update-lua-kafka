@@ -73,12 +73,12 @@ sub update_spec ($) {
         print $out $src;
         close $out;
         say "$file updated with $changes change(s).";
+        system("sed 's/NGINX_VERSION/1.21.4/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2rc1/' > lua-kafka-nginx-module-1.21.4.spec") == 0
+                or die "Cannot generate spec for 1.21.4: $!";
+
+        system("sed 's/NGINX_VERSION/1.25.3/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > lua-kafka-nginx-module-1.25.3.spec") == 0
+                or die "Cannot generate spec for 1.25.3: $!";
     }
 }
 
 
-system("sed 's/NGINX_VERSION/1.21.4/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2rc1/' > lua-kafka-nginx-module-1.21.4.spec") == 0
-        or die "Cannot generate spec for 1.21.4: $!";
-
-system("sed 's/NGINX_VERSION/1.25.3/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > lua-kafka-nginx-module-1.25.3.spec") == 0
-        or die "Cannot generate spec for 1.25.3: $!";
