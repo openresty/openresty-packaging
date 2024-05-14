@@ -11,7 +11,7 @@ URL:            https://www.openresty.com/
 %define or_version           1.21.4.3
 
 Source0:        lua-kafka-nginx-module-%{version}.tar.gz
-Source1:        openresty-%{or_version}.tar.gz
+Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

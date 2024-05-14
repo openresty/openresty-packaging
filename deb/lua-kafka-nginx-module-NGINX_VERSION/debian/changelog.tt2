@@ -6,18 +6,6 @@ lua-kafka-nginx-module-NGINX_VERSION (0.0.2-1~[% distro %]1) [% distro %]; urgen
 
 lua-kafka-nginx-module-NGINX_VERSION (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded lua-kafka-nginx-module to 0.0.1.
-
- -- OpenResty Admin <admin@openresty.com>  Mon, 13 May 2024 19:40:02 -0700
-
-lua-kafka-nginx-module-NGINX_VERSION (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
-
-  * upgraded lua-kafka-nginx-module to 0.0.2.
-
- -- OpenResty Admin <admin@openresty.com>  Tue, 14 May 2024 09:59:41 +0800
-
-lua-kafka-nginx-module-NGINX_VERSION (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
-
   * initial build for lua-kafka-nginx-module.
 
  -- OpenResty Admin <admin@openresty.com>  Tue, 7 Mar 2024 00:00:00 -0700
