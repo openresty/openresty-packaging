@@ -1,5 +1,5 @@
 Name:           lua-kafka-nginx-module-1.21.4
-Version:        0.0.2
+Version:        0.0.1
 Release:        1%{?dist}
 Summary:        Coroutine implemented using ucontext API
 
@@ -121,6 +121,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 13 2024 Yichun Zhang (agentzh) 0.0.1-1
+- upgraded lua-kafka-nginx-module to 0.0.1.
 * Tue May 14 2024 Yichun Zhang (agentzh) 0.0.2-1
 - upgraded lua-kafka-nginx-module to 0.0.2.
 * Tue Mar 7 2024 Junlong Li 0.0.1-1
