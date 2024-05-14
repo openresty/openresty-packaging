@@ -1,5 +1,5 @@
 Name:           replace-filter-plus-nginx-module-1.21.4
-Version:        0.0.2
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        Streaming regular expression replacement in response bodies
 
@@ -146,6 +146,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon May 13 2024 Yichun Zhang (agentzh) 0.0.3-1
+- upgraded replace-filter-nginx-module to 0.0.3.
 * Sat May 11 2024 Yichun Zhang (agentzh) 0.0.2-1
 - upgraded replace-filter-nginx-module to 0.0.2.
 * Thu May 09 2024 Jiahao Wang 0.0.1-1

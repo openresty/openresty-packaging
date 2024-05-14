@@ -1,3 +1,9 @@
+replace-filter-plus-nginx-module-1.21.4 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded replace-filter-nginx-module to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 May 2024 23:59:06 -0700
+
 replace-filter-plus-nginx-module-1.21.4 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded replace-filter-nginx-module to 0.0.2.
