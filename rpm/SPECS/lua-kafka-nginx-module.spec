@@ -1,5 +1,5 @@
 Name:           lua-kafka-nginx-module-NGINX_VERSION
-Version:        0.0.1
+Version:        0.0.2
 Release:        1%{?dist}
 Summary:        Coroutine implemented using ucontext API
 
@@ -100,7 +100,7 @@ make -C build/nginx-*/ modules -j`nproc`
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{or_prefix}/nginx/modules
 
-sed -i 's|lualib/resty/\*.lua|lualib/resty/\*.ljbc|g' Makefile
+sed -i 's|lualib/resty/kafka/\*.lua|lualib/resty/kafka/\*.ljbc|g' Makefile
 make install DESTDIR=%{buildroot} LUA_LIB_DIR=%{lua_lib_dir}
 
 cd openresty-*/
@@ -121,5 +121,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue May 14 2024 Yichun Zhang (agentzh) 0.0.2-1
+- upgraded lua-kafka-nginx-module to 0.0.2.
 * Tue Mar 7 2024 Junlong Li 0.0.1-1
 - initial build for lua-kafka-nginx-module.
