@@ -123,9 +123,5 @@ rm -rf %{buildroot}
 %changelog
 * Mon May 13 2024 Yichun Zhang (agentzh) 0.0.2-1
 - upgraded lua-kafka-nginx-module to 0.0.2.
-* Mon May 13 2024 Yichun Zhang (agentzh) 0.0.1-1
-- upgraded lua-kafka-nginx-module to 0.0.1.
-* Tue May 14 2024 Yichun Zhang (agentzh) 0.0.2-1
-- upgraded lua-kafka-nginx-module to 0.0.2.
 * Tue Mar 7 2024 Junlong Li 0.0.1-1
 - initial build for lua-kafka-nginx-module.
