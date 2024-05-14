@@ -187,7 +187,7 @@ $(targets):
 .PHONY: $(priv_targets)
 $(priv_targets):
 	#echo $(rpmbuild_dir)
-	if [ $@ = "lua-kafka-nginx-module-1.21.4" ]; then sed 's/NGINX_VERSION/1.21.4/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2rc1/' > lua-kafka-nginx-module-1.21.4.spec; fi
+	if [ $@ = "lua-kafka-nginx-module-1.21.4" ]; then sed 's/NGINX_VERSION/1.21.4/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.3/' > lua-kafka-nginx-module-1.21.4.spec; fi
 	if [ $@ = "lua-kafka-nginx-module-1.25.3" ]; then sed 's/NGINX_VERSION/1.25.3/' lua-kafka-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > lua-kafka-nginx-module-1.25.3.spec; fi
 	echo $$PATH
 	rm -f ~/rpmbuild/SRPMS/*.rpm ~/rpmbuild/RPMS/*/*.rpm

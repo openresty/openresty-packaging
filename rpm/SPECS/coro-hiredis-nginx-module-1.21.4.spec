@@ -8,7 +8,7 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-%define or_version           1.21.4.2rc1
+%define or_version           1.21.4.3
 
 Source0:        coro-hiredis-nginx-module-%{version}.tar.gz
 Source1:        openresty-%{or_version}.tar.gz
