@@ -11,7 +11,7 @@ replace-filter-plus-nginx-module-1.21.4-download:
 	rm -rf replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER)
 	mkdir -p replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER)/openresty-$(OPENRESTY_VER)
 	tar -xf replace-filter-nginx-module-plus-$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER).tar.gz --strip-components=1 -C replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER)
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" ../rpm/SOURCES/openresty-$(OPENRESTY_VER).tar.gz ./
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-$(OPENRESTY_VER).tar.gz'
 	tar -xf openresty-$(OPENRESTY_VER).tar.gz --strip-components=1 -C replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER)/openresty-$(OPENRESTY_VER)
 	tar -czf replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER).orig.tar.gz replace-filter-plus-nginx-module-$(NGX_VER)_$(REPLACE_FILTER_PLUS_NGINX_MODULE_VER)
 
