@@ -1,3 +1,9 @@
+lua-kafka-nginx-module-1.25.3 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 May 2024 21:46:54 -0700
+
 lua-kafka-nginx-module-1.25.3 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded lua-kafka-nginx-module to 0.0.1.
