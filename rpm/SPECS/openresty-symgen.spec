@@ -1,6 +1,6 @@
 Name:           openresty-symgen
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Tool for rebuilding symbol tables and debug info for ELF binary executables.
 
 Group:          Development/System
@@ -72,6 +72,7 @@ Tool for converting dwarf to C for OpenResty.
 
 Summary:            Tool for inspecting ELF binary executables on the agent side.
 Group:              Development/System
+Requires:           openresty-radare2 >= 5.0.3.3, openresty-radare2-r2dec
 AutoReqProv:        no
 
 
