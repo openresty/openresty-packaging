@@ -8,6 +8,7 @@ Type=forking
 PIDFile=/usr/local/openresty/nginx/logs/nginx.pid
 ExecStartPre=/usr/local/openresty/nginx/sbin/nginx -t
 ExecStart=/usr/local/openresty/nginx/sbin/nginx
+ExecStartPost=/bin/sleep 1
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s QUIT $MAINPID
 PrivateTmp=true
