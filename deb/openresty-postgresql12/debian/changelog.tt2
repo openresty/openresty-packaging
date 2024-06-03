@@ -1,3 +1,9 @@
+openresty-postgresql12 (12.5-11~[% distro %]1) [% distro %]; urgency=high
+
+  * change openresty-zlib to openresty-saas-zlib.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 3 Jun 2024 12:11:00 +0800
+
 openresty-postgresql12 (12.5-10~[% distro %]1) [% distro %]; urgency=high
 
   * change openresty-zlib to openresty-saas-zlib.

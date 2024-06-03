@@ -1,6 +1,7 @@
 [Unit]
 Description=PostgreSQL database server
-After=network.target
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
 
 [Service]
 Type=simple
@@ -28,6 +29,7 @@ ExecStartPre=/usr/local/openresty-postgresql12/bin/postgresql-check-db-dir %N
 # use the -D option here so PGDATA content is printed by /bin/ps and by
 # 'systemctl status'.
 ExecStart=/usr/local/openresty-postgresql12/bin/postmaster -D ${PGDATA}
+ExecStartPost=/bin/sleep 1
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
