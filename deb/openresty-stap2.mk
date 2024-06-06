@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_STAP2_VER := 5.1.0.4
+OPENRESTY_STAP2_VER := 5.1.0.5
 
 .PHONY: openresty-stap2-download
 openresty-stap2-download:
