@@ -5,6 +5,9 @@ include /usr/share/dpkg/default.mk
 
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
+unexport CFLAGS
+unexport CXXFLAGS
+unexport LDFLAGS
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-dw2c
