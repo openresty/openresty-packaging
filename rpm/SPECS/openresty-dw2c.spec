@@ -72,7 +72,7 @@ Tool for converting dwarf to C for OpenResty.
 
 
 %build
-make compile USE_LTO=1 USE_TCM=1 -j2 PERLCC=%{perlcc} PREFIX=%{prefix}
+make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc} PREFIX=%{prefix}
 
 
 %install
