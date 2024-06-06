@@ -1,5 +1,5 @@
 Name:           openresty-dw2c
-Version:        2.03
+Version:        2.04
 Release:        1%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
@@ -22,7 +22,8 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-BuildRequires:  ccache, gcc, make
+BuildRequires:  ccache, gcc, make, openresty-saas-pcre2-devel
+BuildRequires:  openresty-tcmalloc-devel
 BuildRequires:  openresty-perl >= %{perl_ver_rel}
 BuildRequires:  openresty-perl-B-C >= 1.57-7
 BuildRequires:  openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
@@ -30,6 +31,7 @@ BuildRequires:  openresty-perl-devel >= %{perl_ver_rel}
 
 Requires:       openresty-perl >= %{perl_ver_rel}
 Requires:       openresty-perl-Cpanel-JSON-XS >= %{cpaneljsonxs_ver}
+Requires:       openresty-tcmalloc, openresty-saas-pcre2
 
 %description
 Tool for converting dwarf to C for OpenResty.
@@ -67,7 +69,7 @@ Tool for converting dwarf to C for OpenResty.
 %setup -q -n dw2c-%{version}
 
 %build
-make compile -j`nproc` PERLCC=%{perlcc}
+make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc}
 
 
 %install
@@ -83,7 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %{prefix}/bin/dw2jl
-%{prefix}/bin/dw2c
+%{prefix}/bin/dw2c++
 %{prefix}/bin/dw2macros
 %{prefix}/bin/dw2xml
 %{prefix}/bin/find-altlink-files
@@ -91,6 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 5 2024 Yichun Zhang (agentzh) 2.04-1
+- upgraded openresty-utils to 2.04.
 * Tue Apr 16 2024 Yichun Zhang (agentzh) 2.03-1
 - upgraded openresty-utils to 2.03.
 * Tue Dec 5 2023 Yichun Zhang (agentzh) 2.02-1
