@@ -74,6 +74,10 @@ Tool for converting dwarf to C for OpenResty.
 
 %build
 
+unset CFLAGS
+unset CXXFLAGS
+unset LDFLAGS
+
 for i in 1 2 3; do
     PATH=%{perl_bin}:$PATH \
         make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc} \
