@@ -1,6 +1,6 @@
 Name:           openresty-dw2c
-Version:        2.05
-Release:        2%{?dist}
+Version:        2.06
+Release:        1%{?dist}
 Summary:        Tool for converting dwarf to C for OpenResty.
 
 Group:          Development/System
@@ -70,8 +70,9 @@ Tool for converting dwarf to C for OpenResty.
 %prep
 %setup -q -n dw2c-%{version}
 
+
 %build
-make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc}
+make compile USE_LTO=1 USE_TCM=1 -j2 PERLCC=%{perlcc} PREFIX=%{prefix}
 
 
 %install
@@ -95,6 +96,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed Jun 5 2024 Yichun Zhang (agentzh) 2.06-1
+- upgraded openresty-utils to 2.06.
 * Wed Jun 5 2024 Yichun Zhang (agentzh) 2.05-1
 - upgraded openresty-utils to 2.05.
 * Wed Jun 5 2024 Yichun Zhang (agentzh) 2.04-1
