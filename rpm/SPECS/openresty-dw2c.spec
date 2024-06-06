@@ -8,7 +8,8 @@ License:        Proprietary
 URL:            https://www.openresty.com
 
 %define prefix          /usr/local/openresty-dw2c
-%define perlcc          /usr/local/openresty-perl/bin/perlcc
+%define perl_bin        /usr/local/openresty-perl/bin
+%define perlcc          %{perl_bin}/perlcc
 
 %define perl_ver            5.24.4
 # NB: 5.24.4-4 is a version with the bugfix patch applied
@@ -72,8 +73,12 @@ Tool for converting dwarf to C for OpenResty.
 
 
 %build
-make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc} PREFIX=%{prefix}
 
+for i in 1 2 3; do
+    PATH=%{perl_bin}:$PATH \
+        make compile USE_LTO=1 USE_TCM=1 -j`nproc` PERLCC=%{perlcc} \
+            PREFIX=%{prefix} && break
+done
 
 %install
 make install DESTDIR=%{buildroot} PREFIX=%{prefix}

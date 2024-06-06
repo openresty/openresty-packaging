@@ -9,6 +9,7 @@ export QA_RPATHS=$[ 0x0002 ]
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-dw2c
 PERLCC = /usr/local/openresty-perl/bin/perlcc
+PERL_BIN = /usr/local/openresty-perl/bin
 
 %:
 	dh $@ --parallel --with autotools-dev
@@ -20,7 +21,10 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	make compile USE_LTO=1 USE_TCM=1 PERLCC=$(PERLCC) -j`nproc`
+	for i in 1 2 3; do \
+		PATH=$(PERL_BIN):$$PATH \
+		make compile USE_LTO=1 USE_TCM=1 PERLCC=$(PERLCC) -j`nproc` && break; \
+	done
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
