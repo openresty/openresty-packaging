@@ -20,7 +20,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	make compile PERLCC=$(PERLCC) -j`nproc`
+	make compile USE_LTO=1 USE_TCM=1 PERLCC=$(PERLCC) -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) PREFIX=$(PREFIX)
