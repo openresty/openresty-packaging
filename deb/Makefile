@@ -9,7 +9,7 @@
 # we use Perl TT2 templates to generate */debian/changelog files.
 
 JOBS=$(shell nproc)
-ZLIB_VER=1.3
+ZLIB_VER=1.3.1
 PCRE_VER=8.45
 SSL_VER=1.1.0l
 SSL111_VER=1.1.1w

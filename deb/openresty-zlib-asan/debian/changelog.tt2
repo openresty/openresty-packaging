@@ -1,3 +1,9 @@
+openresty-zlib-asan (1.3.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded zlib to 1.3.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 7 Jun 2024 05:54:35 +0000
+
 openresty-zlib-asan (1.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded zlib to 1.3.
