@@ -71,13 +71,13 @@ Provides C header and static library for OpenResty's gcc AddressSanitizer versio
 
 
 %build
-export ASAN_OPTIONS=detect_leaks=0
+export ASAN_OPTIONS=detect_leaks=0:verify_asan_link_order=0
 
 ./configure --prefix=%{zlib_prefix}
 
-make -j`nproc` CC="gcc -fsanitize=address" \
-    CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
-    SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g3' \
+make -j`nproc` CC="gcc -fsanitize=address -g" \
+    CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
+    SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
     LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
     > /dev/stderr
 
