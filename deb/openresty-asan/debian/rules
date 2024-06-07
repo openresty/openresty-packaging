@@ -18,8 +18,8 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export ASAN_OPTIONS=detect_leaks=0 \
-		&& ./configure \
+	export ASAN_OPTIONS=detect_leaks=0; unset LD_PRELOAD; \
+		./configure \
     --prefix="/usr/local/openresty-asan" \
     --with-debug \
     --with-cc="ccache gcc -fsanitize=address" \

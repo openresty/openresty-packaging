@@ -18,8 +18,8 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export ASAN_OPTIONS=detect_leaks=0 \
-		&& ./config \
+	export ASAN_OPTIONS=detect_leaks=0; unset LD_PRELOAD; \
+		./config \
 		no-asm \
 		enable-camellia enable-seed enable-rfc3779 \
 		enable-cms enable-md2 enable-rc5 \
