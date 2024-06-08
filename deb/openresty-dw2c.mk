@@ -23,8 +23,8 @@ openresty-dw2c-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-dw2c-build
 openresty-dw2c-build: openresty-dw2c-clean openresty-dw2c-download
-	sudo apt-get -y -q install ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev
-	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev
+	sudo apt-get -y -q install ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev openresty-tcmalloc-dev openresty-yajl-dev
+	sudo apt-get -y -q install --only-upgrade ccache gcc make openresty-perl openresty-perl-b-c openresty-perl-dev openresty-tcmalloc-dev openresty-yajl-dev
 	# NB: use fixed version number
 	sudo apt-get -y -q install openresty-perl-cpanel-json-xs=$(DEP_OR_PERL_CPANEL_JSON_XS_VER)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
