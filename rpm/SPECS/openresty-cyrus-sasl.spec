@@ -80,6 +80,8 @@ rm -rf  %{buildroot}/%{sasl_prefix}/sbin
 rm -f  %{buildroot}/%{sasl_prefix}/lib/*.la
 rm -f  %{buildroot}/%{sasl_prefix}/lib/sasl2/*.la
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 
 %clean
 rm -rf %{buildroot}
