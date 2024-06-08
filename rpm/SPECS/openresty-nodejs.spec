@@ -131,6 +131,8 @@ rm -f %{buildroot}%{_prefix}/lib/node_modules/npm/{AUTHORS,CHANGELOG.md,CONTRIBU
 sed -i 's/^\#\!\/usr\/bin\/env python$/\#\!\/usr\/bin\/env python3/' `find %{buildroot}/ -name '*.py'`
 sed -i 's/^\#\!\/usr\/bin\/python$/\#\!\/usr\/bin\/python3/' `find %{buildroot}/ -name '*.py'`
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 
 %files
 %attr(0755,root,root) %{_prefix}/bin/node
@@ -155,7 +157,7 @@ rm -rf %{buildroot}
 %changelog
 * Mon Jan 8 2024 lijunlnog (junlong) 15.4.0-6.
 - change the zlib from openresty-zlib to openresty-saas-zlib.
-* Mon Nov 4 2023 lijunlnog (junlong) 15.4.0-5.
+* Sat Nov 4 2023 lijunlnog (junlong) 15.4.0-5.
 - added support for arm64.
 * Mon Jan 4 2021 Jiahao Wang (jiahao) 15.4.0-1.
 - initial build for openresty-nodejs 15.4.0.
