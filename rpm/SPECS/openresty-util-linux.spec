@@ -111,6 +111,7 @@ mv $bin_dir/script $bin_dir/scriptreplay \
 rm -rf $bin_dir
 mv %{buildroot}/%{util_linux_prefix}/bin_tmp $bin_dir
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 
 %clean
 rm -rf %{buildroot}
