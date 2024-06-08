@@ -1,5 +1,5 @@
 Name:       openresty-edgcpfe
-Version:    6.6.0.18
+Version:    6.6.0.19
 Release:    1%{?dist}
 Summary:    OpenResty's fork of EDG C++ Frontend Compiler
 License:    Proprietary
@@ -83,6 +83,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jun 8 2024 Yichun Zhang (agentzh) 6.6.0.19-1
+- upgraded openresty-edgcpfe to 6.6.0.19.
 * Thu Jun 6 2024 Yichun Zhang (agentzh) 6.6.0.18-1
 - upgraded openresty-edgcpfe to 6.6.0.18.
 * Fri Apr 26 2024 Yichun Zhang (agentzh) 6.6.0.17-1
