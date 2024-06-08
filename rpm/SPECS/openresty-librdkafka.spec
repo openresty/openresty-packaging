@@ -82,6 +82,8 @@ make install DESTDIR=%{buildroot}
 rm -rf %{buildroot}/%{kafka_prefix}/share
 rm -f  %{buildroot}/%{kafka_prefix}/lib/*.la
 
+export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
+
 
 %clean
 rm -rf %{buildroot}
