@@ -45,7 +45,7 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     }
 }
 
-for my $dir (reverse sort glob 'openresty-radare2*') {
+for my $dir (reverse sort glob 'openresty-radare2') {
     next unless -d $dir && -d "$dir/debian";
     if (1) {
         my $name = $dir;
