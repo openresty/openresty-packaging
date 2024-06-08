@@ -78,8 +78,7 @@ export ASAN_OPTIONS=detect_leaks=0:verify_asan_link_order=0
 make -j`nproc` CC="gcc -fsanitize=address -g" \
     CFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
     SFLAGS='-O1 -fno-omit-frame-pointer -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN -g' \
-    LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map' \
-    > /dev/stderr
+    LDSHARED='gcc -fsanitize=address -shared -Wl,-soname,libz.so.1,--version-script,zlib.map'
 
 
 %install
