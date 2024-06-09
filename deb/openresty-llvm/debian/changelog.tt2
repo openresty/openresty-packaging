@@ -1,3 +1,9 @@
+openresty-llvm (14.0.0.1-5~[% distro %]1) [% distro %]; urgency=high
+
+  * use our own CFLAGS/CXXFLAGS/FFLAGS/LDFLAGS env values.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 9 Jun 2024 09:23:57 -0700
+
 openresty-llvm (14.0.0.1-4~[% distro %]1) [% distro %]; urgency=high
 
   * use our own CFLAGS/CXXFLAGS/FFLAGS/LDFLAGS env values.
