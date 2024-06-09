@@ -21,8 +21,8 @@ openresty-lua-cjson-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-lua-cjson-build
 openresty-lua-cjson-build: openresty-lua-cjson-clean openresty-lua-cjson-download
-	sudo apt-get -y -q install libtool
-	sudo apt-get -y -q install --only-upgrade libtool
+	sudo apt-get -y -q install libtool openresty
+	sudo apt-get -y -q install --only-upgrade libtool openresty
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-lua-cjson_$(OPENRESTY_LUA_CJSON_VER).orig.tar.gz --strip-components=1 -C openresty-lua-cjson
 	cd openresty-lua-cjson \

@@ -11,7 +11,7 @@ Source0:            lua-cjson-plus-%{version}.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:      libtool
+BuildRequires:      libtool openresty
 
 AutoReqProv:        no
 
