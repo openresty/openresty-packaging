@@ -1,3 +1,9 @@
+openresty-lua-cjson (2.1.0.13.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-cjson-plus to 2.1.0.13.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 9 Jun 2024 14:35:56 +0800
+
 openresty-lua-cjson (2.1.0.13.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded lua-cjson-plus to 2.1.0.13.2.
