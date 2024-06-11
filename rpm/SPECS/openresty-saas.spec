@@ -7,7 +7,7 @@
 
 Name:       openresty-saas
 Version:    1.19.9.1.61
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenResty Plus for SaaS product clients
 
 Group:      System Environment/Daemons
@@ -78,6 +78,7 @@ export CJSON_DISABLE_YYJSON=1 && ./configure \
     --with-cc-opt="-fPIC -DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include -I%{openssl_prefix}/include -g3 -O3" \
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-pcre-jit \
+    --with-lua_resty_openssl \
     --with-http_ssl_module \
     --with-http_realip_module \
     --with-stream \
@@ -171,6 +172,8 @@ rm -rf %{buildroot}
 %{saas_or_prefix}/COPYRIGHT
 
 %changelog
+* Tue Jun 11 2024 Yichun Zhang (agentzh) 1.19.9.1.61-2
+- upgraded openresty-plus to 1.19.9.1.61.
 * Sat Jun 8 2024 Yichun Zhang (agentzh) 1.19.9.1.61-1
 - upgraded openresty-plus to 1.19.9.1.61.
 * Tue May 28 2024 Yichun Zhang (agentzh) 1.19.9.1.60-1

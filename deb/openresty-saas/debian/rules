@@ -27,6 +27,7 @@ override_dh_auto_configure:
     --with-cc-opt="-DNGX_PROC_TITLE=\\\"or-saas\\\" -DNGX_LUA_ABORT_AT_PANIC -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -g3 -O3" \
     --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
     --with-pcre-jit \
+    --with-lua_resty_openssl \
     --with-http_ssl_module \
     --with-http_realip_module \
     --with-stream \
