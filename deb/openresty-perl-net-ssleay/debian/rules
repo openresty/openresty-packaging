@@ -8,6 +8,7 @@ export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
 PREFIX = /usr/local/openresty-perl
+OPENSSL_PREFIX=/usr/local/openresty-plus/openssl111/
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -19,7 +20,7 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	OPENSSL_PREFIX=/usr/local/openresty-plus/openssl111/ \
+	OPENSSL_PREFIX=$(OPENSSL_PREFIX) \
 	PERL_MM_OPT='LD="ccache gcc -Wl,-rpath,$(OPENSSL_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib" LIBS="-lssl -lcrypto -lz"' \
 	PERL_MM_USE_DEFAULT=1 \
 	$(PREFIX)/bin/perl Makefile.PL \

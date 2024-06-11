@@ -19,8 +19,8 @@ openresty-perl-net-ssleay-clean:
 
 .PHONY: openresty-perl-net-ssleay-build
 openresty-perl-net-ssleay-build: openresty-perl-net-ssleay-clean openresty-perl-net-ssleay-download
-	sudo apt-get -y -q install openresty-perl openresty-perl-dev
-	sudo apt-get -y -q install --only-upgrade openresty-perl openresty-perl-dev
+	sudo apt-get -y -q install openresty-perl openresty-perl-dev openresty-plus-openssl111-dev zlib1g-dev
+	sudo apt-get -y -q install --only-upgrade openresty-perl openresty-perl-dev openresty-plus-openssl111-dev zlib1g-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-perl-net-ssleay_$(OPENRESTY_PERL_NET_SSLEAY_VER).orig.tar.gz --strip-components=1 -C openresty-perl-net-ssleay
 	cd openresty-perl-net-ssleay \
