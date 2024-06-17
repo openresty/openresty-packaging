@@ -84,7 +84,8 @@ export CJSON_DISABLE_YYJSON=1 && ./configure \
     --with-stream \
     --with-http_v2_module \
     --with-threads \
-    --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O3 -g3 -DLUAJIT_ENABLE_GC64" \
+    --with-luajit-xcflags="-fPIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -O3 -g3 -DLUAJIT_ENABLE_GC64" \
+    --with-static-luajit \
     --without-lua_resty_memcached_shdict \
     --without-lua_resty_shdict_simple \
     --without-lua_resty_balancer \

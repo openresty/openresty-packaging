@@ -378,7 +378,8 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-threads \
     --with-compat \
     --with-poll_module \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC' \
+    --with-luajit-xcflags='-fPIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC' \
+    --with-static-luajit \
     --with-no-pool-patch \
     -j`nproc`
 

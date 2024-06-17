@@ -112,7 +112,8 @@ override_dh_auto_configure:
 	  --with-http_gunzip_module \
 	  --with-ngx_qat_module \
 	  --with-threads \
-	  --with-luajit-xcflags='$(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+	  --with-luajit-xcflags='-fPIC $(LJ_DEBUG_CC_OPTS) -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+	  --with-static-luajit \
 	  -j$(JOBS)
 
 override_dh_usrlocal:

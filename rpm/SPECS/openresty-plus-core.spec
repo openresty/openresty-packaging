@@ -372,7 +372,8 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-ngx_qat_module \
     --with-threads \
     --with-compat  \
-    --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-luajit-xcflags='-fPIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64' \
+    --with-static-luajit \
     -j`nproc`
 
 make -j`nproc`
