@@ -1,5 +1,5 @@
 Name:           openresty-stap2
-Version:        5.1.0.7
+Version:        5.1.0.8
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -279,6 +279,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Tue Jun 18 2024 Yichun Zhang (agentzh) 5.1.0.8-1
+- upgraded openresty-stap2 to 5.1.0.8.
 * Fri Jun 7 2024 Yichun Zhang (agentzh) 5.1.0.7-1
 - upgraded openresty-stap2 to 5.1.0.7.
 * Thu Jun 6 2024 Yichun Zhang (agentzh) 5.1.0.6-1
