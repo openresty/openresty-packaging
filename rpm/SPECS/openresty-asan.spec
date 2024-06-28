@@ -109,6 +109,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -125,6 +126,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-http_slice_module \
     --with-poll_module \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
