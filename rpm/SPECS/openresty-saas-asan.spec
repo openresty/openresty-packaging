@@ -14,7 +14,7 @@ Summary:    OpenResty Plus for SaaS product clients
 Group:      System Environment/Daemons
 
 License:    Proprietary
-URL:        http://openresty.com
+URL:        https://openresty.com
 Source0:    %{or_plus_name}-%{version}.tar.gz
 
 %bcond_without	lua_resty_mail

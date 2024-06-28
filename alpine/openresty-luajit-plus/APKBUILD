@@ -1,38 +1,30 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
-pkgname="lua-resty-jsonb"
-pkgver="0.0.5"
+pkgname="openresty-luajit-plus"
+pkgver="20240628"
 pkgrel=0
-pkgdesc="Lua module for manipulating jsonb data"
+pkgdesc="enhanced Luajit developed by OpenResty Inc."
 url="https://openresty.com/"
 arch="all"
 license="Proprietary"
-depends="openresty-yajl>=2.1.0.4-r1"
-makedepends="ccache openresty-yajl-dev>=2.1.0.4-r1 openresty"
+#depends=""
+#makedepends=""
 #install=""
-subpackages="$pkgname-dbg"
-#subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
-source="lua-resty-jsonb-$pkgver.tar.gz"
+subpackages="$pkgname-dev $pkgname-dbg"
+source="luajit2-plus-plus-v2.1-$pkgver.tar.gz"
 options="!tracedeps !fhs"
-builddir="$srcdir/lua-resty-jsonb-$pkgver"
+builddir="$srcdir/luajit2-plus-plus-v2.1-$pkgver"
 
-orprefix=/usr/local/openresty
-_jsonb_prefix=/usr/local/openresty/site
+prefix=/usr/local/openresty/luajit-plus
 
 build() {
-    export CC="ccache gcc -fdiagnostics-color=always -g3"
+    export CC="gcc"
     export CFLAGS=
     export CXXFLAGS=
     export CPPFLAGS=
     export LDFLAGS=
 
-    make -j$JOBS YAJL="/usr/local/openresty-yajl" \
-        CC='ccache gcc -fdiagnostics-color=always'
-
-    for f in `find lib/resty/ -type f -name '*.lua'`; do
-        $orprefix/luajit/bin/luajit -bg $f ${f%.lua}.ljbc
-        rm $f
-    done
+    make -j$JOBS CCDEBUG=-g XCFLAGS='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g -DLUAJIT_ENABLE_GC64' Q= PREFIX=$prefix
 }
 
 check() {
@@ -40,9 +32,19 @@ check() {
 }
 
 package() {
-    sed -i 's|lib/resty/\*.lua|lib/resty/\*.ljbc|g' Makefile
-    make install DESTDIR="$pkgdir"
-    rm -rf $pkgdir/$_jsonb_prefix/share
+    make install DESTDIR="$pkgdir" PREFIX=$prefix
+    rm -rf $pkgdir/$prefix/share/man
+    rm -rf $pkgdir/$prefix/lib/libluajit-5.1.a
+    
+    cd $pkgdir
+    pwd
+    
+    for f in `find .$prefix/ -type f -name '*.lua'`; do
+        echo $f
+        LUA_PATH="$pkgdir/$prefix/share/luajit-2.1/?.ljbc;$pkgdir/$prefix/share/luajit-2.1/?.lua;;" $pkgdir/$prefix/bin/luajit -bg $f ${f%.lua}.ljbc
+        rm -f $f
+    done
+
 }
 
 static() {
@@ -77,4 +79,4 @@ static() {
     default_static
 }
 
-sha512sums="978876605b5bbef83879ce336296b4fe80c597b4ac1a152384ce2605fac2102a02a418e1d0389a9ca2d2cb38b9bc07d1cf5d64f12a1b5644a65d80ce99eb4ec6  lua-resty-jsonb-0.0.5.tar.gz"
+sha512sums="0f76aef95e4c20ca6b28ef151cb6210d0f08b75bba0b806271892a79db17e4bd7fb162b9d5134827e4bdae0f7c69b50a430156fe113b2f8e7d371333fc6d2f63  luajit2-plus-plus-v2.1-20240628.tar.gz"

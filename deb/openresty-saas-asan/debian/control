@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-zlib-asan-dev, openresty-openssl111-asan-dev, openresty-pcre-asan-dev, libc-dev
 Standards-Version: 3.9.8
-Homepage: http://openresty.com
+Homepage: https://openresty.com
 
 Package: openresty-saas-asan
 Architecture: any

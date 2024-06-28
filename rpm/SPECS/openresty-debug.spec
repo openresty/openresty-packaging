@@ -206,7 +206,7 @@ rm -rf %{buildroot}
 * Sun May 21 2017 Yichun Zhang (agentzh) 1.11.2.3-3
 - removed the geoip nginx module since GeoIP is not available everywhere.
 * Fri Apr 21 2017 Yichun Zhang (agentzh)
-- upgrade to the OpenResty 1.11.2.3 release: http://openresty.org/en/changelog-1011002.html
+- upgrade to the OpenResty 1.11.2.3 release: https://openresty.org/en/changelog-1011002.html
 * Wed Dec 14 2016 Yichun Zhang
 - enabled http_geoip_module by default.
 * Thu Nov 17 2016 Yichun Zhang
