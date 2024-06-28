@@ -99,6 +99,7 @@ a single box.
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -114,6 +115,7 @@ a single box.
     --with-http_flv_module \
     --with-http_mp4_module \
     --with-http_gunzip_module \
+    --with-http_slice_module \
     --with-threads \
     --with-poll_module \
     --with-compat \

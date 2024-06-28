@@ -204,6 +204,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -219,6 +220,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_flv_module \
     --with-http_mp4_module \
     --with-http_gunzip_module \
+    --with-http_slice_module \
     --with-threads \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
