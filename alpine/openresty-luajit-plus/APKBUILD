@@ -11,9 +11,9 @@ license="Proprietary"
 #makedepends=""
 #install=""
 subpackages="$pkgname-dev $pkgname-dbg"
-source="luajit2-plus-plus-v2.1-$pkgver.tar.gz"
+source="luajit2-plus-$pkgver.tar.gz"
 options="!tracedeps !fhs"
-builddir="$srcdir/luajit2-plus-plus-v2.1-$pkgver"
+builddir="$srcdir/luajit2-plus-$pkgver"
 
 prefix=/usr/local/openresty/luajit-plus
 
@@ -79,4 +79,4 @@ static() {
     default_static
 }
 
-sha512sums="0f76aef95e4c20ca6b28ef151cb6210d0f08b75bba0b806271892a79db17e4bd7fb162b9d5134827e4bdae0f7c69b50a430156fe113b2f8e7d371333fc6d2f63  luajit2-plus-plus-v2.1-20240628.tar.gz"
+sha512sums="77f6cdbe6dab4b057113660d06b5906a47836efad7793db76488937156293a01e470a65b309ffe135d21167cfe3ebf8284bf53a937df4134a844012dbd3cbec8  luajit2-plus-20240628.tar.gz"
