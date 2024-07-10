@@ -1,5 +1,4 @@
 usr/local/openresty/luajit-plus/include/luajit-2.1/
-usr/local/openresty/luajit-plus/lib/
 usr/local/openresty/luajit-plus/lib/pkgconfig/
 usr/local/openresty/luajit-plus/include/luajit-2.1/*.h
 usr/local/openresty/luajit-plus/include/luajit-2.1/*.hpp
