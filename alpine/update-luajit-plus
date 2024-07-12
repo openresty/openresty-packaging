@@ -1,0 +1,117 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+use Cpanel::JSON::XS ();
+
+sub update_apk_build ($$);
+sub get_pkg_sha512sum ();
+
+my $version = shift or die "No version number specified.\n";
+
+if ($version !~ /^\d{8}$/) {
+    die "ERROR: Bad version number: $version";
+}
+
+my $pkgname = "openresty-luajit-plus";
+my $sha512sum = get_pkg_sha512sum;
+
+for my $dir (reverse sort glob 'openresty-luajit-plus*') {
+    next unless -d $dir && -f "$dir/APKBUILD";
+    update_apk_build "$dir/APKBUILD", $sha512sum;
+}
+
+sub update_apk_build ($$) {
+    my ($file, $sha512sum) = @_;
+
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    my $changes = 0;
+    if ($src !~ m/^pkgname="\Q$pkgname\E"$/xsm) {
+        die "Bad file content in $file";
+    }
+
+    if ($src =~ s/^pkgver="(\d+)"/pkgver="$version"/xsm) {
+        my $old_ver = $1;
+        if ($old_ver ne $version) {
+            say "INFO: $file: version needs update from $old_ver to $version";
+            $changes++;
+        }
+
+    } else {
+        die "$file: version not found";
+    }
+
+    if ($src =~ s/^pkgrel=(\d+)$/pkgrel=0/xsm) {
+        my $old_rel = $1;
+        if ($old_rel ne '0') {
+            say "INFO: release number got changed from $old_rel to 0";
+            $changes++;
+        }
+
+    } else {
+        die "$file: Release line not found";
+    }
+
+    if ($src =~ s/^sha512sums="([^"]+)"$/sha512sums="$sha512sum"/xsm) {
+        my $old_sum = $1;
+        if ($old_sum ne $sha512sum) {
+            say "INFO: release number got changed from $old_sum to $sha512sum";
+            $changes++;
+        }
+
+    } else {
+        die "$file: Release line not found";
+    }
+
+    if ($changes > 0) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated.";
+    }
+}
+
+sub get_pkg_sha512sum () {
+    my $GITHUB_API_TOKEN = $ENV{GITHUB_API_TOKEN};
+    die "GITHUB_API_TOKEN not found" if !defined($GITHUB_API_TOKEN);
+
+    my $release_info = `curl -s -H "Authorization: token $GITHUB_API_TOKEN" https://api.github.com/repos/orinc/luajit2-plus/releases/tags/plus-v2.1-$version 2>curl.log`;
+    if ($? != 0) {
+        die "failed to get release info: $!";
+    }
+
+    my $filename = "luajit2-plus-$version.tar.gz";
+    my $json_xs = Cpanel::JSON::XS->new->allow_bignum->latin1->canonical;
+    my $parse_tree = $json_xs->decode($release_info);
+    my $assets = $parse_tree->{"assets"};
+    my $id;
+
+    for my $asset (@$assets) {
+        my $name = $asset->{"name"};
+        if ($name eq $filename) {
+            $id = $asset->{"id"};
+            last;
+        }
+    }
+
+    die "can't find id for $filename" if !defined($id);
+
+
+    unlink $filename;
+    my $cmd = "curl -s -L -H 'Accept:application/octet-stream' -H 'Authorization: token $GITHUB_API_TOKEN' -o $filename https://api.github.com/repos/orinc/luajit2-plus/releases/assets/$id 2>curl.log";
+
+    system($cmd) == 0 or die "failed to run $cmd: $!";
+
+    my $sha512sum = `sha512sum $filename`;
+    unlink $filename;
+    chomp $sha512sum;
+
+    return $sha512sum;
+}
+
