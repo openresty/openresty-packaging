@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        14.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -14,6 +14,7 @@ AutoReqProv:    no
 
 %define _prefix /usr/local/openresty-gdb
 %define py_prefix /usr/local/openresty-python3
+%define elfutils_prefix /usr/local/openresty-elfutils
 %define __python %{py_prefix}/bin/python3
 
 
@@ -24,6 +25,7 @@ BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
 BuildRequires: openresty-python3-devel >= 3.7.9
+BuildRequires: openresty-elfutils-devel
 BuildRequires: xz-devel, ncurses-devel
 %if 0%{?suse_version}
 BuildRequires: libexpat-devel
@@ -54,6 +56,7 @@ Requires: gmp
 Requires: ncurses-libs
 %endif
 
+Requires: openresty-elfutils
 Requires: expat
 
 
@@ -102,9 +105,9 @@ cd build/
 ../configure --with-python="%{py_prefix}/bin/python3" \
     --libdir="%{_prefix}/lib" \
     --prefix=%{_prefix} --without-guile \
-    CXXFLAGS="-g -O2 -I%{py_prefix}/include" \
-    CFLAGS="-g -O2 -I%{py_prefix}/include" \
-    LDFLAGS="-L. -L%{py_prefix}/lib -Wl,-rpath,%{py_prefix}/lib -rdynamic" \
+    CXXFLAGS="-g -O2 -I%{py_prefix}/include -I%{elfutils_prefix}/include" \
+    CFLAGS="-g -O2 -I%{py_prefix}/include -I%{elfutils_prefix}/include" \
+    LDFLAGS="-L. -L%{py_prefix}/lib  -L%{elfutils_prefix}/lib -Wl,-rpath,%{py_prefix}/lib:%{elfutils_prefix}/lib -rdynamic" \
     CC='ccache gcc -fdiagnostics-color=always' \
     CXX='ccache g++ -fdiagnostics-color=always'
 

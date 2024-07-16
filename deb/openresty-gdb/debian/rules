@@ -7,6 +7,8 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+ELFUTILS_PREFIX = /usr/local/openresty-elfutils
+PY_PREFIX = /usr/local/openresty-python3
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -20,10 +22,11 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	mkdir build
 	cd build && \
-        ../configure --with-python=/usr/local/openresty-python3/bin/python3 \
-            CXXFLAGS="-g -O2 -I/usr/local/openresty-python3/include" \
-            CFLAGS="-g -O2 -I/usr/local/openresty-python3/include" \
-            LDFLAGS="-L. -L/usr/local/openresty-python3/lib -Wl,-rpath,/usr/local/openresty-python3/lib" \
+        ../configure --with-python=$(PY_PREFIX)/bin/python3 \
+            CXXFLAGS="-g -O2 -I$(PY_PREFIX)/include -I$(ELFUTILS_PREFIX)/include" \
+            CFLAGS="-g -O2 -I$(PY_PREFIX)/include -I$(ELFUTILS_PREFIX)/include" \
+            LDFLAGS="-L. -L$(PY_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib \
+                -Wl,-rpath,$(PY_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib" \
             --prefix=/usr/local/openresty-gdb --without-guile \
         && make -j`nproc` > /dev/null
 
