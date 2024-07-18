@@ -33,7 +33,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openssl111-clean openssl111-debug-clean  \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
-                openresty-pcre2-clean
+                openresty-pcre2-clean openresty-pcre2-asan-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
@@ -208,8 +208,8 @@ openresty-download:
 
 .PHONY: openresty-build
 openresty-build: | openresty-clean openresty-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-dev systemtap-sdt-dev $(deb_toolchain_pkgs)
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty
 	cd openresty \
@@ -233,8 +233,8 @@ openresty-debug-download:
 
 .PHONY: openresty-debug-build
 openresty-debug-build: | openresty-debug-clean openresty-debug-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-debug-dev
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-debug-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-debug_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-debug
 	cd openresty-debug \
@@ -258,8 +258,8 @@ openresty-valgrind-download:
 
 .PHONY: openresty-valgrind-build
 openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
-	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
-	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre-dev openresty-openssl111-debug-dev valgrind
+	sudo apt-get -y -qq install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-debug-dev valgrind
+	sudo apt-get -y -qq --only-upgrade install openresty-zlib-dev openresty-pcre2-dev openresty-openssl111-debug-dev valgrind
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-valgrind_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty-valgrind
 	cd openresty-valgrind \
