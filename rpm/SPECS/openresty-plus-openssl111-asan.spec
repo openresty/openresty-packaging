@@ -105,7 +105,7 @@ export ASAN_OPTIONS=detect_leaks=0
 
 make -j$(nproc) \
     LD_LIBRARY_PATH= \
-    CC="ccache gcc -fsanitize=address" \
+    CC="ccache gcc -fsanitize=address -fno-omit-frame-pointer" \
     > /dev/stderr
 
 

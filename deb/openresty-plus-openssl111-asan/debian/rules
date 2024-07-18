@@ -33,7 +33,7 @@ override_dh_auto_build:
     -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-plus-asan/openssl111/lib
 	make -j`nproc` \
 		LD_LIBRARY_PATH= \
-		CC="ccache gcc -fsanitize=address" \
+		CC="ccache gcc -fsanitize=address  -fno-omit-frame-pointer" \
 		> /dev/stderr
 
 override_dh_auto_install:

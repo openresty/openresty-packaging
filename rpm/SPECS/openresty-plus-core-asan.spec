@@ -168,7 +168,7 @@ a single box.
 
 Summary:        OpenResty+ command-line utility, resty
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-asan >= %{version}-%{release}
 Requires:       perl(File::Spec), perl(FindBin), perl(List::Util), perl(Getopt::Long), perl(File::Temp), perl(POSIX), perl(Time::HiRes)
 
 %if 0%{?fedora} >= 10 || 0%{?rhel} >= 6 || 0%{?centos} >= 6
@@ -224,8 +224,8 @@ services, and dynamic web gateways.
 
 Summary:        OpenResty+ Package Manager
 Group:          Development/Tools
-Requires:       perl, openresty-plus-core >= %{version}-%{release}, perl(Digest::MD5)
-Requires:       openresty-plus-core-doc >= %{version}-%{release}, openresty-plus-core-resty >= %{version}-%{release}
+Requires:       perl, openresty-plus-core-asan >= %{version}-%{release}, perl(Digest::MD5)
+Requires:       openresty-plus-core-asan-doc >= %{version}-%{release}, openresty-plus-core-asan-resty >= %{version}-%{release}
 Requires:       curl, tar, gzip
 #BuildRequires:  perl(Digest::MD5)
 Requires:       perl(Encode), perl(FindBin), perl(File::Find), perl(File::Path), perl(File::Spec), perl(Cwd), perl(Digest::MD5), perl(File::Copy), perl(File::Temp), perl(Getopt::Long)
@@ -261,13 +261,14 @@ export ELF_LOADER_INC=%{elf_loader_prefix}/include
 export ELF_LOADER_LIB=%{elf_loader_prefix}/lib
 export CCO_INC=%{libcco_prefix}/include
 export CCO_LIB=%{libcco_prefix}/lib
+export ASAN_OPTIONS=detect_leaks=0
 
 ./configure \
     --prefix="%{orprefix}" \
     --with-lmdb-xcflags="-fPIC -O3 -g3 -DMDB_FDATASYNC_WORKS=1 -DMDB_BUILD_PRODUCT=plus-core" \
     --with-patlist-xcxxflags="-std=gnu++11 -g3 -Wall -Werror -O3" \
-    --with-cc='ccache gcc -fdiagnostics-color=always -fsanitize=address -fno-omit-frame-pointer' \
-    --with-cc-opt="-fPIC -DNGX_HTTP_LUA_CHECK_LICENSE -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
+    --with-cc='ccache gcc -fdiagnostics-color=always -fsanitize=address -fsanitize-recover=address -fno-omit-frame-pointer' \
+    --with-cc-opt="-fPIC -DNGX_LUA_ABORT_AT_PANIC -I%{zlib_prefix}/include -I%{pcre_prefix}/include \
 %if 0%{?coro_nginx_module}
  -I%{elf_loader_prefix}/include -I%{libcco_prefix}/include -I%{hiredis_prefix}/include \
  -I%{libmariadb_prefix}/include/mariadb -I%{libmemcached_prefix}/include  \
@@ -336,34 +337,20 @@ export CCO_LIB=%{libcco_prefix}/lib
     --without-http_lua_upstream_module \
     --without-http_array_var_module \
     --without-http_memc_module \
-    --without-http_redis2_module \
-    --without-http_redis_module \
     --without-lua_redis_parser \
     --without-lua_rds_parser \
-    --without-lua_resty_upstream \
-    --without-lua_resty_upstream_healthcheck \
-    --without-select_module \
-    --without-http_userid_module \
-    --without-http_autoindex_module \
     --without-http_geo_module \
     --without-http_split_clients_module \
     --without-http_fastcgi_module \
     --without-http_uwsgi_module \
     --without-http_scgi_module \
     --without-http_memcached_module \
-    --without-http_limit_conn_module \
-    --without-http_limit_req_module \
     --without-http_empty_gif_module \
     --without-http_browser_module \
-    --without-http_upstream_hash_module \
-    --without-http_upstream_ip_hash_module \
-    --without-http_upstream_least_conn_module \
-    --without-http_upstream_zone_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
     --without-stream_limit_conn_module \
-    --without-stream_return_module \
     --without-stream_upstream_hash_module \
     --without-stream_upstream_least_conn_module \
     --without-stream_upstream_zone_module \
@@ -378,7 +365,7 @@ export CCO_LIB=%{libcco_prefix}/lib
     --with-threads \
     --with-compat \
     --with-poll_module \
-    --with-luajit-xcflags='-fPIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC' \
+    --with-luajit-xcflags='-DLUA_USE_APICHECK -DLUA_USE_ASSERT -fPIC -DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -g3 -DLUAJIT_ENABLE_GC64 -DLUAJIT_USE_SYSMALLOC -fsanitize=address -fsanitize-recover=address -fno-omit-frame-pointer' \
     --with-static-luajit \
     --with-no-pool-patch \
     -j`nproc`
@@ -387,6 +374,7 @@ make -j`nproc` \
     CXX='ccache g++ -fsanitize=address'
 
 %install
+export ASAN_OPTIONS=detect_leaks=0
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 make install-headers DESTDIR=%{buildroot}
