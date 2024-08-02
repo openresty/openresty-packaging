@@ -1,3 +1,9 @@
+openresty-stap (4.9.0.33-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded systemtap-plus to 4.9.0.33.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 1 Aug 2024 17:39:08 -0700
+
 openresty-stap (4.9.0.32-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded systemtap-plus to 4.9.0.32.
