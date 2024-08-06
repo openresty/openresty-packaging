@@ -1,5 +1,5 @@
 Name:           openresty-symgen
-Version:        0.2.2
+Version:        0.2.3
 Release:        1%{?dist}
 Summary:        Tool for rebuilding symbol tables and debug info for ELF binary executables.
 
@@ -122,6 +122,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 6 2024 Yichun Zhang (agentzh) 0.2.3-1
+- upgraded openresty-symgen to 0.2.3.
 * Tue Jul 30 2024 Yichun Zhang (agentzh) 0.2.2-1
 - upgraded openresty-symgen to 0.2.2.
 * Fri Apr 5 2024 Yichun Zhang (agentzh) 0.2.1-1
