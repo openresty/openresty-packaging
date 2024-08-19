@@ -13,6 +13,7 @@ targets = openresty \
 	  openresty-pcre \
 	  openresty-pcre2 \
 	  openresty-pcre-asan \
+	  openresty-pcre2-asan \
 	  openresty-zlib \
 	  openresty-zlib-asan \
 	  perl-Test-Nginx \

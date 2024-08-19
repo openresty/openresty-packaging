@@ -23,8 +23,8 @@ override_dh_auto_build:
     --prefix="/usr/local/openresty-asan" \
     --with-debug \
     --with-cc="ccache gcc -fsanitize=address" \
-    --with-cc-opt="-I/usr/local/openresty-asan/zlib/include -I/usr/local/openresty-asan/pcre/include -I/usr/local/openresty-asan/openssl111/include -O1" \
-    --with-ld-opt="-L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre/lib -L/usr/local/openresty-asan/openssl111/lib -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/pcre/lib:/usr/local/openresty-asan/openssl111/lib" \
+    --with-cc-opt="-I/usr/local/openresty-asan/zlib/include -I/usr/local/openresty-asan/pcre2/include -I/usr/local/openresty-asan/openssl111/include -O1" \
+    --with-ld-opt="-L/usr/local/openresty-asan/zlib/lib -L/usr/local/openresty-asan/pcre2/lib -L/usr/local/openresty-asan/openssl111/lib -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/pcre2/lib:/usr/local/openresty-asan/openssl111/lib" \
     --with-pcre-jit \
     --without-http_rds_json_module \
     --without-http_rds_csv_module \
