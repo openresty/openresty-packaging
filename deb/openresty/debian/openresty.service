@@ -20,6 +20,7 @@ Type=forking
 PIDFile=/usr/local/openresty/nginx/logs/nginx.pid
 ExecStartPre=/usr/local/openresty/nginx/sbin/nginx -t -q -g 'daemon on; master_process on;'
 ExecStart=/usr/local/openresty/nginx/sbin/nginx -g 'daemon on; master_process on;'
+ExecStartPost=/bin/sleep 1
 ExecReload=/usr/local/openresty/nginx/sbin/nginx -g 'daemon on; master_process on;' -s reload
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /usr/local/openresty/nginx/logs/nginx.pid
 TimeoutStopSec=5
