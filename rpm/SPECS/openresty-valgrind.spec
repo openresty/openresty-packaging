@@ -102,6 +102,7 @@ a single box.
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
