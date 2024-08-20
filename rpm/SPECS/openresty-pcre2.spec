@@ -1,6 +1,6 @@
 Name:       openresty-pcre2
-Version:    10.42
-Release:    2%{?dist}
+Version:    10.44
+Release:    1%{?dist}
 Summary:    Perl-compatible regular expression library
 
 Group:      System Environment/Libraries
@@ -136,6 +136,8 @@ export QA_RPATHS=$[ 0x0002 ]
 %{pcre2_prefix}/include/*.h
 
 %changelog
+* Tue Aug 20 2024 Yichun Zhang (agentzh) 10.44-1
+- upgraded PCRE2 to 10.44.
 * Mon Nov 27 2023 Yichun Zhang (agentzh) 10.42-2
 - update the packaging script.
 * Mon Nov 27 2023 Yichun Zhang (agentzh) 10.42-1
