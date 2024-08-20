@@ -8,8 +8,8 @@ sub update_changelog ($$);
 
 my $version = shift or die "No version number specified.\n";
 
-{
-    my $file = "openresty-pcre2.mk";
+for my $file (reverse sort glob 'openresty-pcre2*.mk') {
+    next unless -f $file;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
@@ -41,7 +41,7 @@ my $version = shift or die "No version number specified.\n";
     }
 }
 
-for my $dir (reverse sort glob 'openresty-pcre2') {
+for my $dir (reverse sort glob 'openresty-pcre2*') {
     next unless -d $dir && -d "$dir/debian";
     my $name = $dir;
     my $changelog = "$dir/debian/changelog.tt2";

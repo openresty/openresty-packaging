@@ -9,7 +9,7 @@ sub update_utils_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-for my $specfile (reverse sort glob 'openresty-pcre2.spec') {
+for my $specfile (reverse sort glob 'openresty-pcre2*.spec') {
     update_pcre_spec $specfile;
 }
 
@@ -73,7 +73,7 @@ sub update_pcre_spec ($) {
     }
 }
 
-for my $specfile (reverse sort glob 'openresty-utils-xx.spec') {
+for my $specfile (reverse sort glob 'openresty-utils-*.spec') {
     update_utils_spec $specfile;
 }
 

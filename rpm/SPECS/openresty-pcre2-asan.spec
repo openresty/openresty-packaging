@@ -1,4 +1,4 @@
-Name:       openresty-pcre2
+Name:       openresty-pcre2-asan
 Version:    10.44
 Release:    1%{?dist}
 Summary:    Perl-compatible regular expression library
@@ -16,7 +16,7 @@ AutoReqProv:    no
 AutoReq:        no
 AutoProv:       no
 
-%define pcre2_prefix /usr/local/openresty/pcre2
+%define pcre2_prefix /usr/local/openresty-asan/pcre2
 
 %description
 PCRE2 is a re-working of the original PCRE (Perl-compatible regular
@@ -82,7 +82,7 @@ pcre2posix.h.
 %setup -q -n pcre2-%{version}
 
 %build
-CFLAGS="-fPIC -g -O3" ./configure \
+CFLAGS="-fPIC -g -O2 -fno-omit-frame-pointer" ./configure \
     --prefix=%{pcre2_prefix} \
     --libdir=%{pcre2_prefix}/lib \
     --enable-jit \
@@ -109,7 +109,7 @@ CFLAGS="-fPIC -g -O3" ./configure \
     --disable-silent-rules \
     --enable-unicode \
     --disable-valgrind
-make CC='ccache gcc -fdiagnostics-color=always' -j`nproc`
+make CC='ccache gcc -fdiagnostics-color=always -fsanitize=address' -j`nproc`
 
 %install
 make install DESTDIR=%{buildroot}

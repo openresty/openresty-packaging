@@ -7,10 +7,9 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
-PREFIX = /usr/local/openresty/pcre2
 
 %:
-	dh $@ --parallel --with autotools-dev
+	dh $@ --parallel --with autotools-dev,systemd
 
 override_dh_auto_test:
 
@@ -19,9 +18,12 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	CFLAGS="-g -O3" ./configure \
-		--prefix=$(PREFIX) \
-		--libdir=$(PREFIX)/lib \
+	export CC="ccache gcc -fsanitize=address" \
+		&& export CFLAGS="-O1 -fno-omit-frame-pointer -g" \
+		&& export ASAN_OPTIONS=detect_leaks=0 \
+		&& ./configure \
+                --prefix=/usr/local/openresty-asan/pcre2 \
+                --libdir=/usr/local/openresty-asan/pcre2/lib \
 		--enable-jit \
 		--enable-pcre2grep-jit \
 		--disable-bsr-anycrlf \
@@ -46,12 +48,16 @@ override_dh_auto_build:
 		--disable-silent-rules \
 		--enable-unicode \
 		--disable-valgrind \
-	&& make CC='ccache gcc' -j`nproc`
+	        && make CC='ccache gcc' -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
 		&& rm -rf $(DESTDIR)$(PREFIX)/share \
 		&& rm -rf $(DESTDIR)$(PREFIX)/bin
 
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
 override_dh_strip:
-	dh_strip --dbg-package=openresty-pcre2-dbgsym
+	dh_strip --dbg-package=openresty-pcre2-asan-dbgsym
