@@ -1,2 +1,4 @@
-usr/local/openresty-asan/pcre2/lib/*.a
+usr/local/openresty-asan/pcre2/lib/*.so
+usr/local/openresty-asan/pcre2/lib/*.la
+usr/local/openresty-asan/pcre2/lib/pkgconfig/*
 usr/local/openresty-asan/pcre2/include/*.h

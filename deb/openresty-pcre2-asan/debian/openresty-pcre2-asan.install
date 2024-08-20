@@ -1,1 +1,4 @@
-usr/local/openresty-asan/pcre2/lib/*.so*
+usr/local/openresty-asan/pcre2/lib/libpcre2-8.so.0*
+usr/local/openresty-asan/pcre2/lib/libpcre2-posix.so.3*
+usr/local/openresty-asan/pcre2/lib/libpcre2-16.so.0*
+usr/local/openresty-asan/pcre2/lib/libpcre2-32.so.0*
