@@ -22,13 +22,33 @@ override_dh_auto_build:
 		&& export CFLAGS="-O1 -fno-omit-frame-pointer -g" \
 		&& export ASAN_OPTIONS=detect_leaks=0 \
 		&& ./configure \
-  --prefix=/usr/local/openresty-asan/pcre2 \
-  --libdir=/usr/local/openresty-asan/pcre2/lib \
-  --disable-cpp \
-  --enable-jit \
-  --enable-utf \
-  --enable-unicode-properties \
-		&& make -j`nproc` V=1 > /dev/stderr
+                --prefix=/usr/local/openresty-asan/pcre2 \
+                --libdir=/usr/local/openresty-asan/pcre2/lib \
+		--enable-jit \
+		--enable-pcre2grep-jit \
+		--disable-bsr-anycrlf \
+		--disable-coverage \
+		--disable-ebcdic \
+		--disable-fuzz-support \
+		--disable-jit-sealloc \
+		--disable-never-backslash-C \
+		--enable-newline-is-lf \
+		--enable-pcre2-8 \
+		--enable-pcre2-16 \
+		--enable-pcre2-32 \
+		--enable-pcre2grep-callout \
+		--enable-pcre2grep-callout-fork \
+		--disable-pcre2grep-libbz2 \
+		--disable-pcre2grep-libz \
+		--disable-pcre2test-libedit \
+		--enable-percent-zt \
+		--disable-rebuild-chartables \
+		--enable-shared \
+		--disable-static \
+		--disable-silent-rules \
+		--enable-unicode \
+		--disable-valgrind \
+	        && make CC='ccache gcc' -j`nproc`
 
 override_dh_auto_install:
 	make install DESTDIR=$(DESTDIR) \
