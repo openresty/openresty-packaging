@@ -105,7 +105,6 @@ cd openresty-*
     --with-threads \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     --with-compat \
-    --with-compat \
     --add-dynamic-module=../ \
     -j`nproc`
 
