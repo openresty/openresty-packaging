@@ -119,6 +119,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-libdemangle-clean \
 		openresty-perl-cpanel-json-xs-clean openresty-dw2c-clean \
 		openresty-wrk-clean lua-resty-dymetrics-bilibili-clean \
+		lua-resty-limit-traffic-dynamic-clean \
 		openresty-coreutils-clean openresty-intel-qat-driver-clean \
 		openresty-maxminddb-asan-clean \
 		openresty-plus-openssl111-qatengine-clean \

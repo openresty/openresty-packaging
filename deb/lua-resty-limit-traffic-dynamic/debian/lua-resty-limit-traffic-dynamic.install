@@ -1,0 +1,3 @@
+usr/local/openresty/site/lualib/resty/limit/traffic/dynamic.ljbc
+usr/local/openresty/site/lualib/resty/limit/traffic/dynamic/*.ljbc
+usr/local/openresty/site/lualib/*.so

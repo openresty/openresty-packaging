@@ -1,0 +1,21 @@
+Source: lua-resty-limit-traffic-dynamic
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty (>= 1.19.9), ccache, gcc, make
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: lua-resty-limit-traffic-dynamic
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: limit HTTP request base on the traffic dynamically.
+ Limit HTTP request base on the traffic dynamically.
+
+Package: lua-resty-limit-traffic-dynamic-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, lua-resty-limit-traffic-dynamic (>= ${source:Upstream-Version})
+Description: Debug symbols for the lua-resty-limit-traffic-dynamic package
+ Debug symbols (or debuginfo) for the lua-resty-limit-traffic-dynamic package.

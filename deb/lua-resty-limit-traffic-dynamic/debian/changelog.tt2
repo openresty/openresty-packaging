@@ -1,0 +1,6 @@
+lua-resty-limit-traffic-dynamic (1.0.0-1~[% distro %]1) [% distro %]; urgency=high
+
+  * init version of lua-resty-limit-traffic-dynamic.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 31 Aug 2024 00:00:00 -0700
+

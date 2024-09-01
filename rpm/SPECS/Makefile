@@ -129,6 +129,7 @@ priv_targets = openresty-plus \
 		lua-resty-redis-cluster-fast-1.21.4 \
 		lua-resty-redis-cluster-fast-1.25.3 \
 		lua-resty-dymetrics-bilibili \
+		lua-resty-limit-traffic-dynamic \
 		coro-nginx-module-1.21.4 \
 		coro-hiredis-nginx-module-1.21.4 \
 		coro-nginx-module-1.25.3 \
