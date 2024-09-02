@@ -14,8 +14,6 @@ URL:            https://www.openresty.com/
 Source0:        lua-resty-dymetrics-%{version}.tar.gz
 Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
 
-Patch0:         nginx-%{ngx_version}-proc_exit_handler.patch
-
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
@@ -70,7 +68,6 @@ This is the dymetrics nginx module for OpenResty.
 tar xzf %{SOURCE1}
 
 cd openresty-%{or_version}/bundle/nginx-%{ngx_version}
-%patch0 -p1
 
 
 %build

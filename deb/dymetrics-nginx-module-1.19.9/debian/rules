@@ -21,7 +21,6 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd openresty-$(OPENRESTY_VER)/bundle/nginx-$(NGINX_VER) && patch -p1 < $(CURDIR)/debian/patches/nginx-$(NGINX_VER)-proc_exit_handler.patch
 	cd openresty-* \
 	&& ./configure \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
