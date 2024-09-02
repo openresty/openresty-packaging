@@ -5,20 +5,22 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub gen_all_vers_cfg ();
 
 my $version = shift or die "No version number specified.\n";
 
-if ($version !~ /^\d+(?:\.\d+){2}$/) {
+if ($version !~ /^\d+(\.\d+){2}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $file (reverse sort glob 'dymetrics-nginx-module*.mk') {
+{
+    my $file = "dymetrics-nginx-module-NGINX_VERSION.mk";
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ DYMETRICS_NGINX_MODULE_VER\ :=\ ( \d+ (?: \.\d+ ){2} ) $/DYMETRICS_NGINX_MODULE_VER := $version/msx) {
+        if (s/^ DYMETRICS_NGINX_MODULE_VER\ :=\ ( \d+(\.\d+){2} ) $/DYMETRICS_NGINX_MODULE_VER := $version/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;
@@ -44,9 +46,9 @@ for my $file (reverse sort glob 'dymetrics-nginx-module*.mk') {
     }
 }
 
-for my $dir (reverse sort glob 'dymetrics-nginx-module*') {
+for my $dir (reverse sort glob 'dymetrics-nginx-module-NGINX_VERSION*') {
     next unless -d $dir && -d "$dir/debian";
-    if ($dir =~ /^dymetrics-nginx-module-\d+(?:\.\d+){2}$/) {
+    if ($dir =~ /^dymetrics-nginx-module-NGINX_VERSION$/) {
         my $name = $dir;
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {
@@ -72,7 +74,7 @@ sub update_changelog ($$) {
         die "Bad file content in $file";
     }
 
-    if ($src =~ /^ \Q$name\E \s+ \( ( \d+ (?: \.\d+ ){2} ) - \d+ ~ /xsm) {
+    if ($src =~ /^ \Q$name\E \s+ \( ( \d+(\.\d+){2} ) - \d+ ~ /xsm) {
         my $old_ver = $1;
         if ($old_ver ne $version) {
             say "INFO: $file: version needs update from $old_ver to $version";
@@ -94,7 +96,7 @@ sub update_changelog ($$) {
     my $new = <<_EOC_;
 $name ($version-1~[% distro %]1) [% distro %]; urgency=high
 
-  * upgraded lua-resty-dymetrics to $version.
+  * upgraded dymetrics-nginx-module to $version.
 
  -- OpenResty Admin <admin\@openresty.com>  $now
 
@@ -107,4 +109,39 @@ _EOC_
     print $out $src;
     close $out;
     say "$file updated.";
+    gen_all_vers_cfg;
+}
+
+
+sub gen_all_vers_cfg () {
+    my @ngx_vers = (["1.19.9", "1.19.9.1"], ["1.21.4", "1.21.4.2"]);
+
+    for my $ver (@ngx_vers) {
+        my $ngx_ver=$ver->[0];
+        my $or_ver=$ver->[1];
+
+        system("rm -fr dymetrics-nginx-module-$ngx_ver") == 0
+            or die "Cannot remove dymetrics-nginx-module-$ngx_ver: $!\n";
+
+        system("cp -R dymetrics-nginx-module-NGINX_VERSION dymetrics-nginx-module-$ngx_ver") == 0
+            or die "Cannot cp to dymetrics-nginx-module-$ngx_ver: $!\n";
+
+        rename "dymetrics-nginx-module-$ngx_ver/debian/dymetrics-nginx-module-NGINX_VERSION.install",
+               "dymetrics-nginx-module-$ngx_ver/debian/dymetrics-nginx-module-$ngx_ver.install"
+               or die "Cannot rename dymetrics-nginx-module-NGINX_VERSION.install: $!";
+        system("find dymetrics-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/NGINX_VERSION/$ngx_ver/g") == 0
+            or die "can not change NGINX_VERSION: $!";
+
+        system("find dymetrics-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/OPENRESTY_VERSION/$or_ver/g") == 0
+            or die "can not change OPENRESTY_VERSION: $!";
+
+        system("cp -R dymetrics-nginx-module-NGINX_VERSION.mk dymetrics-nginx-module-$ngx_ver.mk") == 0
+            or die "can not copy dymetrics-nginx-module-NGINX_VERSION.mk: $!";
+
+        system("sed -i s/NGINX_VERSION/$ngx_ver/g dymetrics-nginx-module-$ngx_ver.mk") == 0
+            or die "can not change NGINX_VERSION: $!";
+
+        system("sed -i s/OPENRESTY_VERSION/$or_ver/g dymetrics-nginx-module-$ngx_ver.mk") == 0
+            or die "can not change OPENRESTY_VERSION: $!";
+    }
 }

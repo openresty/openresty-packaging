@@ -4,15 +4,19 @@ use v5.10.1;
 use strict;
 use warnings;
 
-sub update_dymetrics_spec ($);
+sub update_spec ($);
 
 my $version = shift or die "No version number specified.\n";
 
-for my $specfile (reverse sort glob 'dymetrics-nginx-module*.spec') {
-    update_dymetrics_spec $specfile;
+if ($version !~ /^\d+(?:\.\d+){2}$/) {
+    die "ERROR: Bad version number: $version";
 }
 
-sub update_dymetrics_spec ($) {
+for my $specfile (reverse sort glob 'dymetrics-nginx-module.spec') {
+    update_spec $specfile;
+}
+
+sub update_spec ($) {
     my $file = shift;
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
@@ -28,11 +32,11 @@ sub update_dymetrics_spec ($) {
     if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
-            say "INFO: $file: version got changed from $old_ver to $version";
+            say "INFO: version got changed from $old_ver to $version";
             $changes++;
 
         } else {
-            say "INFO: $file: already up to date: $version";
+            say "INFO: $file is already up to date: $version";
             return;
         }
 
@@ -69,5 +73,12 @@ sub update_dymetrics_spec ($) {
         print $out $src;
         close $out;
         say "$file updated with $changes change(s).";
+        system("sed 's/NGINX_VERSION/1.19.9/' dymetrics-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.19.9.1/' > dymetrics-nginx-module-1.19.9.spec") == 0
+                or die "Cannot generate spec for 1.19.9: $!";
+
+        system("sed 's/NGINX_VERSION/1.21.4/' dymetrics-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2/' > dymetrics-nginx-module-1.21.4.spec") == 0
+                or die "Cannot generate spec for 1.21.4: $!";
     }
 }
+
+

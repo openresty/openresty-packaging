@@ -6,8 +6,8 @@ include /usr/share/dpkg/default.mk
 export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
-OPENRESTY_VER = 1.19.9.1
-NGINX_VER = 1.19.9
+OPENRESTY_VER = 1.21.4.2
+NGINX_VER = 1.21.4
 
 DESTDIR = $(CURDIR)/debian/tmp
 
@@ -67,4 +67,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=dymetrics-nginx-module-1.19.9-dbgsym
+	dh_strip --dbg-package=dymetrics-nginx-module-1.21.4-dbgsym

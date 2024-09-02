@@ -1,4 +1,4 @@
-Name:           dymetrics-nginx-module-1.19.9
+Name:           dymetrics-nginx-module-1.21.4
 Version:        0.0.19
 Release:        1%{?dist}
 Summary:        dymetrics nginx module for OpenResty
@@ -8,8 +8,8 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-%define ngx_version          1.19.9
-%define or_version           1.19.9.1
+%define ngx_version          1.21.4
+%define or_version           1.21.4.2
 
 Source0:        lua-resty-dymetrics-%{version}.tar.gz
 Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
@@ -130,6 +130,8 @@ rm -rf %{buildroot}
 %changelog
 * Mon Sep 2 2024 Yichun Zhang (agentzh) 0.0.19-1
 - upgraded dymetrics-nginx-module to 0.0.19.
+* Mon Sep 2 2024 Yichun Zhang (agentzh) 0.0.19-1
+- upgraded lua-kafka-nginx-module to 0.0.19.
 * Sun May 14 2023 Yichun Zhang (agentzh) 0.0.17-1
 - upgraded dymetrics-nginx-module to 0.0.17.
 * Sun May 14 2023 Yichun Zhang (agentzh) 0.0.16-1

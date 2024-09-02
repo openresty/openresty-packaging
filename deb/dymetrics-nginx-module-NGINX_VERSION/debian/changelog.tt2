@@ -1,0 +1,36 @@
+dymetrics-nginx-module-NGINX_VERSION (0.0.19-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dymetrics-nginx-module to 0.0.19.
+
+ -- OpenResty Admin <admin@openresty.com>  一, 2 9月 2024 15:28:37 +0800
+
+dymetrics-nginx-module-NGINX_VERSION (0.0.20-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dymetrics-nginx-module to 0.0.20.
+
+ -- OpenResty Admin <admin@openresty.com>  一, 2 9月 2024 15:28:23 +0800
+
+dymetrics-nginx-module-NGINX_VERSION (0.0.19-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dymetrics-nginx-module to 0.0.19.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 2 Sep 2024 14:54:03 +0800
+
+dymetrics-nginx-module-NGINX_VERSION (0.0.17-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-dymetrics to 0.0.17.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 14 May 2023 23:05:38 -0700
+
+dymetrics-nginx-module-NGINX_VERSION (0.0.16-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-dymetrics to 0.0.16.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 14 May 2023 20:31:06 -0700
+
+dymetrics-nginx-module-NGINX_VERSION (0.0.15-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dymetrics-nginx-module to 0.0.15.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 11 May 2023 00:00:00 -0700
+

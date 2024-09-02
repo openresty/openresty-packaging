@@ -1,0 +1,33 @@
+## Author: spec2deb.pl
+### Version: 0.01
+
+DYMETRICS_NGINX_MODULE_VER := 0.0.19
+
+.PHONY: dymetrics-nginx-module-NGINX_VERSION-download
+dymetrics-nginx-module-NGINX_VERSION-download:
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-OPENRESTY_VERSION.tar.gz'
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-dymetrics-$(DYMETRICS_NGINX_MODULE_VER).tar.gz ./
+	rm -rf dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER)
+	mkdir -p dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER)
+	tar -xf openresty-OPENRESTY_VERSION.tar.gz -C dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER)
+	tar -xf lua-resty-dymetrics-$(DYMETRICS_NGINX_MODULE_VER).tar.gz --strip-components=1 -C dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER)
+	tar -czf dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER).orig.tar.gz dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER)
+
+dymetrics-nginx-module-NGINX_VERSION-clean:
+	-cd dymetrics-nginx-module-NGINX_VERSION && debclean
+	-find dymetrics-nginx-module-NGINX_VERSION -maxdepth 1 ! -name 'debian' ! -name 'dymetrics-nginx-module-NGINX_VERSION' -print | xargs rm -rf
+	rm -rf dymetrics-nginx-module-NGINX_VERSION*.deb
+	rm -rf dymetrics-nginx-module-NGINX_VERSION_*.*
+
+#sudo apt-get -y -q install libtemplate-perl debhelper devscripts dh-systemd
+#sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
+.PHONY: dymetrics-nginx-module-NGINX_VERSION-build
+dymetrics-nginx-module-NGINX_VERSION-build: dymetrics-nginx-module-NGINX_VERSION-clean dymetrics-nginx-module-NGINX_VERSION-download
+	sudo apt-get -y -q install ccache gcc make perl openresty-openssl111-dev openresty-zlib-dev openresty-pcre-dev
+	sudo apt-get -y -q install --only-upgrade ccache gcc make perl openresty-openssl111-dev openresty-zlib-dev openresty-pcre-dev
+	rm -f *.deb *.debian.tar.xz *.dsc *.changes
+	tar xf dymetrics-nginx-module-NGINX_VERSION_$(DYMETRICS_NGINX_MODULE_VER).orig.tar.gz --strip-components=1 -C dymetrics-nginx-module-NGINX_VERSION
+	cd dymetrics-nginx-module-NGINX_VERSION \
+		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
+		&& debuild $(OPTS) -j$(JOBS)
+	#if [ -f ./upload ]; then ./upload || exit 1; fi
