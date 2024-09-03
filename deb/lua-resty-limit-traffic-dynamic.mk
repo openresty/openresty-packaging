@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
- LUA_RESTY_LIMIT_TRAFFIC_DYNAMIC_VE := 1.0.2
+ LUA_RESTY_LIMIT_TRAFFIC_DYNAMIC_VER := 1.0.2
 
 .PHONY: lua-resty-limit-traffic-dynamic-download
 lua-resty-limit-traffic-dynamic-download:
