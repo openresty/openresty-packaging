@@ -137,6 +137,7 @@ priv_targets = openresty-plus \
 		lua-kafka-nginx-module-1.21.4 \
 		lua-kafka-nginx-module-1.25.3 \
 		dymetrics-nginx-module-1.19.9 \
+		dymetrics-nginx-module-1.21.4 \
 		openresty-opencc \
 		openresty-llvm \
 		openresty-lua-cjson \
