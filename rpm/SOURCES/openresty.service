@@ -11,6 +11,7 @@ ExecStart=/usr/local/openresty/nginx/sbin/nginx
 ExecStartPost=/bin/sleep 1
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s QUIT $MAINPID
+RuntimeDirectory=openresty
 PrivateTmp=true
 
 [Install]
