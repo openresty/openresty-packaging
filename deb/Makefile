@@ -70,6 +70,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-postgresql12-orsl-clean \
 		openresty-postgresql-ip4r-clean \
 		openresty-postgresql12-ip4r-clean saas-pcre-clean \
+		openresty-postgresql12-auto-failover-clean \
 		saas-zlib-clean \
 		openresty-util-linux-clean openresty-stap-clean \
 		openresty-elfutils-clean openresty-odb-clean \
