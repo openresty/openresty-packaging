@@ -1,6 +1,6 @@
 Name:       openresty-postgresql12
 Version:    12.5
-Release:    12%{?dist}
+Release:    13%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql12
@@ -100,7 +100,7 @@ type-diff=01;32"
             --with-openssl \
             --with-ossp-uuid \
             CC='ccache gcc' \
-            CFLAGS="-O2 -g3 -I%{openssl_prefix}/include" \
+            CFLAGS="-O2 -g3 -fPIE -I%{openssl_prefix}/include" \
             LDFLAGS="-L. -Wl,-rpath,%{pgprefix}/lib,-rpath,%{openssl_prefix}/lib"
 
 make -j`nproc` MAKELEVEL=0

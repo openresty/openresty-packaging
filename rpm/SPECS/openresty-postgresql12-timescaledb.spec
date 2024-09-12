@@ -6,7 +6,7 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    1.7.4
-Release:    6%{?dist}
+Release:    7%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
 Group:      Productivity/Database
 License:    Proprietary

@@ -5,7 +5,7 @@
 
 Name:       openresty-postgresql12-auto-failover
 Version:    2.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Postgres extension for automated failover and high-availability
 Group:      Productivity/Database
 License:    PostgreSQL

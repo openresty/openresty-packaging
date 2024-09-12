@@ -4,7 +4,7 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    2.4.1
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    IPv4 and IPv4 range index types for PostgreSQL
 Group:      Productivity/Database
 License:    Proprietary

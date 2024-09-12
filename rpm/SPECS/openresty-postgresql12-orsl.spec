@@ -4,7 +4,7 @@
 
 Name:       openresty-postgresql12-%{ext}
 Version:    0.02
-Release:    4%{?dist}
+Release:    5%{?dist}
 Summary:    PostgreSQL extension contains utilities used in mini-sl
 Group:      Productivity/Database
 License:    Proprietary
