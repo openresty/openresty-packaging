@@ -1,6 +1,6 @@
 Name:           openresty-otel-nginx-module-NGINX_VERSION
 Version:        0.1.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OTEL Nginx module for openresty
 
 Group:          Development/Libraries
@@ -11,12 +11,12 @@ URL:            https://github.com/nginxinc/nginx-otel
 %define or_version           OPENRESTY_VERSION
 
 Source0:        nginx-otel-plus-%{version}.tar.gz
-Source1:        openresty-plus-%{or_version}.tar.gz
+Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl-File-Temp
-BuildRequires:  ccache, gcc, cmake, make, perl,c-ares
+BuildRequires:  perl-File-Temp, procps-ng
+BuildRequires:  ccache, gcc, cmake, make, perl,c-ares, c-ares-devel
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1n-1
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-pcre-devel
@@ -73,7 +73,7 @@ tar xzf %{SOURCE1}
 %build
 # Create new file in install stage will cause check-buildroots to abort.
 # To avoid it, we move the compilation in build stage.
-cd openresty-plus*/
+cd openresty-%{or_version}/
 ./configure \
     --prefix="%{or_prefix}" \
     --with-cc='ccache gcc -fdiagnostics-color=always' \
@@ -87,7 +87,7 @@ cd ..
 
 mkdir build
 cd build
-cmake -DNGX_OTEL_NGINX_BUILD_DIR=../openresty-plus-%{or_version}/build/nginx-NGINX_VERSION/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib -D "CMAKE_C_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_CXX_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_MODULE_LINKER_FLAGS=%{NGX_LD_OPT}" ..
+cmake -DNGX_OTEL_NGINX_BUILD_DIR=../openresty-%{or_version}/build/nginx-NGINX_VERSION/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib -D "CMAKE_C_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_CXX_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_MODULE_LINKER_FLAGS=%{NGX_LD_OPT}" ..
 free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 900 ))
