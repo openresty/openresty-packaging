@@ -1,0 +1,21 @@
+Source: openresty-otel-nginx-module-1.19.9
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, cmake, make, perl, libc-ares-dev, openresty-plus-openssl111-dev (>= 1.1.1n), openresty-saas-zlib-dev (>= 1.2.12), openresty-pcre-dev
+Standards-Version: 3.9.8
+Homepage: https://github.com/nginxinc/nginx-otel
+
+Package: openresty-otel-nginx-module-1.19.9
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas-zlib, openresty-plus-openssl111, libc-ares2
+Description: OTEL Nginx module for openresty
+ Coroutine implemented using ucontext API.
+
+Package: openresty-otel-nginx-module-1.19.9-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-otel-nginx-module-1.19.9 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-otel-nginx-module-1.19.9 package
+ Debug symbols (or debuginfo) for the openresty-otel-nginx-module-1.19.9 package.

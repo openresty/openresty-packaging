@@ -1,0 +1,12 @@
+openresty-otel-nginx-module-1.19.9 (0.1.1.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-otel-nginx-module to 0.1.1.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 5 Sep 2024 15:20:48 +0000
+
+openresty-otel-nginx-module-1.19.9 (0.1.1.0-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-otel-nginx-module to 0.1.0.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 4 Sep 2024 00:00:00 -0700
+

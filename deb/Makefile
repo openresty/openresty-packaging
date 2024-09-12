@@ -133,6 +133,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		coro-hiredis-nginx-module-1.25.3-clean \
 		lua-kafka-nginx-module-1.21.4-clean \
 		lua-kafka-nginx-module-1.25.3-clean \
+		openresty-otel-nginx-module-1.19.9-clean \
 		openresty-librdkafka-clean \
 		openresty-ljsb-clean \
 		openresty-llvm-clean \

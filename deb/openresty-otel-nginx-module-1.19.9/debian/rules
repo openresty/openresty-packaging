@@ -1,0 +1,52 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+NGX_CC_OPT = -I/opt/openresty-saas/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-plus/openssl111/include -O3
+NGX_LD_OPT = -L/opt/openresty-saas/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-plus/openssl111/lib -Wl,-rpath,/opt/openresty-saas/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-plus/openssl111/lib
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd openresty-*/ \
+		&& ./configure \
+    --prefix="/usr/local/openresty-plus" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
+    --with-cc-opt="$(NGX_CC_OPT)" \
+    --with-ld-opt="$(NGX_LD_OPT)" \
+    --with-compat --with-threads \
+    --with-http_v2_module \
+    --with-threads --with-compat --with-stream --with-http_ssl_module --with-stream_ssl_module \
+    -j`nproc` \
+		&& cd .. \
+		&& mkdir build \
+		&& cd build \
+		&& cmake -DNGX_OTEL_NGINX_BUILD_DIR=../openresty-1.19.9.2/build/nginx-1.19.9/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib -D "CMAKE_C_FLAGS=$(NGX_CC_OPT)" -D "CMAKE_CXX_FLAGS=$(NGX_CC_OPT)" -D "CMAKE_MODULE_LINKER_FLAGS=$(NGX_LD_OPT)" .. \
+ 	        && free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
+		max_jobs=$$(( $$free / 900 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
+		max_jobs=$$ncpus; fi; \
+		make -j$$max_jobs
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty-plus/nginx/modules \
+		&& install -m755 build/ngx_otel_module.so $(DESTDIR)/usr/local/openresty-plus/nginx/modules
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-otel-nginx-module-1.19.9-dbgsym
