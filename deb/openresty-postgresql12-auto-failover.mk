@@ -21,8 +21,8 @@ openresty-postgresql12-auto-failover-clean:
 #sudo apt-get -y -q install --only-upgrade libtemplate-perl debhelper devscripts dh-systemd
 .PHONY: openresty-postgresql12-auto-failover-build
 openresty-postgresql12-auto-failover-build: openresty-postgresql12-auto-failover-clean openresty-postgresql12-auto-failover-download
-	sudo apt-get -y -q install openresty-postgresql12-dev ccache ncurses-dev libxml2-dev libxslt-dev libreadline-dev zlib1g-dev
-	sudo apt-get -y -q install --only-upgrade openresty-postgresql12-dev ccache ncurses-dev libxml2-dev libxslt-dev libreadline-dev zlib1g-dev
+	sudo apt-get -y -q install openresty-postgresql12-dev ccache ncurses-dev libxml2-dev libxslt-dev libreadline-dev zlib1g-dev make gcc
+	sudo apt-get -y -q install --only-upgrade openresty-postgresql12-dev ccache ncurses-dev libxml2-dev libxslt-dev libreadline-dev zlib1g-dev make gcc
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-postgresql12-auto-failover_$(OPENRESTY_POSTGRESQL12_AUTO_FAILOVER_VER).orig.tar.gz --strip-components=1 -C openresty-postgresql12-auto-failover
 	cd openresty-postgresql12-auto-failover \
