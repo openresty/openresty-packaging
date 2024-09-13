@@ -13,8 +13,8 @@ URL:        https://github.com/citusdata/pg_auto_failover
 Source0:    https://github.com/citusdata/pg_auto_failover/archive/v%{version}.tar.gz
 
 AutoReqProv:    no
-BuildRequires:  openresty-postgresql12-devel >= 12.0, ccache, ncurses-devel, libxml2-devel, libxslt-devel, readline-devel, make, gcc
-Requires:       openresty-postgresql12 >= 12.0
+BuildRequires:  openresty-postgresql12-devel >= 12.5-13, ccache, ncurses-devel, libxml2-devel, libxslt-devel, readline-devel, make, gcc
+Requires:       openresty-postgresql12 >= 12.5-13
 
 
 %description
