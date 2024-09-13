@@ -20,20 +20,9 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd openresty-*/ \
-		&& ./configure \
-    --prefix="/usr/local/openresty-plus" \
-    --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="$(NGX_CC_OPT)" \
-    --with-ld-opt="$(NGX_LD_OPT)" \
-    --with-compat --with-threads \
-    --with-http_v2_module \
-    --with-threads --with-compat --with-stream --with-http_ssl_module --with-stream_ssl_module \
-    -j`nproc` \
-		&& cd .. \
-		&& mkdir build \
+		mkdir build \
 		&& cd build \
-		&& cmake -DNGX_OTEL_NGINX_BUILD_DIR=../openresty-1.19.9.2/build/nginx-1.19.9/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib -D "CMAKE_C_FLAGS=$(NGX_CC_OPT)" -D "CMAKE_CXX_FLAGS=$(NGX_CC_OPT)" -D "CMAKE_MODULE_LINKER_FLAGS=$(NGX_LD_OPT)" .. \
+		&& cmake -DPCRE_ROOT_DIR=/usr/local/openresty/pcre -DNGX_OTEL_NGINX_BUILD_DIR=/usr/local/openresty-plus/build/nginx-1.19.9/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib .. \
  	        && free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
 		max_jobs=$$(( $$free / 900 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
 		max_jobs=$$ncpus; fi; \

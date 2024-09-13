@@ -1,5 +1,5 @@
 Name:           openresty-otel-nginx-module-1.27.1
-Version:        0.1.1.1
+Version:        0.1.1.2
 Release:        1%{?dist}
 Summary:        OTEL Nginx module for openresty
 
@@ -8,19 +8,19 @@ Group:          Development/Libraries
 License:        Apache-2.0 license
 URL:            https://github.com/nginxinc/nginx-otel
 
-%define or_version           1.27.1.1.1
+%define or_version           1.27.1.1
 
 Source0:        nginx-otel-plus-%{version}.tar.gz
-Source1:        openresty-plus-%{or_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl-File-Temp
-BuildRequires:  ccache, gcc, cmake, make, perl,c-ares
+BuildRequires:  perl-File-Temp, procps-ng
+BuildRequires:  gcc, cmake, make, perl
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1n-1
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.12-1
 BuildRequires:  openresty-pcre-devel
-Requires:       openresty-saas-zlib,openresty-plus-openssl111,c-ares
+BuildRequires:  openresty-plus-core-devel
+Requires:       openresty-saas-zlib,openresty-plus-openssl111
 
 
 AutoReqProv:        no
@@ -67,27 +67,14 @@ Coroutine implemented using ucontext API.
 
 %prep
 %setup -q -n "nginx-otel-plus-%{version}"
-tar xzf %{SOURCE1}
 
 
 %build
 # Create new file in install stage will cause check-buildroots to abort.
 # To avoid it, we move the compilation in build stage.
-cd openresty-plus*/
-./configure \
-    --prefix="%{or_prefix}" \
-    --with-cc='ccache gcc -fdiagnostics-color=always' \
-    --with-cc-opt="%{NGX_CC_OPT}" \
-    --with-ld-opt="%{NGX_LD_OPT}" \
-    --with-compat --with-threads \
-    --with-http_v2_module \
-    --with-threads --with-compat --with-stream --with-http_ssl_module --with-stream_ssl_module \
-    -j`nproc`
-cd ..
-
 mkdir build
 cd build
-cmake -DNGX_OTEL_NGINX_BUILD_DIR=../openresty-plus-%{or_version}/build/nginx-1.27.1/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib -D "CMAKE_C_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_CXX_FLAGS=%{NGX_CC_OPT}" -D "CMAKE_MODULE_LINKER_FLAGS=%{NGX_LD_OPT}" ..
+cmake -DPCRE_ROOT_DIR=%{pcre_prefix} -DNGX_OTEL_NGINX_BUILD_DIR=/usr/local/openresty-plus/build/nginx-1.27.1/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib ..
 free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 900 ))
@@ -117,7 +104,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Sep 13 2024 Yichun Zhang (agentzh) 0.1.1.2-1
+- upgraded openresty-otel-nginx-module to 0.1.1.2.
 * Thu Sep 5 2024 Yichun Zhang (agentzh) 0.1.1.1-1
 - upgraded openresty-otel-nginx-module to 0.1.1.1.
-* Wed Sep 4 2024 Yichun Zhang (agentzh) 0.1.1.0-1
-- upgraded openresty-otel-nginx-module to 0.1.0.1.

@@ -73,10 +73,10 @@ sub update_spec ($) {
         print $out $src;
         close $out;
         say "$file updated with $changes change(s).";
-        system("sed 's/NGINX_VERSION/1.19.9/' openresty-otel-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.19.9.1.67/' > openresty-otel-nginx-module-1.19.9.spec") == 0
+        system("sed 's/NGINX_VERSION/1.19.9/' openresty-otel-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.19.9.2/' > openresty-otel-nginx-module-1.19.9.spec") == 0
                 or die "Cannot generate spec for 1.19.9: $!";
 
-        system("sed 's/NGINX_VERSION/1.27.1/' openresty-otel-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.27.1.1.1/' > openresty-otel-nginx-module-1.27.1.spec") == 0
+        system("sed 's/NGINX_VERSION/1.27.1/' openresty-otel-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.27.1.1/' > openresty-otel-nginx-module-1.27.1.spec") == 0
                 or die "Cannot generate spec for 1.27.1: $!";
     }
 }
