@@ -34,7 +34,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
                 openresty-pcre2-asan-clean \
-                openresty-pcre2-clean
+                openresty-pcre2-clean openresty-openssl30-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download
