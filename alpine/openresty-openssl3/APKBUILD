@@ -1,0 +1,92 @@
+# Contributor: Yichun Zhang <admin@openresty.com>
+# Maintainer: Yichun Zhang <admin@openresty.com>
+pkgname="openresty-openssl3"
+pkgver="3.0.15"
+pkgrel=0
+pkgdesc="OpenSSL 3.0 library for OpenResty"
+url="https://www.openssl.org/"
+arch="all"
+license="OpenSSL"
+depends="openresty-zlib"
+makedepends="perl openresty-zlib-dev ccache linux-headers"
+#install=""
+subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
+source="https://www.openssl.org/source/openssl-$pkgver.tar.gz
+    openssl-3.0.15-sess_set_get_cb_yield.patch
+    "
+builddir="$srcdir/openssl-$pkgver/"
+options="!tracedeps !fhs"
+
+_ssl_prefix="/usr/local/openresty/openssl111"
+_zlib_prefix="/usr/local/openresty/zlib"
+
+build() {
+    export CC="ccache gcc -fdiagnostics-color=always -g"
+    export CFLAGS=
+    export CXXFLAGS=
+    export CPPFLAGS=
+    export LDFLAGS=
+
+    ./config \
+        shared zlib -g \
+        --libdir=lib \
+        enable-camellia enable-seed enable-rfc3779 \
+        enable-cms enable-md2 enable-rc5 \
+        enable-weak-ssl-ciphers \
+        enable-ssl3 enable-ssl3-method \
+        enable-md2 enable-ktls enable-fips\
+        --prefix="$_ssl_prefix" \
+        -I$_zlib_prefix/include \
+        -L$_zlib_prefix/lib \
+        -Wl,"-rpath,$_zlib_prefix/lib:$_ssl_prefix/lib"
+
+    make CC='ccache gcc -fdiagnostics-color=always -g' -j$JOBS
+}
+
+check() {
+	:
+}
+
+package() {
+    make install_sw DESTDIR="$pkgdir"
+
+    chmod 0755 $pkgdir/$_ssl_prefix/lib/*.so*
+    chmod 0755 $pkgdir/$_ssl_prefix/lib/*/*.so*
+
+    rm -rf $pkgdir/$_ssl_prefix/bin/c_rehash
+}
+
+static() {
+    if ! is_function default_static; then
+        local i= devpkg
+
+        # search for -dev package matching our prefix
+        if [ -z "$depends_static" ]; then
+            devpkg="${subpkgname%-libs-static}"
+            devpkg="${devpkg%-static}"
+            devpkg="$devpkg-dev"
+            if subpackages_has "$devpkg"; then
+                depends_static="$devpkg"
+            fi
+        fi
+
+        depends="$depends_static"
+        pkgdesc="$pkgdesc (static library)"
+
+        cd "$pkgdir" || return 0
+        local libdirs=usr/lib
+        [ -d lib/ ] && libdirs="lib/ $libdirs"
+
+        # move *.a static library
+        for i in $(find $libdir -name '*.a'); do
+            mkdir -p "$subpkgdir"/"${i%/*}"
+            mv "$i" "$subpkgdir/$i" || return 1
+        done
+        return 0
+    fi
+
+    default_static
+}
+
+sha512sums="23c666d0edf20f14249b3d8f0368acaee9ab585b09e1de82107c66e1f3ec9533  openssl-3.0.15.tar.gz
+4c9925018f49c70ebd2f197a4cb15d9517416ad08366bac9849afb0d2b8ec922  openssl-3.0.15-sess_set_get_cb_yield.patch"

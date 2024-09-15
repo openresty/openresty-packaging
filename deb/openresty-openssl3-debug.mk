@@ -1,8 +1,6 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-SSL3_VER := 3.0.15
-
 .PHONY: openresty-openssl3-debug-download
 openresty-openssl3-debug-download:
 	LANG=C LC_ALL='C.UTF-8' wget -nH --cut-dirs=100 --mirror 'https://github.com/openssl/openssl/releases/download/openssl-$(SSL3_VER)/openssl-$(SSL3_VER).tar.gz'
