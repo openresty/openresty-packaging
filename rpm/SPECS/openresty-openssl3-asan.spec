@@ -95,7 +95,7 @@ ncpus=`nproc`
 if [ "$ncpus" -gt 16 ]; then
     ncpus=16
 fi
-make CC='ccache gcc -fdiagnostics-color=always -fsanitize=address' -j$ncpus
+make CC='ccache gcc -fdiagnostics-color=always' -j$ncpus
 
 
 %install

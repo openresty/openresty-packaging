@@ -1,6 +1,3 @@
-usr/local/openresty-asan/openssl3/
-usr/local/openresty-asan/openssl3/bin/
-usr/local/openresty-asan/openssl3/lib/
 usr/local/openresty-asan/openssl3/lib/engines-3/
 usr/local/openresty-asan/openssl3/lib/ossl-modules/
 usr/local/openresty-asan/openssl3/bin/openssl

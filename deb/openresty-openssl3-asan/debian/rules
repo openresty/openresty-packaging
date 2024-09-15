@@ -18,9 +18,10 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	./config \
+	export ASAN_OPTIONS=detect_leaks=0 \
+	&& ./config \
     shared zlib -g \
-    --prefix=/usr/local/openresty/openssl3 \
+    --prefix=/usr/local/openresty-asan/openssl3 \
     --libdir=lib \
     enable-asan \
     enable-camellia enable-seed enable-rfc3779 \
@@ -33,13 +34,14 @@ override_dh_auto_build:
     -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl3/lib \
     && ncpus=`nproc` \
     && if [ "$$ncpus" -gt 16 ]; then ncpus=16; fi \
-    && make CC='ccache gcc -fdiagnostics-color=always -fsanitize=address' -j$$ncpus
+    && make CC='ccache gcc -fdiagnostics-color=always' -j$$ncpus
 
 override_dh_auto_install:
-	make install_sw DESTDIR=$(DESTDIR) \
-		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*.so* \
-		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*/*.so* \
-		&& rm -rf $(DESTDIR)/usr/local/openresty/openssl3/bin/c_rehash
+	export ASAN_OPTIONS=detect_leaks=0 \
+	&& make install_sw DESTDIR=$(DESTDIR) \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty-asan/openssl3/lib/*.so* \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty-asan/openssl3/lib/*/*.so* \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-asan/openssl3/bin/c_rehash
 
 override_dh_auto_clean:
 	dh_clean
