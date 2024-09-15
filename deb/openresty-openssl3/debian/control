@@ -1,0 +1,29 @@
+Source: openresty-openssl3
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), gcc, make, perl, openresty-zlib-dev (>= 1.2.11)
+Standards-Version: 3.9.8
+Homepage: https://www.openssl.org/
+
+Package: openresty-openssl3
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-zlib (>= 1.2.11)
+Description: OpenSSL library for OpenResty
+ This OpenSSL library build is specifically for OpenResty uses. It may contain
+ custom patches from OpenResty.
+
+Package: openresty-openssl3-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-openssl3 (>= ${source:Upstream-Version})
+Description: Development files for OpenResty's OpenSSL library
+ Provides C header and static library for OpenResty's OpenSSL library.
+
+Package: openresty-openssl3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-openssl3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-openssl3 package
+ Debug symbols (or debuginfo) for the openresty-openssl3 package.

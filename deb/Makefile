@@ -13,6 +13,7 @@ ZLIB_VER=1.3.1
 PCRE_VER=8.45
 SSL_VER=1.1.0l
 SSL111_VER=1.1.1w
+SSL3_VER=3.0.15
 OR_VER=1.27.1.1
 LEMPLATE_VER=0.15
 TEST_NGINX_VER=0.29
@@ -33,8 +34,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openssl111-clean openssl111-debug-clean  \
 		openresty-zlib-asan-clean openresty-pcre-asan-clean \
 		openresty-openssl111-asan-clean openresty-asan-clean \
-                openresty-pcre2-asan-clean \
-                openresty-pcre2-clean
+		openresty-pcre2-asan-clean \
+		openresty-pcre2-clean openresty-openssl3-clean \
+		openresty-openssl3-asan-clean openresty-openssl3-debug-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 
 .PHONY: zlib-download

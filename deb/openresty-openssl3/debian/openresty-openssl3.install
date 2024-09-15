@@ -1,0 +1,9 @@
+usr/local/openresty/openssl3/lib/engines-3/
+usr/local/openresty/openssl3/lib/ossl-modules/
+usr/local/openresty/openssl3/bin/openssl
+usr/local/openresty/openssl3/lib/libcrypto.so.3
+usr/local/openresty/openssl3/lib/libssl.so.3
+usr/local/openresty/openssl3/lib/libcrypto.so
+usr/local/openresty/openssl3/lib/libssl.so
+usr/local/openresty/openssl3/lib/engines-3/*.so
+usr/local/openresty/openssl3/lib/ossl-modules/*.so

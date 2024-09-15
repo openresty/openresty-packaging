@@ -1,0 +1,4 @@
+usr/local/openresty-debug/openssl3/include/
+usr/local/openresty-debug/openssl3/include/*
+usr/local/openresty-debug/openssl3/lib/*.a
+usr/local/openresty-debug/openssl3/lib/pkgconfig/*.pc
