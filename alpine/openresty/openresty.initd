@@ -9,7 +9,6 @@ extra_started_commands="reload reopen upgrade"
 name=openresty
 
 command="/usr/local/$name/bin/$name" command_args="-c $cfgfile -p $app_prefix/"
-command_background="yes"
 required_files="$cfgfile"
 
 start_stop_daemon_args=""
