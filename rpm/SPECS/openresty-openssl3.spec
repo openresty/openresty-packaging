@@ -1,4 +1,4 @@
-Name:               openresty-openssl30
+Name:               openresty-openssl3
 Version:            3.0.15
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
@@ -20,7 +20,7 @@ Requires:           openresty-zlib >= 1.2.11
 
 AutoReqProv:        no
 
-%define openssl_prefix      /usr/local/openresty/openssl30
+%define openssl_prefix      /usr/local/openresty/openssl3
 %define zlib_prefix         /usr/local/openresty/zlib
 %global _default_patch_fuzz 1
 

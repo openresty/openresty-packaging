@@ -1,4 +1,0 @@
-usr/local/openresty/openssl30/include/
-usr/local/openresty/openssl30/include/*
-usr/local/openresty/openssl30/lib/*.a
-usr/local/openresty/openssl30/lib/pkgconfig/*.pc

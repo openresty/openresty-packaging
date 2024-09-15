@@ -20,7 +20,7 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./config \
     shared zlib -g \
-    --prefix=/usr/local/openresty/openssl30 \
+    --prefix=/usr/local/openresty/openssl3 \
     --libdir=lib \
     enable-camellia enable-seed enable-rfc3779 \
     enable-cms enable-md2 enable-rc5 \
@@ -29,20 +29,20 @@ override_dh_auto_build:
     enable-md2 enable-ktls enable-fips\
     -I/usr/local/openresty/zlib/include \
     -L/usr/local/openresty/zlib/lib \
-    -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/openssl30/lib \
+    -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/openssl3/lib \
     && ncpus=`nproc` \
     && if [ "$$ncpus" -gt 16 ]; then ncpus=16; fi \
     && make CC='ccache gcc -fdiagnostics-color=always' -j$$ncpus
 
 override_dh_auto_install:
 	make install_sw DESTDIR=$(DESTDIR) \
-		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl30/lib/*.so* \
-		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl30/lib/*/*.so* \
-		&& rm -rf $(DESTDIR)/usr/local/openresty/openssl30/bin/c_rehash
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*.so* \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*/*.so* \
+		&& rm -rf $(DESTDIR)/usr/local/openresty/openssl3/bin/c_rehash
 
 override_dh_auto_clean:
 	dh_clean
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-openssl30-dbgsym
+	dh_strip --dbg-package=openresty-openssl3-dbgsym
