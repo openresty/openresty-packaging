@@ -10,6 +10,9 @@ targets = openresty \
 	  openresty-openssl111-debug \
 	  openresty-openssl-asan \
 	  openresty-openssl111-asan \
+	  openresty-openssl3 \
+	  openresty-openssl3-asan \
+	  openresty-openssl3-debug \
 	  openresty-pcre \
 	  openresty-pcre2 \
 	  openresty-pcre-asan \

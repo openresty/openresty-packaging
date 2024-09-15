@@ -1,0 +1,49 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./config \
+    shared zlib -g \
+    --prefix=/usr/local/openresty/openssl3 \
+    --libdir=lib \
+    enable-asan \
+    enable-camellia enable-seed enable-rfc3779 \
+    enable-cms enable-md2 enable-rc5 \
+    enable-weak-ssl-ciphers \
+    enable-ssl3 enable-ssl3-method \
+    enable-md2 enable-ktls enable-fips\
+    -I/usr/local/openresty-asan/zlib/include \
+    -L/usr/local/openresty-asan/zlib/lib \
+    -Wl,-rpath,/usr/local/openresty-asan/zlib/lib:/usr/local/openresty-asan/openssl3/lib \
+    && ncpus=`nproc` \
+    && if [ "$$ncpus" -gt 16 ]; then ncpus=16; fi \
+    && make CC='ccache gcc -fdiagnostics-color=always -fsanitize=address' -j$$ncpus
+
+override_dh_auto_install:
+	make install_sw DESTDIR=$(DESTDIR) \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*.so* \
+		&& chmod 0755 $(DESTDIR)/usr/local/openresty/openssl3/lib/*/*.so* \
+		&& rm -rf $(DESTDIR)/usr/local/openresty/openssl3/bin/c_rehash
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-openssl3-asan-dbgsym

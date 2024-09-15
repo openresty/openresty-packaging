@@ -7,8 +7,8 @@ pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
 arch="all"
 license="BSD"
-depends="openresty-openssl111>=1.1.1n-r0 openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl111-dev>=1.1.1n-r0 openresty-pcre-dev openresty-zlib-dev"
+depends="openresty-openssl3>=1.1.1n-r0 openresty-pcre openresty-zlib libgcc"
+makedepends="ccache perl openresty-openssl3-dev>=1.1.1n-r0 openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
     $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
@@ -25,7 +25,7 @@ options="!tracedeps !fhs"
 _orprefix="/usr/local/$pkgname"
 _zlib_prefix="$_orprefix/zlib"
 _pcre_prefix="$_orprefix/pcre"
-_openssl_prefix="$_orprefix/openssl111"
+_openssl_prefix="$_orprefix/openssl3"
 
 
 build() {

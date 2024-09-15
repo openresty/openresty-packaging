@@ -41,7 +41,7 @@ my $version = shift or die "No version number specified.\n";
     }
 }
 
-for my $dir (reverse sort glob 'openresty-openssl111*') {
+for my $dir (reverse sort glob 'openresty-openssl3*') {
     next unless -d $dir && -d "$dir/debian";
     my $name = $dir;
     my $changelog = "$dir/debian/changelog.tt2";
