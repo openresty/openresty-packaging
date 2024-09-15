@@ -1,6 +1,6 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
-pkgname="openresty-openssl3"
+pkgname="openresty-openssl3-debug"
 pkgver="3.0.15"
 pkgrel=0
 pkgdesc="OpenSSL 3.0 library for OpenResty"
@@ -17,7 +17,7 @@ source="https://github.com/openssl/openssl/releases/download/openssl-$pkgver/ope
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
 
-_ssl_prefix="/usr/local/openresty/openssl111"
+_ssl_prefix="/usr/local/openresty-debug/openssl111"
 _zlib_prefix="/usr/local/openresty/zlib"
 
 build() {
@@ -89,5 +89,7 @@ static() {
     default_static
 }
 
-sha512sums="acd80f2f7924d90c1416946a5c61eff461926ad60f4821bb6b08845ea18f8452fd5e88a2c2c5bd0d7590a792cb8341a3f3be042fd0a5b6c9c1b84a497c347bbf  openssl-3.0.15.tar.gz
-4c9925018f49c70ebd2f197a4cb15d9517416ad08366bac9849afb0d2b8ec922  openssl-3.0.15-sess_set_get_cb_yield.patch"
+sha512sums="
+acd80f2f7924d90c1416946a5c61eff461926ad60f4821bb6b08845ea18f8452fd5e88a2c2c5bd0d7590a792cb8341a3f3be042fd0a5b6c9c1b84a497c347bbf  openssl-3.0.15.tar.gz
+41157fd6bf6109957a591f5259c390e5243ce159d8d85df235668216d9a0ed09037a0b209be2323c76f9e9c031a44701edeb4cf6606be2a4866c486b427cf99f  openssl-3.0.15-sess_set_get_cb_yield.patch
+"
