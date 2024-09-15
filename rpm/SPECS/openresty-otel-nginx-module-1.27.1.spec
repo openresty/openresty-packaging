@@ -14,7 +14,7 @@ Source0:        nginx-otel-plus-%{version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  perl-File-Temp, procps-ng
+BuildRequires:  perl-File-Temp
 BuildRequires:  gcc, cmake, make, perl
 BuildRequires:  openresty-plus-openssl111-devel >= 1.1.1n-1
 BuildRequires:  openresty-saas-zlib-devel >= 1.2.12-1
