@@ -105,7 +105,7 @@ export PATH="%{py3_prefix}/bin:$PATH"
     --shared-openssl --shared-openssl-includes=%{openssl_prefix}/include \
     --shared-openssl-libpath=%{openssl_prefix}/lib
 
-free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
+free=`cat /proc/meminfo | grep  "^MemAvailable:" | awk '{printf "%d", $2/1024}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 900 ))
 # echo "max jobs: $max_jobs"

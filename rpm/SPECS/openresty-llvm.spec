@@ -92,7 +92,7 @@ cmake -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_BUILD_LLVM_DYLIB=ON \
 find . -name flags.make | xargs sed -i 's/ -g / /g'
 find . -name build.make | xargs sed -i 's/ -g / /g'
 
-free=`free -m|grep -E '^Mem'|head -n2|awk '{print $NF}'`
+free=`cat /proc/meminfo | grep  "^MemAvailable:" | awk '{printf "%d", $2/1024}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 1100 ))
 #echo "max jobs: $max_jobs"

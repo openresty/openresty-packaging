@@ -37,7 +37,7 @@ override_dh_auto_build:
 		--shared-zlib-libpath=$(ZLIB_PREFIX)/lib \
 		--shared-openssl --shared-openssl-includes=$(OPENSSL_PREFIX)/include \
 		--shared-openssl-libpath=$(OPENSSL_PREFIX)/lib && \
-	free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
+ 	        && free=`cat /proc/meminfo | grep  "^MemAvailable:" | awk '{printf "%d", $$2/1024}'`; ncpus=`nproc`; \
 		max_jobs=$$(( $$free / 900 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
 		max_jobs=$$ncpus; fi; \
 		make V=0 BUILDTYPE=Release \
