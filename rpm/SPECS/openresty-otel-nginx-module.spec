@@ -75,7 +75,7 @@ Coroutine implemented using ucontext API.
 mkdir build
 cd build
 cmake -DPCRE_ROOT_DIR=%{pcre_prefix} -DNGX_OTEL_NGINX_BUILD_DIR=/usr/local/openresty-plus/build/nginx-NGINX_VERSION/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib ..
-free=`free -m|grep -E '^Mem'|head -n1|awk '{print $NF}'`
+free=`cat /proc/meminfo | grep  "^MemAvailable:" | awk '{printf "%d", $2/1024}'`
 ncpus=`nproc`
 max_jobs=$(( $free / 900 ))
 # echo "max jobs: $max_jobs"

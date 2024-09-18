@@ -23,7 +23,7 @@ override_dh_auto_build:
 		mkdir build \
 		&& cd build \
 		&& cmake -DPCRE_ROOT_DIR=/usr/local/openresty/pcre -DNGX_OTEL_NGINX_BUILD_DIR=/usr/local/openresty-plus/build/nginx-NGINX_VERSION/objs -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 -DZLIB_ROOT=/opt/openresty-saas/zlib .. \
- 	        && free=`free -m|grep -E '^Mem'|head -n1|awk '{print $$NF}'`; ncpus=`nproc`; \
+ 	        && free=`cat /proc/meminfo | grep  "^MemAvailable:" | awk '{printf "%d", $$2/1024}'`; ncpus=`nproc`; \
 		max_jobs=$$(( $$free / 900 )); if [ "$$max_jobs" -gt "$$ncpus" ]; then \
 		max_jobs=$$ncpus; fi; \
 		make -j$$max_jobs
