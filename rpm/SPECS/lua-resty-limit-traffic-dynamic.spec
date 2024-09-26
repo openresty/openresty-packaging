@@ -1,5 +1,5 @@
 Name:           lua-resty-limit-traffic-dynamic
-Version:        1.0.7
+Version:        1.0.8
 Release:        1%{?dist}
 Summary:        limit HTTP request base on the traffic dynamically.
 
@@ -90,6 +90,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Sep 25 2024 Yichun Zhang (agentzh) 1.0.8-1
+- upgraded lua-resty-limit-traffic-dynamic to 1.0.8.
 * Tue Sep 24 2024 Yichun Zhang (agentzh) 1.0.7-1
 - upgraded lua-resty-limit-traffic-dynamic to 1.0.7.
 * Sun Sep 22 2024 Yichun Zhang (agentzh) 1.0.6-1
