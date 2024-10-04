@@ -135,6 +135,8 @@ priv_targets = openresty-plus \
 		coro-hiredis-nginx-module-1.21.4 \
 		coro-nginx-module-1.25.3 \
 		coro-hiredis-nginx-module-1.25.3 \
+		coro-libcurl-nginx-module-1.21.4 \
+		coro-libcurl-nginx-module-1.25.3 \
 		lua-kafka-nginx-module-1.21.4 \
 		lua-kafka-nginx-module-1.25.3 \
 		dymetrics-nginx-module-1.19.9 \

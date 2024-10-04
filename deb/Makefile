@@ -132,6 +132,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		coro-hiredis-nginx-module-1.21.4-clean \
 		coro-nginx-module-1.25.3-clean \
 		coro-hiredis-nginx-module-1.25.3-clean \
+		coro-libcurl-nginx-module-1.21.4-clean \
+		coro-libcurl-nginx-module-1.25.3-clean \
 		lua-kafka-nginx-module-1.21.4-clean \
 		lua-kafka-nginx-module-1.25.3-clean \
 		openresty-otel-nginx-module-1.19.9-clean \
