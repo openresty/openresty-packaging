@@ -1,0 +1,5 @@
+usr/local/openresty/libcurl/bin/curl
+usr/local/openresty/libcurl/bin/curl-config
+usr/local/openresty/libcurl/lib/libcurl.so
+usr/local/openresty/libcurl/lib/libcurl.so.4
+usr/local/openresty/libcurl/lib/libcurl.so.4.7.0

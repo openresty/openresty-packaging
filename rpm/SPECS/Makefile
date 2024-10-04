@@ -162,6 +162,7 @@ priv_targets = openresty-plus \
 		openresty-zstd \
 		openresty-perl-IPC-Run3 \
 		openresty-minifiers \
+		openresty-libcurl   \
 		replace-filter-plus-nginx-module-1.21.4
 
 .PHONY: all

@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+OPENSSL_PREFIX = /usr/local/openresty/openssl111
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+	autoreconf -fiv
+
+override_dh_auto_build:
+	./configure \
+    --disable-static     \
+    --disable-ldap       \
+    --disable-rtsp       \
+    --disable-pthreads   \
+    --disable-threaded-resolver \
+    --disable-socketpair \
+    --disable-ntlm       \
+    --without-libpsl     \
+    --without-nghttp2    \
+    --without-ngtcp2     \
+    --without-nghttp3    \
+    --without-libidn2    \
+    --without-quiche     \
+    --without-brotli     \
+    --without-zstd       \
+    --with-openssl=$(OPENSSL_PREFIX) \
+    --prefix=/usr/local/openresty/libcurl \
+    LDFLAGS="-L$(OPENSSL_PREFIX)/lib -lssl -lcrypto \
+    -Wl,-rpath,$(OPENSSL_PREFIX)/lib" CFLAGS="-O2 -g" \
+		&& make -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR)
+	make install DESTDIR=$(DESTDIR)
+	rm -fr $(DESTDIR)/usr/local/openresty/libcurl/share
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-libcurl-dbgsym

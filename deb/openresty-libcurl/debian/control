@@ -1,0 +1,30 @@
+Source: openresty-libcurl
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), automake, coreutils, gcc, libtool, make, openresty-openssl111-dev, openresty-zlib-dev, pkg-config, sed
+Standards-Version: 3.9.8
+Homepage: https://curl.se/
+
+Package: openresty-libcurl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: A utility for getting files from remote servers (FTP, HTTP, and others)
+ curl is a command line tool for transferring data with URL syntax, supporting
+ FTP, FTPS, HTTP, HTTPS, SCP, SFTP, TFTP, TELNET, DICT, LDAP, LDAPS, FILE, IMAP,
+ SMTP, POP3 and RTSP.  curl supports SSL certificates, HTTP POST, HTTP PUT, FTP
+ uploading, HTTP form based upload, proxies, cookies, user+password
+ authentication (Basic, Digest, NTLM, Negotiate, kerberos...), file transfer
+ resume, proxy tunneling and a busload of other useful tricks.
+
+Package: openresty-libcurl-dev
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-libcurl (>= ${source:Upstream-Version})
+Description: Libraries, includes, etc to develop with libcurl
+ Development package for libcurl.
+
+Package: openresty-libcurl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-libcurl (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-libcurl package
+ Debug symbols (or debuginfo) for the openresty-libcurl package.

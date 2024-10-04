@@ -1,0 +1,4 @@
+usr/local/openresty/libcurl/include/
+usr/local/openresty/libcurl/include/curl/*
+usr/local/openresty/libcurl/lib/libcurl.la
+usr/local/openresty/libcurl/lib/pkgconfig/libcurl.pc
