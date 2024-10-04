@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	make
+	for f in `find lib/resty/ -type f -name '*.lua'`; do \
+	    /usr/local/openresty/luajit/bin/luajit -bg $$f $${f%.lua}.ljbc; \
+   	    rm $$f; \
+	done
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& sed -i 's|lib/resty/http/fast/\*.lua|lib/resty/http/fast/\*.ljbc|g' Makefile \
+		&& sed -i 's|lib/resty/http/\*.lua|lib/resty/http/\*.ljbc|g' Makefile \
+		&& make install DESTDIR=$(DESTDIR) LUA_LIB_DIR=/usr/local/openresty/site/lualib
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=lua-resty-http-fast-1.25.3-dbgsym

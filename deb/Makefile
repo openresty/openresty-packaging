@@ -127,6 +127,8 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-luajit-plus-clean \
 		lua-resty-redis-cluster-fast-1.21.4-clean \
 		lua-resty-redis-cluster-fast-1.25.3-clean \
+		lua-resty-http-fast-1.21.4-clean \
+		lua-resty-http-fast-1.25.3-clean \
 		dymetrics-nginx-module-1.19.9-clean \
 		coro-nginx-module-1.21.4-clean \
 		coro-hiredis-nginx-module-1.21.4-clean \

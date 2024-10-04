@@ -1,0 +1,21 @@
+Source: lua-resty-http-fast-1.25.3
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty (>= 1.17.8.2)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: lua-resty-http-fast-1.25.3
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, coro-libcurl-nginx-module-1.25.3 (>= 0.0.1)
+Description: http client library using coro
+ This is a client that supports the redis cluster for OpenResty.
+
+Package: lua-resty-http-fast-1.25.3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, lua-resty-http-fast-1.25.3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the lua-resty-http-fast-1.25.3 package
+ Debug symbols (or debuginfo) for the lua-resty-http-fast-1.25.3 package.
