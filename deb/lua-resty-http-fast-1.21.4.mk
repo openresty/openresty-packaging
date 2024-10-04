@@ -1,15 +1,15 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_RESTY_HTTP_FAST_1_21_4_VER := 0.0.1
+LUA_RESTY_HTTP_FAST_VER := 0.0.1
 
 .PHONY: lua-resty-http-fast-1.21.4-download
 lua-resty-http-fast-1.21.4-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-http-fast-$(LUA_RESTY_HTTP_FAST_1_21_4_VER).tar.gz ./
-	rm -rf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER)
-	mkdir -p lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER)
-	tar -xf lua-resty-http-fast-$(LUA_RESTY_HTTP_FAST_1_21_4_VER).tar.gz --strip-components=1 -C lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER)
-	tar -czf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER).orig.tar.gz lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER)
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-resty-http-fast-$(LUA_RESTY_HTTP_FAST_VER).tar.gz ./
+	rm -rf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER)
+	mkdir -p lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER)
+	tar -xf lua-resty-http-fast-$(LUA_RESTY_HTTP_FAST_VER).tar.gz --strip-components=1 -C lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER)
+	tar -czf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER).orig.tar.gz lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER)
 
 lua-resty-http-fast-1.21.4-clean:
 	-cd lua-resty-http-fast-1.21.4 && debclean
@@ -24,7 +24,7 @@ lua-resty-http-fast-1.21.4-build: lua-resty-http-fast-1.21.4-clean lua-resty-htt
 	sudo apt-get -y -q install openresty
 	sudo apt-get -y -q install --only-upgrade openresty
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
-	tar xf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_1_21_4_VER).orig.tar.gz --strip-components=1 -C lua-resty-http-fast-1.21.4
+	tar xf lua-resty-http-fast-1.21.4_$(LUA_RESTY_HTTP_FAST_VER).orig.tar.gz --strip-components=1 -C lua-resty-http-fast-1.21.4
 	cd lua-resty-http-fast-1.21.4 \
 		&& tpage --define distro=$(DISTRO) debian/changelog.tt2 > debian/changelog \
 		&& debuild --no-lintian $(OPTS) -j$(JOBS)

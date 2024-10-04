@@ -1,6 +1,6 @@
 lua-resty-http-fast-1.21.4 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
 
-  * initial build for lua-resty-http-fast.
+  * upgraded lua-resty-http-fast to 0.0.1.
 
- -- OpenResty Admin <admin@openresty.com>  Sat, 25 Mar 2023 00:00:00 -0700
+ -- OpenResty Admin <admin@openresty.com>  Fri, 4 Oct 2024 15:35:46 +0800
 
