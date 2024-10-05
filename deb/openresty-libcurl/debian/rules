@@ -39,7 +39,7 @@ override_dh_auto_build:
     --with-openssl=$(OPENSSL_PREFIX) \
     --prefix=/usr/local/openresty/libcurl \
     LDFLAGS="-L$(OPENSSL_PREFIX)/lib -lssl -lcrypto \
-    -Wl,-rpath,$(OPENSSL_PREFIX)/lib" CFLAGS="-O2 -g" \
+    -Wl,-rpath,$(OPENSSL_PREFIX)/lib" CFLAGS="-I$(OPENSSL_PREFIX)/include -O2 -g" \
 		&& make -j`nproc`
 
 override_dh_auto_install:

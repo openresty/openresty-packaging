@@ -1,7 +1,7 @@
 Summary: A utility for getting files from remote servers (FTP, HTTP, and others)
 Name: openresty-libcurl
 Version: 7.81.0.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Proprietary
 URL: https://curl.se/
 Source0: curl-plus-%{version}.tar.gz
@@ -16,7 +16,6 @@ BuildRequires: libtool
 BuildRequires: make
 BuildRequires: openresty-openssl111-devel
 BuildRequires: openresty-zlib-devel
-BuildRequires: perl-interpreter
 BuildRequires: pkgconfig
 BuildRequires: sed
 
@@ -94,9 +93,9 @@ autoreconf -fiv
     --without-quiche     \
     --without-brotli     \
     --without-zstd       \
-    --with-openssl=$OPENSSL_PREFIX \
-    LDFLAGS="-L$OPENSSL_PREFIX/lib -lssl -lcrypto \
-    -Wl,-rpath,$OPENSSL_PREFIX/lib" CFLAGS="-O2 -g"
+    --with-openssl=%{OPENSSL_PREFIX} \
+    LDFLAGS="-L%{OPENSSL_LIB} -lssl -lcrypto \
+    -Wl,-rpath,%{OPENSSL_LIB}" CFLAGS="-O2 -g -I%{OPENSSL_INC}"
 
 make -j`nproc`
 
