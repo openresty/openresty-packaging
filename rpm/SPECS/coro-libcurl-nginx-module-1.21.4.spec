@@ -8,7 +8,7 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-%define or_version      1.21.4.1
+%define or_version      1.21.4.3
 
 Source0:        coro-libcurl-nginx-module-%{version}.tar.gz
 Source1:        openresty-%{or_version}.tar.gz
