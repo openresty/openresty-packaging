@@ -1,3 +1,9 @@
+coro-libcurl-nginx-module-1.21.4 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 5 Oct 2024 08:32:27 +0800
+
 coro-libcurl-nginx-module-1.21.4 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded coro-libcurl-nginx-module to 0.0.7.
