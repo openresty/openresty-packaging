@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LIBCURL_VER := 7.81.0.1
+OPENRESTY_LIBCURL_VER := 7.81.0.2
 
 .PHONY: openresty-libcurl-download
 openresty-libcurl-download:
