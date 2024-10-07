@@ -7,7 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 PREFIX=/usr/local/openresty-coro-nginx-module
-HIREDIS_PREFIX=/usr/local/openresty-plus/libcurl
+LIBCURL_PREFIX=/usr/local/openresty/libcurl
 ELF_LOADER_PREFIX=/usr/local/elf-loader
 LIBCCO_PREFIX=/usr/local/libcco
 ZLIB_PREFIX=/usr/local/openresty/zlib
@@ -29,8 +29,8 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	cd openresty-*/ && ./configure \
     --with-cc='ccache gcc' \
-    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -I$(ELFUTILS_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(PREFIX)/include -I$(HIREDIS_PREFIX)/include" \
-    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(PREFIX)/lib" \
+    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -I$(ELFUTILS_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(PREFIX)/include -I$(LIBCURL_PREFIX)/include" \
+    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(PREFIX)/lib -L$(LIBCURL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(PREFIX)/lib:$(LIBCURL_PREFIX)/lib" \
     --with-compat \
     --add-dynamic-module=../ \
     -j`nproc` && \

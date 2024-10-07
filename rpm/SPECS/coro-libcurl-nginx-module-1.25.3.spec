@@ -39,7 +39,7 @@ AutoReqProv:        no
 %define lua_lib_dir        %{or_prefix}/site/lualib
 %define elf_loader_prefix  /usr/local/elf-loader
 %define elfutils_prefix    /usr/local/openresty-elfutils
-%define libcurl_prefix     /usr/local/openresty-plus/libcurl
+%define libcurl_prefix     /usr/local/openresty/libcurl
 
 
 %description
