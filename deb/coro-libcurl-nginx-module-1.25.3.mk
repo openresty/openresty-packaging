@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-CORO_LIBCURL_NGINX_MODULE_VER := 0.0.3
+CORO_LIBCURL_NGINX_MODULE_VER := 0.0.4
 
 .PHONY: coro-libcurl-nginx-module-1.25.3-download
 coro-libcurl-nginx-module-1.25.3-download:
