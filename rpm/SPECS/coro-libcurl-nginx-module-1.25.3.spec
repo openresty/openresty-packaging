@@ -1,5 +1,5 @@
 Name:           coro-libcurl-nginx-module-1.25.3
-Version:        0.0.1
+Version:        0.0.3
 Release:        1%{?dist}
 Summary:        Coroutine implemented libcurl nginx module for OpenResty
 
@@ -125,5 +125,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Oct 7 2024 Yichun Zhang (agentzh) 0.0.3-1
+- upgraded coro-libcurl-nginx-module to 0.0.3.
 * Sat Mar 23 2024 Yichun Zhang (agentzh) 0.0.1-1
 - upgraded coro-libcurl-nginx-module to 0.0.1.
