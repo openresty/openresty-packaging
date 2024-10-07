@@ -1,7 +1,7 @@
 Summary: A utility for getting files from remote servers (FTP, HTTP, and others)
 Name: openresty-libcurl
 Version: 7.81.0.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: Proprietary
 URL: https://curl.se/
 Source0: curl-plus-%{version}.tar.gz
@@ -108,6 +108,7 @@ make install DESTDIR=%{buildroot}
 # by fish-3.0.2-1.module_f31+3716+57207597 and would trigger a conflict
 rm -rf ${RPM_BUILD_ROOT}%{_datadir}/fish
 rm -fr ${RPM_BUILD_ROOT}%{curlprefix}/share
+rm -f  ${RPM_BUILD_ROOT}%{curlprefix}/lib/libcurl.la
 rm -f  ${RPM_BUILD_ROOT}/usr/share/doc
 
 # to silence the check-rpath error
@@ -127,7 +128,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %dir %{curlprefix}/include
 %{curlprefix}/include/curl/*.h
-%{curlprefix}/lib/libcurl.la
 %{curlprefix}/lib/pkgconfig/libcurl.pc
 
 %changelog
