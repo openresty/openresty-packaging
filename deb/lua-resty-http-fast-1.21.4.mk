@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_RESTY_HTTP_FAST_VER := 0.0.2
+LUA_RESTY_HTTP_FAST_VER := 0.0.4
 
 .PHONY: lua-resty-http-fast-1.21.4-download
 lua-resty-http-fast-1.21.4-download:
