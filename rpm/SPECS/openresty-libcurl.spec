@@ -1,7 +1,7 @@
 Summary: A utility for getting files from remote servers (FTP, HTTP, and others)
 Name: openresty-libcurl
 Version: 7.81.0.2
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: Proprietary
 URL: https://curl.se/
 Source0: curl-plus-%{version}.tar.gz
