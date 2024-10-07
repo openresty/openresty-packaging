@@ -19,6 +19,8 @@ BuildRequires: openresty-zlib-devel
 BuildRequires: pkgconfig
 BuildRequires: sed
 
+AutoReqProv:        no
+
 %define curlprefix     /usr/local/openresty/libcurl
 %define OPENSSL_PREFIX /usr/local/openresty/openssl111
 %define OPENSSL_LIB    %{OPENSSL_PREFIX}/lib
