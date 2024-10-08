@@ -1,6 +1,6 @@
 Name:           coro-libcurl-nginx-module-1.25.3
 Version:        0.0.4
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Coroutine implemented libcurl nginx module for OpenResty
 
 Group:          Development/Libraries
@@ -24,9 +24,9 @@ BuildRequires:  openresty-elf-loader-devel
 BuildRequires:  openresty-libcco-devel
 BuildRequires:  openresty-elfutils-devel
 BuildRequires:  coro-nginx-module-1.25.3-devel >= 0.0.8-1
-BuildRequires:  openresty-libcurl-devel
+BuildRequires:  openresty-libcurl-devel >= 7.81.0.2-3
 BuildRequires:  openresty
-Requires:       coro-nginx-module-1.25.3 >= 0.0.8-1
+Requires:       coro-nginx-module-1.25.3 >= 0.0.10-1
 Requires:       openresty-libcurl
 
 AutoReqProv:        no
