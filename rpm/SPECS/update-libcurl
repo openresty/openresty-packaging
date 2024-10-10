@@ -12,6 +12,7 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
 }
 
+
 for my $specfile (reverse sort glob 'openresty-libcurl*.spec') {
     update_spec $specfile;
 }
@@ -72,6 +73,11 @@ sub update_spec ($) {
             or die "Cannot open $file for writing: $!\n";
         print $out $src;
         close $out;
+        for my $specfile (reverse sort glob 'coro-libcurl*.spec') {
+            system("sed -i 's/Requires:[ \\t]*openresty-libcurl >= \\([0-9.]\\+\\)-\\([0-9]\\+\\)/Requires:       openresty-libcurl >= $version-1/g' $specfile");
+            system("sed -i 's/BuildRequires:[ \\t]*openresty-libcurl-devel >= \\([0-9.]\\+\\)-\\([0-9]\\+\\)/Requires:       openresty-libcurl >= $version-1/g' $specfile");
+        }
+
         say "$file updated with $changes change(s).";
     }
 }

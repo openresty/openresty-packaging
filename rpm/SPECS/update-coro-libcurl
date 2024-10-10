@@ -72,6 +72,13 @@ sub update_spec ($) {
             or die "Cannot open $file for writing: $!\n";
         print $out $src;
         close $out;
+        for my $specfile (reverse sort glob 'lua-resty-http-fast-*.spec') {
+            my $ngx_ver = "";
+            if ($specfile =~ /lua-resty-http-fast-(.*)\.spec/) {
+                $ngx_ver = $1;
+            }
+            system("sed -i 's/Requires:[ \\t]*coro-libcurl-nginx-module-$ngx_ver >= \\([0-9.]\\+\\)-\\([0-9]\\+\\)/Requires:  coro-libcurl-nginx-module-$ngx_ver >= $version-1/g' $specfile");
+        }
         say "$file updated with $changes change(s).";
     }
 }

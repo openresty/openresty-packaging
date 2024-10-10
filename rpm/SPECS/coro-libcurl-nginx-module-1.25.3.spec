@@ -24,10 +24,10 @@ BuildRequires:  openresty-elf-loader-devel
 BuildRequires:  openresty-libcco-devel
 BuildRequires:  openresty-elfutils-devel
 BuildRequires:  coro-nginx-module-1.25.3-devel >= 0.0.10-1
-BuildRequires:  openresty-libcurl-devel >= 7.81.0.2-3
+BuildRequires:  openresty-libcurl-devel >= 7.81.0.3-1
 BuildRequires:  openresty
 Requires:       coro-nginx-module-1.25.3 >= 0.0.10-1
-Requires:       openresty-libcurl >= 7.81.0.2-3
+Requires:       openresty-libcurl >= 7.81.0.3-1
 
 AutoReqProv:        no
 
