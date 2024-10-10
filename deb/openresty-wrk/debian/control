@@ -2,14 +2,14 @@ Source: openresty-wrk
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc, make, openresty-saas, openresty-plus-openssl111-dev
+Build-Depends: debhelper (>= 9), gcc, make, openresty, openresty-openssl111-dev
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
 Package: openresty-wrk
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-saas, openresty-plus-openssl111
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty, openresty-openssl111
 Description: OpenResty wrk
  wrk - a HTTP benchmarking tool
 

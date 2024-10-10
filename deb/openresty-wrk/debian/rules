@@ -18,8 +18,8 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	export PATH=/opt/openresty-saas/luajit/bin:$(PATH) \
-		&& make WITH_LUAJIT=/opt/openresty-saas/luajit WITH_OPENSSL=/usr/local/openresty-plus/openssl111
+	export PATH=/opt/openresty/luajit/bin:$(PATH) \
+		&& make WITH_LUAJIT=/opt/openresty/luajit WITH_OPENSSL=/usr/local/openresty/openssl111
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \
