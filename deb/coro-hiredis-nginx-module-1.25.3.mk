@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-CORO_HIREDIS_NGINX_MODULE_VER := 0.0.7
+CORO_HIREDIS_NGINX_MODULE_VER := 0.0.8
 
 .PHONY: coro-hiredis-nginx-module-1.25.3-download
 coro-hiredis-nginx-module-1.25.3-download:

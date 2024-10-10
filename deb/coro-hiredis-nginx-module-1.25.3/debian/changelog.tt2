@@ -1,3 +1,9 @@
+coro-hiredis-nginx-module-1.25.3 (0.0.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module to 0.0.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 10 Oct 2024 16:53:47 -0700
+
 coro-hiredis-nginx-module-1.25.3 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded coro-hiredis-nginx-module to 0.0.7.
