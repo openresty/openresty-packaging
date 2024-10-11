@@ -5,11 +5,11 @@ CORO_LIBCURL_NGINX_MODULE_VER := 0.0.6
 
 .PHONY: coro-libcurl-nginx-module-1.25.3-download
 coro-libcurl-nginx-module-1.25.3-download:
-	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.3.tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.2.tar.gz'
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/coro-libcurl-nginx-module-$(CORO_LIBCURL_NGINX_MODULE_VER).tar.gz ./
 	rm -rf coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
 	mkdir -p coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
-	tar -xf openresty-1.25.3.3.tar.gz -C coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
+	tar -xf openresty-1.25.3.2.tar.gz -C coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
 	tar -xf coro-libcurl-nginx-module-$(CORO_LIBCURL_NGINX_MODULE_VER).tar.gz --strip-components=1 -C coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
 	tar -czf coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER).orig.tar.gz coro-libcurl-nginx-module-1.25.3_$(CORO_LIBCURL_NGINX_MODULE_VER)
 
