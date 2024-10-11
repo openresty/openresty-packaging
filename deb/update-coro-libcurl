@@ -17,6 +17,44 @@ for my $file (reverse sort glob "coro-libcurl-nginx-module*.mk") {
     update_mk $file;
 }
 
+for my $dir (reverse sort glob 'lua-resty-http-fast-*') {
+    if (! -d $dir) {
+       next;
+    }
+
+    my $file = "$dir/debian/control";
+
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $new;
+    my $changed;
+    while (<$in>) {
+        if (s/(coro-libcurl-nginx-module-[^ ]+)\ \(>=\ (\d+ (?: \.\d+ ){2}) \)/$1 \(>= $version\)/msx) {
+            my $old_ver = $2;
+            if ($old_ver ne $version) {
+                $changed = 2;
+                say "INFO: $file: version needs update from $old_ver to $version";
+
+            } else {
+                say "INFO: $file is already up to date: $old_ver";
+                last;
+            }
+        }
+
+    } continue {
+        $new .= $_;
+    }
+    close $in;
+
+    if ($changed) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $new;
+        close $out;
+        say "$file updated.";
+    }
+}
+
 sub update_mk($)
 {
     my $file = shift;

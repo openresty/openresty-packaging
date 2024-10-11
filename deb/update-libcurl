@@ -12,14 +12,20 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-{
-    my $file = "openresty-libcurl.mk";
+for my $dir (reverse sort glob 'coro-libcurl-*') {
+    if (! -d $dir) {
+       next;
+    }
+
+    my $file = "$dir/debian/control";
+
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
     my $changed;
     while (<$in>) {
-        if (s/^ OPENRESTY_LIBCURL_VER\ :=\ ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_LIBCURL_VER := $version/msx) {
+        # openresty-libcurl (>= 7.81.0.3)
+        if (s/openresty-libcurl\ \(>=\ (\d+ (?: \.\d+ ){3}) \)/openresty-libcurl \(>= $version\)/msx) {
             my $old_ver = $1;
             if ($old_ver ne $version) {
                 $changed = 1;

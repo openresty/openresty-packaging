@@ -12,7 +12,7 @@ Homepage: https://www.openresty.com/
 Package: coro-libcurl-nginx-module-1.25.3
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, coro-nginx-module-1.25.3 (>= 0.0.8), openresty-libcurl
+Depends: ${shlibs:Depends}, ${misc:Depends}, coro-nginx-module-1.25.3 (>= 0.0.8), openresty-libcurl (>= 7.81.0.3)
 Description: Coroutine implemented libcurl nginx module for OpenResty
  This is the coroutine implemented libcurl nginx module for OpenResty.
 
