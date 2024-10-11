@@ -15,6 +15,7 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
+BuildRequires:      perl-IPC-Run
 BuildRequires:      openresty-zlib-asan-devel >= 1.2.11
 Requires:           openresty-zlib-asan >= 1.2.11
 
