@@ -23,10 +23,10 @@ BuildRequires:  openresty-pcre-devel
 BuildRequires:  openresty-elf-loader-devel
 BuildRequires:  openresty-libcco-devel
 BuildRequires:  openresty-elfutils-devel
-BuildRequires:  coro-nginx-module-1.25.3-devel >= 0.0.8-1
+BuildRequires:  coro-nginx-module-1.25.3-devel >= 0.0.10
 BuildRequires:  openresty-hiredis-devel
 BuildRequires:  openresty
-Requires:       coro-nginx-module-1.25.3 >= 0.0.8-1
+Requires:       coro-nginx-module-1.25.3 >= 0.0.10
 Requires:       openresty-hiredis
 
 AutoReqProv:        no
