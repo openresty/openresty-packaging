@@ -1,6 +1,6 @@
 Name:           coro-hiredis-nginx-module-1.21.4
 Version:        0.0.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Coroutine implemented hiredis nginx module for OpenResty
 
 Group:          Development/Libraries
@@ -124,6 +124,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Oct 10 2024 Yichun Zhang (agentzh) 0.0.8-2
+- upgraded coro-hiredis-nginx-module to 0.0.8.
 * Thu Oct 10 2024 Yichun Zhang (agentzh) 0.0.8-1
 - upgraded coro-hiredis-nginx-module to 0.0.8.
 * Sat Mar 23 2024 Yichun Zhang (agentzh) 0.0.7-1
