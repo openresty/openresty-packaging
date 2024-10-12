@@ -36,6 +36,7 @@ all: openresty
 .PHONY: $(targets)
 $(targets):
 	#echo $(rpmbuild_dir)
+	dnf makecache || true
 	rm -f ~/rpmbuild/SRPMS/$@-[0-9]*.rpm ~/rpmbuild/RPMS/*/$@*-[0-9].rpm
 	spectool -g -R $@.spec
 	sudo dnf builddep -y $@.spec
