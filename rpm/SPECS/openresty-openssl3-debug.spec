@@ -15,7 +15,7 @@ Patch0:             https://raw.githubusercontent.com/openresty/openresty/master
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:      gcc, make, perl
-BuildRequires:      perl-IPC-Run
+BuildRequires:      perl-IPC-Run, perl-IPC-Cmd, perl-Digest, perl-Digest-SHA
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
 
