@@ -5,7 +5,7 @@ Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), autotools-dev,
  systemtap-sdt-dev,
  openresty-zlib-dev, openresty-openssl3-debug-dev (>= 3.0.15),
- openresty-pcre2-dev (>= 10.42),
+ openresty-pcre2-dev (>= 10.44),
  perl, libfile-temp-perl
 Standards-Version: 3.9.8
 Homepage: https://openresty.org/
@@ -13,7 +13,7 @@ Homepage: https://openresty.org/
 Package: openresty-debug
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- openresty-zlib, openresty-openssl3-debug (>= 3.0.15), openresty-pcre2 (>= 10.42)
+ openresty-zlib, openresty-openssl3-debug (>= 3.0.15), openresty-pcre2 (>= 10.44)
 Description: debug version of OpenResty core server
  This package contains the debug version of the core server for OpenResty.
  Built for development purposes only.
