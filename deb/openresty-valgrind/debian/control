@@ -13,7 +13,7 @@ Homepage: https://openresty.org/
 Package: openresty-valgrind
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, valgrind,
- openresty-zlib, openresty-openssl111-debug (>= 3.0.15), openresty-pcre2 (>= 10.44)
+ openresty-zlib, openresty-openssl3-debug (>= 3.0.15), openresty-pcre2 (>= 10.44)
 Description: valgrind debug version of OpenResty core server
  This package contains the debug version of the core server for OpenResty.
  Built for development purposes only.

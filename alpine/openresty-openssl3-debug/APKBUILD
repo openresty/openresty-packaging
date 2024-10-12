@@ -2,7 +2,7 @@
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl3-debug"
 pkgver="3.0.15"
-pkgrel=0
+pkgrel=1
 pkgdesc="OpenSSL 3.0 library for OpenResty"
 url="https://www.openssl.org/"
 arch="all"
@@ -17,7 +17,7 @@ source="https://github.com/openssl/openssl/releases/download/openssl-$pkgver/ope
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
 
-_ssl_prefix="/usr/local/openresty-debug/openssl111"
+_ssl_prefix="/usr/local/openresty-debug/openssl3"
 _zlib_prefix="/usr/local/openresty/zlib"
 
 build() {
