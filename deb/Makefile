@@ -223,7 +223,7 @@ openresty-build: | openresty-clean openresty-download
 
 .PHONY: openresty-clean
 openresty-clean:
-	cd openresty && debclean
+	cd openresty && debclean || true
 	find openresty -maxdepth 1 ! -name 'debian' ! -name 'openresty' -print | xargs rm -rf
 	rm -f openresty*.deb
 	rm -f openresty_*.*
@@ -248,7 +248,7 @@ openresty-debug-build: | openresty-debug-clean openresty-debug-download
 
 .PHONY: openresty-debug-clean
 openresty-debug-clean:
-	-cd openresty-debug && debclean
+	-cd openresty-debug && debclean || true
 	find openresty-debug -maxdepth 1 ! -name 'debian' ! -name 'openresty-debug' -print | xargs rm -rf
 	rm -f openresty-debug*.deb
 	rm -f openresty-debug_*.*
@@ -273,7 +273,7 @@ openresty-valgrind-build: | openresty-valgrind-clean openresty-valgrind-download
 
 .PHONY: openresty-valgrind-clean
 openresty-valgrind-clean:
-	-cd openresty-valgrind && debclean
+	-cd openresty-valgrind && debclean || true
 	find openresty-valgrind -maxdepth 1 ! -name 'debian' ! -name 'openresty-valgrind' -print | xargs rm -rf
 	rm -f openresty-valgrind*.deb
 	rm -f openresty-valgrind_*.*
