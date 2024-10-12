@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty"
-pkgver="1.25.3.2"
+pkgver="1.27.1.1"
 pkgrel=0
 pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
@@ -172,7 +172,7 @@ static() {
 }
 
 sha512sums="
-e16e5b6f9585f7c946bb0e464d1c8247e14c711c827d28b9bd46d2637ab918f71048ac05d2932565affd5830103a0f484f04d39df836f6d659e9f465a0414487  openresty-1.25.3.2.tar.gz
-c7d2d89634410a7beb1e8d4cb7e168d0a2b067c37889fa67018afa940dcf99b5e05db4b1a1fcad7939fd70a896f2c90854631308ef11a307f4064e7eef329d99  openresty.initd
+22b9c0dc0b5c78409b56a06f287bbeb8582d06c6f501fcecec4182900dda428ff012843953a457b877623abc0fc8ebbfd366e01d4ba0363bd37d70273ceec6e4  openresty-1.27.1.1.tar.gz
+6ab0871d440224d7dae5f3ff9f269e0fcc612bd61498d602bde8ecd8e3165fba15151f3d594f2623ec9d844bab260155b46eac7e6a1c92687b8ddb6c09cbdfdf  openresty.initd
 20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd
 "

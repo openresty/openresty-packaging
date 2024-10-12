@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-debug"
-pkgver="1.25.3.2"
+pkgver="1.27.1.1"
 pkgrel=0
 pkgdesc="The debug version of OpenResty"
 url="https://openresty.org/"
@@ -132,7 +132,7 @@ static() {
 }
 
 sha512sums="
-e16e5b6f9585f7c946bb0e464d1c8247e14c711c827d28b9bd46d2637ab918f71048ac05d2932565affd5830103a0f484f04d39df836f6d659e9f465a0414487  openresty-1.25.3.2.tar.gz
-d173f4f02e99006fba81868cacccbaa86560ea0477149b33e8906d6ac5dc1138f7aba6daf0acbbdab14165723bc021533485e9dc34ad8d60c9f7aa48ab068e55  openresty-debug.initd
+22b9c0dc0b5c78409b56a06f287bbeb8582d06c6f501fcecec4182900dda428ff012843953a457b877623abc0fc8ebbfd366e01d4ba0363bd37d70273ceec6e4  openresty-1.27.1.1.tar.gz
+2bbc1a848b3a9ebd3835dfe4f1e54e047a63f737d3adaef220464f5b18ddb767d53d27238890c7a822a015fad5d69b9be386dd85455bc28aa243a9a12dd6d02f  openresty-debug.initd
 b7a47806c5ad68946fcf2932c3c2d156298264bed92e817f2f5f74e23d16ed0fd2cba2a1a1ddfc26f3fa777dbf5029aa7307a426496dc44f0a7ec7ae94c299ab  openresty-debug.confd
 "
