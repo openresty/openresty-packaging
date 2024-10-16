@@ -1,4 +1,4 @@
-openresty-debug (1.21.4.4-1~[% distro %]1) [% distro %]; urgency=high
+openresty (1.21.4.4-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.21.4.4.
 
