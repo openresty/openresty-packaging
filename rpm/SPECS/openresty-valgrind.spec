@@ -1,5 +1,5 @@
 Name:           openresty-valgrind
-Version:        1.21.4.3
+Version:        1.21.4.4
 Release:        1%{?dist}
 Summary:        The Valgrind debug version of OpenResty
 
