@@ -15,7 +15,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # LuaJIT is required to compile Lua files into bytecode
 BuildRequires:  openresty >= 1.17.8.2
 
-Requires:  coro-libcurl-nginx-module-1.21.4 >= 0.0.1-1
+Requires:  coro-libcurl-nginx-module-1.21.4 >= 0.0.7-1
 
 AutoReqProv:        no
 
