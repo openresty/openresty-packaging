@@ -21,13 +21,23 @@ AutoReqProv:    no
 BuildRequires: glibc-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-plus-openssl111-devel >= 1.1.1h-1
-BuildRequires: openresty-saas-zlib-devel
+BuildRequires: openresty-saas-zlib-devel, readline-devel
 BuildRequires: make
 
 %if "%{?_vendor}" == "mariner"
 BuildRequires: uuid-devel
 %else
 BuildRequires: libuuid-devel
+%endif
+
+%if 0%{?suse_version}
+%if %{suse_version} <= 1315
+Requires:   libreadline6
+%else
+Requires:   libreadline7
+%endif
+%else
+Requires:   readline
 %endif
 
 Requires: openresty-plus-openssl111 >= 1.1.1i-1
