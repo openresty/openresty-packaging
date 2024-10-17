@@ -25,10 +25,10 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	PATH="/usr/local/openresty-python3/bin:$PATH" /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR) \
-		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__pycache__/__init__* $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__init__.pyc \
-		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__pycache__/aggregate* $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/aggregate.pyc \
-		&& rm -f $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/*.py \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/openresty_python3_xray_stats-0.0.1-py3.7.egg-info
+		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/__pycache__/__init__* $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/__init__.pyc \
+		&& cp $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/__pycache__/aggregate* $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/aggregate.pyc \
+		&& rm -f $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/*.py \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/openresty_python3_xray_stats-0.0.1-py3.12.egg-info
 
 override_dh_auto_clean:
 	dh_clean

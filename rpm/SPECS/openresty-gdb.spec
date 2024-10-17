@@ -1,6 +1,6 @@
 Name:           openresty-gdb
 Version:        14.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
@@ -24,7 +24,7 @@ BuildRequires: make
 BuildRequires: ccache, gcc, gcc-c++
 BuildRequires: texinfo
 BuildRequires: mpfr-devel
-BuildRequires: openresty-python3-devel >= 3.7.9
+BuildRequires: openresty-python3-devel >= 3.12.5
 BuildRequires: openresty-elfutils-devel
 BuildRequires: xz-devel, ncurses-devel
 %if 0%{?suse_version}
@@ -33,7 +33,7 @@ BuildRequires: libexpat-devel
 BuildRequires: expat-devel
 %endif
 
-Requires: openresty-python3 >= 3.7.9
+Requires: openresty-python3 >= 3.12.5
 
 %if 0%{?suse_version}
 Requires: libexpat1

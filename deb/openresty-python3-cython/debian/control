@@ -2,7 +2,7 @@ Source: openresty-python3-cython
 Section: devel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), gcc, openresty-python3-dev
+Build-Depends: debhelper (>= 9), gcc, openresty-python3-dev (>= 3.12.5)
 Standards-Version: 3.9.8
 Homepage: http://www.cython.org
 
@@ -17,6 +17,6 @@ Description: OpenResty's fork of Cython
 Package: openresty-python3-cython-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, openresty-python3-cython (>= 0.28.5)
+Depends: ${misc:Depends}, openresty-python3-cython (>= 3.0.11)
 Description: Debug symbols for the openresty-python3-cython package
  Debug symbols (or debuginfo) for the openresty-python3-cython package.

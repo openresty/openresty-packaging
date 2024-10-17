@@ -1,6 +1,4 @@
-usr/local/openresty-python3/lib/python3.7/site-packages/easy_install.*
-usr/local/openresty-python3/lib/python3.7/site-packages/pkg_resources/
-usr/local/openresty-python3/lib/python3.7/site-packages/setuptools*/
-usr/local/openresty-python3/lib/python3.7/site-packages/__pycache__/*
-usr/local/openresty-python3/bin/easy_install
-usr/local/openresty-python3/bin/easy_install-3.*
+usr/local/openresty-python3/lib/python3.12/site-packages/_distutils_hack
+usr/local/openresty-python3/lib/python3.12/site-packages/pkg_resources/
+usr/local/openresty-python3/lib/python3.12/site-packages/setuptools*/
+usr/local/openresty-python3/lib/python3.12/site-packages/distutils-precedence.pth

@@ -2,14 +2,14 @@ Source: openresty-python3-xray-stats
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), g++, openresty-python3-setuptools (>= 39.2.0)
+Build-Depends: debhelper (>= 9), g++, openresty-python3-setuptools (>= 75.1.0)
 Standards-Version: 3.9.8
 Homepage: https://openresty.com/
 
 Package: openresty-python3-xray-stats
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.7.9)
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-python3 (>= 3.12.5)
 Description: OpenResty XRay Stats Python Library
  Python stats library for OpenResty XRay.
 

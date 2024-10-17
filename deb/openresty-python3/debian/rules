@@ -7,13 +7,12 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 SSL_PREFIX = /usr/local/openresty-plus/openssl111
+ZLIB_PREFIX = /opt/openresty-saas/zlib
 PY_PREFIX = /usr/local/openresty-python3
 DESTDIR = $(CURDIR)/debian/tmp
 
 clean:
-	mv setup.py mysetup.py
 	dh $@ --parallel --with autotools-dev,systemd
-	mv mysetup.py setup.py
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -32,8 +31,8 @@ override_dh_auto_build:
 		--libdir="$(PY_PREFIX)/lib" \
 		--with-openssl=$(SSL_PREFIX) \
 		&& make -j`nproc` \
-		LDFLAGS="-L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(SSL_PREFIX)/lib" \
-		CFLAGS="-g3 -I$(SSL_PREFIX)/include"
+		LDFLAGS="-L$(ZLIB_PREFIX)/lib -L$(SSL_PREFIX)/lib -L$(PY_PREFIX)/lib -Wl,-rpath,$(PY_PREFIX)/lib:$(ZLIB_PREFIX)/lib:$(SSL_PREFIX)/lib" \
+		CFLAGS="-g -I$(ZLIB_PREFIX)/include -I$(SSL_PREFIX)/include"
 
 override_dh_auto_install:
 	make \

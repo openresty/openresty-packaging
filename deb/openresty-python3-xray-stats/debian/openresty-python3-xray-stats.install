@@ -1,4 +1,4 @@
-usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/libstats.so
-usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__init__.pyc
-usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/aggregate.pyc
-usr/local/openresty-python3/lib/python3.7/site-packages/xray_stats/__pycache__
+usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/libstats.so
+usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/__init__.pyc
+usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/aggregate.pyc
+usr/local/openresty-python3/lib/python3.12/site-packages/xray_stats/__pycache__

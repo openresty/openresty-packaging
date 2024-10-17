@@ -1,3 +1,9 @@
+openresty-python3-numpy (2.1.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * disabled atlas.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 20 Sep 2024 19:13:19 -0700
+
 openresty-python3-numpy (1.16.4-2~[% distro %]1) [% distro %]; urgency=high
 
   * disabled atlas.

@@ -1,6 +1,6 @@
 Name:           openresty-python3
-Version:        3.7.14
-Release:        3%{?dist}
+Version:        3.12.5
+Release:        1%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -13,6 +13,7 @@ AutoReqProv:    no
 
 %define _prefix     /usr/local/openresty-python3
 %define ssl_prefix  /usr/local/openresty-plus/openssl111
+%define zlib_prefix  /opt/openresty-saas/zlib
 
 %global __os_install_post     %{nil}
 
@@ -20,6 +21,7 @@ AutoReqProv:    no
 BuildRequires: glibc-devel
 BuildRequires: ccache, gcc
 BuildRequires: openresty-plus-openssl111-devel >= 1.1.1h-1
+BuildRequires: openresty-saas-zlib-devel
 BuildRequires: make
 
 %if "%{?_vendor}" == "mariner"
@@ -29,6 +31,7 @@ BuildRequires: libuuid-devel
 %endif
 
 Requires: openresty-plus-openssl111 >= 1.1.1i-1
+Requires: openresty-saas-zlib
 Requires: bzip2
 
 %if 0%{?suse_version}
@@ -100,14 +103,14 @@ into other programs, and to make binary distributions for Python libraries.
 %build
 
 export PYTHONPATH=
-export LDFLAGS="-L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{ssl_prefix}/lib"
+export LDFLAGS="-L%{zlib_prefix}/lib -L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -Wl,-rpath,%{_prefix}/lib:%{zlib_prefix}/lib:%{ssl_prefix}/lib"
 
 ./configure --prefix="%{_prefix}" --enable-shared --enable-ipv6 \
     --without-ensurepip \
     --libdir="%{_prefix}/lib" \
     --with-openssl=%{ssl_prefix} \
-    CFLAGS="-g3 -I%{ssl_prefix}/include" \
-    CC='ccache gcc -g3'
+    CFLAGS="-g -I%{zlib_prefix}/include -I%{ssl_prefix}/include" \
+    CC='ccache gcc -g'
 
 make -j`nproc`
 

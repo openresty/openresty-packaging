@@ -11,9 +11,9 @@ AutoReqProv: no
 
 %define py_prefix /usr/local/openresty-python3
 %define py_bin %{py_prefix}/bin/python3
-%define py_lib %{py_prefix}/lib/python3.7
+%define py_lib %{py_prefix}/lib/python3.12
 %define py_sitearch %{py_lib}/site-packages
-%define py_version 3.7
+%define py_version 3.12
 
 %define __jar_repack 0
 %define __brp_mangle_shebangs /usr/bin/true
@@ -24,7 +24,7 @@ AutoReqProv: no
 
 BuildRequires:  gcc-c++
 BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
-Requires:   openresty-python3 >= 3.7.9
+Requires:   openresty-python3 >= 3.12.5
 
 
 %description

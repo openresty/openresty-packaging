@@ -1,19 +1,19 @@
 Name:           openresty-python3-numpy
-Version:        1.16.4
-Release:        11%{?dist}
+Version:        2.1.1
+Release:        1%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        Proprietary
 URL:            http://www.numpy.org/
-Source0:        https://github.com/numpy/numpy/archive/v%{version}/numpy-%{version}.tar.gz
+Source0:        https://github.com/numpy/numpy/releases/download/v%{version}/numpy-%{version}.tar.gz
 
 AutoReqProv: no
 
 %define py_prefix /usr/local/openresty-python3
 %define py_bin %{py_prefix}/bin/python3
-%define py_lib %{py_prefix}/lib/python3.7
+%define py_lib %{py_prefix}/lib/python3.12
 %define py_sitearch %{py_lib}/site-packages
-%define py_version 3.7
+%define py_version 3.12
 
 %define __jar_repack 0
 %define __brp_mangle_shebangs /usr/bin/true
@@ -24,16 +24,16 @@ AutoReqProv: no
 
 BuildRequires:  lapack-devel
 BuildRequires:  gcc
-BuildRequires:  openresty-python3-devel >= 3.7.9-12
+BuildRequires:  openresty-python3-devel >= 3.12.5-1
 %if 0%{?suse_version}
 BuildRequires:  gcc-fortran
 %else
 BuildRequires:  gcc-gfortran
 %endif
-BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
-BuildRequires:  openresty-python3-cython >= 0.28.5-3
+BuildRequires:  openresty-python3-setuptools >= 72.2.0-1
+BuildRequires:  openresty-python3-cython >= 3.0.10-1
 
-Requires:   openresty-python3 >= 3.7.7-2
+Requires:   openresty-python3 >= 3.12.5-1
 
 
 %description
@@ -85,29 +85,36 @@ export ATLAS=None
 export BLAS=None
 export LAPACK=%{_libdir}
 
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
+export PATH=$HOME/.local/bin:%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
+if [ -z "$(command -v $HOME/.local/bin/pip3)" ]; then
+    wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+    python3 get-pip.py
+fi
 
+if [ -z "$(command -v $HOME/.local/bin/meson)" ]; then
+    pip3 install --user meson
+fi
+
+if [ -z "$(command -v $HOME/.local/bin/spin)" ]; then
+    pip3 install --user spin
+fi
+
+if [ -z "$(command -v $HOME/.local/bin/ninja)" ]; then
+    pip3 install --user ninja
+fi
+PATH=/usr/local/openresty-python3/bin/:$PATH spin build  -j`nproc` -- --prefix=%{py_prefix}
 
 %install
 export ATLAS=None
 export BLAS=None
 export LAPACK=%{_libdir}
 
-PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
+rm -rf build-install/%{py_sitearch}/numpy/{compat,core,_core,distutils,f2py,fft,lib,linalg,ma,matrixlib,polynomial,random,typing,testing,_pyinstaller}/tests
+rm -rf build-install/%{py_sitearch}/numpy/tests
 
-# Remove tests
-sed -i 's/from .testing import/# from .testing import/g' %{buildroot}%{py_sitearch}/numpy/__init__.py
+install -d %{buildroot}
 
-rm -rf %{buildroot}%{py_sitearch}/numpy/{compat,core,distutils,f2py,fft,lib,linalg,ma,matrixlib,polynomial,random,testing}/tests
-
-# Remove docs
-rm -rf %{buildroot}%{py_sitearch}/numpy/doc
-
-# Remove egg-info
-rm -rf %{buildroot}%{py_sitearch}/numpy-%{version}-py%{py_version}.egg-info
-
-# Fix .so permissions
-find %{buildroot} -name \*.so -exec chmod 755 {} +
+cp -ra build-install/* %{buildroot}/
 
 export QA_RPATHS=$[ 0x0002 ]
 
@@ -115,7 +122,6 @@ export QA_RPATHS=$[ 0x0002 ]
 %files
 %defattr(-, root, root)
 %{py_sitearch}/numpy/*
-%{py_prefix}/bin/f2py*
 
 
 %clean

@@ -1,6 +1,6 @@
 Name:           openresty-python3-goto
 Version:        1.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        OpenResty's fork of python goto library
 Group:          Development/Libraries
 License:        Proprietary
@@ -12,9 +12,9 @@ AutoReqProv: no
 
 %define py_prefix /usr/local/openresty-python3
 %define py_bin %{py_prefix}/bin/python3
-%define py_lib %{py_prefix}/lib/python3.7
+%define py_lib %{py_prefix}/lib/python3.12
 %define py_sitearch %{py_lib}/site-packages
-%define py_version 3.7
+%define py_version 3.12
 
 %define __jar_repack 0
 %define __brp_mangle_shebangs /usr/bin/true
@@ -23,10 +23,10 @@ AutoReqProv: no
 %global __python %{py_bin}
 
 
-BuildRequires:  openresty-python3-devel >= 3.7.9-3
+BuildRequires:  openresty-python3-devel >= 3.12.5-1
 BuildRequires:  openresty-python3-setuptools >= 39.2.0-3
 
-Requires:   openresty-python3 >= 3.7.9-3
+Requires:   openresty-python3 >= 3.12.5-1
 
 
 %description

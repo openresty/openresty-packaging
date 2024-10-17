@@ -18,24 +18,32 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
+	if [ -z "$$(command -v $(HOME)/.local/bin/pip3)" ]; then \
+		wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py; \
+		python3 get-pip.py; \
+	fi
+	if [ -z "$$(command -v $(HOME)/.local/bin/meson)" ]; then \
+		pip3 install --user meson; \
+	fi
+	if [ -z "$$(command -v $(HOME)/.local/bin/spin)" ]; then \
+		pip3 install --user spin; \
+	fi
+	if [ -z "$$(command -v $(HOME)/.local/bin/ninja)" ]; then \
+		pip3 install --user ninja; \
+	fi
+
 	export ATLAS=None; \
 		export BLAS=/usr/lib; \
 		export LAPACK=/usr/lib; \
-		export LDFLAGS='-shared'; \
-	PATH="/usr/local/openresty-python3/bin:$(PATH)" /usr/local/openresty-python3/bin/python3 setup.py build -j`nproc`
+		CFLAGS= CXXFLAGS= PATH="/usr/local/openresty-python3/bin:$(PATH)" spin build  -j`nproc` -- --prefix=/usr/local/openresty-python3
 
 override_dh_auto_install:
 	export ATLAS=None; \
 		export FFTW=/usr/lib; \
 		export BLAS=/usr/lib; \
 		export LAPACK=/usr/lib; \
-		PATH="/usr/local/openresty-python3/bin:$(PATH)" /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR) \
-		&& sed -i 's/from .testing import/# from .testing import/g' $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/__init__.py \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/{compat,core,distutils,f2py,fft,lib,linalg,ma,matrixlib,polynomial,random,testing}/tests \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy/doc \
-		&& rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.7/site-packages/numpy-1.16.4-py3.7.egg-info \
-		&& find $(DESTDIR) -name \*.so -exec chmod 755 {} +
-	-rm -rf $(DESTDIR)/../../doc/changelog
+		rm -rf build-install/usr/local/openresty-python3/lib/python3.12/site-packages/numpy/{compat,core,distutils,f2py,fft,lib,linalg,ma,matrixlib,polynomial,random,testing}/tests \
+		&& install -d $(DESTDIR) && cp -ra build-install/* $(DESTDIR)/
 
 override_dh_auto_clean:
 	dh_clean

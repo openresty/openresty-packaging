@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_PYTHON3_VER := 3.7.14
+OPENRESTY_PYTHON3_VER := 3.12.5
 
 .PHONY: openresty-python3-download
 openresty-python3-download:
@@ -19,8 +19,8 @@ openresty-python3-clean:
 
 .PHONY: openresty-python3-build
 openresty-python3-build: openresty-python3-clean openresty-python3-download
-	sudo apt-get -y -q install libc6-dev ccache gcc make openresty-plus-openssl111-dev libffi-dev libbz2-dev
-	sudo apt-get --only-upgrade -y -q install ccache libc6-dev gcc make openresty-plus-openssl111-dev libffi-dev libbz2-dev
+	sudo apt-get -y -q install libc6-dev ccache gcc make openresty-plus-openssl111-dev libffi-dev libbz2-dev openresty-saas-zlib-dev
+	sudo apt-get --only-upgrade -y -q install ccache libc6-dev gcc make openresty-plus-openssl111-dev libffi-dev libbz2-dev openresty-saas-zlib-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3_$(OPENRESTY_PYTHON3_VER).orig.tar.gz --strip-components=1 -C openresty-python3
 	cd openresty-python3 \

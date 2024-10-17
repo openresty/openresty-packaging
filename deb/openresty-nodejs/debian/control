@@ -2,7 +2,7 @@ Source: openresty-nodejs
 Section: interpreters
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
-Build-Depends: debhelper (>= 9), openresty-python3 (>= 3.7.9), ccache, gcc, g++, openresty-saas-zlib-dev, libbz2-dev, openresty-plus-openssl111-dev (>= 1.1.1i)
+Build-Depends: debhelper (>= 9), openresty-python3 (>= 3.12.5), ccache, gcc, g++, openresty-saas-zlib-dev, libbz2-dev, openresty-plus-openssl111-dev (>= 1.1.1i)
 Standards-Version: 3.9.8
 Homepage: http://nodejs.org/
 

@@ -1,3 +1,9 @@
+openresty-python3-xray-stats (0.0.3-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-python3-xray-stats to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 20 Sep 2024 19:02:51 +0800
+
 openresty-python3-xray-stats (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-python3-xray-stats to 0.0.3.

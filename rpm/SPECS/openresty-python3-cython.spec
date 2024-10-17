@@ -1,20 +1,19 @@
 Name:           openresty-python3-cython
-Version:        0.28.5
-Release:        6%{?dist}
+Version:        3.0.11
+Release:        1%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
 URL:            http://www.cython.org
 
-Source0:        https://github.com/cython/cython/archive/%{version}/Cython-%{version}.tar.gz
-
+Source0:        https://github.com/cython/cython/releases/download/%{version}-1/cython-%{version}.tar.gz
 AutoReqProv: no
 
 %define py_prefix /usr/local/openresty-python3
 %define py_bin %{py_prefix}/bin/python3
-%define py_lib %{py_prefix}/lib/python3.7
+%define py_lib %{py_prefix}/lib/python3.12
 %define py_sitearch %{py_lib}/site-packages
-%define py_version 3.7
+%define py_version 3.12
 
 %define __jar_repack 0
 %define __brp_mangle_shebangs /usr/bin/true
@@ -24,9 +23,9 @@ AutoReqProv: no
 
 
 BuildRequires:  gcc
-BuildRequires:  openresty-python3-devel >= 3.7.7-2
+BuildRequires:  openresty-python3-devel >= 3.12.5-1
 
-Requires:   openresty-python3 >= 3.7.7-2
+Requires:   openresty-python3 >= 3.12.5-1
 
 
 %description
@@ -87,7 +86,7 @@ export QA_RPATHS=$[ 0x0002 ]
 %{py_sitearch}/cython.*
 %{py_sitearch}/Cython/
 %{py_sitearch}/pyximport/
-%{py_sitearch}/__pycache__/cython.cpython-37*.py*
+%{py_sitearch}/__pycache__/cython.cpython-312*.py*
 
 
 %clean

@@ -24,7 +24,7 @@ AutoReqProv:    no
 
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: ccache, gcc-c++, openresty-python3 >= 3.7.9
+BuildRequires: ccache, gcc-c++, openresty-python3 >= 3.12.5
 #BuildRequires: perl-JSON-MaybeXS
 BuildRequires: openresty-perl, openresty-perl-Cpanel-JSON-XS
 BuildRequires: gettext-devel

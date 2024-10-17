@@ -1,19 +1,20 @@
 Name:           openresty-python3-setuptools
-Version:        39.2.0
-Release:        5%{?dist}
+Version:        75.1.0
+Release:        1%{?dist}
 Summary:        OpenResty's fork of setuptools
 Group:          Development/System
 License:        Proprietary
 URL:            https://pypi.python.org/pypi/setuptools
 BuildArch:      noarch
 
-Source0:        https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-%{version}.zip
+Source0: https://files.pythonhosted.org/packages/27/b8/f21073fde99492b33ca357876430822e4800cdf522011f18041351dfa74b/setuptools-75.1.0.tar.gz
+
 
 AutoReqProv: no
 
 %define py_prefix /usr/local/openresty-python3
 %define py_bin %{py_prefix}/bin/python3
-%define py_lib %{py_prefix}/lib/python3.7
+%define py_lib %{py_prefix}/lib/python3.12
 %define py_sitearch %{py_lib}/site-packages
 
 %define __jar_repack 0
@@ -24,9 +25,9 @@ AutoReqProv: no
 
 
 BuildRequires:  gcc
-BuildRequires:  openresty-python3-devel >= 3.7.7-2
+BuildRequires:  openresty-python3-devel >= 3.12.5-1
 
-Requires:   openresty-python3 >= 3.7.7-2
+Requires:   openresty-python3 >= 3.12.5-1
 
 
 %description
@@ -53,13 +54,10 @@ PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
 %files
 %defattr(-, root, root)
-%{py_sitearch}/easy_install.*
 %{py_sitearch}/pkg_resources/
 %{py_sitearch}/setuptools*/
-%{py_sitearch}/__pycache__/*
-%{py_prefix}/bin/easy_install
-%{py_prefix}/bin/easy_install-3.*
-
+%{py_sitearch}/_distutils_hack
+%{py_sitearch}/distutils-precedence.pth
 
 %clean
 rm -rf %{buildroot}
