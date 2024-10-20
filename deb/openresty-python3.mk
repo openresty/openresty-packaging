@@ -19,7 +19,6 @@ openresty-python3-clean:
 
 .PHONY: openresty-python3-build
 openresty-python3-build: openresty-python3-clean openresty-python3-download
-	DEBIAN_FRONTEND=noninteractive sudo -E apt-get -y -f install
 	DEBIAN_FRONTEND=noninteractive sudo apt -y --fix-broken install
 	DEBIAN_FRONTEND=noninteractive sudo dpkg --configure -a
 	sudo apt-get -y -q install libc6-dev ccache gcc make openresty-plus-openssl111-dev libffi-dev libbz2-dev openresty-saas-zlib-dev libreadline-dev
