@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        3.0.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
@@ -24,6 +24,7 @@ AutoReqProv: no
 
 BuildRequires:  gcc
 BuildRequires:  openresty-python3-devel >= 3.12.5-1
+BuildRequires:  openresty-python3-setuptools >= 75.1.0
 
 Requires:   openresty-python3 >= 3.12.5-1
 

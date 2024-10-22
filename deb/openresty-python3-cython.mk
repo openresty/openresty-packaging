@@ -19,7 +19,8 @@ openresty-python3-cython-clean:
 
 .PHONY: openresty-python3-cython-build
 openresty-python3-cython-build: openresty-python3-cython-clean openresty-python3-cython-download
-	sudo apt-get -y -q install gcc openresty-python3-dev
+	sudo apt-get -y -q install gcc openresty-python3-dev openresty-python3-setuptools
+	sudo apt-get -y -qq --only-upgrade install openresty-python3-dev openresty-python3-setuptools
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-python3-cython_$(OPENRESTY_PYTHON3_CYTHON_VER).orig.tar.gz --strip-components=1 -C openresty-python3-cython
 	cd openresty-python3-cython \
