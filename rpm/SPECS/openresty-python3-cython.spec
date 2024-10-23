@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        3.0.11
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
@@ -67,6 +67,7 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
+find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/env python|#!/usr/bin/env python3|'
 PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
 
 
