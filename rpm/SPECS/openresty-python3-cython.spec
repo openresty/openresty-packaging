@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        3.0.11
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
@@ -16,8 +16,8 @@ AutoReqProv: no
 %define py_version 3.12
 
 %define __jar_repack 0
-%define __brp_mangle_shebangs /usr/bin/true
-%define __brp_python_shebangs /usr/bin/true
+%undefine __brp_mangle_shebangs
+%undefine __brp_python_shebangs
 
 %global __python %{py_bin}
 
