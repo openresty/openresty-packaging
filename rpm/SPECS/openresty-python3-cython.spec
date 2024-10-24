@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        3.0.11
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
@@ -16,8 +16,9 @@ AutoReqProv: no
 %define py_version 3.12
 
 %define __jar_repack 0
-%undefine __brp_mangle_shebangs
-%undefine __brp_python_shebangs
+%define __brp_mangle_shebangs /usr/bin/true
+%define __brp_python_shebangs /usr/bin/true
+%global __os_install_post %(echo '%{__os_install_post}' | sed -e 's!/usr/lib[^[:space:]]*/brp-python-bytecompile[[:space:]].*$!!g')
 
 %global __python %{py_bin}
 
@@ -67,9 +68,9 @@ This is a development version of Pyrex, a language for writing Python extension 
 
 
 %build
-find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/python|#!/usr/bin/env python3|'
 PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py build -j`nproc`
-
+find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/python\b|#!/usr/bin/env python3|'
+find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/env python\b|#!/usr/bin/env python3|'
 
 %install
 PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}

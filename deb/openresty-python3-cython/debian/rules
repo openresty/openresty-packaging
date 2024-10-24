@@ -19,6 +19,8 @@ override_dh_auto_configure:
 
 override_dh_auto_build:
 	PATH="/usr/local/openresty-python3/bin:$(PATH)" /usr/local/openresty-python3/bin/python3 setup.py build -j`nproc`
+	find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/python\b|#!/usr/bin/env python3|'
+	find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/env python\b|#!/usr/bin/env python3|'
 
 override_dh_auto_install:
 	PATH="/usr/local/openresty-python3/bin:$(PATH)" /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR)
