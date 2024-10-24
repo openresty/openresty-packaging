@@ -31,7 +31,7 @@ BuildRequires:  gcc-fortran
 BuildRequires:  gcc-gfortran
 %endif
 BuildRequires:  openresty-python3-setuptools >= 72.2.0-1
-BuildRequires:  openresty-python3-cython >= 3.0.10-1
+BuildRequires:  openresty-python3-cython >= 3.0.11-7
 
 Requires:   openresty-python3 >= 3.12.5-1
 
