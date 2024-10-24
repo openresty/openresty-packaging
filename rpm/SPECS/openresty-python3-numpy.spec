@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        2.1.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        Proprietary
@@ -86,6 +86,11 @@ export BLAS=None
 export LAPACK=%{_libdir}
 
 export PATH=$HOME/.local/bin:%{py_prefix}/bin:$PATH
+which cython
+ls $HOME/.local/bin
+rm -fr $HOME/.local/bin/cython
+rm -fr $HOME/.local/bin/cygdb
+rm -fr $HOME/.local/bin/cythonize
 #if [ -z "$(command -v $HOME/.local/bin/pip3)" ]; then
 #fi
 wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
