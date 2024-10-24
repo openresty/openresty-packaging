@@ -1,6 +1,6 @@
 Name:           openresty-python3-cython
 Version:        3.0.11
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        OpenResty's fork of Cython
 Group:          Development/System
 License:        Proprietary
@@ -75,9 +75,6 @@ find . -type f -name "*.py" | xargs sed -i 's|#!/usr/bin/env python\b|#!/usr/bin
 %install
 PATH="%{py_prefix}/bin:$PATH" %{py_bin} setup.py install --root %{buildroot}
 
-# Remove egg-info
-rm -rf %{buildroot}%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info
-
 export QA_RPATHS=$[ 0x0002 ]
 
 
@@ -90,6 +87,7 @@ export QA_RPATHS=$[ 0x0002 ]
 %{py_sitearch}/Cython/
 %{py_sitearch}/pyximport/
 %{py_sitearch}/__pycache__/cython.cpython-312*.py*
+%{py_sitearch}/Cython-%{version}-py%{py_version}.egg-info
 
 
 %clean

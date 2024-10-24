@@ -24,8 +24,6 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	PATH="/usr/local/openresty-python3/bin:$(PATH)" /usr/local/openresty-python3/bin/python3 setup.py install --root $(DESTDIR)
-	# Remove egg-info
-	rm -rf $(DESTDIR)/usr/local/openresty-python3/lib/python3.12/site-packages/Cython-3.0.10-py3.12.egg-info
 
 override_dh_auto_clean:
 	dh_clean
