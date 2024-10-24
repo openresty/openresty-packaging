@@ -7,6 +7,7 @@ export NO_PKG_MANGLE=1
 export QA_RPATHS=$[ 0x0002 ]
 
 DESTDIR = $(CURDIR)/debian/tmp
+PATH := $(HOME)/.local/bin:/usr/local/openresty-python3/bin:$(PATH)
 
 %:
 	dh $@ --parallel --with autotools-dev,systemd
@@ -18,19 +19,11 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	if [ -z "$$(command -v $(HOME)/.local/bin/pip3)" ]; then \
-		wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py; \
-		python3 get-pip.py; \
-	fi
-	if [ -z "$$(command -v $(HOME)/.local/bin/meson)" ]; then \
-		pip3 install --user meson; \
-	fi
-	if [ -z "$$(command -v $(HOME)/.local/bin/spin)" ]; then \
-		pip3 install --user spin; \
-	fi
-	if [ -z "$$(command -v $(HOME)/.local/bin/ninja)" ]; then \
-		pip3 install --user ninja; \
-	fi
+	wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py;
+	python3 get-pip.py
+	pip3 install --user meson
+	pip3 install --user spin
+	pip3 install --user ninja
 
 	export ATLAS=None; \
 		export BLAS=/usr/lib; \

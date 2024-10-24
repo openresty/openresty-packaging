@@ -1,6 +1,6 @@
 Name:           openresty-python3-numpy
 Version:        2.1.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of numpy
 Group:          Development/Libraries
 License:        Proprietary
@@ -85,24 +85,24 @@ export ATLAS=None
 export BLAS=None
 export LAPACK=%{_libdir}
 
-export PATH=$HOME/.local/bin:%{radare2_prefix}/bin:%{python3_prefix}/bin:$PATH
-if [ -z "$(command -v $HOME/.local/bin/pip3)" ]; then
-    wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
-    python3 get-pip.py
-fi
+export PATH=$HOME/.local/bin:%{py_prefix}/bin:$PATH
+#if [ -z "$(command -v $HOME/.local/bin/pip3)" ]; then
+#fi
+wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py
+python3 get-pip.py
 
-if [ -z "$(command -v $HOME/.local/bin/meson)" ]; then
-    pip3 install --user meson
-fi
+#if [ -z "$(command -v $HOME/.local/bin/meson)" ]; then
+pip3 install --user meson
+#fi
 
-if [ -z "$(command -v $HOME/.local/bin/spin)" ]; then
-    pip3 install --user spin
-fi
+#if [ -z "$(command -v $HOME/.local/bin/spin)" ]; then
+pip3 install --user spin
+#fi
 
-if [ -z "$(command -v $HOME/.local/bin/ninja)" ]; then
-    pip3 install --user ninja
-fi
-PATH=/usr/local/openresty-python3/bin/:$PATH spin build  -j`nproc` -- --prefix=%{py_prefix}
+#if [ -z "$(command -v $HOME/.local/bin/ninja)" ]; then
+pip3 install --user ninja
+#fi
+spin build  -j`nproc` -- --prefix=%{py_prefix}
 
 %install
 export ATLAS=None
