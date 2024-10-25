@@ -202,18 +202,13 @@ $(priv_targets):
 	rm -f ~/rpmbuild/SRPMS/*.rpm ~/rpmbuild/RPMS/*/*.rpm
 	spectool -g -R $@.spec
 	sudo dnf builddep -y $@.spec
-	if [ "$(BUILD_SRC_RPM_ONLY)" = "1" ]; then echo -n|setsid time rpmbuild -v -bs $@.spec; else echo -n|setsid time rpmbuild -v -ba $@.spec; fi;
+	echo -n|setsid time rpmbuild -v -ba $@.spec
 	ls -lh $(rpmbuild_dir)/SRPMS/$@*[0-9]*.src.rpm
 	mkdir -p ~/packaging/SRPMS/
 	rsync --progress -av $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm ~/packaging/SRPMS/
 	for f in $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
-	if [ "$(BUILD_SRC_RPM_ONLY)" != "1" ]; then \
-            for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm; \
-            do \
-                 rpmsign -v --addsign $$f || exit 1; \
-            done; \
-            ls -lh $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm; \
-            rsync -av $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm ~/pkg/priv/`uname -m`/;  \
-            cd ~/pkg/priv && ./build-repo; \
-	fi
+	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm; do rpmsign -v --addsign $$f || exit 1; done
+	ls -lh $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm
+	rsync -av $(rpmbuild_dir)/RPMS/*/$@*[0-9]*.rpm ~/pkg/priv/`uname -m`/
+	cd ~/pkg/priv && ./build-repo
 	sudo dnf clean expire-cache
