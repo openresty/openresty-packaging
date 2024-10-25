@@ -28,7 +28,9 @@ override_dh_auto_build:
 	export ATLAS=None; \
 		export BLAS=/usr/lib; \
 		export LAPACK=/usr/lib; \
-		CFLAGS= CXXFLAGS= PATH="/usr/local/openresty-python3/bin:$(PATH)" spin build  -j`nproc` -- --prefix=/usr/local/openresty-python3
+		CFLAGS= CXXFLAGS= PATH="/usr/local/openresty-python3/bin:$(PATH)" spin build  -j`nproc` -- --prefix=/usr/local/openresty-python3 \
+  -Dc_args="-Wno-maybe-uninitialized -Wno-uninitialized -g -O2 -fPIC" \
+  -Dcpp_args="-Wno-maybe-uninitialized -Wno-uninitialized -g -O2 -fPIC"
 
 override_dh_auto_install:
 	export ATLAS=None; \

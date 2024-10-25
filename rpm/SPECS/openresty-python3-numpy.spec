@@ -15,6 +15,7 @@ AutoReqProv: no
 %define py_sitearch %{py_lib}/site-packages
 %define py_version 3.12
 
+%define _lto_cflags %{nil}
 %define __jar_repack 0
 %define __brp_mangle_shebangs /usr/bin/true
 %define __brp_python_shebangs /usr/bin/true
@@ -105,7 +106,9 @@ pip3 install --user spin
 #if [ -z "$(command -v $HOME/.local/bin/ninja)" ]; then
 pip3 install --user ninja
 #fi
-spin build  -j`nproc` -- --prefix=%{py_prefix}
+spin build  -j`nproc` -- --prefix=%{py_prefix} \
+  -Dc_args="-Wno-maybe-uninitialized -Wno-uninitialized -g -O2 -fPIC" \
+  -Dcpp_args="-Wno-maybe-uninitialized -Wno-uninitialized -g -O2 -fPIC"
 
 %install
 export ATLAS=None
