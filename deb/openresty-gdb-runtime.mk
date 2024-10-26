@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_GDB_RUNTIME_VER := 0.0.7
+OPENRESTY_GDB_RUNTIME_VER := 0.0.8
 
 .PHONY: openresty-gdb-runtime-download
 openresty-gdb-runtime-download:
