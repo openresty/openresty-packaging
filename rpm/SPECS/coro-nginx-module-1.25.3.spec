@@ -1,5 +1,5 @@
 Name:           coro-nginx-module-1.25.3
-Version:        0.0.12
+Version:        0.0.13
 Release:        1%{?dist}
 Summary:        Coroutine implemented using ucontext API
 
@@ -127,6 +127,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Oct 28 2024 Yichun Zhang (agentzh) 0.0.13-1
+- upgraded coro-nginx-module to 0.0.13.
 * Mon Oct 28 2024 Yichun Zhang (agentzh) 0.0.12-1
 - upgraded coro-nginx-module to 0.0.12.
 * Mon Oct 28 2024 Yichun Zhang (agentzh) 0.0.13-1
