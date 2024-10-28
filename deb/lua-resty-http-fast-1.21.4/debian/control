@@ -9,7 +9,7 @@ Homepage: https://www.openresty.com/
 Package: lua-resty-http-fast-1.21.4
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, coro-libcurl-nginx-module-1.21.4 (>= 0.0.7)
+Depends: ${shlibs:Depends}, ${misc:Depends}, coro-libcurl-nginx-module-1.21.4 (>= 0.0.8)
 Description: http client library using coro
  This is a client that supports the redis cluster for OpenResty.
 
