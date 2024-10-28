@@ -127,18 +127,27 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-luajit-plus-clean \
 		lua-resty-redis-cluster-fast-1.21.4-clean \
 		lua-resty-redis-cluster-fast-1.25.3-clean \
+		lua-resty-redis-cluster-fast-1.27.1-clean \
 		lua-resty-http-fast-1.21.4-clean \
 		lua-resty-http-fast-1.25.3-clean \
+		lua-resty-http-fast-1.27.1-clean \
 		dymetrics-nginx-module-1.19.9-clean \
 		coro-nginx-module-1.21.4-clean \
-		coro-hiredis-nginx-module-1.21.4-clean \
 		coro-nginx-module-1.25.3-clean \
+		coro-nginx-module-1.27.1-clean \
+		coro-hiredis-nginx-module-1.21.4-clean \
 		coro-hiredis-nginx-module-1.25.3-clean \
+		coro-hiredis-nginx-module-1.27.1-clean \
 		coro-libcurl-nginx-module-1.21.4-clean \
 		coro-libcurl-nginx-module-1.25.3-clean \
+		coro-libcurl-nginx-module-1.27.1-clean \
 		lua-kafka-nginx-module-1.21.4-clean \
 		lua-kafka-nginx-module-1.25.3-clean \
+		lua-kafka-nginx-module-1.27.1-clean \
+		replace-filter-plus-nginx-module-1.21.4-clean \
+		replace-filter-plus-nginx-module-1.27.1-clean \
 		openresty-otel-nginx-module-1.19.9-clean \
+		openresty-otel-nginx-module-1.27.1-clean \
 		openresty-librdkafka-clean \
 		openresty-ljsb-clean \
 		openresty-llvm-clean \
@@ -165,7 +174,6 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-zstd-clean \
 		openresty-minifiers-clean \
 		openresty-libcurl-clean \
-		replace-filter-plus-nginx-module-1.21.4-clean \
 		openresty-perl-ipc-run3-clean
 	-rm -f *.gz *.bz2 *.xz *.zip
 

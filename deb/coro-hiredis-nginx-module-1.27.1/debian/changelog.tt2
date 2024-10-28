@@ -1,0 +1,54 @@
+coro-hiredis-nginx-module-1.27.1 (0.0.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module to 0.0.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 10 Oct 2024 16:53:47 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 23 Mar 2024 09:32:01 +0800
+
+coro-hiredis-nginx-module-1.27.1 (0.0.6-2~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 22 Mar 2024 17:26:16 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 22 Mar 2024 17:26:16 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module-1.27.1 to 0.0.5.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 5 Apr 2023 23:03:36 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module-1.27.1 to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 5 Apr 2023 11:12:25 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module-1.27.1 to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 4 Apr 2023 11:13:17 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-hiredis-nginx-module-1.27.1 to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 30 Mar 2023 23:22:47 -0700
+
+coro-hiredis-nginx-module-1.27.1 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for coro-hiredis-nginx-module-1.27.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 30 Mar 2023 00:00:00 +0800
+

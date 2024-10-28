@@ -129,21 +129,28 @@ priv_targets = openresty-plus \
 		openresty-wrk \
 		lua-resty-redis-cluster-fast-1.21.4 \
 		lua-resty-redis-cluster-fast-1.25.3 \
+		lua-resty-redis-cluster-fast-1.27.1 \
 		lua-resty-http-fast-1.21.4 \
 		lua-resty-http-fast-1.25.3 \
+		lua-resty-http-fast-1.27.1 \
 		lua-resty-dymetrics-bilibili \
 		lua-resty-limit-traffic-dynamic \
 		coro-nginx-module-1.21.4 \
-		coro-hiredis-nginx-module-1.21.4 \
 		coro-nginx-module-1.25.3 \
+		coro-nginx-module-1.27.1 \
+		coro-hiredis-nginx-module-1.21.4 \
 		coro-hiredis-nginx-module-1.25.3 \
+		coro-hiredis-nginx-module-1.27.1 \
 		coro-libcurl-nginx-module-1.21.4 \
 		coro-libcurl-nginx-module-1.25.3 \
+		coro-libcurl-nginx-module-1.27.1 \
 		lua-kafka-nginx-module-1.21.4 \
 		lua-kafka-nginx-module-1.25.3 \
+		lua-kafka-nginx-module-1.27.1 \
 		dymetrics-nginx-module-1.19.9 \
 		dymetrics-nginx-module-1.21.4 \
 		openresty-otel-nginx-module-1.19.9 \
+		openresty-otel-nginx-module-1.27.1 \
 		openresty-opencc \
 		openresty-llvm \
 		openresty-lua-cjson \
@@ -167,7 +174,8 @@ priv_targets = openresty-plus \
 		openresty-perl-IPC-Run3 \
 		openresty-minifiers \
 		openresty-libcurl   \
-		replace-filter-plus-nginx-module-1.21.4
+		replace-filter-plus-nginx-module-1.21.4 \
+		replace-filter-plus-nginx-module-1.27.1
 
 .PHONY: all
 all: openresty

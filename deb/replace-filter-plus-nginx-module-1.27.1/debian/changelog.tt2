@@ -1,0 +1,24 @@
+replace-filter-plus-nginx-module-1.27.1 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded replace-filter-nginx-module to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 8 Jun 2024 01:17:05 -0700
+
+replace-filter-plus-nginx-module-1.27.1 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded replace-filter-nginx-module to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 May 2024 23:59:06 -0700
+
+replace-filter-plus-nginx-module-1.27.1 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded replace-filter-nginx-module to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 11 May 2024 14:56:57 +0800
+
+replace-filter-plus-nginx-module-1.27.1 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for replace-filter-nginx-module.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 09 May 2024 00:00:00 -0700
+

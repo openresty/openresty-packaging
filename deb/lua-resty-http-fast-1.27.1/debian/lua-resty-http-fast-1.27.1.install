@@ -1,0 +1,3 @@
+usr/local/openresty/site/lualib/resty/http/fast/
+usr/local/openresty/site/lualib/resty/http/*.ljbc
+usr/local/openresty/site/lualib/resty/http/fast/*.ljbc

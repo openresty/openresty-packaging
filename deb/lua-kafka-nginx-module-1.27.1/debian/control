@@ -1,0 +1,21 @@
+Source: lua-kafka-nginx-module-1.27.1
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty (>= 1.17.8.2), ccache, gcc, make, openresty-openssl111-dev (>= 1.1.1n), openresty-zlib-dev (>= 1.2.12), openresty-pcre-dev, openresty-librdkafka-dev, openresty-cyrus-sasl-dev, openresty-ljsb-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: lua-kafka-nginx-module-1.27.1
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-librdkafka, openresty-cyrus-sasl, openresty-ljsb
+Description: Coroutine implemented using ucontext API
+ Coroutine implemented using ucontext API.
+
+Package: lua-kafka-nginx-module-1.27.1-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, lua-kafka-nginx-module-1.27.1 (>= ${source:Upstream-Version})
+Description: Debug symbols for the lua-kafka-nginx-module-1.27.1 package
+ Debug symbols (or debuginfo) for the lua-kafka-nginx-module-1.27.1 package.

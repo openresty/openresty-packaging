@@ -1,0 +1,30 @@
+lua-resty-http-fast-1.27.1 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 14 Oct 2024 21:48:34 -0700
+
+lua-resty-http-fast-1.27.1 (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 10 Oct 2024 08:07:14 -0700
+
+lua-resty-http-fast-1.27.1 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 7 Oct 2024 12:53:23 -0700
+
+lua-resty-http-fast-1.27.1 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 6 Oct 2024 23:23:24 -0700
+
+lua-resty-http-fast-1.27.1 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 4 Oct 2024 15:35:46 +0800
+

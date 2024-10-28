@@ -1,0 +1,3 @@
+usr/local/openresty-coro-nginx-module/lib/ngx_http_coro_libcurl_module.so
+usr/local/openresty/site/lualib/resty/libcurl.ljbc
+usr/local/openresty/site/lualib/resty/libcurl_wrap.ljbc

@@ -1,0 +1,48 @@
+lua-kafka-nginx-module-1.27.1 (0.0.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 2 Aug 2024 14:01:56 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 25 Jul 2024 17:47:14 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 23 Jul 2024 22:36:07 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.5-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.5.
+
+ -- OpenResty Admin <admin@openresty.com>  Sun, 21 Jul 2024 22:40:07 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 17 Jul 2024 12:20:23 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 8 Jun 2024 13:16:54 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-kafka-nginx-module to 0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 13 May 2024 21:46:54 -0700
+
+lua-kafka-nginx-module-1.27.1 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * initial build for lua-kafka-nginx-module.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 7 Mar 2024 00:00:00 -0700
+
