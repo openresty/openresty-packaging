@@ -5,6 +5,7 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_mk ($);
 
 my $version = shift or die "No version number specified.\n";
 
@@ -55,6 +56,7 @@ for my $dir (reverse sort glob 'openresty-libcurl*') {
     next unless -d $dir && -d "$dir/debian";
     if ($dir =~ /^openresty-libcurl(?:-(?:valgrind|asan|debug))?$/) {
         my $name = $dir;
+        update_mk "$name.mk";
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {
             warn "Cannot find $changelog file\n";
@@ -64,6 +66,41 @@ for my $dir (reverse sort glob 'openresty-libcurl*') {
         update_changelog $name, $changelog;
     }
 }
+
+
+sub update_mk ($) {
+    my $file = shift;
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $new;
+    my $changed;
+    while (<$in>) {
+        if (s/^ OPENRESTY_LIBCURL_VER \ :=\ ( \d+ (?: \.\d+ ){3} ) $/OPENRESTY_LIBCURL_VER := $version/msx) {
+            my $old_ver = $1;
+            if ($old_ver ne $version) {
+                $changed = 1;
+                say "INFO: $file: version needs update from $old_ver to $version";
+
+            } else {
+                say "INFO: $file is already up to date: $old_ver";
+                last;
+            }
+        }
+
+    } continue {
+        $new .= $_;
+    }
+    close $in;
+
+    if ($changed) {
+        open my $out, ">$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $new;
+        close $out;
+        say "$file updated.";
+    }
+}
+
 
 sub update_changelog ($$) {
     my ($name, $file) = @_;
