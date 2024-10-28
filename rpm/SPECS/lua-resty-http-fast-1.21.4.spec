@@ -1,5 +1,5 @@
 Name:           lua-resty-http-fast-1.21.4
-Version:        0.0.7
+Version:        0.0.8
 Release:        1%{?dist}
 Summary:        http client library using coro
 
@@ -91,6 +91,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Oct 28 2024 Yichun Zhang (agentzh) 0.0.8-1
+- upgraded lua-resty-http-fast to 0.0.8.
 * Mon Oct 14 2024 Yichun Zhang (agentzh) 0.0.7-1
 - upgraded lua-resty-http-fast to 0.0.7.
 * Thu Oct 10 2024 Yichun Zhang (agentzh) 0.0.6-1

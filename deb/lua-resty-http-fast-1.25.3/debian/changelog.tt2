@@ -1,3 +1,9 @@
+lua-resty-http-fast-1.25.3 (0.0.8-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded lua-resty-http-fast to 0.0.8.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 28 Oct 2024 02:44:50 -0700
+
 lua-resty-http-fast-1.25.3 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded lua-resty-http-fast to 0.0.7.
