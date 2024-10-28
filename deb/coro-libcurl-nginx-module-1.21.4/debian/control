@@ -3,7 +3,7 @@ Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
 Build-Depends: debhelper (>= 9), ccache, gcc, make, perl,
- coro-nginx-module-1.21.4-dev (>= 0.0.12), openresty-elf-loader-dev,
+ coro-nginx-module-1.21.4-dev (>= 0.0.13), openresty-elf-loader-dev,
  openresty-libcurl-dev, openresty-elfutils-dev, openresty-zlib-dev, openresty,
  openresty-pcre-dev, openresty-openssl111-dev (>= 1.1.1n)
 Standards-Version: 3.9.8
@@ -12,7 +12,7 @@ Homepage: https://www.openresty.com/
 Package: coro-libcurl-nginx-module-1.21.4
 Architecture: any
 Section: libdevel
-Depends: ${shlibs:Depends}, ${misc:Depends}, coro-nginx-module-1.21.4 (>= 0.0.12), openresty-libcurl (>= 7.81.0.3)
+Depends: ${shlibs:Depends}, ${misc:Depends}, coro-nginx-module-1.21.4 (>= 0.0.13), openresty-libcurl (>= 7.81.0.3)
 Description: Coroutine implemented libcurl nginx module for OpenResty
  This is the coroutine implemented libcurl nginx module for OpenResty.
 

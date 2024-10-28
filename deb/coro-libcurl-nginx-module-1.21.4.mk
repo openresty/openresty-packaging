@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-CORO_LIBCURL_NGINX_MODULE_VER := 0.0.7
+CORO_LIBCURL_NGINX_MODULE_VER := 0.0.8
 
 .PHONY: coro-libcurl-nginx-module-1.21.4-download
 coro-libcurl-nginx-module-1.21.4-download:
