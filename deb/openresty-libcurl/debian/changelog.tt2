@@ -1,3 +1,9 @@
+openresty-libcurl (7.81.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded yajl-plus to 7.81.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 28 Oct 2024 01:44:57 -0700
+
 openresty-libcurl (7.81.0.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded yajl-plus to 7.81.0.3.
