@@ -1,0 +1,2 @@
+usr/local/openresty-coro-nginx-module/lib/ngx_http_coro_hiredis_module.so
+usr/local/openresty/site/lualib/resty/hiredis.ljbc

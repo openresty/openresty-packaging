@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_RESTY_REDIS_CLUSTER_FAST_VER := 0.0.7
+LUA_RESTY_REDIS_CLUSTER_FAST_VER := 0.0.8
 
 .PHONY: lua-resty-redis-cluster-fast-1.21.4-download
 lua-resty-redis-cluster-fast-1.21.4-download:

@@ -1,0 +1,65 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+NGX_VERSION=1.27.1
+OR_VERSION=$(NGX_VERSION).1
+PREFIX=/usr/local/openresty
+ZLIB_PREFIX=$(PREFIX)/zlib
+PCRE_PREFIX=$(PREFIX)/pcre
+OPENSSL_PREFIX=$(PREFIX)/openssl111
+PERLCC=/usr/local/openresty-perl/bin/perlcc
+TMP_LUAJIT_PREFIX=openresty-$(OR_VERSION)/build/luajit-root/$(PREFIX)/luajit
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	$(PERLCC) -v4 -O2 --Wc='-g -O2' -o "bin/split-sm" "bin/split-sm.pl" \
+		&& ( if [ ! -f bin/split-sm ]; then exit 1; fi ) \
+		&& cd openresty-$(OR_VERSION)/ \
+		&& ./configure \
+    --prefix="$(PREFIX)" \
+    --with-cc='ccache gcc -fdiagnostics-color=always' \
+    --with-cc-opt="-I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -O3" \
+    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib" \
+    --with-compat \
+    --add-dynamic-module=../ \
+    -j`nproc` \
+		&& make -C build/nginx-$(NGX_VERSION)/ modules -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR) \
+		&& mkdir -p $(DESTDIR)/usr/local/openresty/site/lualib
+
+		for f in `find lib/resty/ -type f -name '*.lua'`; do \
+			LUA_PATH="./$(TMP_LUAJIT_PREFIX)/share/luajit-2.1/?.lua;./$(TMP_LUAJIT_PREFIX)/share/luajit-2.1.0-beta3/?.lua;;" \
+			./$(TMP_LUAJIT_PREFIX)/bin/luajit -bg $$f $${f%.lua}.ljbc \
+		&&     rm -f $$f; \
+		done
+
+		cp -r lib/resty $(DESTDIR)$(PREFIX)/site/lualib/ \
+		&& install -d $(DESTDIR)$(PREFIX)/bin \
+		&& install -d $(DESTDIR)$(PREFIX)/nginx/modules \
+		&& install -m755 openresty-$(OR_VERSION)/build/nginx-$(NGX_VERSION)/objs/*.so \
+    $(DESTDIR)$(PREFIX)/nginx/modules \
+		&& install -m755 bin/split-sm $(DESTDIR)$(PREFIX)/bin/split-sm
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=replace-filter-plus-nginx-module-1.27.1-dbgsym

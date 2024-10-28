@@ -1,0 +1,52 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+PREFIX=/usr/local/openresty-coro-nginx-module
+ELF_LOADER_PREFIX=/usr/local/elf-loader
+LIBCCO_PREFIX=/usr/local/libcco
+ZLIB_PREFIX=/usr/local/openresty/zlib
+PCRE_PREFIX=/usr/local/openresty/pcre
+OPENSSL_PREFIX=/usr/local/openresty/openssl111
+ELFUTILS_PREFIX=/usr/local/openresty-elfutils
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	cd openresty-*/ && ./configure \
+    --prefix="$(PREFIX)" \
+    --with-cc='ccache gcc' \
+    --with-cc-opt="-DNGX_HTTP_CORO_USE_FREE_LISTS -I$(ZLIB_PREFIX)/include -I$(PCRE_PREFIX)/include -I$(OPENSSL_PREFIX)/include -I$(ELFUTILS_PREFIX)/include -I$(ELF_LOADER_PREFIX)/include -I$(LIBCCO_PREFIX)/include" \
+    --with-ld-opt="-L$(ZLIB_PREFIX)/lib -L$(PCRE_PREFIX)/lib -L$(OPENSSL_PREFIX)/lib -L$(ELFUTILS_PREFIX)/lib -L$(ELF_LOADER_PREFIX)/lib -L$(LIBCCO_PREFIX)/lib -Wl,-rpath,$(ZLIB_PREFIX)/lib:$(PCRE_PREFIX)/lib:$(OPENSSL_PREFIX)/lib:$(ELFUTILS_PREFIX)/lib:$(ELF_LOADER_PREFIX)/lib:$(LIBCCO_PREFIX)/lib" \
+    --with-compat \
+    --add-dynamic-module=../ \
+    -j`nproc` && \
+	make -C build/nginx-*/ modules -j`nproc`
+
+override_dh_auto_install:
+	rm -rf $(DESTDIR)
+	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/include
+	cd openresty-*/ && \
+		install -m755 build/nginx-*/objs/*.so $(DESTDIR)$(PREFIX)/lib/ && \
+		install -m644 ../src/api/*.h $(DESTDIR)$(PREFIX)/include/
+
+override_dh_auto_clean:
+	dh_clean
+	rm -rf $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=coro-nginx-module-1.27.1-dbgsym

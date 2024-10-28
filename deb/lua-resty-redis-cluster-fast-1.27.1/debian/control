@@ -1,0 +1,22 @@
+Source: lua-resty-redis-cluster-fast-1.27.1
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Depends: coro-hiredis-nginx-module-1.27.1
+Build-Depends: debhelper (>= 9), openresty (>= 1.17.8.2)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: lua-resty-redis-cluster-fast-1.27.1
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends} coro-hiredis-nginx-module-1.27.1
+Description: Redis cluster client for OpenResty
+ This is a client that supports the redis cluster for OpenResty.
+
+Package: lua-resty-redis-cluster-fast-1.27.1-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, lua-resty-redis-cluster-fast-1.27.1 (>= ${source:Upstream-Version})
+Description: Debug symbols for the lua-resty-redis-cluster-fast-1.27.1 package
+ Debug symbols (or debuginfo) for the lua-resty-redis-cluster-fast-1.27.1 package.

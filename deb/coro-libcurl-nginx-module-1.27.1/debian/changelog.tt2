@@ -1,0 +1,35 @@
+coro-libcurl-nginx-module-1.27.1 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 15 Oct 2024 19:21:12 -0700
+
+coro-libcurl-nginx-module-1.27.1 (0.0.6-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.6.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 10 Oct 2024 08:06:51 -0700
+
+coro-libcurl-nginx-module-1.27.1 (0.0.4-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.4.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 7 Oct 2024 11:55:15 -0700
+
+coro-libcurl-nginx-module-1.27.1 (0.0.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 7 Oct 2024 01:57:11 -0700
+
+coro-libcurl-nginx-module-1.27.1 (0.0.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 5 Oct 2024 08:32:27 +0800
+
+coro-libcurl-nginx-module-1.27.1 (0.0.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded coro-libcurl-nginx-module to 0.0.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 23 Mar 2024 09:32:01 +0800

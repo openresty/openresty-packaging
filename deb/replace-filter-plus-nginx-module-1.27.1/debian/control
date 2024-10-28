@@ -1,0 +1,28 @@
+Source: replace-filter-plus-nginx-module-1.27.1
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-perl-ipc-run3, ccache, gcc, make, perl, openresty-openssl111-dev (>= 1.1.1n), openresty-zlib-dev (>= 1.2.12), openresty-pcre-dev, openresty-perl (>= 5.24.4), openresty-perl-b-c (>= 1.57), openresty-perl-dev (>= 5.24.4)
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: replace-filter-plus-nginx-module-1.27.1
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Streaming regular expression replacement in response bodies
+ Streaming regular expression replacement in response bodies.
+
+Package: replace-filter-plus-nginx-module-1.27.1-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, replace-filter-plus-nginx-module-1.27.1 (>= ${source:Upstream-Version}), openresty-perl (>= 5.24.4)
+Description: Development files for replace-filter-nginx-module-1.27.1
+ Development files for replace-filter-nginx-module-1.27.1.
+
+Package: replace-filter-plus-nginx-module-1.27.1-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, replace-filter-plus-nginx-module-1.27.1 (>= ${source:Upstream-Version})
+Description: Debug symbols for the replace-filter-plus-nginx-module-1.27.1 package
+ Debug symbols (or debuginfo) for the replace-filter-plus-nginx-module-1.27.1 package.
