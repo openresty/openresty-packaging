@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-LUA_KAFKA_NGINX_MODULE_VER := 0.0.8
+LUA_KAFKA_NGINX_MODULE_VER := 0.0.9
 
 .PHONY: lua-kafka-nginx-module-1.27.1-download
 lua-kafka-nginx-module-1.27.1-download:
