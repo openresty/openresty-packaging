@@ -1,0 +1,21 @@
+Source: dymetrics-nginx-module-1.25.3
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-openssl111-dev (>= 1.1.1n), openresty-zlib-dev (>= 1.2.12), openresty-pcre-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: dymetrics-nginx-module-1.25.3
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: dymetrics nginx module for OpenResty
+ This is the dymetrics nginx module for OpenResty.
+
+Package: dymetrics-nginx-module-1.25.3-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, dymetrics-nginx-module-1.25.3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the dymetrics-nginx-module-1.25.3 package
+ Debug symbols (or debuginfo) for the dymetrics-nginx-module-1.25.3 package.

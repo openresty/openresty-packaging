@@ -5,11 +5,11 @@ CORO_HIREDIS_NGINX_MODULE_VER := 0.0.8
 
 .PHONY: coro-hiredis-nginx-module-1.25.3-download
 coro-hiredis-nginx-module-1.25.3-download:
-	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.1.tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.2.tar.gz'
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/coro-hiredis-nginx-module-$(CORO_HIREDIS_NGINX_MODULE_VER).tar.gz ./
 	rm -rf coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
 	mkdir -p coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
-	tar -xf openresty-1.25.3.1.tar.gz -C coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
+	tar -xf openresty-1.25.3.2.tar.gz -C coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
 	tar -xf coro-hiredis-nginx-module-$(CORO_HIREDIS_NGINX_MODULE_VER).tar.gz --strip-components=1 -C coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
 	tar -czf coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER).orig.tar.gz coro-hiredis-nginx-module-1.25.3_$(CORO_HIREDIS_NGINX_MODULE_VER)
 

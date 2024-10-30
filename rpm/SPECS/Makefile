@@ -149,6 +149,8 @@ priv_targets = openresty-plus \
 		lua-kafka-nginx-module-1.27.1 \
 		dymetrics-nginx-module-1.19.9 \
 		dymetrics-nginx-module-1.21.4 \
+		dymetrics-nginx-module-1.25.3 \
+		dymetrics-nginx-module-1.27.1 \
 		openresty-otel-nginx-module-1.19.9 \
 		openresty-otel-nginx-module-1.27.1 \
 		openresty-opencc \

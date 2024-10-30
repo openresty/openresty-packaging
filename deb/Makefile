@@ -132,6 +132,9 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		lua-resty-http-fast-1.25.3-clean \
 		lua-resty-http-fast-1.27.1-clean \
 		dymetrics-nginx-module-1.19.9-clean \
+		dymetrics-nginx-module-1.21.4-clean \
+		dymetrics-nginx-module-1.25.3-clean \
+		dymetrics-nginx-module-1.27.1-clean \
 		coro-nginx-module-1.21.4-clean \
 		coro-nginx-module-1.25.3-clean \
 		coro-nginx-module-1.27.1-clean \

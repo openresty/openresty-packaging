@@ -5,11 +5,11 @@ LUA_KAFKA_NGINX_MODULE_VER := 0.0.9
 
 .PHONY: lua-kafka-nginx-module-1.25.3-download
 lua-kafka-nginx-module-1.25.3-download:
-	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.1.tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.2.tar.gz'
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/lua-kafka-nginx-module-$(LUA_KAFKA_NGINX_MODULE_VER).tar.gz ./
 	rm -rf lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
 	mkdir -p lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
-	tar -xf openresty-1.25.3.1.tar.gz -C lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
+	tar -xf openresty-1.25.3.2.tar.gz -C lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
 	tar -xf lua-kafka-nginx-module-$(LUA_KAFKA_NGINX_MODULE_VER).tar.gz --strip-components=1 -C lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
 	tar -czf lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER).orig.tar.gz lua-kafka-nginx-module-1.25.3_$(LUA_KAFKA_NGINX_MODULE_VER)
 

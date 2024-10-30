@@ -5,11 +5,11 @@ CORO_NGINX_MODULE_VER := 0.0.13
 
 .PHONY: coro-nginx-module-1.25.3-download
 coro-nginx-module-1.25.3-download:
-	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.1.tar.gz'
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.org/download/openresty-1.25.3.2.tar.gz'
 	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/coro-nginx-module-$(CORO_NGINX_MODULE_VER).tar.gz ./
 	rm -rf coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
 	mkdir -p coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
-	tar -xf openresty-1.25.3.1.tar.gz -C coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
+	tar -xf openresty-1.25.3.2.tar.gz -C coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
 	tar -xf coro-nginx-module-$(CORO_NGINX_MODULE_VER).tar.gz --strip-components=1 -C coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
 	tar -czf coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER).orig.tar.gz coro-nginx-module-1.25.3_$(CORO_NGINX_MODULE_VER)
 
