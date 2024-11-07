@@ -1,3 +1,9 @@
+openresty-plus-core-asan (1.19.9.1.72-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty+ to 1.19.9.1.72.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 6 Nov 2024 21:21:25 -0800
+
 openresty-plus-core-asan (1.19.9.1.71-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty+ to 1.19.9.1.71.
