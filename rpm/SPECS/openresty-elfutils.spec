@@ -1,5 +1,5 @@
 Name:           openresty-elfutils
-Version:        0.191.10
+Version:        0.191.11
 Release:        1%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
@@ -195,6 +195,8 @@ rm -rf %{buildroot}
 # ------------------------------------------------------------------------
 
 %changelog
+* Mon Nov 11 2024 Yichun Zhang (agentzh) 0.191.11-1
+- upgraded elfutils-plus to 0.191.11.
 * Wed Aug 28 2024 Yichun Zhang (agentzh) 0.191.10-1
 - upgraded elfutils-plus to 0.191.10.
 * Mon Aug 19 2024 Yichun Zhang (agentzh) 0.191.9-1
