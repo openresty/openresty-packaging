@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_DW2C_VER := 2.08
+OPENRESTY_DW2C_VER := 2.09
 
 DEP_OR_PERL_CPANEL_JSON_XS_VER = 4.28-1~$(DISTRO)1
 
