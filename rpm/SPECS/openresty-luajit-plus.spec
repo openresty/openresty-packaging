@@ -1,5 +1,5 @@
 Name:           openresty-luajit-plus
-Version:        20241015
+Version:        20241113
 Release:        1%{?dist}
 Summary:        Luajit with enchance from openresty
 Group:          Development/System
@@ -116,6 +116,8 @@ rm -rf %{buildroot}
 %{prefix}/lib/pkgconfig/luajit.pc
 
 %changelog
+* Wed Nov 13 2024 Yichun Zhang (agentzh) 20241113-1
+- upgraded luajit-plus to 20241113.
 * Sat Nov 9 2024 Yichun Zhang (agentzh) 20241015-1
 - upgraded luajit-plus to 20241015.
 * Thu Aug 15 2024 Yichun Zhang (agentzh) 20240815-1

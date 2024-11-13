@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-luajit-plus"
-pkgver="20241015"
+pkgver="20241113"
 pkgrel=0
 pkgdesc="enhanced Luajit developed by OpenResty Inc."
 url="https://openresty.com/"
@@ -79,4 +79,4 @@ static() {
     default_static
 }
 
-sha512sums="481b5256c222240a6f40e316f5c587541ed2ceb20b1e5fd0b69ba14accd744f0cd2507a6606e98240454956fcef7d7d5e69a707eef8c2149cf43bd20926f63cf  luajit2-plus-20241015.tar.gz"
+sha512sums="7af61b830528694f22a17b7563e98c1167e9a267f00a20314152f391d0e7f04d3baedeb8c777a3010cd49dae4c11a71edd3cdf225881c060e4d8f27721e4c4da  luajit2-plus-20241113.tar.gz"
