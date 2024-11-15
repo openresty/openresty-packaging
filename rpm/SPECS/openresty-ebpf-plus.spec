@@ -1,5 +1,5 @@
 Name:           openresty-ebpf-plus
-Version:        0.0.7
+Version:        0.0.10
 Release:        1%{?dist}
 Summary:        OpenResty's fork of ebpf
 
@@ -64,6 +64,8 @@ export QA_RPATHS=$(( 0x0020|0x0001|0x0010|0x0002 ))
 %{_prefix}/include/*
 
 %changelog
+* Fri Nov 15 2024 Yichun Zhang (agentzh) 0.0.10-1
+- upgraded ebpf-plus to 0.0.10.
 * Sat Jun 8 2024 Yichun Zhang (agentzh) 0.0.7-1
 - upgraded ebpf-plus to 0.0.7.
 * Sat Jun 17 2023 Yichun Zhang (agentzh) 0.0.6-1
