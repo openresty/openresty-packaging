@@ -29,8 +29,8 @@ override_dh_auto_build:
     --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl111/lib" \
     --with-compat --with-threads \
     --add-dynamic-module=../ \
-    --add-dynamic-module=../mod_dubbo-1.0.2 \
-		&& make -C build/nginx-*/ modules -j`nproc`
+    --add-dynamic-module=../mod_dubbo-1.0.2.1 \
+	&& make -C build/nginx-*/ modules -j`nproc`
 
 override_dh_auto_install:
 	rm -rf $(DESTDIR) \

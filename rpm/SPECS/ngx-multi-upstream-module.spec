@@ -10,10 +10,11 @@ URL:            https://www.openresty.com/
 
 %define or_version           OPENRESTY_VERSION
 %define ngx_version          NGINX_VERSION
+%define dubbo_version        1.0.2.1
 
 Source0:        ngx_multi_upstream_module-%{version}.tar.gz
-Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
-Source2:        https://github.com/api7/mod_dubbo/archive/refs/tags/1.0.2.tar.gz
+Source1:        mod_dubbo-%{dubbo_version}.tar.gz
+Source2:        https://openresty.org/download/openresty-%{or_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -82,7 +83,7 @@ cd ../..
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-compat --with-threads \
     --add-dynamic-module=../ \
-    --add-dynamic-module=../mod_dubbo-1.0.2
+    --add-dynamic-module=../mod_dubbo-%{dubbo_version}
 
 make -C build/nginx-*/ modules -j`nproc`
 
