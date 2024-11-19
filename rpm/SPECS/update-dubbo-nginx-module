@@ -12,7 +12,7 @@ if ($version !~ /^\d+(?:\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
 }
 
-for my $specfile (reverse sort glob 'ngx-multi-upstream-module.spec') {
+for my $specfile (reverse sort glob 'dubbo-nginx-module.spec') {
     update_spec $specfile;
 }
 
@@ -23,7 +23,7 @@ sub update_spec ($) {
     my $src = do { local $/; <$in>; };
     close $in;
 
-    if ($src !~ /^Name: \s+ ngx-multi-upstream-module\b/xsm) {
+    if ($src !~ /^Name: \s+ dubbo-nginx-module\b/xsm) {
         die "Bad file content in $file";
     }
 
@@ -60,7 +60,7 @@ sub update_spec ($) {
     $today =~ s/\s\s+/ /g;
     #warn "today: $today";
 
-    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded ngx-multi-upstream-module to $version.\n/xsm) {
+    if ($src =~ s/^ (\%changelog\n) /${1}\* $today Yichun Zhang (agentzh) ${version}-1\n- upgraded dubbo-nginx-module to $version.\n/xsm) {
         $changes++;
 
     } else {
@@ -73,7 +73,7 @@ sub update_spec ($) {
         print $out $src;
         close $out;
         say "$file updated with $changes change(s).";
-        system("sed 's/NGINX_VERSION/1.25.3/' ngx-multi-upstream-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > ngx-multi-upstream-module-1.25.3.spec") == 0
+        system("sed 's/NGINX_VERSION/1.25.3/' dubbo-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.1/' > dubbo-nginx-module-1.25.3.spec") == 0
                 or die "Cannot generate spec for 1.25.3: $!";
     }
 }

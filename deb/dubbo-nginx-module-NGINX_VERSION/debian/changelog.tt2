@@ -1,0 +1,5 @@
+dubbo-nginx-module-NGINX_VERSION (1.0.2.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded dubbo-nginx-module to 1.0.2.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 19 Nov 2024 23:17:18 +0800

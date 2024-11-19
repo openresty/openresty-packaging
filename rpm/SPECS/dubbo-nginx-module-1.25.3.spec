@@ -1,5 +1,5 @@
-Name:           ngx-multi-upstream-module-1.25.3
-Version:        1.2.0.1
+Name:           dubbo-nginx-module-1.25.3
+Version:        1.0.2.1
 Release:        1%{?dist}
 Summary:        multiple upstream nginx module
 
@@ -10,10 +10,10 @@ URL:            https://www.openresty.com/
 
 %define or_version           1.25.3.1
 %define ngx_version          1.25.3
-%define dubbo_version        1.0.2.1
+%define ngx_multi_upstream_version        1.2.0.1
 
-Source0:        ngx_multi_upstream_module-%{version}.tar.gz
-Source1:        mod_dubbo-%{dubbo_version}.tar.gz
+Source0:        mod_dubbo-%{version}.tar.gz
+Source1:        ngx_multi_upstream_module-%{ngx_multi_upstream_version}.tar.gz
 Source2:        https://openresty.org/download/openresty-%{or_version}.tar.gz
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -47,7 +47,7 @@ multiple upstream nginx module.
 %define __debug_install_post \
     %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_find_debuginfo_opts} "%{_builddir}/%{?buildsubdir}"; \
     rm -rf "${RPM_BUILD_ROOT}/usr/src/debug"; \
-    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/ngx_multi_upstream_module-%{version}"; \
+    mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/mod_dubbo-%{version}"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/tmp"; \
     mkdir -p "${RPM_BUILD_ROOT}/usr/src/debug/builddir"; \
 %{nil}
@@ -65,7 +65,7 @@ multiple upstream nginx module.
 %endif
 
 %prep
-%setup -q -n "ngx_multi_upstream_module-%{version}"
+%setup -q -n "mod_dubbo-%{version}"
 tar xzf %{SOURCE1}
 tar xzf %{SOURCE2}
 
@@ -73,7 +73,7 @@ tar xzf %{SOURCE2}
 %build
 cd openresty-%{or_version}/
 cd bundle/nginx-%{ngx_version}
-cat ../../../nginx-%{ngx_version}.patch | patch -p1
+cat ../../../ngx_multi_upstream_module-%{ngx_multi_upstream_version}/nginx-%{ngx_version}.patch | patch -p1
 cd ../..
 
 ./configure \
@@ -83,7 +83,7 @@ cd ../..
     --with-ld-opt="-L%{zlib_prefix}/lib -L%{pcre_prefix}/lib -L%{openssl_prefix}/lib -Wl,-rpath,%{zlib_prefix}/lib:%{pcre_prefix}/lib:%{openssl_prefix}/lib" \
     --with-compat --with-threads \
     --add-dynamic-module=../ \
-    --add-dynamic-module=../mod_dubbo-%{dubbo_version}
+    --add-dynamic-module=../ngx_multi_upstream_module-%{ngx_multi_upstream_version}
 
 make -C build/nginx-*/ modules -j`nproc`
 
@@ -111,6 +111,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-- upgraded ngx-multi-upstream-module to 1.2.0.2.
 * Tue Nov 19 2024 Yichun Zhang (agentzh) 1.2.0-1-1
 - init version.

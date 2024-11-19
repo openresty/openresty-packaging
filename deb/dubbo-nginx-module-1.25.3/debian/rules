@@ -18,9 +18,9 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd openresty-OPENRESTY_VERSION/ \
-	&& cd bundle/nginx-NGINX_VERSION \
-	&& cat ../../../nginx-NGINX_VERSION.patch | patch -p1 \
+	cd openresty-1.25.3.2/ \
+	&& cd bundle/nginx-1.25.3 \
+	&& cat ../../../ngx_multi_upstream_module-1.2.0.1/nginx-1.25.3.patch | patch -p1 \
 	&& cd ../.. \
 	&& ./configure \
     --prefix="/usr/local/openresty" \
@@ -29,7 +29,7 @@ override_dh_auto_build:
     --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl111/lib" \
     --with-compat --with-threads \
     --add-dynamic-module=../ \
-    --add-dynamic-module=../mod_dubbo-1.0.2.1 \
+    --add-dynamic-module=../ngx_multi_upstream_module-1.2.0.1 \
 	&& make -C build/nginx-*/ modules -j`nproc`
 
 override_dh_auto_install:
@@ -43,4 +43,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=ngx-multi-upstream-module-NGINX_VERSION-dbgsym
+	dh_strip --dbg-package=dubbo-nginx-module-1.25.3-dbgsym
