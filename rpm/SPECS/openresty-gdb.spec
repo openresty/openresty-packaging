@@ -1,12 +1,13 @@
 Name:           openresty-gdb
-Version:        14.2
-Release:        4%{?dist}
+Version:        14.3
+Release:        1%{?dist}
 Summary:        gdb for OpenResty
 
 License:        GPL
 Group:          Development/Debuggers
 URL:            https://www.gnu.org/home.en.html
-Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
+#Source0:        https://ftp.gnu.org/gnu/gdb/gdb-%{version}.tar.xz
+Source0:        https://openresty.com.cn/downloads/fa97674701b9ab199402da4d63043fe1b63aea0e19f37d42328e641bfd073d57-9741/file/52ca4222f7fc0159110b66cd3997fbb2/gdb-14.3.tar.xz
 Patch0:         gdb-14.2-no_auto_out.patch
 
 AutoReqProv:    no
@@ -139,3 +140,5 @@ export QA_RPATHS=$[ 0x0002 ]
 
 
 %changelog
+* Tue Nov 19 2024 Yichun Zhang (agentzh) 14.3-1
+- upgraded openresty-gdb to 14.3.

@@ -1,11 +1,11 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_GDB_VER := 14.2
+OPENRESTY_GDB_VER := 14.3
 
 .PHONY: openresty-gdb-download
 openresty-gdb-download:
-	wget -nH --cut-dirs=100 --mirror 'https://ftp.gnu.org/gnu/gdb/gdb-$(OPENRESTY_GDB_VER).tar.xz'
+	wget -nH --cut-dirs=100 --mirror 'https://openresty.com.cn/downloads/fa97674701b9ab199402da4d63043fe1b63aea0e19f37d42328e641bfd073d57-9741/file/52ca4222f7fc0159110b66cd3997fbb2/gdb-14.3.tar.xz'
 	rm -rf openresty-gdb_$(OPENRESTY_GDB_VER)
 	mkdir -p openresty-gdb_$(OPENRESTY_GDB_VER)
 	tar -xf gdb-$(OPENRESTY_GDB_VER).tar.xz --strip-components=1 -C openresty-gdb_$(OPENRESTY_GDB_VER)

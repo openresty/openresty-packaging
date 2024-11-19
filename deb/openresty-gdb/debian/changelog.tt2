@@ -1,4 +1,4 @@
-openresty-gdb (14.2-4~[% distro %]1) [% distro %]; urgency=high
+openresty-gdb (14.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded openresty-gdb to 14.2-4.
 
