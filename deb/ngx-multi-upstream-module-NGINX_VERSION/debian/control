@@ -1,0 +1,21 @@
+Source: ngx-multi-upstream-module-NGINX_VERSION
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-openssl111-dev (>= 1.1.1n), openresty-zlib-dev (>= 1.2.12), openresty-pcre-dev
+Standards-Version: 3.9.8
+Homepage: https://www.openresty.com/
+
+Package: ngx-multi-upstream-module-NGINX_VERSION
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: multiple upstream nginx module
+ multiple upstream nginx module.
+
+Package: ngx-multi-upstream-module-NGINX_VERSION-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, ngx-multi-upstream-module-NGINX_VERSION (>= ${source:Upstream-Version})
+Description: Debug symbols for the ngx-multi-upstream-module-NGINX_VERSION package
+ Debug symbols (or debuginfo) for the ngx-multi-upstream-module-NGINX_VERSION package.

@@ -18,9 +18,9 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	cd openresty-1.25.3.2/ \
-	&& cd bundle/nginx-1.25.3 \
-	&& cat ../../../nginx-1.25.3.patch | patch -p1 \
+	cd openresty-OPENRESTY_VERSION/ \
+	&& cd bundle/nginx-NGINX_VERSION \
+	&& cat ../../../nginx-NGINX_VERSION.patch | patch -p1 \
 	&& cd ../.. \
 	&& ./configure \
     --prefix="/usr/local/openresty" \
@@ -43,4 +43,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=ngx-multi-upstream-module-1.25.3-dbgsym
+	dh_strip --dbg-package=ngx-multi-upstream-module-NGINX_VERSION-dbgsym

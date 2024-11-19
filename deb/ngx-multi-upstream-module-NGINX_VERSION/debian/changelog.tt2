@@ -1,4 +1,4 @@
-ngx-multi-upstream-module-1.25.3 (1.2.0.1-1~[% distro %]1) [% distro %]; urgency=high
+ngx-multi-upstream-module-NGINX_VERSION (1.2.0.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * init version.
 
