@@ -177,7 +177,8 @@ priv_targets = openresty-plus \
 		openresty-minifiers \
 		openresty-libcurl   \
 		replace-filter-plus-nginx-module-1.21.4 \
-		replace-filter-plus-nginx-module-1.27.1
+		replace-filter-plus-nginx-module-1.27.1 \
+		ngx-multi-upstream-module-1.25.1
 
 .PHONY: all
 all: openresty

@@ -1,0 +1,3 @@
+usr/local/openresty/nginx/modules/ngx_http_dubbo_module.so
+usr/local/openresty/nginx/modules/ngx_http_multi_upstream_module.so
+usr/local/openresty/nginx/modules/ngx_stream_multi_upstream_module.so
