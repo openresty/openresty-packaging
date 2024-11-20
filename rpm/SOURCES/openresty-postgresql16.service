@@ -1,0 +1,47 @@
+[Unit]
+Description=PostgreSQL database server
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=postgres
+Group=postgres
+
+# Where to send early-startup messages from the server (before the logging
+# options of postgresql.conf take effect)
+# This is normally controlled by the global default set by systemd
+# StandardOutput=syslog
+
+# Disable OOM kill on the postmaster
+OOMScoreAdjust=-1000
+
+# ... but allow it still to be effective for child processes
+# (note that these settings are ignored by Postgres releases before 9.5)
+Environment=PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
+Environment=PG_OOM_ADJUST_VALUE=0
+
+Environment=PGDATA=/var/postgres16/data
+
+ExecStartPre=/usr/local/openresty-postgresql16/bin/postgresql-check-db-dir %N
+# Even though the $PGDATA variable is exported (postmaster would accept that)
+# use the -D option here so PGDATA content is printed by /bin/ps and by
+# 'systemctl status'.
+ExecStart=/usr/local/openresty-postgresql16/bin/postmaster -D ${PGDATA}
+ExecStartPost=/bin/sleep 1
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+
+# No artificial start/stop timeout (rhbz#1525477, pgrpms#2786).
+TimeoutSec=0
+
+Restart=always
+RestartSec=3
+
+StartLimitIntervalSec=200
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

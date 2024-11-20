@@ -43,6 +43,7 @@ priv_targets = openresty-plus \
 		openresty-plus-hyperscan \
 		openresty-postgresql \
 		openresty-postgresql12 \
+		openresty-postgresql16 \
 		openresty-elfutils \
 		openresty-yajl \
 		openresty-ljsb \
@@ -54,6 +55,10 @@ priv_targets = openresty-plus \
 		openresty-postgresql12-timescaledb \
 		openresty-postgresql-timescaledb \
 		openresty-postgresql12-auto-failover \
+		openresty-postgresql16-ip4r \
+		openresty-postgresql16-orsl \
+		openresty-postgresql16-timescaledb \
+		openresty-postgresql16-auto-failover \
 		openresty-saas-zlib \
 		openresty-saas-pcre \
 		openresty-saas \

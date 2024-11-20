@@ -1,0 +1,3 @@
+usr/local/openresty-postgresql16/include/*
+usr/local/openresty-postgresql16/lib/*.a
+usr/local/openresty-postgresql16/lib/pkgconfig/*

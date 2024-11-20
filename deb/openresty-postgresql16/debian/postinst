@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PGDATA=/var/postgres16/data
+PGPREFIX=/usr/local/openresty-postgresql16
+
+[ "$(sudo -u postgres ls -A $PGDATA)" ] || sudo -u postgres $PGPREFIX/bin/initdb -E "UTF8" --locale="en_US.UTF-8" $PGDATA
+
+if [ -d "/etc/systemd/system" ]; then
+    cp -f $PGPREFIX/share/systemd/openresty-postgresql16.service \
+       /etc/systemd/system/openresty-postgresql16.service
+fi

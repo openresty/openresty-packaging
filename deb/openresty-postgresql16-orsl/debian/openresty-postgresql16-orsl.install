@@ -1,0 +1,3 @@
+usr/local/openresty-postgresql16/share/extension/orsl*.sql
+usr/local/openresty-postgresql16/share/extension/orsl.control
+usr/local/openresty-postgresql16/lib/orsl.so

@@ -1,0 +1,4 @@
+usr/local/openresty-postgresql16/bin/pg_autoctl
+usr/local/openresty-postgresql16/lib/pgautofailover.so
+usr/local/openresty-postgresql16/share/extension/pgautofailover*.sql
+usr/local/openresty-postgresql16/share/extension/pgautofailover.control
