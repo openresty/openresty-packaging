@@ -26,120 +26,65 @@ targets = openresty \
 	  perl-Readonly \
 	  perl-Test-Simple
 
-priv_targets = openresty-plus \
-		openresty-plus-debug \
-		openresty-plus-test \
-		openresty-plus-valgrind \
-		openresty-plus-asan \
+priv_targets = \
+		openresty-opencc \
+		openresty-plzip \
+		openresty-yajl \
+		openresty-tar \
+		openresty-binutils \
+		openresty-libdemangle \
+		openresty-elfutils \
+		openresty-saas-zlib \
+		openresty-saas-pcre \
+		openresty-saas-pcre2 \
 		openresty-plus-openssl \
 		openresty-plus-openssl-debug \
 		openresty-plus-openssl-asan \
 		openresty-plus-openssl111 \
 		openresty-plus-openssl111-debug \
 		openresty-plus-openssl111-asan \
-		openresty-gdb \
+		openresty-util-linux \
+		openresty-utils \
 		openresty-python3 \
+		openresty-python3-setuptools \
+		openresty-python3-cython \
+		openresty-python3-goto \
+		openresty-python3-numpy \
+		openresty-python3-xray-stats \
+		openresty-perl \
+		openresty-perl-Cpanel-JSON-XS \
+		openresty-stap2 \
 		openresty-stap \
+		openresty-gdb \
+		openresty-saas \
+		openresty-saas-asan \
+		openresty-cyrus-sasl \
 		openresty-plus-hyperscan \
+		openresty-elf-loader \
+		openresty-plus-core \
+		openresty-plus-core-h3 \
+		openresty-plus-core-test \
+		openresty-plus-core-asan \
 		openresty-postgresql \
 		openresty-postgresql12 \
 		openresty-postgresql16 \
-		openresty-elfutils \
-		openresty-yajl \
-		openresty-ljsb \
-		openresty-util-linux \
 		openresty-postgresql-ip4r \
 		openresty-postgresql12-ip4r \
 		openresty-postgresql-orsl \
 		openresty-postgresql12-orsl \
 		openresty-postgresql12-timescaledb \
 		openresty-postgresql-timescaledb \
-		openresty-postgresql12-auto-failover \
 		openresty-postgresql16-ip4r \
 		openresty-postgresql16-orsl \
 		openresty-postgresql16-timescaledb \
 		openresty-postgresql16-auto-failover \
-		openresty-saas-zlib \
-		openresty-saas-pcre \
-		openresty-saas \
-		openresty-saas-asan \
-		openresty-binutils \
-		openresty-tar \
-		openresty-plzip \
-		openresty-utils \
-		openresty-firejail \
 		openresty-odb \
 		openresty-odb-debug \
-		openresty-python3-cython \
-		openresty-python3-setuptools \
-		openresty-python3-numpy \
-		openresty-python3-goto \
-		openresty-maxminddb \
-		openresty-maxminddb-debug \
-		lua-resty-jsonb \
-		openresty-pcap \
-		openresty-tcpdump \
-		openresty-coreutils \
-		openresty-python3-xray-stats \
-		openresty-nodejs \
-		openresty-perl \
-		openresty-perl-B-Flags \
-		openresty-perl-ExtUtils-Config \
-		openresty-perl-ExtUtils-Helpers \
-		openresty-perl-ExtUtils-InstallPaths \
-		openresty-perl-Module-Build-Tiny \
-		openresty-perl-Readonly \
-		openresty-perl-IPC-Run \
-		openresty-perl-Opcodes \
-		openresty-perl-IO-Tty \
-		openresty-perl-B-C \
-		openresty-keepalived \
-		openresty-maxminddb-asan \
-		openresty-maxminddb-utils \
-		openresty-libbpf \
-		openresty-perl-common-sense \
-		openresty-perl-Canary-Stability \
-		openresty-perl-Types-Serialiser \
-        openresty-perl-JSON-XS \
-		openresty-perl-App-cpanminus \
-		openresty-perl-Net-SSLeay \
-		openresty-perl-Mozilla-CA \
-		openresty-perl-MIME-Base64 \
-		openresty-perl-IO-Socket-SSL \
-		openresty-perl-Protocol-WebSocket \
-		openresty-plus-core \
-		openresty-plus-core-h3 \
-		openresty-plus-core-test \
-		openresty-plus-core-asan \
-		openresty-edge-pki \
-		openresty-edge-pki-asan \
-		openresty-libinjection \
-		openresty-libinjection-asan \
-		openresty-elf-loader\
-		openresty-boringssl \
-		openresty-libmemcached \
+		openresty-libcurl   \
+		openresty-firejail \
 		openresty-libcco \
+		openresty-boringssl \
 		openresty-hiredis \
-		lua-resty-wasm \
-		openresty-docker \
-		openresty-libmariadb \
-		openresty-cyrus-sasl \
-		openresty-librdkafka \
-		openresty-tcmalloc \
-		openresty-saas-pcre2 \
-		openresty-libdemangle \
-		openresty-perl-Cpanel-JSON-XS \
-		openresty-dw2c \
-		openresty-luajit-plus \
-		openresty-wrk \
-		lua-resty-redis-cluster-fast-1.21.4 \
-		lua-resty-redis-cluster-fast-1.25.3 \
-		lua-resty-redis-cluster-fast-1.27.1 \
-		lua-resty-http-fast-1.21.4 \
-		lua-resty-http-fast-1.25.3 \
-		lua-resty-http-fast-1.27.1 \
-		lua-resty-dymetrics-bilibili \
-		lua-resty-limit-traffic-dynamic \
 		coro-nginx-module-1.21.4 \
 		coro-nginx-module-1.25.3 \
 		coro-nginx-module-1.27.1 \
@@ -149,41 +94,97 @@ priv_targets = openresty-plus \
 		coro-libcurl-nginx-module-1.21.4 \
 		coro-libcurl-nginx-module-1.25.3 \
 		coro-libcurl-nginx-module-1.27.1 \
-		lua-kafka-nginx-module-1.21.4 \
-		lua-kafka-nginx-module-1.25.3 \
-		lua-kafka-nginx-module-1.27.1 \
+		lua-resty-redis-cluster-fast-1.21.4 \
+		lua-resty-redis-cluster-fast-1.25.3 \
+		lua-resty-redis-cluster-fast-1.27.1 \
+		lua-resty-http-fast-1.21.4 \
+		lua-resty-http-fast-1.25.3 \
+		lua-resty-http-fast-1.27.1 \
+		openresty-libinjection \
+		openresty-libinjection-asan \
+		openresty-luajit-plus \
+		openresty-maxminddb \
+		openresty-maxminddb-debug \
+		openresty-maxminddb-asan \
+		openresty-coreutils \
+		openresty-maxminddb-utils \
+		openresty-edge-pki \
+		openresty-edge-pki-asan \
+		openresty-perl-B-Flags \
+		openresty-perl-Opcodes \
+		openresty-perl-ExtUtils-Config \
+		openresty-perl-ExtUtils-Helpers \
+		openresty-perl-ExtUtils-InstallPaths \
+		openresty-perl-Module-Build-Tiny \
+		openresty-perl-Readonly \
+		openresty-perl-IO-Tty \
+		openresty-perl-IPC-Run \
+		openresty-perl-IPC-Run3 \
+		openresty-perl-B-C \
+		openresty-perl-App-cpanminus \
+		openresty-perl-common-sense \
+		openresty-perl-Net-SSLeay \
+		openresty-perl-IO-Socket-SSL \
+		openresty-perl-Types-Serialiser \
+		openresty-perl-Canary-Stability \
+        openresty-perl-JSON-XS \
+		openresty-perl-Mozilla-CA \
+		openresty-perl-Protocol-WebSocket \
+		openresty-pcap \
+		openresty-tcpdump \
+		openresty-wrk \
+		openresty-tcmalloc \
+		openresty-dw2c \
+		openresty-libbpf \
+		openresty-lua-cjson \
+		openresty-keepalived \
+		openresty-bpftool \
+		openresty-ebpf-plus \
 		dymetrics-nginx-module-1.19.9 \
 		dymetrics-nginx-module-1.21.4 \
 		dymetrics-nginx-module-1.25.3 \
 		dymetrics-nginx-module-1.27.1 \
-		openresty-otel-nginx-module-1.19.9 \
-		openresty-otel-nginx-module-1.27.1 \
-		openresty-opencc \
+		lua-resty-dymetrics-bilibili \
 		openresty-llvm \
-		openresty-lua-cjson \
-		openresty-bpftool \
-		openresty-ebpf-plus \
-		openresty-orbpf-ko \
-		rpm \
 		openresty-libbpf-net \
 		openresty-bpftool-net \
 		openresty-xdp-tools \
 		openresty-iproute2 \
-		openresty-symgen \
-		openresty-procsnap \
 		openresty-radare2 \
-		openresty-radare2-r2dec \
-		openresty-edgcpfe \
-		openresty-stap2 \
-		openresty-gdb-runtime \
 		openresty-absl \
+		openresty-symgen \
+		openresty-nodejs \
+		openresty-edgcpfe \
+		openresty-radare2-r2dec \
+		openresty-gdb-runtime \
 		openresty-zstd \
-		openresty-perl-IPC-Run3 \
-		openresty-minifiers \
-		openresty-libcurl   \
+		openresty-procsnap \
+		openresty-ljsb \
+		openresty-librdkafka \
+		openresty-otel-nginx-module-1.19.9 \
+		openresty-otel-nginx-module-1.27.1 \
+		lua-resty-limit-traffic-dynamic \
+		openresty-postgresql12-auto-failover \
+		lua-kafka-nginx-module-1.21.4 \
+		lua-kafka-nginx-module-1.25.3 \
+		lua-kafka-nginx-module-1.27.1 \
 		replace-filter-plus-nginx-module-1.21.4 \
 		replace-filter-plus-nginx-module-1.27.1 \
-		dubbo-nginx-module-plus-1.25.3
+		openresty-minifiers \
+		dubbo-nginx-module-plus-1.25.3 \
+		\
+		lua-resty-jsonb \
+		openresty-perl-MIME-Base64 \
+		openresty-plus \
+		openresty-plus-debug \
+		openresty-plus-test \
+		openresty-plus-valgrind \
+		openresty-plus-asan \
+		openresty-libmemcached \
+		lua-resty-wasm \
+		openresty-docker \
+		openresty-libmariadb \
+		openresty-orbpf-ko
 
 .PHONY: all
 all: openresty
