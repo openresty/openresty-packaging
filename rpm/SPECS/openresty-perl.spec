@@ -95,7 +95,8 @@ Development headers for the OpenResty's fork of Perl.
         -Dscriptdir='%{prefix}/bin' \
         -Dusethreads \
         -Duseithreads \
-        -Duselargefiles
+        -Duselargefiles \
+        -Aldflags='-lm'
 
 make -j`nproc`
 
