@@ -151,7 +151,7 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		replace-filter-plus-nginx-module-1.27.1-clean \
 		openresty-otel-nginx-module-1.19.9-clean \
 		openresty-otel-nginx-module-1.27.1-clean \
-		dubbo-nginx-module-1.25.3-clean \
+		dubbo-nginx-module-plus-1.25.3-clean \
 		openresty-librdkafka-clean \
 		openresty-ljsb-clean \
 		openresty-llvm-clean \

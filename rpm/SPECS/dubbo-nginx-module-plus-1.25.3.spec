@@ -1,4 +1,4 @@
-Name:           dubbo-nginx-module-NGINX_VERSION
+Name:           dubbo-nginx-module-plus-1.25.3
 Version:        1.0.2.1
 Release:        1%{?dist}
 Summary:        multiple upstream nginx module
@@ -8,8 +8,8 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-%define or_version           OPENRESTY_VERSION
-%define ngx_version          NGINX_VERSION
+%define or_version           1.25.3.1
+%define ngx_version          1.25.3
 %define ngx_multi_upstream_version        1.2.0.1
 
 Source0:        mod_dubbo-%{version}.tar.gz
@@ -111,5 +111,5 @@ rm -rf %{buildroot}
 
 
 %changelog
-* Tue Nov 19 2024 Yichun Zhang (agentzh) 1.2.0-1-1
-- init version.
+* Wed Nov 20 2024 Yichun Zhang (agentzh) 1.0.2.1-1
+- upgraded dubbo-nginx-module-plus to 1.0.2.1.

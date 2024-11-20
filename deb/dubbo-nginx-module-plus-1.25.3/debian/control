@@ -1,4 +1,4 @@
-Source: dubbo-nginx-module-1.25.3
+Source: dubbo-nginx-module-plus-1.25.3
 Section: libdevel
 Priority: optional
 Maintainer: OpenResty Admin <admin@openresty.com>
@@ -6,16 +6,16 @@ Build-Depends: debhelper (>= 9), ccache, gcc, make, perl, openresty-openssl111-d
 Standards-Version: 3.9.8
 Homepage: https://www.openresty.com/
 
-Package: dubbo-nginx-module-1.25.3
+Package: dubbo-nginx-module-plus-1.25.3
 Architecture: any
 Section: libdevel
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: multiple upstream nginx module
  multiple upstream nginx module.
 
-Package: dubbo-nginx-module-1.25.3-dbgsym
+Package: dubbo-nginx-module-plus-1.25.3-dbgsym
 Section: debug
 Architecture: any
-Depends: ${misc:Depends}, dubbo-nginx-module-1.25.3 (>= ${source:Upstream-Version})
-Description: Debug symbols for the dubbo-nginx-module-1.25.3 package
- Debug symbols (or debuginfo) for the dubbo-nginx-module-1.25.3 package.
+Depends: ${misc:Depends}, dubbo-nginx-module-plus-1.25.3 (>= ${source:Upstream-Version})
+Description: Debug symbols for the dubbo-nginx-module-plus-1.25.3 package
+ Debug symbols (or debuginfo) for the dubbo-nginx-module-plus-1.25.3 package.

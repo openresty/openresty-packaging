@@ -178,7 +178,7 @@ priv_targets = openresty-plus \
 		openresty-libcurl   \
 		replace-filter-plus-nginx-module-1.21.4 \
 		replace-filter-plus-nginx-module-1.27.1 \
-		dubbo-nginx-module-1.25.3
+		dubbo-nginx-module-plus-1.25.3
 
 .PHONY: all
 all: openresty

@@ -14,7 +14,7 @@ if ($version !~ /^\d+(\.\d+){3}$/) {
 }
 
 {
-    my $file = "dubbo-nginx-module-NGINX_VERSION.mk";
+    my $file = "dubbo-nginx-module-plus-NGINX_VERSION.mk";
     open my $in, $file
         or die "Cannot open $file for reading: $!\n";
     my $new;
@@ -46,9 +46,9 @@ if ($version !~ /^\d+(\.\d+){3}$/) {
     }
 }
 
-for my $dir (reverse sort glob 'dubbo-nginx-module-NGINX_VERSION*') {
+for my $dir (reverse sort glob 'dubbo-nginx-module-plus-NGINX_VERSION*') {
     next unless -d $dir && -d "$dir/debian";
-    if ($dir =~ /^dubbo-nginx-module-NGINX_VERSION$/) {
+    if ($dir =~ /^dubbo-nginx-module-plus-NGINX_VERSION$/) {
         my $name = $dir;
         my $changelog = "$dir/debian/changelog.tt2";
         if (!-f $changelog) {
@@ -121,28 +121,28 @@ sub gen_all_vers_cfg () {
         my $ngx_ver=$ver->[0];
         my $or_ver=$ver->[1];
 
-        system("rm -fr dubbo-nginx-module-$ngx_ver") == 0
-            or die "Cannot remove dubbo-nginx-module-$ngx_ver: $!\n";
+        system("rm -fr dubbo-nginx-module-plus-$ngx_ver") == 0
+            or die "Cannot remove dubbo-nginx-module-plus-$ngx_ver: $!\n";
 
-        system("cp -R dubbo-nginx-module-NGINX_VERSION dubbo-nginx-module-$ngx_ver") == 0
-            or die "Cannot cp to dubbo-nginx-module-$ngx_ver: $!\n";
+        system("cp -R dubbo-nginx-module-plus-NGINX_VERSION dubbo-nginx-module-plus-$ngx_ver") == 0
+            or die "Cannot cp to dubbo-nginx-module-plus-$ngx_ver: $!\n";
 
-        rename "dubbo-nginx-module-$ngx_ver/debian/dubbo-nginx-module-NGINX_VERSION.install",
-               "dubbo-nginx-module-$ngx_ver/debian/dubbo-nginx-module-$ngx_ver.install"
-               or die "Cannot rename dubbo-nginx-module-NGINX_VERSION.install: $!";
-        system("find dubbo-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/NGINX_VERSION/$ngx_ver/g") == 0
+        rename "dubbo-nginx-module-plus-$ngx_ver/debian/dubbo-nginx-module-plus-NGINX_VERSION.install",
+               "dubbo-nginx-module-plus-$ngx_ver/debian/dubbo-nginx-module-plus-$ngx_ver.install"
+               or die "Cannot rename dubbo-nginx-module-plus-NGINX_VERSION.install: $!";
+        system("find dubbo-nginx-module-plus-$ngx_ver/debian -type f | xargs sed -i s/NGINX_VERSION/$ngx_ver/g") == 0
             or die "can not change NGINX_VERSION: $!";
 
-        system("find dubbo-nginx-module-$ngx_ver/debian -type f | xargs sed -i s/OPENRESTY_VERSION/$or_ver/g") == 0
+        system("find dubbo-nginx-module-plus-$ngx_ver/debian -type f | xargs sed -i s/OPENRESTY_VERSION/$or_ver/g") == 0
             or die "can not change OPENRESTY_VERSION: $!";
 
-        system("cp -R dubbo-nginx-module-NGINX_VERSION.mk dubbo-nginx-module-$ngx_ver.mk") == 0
-            or die "can not copy dubbo-nginx-module-NGINX_VERSION.mk: $!";
+        system("cp -R dubbo-nginx-module-plus-NGINX_VERSION.mk dubbo-nginx-module-plus-$ngx_ver.mk") == 0
+            or die "can not copy dubbo-nginx-module-plus-NGINX_VERSION.mk: $!";
 
-        system("sed -i s/NGINX_VERSION/$ngx_ver/g dubbo-nginx-module-$ngx_ver.mk") == 0
+        system("sed -i s/NGINX_VERSION/$ngx_ver/g dubbo-nginx-module-plus-$ngx_ver.mk") == 0
             or die "can not change NGINX_VERSION: $!";
 
-        system("sed -i s/OPENRESTY_VERSION/$or_ver/g dubbo-nginx-module-$ngx_ver.mk") == 0
+        system("sed -i s/OPENRESTY_VERSION/$or_ver/g dubbo-nginx-module-plus-$ngx_ver.mk") == 0
             or die "can not change OPENRESTY_VERSION: $!";
     }
 }

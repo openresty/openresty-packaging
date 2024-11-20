@@ -43,4 +43,4 @@ override_dh_auto_clean:
 	rm -rf $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=dubbo-nginx-module-NGINX_VERSION-dbgsym
+	dh_strip --dbg-package=dubbo-nginx-module-plus-NGINX_VERSION-dbgsym
