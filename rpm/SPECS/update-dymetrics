@@ -78,6 +78,9 @@ sub update_spec ($) {
 
         system("sed 's/NGINX_VERSION/1.21.4/' dymetrics-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.21.4.2/' > dymetrics-nginx-module-1.21.4.spec") == 0
                 or die "Cannot generate spec for 1.21.4: $!";
+        system("sed 's/NGINX_VERSION/1.25.3/' dymetrics-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.25.3.2/' > dymetrics-nginx-module-1.25.3.spec") == 0
+                or die "Cannot generate spec for 1.27.1: $!";
+        #system("sed 's/NGINX_VERSION/1.27.1/' dymetrics-nginx-module.spec | sed 's/OPENRESTY_VERSION/1.27.1.1/' > dymetrics-nginx-module-1.27.1.spec") == 0 or die "Cannot generate spec for 1.27.1: $!";
     }
 }
 

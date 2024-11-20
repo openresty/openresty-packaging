@@ -1,4 +1,4 @@
-Name:           dymetrics-nginx-module-1.27.1
+Name:           dymetrics-nginx-module-1.25.3
 Version:        0.0.19
 Release:        1%{?dist}
 Summary:        dymetrics nginx module for OpenResty
@@ -8,8 +8,8 @@ Group:          Development/Libraries
 License:        Proprietary
 URL:            https://www.openresty.com/
 
-%define ngx_version          1.27.1
-%define or_version           1.27.1.1
+%define ngx_version          1.25.3
+%define or_version           1.25.3.2
 
 Source0:        lua-resty-dymetrics-%{version}.tar.gz
 Source1:        https://openresty.org/download/openresty-%{or_version}.tar.gz
