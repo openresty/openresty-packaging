@@ -1,24 +1,25 @@
 rpmbuild_dir := $(shell ls -d $$HOME/rpmbuild)
 
-targets = openresty \
-	  openresty-debug \
-	  openresty-valgrind \
-	  openresty-asan \
-	  openresty-openssl \
-	  openresty-openssl111 \
-	  openresty-openssl-debug \
-	  openresty-openssl111-debug \
-	  openresty-openssl-asan \
-	  openresty-openssl111-asan \
-	  openresty-openssl3 \
-	  openresty-openssl3-asan \
-	  openresty-openssl3-debug \
+targets = \
+	  openresty-zlib \
+	  openresty-zlib-asan \
 	  openresty-pcre \
 	  openresty-pcre2 \
 	  openresty-pcre-asan \
 	  openresty-pcre2-asan \
-	  openresty-zlib \
-	  openresty-zlib-asan \
+	  openresty-openssl111 \
+	  openresty-openssl111-debug \
+	  openresty-openssl111-asan \
+	  openresty-openssl3 \
+	  openresty-openssl3-asan \
+	  openresty-openssl3-debug \
+	  openresty-openssl \
+	  openresty-openssl-debug \
+	  openresty-openssl-asan \
+	  openresty \
+	  openresty-debug \
+	  openresty-valgrind \
+	  openresty-asan \
 	  perl-Test-Nginx \
 	  perl-Lemplate \
 	  perl-Test-LongString \
