@@ -6,8 +6,8 @@ NGX_MULTI_UPSTREAM_MODULE_VER := 1.2.0.1
 
 .PHONY: dubbo-nginx-module-plus-NGINX_VERSION-download
 dubbo-nginx-module-plus-NGINX_VERSION-download:
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/ngx_multi_upstream_module-$(MOD_DUBBO_VER).tar.gz ./
-	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/mod_dubbo-$(NGX_MULTI_UPSTREAM_MODULE_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/ngx_multi_upstream_module-$(NGX_MULTI_UPSTREAM_MODULE_VER).tar.gz ./
+	rsync -a -e "ssh -o StrictHostKeyChecking=no -o 'UserKnownHostsFile /dev/null'" nuc:~/work/mod_dubbo-$(MOD_DUBBO_VER).tar.gz ./
 	wget https://openresty.org/download/openresty-OPENRESTY_VERSION.tar.gz
 	rm -rf dubbo-nginx-module-plus-NGINX_VERSION_$(MOD_DUBBO_VER)
 	mkdir -p dubbo-nginx-module-plus-NGINX_VERSION_$(MOD_DUBBO_VER)
