@@ -67,7 +67,7 @@ Provides C header and static library for OpenResty's cyrus-sasl library.
 mv cyrus-sasl-cyrus-sasl-%{version}/* .
 
 %build
-./autogen.sh --prefix=%{sasl_prefix} \
+CPPFLAGS="-include time.h" ./autogen.sh --prefix=%{sasl_prefix} \
     --libdir=%{sasl_prefix}/lib  \
     --enable-gssapi=no --with-openssl=/usr/local/openresty-plus/openssl111
 make -j`nproc` > /dev/stderr
