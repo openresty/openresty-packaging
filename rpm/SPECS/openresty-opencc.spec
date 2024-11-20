@@ -1,6 +1,6 @@
 Name:               openresty-opencc
-Version:            1.1.6
-Release:            3%{?dist}
+Version:            1.1.9
+Release:            1%{?dist}
 Summary:            Open Chinese Convert is an opensource project for conversions between Traditional Chinese, Simplified Chinese and Japanese Kanji (Shinjitai). 
 
 Group:              Development/Tools
@@ -8,7 +8,7 @@ Group:              Development/Tools
 # /contrib/dotzlib/ have Boost license
 License:            Proprietary
 URL:                https://opencc.byvoid.com/
-Source0:            https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.1.1.6.tar.gz
+Source0:            https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.1.1.9.tar.gz
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -74,11 +74,17 @@ make -j`nproc` PREFIX=%{opencc_prefix}
 
 
 %install
+
+export QA_RPATHS=$[ 0x0002 ]
+
 make install DESTDIR=%{buildroot} PREFIX=%{opencc_prefix}
 rm -f  %{buildroot}/%{opencc_prefix}/lib/*.la
 rm -rf %{buildroot}/%{opencc_prefix}/lib/pkgconfig
-export QA_RPATHS=$[ 0x0002 ]
-
+rm -rf %{buildroot}/%{opencc_prefix}/lib/cmake/opencc/OpenCCConfig.cmake
+rm -rf %{buildroot}/%{opencc_prefix}/lib/cmake/opencc/OpenCCConfigVersion.cmake
+rm -rf %{buildroot}/%{opencc_prefix}/lib/cmake/opencc/OpenCCTargets-release.cmake
+rm -rf %{buildroot}/%{opencc_prefix}/lib/cmake/opencc/OpenCCTargets.cmake
+rm -rf %{buildroot}/%{opencc_prefix}/lib/libmarisa.a
 
 %clean
 rm -rf %{buildroot}
@@ -94,7 +100,7 @@ rm -rf %{buildroot}
 
 %{opencc_prefix}/lib/libopencc.so
 %{opencc_prefix}/lib/libopencc.so.1.1
-%attr(0755,root,root) %{opencc_prefix}/lib/libopencc.so.1.1.5
+%attr(0755,root,root) %{opencc_prefix}/lib/libopencc.so.1.1.9
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc_dict
 %attr(0755,root,root) %{opencc_prefix}/bin/opencc_phrase_extract
