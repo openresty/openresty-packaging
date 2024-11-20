@@ -1,5 +1,5 @@
 Name:               openresty-zlib
-Version:            1.3
+Version:            1.3.1
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty
 
@@ -88,7 +88,7 @@ rm -rf %{buildroot}
 
 %dir %{zlib_prefix}
 %dir %{zlib_prefix}/lib
-%attr(0755,root,root) %{zlib_prefix}/lib/libz.so.1.2.13
+%attr(0755,root,root) %{zlib_prefix}/lib/libz.so.1.3.1
 %{zlib_prefix}/lib/libz.so
 %{zlib_prefix}/lib/libz.so.1
 

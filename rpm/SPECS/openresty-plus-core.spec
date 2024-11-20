@@ -112,6 +112,7 @@ AutoReqProv:        no
 %define libmemcached_prefix %{_usr}/local/openresty-plus/libmemcached
 %define cyrus_sasl_prefix   %{_usr}/local/openresty-plus/cyrus-sasl
 
+%define _lto_cflags %{nil}
 
 %description
 This package contains the core server for OpenResty+, an enhanced version of

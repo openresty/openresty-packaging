@@ -1,5 +1,5 @@
 Name:               openresty-saas-zlib
-Version:            1.3
+Version:            1.3.1
 Release:            1%{?dist}
 Summary:            The zlib compression library for OpenResty SaaS
 
