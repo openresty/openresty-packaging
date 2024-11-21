@@ -1,6 +1,6 @@
 Name:           dubbo-nginx-module-1.25.3
 Version:        1.0.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        multiple upstream nginx module
 
 Group:          Development/Libraries
