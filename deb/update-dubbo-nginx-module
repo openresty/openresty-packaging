@@ -5,9 +5,11 @@ use strict;
 use warnings;
 
 sub update_changelog ($$);
+sub update_rules ($$);
 sub gen_all_vers_cfg ();
 
 my $version = shift or die "No version number specified.\n";
+my $multi_upstream_version = shift or die "No version number specified.\n";
 
 if ($version !~ /^\d+(\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
@@ -32,6 +34,15 @@ if ($version !~ /^\d+(\.\d+){3}$/) {
             }
         }
 
+        if (s/^ NGX_MULTI_UPSTREAM_MODULE_VER \ :=\ ( \d+(\.\d+){3} ) $/NGX_MULTI_UPSTREAM_MODULE_VER := $multi_upstream_version/msx) {
+            my $old_ver = $1;
+            if ($old_ver ne $multi_upstream_version) {
+                say "INFO: $file: version needs update from $old_ver to $multi_upstream_version";
+
+            } else {
+                say "INFO: $file is already up to date: $old_ver";
+            }
+        }
     } continue {
         $new .= $_;
     }
@@ -55,8 +66,17 @@ for my $dir (reverse sort glob 'dubbo-nginx-module-plus-NGINX_VERSION*') {
             warn "Cannot find $changelog file\n";
             next;
         }
+
         #say $dir;
         update_changelog $name, $changelog;
+
+        my $rules = "$dir/debian/rules";
+        if (!-f $rules) {
+            warn "Cannot find $rules file\n";
+            next;
+        }
+
+        update_rules $name, $rules;
     }
 }
 
@@ -113,6 +133,27 @@ _EOC_
     say "$file updated.";
 }
 
+sub update_rules ($$) {
+    my ($name, $file) = @_;
+
+    warn "name: $name, file: $file";
+
+    open my $in, $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    #ngx_multi_upstream_module-1.2.0.2
+    if ($src =~ s/ngx_multi_upstream_module-(\d+(?:\.\d+){3})/ngx_multi_upstream_module-$multi_upstream_version/xgsm) {
+        say "change ngx-multi-upstream-module from $1 to $multi_upstream_version";
+    }
+
+    open my $out, ">$file"
+        or die "Cannot open $file for writing: $!\n";
+    print $out $src;
+    close $out;
+    say "$file updated.";
+}
 
 sub gen_all_vers_cfg () {
     my @ngx_vers = (["1.25.3", "1.25.3.2"]);

@@ -7,8 +7,13 @@ use warnings;
 sub update_spec ($);
 
 my $version = shift or die "No version number specified.\n";
+my $multi_upstream_version = shift or die "No multi upstream version specified.";
 
 if ($version !~ /^\d+(?:\.\d+){3}$/) {
+    die "ERROR: Bad version number: $version";
+}
+
+if ($multi_upstream_version !~ /^\d+(?:\.\d+){3}$/) {
     die "ERROR: Bad version number: $version";
 }
 
@@ -28,12 +33,15 @@ sub update_spec ($) {
     }
 
     my $changes = 0;
+    my $dubbo_change = 0;
+    my $multi_up_change = 0;
 
     if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){3} ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
             say "INFO: version got changed from $old_ver to $version";
             $changes++;
+            $dubbo_change = 1;
 
         } else {
             say "INFO: $file is already up to date: $version";
@@ -42,6 +50,25 @@ sub update_spec ($) {
 
     } else {
         die "$file: Version line not found";
+    }
+
+    if ($src =~ s/ngx_multi_upstream_version (\s+) ( \d+ (?: \.\d+ ){3} ) $/ngx_multi_upstream_version$1$multi_upstream_version/xsm) {
+        my $old_ver = $2;
+        if ($old_ver ne $multi_upstream_version) {
+            say "INFO: ngx_multi_upstream version got changed from $old_ver to $version";
+            $changes++;
+            $multi_up_change = 1;
+
+        } else {
+            say "INFO: $file is already up to date: $version";
+        }
+
+    } else {
+        die "$file: Version line not found";
+    }
+
+    if ($dubbo_change == 0 && $multi_up_change == 1) {
+        die "can't change multi upstream version but does't change dubbo version";
     }
 
     if ($src =~ s/^Release: (\s+) (\d+) ( \%\{\?dist\} )  $/Release:${1}1$3/xsm) {
