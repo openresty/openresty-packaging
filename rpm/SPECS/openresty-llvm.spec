@@ -1,6 +1,6 @@
 Name:               openresty-llvm
-Version:            14.0.0.1
-Release:            5%{?dist}
+Version:            14.0.0.2
+Release:            1%{?dist}
 Summary:            OpenResty Inc's proprietary LLVM fork
 
 Group:              System Environment/Libraries
@@ -122,6 +122,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Nov 20 2024 Yichun Zhang (agentzh) 14.0.0.2-1
+- upgraded llvm to 14.0.0.2.
 * Mon Apr 17 2023 Yichun Zhang (agentzh) 14.0.0.1
 
 - upgraded llvm-plus to 14.0.0.1

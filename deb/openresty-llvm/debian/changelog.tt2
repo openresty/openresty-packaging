@@ -1,3 +1,9 @@
+openresty-llvm (14.0.0.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded openresty-llvm to 14.0.0.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 20 Nov 2024 19:49:50 -0800
+
 openresty-llvm (14.0.0.1-5~[% distro %]1) [% distro %]; urgency=high
 
   * use our own CFLAGS/CXXFLAGS/FFLAGS/LDFLAGS env values.

@@ -1,7 +1,7 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_LLVM_VER := 14.0.0.1
+OPENRESTY_LLVM_VER := 14.0.0.2
 
 .PHONY: openresty-llvm-download
 openresty-llvm-download:
