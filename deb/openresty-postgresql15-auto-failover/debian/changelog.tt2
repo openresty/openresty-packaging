@@ -1,0 +1,6 @@
+openresty-postgresql15-auto-failover (2.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * Initial build for pg_auto_failover on PostgreSQL 15
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 18 Nov 2024 00:00:00 -0700
+

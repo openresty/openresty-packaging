@@ -1,0 +1,23 @@
+Source: openresty-postgresql15-ip4r
+Section: database
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-postgresql15-dev (>= 15.9)
+Standards-Version: 3.9.8
+Homepage: https://github.com/RhodiumToad/ip4r
+
+Package: openresty-postgresql15-ip4r
+Architecture: any
+Section: database
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql15 (>= 15.9)
+Description: IPv4 and IPv4 range index types for PostgreSQL
+ ip4 and ip4r are types that contain a single IPv4 address and a range of
+ IPv4 addresses respectively. They can be used as a more flexible,
+ indexable version of the cidr type.
+
+Package: openresty-postgresql15-ip4r-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-postgresql15-ip4r (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-postgresql15-ip4r package
+ Debug symbols (or debuginfo) for the openresty-postgresql15-ip4r package.

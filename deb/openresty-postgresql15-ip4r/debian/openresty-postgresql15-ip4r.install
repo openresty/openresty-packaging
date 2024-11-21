@@ -1,0 +1,4 @@
+usr/local/openresty-postgresql15/share/doc/extension/README.ip4r
+usr/local/openresty-postgresql15/share/extension/ip4r*.sql
+usr/local/openresty-postgresql15/share/extension/ip4r.control
+usr/local/openresty-postgresql15/lib/ip4r.so

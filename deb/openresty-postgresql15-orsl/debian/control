@@ -1,0 +1,21 @@
+Source: openresty-postgresql15-orsl
+Section: database
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-postgresql15-dev (>= 15.9)
+Standards-Version: 3.9.8
+Homepage: https://github.com/
+
+Package: openresty-postgresql15-orsl
+Architecture: any
+Section: database
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql15 (>= 15.9)
+Description: PostgreSQL extension contains utilities used in mini-sl
+ PostgreSQL extension contains utilities used in mini-sl
+
+Package: openresty-postgresql15-orsl-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-postgresql15-orsl (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-postgresql15-orsl package
+ Debug symbols (or debuginfo) for the openresty-postgresql15-orsl package.

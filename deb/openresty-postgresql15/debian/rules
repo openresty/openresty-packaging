@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/default.mk
+
+export NO_PKG_MANGLE=1
+export QA_RPATHS=$[ 0x0002 ]
+
+DESTDIR = $(CURDIR)/debian/tmp
+
+PREFIX=/usr/local/openresty-postgresql15
+OPENSSL111_PREFIX=/usr/local/openresty-plus/openssl111
+%:
+	dh $@ --parallel --with autotools-dev
+
+override_dh_auto_test:
+
+override_dh_usrlocal:
+
+override_dh_auto_configure:
+
+override_dh_auto_build:
+	./configure --prefix="$(PREFIX)" \
+            --libdir="$(PREFIX)/lib" \
+            --with-libraries="$(OPENSSL111_PREFIX)/lib" \
+            --with-libxml \
+            --with-blocksize=32 \
+            --with-segsize=2 \
+            --with-wal-blocksize=64 \
+            --with-libxslt \
+            --with-openssl \
+            --with-ossp-uuid \
+            CC='ccache gcc' \
+            CFLAGS="-O2 -fPIE -g3 -I$(OPENSSL111_PREFIX)/include" \
+			LDFLAGS="-L$(OPENSSL111_PREFIX)/lib -Wl,-rpath,$(OPENSSL111_PREFIX)/lib" \
+		&& make -j`nproc` MAKELEVEL=0
+
+override_dh_auto_install:
+	make install DESTDIR=$(DESTDIR) MAKELEVEL=0 \
+		&& make install-world DESTDIR=$(DESTDIR) MAKELEVEL=0 \
+		&& ln -sf postgres $(DESTDIR)/usr/local/openresty-postgresql15/bin/postmaster \
+		&& rm -rf $(DESTDIR)/usr/local/openresty-postgresql15/share/man \
+    $(DESTDIR)/usr/local/openresty-postgresql15/share/doc \
+		&& rm -f $(DESTDIR)/usr/local/openresty-postgresql15/lib/*/*.o \
+    $(DESTDIR)/usr/local/openresty-postgresql15/lib/st[a-zA-Z0-9]* \
+		&& install -d $(DESTDIR)/etc/init.d \
+		&& install -d $(DESTDIR)/usr/local/openresty-postgresql15/share/systemd \
+		&& install -p -m 0755 debian/openresty-postgresql15.init $(DESTDIR)/etc/init.d/openresty-postgresql15 \
+		&& install -p -m 0755 debian/openresty-postgresql15.service $(DESTDIR)$(PREFIX)/share/systemd/openresty-postgresql15.service \
+		&& install -p -m 0755 debian/postgresql15-check-db-dir $(DESTDIR)$(PREFIX)/bin/postgresql-check-db-dir
+
+override_dh_auto_clean:
+	dh_clean
+	rm -fr $(DESTDIR)
+
+override_dh_strip:
+	dh_strip --dbg-package=openresty-postgresql15-dbgsym

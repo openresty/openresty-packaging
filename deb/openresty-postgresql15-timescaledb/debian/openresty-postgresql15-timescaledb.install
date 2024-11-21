@@ -1,0 +1,3 @@
+usr/local/openresty-postgresql15/share/extension/timescaledb*.sql
+usr/local/openresty-postgresql15/share/extension/timescaledb.control
+usr/local/openresty-postgresql15/lib/timescaledb*.so

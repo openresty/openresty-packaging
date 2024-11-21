@@ -67,6 +67,7 @@ priv_targets = \
 		openresty-plus-core-asan \
 		openresty-postgresql \
 		openresty-postgresql12 \
+		openresty-postgresql15 \
 		openresty-postgresql16 \
 		openresty-postgresql-ip4r \
 		openresty-postgresql12-ip4r \
@@ -74,6 +75,10 @@ priv_targets = \
 		openresty-postgresql12-orsl \
 		openresty-postgresql12-timescaledb \
 		openresty-postgresql-timescaledb \
+		openresty-postgresql15-ip4r \
+		openresty-postgresql15-orsl \
+		openresty-postgresql15-timescaledb \
+		openresty-postgresql15-auto-failover \
 		openresty-postgresql16-ip4r \
 		openresty-postgresql16-orsl \
 		openresty-postgresql16-timescaledb \

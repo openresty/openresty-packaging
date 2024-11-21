@@ -1,0 +1,28 @@
+Source: openresty-postgresql15
+Section: database
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, libxml2-dev, libxslt-dev, libossp-uuid-dev, libreadline-dev, openresty-plus-openssl111-dev, libicu-dev
+Standards-Version: 3.9.8
+Homepage: http://www.postgresql.org/ftp/source/
+
+Package: openresty-postgresql15
+Architecture: any
+Section: database
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-plus-openssl111
+Description: PostgreSQL server
+ PostgreSQL is the world's most advanced open source database.
+
+Package: openresty-postgresql15-dev
+Architecture: any
+Section: database
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql15 (>= ${source:Upstream-Version})
+Description: Development files for openresty-postgresql15
+ Provides C header and static library for the openresty-postgresql15 package.
+
+Package: openresty-postgresql15-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-postgresql15 (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-postgresql15 package
+ Debug symbols (or debuginfo) for the openresty-postgresql15 package.

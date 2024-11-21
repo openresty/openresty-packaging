@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -d "/etc/systemd/system" ]; then
+    rm -f /etc/systemd/system/openresty-postgresql15.service
+fi

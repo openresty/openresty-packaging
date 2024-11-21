@@ -76,6 +76,11 @@ clean: zlib-clean pcre-clean openssl-clean openssl-debug-clean \
 		openresty-elfutils-clean openresty-odb-clean \
 		openresty-odb-debug-clean \
 		openresty-postgresql12-timescaledb-clean \
+		openresty-postgresql15-clean \
+		openresty-postgresql15-timescaledb-clean \
+		openresty-postgresql15-auto-failover-clean \
+		openresty-postgresql15-orsl-clean \
+		openresty-postgresql15-ip4r-clean \
 		openresty-postgresql16-clean \
 		openresty-postgresql16-timescaledb-clean \
 		openresty-postgresql16-auto-failover-clean \

@@ -1,10 +1,10 @@
-%define pgprefix %{_usr}/local/openresty-postgresql12
+%define pgprefix %{_usr}/local/openresty-postgresql15
 %define pg_config %{pgprefix}/bin/pg_config
 %define ext timescaledb
 
 %define openssl_prefix      %{_usr}/local/openresty-plus/openssl111
 
-Name:       openresty-postgresql12-%{ext}
+Name:       openresty-postgresql15-%{ext}
 Version:    2.10.3
 Release:    1%{?dist}
 Summary:    TimescaleDB PostgreSQL extension
@@ -14,8 +14,8 @@ URL:        https://github.com/timescale/timescaledb
 Source0:    https://github.com/timescale/timescaledb/archive/%{version}.tar.gz
 
 AutoReqProv:    no
-BuildRequires:  openresty-postgresql12-devel >= 12.4, openresty-plus-openssl111-devel
-Requires:       openresty-postgresql12 >= 12.4, openresty-plus-openssl111
+BuildRequires:  openresty-postgresql15-devel >= 15.9, openresty-plus-openssl111-devel
+Requires:       openresty-postgresql15 >= 15.9, openresty-plus-openssl111
 
 
 %description
@@ -63,10 +63,6 @@ cd build && make -j`nproc`
 %install
 cd build && make install DESTDIR=${RPM_BUILD_ROOT}
 
-if [ -f $RPM_BUILD_ROOT/%{pgprefix}/share/extension/timescaledb--1.7.4--2.10.3.sql ]; then
-    sed -i 's/DROP FUNCTION _timescaledb_internal.ping_data_node(NAME);/DROP FUNCTION IF EXISTS _timescaledb_internal.ping_data_node(NAME);/' $RPM_BUILD_ROOT/%{pgprefix}/share/extension/timescaledb--1.7.4--2.10.3.sql
-fi
-
 # to silence the check-rpath error
 export QA_RPATHS=$[ 0x0002 ]
 
@@ -83,7 +79,5 @@ rm -fr $RPM_BUILD_ROOT
 
 
 %changelog
-* Wed Dec 23 2020 LI Geng 1.7.4
-- bump timescaledb version to 1.7.4
-* Sat Aug 8 2020 LI Geng 1.7.2
-- initial build for TimescaleDB on postgresql v12.
+* Mon Nov 18 2024 He Shushen 2.17.2
+- initial build for TimescaleDB on postgresql v15.

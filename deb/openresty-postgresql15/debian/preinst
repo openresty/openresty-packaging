@@ -1,0 +1,11 @@
+#!/bin/bash
+
+id -u postgres > /dev/null 2>&1
+rc=$?
+if [ $rc -ne 0 ]; then
+    groupadd postgres || exit 1
+    useradd -g postgres postgres || exit 1
+fi
+mkdir -p /var/postgres15
+mkdir -p /var/postgres15/{data,scripts,conf,log}
+chown -R postgres:postgres /var/postgres15

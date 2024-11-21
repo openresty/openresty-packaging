@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+# This script verifies that the postgresql data directory has been correctly
+# initialized.  We do not want to automatically initdb it, because that has
+# a risk of catastrophic failure (ie, overwriting a valuable database) in
+# corner cases, such as a remotely mounted database on a volume that's a
+# bit slow to mount.  But we can at least emit a message advising newbies
+# what to do.
+
+if test -z "$1"; then
+    echo "Maintainer error: $0 must be run with one argument"
+    exit 1
+fi
+
+service_name="$1"
+
+if [ -z "$PGDATA" ]; then
+    echo $"You try to start '$service_name' service"
+    echo $"but the required \$PGDATA environment variable is not set."
+
+    echo $"You should use the /etc/systemd/system/$service_name.service.d/ANYTHING.conf"
+
+    echo $"configuration file to set \$PGDATA.  For more info see"
+    echo $"the /usr/share/doc/postgresql/README.rpm-dist file."
+
+    exit 1
+fi
+
+
+# Warn the user that the configuration should be adjusted via drop-in, in case
+# the $PGDATA variable is set different way (and non-default service name is
+# used, systemd systems only).
+conf_dir="/etc/systemd/system/$service_name.service.d"
+if [[ "$service_name" == *@* ]] &&  test ! -d "$conf_dir"; then
+    echo >&2 $"WARNING: Note that the '$conf_dir'"
+    echo >&2 $"directory does not exist while you are using non-default service"
+    echo >&2 $"name '$service_name'.  You are encouraged to use the"
+    echo >&2 $"$conf_dir directory for systemd configuration according"
+    echo >&2 $"to /usr/share/doc/postgresql/README.rpm-dist documentation."
+fi
+
+# Full PostgreSQL version, e.g. 9.0.2
+PGVERSION=15.9
+
+# Major version of PostgreSQL, e.g. 9.0
+PGMAJORVERSION=15
+
+# Distribution README file
+README_DIST=/usr/share/doc/postgresql/README.rpm-dist
+
+bad_version()
+{
+    local real_version="$1"
+
+    . "/usr/share/postgresql-setup/library.sh"
+
+    while read id version; do
+        test "$version" = "$real_version" || continue
+
+        local cmd="postgresql-setup --upgrade"
+
+        test "postgresql" = "$id" \
+            || cmd="$cmd --upgrade-from $id"
+
+        echo $"An old version of the database format was found."
+        echo $"Use '$cmd' to upgrade to version '$PGMAJORVERSION'"
+        echo $"See $README_DIST for more information."
+
+        return
+    done < <(parse_upgrade_setup list)
+
+    echo $"An old version '$real_version' of the database format was found."
+    echo $"You need to dump and reload before using PostgreSQL $PGVERSION."
+    echo $"See $README_DIST for more information."
+
+    return
+}
+
+# Check for the PGDATA structure
+if [ -f "$PGDATA/PG_VERSION" ] && [ -d "$PGDATA/base" ]
+then
+    real_version=`cat "$PGDATA/PG_VERSION"`
+    # Check version of existing PGDATA
+    if [ x"$real_version" = x"$PGMAJORVERSION" ]
+    then
+        : A-OK
+    else
+        bad_version "$real_version"
+        exit 1
+    fi
+else
+    # No existing PGDATA! Warn the user to initdb it.
+    echo $"Directory \"$PGDATA\" is missing or empty."
+    echo $"Use \"/usr/bin/postgresql-setup --initdb\""
+    echo $"to initialize the database cluster."
+    echo $"See $README_DIST for more information."
+    exit 1
+fi
+
+exit 0

@@ -1,0 +1,22 @@
+Source: openresty-postgresql15-auto-failover
+Section: database
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), openresty-postgresql15-dev (>= 15.9), ccache, ncurses-dev, libxml2-dev, libxslt-dev, libreadline-dev, make, gcc
+Standards-Version: 3.9.8
+Homepage: https://github.com/citusdata/pg_auto_failover
+
+Package: openresty-postgresql15-auto-failover
+Architecture: any
+Section: database
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-postgresql15 (>= 15.9)
+Description: Postgres extension for automated failover and high-availability
+ pg_auto_failover is an extension and service for PostgreSQL that monitors and manages
+ automated failover for a Postgres cluster. It is optimized for simplicity and correctness.
+
+Package: openresty-postgresql15-auto-failover-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-postgresql15-auto-failover (>= ${source:Upstream-Version})
+Description: Debug symbols for the openresty-postgresql15-auto-failover package
+ Debug symbols (or debuginfo) for the openresty-postgresql15-auto-failover package.

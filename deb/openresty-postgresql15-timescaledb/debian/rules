@@ -18,20 +18,16 @@ override_dh_usrlocal:
 override_dh_auto_configure:
 
 override_dh_auto_build:
-	./bootstrap -DPG_CONFIG=/usr/local/openresty-postgresql12/bin/pg_config -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	./bootstrap -DPG_CONFIG=/usr/local/openresty-postgresql15/bin/pg_config -DREGRESS_CHECKS=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo \
             -DOPENSSL_ROOT_DIR=/usr/local/openresty-plus/openssl111 \
 		&& cd build && make -j`nproc`
 
 override_dh_auto_install:
 	cd build && make install DESTDIR=$(DESTDIR)
-	if [ -f $(DESTDIR)/usr/local/openresty-postgresql12/share/extension/timescaledb--1.7.4--2.10.3.sql ]; then \
-		sed -i 's/DROP FUNCTION _timescaledb_internal.ping_data_node(NAME);/DROP FUNCTION IF EXISTS _timescaledb_internal.ping_data_node(NAME);/' \
-			$(DESTDIR)/usr/local/openresty-postgresql12/share/extension/timescaledb--1.7.4--2.10.3.sql; \
-	fi
 
 override_dh_auto_clean:
 	dh_clean
 	rm -fr $(DESTDIR)
 
 override_dh_strip:
-	dh_strip --dbg-package=openresty-postgresql12-timescaledb-dbgsym
+	dh_strip --dbg-package=openresty-postgresql15-timescaledb-dbgsym
