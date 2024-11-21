@@ -86,6 +86,10 @@ Development headers for the OpenResty's fork of Perl.
 /bin/sh Configure -des \
         -Doptimize="-g -O2" \
         -Dmyhostname=build.openresty.org \
+        -Dcccdlflags="-fPIC" \
+        -Dccdlflags="-Wl,-E" \
+        -Dlddlflags="-shared -O2 -L%{prefix}/lib -fstack-protector-strong" \
+        -Dldflags="-L%{prefix}/lib -fstack-protector-strong" \
         -Dcc='ccache gcc' \
         -Dcf_by='OpenResty Inc' \
         -Dinstallprefix=%{prefix} \
