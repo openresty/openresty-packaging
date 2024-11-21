@@ -80,6 +80,9 @@ Development headers for the OpenResty's fork of Perl.
 #%patch2 -p1
 
 %build
+
+# -Duseshrplib \
+
 /bin/sh Configure -des \
         -Doptimize="-g -O2" \
         -Dmyhostname=build.openresty.org \

@@ -1,6 +1,6 @@
 Name:               openresty-radare2
-Version:            5.0.3.3
-Release:            2%{?dist}
+Version:            5.0.3.4
+Release:            1%{?dist}
 Summary:            radare2 for OpenResty
 
 Group:              System Environment/Libraries
@@ -157,6 +157,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Nov 20 2024 Yichun Zhang (agentzh) 5.0.3.4-1
+- upgraded openresty-radare2 to 5.0.3.4.
 * Mon Feb 4 2024 Yichun Zhang (agentzh) 5.0.3.3-2
 - upgraded openresty-radare2 to 5.0.3.3.
 * Sun Feb 4 2024 Yichun Zhang (agentzh) 5.0.3.3-1
