@@ -1,6 +1,6 @@
 Name:           dubbo-nginx-module-plus-NGINX_VERSION
 Version:        1.0.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        multiple upstream nginx module
 
 Group:          Development/Libraries
