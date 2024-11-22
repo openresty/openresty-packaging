@@ -1,8 +1,8 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-MOD_DUBBO_VER := 1.0.2.2
-NGX_MULTI_UPSTREAM_MODULE_VER := 1.2.0.2
+MOD_DUBBO_VER := 1.0.2.3
+NGX_MULTI_UPSTREAM_MODULE_VER := 1.2.0.3
 
 .PHONY: dubbo-nginx-module-plus-1.25.3-download
 dubbo-nginx-module-plus-1.25.3-download:
