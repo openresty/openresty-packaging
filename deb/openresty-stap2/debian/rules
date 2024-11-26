@@ -33,6 +33,7 @@ override_dh_auto_build:
 	    --without-python2-probes \
 	    --without-python3-probes \
 	    --disable-refdocs \
+	    --with-debuginfod=no \
 	    CFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
 	    CXXFLAGS='-I/usr/local/openresty-elfutils/include -g3 -O2' \
 	    LDFLAGS='-L/usr/local/openresty-elfutils/lib -Wl,-rpath,/usr/local/openresty-elfutils/lib'

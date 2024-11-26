@@ -1,6 +1,6 @@
 Name:           openresty-stap2
 Version:        5.2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty's fork of SystemTap
 Group:          Development/System
 License:        GPLv2+
@@ -107,6 +107,7 @@ Requires(pre): shadow
 %else
 Requires(pre): shadow-utils
 %endif
+Requires: openresty-elfutils >= 0.177.12-1
 
 %description runtime
 OpenResty's fork of SystemTap runtime contains the components needed to execute
@@ -177,6 +178,7 @@ ccache g++ -v
         --without-python2-probes \
         --without-python3-probes \
         --disable-refdocs \
+        --with-debuginfod=no \
         CC='ccache gcc -fdiagnostics-color=always' \
         CXX='ccache g++ -fdiagnostics-color=always' \
         CFLAGS='-I%{eu_prefix}/include -g -O2 -Wno-error=implicit-fallthrough' \
