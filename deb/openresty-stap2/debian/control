@@ -20,7 +20,7 @@ Description: Static probe support tools (OpenResty's fork of SystemTap)
 Package: openresty-stap2-runtime
 Architecture: any
 Section: devel
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-elfutils (>= 0.177.12)
 Description: Programmable system-wide instrumentation system - runtime (OpenResty's fork of SystemTap)
  OpenResty's fork of SystemTap runtime contains the components needed to execute
  a systemtap script that was already compiled into a module
