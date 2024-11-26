@@ -1,6 +1,6 @@
 Name:       openresty-postgresql16
 Version:    16.5
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql16
@@ -138,8 +138,9 @@ if [ -d "/etc/systemd/system" ]; then
     fi
     /bin/cp -f %{pgprefix}/share/systemd/openresty-postgresql16.service \
        /etc/systemd/system/openresty-postgresql16.service
-    /bin/systemctl daemon-reload
-
+    if command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1; then
+        systemctl daemon-reload || :
+    fi
 else
     /sbin/chkconfig --add openresty-postgresql16
 fi

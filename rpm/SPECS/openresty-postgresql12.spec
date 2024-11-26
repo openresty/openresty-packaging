@@ -1,6 +1,6 @@
 Name:       openresty-postgresql12
 Version:    12.5
-Release:    13%{?dist}
+Release:    14%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql12
@@ -136,8 +136,9 @@ if [ -d "/etc/systemd/system" ]; then
     fi
     /bin/cp -f %{pgprefix}/share/systemd/openresty-postgresql12.service \
        /etc/systemd/system/openresty-postgresql12.service
-    /bin/systemctl daemon-reload
-
+    if command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1; then
+        systemctl daemon-reload || :
+    fi
 else
     /sbin/chkconfig --add openresty-postgresql12
 fi

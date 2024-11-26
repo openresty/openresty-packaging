@@ -1,6 +1,6 @@
 Name:       openresty-postgresql15
 Version:    15.9
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty-postgresql15
@@ -138,8 +138,9 @@ if [ -d "/etc/systemd/system" ]; then
     fi
     /bin/cp -f %{pgprefix}/share/systemd/openresty-postgresql15.service \
        /etc/systemd/system/openresty-postgresql15.service
-    /bin/systemctl daemon-reload
-
+    if command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1; then
+        systemctl daemon-reload || :
+    fi
 else
     /sbin/chkconfig --add openresty-postgresql15
 fi

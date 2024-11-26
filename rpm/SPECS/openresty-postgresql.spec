@@ -1,6 +1,6 @@
 Name:       openresty-postgresql
 Version:    9.6.20
-Release:    9%{?dist}
+Release:    10%{?dist}
 Summary:    PostgreSQL server
 
 %define pgprefix            %{_usr}/local/openresty/postgresql
@@ -129,8 +129,9 @@ export QA_RPATHS=$[ 0x0002 ]
 if [ -d "/etc/systemd/system" ]; then
     cp -f %{pgprefix}/share/systemd/openresty-postgresql.service \
        /etc/systemd/system/openresty-postgresql.service
-    /bin/systemctl daemon-reload
-
+    if command -v systemctl >/dev/null 2>&1 && systemctl is-system-running >/dev/null 2>&1; then
+        systemctl daemon-reload || :
+    fi
 else
     /sbin/chkconfig --add openresty-postgresql
 fi
