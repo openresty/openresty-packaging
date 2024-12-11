@@ -119,6 +119,7 @@ rm -rf $RPM_BUILD_ROOT
 %files agent
 %defattr(-,root,root,-)
 %{prefix}/bin/func-retval
+%{prefix}/bin/get-py-ver
 
 
 %changelog
