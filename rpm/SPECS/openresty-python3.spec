@@ -1,6 +1,6 @@
 Name:           openresty-python3
 Version:        3.12.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        python3 for OpenResty
 
 Group:          Development/Languages
@@ -117,6 +117,7 @@ export LDFLAGS="-L%{zlib_prefix}/lib -L%{ssl_prefix}/lib -L. -L%{_prefix}/lib -W
 
 ./configure --prefix="%{_prefix}" --enable-shared --enable-ipv6 \
     --without-ensurepip \
+    --without-static-libpython \
     --libdir="%{_prefix}/lib" \
     --with-openssl=%{ssl_prefix} \
     CFLAGS="-g -I%{zlib_prefix}/include -I%{ssl_prefix}/include" \
@@ -160,3 +161,5 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Dec 12 2024 lijunlong (lijunlong) 3.12.5-2
+- build without static library.
