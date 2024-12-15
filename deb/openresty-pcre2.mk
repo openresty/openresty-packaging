@@ -1,11 +1,11 @@
 ## Author: spec2deb.pl
 ### Version: 0.01
 
-OPENRESTY_SAAS_PCRE2_VER = 10.42
+OPENRESTY_SAAS_PCRE2_VER = 10.44
 
 .PHONY: openresty-pcre2-download
 openresty-pcre2-download:
-	LANG=C LC_ALL='C.UTF-8' wget -nH --cut-dirs=100 --mirror 'https://github.com/PhilipHazel/pcre2/releases/download/pcre2-$(OPENRESTY_SAAS_PCRE2_VER)/pcre2-$(OPENRESTY_SAAS_PCRE2_VER).tar.gz'
+	LANG=C LC_ALL='C.UTF-8' wget -nH --cut-dirs=100 --mirror 'https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$(OPENRESTY_SAAS_PCRE2_VER)/pcre2-$(OPENRESTY_SAAS_PCRE2_VER).tar.gz'
 	rm -rf openresty-pcre2_$(OPENRESTY_SAAS_PCRE2_VER)
 	mkdir -p openresty-pcre2_$(OPENRESTY_SAAS_PCRE2_VER)
 	tar -xf pcre2-$(OPENRESTY_SAAS_PCRE2_VER).tar.gz --strip-components=1 -C openresty-pcre2_$(OPENRESTY_SAAS_PCRE2_VER)

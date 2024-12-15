@@ -43,7 +43,7 @@ override_dh_auto_build:
 	  -L/usr/local/openresty/zlib/lib \
 	  -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty-debug/openssl111/lib
 	#sed -i 's/ -O3 / -O0 /g' Makefile
-	jobs=`nproc`; if [ "$$jobs" -gt 10 ]; then jobs=8; fi; make -j$$jobs \
+	make -j`nproc` \
 		LD_LIBRARY_PATH= \
 		CC="ccache gcc"
 

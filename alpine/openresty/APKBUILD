@@ -1,14 +1,14 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty"
-pkgver="1.21.4.3"
+pkgver="1.27.1.1"
 pkgrel=0
 pkgdesc="OpenResty, scalable web platform by extending NGINX with Lua"
 url="https://openresty.org/"
 arch="all"
 license="BSD"
-depends="openresty-openssl111>=1.1.1n-r0 openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl111-dev>=1.1.1n-r0 openresty-pcre-dev openresty-zlib-dev"
+depends="openresty-openssl3>=3.0.15 openresty-pcre openresty-zlib libgcc"
+makedepends="ccache perl openresty-openssl3-dev>=3.0.15 openresty-pcre-dev openresty-zlib-dev"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
     $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
@@ -25,7 +25,7 @@ options="!tracedeps !fhs"
 _orprefix="/usr/local/$pkgname"
 _zlib_prefix="$_orprefix/zlib"
 _pcre_prefix="$_orprefix/pcre"
-_openssl_prefix="$_orprefix/openssl111"
+_openssl_prefix="$_orprefix/openssl3"
 
 
 build() {
@@ -48,6 +48,7 @@ build() {
         --with-stream_ssl_module \
         --with-stream_ssl_preread_module \
         --with-http_v2_module \
+        --with-http_v3_module \
         --without-mail_pop3_module \
         --without-mail_imap_module \
         --without-mail_smtp_module \
@@ -63,6 +64,7 @@ build() {
         --with-http_flv_module \
         --with-http_mp4_module \
         --with-http_gunzip_module \
+        --with-http_slice_module \
         --with-threads \
         --with-compat \
         --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
@@ -170,7 +172,7 @@ static() {
 }
 
 sha512sums="
-dd0f36a367177a2d03378abf7995bad466965705fb549fa1f2a3bfc1cf5ba153de2849f789a718e1a4abb85996fde90f79f7f7571677ec32ee596aa076261c52  openresty-1.21.4.3.tar.gz
-c7d2d89634410a7beb1e8d4cb7e168d0a2b067c37889fa67018afa940dcf99b5e05db4b1a1fcad7939fd70a896f2c90854631308ef11a307f4064e7eef329d99  openresty.initd
+22b9c0dc0b5c78409b56a06f287bbeb8582d06c6f501fcecec4182900dda428ff012843953a457b877623abc0fc8ebbfd366e01d4ba0363bd37d70273ceec6e4  openresty-1.27.1.1.tar.gz
+6ab0871d440224d7dae5f3ff9f269e0fcc612bd61498d602bde8ecd8e3165fba15151f3d594f2623ec9d844bab260155b46eac7e6a1c92687b8ddb6c09cbdfdf  openresty.initd
 20dd7897b9b183d194e11118385a3f0e35b1ed949ee45535b72b739457c32eaf596f769d91863cefb085920874f7eddb22eb25bf153cfd22aa416f29d32094c4  openresty.confd
 "

@@ -1,3 +1,27 @@
+openresty (1.27.1.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.27.1.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 19 Aug 2024 12:25:18 +0800
+
+openresty (1.25.3.2-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.25.3.2.
+
+ -- OpenResty Admin <admin@openresty.com>  Tue, 9 Jul 2024 17:30:51 +0800
+
+openresty (1.25.3.1-2~[% distro %]1) [% distro %]; urgency=high
+
+  * --no-stop-on-upgrade does not support on arm64 ubuntu 16. 
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 4 Jan 2024 14:35:36 +0800
+
+openresty (1.25.3.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.25.3.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Thu, 4 Jan 2024 14:35:36 +0800
+
 openresty (1.21.4.3-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.21.4.3.

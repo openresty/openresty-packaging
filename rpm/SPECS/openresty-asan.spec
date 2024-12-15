@@ -1,5 +1,5 @@
 Name:           openresty-asan
-Version:        1.21.4.3
+Version:        1.27.1.1
 Release:        1%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty
 
@@ -19,19 +19,19 @@ BuildRequires:  ccache, make, perl, systemtap-sdt-devel, gcc, valgrind-devel
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.12-1
-BuildRequires:  openresty-openssl111-asan-devel >= 1.1.1w-1
-BuildRequires:  openresty-pcre-asan-devel >= 8.45-1
+BuildRequires:  openresty-openssl3-asan-devel >= 3.0.15-1
+BuildRequires:  openresty-pcre2-asan-devel >= 10.44-1
 
 Requires:       openresty-zlib-asan >= 1.2.12-1
-Requires:       openresty-openssl111-asan >= 1.1.1w-1
-Requires:       openresty-pcre-asan >= 8.45-1
+Requires:       openresty-openssl3-asan >= 3.0.15-1
+Requires:       openresty-pcre2-asan >= 10.44-1
 
 AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
-%define openssl_prefix      %{_usr}/local/openresty-asan/openssl111
+%define openssl_prefix      %{_usr}/local/openresty-asan/openssl3
 %define zlib_prefix         %{_usr}/local/openresty-asan/zlib
-%define pcre_prefix         %{_usr}/local/openresty-asan/pcre
+%define pcre_prefix         %{_usr}/local/openresty-asan/pcre2
 
 %if 0%{?el6}
 %undefine _missing_build_ids_terminate_build
@@ -109,6 +109,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -125,6 +126,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-http_slice_module \
     --with-poll_module \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT -DLUAJIT_USE_VALGRIND -O1 -fno-omit-frame-pointer' \
@@ -184,6 +186,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Aug 19 2024 Yichun Zhang (agentzh) 1.27.1.1-1
+- upgraded openresty to 1.27.1.1.
+* Tue Jul 9 2024 Yichun Zhang (agentzh) 1.25.3.2-1
+- upgraded openresty to 1.25.3.2.
+* Thu Jan 4 2024 Yichun Zhang (agentzh) 1.25.3.1-1
+- upgraded openresty to 1.25.3.1.
 * Thu Oct 26 2023 Yichun Zhang (agentzh) 1.21.4.3-1
 - upgraded openresty to 1.21.4.3.
 * Mon Jul 17 2023 Yichun Zhang (agentzh) 1.21.4.2-1

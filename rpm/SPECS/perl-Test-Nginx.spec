@@ -1,6 +1,6 @@
 Name:           perl-Test-Nginx
 Version:        0.29
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Data-driven test scaffold for Nginx C module and Nginx/OpenResty-based libraries and applications
 License:        BSD
 Group:          Development/Libraries
@@ -71,6 +71,7 @@ rm -rf $RPM_BUILD_ROOT
 make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+find $RPM_BUILD_ROOT%{_mandir} -type f -exec rm -f {} \;
 find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 %{_fixperms} $RPM_BUILD_ROOT/*
@@ -85,9 +86,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc Changes README.md
 %{perl_vendorlib}/*
-#%{_mandir}/man3/*
 
 %changelog
+* Mon Jan  8 2024 Jiahao Wang 0.29-4
+- remove _mandir from files.
 * Tue Apr 25 2017 Yichun Zhang (agentzh) 0.26-1
 - CPAN release 0.26: http://cpansearch.perl.org/src/AGENT/Test-Nginx-0.26/Changes
 * Thu Oct 13 2016 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.25-7

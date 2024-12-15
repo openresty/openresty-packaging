@@ -1,6 +1,6 @@
 Name:           perl-Lemplate
 Version:        0.15
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Lemplate Perl module
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -42,6 +42,7 @@ rm -rf $RPM_BUILD_ROOT
 make pure_install PERL_INSTALL_ROOT=$RPM_BUILD_ROOT
 
 find $RPM_BUILD_ROOT -type f -name .packlist -exec rm -f {} \;
+find $RPM_BUILD_ROOT%{_mandir} -type f -exec rm -f {} \;
 find $RPM_BUILD_ROOT -depth -type d -exec rmdir {} 2>/dev/null \;
 
 %{_fixperms} $RPM_BUILD_ROOT/*
@@ -56,11 +57,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc Changes Install README.md
 %{perl_vendorlib}/*
-%{_mandir}/man3/*
 /usr/bin/lemplate
-/usr/share/man/man1/lemplate.1.gz
 
 %changelog
+* Mon Jan  8 2024 Jiahao Wang 0.15-4
+- remove _mandir from files.
 * Thu Jun 15 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.15-1
 - upgraded to CPAN release 0.15.
 * Tue Jun 6 2017 Yichun Zhang (agentzh) <agentzh@gmail.com> 0.14-1

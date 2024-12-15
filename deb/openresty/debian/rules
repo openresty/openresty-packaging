@@ -13,8 +13,8 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 override_dh_auto_configure:
 	./configure \
-	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl111/include" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl111/lib" \
+	  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre2/include -I/usr/local/openresty/openssl3/include" \
+	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre2/lib -L/usr/local/openresty/openssl3/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre2/lib:/usr/local/openresty/openssl3/lib" \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
@@ -23,6 +23,7 @@ override_dh_auto_configure:
 	  --with-stream_ssl_module \
 	  --with-stream_ssl_preread_module \
 	  --with-http_v2_module \
+	  --with-http_v3_module \
 	  --without-mail_pop3_module \
 	  --without-mail_imap_module \
 	  --without-mail_smtp_module \
@@ -37,8 +38,10 @@ override_dh_auto_configure:
 	  --with-http_dav_module \
 	  --with-http_flv_module \
 	  --with-http_mp4_module \
+          --with-http_slice_module \
 	  --with-http_gunzip_module \
 	  --with-threads \
+	  --with-compat \
 	  --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
 	  -j$(NJBS)
 
@@ -56,4 +59,4 @@ override_dh_strip:
 	dh_strip --dbg-package=openresty-dbgsym
 
 override_dh_installinit:
-	dh_installinit --no-stop-on-upgrade
+	dh_installinit --no-stop-on-upgrade || dh_installinit --no-restart-on-upgrade

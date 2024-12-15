@@ -20,8 +20,8 @@ openresty-asan-clean:
 
 .PHONY: openresty-asan-build
 openresty-asan-build: openresty-asan-clean openresty-asan-download
-	sudo apt-get -y -q install ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl111-asan-dev openresty-pcre-asan-dev
-	sudo apt-get -y -q install --only-upgrade ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl111-asan-dev openresty-pcre-asan-dev
+	sudo apt-get -y -q install ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl3-asan-dev openresty-pcre2-asan-dev
+	sudo apt-get -y -q install --only-upgrade ccache make perl systemtap-sdt-dev gcc valgrind openresty-zlib-asan-dev openresty-openssl3-asan-dev openresty-pcre2-asan-dev
 	rm -f *.deb *.debian.tar.xz *.dsc *.changes
 	tar xf openresty-asan_$(OPENRESTY_ASAN_VER).orig.tar.gz --strip-components=1 -C openresty-asan
 	cd openresty-asan \

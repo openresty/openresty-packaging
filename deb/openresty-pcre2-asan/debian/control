@@ -1,0 +1,30 @@
+Source: openresty-pcre2-asan
+Section: libdevel
+Priority: optional
+Maintainer: OpenResty Admin <admin@openresty.com>
+Build-Depends: debhelper (>= 9), ccache, libtool, gcc
+Standards-Version: 3.9.8
+Homepage: http://www.pcre.org/
+
+Package: openresty-pcre2-asan
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Clang AddressSanitizer version of the Perl-compatible regular expression library for OpenResty
+ Perl-compatible regular expression library for use by OpenResty ONLY.
+ This is the gcc AddressSanitizer version.
+
+Package: openresty-pcre2-asan-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, openresty-pcre2-asan (>= 10.44)
+Description: Development files for openresty-pcre2-asan
+ Development files for Perl-compatible regular expression library for use by OpenResty ONLY.
+ This is the gcc AddressSanitizer version.
+
+Package: openresty-pcre2-asan-dbgsym
+Section: debug
+Architecture: any
+Depends: ${misc:Depends}, openresty-pcre2-asan (>= 10.44)
+Description: Debug symbols for the openresty-pcre2-asan package
+ Debug symbols (or debuginfo) for the openresty-pcre2-asan package.

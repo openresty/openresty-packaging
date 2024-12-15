@@ -26,7 +26,7 @@ sub update_zlib_spec ($) {
 
     my $changes = 0;
 
-    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){2} ) $/Version:$1$version/xsm) {
+    if ($src =~ s/^Version: (\s+) ( \d+ (?: \.\d+ ){1,2} ) $/Version:$1$version/xsm) {
         my $old_ver = $2;
         if ($old_ver ne $version) {
             say "INFO: $file: version got changed from $old_ver to $version";

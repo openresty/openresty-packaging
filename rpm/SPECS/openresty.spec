@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.21.4.3
+Version:        1.27.1.1
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -24,11 +24,11 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
-BuildRequires:  openresty-openssl111-devel >= 1.1.1w-1
-BuildRequires:  openresty-pcre-devel >= 8.45-1
+BuildRequires:  openresty-openssl3-devel >= 3.0.15
+BuildRequires:  openresty-pcre2-devel >= 10.44-1
 Requires:       openresty-zlib >= 1.2.12-1
-Requires:       openresty-openssl111 >= 1.1.1w-1
-Requires:       openresty-pcre >= 8.45-1
+Requires:       openresty-openssl3 >= 3.0.15
+Requires:       openresty-pcre2 >= 10.44-1
 
 
 %if 0%{?suse_version}
@@ -60,8 +60,8 @@ AutoReqProv:        no
 
 %define orprefix            %{_usr}/local/%{name}
 %define zlib_prefix         %{orprefix}/zlib
-%define pcre_prefix         %{orprefix}/pcre
-%define openssl_prefix      %{orprefix}/openssl111
+%define pcre_prefix         %{orprefix}/pcre2
+%define openssl_prefix      %{orprefix}/openssl3
 
 
 %description
@@ -204,6 +204,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-stream_ssl_module \
     --with-stream_ssl_preread_module \
     --with-http_v2_module \
+    --with-http_v3_module \
     --without-mail_pop3_module \
     --without-mail_imap_module \
     --without-mail_smtp_module \
@@ -219,6 +220,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_flv_module \
     --with-http_mp4_module \
     --with-http_gunzip_module \
+    --with-http_slice_module \
     --with-threads \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
@@ -352,6 +354,12 @@ fi
 
 
 %changelog
+* Mon Aug 19 2024 Yichun Zhang (agentzh) 1.27.1.1-1
+- upgraded openresty to 1.27.1.1.
+* Tue Jul 9 2024 Yichun Zhang (agentzh) 1.25.3.2-1
+- upgraded openresty to 1.25.3.2.
+* Thu Jan 4 2024 Yichun Zhang (agentzh) 1.25.3.1-1
+- upgraded openresty to 1.25.3.1.
 * Thu Oct 26 2023 Yichun Zhang (agentzh) 1.21.4.3-1
 - upgraded openresty to 1.21.4.3.
 * Mon Jul 17 2023 Yichun Zhang (agentzh) 1.21.4.2-1

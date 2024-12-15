@@ -5,10 +5,10 @@ OPENRESTY_ZLIB_ASAN_VER := $(ZLIB_VER)
 
 .PHONY: openresty-zlib-asan-download
 openresty-zlib-asan-download:
-	wget -nH --cut-dirs=100 --mirror 'http://www.zlib.net/zlib-$(OPENRESTY_ZLIB_ASAN_VER).tar.xz'
+	wget -nH --cut-dirs=100 --mirror 'https://www.zlib.net/fossils/zlib-$(OPENRESTY_ZLIB_ASAN_VER).tar.gz'
 	rm -rf openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER)
 	mkdir -p openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER)
-	tar -xf zlib-$(OPENRESTY_ZLIB_ASAN_VER).tar.xz --strip-components=1 -C openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER)
+	tar -xf zlib-$(OPENRESTY_ZLIB_ASAN_VER).tar.gz --strip-components=1 -C openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER)
 	tar -czf openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER).orig.tar.gz openresty-zlib-asan_$(OPENRESTY_ZLIB_ASAN_VER)
 
 openresty-zlib-asan-clean:

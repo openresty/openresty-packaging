@@ -1,0 +1,137 @@
+#!/usr/bin/env perl
+
+use v5.10.1;
+use strict;
+use warnings;
+
+sub update_apk_build ($);
+sub expand_var ($$);
+sub get_sha512sum ($$);
+
+my $version = shift or die "No version number specified.\n";
+
+for my $apk_build_file (reverse sort glob 'openresty-openssl3*/APKBUILD') {
+    if ($apk_build_file =~ /^openresty-openssl3(?:-(?:valgrind|asan|debug))?\/APKBUILD$/) {
+        update_apk_build $apk_build_file;
+    }
+}
+
+sub update_apk_build ($) {
+    my $file = shift;
+    open my $in, "<", $file
+        or die "Cannot open $file for reading: $!\n";
+    my $src = do { local $/; <$in>; };
+    close $in;
+
+    my $apk_var = {};
+    if ($src =~ /^pkgname \s* = \s* (?:"|')? (openresty-openssl3\S*?) (?:"|')?$/xsm) {
+        $apk_var->{pkgname} = $1;
+
+    } else {
+        die "Bad file content in $file";
+    }
+
+    my $changes = 0;
+
+    if ($src =~ s/^pkgver (\s* = \s* "|') ( \d+ (?: \.\d+ ){2} ) ("|') $/pkgver$1$version$3/xsm) {
+        my $old_ver = $2;
+        $apk_var->{pkgver} = $version;
+
+        if ($old_ver ne $version) {
+            say "INFO: $file: version got changed from $old_ver to $version";
+            $changes++;
+
+        } else {
+            say "INFO: $file is already up to date: $version";
+            return;
+        }
+
+    } else {
+        die "$file: Version line not found";
+    }
+
+    if ($src =~ s/^pkgrel (\s* = \s* (?:"|')?) (\d+) ("|')? $/defined($3) ? "pkgrel${1}0$3" : "pkgrel${1}0"/xsme) {
+        my $old_rel = $2;
+        if ($old_rel ne '0') {
+            say "INFO: $file: release number got changed from $old_rel to 0";
+            $changes++;
+        }
+
+        $apk_var->{pkgrel} = 0;
+
+    } else {
+        die "$file: Release line not found";
+    }
+
+    my $sha512sums = "";
+    if ($src =~ /^source \s* = \s* " (.+?) "\s*$/xsm) {
+        my $src_txt = $1;
+        for my $src_line (split /\n/, $src_txt) {
+            $src_line =~ s/^\s+//;
+            $src_line =~ s/\s+$//;
+            if ($src_line =~ /^#/ || $src_line =~ /^$/) {
+                next;
+            }
+
+            $src_line = expand_var $src_line, $apk_var;
+            $sha512sums .= get_sha512sum $src_line, $file;
+        }
+
+    } else {
+        die "$file: Source line not found";
+    }
+
+    if ($src =~ /^sha512sums \s* = \s* " (.+?) "\s*$/xsm) {
+        if ($1 ne $sha512sums) {
+            $src =~ s/^sha512sums \s* = \s* " (.+?) "$/sha512sums="\n$sha512sums"/xsm;
+
+            say "INFO: $file: sha512sums got changed";
+            $changes++;
+        }
+    } else {
+        die "$file: sha512sums line not found";
+    }
+
+    if ($changes > 0) {
+        open my $out, ">", "$file"
+            or die "Cannot open $file for writing: $!\n";
+        print $out $src;
+        close $out;
+        say "$file updated with $changes change(s).";
+    }
+}
+
+sub expand_var ($$) {
+    my ($str, $var) = @_;
+    $str =~ s/\$(\w+)/$var->{$1}/g;
+    return $str;
+}
+
+sub get_sha512sum ($$) {
+    my ($src_line, $file) = @_;
+
+    my $sha512_txt;
+
+    if ($src_line =~ m{^https?://}) {
+        $sha512_txt = `set -o pipefail; curl -sfL $src_line | sha512sum`;
+        if ($? != 0) {
+            my $exit_code = $? >> 8;
+            die "Error: failed to download $src_line, exit code $exit_code\n";
+        }
+
+    } else {
+        if ($file =~ m{([\w-]+)/APKBUILD$}) {
+            my $dir = $1;
+            $sha512_txt = `sha512sum $dir/$src_line`;
+            if ($? != 0) {
+                my $exit_code = $? >> 8;
+                die "Error: failed to calc sha512 for $dir/$src_line, exit code $exit_code\n";
+            }
+        }
+    }
+
+    my ($basename) = $src_line =~ m{([^/]+)$};
+    $sha512_txt =~ s/\S+$/$basename/;
+
+    return $sha512_txt;
+}

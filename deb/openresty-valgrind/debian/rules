@@ -15,8 +15,8 @@ override_dh_auto_configure:
 	./configure \
 	  --prefix="/usr/local/openresty-valgrind" \
 	  --with-debug \
-	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre/include -I/usr/local/openresty-debug/openssl111/include -O0" \
-	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre/lib -L/usr/local/openresty-debug/openssl111/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre/lib:/usr/local/openresty-debug/openssl111/lib" \
+	  --with-cc-opt="-I/usr/local/openresty/zlib/include -I/usr/local/openresty/pcre2/include -I/usr/local/openresty-debug/openssl3/include -O0" \
+	  --with-ld-opt="-L/usr/local/openresty/zlib/lib -L/usr/local/openresty/pcre2/lib -L/usr/local/openresty-debug/openssl3/lib -Wl,-rpath,/usr/local/openresty/zlib/lib:/usr/local/openresty/pcre2/lib:/usr/local/openresty-debug/openssl3/lib" \
 	  --with-pcre-jit \
 	  --without-http_rds_json_module \
 	  --without-http_rds_csv_module \
@@ -25,6 +25,7 @@ override_dh_auto_configure:
 	  --with-stream_ssl_module \
 	  --with-stream_ssl_preread_module \
 	  --with-http_v2_module \
+          --with-http_v3_module \
 	  --without-mail_pop3_module \
 	  --without-mail_imap_module \
 	  --without-mail_smtp_module \
