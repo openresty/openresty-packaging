@@ -2,3 +2,5 @@ usr/local/openresty-asan/openssl3/include/
 usr/local/openresty-asan/openssl3/include/*
 usr/local/openresty-asan/openssl3/lib/*.a
 usr/local/openresty-asan/openssl3/lib/pkgconfig/*.pc
+usr/local/openresty-asan/openssl3/lib/cmake/OpenSSL/OpenSSLConfig.cmake
+usr/local/openresty-asan/openssl3/lib/cmake/OpenSSL/OpenSSLConfigVersion.cmake

@@ -141,6 +141,8 @@ rm -rf %{buildroot}
 %{openssl_prefix}/include/*
 %{openssl_prefix}/lib/*.a
 %{openssl_prefix}/lib/pkgconfig/*.pc
+%{openssl_prefix}/lib/cmake/OpenSSL/OpenSSLConfig.cmake
+%{openssl_prefix}/lib/cmake/OpenSSL/OpenSSLConfigVersion.cmake
 
 
 %changelog
