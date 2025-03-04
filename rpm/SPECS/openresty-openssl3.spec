@@ -1,6 +1,6 @@
 Name:               openresty-openssl3
-Version:            3.0.15
-Release:            4%{?dist}
+Version:            3.4.1
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -10,7 +10,7 @@ License:            OpenSSL
 URL:                https://www.openssl.org/
 Source0:            https://github.com/openssl/openssl/releases/download/openssl-%{version}/openssl-%{version}.tar.gz
 
-Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-3.0.15-sess_set_get_cb_yield.patch
+Patch0:             https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-3.4.1-sess_set_get_cb_yield.patch
 
 BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -138,8 +138,11 @@ rm -rf %{buildroot}
 %{openssl_prefix}/include/*
 %{openssl_prefix}/lib/*.a
 %{openssl_prefix}/lib/pkgconfig/*.pc
-
+%{openssl_prefix}/lib/cmake/OpenSSL/OpenSSLConfig.cmake
+%{openssl_prefix}/lib/cmake/OpenSSL/OpenSSLConfigVersion.cmake
 
 %changelog
+* Sat Mar 1 2025 Yichun Zhang (agentzh) 3.4.1-1
+- upgraded OpenSSL to 3.4.1.
 * Sat Sep 14 2024 makerpm 3.0.15
 - initial build for OpenSSL 3.0.15

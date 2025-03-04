@@ -1,6 +1,6 @@
 Name:               openresty-openssl3-asan
-Version:            3.0.15
-Release:            2%{?dist}
+Version:            3.4.1
+Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
@@ -144,5 +144,7 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Mar 1 2025 Yichun Zhang (agentzh) 3.4.1-1
+- upgraded OpenSSL to 3.4.1.
 * Sat Sep 14 2024 makerpm 3.0.15
 - initial build for OpenSSL 3.0.15
