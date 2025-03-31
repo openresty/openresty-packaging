@@ -1,5 +1,5 @@
 Name:           openresty-asan
-Version:        1.27.1.1
+Version:        1.27.1.2
 Release:        1%{?dist}
 Summary:        The AddressSanitizer (ASAN) version of OpenResty
 
@@ -186,6 +186,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Mar 31 2025 Yichun Zhang (agentzh) 1.27.1.2-1
+- upgraded openresty to 1.27.1.2.
 * Mon Aug 19 2024 Yichun Zhang (agentzh) 1.27.1.1-1
 - upgraded openresty to 1.27.1.1.
 * Tue Jul 9 2024 Yichun Zhang (agentzh) 1.25.3.2-1
