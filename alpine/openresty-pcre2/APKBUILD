@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-pcre2"
-pkgver="10.44"
+pkgver="10.45"
 pkgrel=0
 pkgdesc="Perl-compatible regular expression library for OpenResty"
 url="http://www.pcre.org/"
@@ -151,5 +151,5 @@ static() {
 }
 
 sha512sums="
-c43bbe2235993cd703e887bc48cf76d6a6d2f8377accfee3620eff5a4681a36e1f9c147d9e99c6674d5648a54af1d5d174018d9a102abbea7e8d38337bbbd17e  pcre2-10.44.tar.gz
+6ec01a05ce65be61e5974dcc2ccd2e2b5c6db183e3a592530205c7d3259b730df3a9ab999d204f3c52e5a14ae88f32f94306b4501eb9629568ce6158985e2fa6  pcre2-10.45.tar.gz
 "

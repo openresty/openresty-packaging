@@ -1,3 +1,9 @@
+openresty-pcre2-asan (10.45-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 10.45.
+
+ -- OpenResty Admin <admin@openresty.com>  Sat, 21 Jun 2025 17:27:12 +0800
+
 openresty-pcre2-asan (10.44-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 10.44.
