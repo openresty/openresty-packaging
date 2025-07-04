@@ -1,5 +1,5 @@
 Name:               openresty-openssl3
-Version:            3.5.0
+Version:            3.5.1
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -142,6 +142,8 @@ rm -rf %{buildroot}
 %{openssl_prefix}/lib/cmake/OpenSSL/OpenSSLConfigVersion.cmake
 
 %changelog
+* Fri Jul 4 2025 Yichun Zhang (agentzh) 3.5.1-1
+- upgraded OpenSSL to 3.5.1.
 * Sat Jun 21 2025 Yichun Zhang (agentzh) 3.5.0-1
 - upgraded OpenSSL to 3.5.0.
 * Sat Mar 1 2025 Yichun Zhang (agentzh) 3.4.1-1

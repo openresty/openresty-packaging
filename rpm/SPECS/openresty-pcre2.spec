@@ -8,7 +8,6 @@ Group:      System Environment/Libraries
 License:    BSD
 URL:        https://github.com/PCRE2Project/pcre2
 Source0:    https://github.com/PCRE2Project/pcre2/releases/download/pcre2-%{version}/pcre2-%{version}.tar.gz
-Patch0:     pcre2-10.45-range-minus.patch
 
 BuildRequires:  coreutils, gcc, make
 BuildRequires:  ccache, sed
@@ -81,7 +80,6 @@ pcre2posix.h.
 
 %prep
 %setup -q -n pcre2-%{version}
-%patch0 -p1
 
 %build
 CFLAGS="-fPIC -g -O3" ./configure \
