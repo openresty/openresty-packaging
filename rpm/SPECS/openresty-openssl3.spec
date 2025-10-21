@@ -16,7 +16,7 @@ BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -
 
 BuildRequires:      gcc, make, perl
 %if ! 0%{?suse_version}
-BuildRequires:      perl-IPC-Run, perl-IPC-Cmd, perl-Digest, perl-Digest-SHA
+BuildRequires:      perl-IPC-Run, perl-IPC-Cmd, perl-Digest, perl-Digest-SHA, perl-Time-Piece
 %endif
 BuildRequires:      openresty-zlib-devel >= 1.2.11
 Requires:           openresty-zlib >= 1.2.11
