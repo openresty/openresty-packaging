@@ -1,6 +1,6 @@
 Name:               openresty-openssl3
 Version:            3.5.4
-Release:            1%{?dist}
+Release:            2%{?dist}
 Summary:            OpenSSL library for OpenResty
 
 Group:              Development/Libraries
