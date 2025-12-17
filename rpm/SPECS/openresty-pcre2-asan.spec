@@ -1,5 +1,5 @@
 Name:       openresty-pcre2-asan
-Version:    10.46
+Version:    10.47
 Release:    1%{?dist}
 Summary:    Perl-compatible regular expression library
 
@@ -136,6 +136,8 @@ export QA_RPATHS=$[ 0x0002 ]
 %{pcre2_prefix}/include/*.h
 
 %changelog
+* Wed Dec 17 2025 Yichun Zhang (agentzh) 10.47-1
+- upgraded PCRE2 to 10.47.
 * Sun Oct 19 2025 Yichun Zhang (agentzh) 10.46-1
 - upgraded PCRE2 to 10.46.
 * Sat Jun 21 2025 Yichun Zhang (agentzh) 10.45-1
