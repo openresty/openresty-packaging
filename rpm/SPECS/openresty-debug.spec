@@ -1,5 +1,5 @@
 Name:           openresty-debug
-Version:        1.27.1.2
+Version:        1.29.4.3
 Release:        1%{?dist}
 Summary:        The debug version of OpenResty
 
@@ -17,10 +17,10 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
 BuildRequires:  openresty-zlib-devel >= 1.2.12-1
-BuildRequires:  openresty-openssl3-debug-devel >= 3.5.4-1
+BuildRequires:  openresty-openssl3-debug-devel >= 3.5.5-1
 BuildRequires:  openresty-pcre2-devel >= 10.44-1
 Requires:       openresty-zlib >= 1.2.12-1
-Requires:       openresty-openssl3-debug >= 3.5.4-1
+Requires:       openresty-openssl3-debug >= 3.5.5-1
 Requires:       openresty-pcre2 >= 10.44-1
 
 AutoReqProv:        no
@@ -175,6 +175,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Jan 22 2026 Yichun Zhang (agentzh) 1.29.4.3-1
+- upgraded openresty to 1.29.4.3.
 * Mon Mar 31 2025 Yichun Zhang (agentzh) 1.27.1.2-1
 - upgraded openresty to 1.27.1.2.
 * Mon Aug 19 2024 Yichun Zhang (agentzh) 1.27.1.1-1
