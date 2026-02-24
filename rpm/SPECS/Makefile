@@ -60,8 +60,11 @@ $(targets):
 	ls $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm > file.txt
 	rsync --progress -av `cat file.txt` openresty.org:/home/agentz/www/misc/nginx/
 	rsync --progress -av `cat file.txt` ~/packaging/SRPMS/
-	cd ~/rpmbuild/RPMS && ./sync-repo
-	cd ~/pkg/oss && ./build-repo
+	if [ -z "$(SRPM_ONLY)" ]; then \
+		cd ~/rpmbuild/RPMS && ./sync-repo; \
+		cd ~/pkg/oss && ./build-repo; \
+		sudo dnf clean expire-cache; \
+	fi
 	#cd ~/pkg/oss && ./upload
 	echo https://openresty.org/download/`basename $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm`
 	curl -I https://openresty.org/download/`basename $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm`
