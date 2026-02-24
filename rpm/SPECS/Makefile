@@ -1,4 +1,5 @@
-rpmbuild_dir := $(shell ls -d $$HOME/rpmbuild)
+SRPM_ONLY :=
+rpmbuild_dir := $(shell rpmbuild -E "%{_topdir}")
 
 targets = \
 	  openresty-zlib \
@@ -37,15 +38,25 @@ all: openresty
 .PHONY: $(targets)
 $(targets):
 	#echo $(rpmbuild_dir)
-	rm -f ~/rpmbuild/SRPMS/$@-[0-9]*.rpm ~/rpmbuild/RPMS/*/$@*-[0-9].rpm
-	spectool -g -R $@.spec
-	sudo dnf builddep -y $@.spec
-	PATH=/usr/bin:$$PATH time rpmbuild -v -ba $@.spec
+	if [ -z "$(SRPM_ONLY)" ]; then \
+		rm -f ~/rpmbuild/SRPMS/$@-[0-9]*.rpm ~/rpmbuild/RPMS/*/$@*-[0-9].rpm; \
+		spectool -g -R $@.spec; \
+		sudo dnf builddep -y $@.spec; \
+		PATH=/usr/bin:$$PATH time rpmbuild -v -ba $@.spec; \
+	else \
+		PATH=/usr/bin:$$PATH time rpmbuild -v -bs $@.spec; \
+	fi
 	#time rpmbuild -bi --short-circuit $@.spec
 	#-cp -v ~/rpmbuild/SRPMS/$@*.src.rpm ~/rpmbuild/RPMS/*/$@*.rpm /tmp/
 	ls -lh $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm
-	ls -lh $(rpmbuild_dir)/RPMS/*/$@-[0-9]*.rpm
-	for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done
+	if [ -z "$(SRPM_ONLY)" ]; then \
+		ls -lh $(rpmbuild_dir)/RPMS/*/$@-[0-9]*.rpm; \
+	fi
+	if [ -z "$(SRPM_ONLY)" ]; then \
+		for f in $(rpmbuild_dir)/RPMS/*/$@-*[0-9]*.rpm $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done; \
+	else \
+		for f in $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm; do rpmsign -v --addsign $$f || exit 1; done; \
+	fi
 	ls $(rpmbuild_dir)/SRPMS/$@-[0-9]*.src.rpm > file.txt
 	rsync --progress -av `cat file.txt` openresty.org:/home/agentz/www/misc/nginx/
 	rsync --progress -av `cat file.txt` ~/packaging/SRPMS/
