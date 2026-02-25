@@ -44,6 +44,7 @@ $(targets):
 		sudo dnf builddep -y $@.spec; \
 		PATH=/usr/bin:$$PATH time rpmbuild -v -ba $@.spec; \
 	else \
+		spectool -g -R $@.spec; \
 		PATH=/usr/bin:$$PATH time rpmbuild -v -bs $@.spec; \
 	fi
 	#time rpmbuild -bi --short-circuit $@.spec
