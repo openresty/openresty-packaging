@@ -59,7 +59,7 @@ development:
 %prep
 %setup -q -n Test-Nginx-%{version}
 
-#%patch0 -p1
+#%patch -P 0 -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor

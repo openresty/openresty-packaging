@@ -80,8 +80,8 @@ Provides C header and static library for the gcc AddressSanitizer version of Ope
 %prep
 %setup -q -n openssl-%{version}
 
-%patch0 -p1
-#%patch1 -p1
+%patch -P 0 -p1
+#%patch -P 1 -p1
 
 
 %build
