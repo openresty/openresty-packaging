@@ -21,6 +21,7 @@ BuildRequires:  perl-File-Temp
 BuildRequires:  openresty-zlib-asan-devel >= 1.2.12-1
 BuildRequires:  openresty-openssl3-asan-devel >= 3.5.5-1
 BuildRequires:  openresty-pcre2-asan-devel >= 10.44-1
+BuildRequires:  kernel-headers
 
 Requires:       openresty-zlib-asan >= 1.2.12-1
 Requires:       openresty-openssl3-asan >= 3.5.5-1
