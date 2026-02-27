@@ -1,5 +1,5 @@
 Name:               openresty-zlib-asan
-Version:            1.3.1
+Version:            1.3.2
 Release:            1%{?dist}
 Summary:            Gcc AddressSanitizer version for the zlib compression library for OpenResty
 
@@ -110,6 +110,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Feb 27 2026 Yichun Zhang (agentzh) 1.3.2-1
+- upgraded zlib to 1.3.2.
 * Fri Jun 7 2024 Yichun Zhang (agentzh) 1.3.1-1
 - upgraded zlib to 1.3.1.
 * Wed Sep 13 2023 Yichun Zhang (agentzh) 1.3-1
