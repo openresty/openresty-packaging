@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl3"
-pkgver="3.5.4"
+pkgver="3.5.5"
 pkgrel=0
 pkgdesc="OpenSSL 3.0 library for OpenResty"
 url="https://www.openssl.org/"
@@ -12,7 +12,7 @@ makedepends="perl openresty-zlib-dev ccache linux-headers"
 #install=""
 subpackages="$pkgname-static $pkgname-dev $pkgname-dbg"
 source="https://github.com/openssl/openssl/releases/download/openssl-$pkgver/openssl-$pkgver.tar.gz
-    openssl-3.5.4-sess_set_get_cb_yield.patch
+    openssl-3.5.5-sess_set_get_cb_yield.patch
     "
 builddir="$srcdir/openssl-$pkgver/"
 options="!tracedeps !fhs"
@@ -89,6 +89,6 @@ static() {
 }
 
 sha512sums="
-365aca6f2e59b5c8261fba683425d177874cf6024b0d216ca309112b879c1f4e8da78617e23c3c95d0b4a26b83ecd0d8348038b999d30e597d19f466c4761227  openssl-3.5.4.tar.gz
-afe8bf77dedb5556fa067288d99ef13d01e0c1d8de6ec5dbb10fa609087219582f30f10316db5e36692d6122872853af6b45980aecb003bd80115549ec828c05  openssl-3.5.4-sess_set_get_cb_yield.patch
+7cf0eb91bac175f7fe0adcafef457790d43fe7f98e2d4bef681c2fd5ca365e1fa5b562c645a60ab602365adedf9d91c074624eea66d3d7e155639fc50d5861ec  openssl-3.5.5.tar.gz
+c9ddb09018270a423dac49369ec3d72d8c80b40f47767fa9797e25c9504d275d69115ea1c911411fd0446fac91843f76e55ca6c99f5c6d77f8d4dfdd71ad1436  openssl-3.5.5-sess_set_get_cb_yield.patch
 "
