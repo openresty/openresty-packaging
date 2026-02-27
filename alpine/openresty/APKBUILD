@@ -8,7 +8,7 @@ url="https://openresty.org/"
 arch="all"
 license="BSD"
 depends="openresty-openssl3>=3.0.15 openresty-pcre openresty-zlib libgcc"
-makedepends="ccache perl openresty-openssl3-dev>=3.0.15 openresty-pcre-dev openresty-zlib-dev"
+makedepends="ccache perl openresty-openssl3-dev>=3.0.15 openresty-pcre-dev openresty-zlib-dev linux-headers"
 install="$pkgname.pre-install $pkgname.post-install"
 subpackages="
     $pkgname-static $pkgname-restydoc:restydoc:noarch $pkgname-dbg
