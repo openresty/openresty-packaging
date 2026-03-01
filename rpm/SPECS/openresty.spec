@@ -17,7 +17,8 @@ Source0:        https://openresty.org/download/openresty-%{version}.tar.gz
 %endif
 
 Source1:        openresty.service
-Source2:        openresty.init
+Source2:        openresty@.service
+Source3:        openresty.init
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -247,11 +248,12 @@ ln -sf %{orprefix}/nginx/sbin/nginx %{buildroot}/usr/bin/%{name}
 
 mkdir -p %{buildroot}%{_unitdir}
 %{__install} -p -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/
+%{__install} -p -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/
 
 %else
 
 mkdir -p %{buildroot}/etc/init.d
-%{__install} -p -m 0755 %{SOURCE2} %{buildroot}/etc/init.d/%{name}
+%{__install} -p -m 0755 %{SOURCE3} %{buildroot}/etc/init.d/%{name}
 
 %endif
 
@@ -306,6 +308,7 @@ fi
 %dir %{orprefix}/nginx/sbin
 %if 0%{?use_systemd}
 %{_unitdir}/%{name}.service
+%{_unitdir}/%{name}@.service
 %else
 /etc/init.d/%{name}
 %endif
