@@ -1,6 +1,6 @@
 Name:           openresty
 Version:        1.29.2.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
 Group:          System Environment/Daemons
@@ -23,13 +23,13 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  perl-File-Temp
 BuildRequires:  ccache, gcc, make, perl, systemtap-sdt-devel
-BuildRequires:  openresty-zlib-devel >= 1.2.12-1
+BuildRequires:  openresty-zlib-devel >= 1.3.2
 BuildRequires:  openresty-openssl3-devel >= 3.5.5-1
-BuildRequires:  openresty-pcre2-devel >= 10.44-1
+BuildRequires:  openresty-pcre2-devel >= 10.47
 BuildRequires:  kernel-headers
-Requires:       openresty-zlib >= 1.2.12-1
+Requires:       openresty-zlib >= 1.3.2
 Requires:       openresty-openssl3 >= 3.5.5-1
-Requires:       openresty-pcre2 >= 10.44-1
+Requires:       openresty-pcre2 >= 10.47
 
 
 %if 0%{?suse_version}
