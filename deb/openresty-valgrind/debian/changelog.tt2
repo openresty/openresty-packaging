@@ -1,3 +1,9 @@
+openresty-valgrind (1.29.2.3-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.29.2.3.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 25 Mar 2026 14:01:58 +0800
+
 openresty-valgrind (1.29.2.2-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.29.2.2.
