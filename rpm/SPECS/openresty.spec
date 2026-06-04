@@ -1,5 +1,5 @@
 Name:           openresty
-Version:        1.29.2.5
+Version:        1.31.1.1
 Release:        1%{?dist}
 Summary:        OpenResty, scalable web platform by extending NGINX with Lua
 
@@ -355,6 +355,8 @@ fi
 
 
 %changelog
+* Thu Jun 4 2026 Yichun Zhang (agentzh) 1.31.1.1-1
+- upgraded openresty to 1.31.1.1.
 * Tue May 26 2026 Yichun Zhang (agentzh) 1.29.2.5-1
 - upgraded openresty to 1.29.2.5.
 * Fri May 15 2026 Yichun Zhang (agentzh) 1.29.2.4-1
