@@ -1,3 +1,9 @@
+openresty-openssl3 (3.5.7-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 3.5.7.
+
+ -- OpenResty Admin <admin@openresty.com>  Wed, 10 Jun 2026 08:49:46 +0800
+
 openresty-openssl3 (3.5.6-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 3.5.6.

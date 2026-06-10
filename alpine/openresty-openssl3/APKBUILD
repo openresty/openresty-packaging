@@ -1,7 +1,7 @@
 # Contributor: Yichun Zhang <admin@openresty.com>
 # Maintainer: Yichun Zhang <admin@openresty.com>
 pkgname="openresty-openssl3"
-pkgver="3.5.6"
+pkgver="3.5.7"
 pkgrel=0
 pkgdesc="OpenSSL 3.0 library for OpenResty"
 url="https://www.openssl.org/"
@@ -89,6 +89,6 @@ static() {
 }
 
 sha512sums="
-7e48989c01751104e1c94fde05726c0d6d7cb0dd4f3d045e0e8f36b1d330a2557665970c44ec9aae86f5f7420315326022249247cd6845e6d598134aa74ac33c  openssl-3.5.6.tar.gz
+de5351d2d532e1a3908a738f7d8aae448d32bc60bdb24808c556a24bc37a3f53daedf12b5d432eeb8c235e16939d842f908332ede8a447ca103ad1c493c820d7  openssl-3.5.7.tar.gz
 c9ddb09018270a423dac49369ec3d72d8c80b40f47767fa9797e25c9504d275d69115ea1c911411fd0446fac91843f76e55ca6c99f5c6d77f8d4dfdd71ad1436  openssl-3.5.5-sess_set_get_cb_yield.patch
 "
