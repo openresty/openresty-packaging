@@ -1,5 +1,5 @@
 Name:               openresty-openssl3-asan
-Version:            3.5.7
+Version:            3.5.8
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -146,6 +146,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep 1 2026 Yichun Zhang (agentzh) 3.5.8-1
+- upgraded OpenSSL to 3.5.8.
 * Wed Jun 10 2026 Yichun Zhang (agentzh) 3.5.7-1
 - upgraded OpenSSL to 3.5.7.
 * Wed Apr 8 2026 Yichun Zhang (agentzh) 3.5.6-1
