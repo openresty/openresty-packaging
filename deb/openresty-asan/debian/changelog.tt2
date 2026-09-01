@@ -1,3 +1,9 @@
+openresty-asan (1.31.4.1-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 1.31.4.1.
+
+ -- OpenResty Admin <admin@openresty.com>  Mon, 31 Aug 2026 11:39:28 +0800
+
 openresty-asan (1.31.1.1-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 1.31.1.1.
