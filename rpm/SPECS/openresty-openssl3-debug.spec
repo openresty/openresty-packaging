@@ -1,5 +1,5 @@
 Name:               openresty-openssl3-debug
-Version:            3.5.8
+Version:            3.5.9
 Release:            1%{?dist}
 Summary:            OpenSSL library for OpenResty
 
@@ -145,6 +145,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Oct 23 2026 Yichun Zhang (agentzh) 3.5.9-1
+- upgraded OpenSSL to 3.5.9.
 * Tue Sep 1 2026 Yichun Zhang (agentzh) 3.5.8-1
 - upgraded OpenSSL to 3.5.8.
 * Wed Jun 10 2026 Yichun Zhang (agentzh) 3.5.7-1

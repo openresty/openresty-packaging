@@ -1,3 +1,9 @@
+openresty-openssl3-debug (3.5.9-1~[% distro %]1) [% distro %]; urgency=high
+
+  * upgraded OpenResty to 3.5.9.
+
+ -- OpenResty Admin <admin@openresty.com>  Fri, 23 Oct 2026 09:01:31 +0800
+
 openresty-openssl3-debug (3.5.8-1~[% distro %]1) [% distro %]; urgency=high
 
   * upgraded OpenResty to 3.5.8.
