@@ -11,6 +11,7 @@ BuildArch:      noarch
 BuildRequires:  perl >= 0:5.005
 BuildRequires:  perl(Module::Build::Tiny)
 BuildRequires:  perl(Test::More)
+BuildRequires:  perl-generators
 Requires:       perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
 %description

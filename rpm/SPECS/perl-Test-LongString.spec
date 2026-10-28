@@ -12,6 +12,7 @@ BuildRequires:  perl >= 1:5.8.1
 BuildRequires:  perl(ExtUtils::MakeMaker)
 BuildRequires:  perl(Test::Builder)
 BuildRequires:  perl(Test::Builder::Tester)
+BuildRequires:  perl-generators
 Requires:       perl(Test::Builder)
 Requires:       perl(Test::Builder::Tester)
 

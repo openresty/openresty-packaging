@@ -15,6 +15,7 @@ BuildRequires:  perl(File::Temp)
 BuildRequires:  perl(Scalar::Util) >= 1.13
 BuildRequires:  perl(Storable)
 BuildRequires:  perl(utf8)
+BuildRequires:  perl-generators
 Requires:       perl(File::Spec)
 Requires:       perl(File::Temp)
 Requires:       perl(Scalar::Util) >= 1.13
