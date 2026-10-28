@@ -127,6 +127,7 @@ export ASAN_OPTIONS=detect_leaks=0
     --with-http_mp4_module \
     --with-http_gunzip_module \
     --with-threads \
+    --with-file-aio \
     --with-http_slice_module \
     --with-poll_module \
     --with-compat \
