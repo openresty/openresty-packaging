@@ -223,6 +223,7 @@ This package provides the client side tool, opm, for OpenResty Pakcage Manager (
     --with-http_gunzip_module \
     --with-http_slice_module \
     --with-threads \
+    --with-file-aio \
     --with-compat \
     --with-luajit-xcflags='-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT' \
     -j`nproc`
