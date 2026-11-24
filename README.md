@@ -131,10 +131,12 @@ sudo yum install redhat-rpm-config
 Ubuntu/Debian
 --------------
 
-For Ubuntu 14.04+ and Debian 7.x+:
+For Ubuntu 14.04+ and Debian 7.x+ (last verified on Ubuntu 26.04 "resolute"):
+
+On Ubuntu 16.04 or older or Debian 8.x or older, also install `dh-systemd`; it was later merged into `debhelper`.
 
 ```bash
-sudo apt-get install libtemplate-perl dh-systemd systemtap-sdt-dev perl gnupg curl make build-essential dh-make bzr-builddeb
+sudo apt-get install libtemplate-perl systemtap-sdt-dev perl gnupg curl make build-essential dh-make devscripts fakeroot ccache lsb-release
 
 cd /path/to/openresty-packaging/deb/
 make zlib-build
@@ -147,6 +149,8 @@ make openresty-valgrind-build
 make lemplate-build
 make test-nginx-build
 ```
+
+These commands install the build tools through the package list above. `make <pkg>-build` runs `debuild`, which checks but does not install the per-package `Build-Depends`; to install them automatically, use `mk-build-deps -i deb/<pkg>/debian/control` or `apt-get build-dep ./deb/<pkg>`.
 
 Or to build everything from scratch, just run
 
